@@ -2,12 +2,23 @@
  * Site header
  */
 .site-header {
-    border-top: 5px solid $grey-color-dark;
+    border-top: 0px solid $grey-color-dark;
     border-bottom: 1px solid $grey-color-light;
     min-height: 56px;
 
     // Positioning context for the mobile navigation icon
     position: relative;
+
+    .logo{
+       float:left;
+       margin-right:10px;
+    }
+    .go_conan{
+       float:right;
+       font-weight: bold;
+       padding-top: 15px;
+    } 
+    padding: 5px 0 5px 0;
 }
 
 .site-title {
