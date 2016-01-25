@@ -46,7 +46,7 @@ Then I uploaded the images to my [Dockerhub account](https://hub.docker.com/u/la
 Remember from the [Automatically creating and testing packages](http://docs.conan.io/en/latest/packaging/testing.html) docs that your conan's package layout could be:
 
 
-{% highlight txt %}
+{% highlight python%}
 
 +-- test
 |   +-- conanfile.py
@@ -84,7 +84,7 @@ In each container conan will detect the right compiler and compiler version. The
 When it finishes I can upload the generated packages to **conan.io** and make them available to the community:
 
 
-{% highlight bash %}
+{% highlight python %}
 	conan upload mypackage/myversion@lasote/stable --all
 {% endhighlight %}
 
