@@ -5,10 +5,10 @@ comments: true
 ---
 
 Conan can automate the package creation with any compiler that you have installed.
-In **Windows**, its very common to have two or more **Visual Studio** versions, tools like CMake will select the right compiler that you specify in a generator.
+In **Windows**, it is very common to have two or more **Visual Studio** versions, tools like CMake will just use the Visual Studio specified by the user.
 
 In Linux having **several versions of gcc** installed could be tricky, of course it's possible, but it's not as easy as Visual Studio versions in Windows.
-In addition to this, our depevelopment machine usually have a lot of installed libraries that other developers may not have and may hide our real requirements.
+In addition to this, our development machine usually has a lot of installed libraries that other developers may not have and may hide our real requirements.
 
 So **Docker will help** us to create clean build environments with different compilers.
 
@@ -29,7 +29,7 @@ If you read the [Automatically creating and testing packages](http://docs.conan.
        ...
 {% endhighlight %}
 
-I thought that would be great if I could execute the builds above in each gcc version that I want.
+I thought that it would be great if I could execute the builds above for each gcc version that I want.
 
 I prepared some [Dockerfiles](https://github.com/lasote/conan-docker-tools/blob/master/gcc_5.3/Dockerfile) for the different gcc version. I used official Ubuntu distributions.
 
@@ -57,7 +57,7 @@ Remember from the [Automatically creating and testing packages](http://docs.cona
 
 {% endhighlight %}
 
-This script will run a docker container for each gcc version and run the **build.py** script:
+This script will run a docker container for each gcc version and run the **build.py** script inside the container
 
 
 {% highlight python %}
@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
 {% endhighlight %}
 
-In each container conan will detect the right compiler and compiler version. The conan local storage directory *~/.conan/data* is shared, so the containers will write the result in the same place.
+In each container conan will detect the right compiler and compiler version. Your host computer conan local storage directory *~/.conan/data* is shared, so the containers will write the result in the same place.
 
 When it finishes I can upload the generated packages to **conan.io** and make them available to the community:
 
@@ -88,7 +88,7 @@ When it finishes I can upload the generated packages to **conan.io** and make th
 	conan upload mypackage/myversion@lasote/stable --all
 {% endhighlight %}
 
-This docker integration could handle clang/others compiler and versions easy.
+This docker integration can also handle other compilers (such as clang) and other versions easily.
 
 Currently this script is managed by a new tool, [**conan package tools**](https://github.com/conan-io/conan-package-tools) that provides CI (travis & appveyor) easy integration for remote and automated package generation (even with docker in travis ci), pagination, Visual Studio environment configuration and other features.
 
