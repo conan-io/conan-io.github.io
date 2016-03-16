@@ -75,6 +75,19 @@ def config(self):
 
 {% endhighlight %}
 
+<h2 class="section-heading">Management of remotes</h2>
+
+Remotes were previously defined in the ``conan.conf`` file, but now with the new remote command, they are stored in another file in your ``~/.conan/registry.txt`` that stores information both about remotes urls and packages. By default it is initialized to two remotes, the test local one (pointing to localhost, to test the conan_server), and the conan.io remote. If you have your own remote, you can just edit that file or better try the new ``conan remote`` command:
+
+{% highlight bash %}
+
+$ conan remote list
+$ conan remote remove local 
+$ conan remote add myremote http://myremote.url
+$ conan remote list
+
+{% endhighlight %}
+
 <h2 class="section-heading">Automated package creation</h2>
 
 Finally, if you are creating packages, you might be interested in checking out latest version of [conan-package-tools](https://github.com/conan-io/conan-package-tools), some utilities for building many configurations in Win, Linux, OSX in travis-ci, appveyor Continuous Integration systems. We use them to create hundreds of packages for many libraries by just pushing to github.
