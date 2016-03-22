@@ -73,6 +73,8 @@ But then… surprise! This was a typical output, when linking against Boost buil
 /home/travis/.conan/data/Boost/1.60.0/lasote/stable/package/ebdc9c0c0164b54c29125127c75297f6607946c5/lib/libboost_log.so: undefined reference to `std::runtime_error::runtime_error(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@GLIBCXX_3.4.21'
 /home/travis/.conan/data/Boost/1.60.0/lasote/stable/package/ebdc9c0c0164b54c29125127c75297f6607946c5/lib/libboost_filesystem.so: undefined reference to `std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::rfind(char, unsigned long) const@GLIBCXX_3.4.21'
 
+{% endhighlight %}
+
 WHAT!!?? We were able to link and run using gcc 5.2 against Boost with gcc 4.6, but we get linking errors against Boost built with gcc 5.2?
 
 <h2 class="section-heading">Libstdc++ ABI incompatibility</h2>
