@@ -84,7 +84,7 @@ Conan is designed to be distributed, so if the origin or availability of package
 
 Yes, artifacts must have a signature. Now, we generate manifests (a file list with each file SHA) inside each package recipe and each package binary. We use those manifests to resume failed uploads, or to check for upstream updates. As the generators provide the paths for your project dependencies, matching the retrieved manifests against predefined ones shouldn’t be difficult.
 
-conanmanifest.txt of a ZMQ example package
+**conanmanifest.txt of a ZMQ example package**
 
 {% highlight txt %}
 
