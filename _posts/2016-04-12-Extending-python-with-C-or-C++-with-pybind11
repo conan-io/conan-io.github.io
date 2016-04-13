@@ -29,20 +29,12 @@ To build the first application, get the example:
 
 {% highlight bash %}
 
-$ git clone https://github.com/memsharded/conan-pybind11
-$ cd conan-pybind11
+$ git clone https://github.com/memsharded/pybind11-example.git
+$ cd pybind11-example
 
 {% endhighlight %}
 
-The root directory just contains the conan package recipe (``conanfile.py``) to create the package. As it is header only, it is very simple, so we can skip it. Go directly to the test subfolder:
-
-{% highlight bash %}
-
-$ cd test
-
-{% endhighlight %}
-
-Inside the ``test`` folder there is a simple ``conanfile.txt`` that tells conan to retrieve the conan pybind11 package and generate a cmake file for our convenience:
+There is a simple ``conanfile.txt`` that tells conan to retrieve the conan pybind11 package and generate a cmake file for our convenience:
 
 {% highlight conf %}
 
@@ -97,7 +89,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 The only change made to the original **CMakeLists.txt** is to define the include directories for the pybind11 headers and define the output directory as the current one, so our extension is in the current folder.
 
-We will use Visual Studio 14 to build the extension. Note that even the official VS for pyhon is an (old) VS2008, it is possible to create such extensions with more modern compilers:
+We will use Visual Studio 14 to build the extension. Note that even the official VS for python is an (old) VS2008, it is possible to create such extensions with more modern compilers. The parameters must match your compiler and python installation. Note that the extension architecture must match your python one, so if you have python 32 bits, use "Visual Studio XX" and if you have python 64 bits, you may need "Visual Studio XX Win64".
 
 {% highlight bash %}
 
@@ -109,8 +101,17 @@ $ cmake --build . --config Release
 
 {% endhighlight %}
 
-And that's it, we already have the extension ready to be used from python:
+In linux, you could use the following commands to build it, and it may automatically find python, but please check the cmake output to ensure that it is finding your desired python distribution.
 
+{% highlight bash %}
+
+$ cmake .. -DCMAKE_BUILD_TYPE=Release
+$ cmake --build .
+
+{% endhighlight %}
+
+
+And that's it, we already have the extension ready to be used from python:
 
 {% highlight bash %}
 
@@ -120,7 +121,8 @@ $ python
 5L
 {% endhighlight %}
 
+<h2>Conclusion</h2> 
 
-I have found pybind11 to be elegant, very simple to use, efficient, and also very important, I also like its syntax to define the extensions. To summarize, a very good job. Its only drawback could be that it seems not to be the tool for embedding python (I might be wrong). I also feel confident about the project being very active, so in my opinion this is definitely the choice for the task of extending python.
+I have found pybind11 to be elegant, very simple to use, efficient, and also very important, I also like its syntax to define the extensions. To summarize, a very good job. Its only drawback could be that it seems not to be the tool for embedding python (I might be wrong). I also feel confident about the project being very active and supported by the community, so in my opinion this is probably the best choice for the task of extending python.
 
 I will by talking about these topics in [Accu conference](http://accu.org/index.php/conferences/accu_conference_2016) in Bristol within a few days, maybe [see you there?](http://accu.org/index.php/conferences/accu_conference_2016/accu2016_sessions#Extending_and_Wrapping_C_and_C++_with_Python) :) You can also [follow me on twitter](https://twitter.com/diegorlosada) for tweets about C/C++/Python and programming in general
