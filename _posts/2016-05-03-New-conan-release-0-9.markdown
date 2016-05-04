@@ -90,7 +90,7 @@ That typically requires the ``conanfile.py`` **of the test project** making use 
 
 {% highlight python %}
 
-self.run('cmake %%s %%s' %% (self.conanfile_directory, cmake.command_line))
+self.run('cmake %s %s' % (self.conanfile_directory, cmake.command_line))
 
 {% endhighlight %}
 
