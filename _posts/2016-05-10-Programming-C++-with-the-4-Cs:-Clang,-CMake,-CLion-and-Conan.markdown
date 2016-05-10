@@ -10,7 +10,7 @@ as package manager. The name 4 Cs is cool, but not my idea, it has been
 coined by well known C++ blogger [Arne Metz](https://twitter.com/arne_mertz), author
 of the great [Simplify C++ blog](http://arne-mertz.de/)
 
-Though Clang as some support in Windows, its usage there is still low compared with MSVC,
+Though Clang has some support in Windows, its usage there is still low compared with MSVC,
 and Apple-Clang is the default on OSX, so it has not special difficulties. This post
 will use Ubuntu 14.04. As example, we will develop a simple application using the
 well known [POCO](http://pocoproject.org/) and [Boost](http://www.boost.org/) libraries.
@@ -167,7 +167,7 @@ $ /path/to/clion/bin/clion.sh
 
 If you go to File->Settings, you could see the compiler is Clang:
 
-![CLion Settings](./clion_settings.png)
+![CLion Settings]({{ site.url }}/assets/clion_settings.png)
 
 It might be possible to use the CMake variables ``-D CMAKE_C_COMPILER=clang-3.6 -D CMAKE_CXX_COMPILER=clang++-3.6``
 defined in the CLion IDE, to define the compiler. Note that typically a CMake cache clean&restart might be necessary.
@@ -191,11 +191,11 @@ target_link_libraries(timer ${CONAN_LIBS})
 
 CLion will be able to autocomplete from both Poco and Boost headers:
 
-![Poco autocomplete](./poco_autocomplete.png)
+![Poco autocomplete]({{ site.url }}/assets/poco_autocomplete.png)
 
 That is all! You can now select in CLion the "timer" target, build it, and run it!
 
-![CLion run](./clion_run.png)
+![CLion run]({{ site.url }}/assets/clion_run.png)
 
 
 <h2 class="section-heading">Conclusions</h2>
