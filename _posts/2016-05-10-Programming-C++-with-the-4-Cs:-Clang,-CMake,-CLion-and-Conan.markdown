@@ -71,7 +71,7 @@ $ export CXX=clang++
 
 {% endhighlight %}
 
-This is also convenient for later CLion usage using this compiler.
+This is also convenient for later CLion usage with this compiler.
 
 <h2 class="section-heading">Setting up Conan C/C++ package manager</h2>
 
@@ -149,13 +149,15 @@ Boost/1.60.0@lasote/stable
     Requires:
         zlib/1.2.8@lasote/stable
         bzip2/1.0.6@lasote/stable
+...
 
 {% endhighlight %}
 
 
 <h2 class="section-heading">Developing with CLion</h2>
 
-Now open CLion. As we already have defined CC and CXX environment variables, launching CLion in
+[CLion](https://www.jetbrains.com/clion/) is a cross-platform C/C++ IDE from JetBrains.
+Let's build our application with CLion. As we already have defined CC and CXX environment variables, launching CLion in
 our terminal will automatically use CLang as default compiler.
 
 {% highlight bash %}
@@ -169,8 +171,11 @@ If you go to File->Settings, you could see the compiler is Clang:
 
 ![CLion Settings]({{ site.url }}/assets/clion_settings.png)
 
-It might be possible to use the CMake variables ``-D CMAKE_C_COMPILER=clang-3.6 -D CMAKE_CXX_COMPILER=clang++-3.6``
+It is possible too to use the CMake variables ``-D CMAKE_C_COMPILER=clang-3.6 -D CMAKE_CXX_COMPILER=clang++-3.6``
 defined in the CLion IDE, to define the compiler. Note that typically a CMake cache clean&restart might be necessary.
+Now, it is possible to do such clean&restart without restarting the IDE in *Menu->Tools->CMake->Reset Cache and Reload Project*
+(the other option is *Menu->File->InvalidateCache&Restart*, but as it restarts the IDE, it is slower). 
+The clang compiler will be used in your builds, but it will not show as default in the Settings dialog.
 
 From CLion CMakeLists.txt project file, we can load the generated ``conanbuildinfo.cmake``.
 
@@ -207,7 +212,7 @@ the environment variables CC and CXX) instead of the sytem GNU/gcc compiler.
 Also I found more intuitive to launch CLion with those variable defined, so it detects
 the CLang compiler and shows it in the Settings dialog. It is possible to use cmake command line
 parameters ``-DCMAKE_C_COMPILER=clang-3.6 -DCMAKE_CXX_COMPILER=clang++-3.6`` in the same CLion
-Settings dialog, but a File->InvalidateCache/Restart is typically necessary, as CMake cache only
+Settings dialog, but a CMake cache restart is typically necessary, as CMake cache only
 stores the compiler the first invocation (which is automatically done by CLion, before able to set
 the command line parameters).
 
