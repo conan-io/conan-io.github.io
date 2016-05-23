@@ -134,7 +134,7 @@ You can check the installed dependencies with:
 
 {% highlight bash %}
 
-$ conan info
+$ conan info ..
 PROJECT
     Requires:
         Boost/1.60.0@lasote/stable
