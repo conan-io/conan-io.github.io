@@ -183,8 +183,8 @@ $ conan test_package
 We have always considered Windows as a first class citizen (as well as Linux and OSX) in conan, and we design, implement, test and
 deploy with Windows users in mind (we also develop in Windows about 50% of our time).
 
-We hope that this post proves it, as despite the early stage of the Visual Studio C++ modules build infraestructure (just the command line),
-conan package manager is able to both create and consume packages quite easily and in an intuitve way.
+
+We hope that this post proves it, as despite the early stage of the Visual Studio C++ modules build infrastructure (just the command line), conan package manager is able to both create and consume packages quite easily and in an intuitive way. This can be further simplified by improving the existing "Visual Studio" or "CMake" generators, once C++ modules have full support in the IDE and build system.
 
 We are also very excited to be able to test this amazing feature in Visual Studio, undoubtly Microsoft is doing an amazing work on C++ lately,
 and really looking forward to seeing C++ modules becoming mainstream.
