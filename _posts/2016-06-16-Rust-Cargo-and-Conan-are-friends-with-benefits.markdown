@@ -101,7 +101,7 @@ Now build your Cargo package:
 
  $ cargo clean
  $ cargo build
-	
+
 {% endhighlight %}
 
 
@@ -111,5 +111,8 @@ Now yes, we can say that Rust packages (with C code) are Always repeatable.
 
 
 You can find the conan-cargo generator and it's documentation <a href="https://github.com/lasote/conan-cargo-wrapper-generator">here</a>.
+
+You can see the <a href="https://github.com/imazen/imageflow">**Imageflow**</a> project as a complete example of creating a C library's <a href="https://github.com/imazen/imageflow/tree/master/wrappers/server">Rust wrapper</a>.
+
 
 
