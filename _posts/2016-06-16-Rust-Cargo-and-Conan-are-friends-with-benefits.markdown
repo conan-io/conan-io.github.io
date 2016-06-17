@@ -8,9 +8,7 @@ comments: true
 
 
 Well, sorry if you expected to find some picture of conan the barbarian doing dirty things...
-But we are going to see great things about Rust, Cargo and Conan C/C++ package manager, and how they can work 
-
-together to ease the creation of better Rust code with embedded C code. 
+But we are going to see great things about Rust, Cargo and Conan C/C++ package manager, and how they can work together to ease the creation of better Rust code with embedded C code. 
 
 <h2 class="section-heading">Rust packages, Always repeatable?</h2>
 
