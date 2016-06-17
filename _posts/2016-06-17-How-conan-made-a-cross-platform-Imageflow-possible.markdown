@@ -174,6 +174,7 @@ in a short time, and maintain thousands of binary packages without effort. Usage
 intuitive and simple.
 
 Conan will continue providing our support to this project:
+
 - We have uploaded a testing package for the [pngquant](https://github.com/pornel/pngquant) library, which will probably be used by imageflow relatively soon.
 - Recently, conan has helped providing Rust support for the command line, with conan Rust generator.
   This is an interesting topic, so we will write an specific post about this soon, as Imageflow melds more Rust and C11 code together. 
