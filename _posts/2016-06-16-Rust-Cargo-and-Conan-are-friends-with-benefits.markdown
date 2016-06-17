@@ -4,6 +4,9 @@ comments: true
 # other options
 ---
 
+<img src="{{ site.url }}/assets/conan_cargo.png" />
+
+
 Well, Sorry if you expected to find some picture with conan the barbarian making dirty things...
 But we are going to see great things about Rust language, Cargo and Conan C/C++ package manager, and how they can work 
 together to ease the creation of better Rust code with embedded C code. 
