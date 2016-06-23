@@ -34,7 +34,7 @@ Cargo just need to know the following information for the C libraries:
 - Where are those libraries.
 - Where are the headers of those libraries.
 
-Cargo requires that the build script ouputs the assignment of some variables to the appropiate values for the C libraries you want to build, something like this:
+Cargo requires that the build script outputs the assignment of some variables to the appropiate values for the C libraries you want to build, something like this:
 
 {% highlight bash %}
 
