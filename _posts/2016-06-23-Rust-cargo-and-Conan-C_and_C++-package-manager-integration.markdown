@@ -1,13 +1,14 @@
 ---
 layout: post
 comments: true
-# other options
+title: "Rust Cargo And Conan C/C++ Package Manager Integration"
 ---
 
 <img src="{{ site.url }}/assets/conan_cargo.png" />
 
+Cargo and Conan both produce cross-platform, C-compatibile binaries, and have similar ease-of-use goals. Interoperability is an obvious step. 
 
-But we are going to see great things about Rust, Cargo and Conan C/C++ package manager, and how they can work together to ease the creation of better Rust code with embedded C code. 
+Let's take a look at Rust, Cargo and Conan C/C++ package manager, and how they can work together to ease the creation of better Rust code with embedded C code. 
 
 <h2 class="section-heading">Rust packages, Always repeatable?</h2>
 
@@ -88,7 +89,6 @@ Edit your **Cargo.toml** file and specify the build script:
 {% endhighlight %}
 
 
-
 Now build your Cargo project:
 
 {% highlight bash %}
@@ -107,5 +107,4 @@ Now yes, we can say that Rust packages cargo builds (using C/C++ code too) are A
 You can find the conan-cargo generator and it's documentation <a href="https://github.com/lasote/conan-cargo-wrapper-generator">here</a>.
 
 You can see the <a href="https://github.com/imazen/imageflow">**Imageflow**</a> project as a complete example of creating a C library's <a href="https://github.com/imazen/imageflow/tree/master/wrappers/server">Rust wrapper</a>.
-
 
