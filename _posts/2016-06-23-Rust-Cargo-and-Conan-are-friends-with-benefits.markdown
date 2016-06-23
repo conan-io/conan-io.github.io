@@ -46,11 +46,11 @@ fn main() {
 
 {% endhighlight %}
 
-So the issue is how retrieve to your computer the required C library, build the binary if needed, and automatically get the include directories, library name and library directories, in a cross-platform way. Conan package manager can do this taks, and it knows well where are all those paths and libraries, and their link order (very important if you have transitive dependencies)
+So the issue is how retrieve to your computer the required C library, build the binary if needed, and automatically get the include directories, library name and library directories, in a cross-platform way. Conan package manager can do this tasks, and it knows well where are all those paths and libraries, and their link order (very important if you have transitive dependencies)
 
 Moreover the file's format needed by Cargo is very simple, so it can be easily automated with a conan generator. A conan generator produces an output file that can be consumed by a certain tool. For example conan already has build-in file generators for cmake, visual studio, xcode...etc. 
 
-With the recently introduced generator packags, we can create and require a generator in the same way we require a conan package. So we can write our conanfile.txt file with the required dependencies and the cargo generator:
+With the recently introduced generator packages, we can create and require a generator in the same way we require a conan package. So we can write our conanfile.txt file with the required dependencies and the cargo generator:
 
 **conanfile.txt**:
 
@@ -108,6 +108,5 @@ Now yes, we can say that Rust packages cargo builds (using C/C++ code too) are A
 You can find the conan-cargo generator and it's documentation <a href="https://github.com/lasote/conan-cargo-wrapper-generator">here</a>.
 
 You can see the <a href="https://github.com/imazen/imageflow">**Imageflow**</a> project as a complete example of creating a C library's <a href="https://github.com/imazen/imageflow/tree/master/wrappers/server">Rust wrapper</a>.
-
 
 
