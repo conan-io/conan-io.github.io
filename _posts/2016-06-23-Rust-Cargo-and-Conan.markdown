@@ -1,14 +1,15 @@
 ---
 layout: post
 comments: true
-# other options
+redirect_from: "/2016/06/23/Rust-Cargo-and-Conan-are-friends-with-benefits.html"
+title: "Using Rust, Cargo, and Conan Together"
 ---
 
 <img src="{{ site.url }}/assets/conan_cargo.png" />
 
+Cargo and Conan both produce cross-platform, C-compatibile binaries, and have similar ease-of-use goals. Interoperability is an obvious step. 
 
-Well, sorry if you expected to find some picture of conan the barbarian doing dirty things...
-But we are going to see great things about Rust, Cargo and Conan C/C++ package manager, and how they can work together to ease the creation of better Rust code with embedded C code. 
+Let's take a look at Rust, Cargo and Conan C/C++ package manager, and how they can work together to ease the creation of better Rust code with embedded C code. 
 
 <h2 class="section-heading">Rust packages, Always repeatable?</h2>
 

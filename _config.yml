@@ -17,3 +17,6 @@ github_username:  conan-io
 
 # Build settings
 markdown: kramdown
+
+gems:
+  - jekyll-redirect-from
