@@ -273,4 +273,4 @@ Also we are appending to ``path`` variable the bin folder, so we can invoke gcc,
 
 The possibilities of these features are even larger. They are very useful for example in CI environments. Also, if you want to avoid copying shared (.dlls, .dylib) libraries to the project binary directory (which can be done with the ``imports`` feature), you can make packages to add them to the environment PATH variable, so consumers can use it to easily find the correct shared libraries for multiple different versions and settings.
 
-What do you think? Do you like this feature? What tools would you like to have as a conan package? Use our https://github.com/conan-io/wishlist whislist and tell us what is your development environment!
+What do you think? Do you like this feature? What tools would you like to have as a conan package? Use our <a href="https://github.com/conan-io/wishlist">whislist</a> and tell us what is your development environment!
