@@ -163,7 +163,7 @@ How can I create my own tool packages?
 
 If you want to create conan packages for any tool it is easy, specially if you are already familiar creating conan packages.
 
-Let's see how the CMake recipe is done (https://www.conan.io/source/cmake_installer/0.1/lasote/testing):
+Let's see how the conan <a href="https://www.conan.io/source/cmake_installer/0.1/lasote/testing">CMake recipe is done</a>:
 
 {% highlight python %}
 
@@ -225,7 +225,7 @@ The package_info method use the new ``self.env_info`` object.
 With “self.env_info” the package can declare environment variables that will be setted with the ``virtualenv`` generator.
 
 The ``self.env_info`` variable can also be useful if a package tool depends on another tool.
-Take a look to the MinGW conanfile.py recipe (https://www.conan.io/source/mingw_installer/0.1/lasote/testing):
+Take a look to the <a href="https://www.conan.io/source/mingw_installer/0.1/lasote/testing">MinGW conanfile.py recipe</a>:
 
 {% highlight python %}
 
