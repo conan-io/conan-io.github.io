@@ -16,7 +16,7 @@ If we run the activate script, conan will set our current shell environment vari
 
 Let's see an example. Lets suppose we are working on a Windows machine, and we want to build and test a project with different versions of MinGW and CMake. So we can do:
 
-1. Create a separate folder from your project. This folder will handle our development environment. 
+Create a separate folder from your project. This folder will handle our development environment. 
 
 {% highlight bash %}
 
@@ -25,7 +25,7 @@ $ cd my_cpp_environ
 
 {% endhighlight %}
 
-2. Create a ``conanfile.txt`` file:
+Now, create a ``conanfile.txt`` file:
 
 {% highlight conf %}
 
@@ -40,8 +40,7 @@ virtualenv
 
 In this file we are requiring two packages, one is the MinGW installer and the other is a CMake installer. The "0.1" version is the version of the installer recipe, not the MinGW nor CMake tools. If you want to create your own recipes matching the tool version, you can, but in this way we are able to handle many MinGW and CMake versions just with the same recipes. Later we will se how can we install those different versions.
 
-
-3. Install them:
+Install the packages:
 
 {% highlight bash %}
 
@@ -49,7 +48,7 @@ $ conan install
 
 {% endhighlight %}
 
-4. Activate the virtual environment in your shell:
+Once the tools have been installed, you can activate the virtual environment in your shell:
 
 {% highlight bash %}
 
@@ -58,7 +57,7 @@ $ activate
 
 {% endhighlight %}
 
-5. Check that the tools are in the path:
+Check that everything is working and the tools are in the path:
 
 {% highlight bash %}
 (my_cpp_environ) $ gcc --version
@@ -79,7 +78,7 @@ CMake suite maintained and supported by Kitware (kitware.com/cmake).
 
 {% endhighlight %}
 
-6. You can deactivate the virtual environment with the ``deactivate`` script
+You can now deactivate the virtual environment with the ``deactivate`` script
 
 {% highlight bash %}
 
@@ -106,7 +105,7 @@ default_options = "exception=sjlj", "threads=posix", "arch=x86_64", "version=4.9
 
 By default we are installing MinGW 4.9 with posix thread support and sjlj exceptions. But we can install MinGW with other options:
 
-1. Edit your conanfile.txt:
+Edit your conanfile.txt:
 
 {% highlight conf %}
 
@@ -123,7 +122,7 @@ mingw_installer:version=4.8
 
 {% endhighlight %}
 
-2. Remember to deactivate the previous virtual environment:
+Remember to deactivate the previous virtual environment:
 
 {% highlight bash %}
 
@@ -131,7 +130,7 @@ mingw_installer:version=4.8
 
 {% endhighlight %}
 
-3. And install again:
+And install again:
 
 {% highlight bash %}
 
@@ -142,7 +141,7 @@ $ conan install
 You can also pass the options in the command line instead of specifying them in the conanfile.txt file
 
 
-4. Activate the virtual environment and check that the tools have changed:
+Activate the virtual environment and check that the tools have changed:
 
 {% highlight bash %}
 
