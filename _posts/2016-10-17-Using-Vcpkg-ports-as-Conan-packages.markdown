@@ -117,9 +117,10 @@ Vcpkg CMake scripts only need two parameters:
 
 Vcpkg packages the libraries following the same layout (standard) than conan, so in the “package” method we can just copy the folders:
 
-- **bin** => executables and dll’s
+- **bin** => dll’s
 - **lib** => libraries to link with
 - **include** => library headers
+- **tools** => executables
 
 Finally we have created an appveyor.yml to help to auto-generate and upload all packages every time we push our fork or with any tagged release etc.
 
@@ -129,23 +130,21 @@ Conan benefits
 
 Using conan for vcpkg packages has some advantages to using only vpckg:
 
-- **Library versioning**: Vcpkg only keeps one version for each port, if a new version of a library is released it will overwrite your previous dependency. This is a big issue for C/C++ projects where the dependencies often should keep stabilized. Users seldom want their Boost or OpenSSL version replaced automatically with the latest one. We read the CONTROL file where library version is declared and we use the version to generate a different conan recipe for different library versions, e.j. boost/1.61.0@lasote/vcpkg
+- **Library versioning**: [Vcpkg only keeps one version for each port/vcpkg instance](https://github.com/Microsoft/vcpkg/blob/master/docs/FAQ.md#how-do-i-use-different-versions-of-a-library-on-one-machine), if a new version of a library is released it will overwrite your previous dependency. This is a big issue for C/C++ projects where the dependencies often should keep stabilized. Users seldom want their Boost or OpenSSL version replaced automatically with the latest one. We read the CONTROL file where library version is declared and we use the version to generate a different conan recipe for different library versions, e.j. boost/1.61.0@lasote/vcpkg
 
-- **Different Visual Studio versions**: Vcpkg currently only support Visual Studio 14 compilations. We perform some adjustments to compile any port with any other Visual Studio version (as long as the library source code compiles with previous Visual Studio versions, it is possible that they don’t if they use the very latest C++ features only provided by VS 2015).
+**TODO**: *conanizer* doesn't manage the ports recursive dependencies correctly yet. We could improve it by defining conan requires to another "port" package. This way we could handle situations like library A depends on B (A -> B) and B version is updated in vcpkg repository to B'. Then there will be two binary packages available in conan.io, (A -> B) and (A -> B'). Users can use normally the (A -> B) version by requiring A, or even override the B' to B in their projects, using the old binary package.
+
+
+- **Different Visual Studio versions**: Vcpkg currently only support Visual Studio 14 compilations. We perform some adjustments to compile any port with any other Visual Studio version (as long as the library source code compiles with previous Visual Studio versions, it is possible that they don’t if they use the very latest C++ features only provided by VS 2015). 
 
 - **Different debug/release packages**: We separate build type debug and release in two different binary packages, so you can use the setting “build_type” to install only the binaries that you want.
 
 - **Combine ports with regular conan packages**: Use these port packages as normal conan packages, link against others etc.
 - **Automatic linking**: Conan detects and declares the built libraries, so you can use for example CMake generator and link with ${CONAN_LIBS} automatically.
-- **Binary caching**: Conan can catch locally or in any conan server the built packages. We know how costly is to compile big C/C++projects, so you don’t need to rebuild your dependencies every time you change your environment.
-- **Build from source**: Building from source are also available if you don’t want to use the precompiled binaries from conan.io. Invoke conan install with --build option. It will invoke the library CMake port scripts to rebuild the library.
+- **Binary caching**: Conan can catch locally or in any conan server the built packages. We know how costly is to compile big C/C++projects, so you don’t need to rebuild your dependencies every time you change your environment. The distributed server architecture, like git remotes, offers multiple possibilities, like private in-house servers with optional read access to public repositories, etc.
+- **Build from source**: You can keep building from source if you don’t trust precompiled binaries from conan.io. Invoke conan install with --build option. It will invoke the library CMake port scripts to rebuild the library.
 - **Use any conan generator**: Use ANY conan generator to reuse the vcpkg port, CMake, CLion, Xcode, Autotools, YCM, Premake...
 - **Many other conan benefits**: Conan offers many other advanced package manager features, as conflict resolution, dependency overriding etc.
-
-
-
-
-
 
 
 
