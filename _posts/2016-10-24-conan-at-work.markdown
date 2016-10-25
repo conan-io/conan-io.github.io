@@ -1,3 +1,10 @@
+---
+layout: post
+comments: true
+title: "Conan at work"
+---
+
+
 This is a guest post by Nils Brinkmann from the German company Rheinmetall Defence Electronics. You can reach him via [LinkedIn](https://de.linkedin.com/in/nils-brinkmann-93183677) if there are any questions regarding the article.
 
 # Conan at work
