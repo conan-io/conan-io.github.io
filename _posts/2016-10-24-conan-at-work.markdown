@@ -45,13 +45,15 @@ class SpecificConanfile(ConanTemplate):
 In our old environment we simply had everything in one big repository. This was very monolithic, but also easy to maintain in terms of dependencies: We just needed to make sure that everything in the repo works with each other before committing new code changes. The unflexible nature however limited our ability to scale. Now Conan makes possible what previously would've been a tedious task: To manage everything in small, modular repositories while maintining the dependencies of the components.
 
 To keep everything together we introduced the following release strategy:
-* Every component needs to be compatible with the HEAD version of other components
-* Every component needs to depend on a specific release version of other components
-* Every component should use the newest releases of its dependencies.
+
+- Every component needs to be compatible with the HEAD version of other components
+- Every component needs to depend on a specific release version of other components
+- Every component should use the newest releases of its dependencies.
 
 This results in our components being in two Conan channels:
-* `component/HEAD@rde/CI`: This channel is used for the latest version of each component. As soon as the CI was able to build a new commit, it uploads the component to that channel.
-* `component/major.minor.patch.commit@rde/release`: This is the release channel where only released versions of our components are put into. The CI mechanism behind this is probably complex enough to make its own blog post - Essentially only components that are compatible to all their dependencies and their dependers are getting released, making sure that only compatible components are released.
+
+- `component/HEAD@rde/CI`: This channel is used for the latest version of each component. As soon as the CI was able to build a new commit, it uploads the component to that channel.
+- `component/major.minor.patch.commit@rde/release`: This is the release channel where only released versions of our components are put into. The CI mechanism behind this is probably complex enough to make its own blog post - Essentially only components that are compatible to all their dependencies and their dependers are getting released, making sure that only compatible components are released.
 
 ```
 > conan search *
