@@ -1,7 +1,9 @@
+This is a guest post by Nils Brinkmann from the German company Rheinmetall Defence Electronics. You can reach him via [LinkedIn](https://de.linkedin.com/in/nils-brinkmann-93183677) if there are any questions regarding the article.
+
 # Conan at work
 A few months ago we took the chance and reinvented our development environment around Conan. The concept and ideas of Conan work nicely in the open source world, but there was not much information on how this could be integrated into a closed source environment. In this post I would like to outline what we did and why we did it.
 
-My company employs more than a thousand developers in the defense sector. I work in a team of 5 developers on integrating 3D engines into simulators. Our projects range from a few hundred man-hours to multi-million dollar projects spanning multiple years. We currently are using Conan only within our team, but the plan is to roll it out at least department wide to more than 150 developers.
+Rheinmetall Defence Electronics employs more than a thousand developers in the defense sector. I work in a team of 5 developers on integrating 3D engines into simulators. Our projects range from a few hundred man-hours to multi-million dollar projects spanning multiple years. We currently are using Conan only within our team, but the plan is to roll it out at least department wide to more than 150 developers.
 
 ## Component structure
 Our codebase contains more than 200 small components, each with its designated job. They're sometimes under 100 lines of code, most of them averaging around 1000 LOCs. All these components are depending on each other. This is where Conan helped us the most: Instead of having self-coded mechanisms to resolve the dependency tree we can now use Conan to automatically build everything needed in the right order.
@@ -27,9 +29,9 @@ class SpecificConanfile(ConanTemplate):
     author = "John Doe"
 
     def requirements(self):
-        self.requires("Foo/1.0.1.d5ee9fad@comp/release")
-        self.requires("Baz/1.0.0.ad681ab5@comp/release")
-        self.requires("Frob/1.0.8.be290a40@comp/release")
+        self.requires("Foo/1.0.1.d5ee9fad@rde/release")
+        self.requires("Baz/1.0.0.ad681ab5@rde/release")
+        self.requires("Frob/1.0.8.be290a40@rde/release")
 ```
 
 ## Release strategy
@@ -41,23 +43,23 @@ To keep everything together we introduced the following release strategy:
 * Every component should use the newest releases of its dependencies.
 
 This results in our components being in two Conan channels:
-* `component/HEAD@comp/CI`: This channel is used for the latest version of each component. As soon as the CI was able to build a new commit, it uploads the component to that channel.
-* `component/major.minor.patch.commit@comp/release`: This is the release channel where only released versions of our components are put into. The CI mechanism behind this is probably complex enough to make its own blog post - Essentially only components that are compatible to all their dependencies and their dependers are getting released, making sure that only compatible components are released.
+* `component/HEAD@rde/CI`: This channel is used for the latest version of each component. As soon as the CI was able to build a new commit, it uploads the component to that channel.
+* `component/major.minor.patch.commit@rde/release`: This is the release channel where only released versions of our components are put into. The CI mechanism behind this is probably complex enough to make its own blog post - Essentially only components that are compatible to all their dependencies and their dependers are getting released, making sure that only compatible components are released.
 
 ```
 > conan search *
 
-Foo/1.0.1.26e92cb8@comp/release
-Bar/2.1.15.84145ecb@comp/release
-Baz/1.5.0.00cf1aa4@comp/release
+Foo/1.0.1.26e92cb8@rde/release
+Bar/2.1.15.84145ecb@rde/release
+Baz/1.5.0.00cf1aa4@rde/release
 
-Foo/HEAD@comp/CI
-Bar/HEAD@comp/CI
-Baz/HEAD@comp/CI
+Foo/HEAD@rde/CI
+Bar/HEAD@rde/CI
+Baz/HEAD@rde/CI
 
-Boost/1.59.0@comp/thirdparty
-ZMQ/4.1.1@comp/thirdparty
-Protobuf/2.6.1@comp/thirdparty
+Boost/1.59.0@rde/thirdparty
+ZMQ/4.1.1@rde/thirdparty
+Protobuf/2.6.1@rde/thirdparty
 ```
 
 ## Thirdparty
