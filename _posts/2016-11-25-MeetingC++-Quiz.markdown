@@ -68,6 +68,7 @@ These are the teams that achieved glory, the MeetingC++2016 Quiz hall of fame:
 - Peter Goldsborough
 - Bruno Manganelli,  student
 - Jan Babst, from [Elektrobit](https://www.elektrobit.com)
+- Philipp Lenk
 
 
 There are some missing names here! Please check your emails, or contribute with a PR to this post.
