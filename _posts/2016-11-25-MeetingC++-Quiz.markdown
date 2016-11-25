@@ -61,6 +61,7 @@ These are the teams that achieved glory, the MeetingC++2016 Quiz hall of fame:
 - Paul M. Bendixen
 - Valentino Picotti [@paicoz](https://twitter.com/paicoz).
 - Paul Dreik, [Dreik Ingenjörskonst AB](https://www.dreik.se/)
+- Lukas Bergdoll [homepage](www.lukas-bergdoll.net)
 
 **3rd place (86 points): “reinterpret_cast\<cpp\>(Java)”**
 
