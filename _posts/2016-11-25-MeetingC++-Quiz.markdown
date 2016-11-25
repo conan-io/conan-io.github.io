@@ -51,16 +51,19 @@ These are the teams that achieved glory, the MeetingC++2016 Quiz hall of fame:
 
 
 **1st place: (100 points) “SPb”**
+
 - Rostislav Khlebnikov, from [think-cell](https://www.think-cell.com/en/)
 - Ivan Sorokin, from JetBrains [ResharperC++](https://www.jetbrains.com/resharper-cpp) team
 
 **2nd place (96 points): “Operator ++”**
+
 - Matthew Chaplain, from TomTom
 - Paul M. Bendixen
 - Valentino Picotti [@paicoz](https://twitter.com/paicoz).
 - Paul Dreik, [Dreik Ingenjörskonst AB](https://www.dreik.se/)
 
 **3rd place (86 points): “reinterpret_cast\<cpp\>(Java)”**
+
 - Jakub Chlanda, from [Codeplay Software](https://www.codeplay.com/)
 - Peter Goldsborough
 - Bruno Manganelli,  student
