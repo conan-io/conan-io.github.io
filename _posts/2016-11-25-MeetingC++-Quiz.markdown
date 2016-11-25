@@ -10,7 +10,7 @@ MeetingC++, the major C++ conference in Europe, and the 2nd largest in the world
 
 We wanted to collaborate, so we joined as silver sponsors, and we also organized and sponsored a C++ quiz that was held in the evening after a nice pizza & pasta buffet.
 
-<img src="{{ site.url }}/assets/meetingcpp_quiz.png" />
+<img src="{{ site.url }}/assets/meetingcpp_quiz.jpeg" />
 
 It seems the initiative was very welcome. Thanks very much to the many people who attended and participated in the quiz!
 
@@ -41,7 +41,7 @@ We didn’t expect so many attendees, so some volunteers helped to evaluate the 
 We were more than impressed, and completely baffled by the expert level of the participants. The average score of 75 points was even higher than expected, and all scores were above 60 points. Congrats to all of them!
 
 
-<img src="{{ site.url }}/assets/meetingcpp_quiz_winners.png" />
+<img src="{{ site.url }}/assets/meetingcpp_quiz_winners.jpeg" />
 
 
 We still can’t believe it, but the winners scored a perfect 100!! They were a team of just 2 people, but they proved to be extremely talented: Rostislav Khlebnikov, from [think-cell](https://www.think-cell.com/en/) and Ivan Sorokin from the JetBrains [ResharperC++](https://www.jetbrains.com/resharper-cpp/) team. Congrats!
@@ -60,7 +60,7 @@ These are the teams that achieved glory, the MeetingC++2016 Quiz hall of fame:
 - Valentino Picotti [@paicoz](https://twitter.com/paicoz).
 - Paul Dreik, [Dreik Ingenjörskonst AB](https://www.dreik.se/)
 
-**3rd place (86 points): “reinterpret_cast<cpp>(Java)”**
+**3rd place (86 points): “reinterpret_cast\<cpp\>(Java)”**
 - Jakub Chlanda, from [Codeplay Software](https://www.codeplay.com/)
 - Peter Goldsborough
 - Bruno Manganelli,  student
@@ -75,7 +75,7 @@ Special mention also needs to go to the teams “; drop table *” and “Number
 # Prizes
 The winners received a new innovative puzzle: a customized Rubik’s cube, even more challenging that the original, with tiles that need to be in the correct orientation, besides color, and letters.
 
-<img src="{{ site.url }}/assets/RubikCube.png" />
+<img src="{{ site.url }}/assets/RubikCube.jpeg" />
 
 
 We will also send them to the 2nd place team members, if you were part of it, please check your email!
