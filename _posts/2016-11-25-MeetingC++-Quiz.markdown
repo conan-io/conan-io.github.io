@@ -78,7 +78,8 @@ Special mention also needs to go to the teams “; drop table *” and “Number
 # Prizes
 The winners received a new innovative puzzle: a customized Rubik’s cube, even more challenging that the original, with tiles that need to be in the correct orientation, besides color, and letters.
 
-<img src="{{ site.url }}/assets/RubikCube.jpeg" width="100px"/>
+
+<img src="{{ site.url }}/assets/RubikCube.jpeg" style="width:200px;display: block;margin: 0 auto;"/>
 
 
 We will also send them to the 2nd place team members, if you were part of it, please check your email!
