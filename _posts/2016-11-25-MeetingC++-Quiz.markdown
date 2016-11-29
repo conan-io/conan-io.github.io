@@ -57,6 +57,7 @@ These are the teams that achieved glory, the MeetingC++2016 Quiz hall of fame:
 
 **2nd place (96 points): “Operator ++”**
 
+- Marco Foco, from Nvidia [blog](http://marcofoco.com/)
 - Matthew Chaplain, from TomTom
 - Paul M. Bendixen
 - Valentino Picotti [@paicoz](https://twitter.com/paicoz).
