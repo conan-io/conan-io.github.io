@@ -57,10 +57,12 @@ These are the teams that achieved glory, the MeetingC++2016 Quiz hall of fame:
 
 **2nd place (96 points): “Operator ++”**
 
+- Marco Foco, from Nvidia [blog](http://marcofoco.com/)
 - Matthew Chaplain, from TomTom
 - Paul M. Bendixen
 - Valentino Picotti [@paicoz](https://twitter.com/paicoz).
 - Paul Dreik, [Dreik Ingenjörskonst AB](https://www.dreik.se/)
+- Lukas Bergdoll [homepage](https://www.lukas-bergdoll.net)
 
 **3rd place (86 points): “reinterpret_cast\<cpp\>(Java)”**
 
@@ -68,6 +70,7 @@ These are the teams that achieved glory, the MeetingC++2016 Quiz hall of fame:
 - Peter Goldsborough
 - Bruno Manganelli,  student
 - Jan Babst, from [Elektrobit](https://www.elektrobit.com)
+- Philipp Lenk
 
 
 There are some missing names here! Please check your emails, or contribute with a PR to this post.
