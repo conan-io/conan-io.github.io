@@ -13,7 +13,7 @@ The truth is that both have advantages and disadvantages, and if we have learned
 First, it is interesting to review and understand how conan process packages:
 
 
-<img src="{{ site.url }}/assets/post_images/2017_03_07/generalflow.png" />
+<img src="{{ site.url }}/assets/post_images/2017_03_07/generalflow.png" width="80%"/>
 
 
 Each of the squares is a folder for a given package. In the "export" folder, the package recipe is stored, which is copied to the "source" folder so the recipe "source()" method can fetch the package source code. Then, for each different configuration (different settings, like different compiler version or architecture), a new, clean build folder is used, the recipe "build()" method is triggered, and finally, the artifacts (typically the headers and the libraries) are extracted by the "package()" method to the final package folder. Each package is identified by a SHA-1 hash of the configuration values. 
@@ -43,7 +43,7 @@ class HelloConan(ConanFile):
 It is very important to note that it is declaring the "build_type" as a setting. This means that a different package will be generated for each different value of such setting.
   
 
-<img src="{{ site.url }}/assets/post_images/2017_03_07/singleconf.png" />
+<img src="{{ site.url }}/assets/post_images/2017_03_07/singleconf.png" width="60%" />
 
 
 When installing those packages, the files generated for the build system, like the ``conanbuildinfo.cmake`` file by the ``cmake`` generator will contain different information depending on the install settings:
@@ -96,7 +96,7 @@ Multi configuration packages
 
 In multi-configuration packages, the same package will contain artifacts for different configurations. In our example, the same package could contain both the release and debug versions of the library "hello".
 
-<img src="{{ site.url }}/assets/post_images/2017_03_07/multiconf.png" />
+<img src="{{ site.url }}/assets/post_images/2017_03_07/multiconf.png" width="60%"/>
 
 This doesn’t imply that you will only have 1 package or strictly 1 build folder per recipe, as you can still have different packages for different architectures, for example, or for different compiler versions. Package creators can define the packaging logic as they want.
 
@@ -153,7 +153,7 @@ It is possible that an already existing build script is building binaries for di
 
 With conan 0.20, it is possible to specify the logic, so the same build can be reused to create different packages, which will be more efficient:
 
-<img src="{{ site.url }}/assets/post_images/2017_03_07/multipackage.png" />
+<img src="{{ site.url }}/assets/post_images/2017_03_07/multipackage.png" width="50%"/>
 
 This can be done by defining in the package recipe a ``build_id()`` method that will specify the logic. 
 
