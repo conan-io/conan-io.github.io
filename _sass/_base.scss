@@ -204,3 +204,96 @@ pre {
         }
     }
 }
+
+
+/**
+ * Netwsletter
+ */
+
+.newsletter-container {
+    position:fixed;
+    bottom:0;
+    background-color: #FCFDFE;
+    padding: 10px 0 10px 0;
+    background-color: #E4E5E6;
+    width: 100%;
+}
+
+
+.newsletter-div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    form{
+        width: 400px !important;
+    }
+
+    .mktoForm .mktoFormRow {
+        float: left !important;
+    }
+
+    span.mktoButtonWrap.mktoSimple{
+        margin-left: 0px !important;
+    }
+    label.mktoLabel.mktoHasWidth{
+        width: 0px !important;
+    }
+
+    .mktoForm .mktoButtonWrap.mktoSimple .mktoButton {
+        background-color: #468BC7;
+        background-image: none;
+        border: none;
+        color: #fff;
+        font-weight: 200;
+        display: flex;
+        justify-content: center;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 2px;
+        padding: 7px 15px;
+    }
+
+    p {
+        font-family: 'Open Sans';
+        color: #0081BC;
+        margin-right: 10px;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .mktoForm .mktoButtonWrap.mktoSimple .mktoButton:hover {
+        border: 1px solid #468BC7;
+    }
+
+
+    input[type="email"] {
+        background-color: #F2F3F4;
+        border: none;
+        width: 200px !important;
+        max-width: 200px !important;
+        font-weight: 200;
+        font-size: 16px;
+        border-radius: 2px;
+        padding: 7px 15px !important;
+        color: #468BC7;
+        margin-right: 10px !important;
+    }
+
+    input[type="email"]::-webkit-input-placeholder {
+        color: #468BC7;
+    }
+
+    input[type="email"]::-moz-placeholder {
+        color: #468BC7;
+    }
+
+    input[type="email"]:-ms-input-placeholder {
+        color: #468BC7;
+    }
+
+    input[type="email"]:-moz-placeholder {
+        color: #468BC7;
+    }
+}
