@@ -168,7 +168,7 @@ In some (extreme) cases, where the C/C++ projects are single platform, and the d
 An efficient DevOps process, able to manage different binaries from the same source code, is required.
 
 <p class="centered">
-<img src="{{ site.url }}/assets/post_images/2017_03_14/binaries.png" width="50%"/>
+<img src="{{ site.url }}/assets/post_images/2017_03_14/binaries.png" width="28%"/>
 </p>
 
 Here, we represent our system, in which we have one component or package, called LibA, with its source code in version 1.1. Several binaries have been built and stored, from the same source code, called B1...Bn. For example, for different OS’s, such as Windows, Linux, and OSX.
@@ -204,7 +204,7 @@ The first question we have to answer is whether such a version should be automat
 First, let’s figure out a manual process. The team decides that ``LibC-v1.0`` should now use the newest ``LibA-v1.1``, so they clone the ``LibC`` repo, bump the dependency to ``LibA``, increment their own version to ``LibC-v1.1`` and push the changes, so a new package with a new binary is created by the Jenkins CI job. 
 
 <p class="centered">
-<img src="{{ site.url }}/assets/post_images/2017_03_14/manual.png" width="50%"/>
+<img src="{{ site.url }}/assets/post_images/2017_03_14/manual.png" width="40%"/>
 </p>
 
 This indeed works, and could be done. It could make sense for versioning schemes including build metadata, but inconvenient for others. Then an important question appears:
@@ -236,20 +236,20 @@ The goal here is to be able to redefine the ``LibA-v1.0`` version that ``LibC-v1
 The result with this approach would be one of the following:
 
 <p class="centered">
-<img src="{{ site.url }}/assets/post_images/2017_03_14/compatibility.png" width="50%"/>
+<img src="{{ site.url }}/assets/post_images/2017_03_14/compatibility.png" width="60%"/>
 </p>
 
 
-In scenario A, the ``LibC-v1.0`` is compatible with both ``LibA-v1.[0, 1]``, and it’s unnecessary to built a new binary for it. This could be the case of a static library, and the minor version increase in ``LibA`` doesn’t imply changes in the public headers. In case B, it is necessary to create a new binary for LibC. This could be the case of ``LibA`` being a header only library, or ``LibC being`` a shared library.
+In scenario A, the ``LibC-v1.0`` is compatible with both ``LibA-v1.[0, 1]``, and it’s unnecessary to built a new binary for it. This could be the case of a static library, and the minor version increase in ``LibA`` doesn’t imply changes in the public headers. In case B, it is necessary to create a new binary for ``LibC``. This could be the case of ``LibA`` being a header only library, or ``LibC being`` a shared library.
 
 Automating the propagation 
 ---------------------------
 
 This process could be repeated downstream, instructing the packages to build if necessary. But it is important to respect the graph ordering, otherwise, it is possible that some binaries will not be correctly built with the latest upstream versions.
 
-This is where it would be interesting to setup a CI process to do this automatically. We already discarded the process of automatically upgrading everything downstream after a new version of LibA, so the process should be fired from downstream. 
+This is where it would be interesting to setup a CI process to do this automatically. We already discarded the process of automatically upgrading everything downstream after a new version of ``LibA``, so the process should be fired from downstream. 
 
-One process could be to define the overriding dependency to LibA-v1.1 directly in the consuming project, like P1, and let this dependency propagate upstream requiring every node in between to build a new compatible binary if necessary. For multi-configuration projects (multi-platform, or compiling with different settings) that would be like a depth-first approach, for every configuration (compiler, version, settings), the packages in the graph would be built.
+One process could be to define the overriding dependency to ``LibA-v1.1`` directly in the consuming project, like ``P1``, and let this dependency propagate upstream requiring every node in between to build a new compatible binary if necessary. For multi-configuration projects (multi-platform, or compiling with different settings) that would be like a depth-first approach, for every configuration (compiler, version, settings), the packages in the graph would be built.
 
 However, we may want to properly build and test each package as needed, maybe for many configurations, before proceeding downstream. The first question that the package manager should tell the CI system, is what dependencies are involved. The question could be:
 
