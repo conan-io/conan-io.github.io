@@ -209,7 +209,7 @@ First, let’s figure out a manual process. The team decides that ``LibC-v1.0`` 
 
 This indeed works, and could be done. It could make sense for versioning schemes including build metadata, but inconvenient for others. Then an important question appears:
 
-> “Why should the version of ``LibC`` be incremented? No real change has been done to the code at all. We just used a new version of the dependency. But as shown above, this may or may not change the resulting binary, so maybe it is not necessary to create a new package and build a new binary!”*
+ *“Why should the version of ``LibC`` be incremented? No real change has been done to the code at all. We just used a new version of the dependency. But as shown above, this may or may not change the resulting binary, so maybe it is not necessary to create a new package and build a new binary!”*
 
 That is true, an efficient package management and CI system should be able to cope with this scenario. Two things have to be defined for such a goal:
 
@@ -253,7 +253,7 @@ One process could be to define the overriding dependency to LibA-v1.1 directly i
 
 However, we may want to properly build and test each package as needed, maybe for many configurations, before proceeding downstream. The first question that the package manager should tell the CI system, is what dependencies are involved. The question could be:
 
-> “Given that the LibA has been upgraded, what packages should be checked if a new binary is necessary for project P1 being also upgraded?”
+ *“Given that the LibA has been upgraded, what packages should be checked if a new binary is necessary for project P1 being also upgraded?”*
 
 And the answer should be an ordered list of ``[LibC-v1.0, P1-v1.0]``.
 
