@@ -17,7 +17,7 @@ This post will describe how to setup cross building to the Raspberry PI from Win
 Hello world library
 ======================
 
-The library that will be built and packaged is the one existing in https://github.com/memsharded/hello. It is just a simple C++ library project, using CMake, and nothing special or conan related in it.
+The library that will be built and packaged is the one existing in [this github repo](https://github.com/memsharded/hello). It is just a simple C++ "Hello world" library project, using CMake, and nothing special or conan related in it.
 
 We will then start with a package template created with the ``conan new`` command:
 
