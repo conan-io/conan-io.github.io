@@ -37,7 +37,7 @@ $ build\HelloLib\HelloLib.sln
 ```
 
 <p class="centered">
-    <img src="{{ site.url }}/assets/post_images/2017_05_11/visual_studio.png" width="60%" align="center"/>
+    <img src="{{ site.url }}/assets/post_images/2017_05_11/visual_studio.png" align="center"/>
 </p>
 
 
