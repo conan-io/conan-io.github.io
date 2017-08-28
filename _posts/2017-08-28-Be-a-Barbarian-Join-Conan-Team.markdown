@@ -51,4 +51,4 @@ The conan team is remote. We don’t have a central office, and we work in a fle
 Contact us
 ===========
 
-Do you want to be a Barbarian? Write us an email to info@conan.io including in the subject [BeBarbarian], explaining your reasons, and linking or attaching relevant information about you.
+Do you want to be a Barbarian? Write us an email to <info@conan.io> including in the subject [BeBarbarian], explaining your reasons, and linking or attaching relevant information about you.
