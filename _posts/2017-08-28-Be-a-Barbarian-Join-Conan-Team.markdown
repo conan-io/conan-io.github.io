@@ -5,6 +5,9 @@ title: Be a Barbarian. Join the Conan team.
 # other options
 ---
 
+**Go directly to the opened positions! [Web engineer](https://join.jfrog.com/career/software-engineer-conan-development-and-support/){:target="_blank"}, [Developer advocate](https://join.jfrog.com/career/cc-conan-developer-advocate/){:target="_blank"}**
+
+
 
 Since Conan joined JFrog, the growth has been incredible. Nowadays, there are many companies around the globe using Conan in production to manage their C and C++ libraries and packages. We are very excited and happy with Conan’s success, but with this success comes great responsibility: giving support and help to active users who depend on Conan for their tasks. This is a high priority for us, but it also takes a lot of time. We also want to work on  product improvement (design, development, testing) to address active users’ needs. This is an ongoing  task that only gets bigger with the user base.
 
@@ -50,3 +53,5 @@ Contact us
 ===========
 
 Do you want to be a Barbarian? Write us an email to <info@conan.io> with  [BeBarbarian]  in the Subject line, explaining your reasons, and linking or attaching relevant information about yourself.
+
+**Go directly to the opened positions! [Web engineer](https://join.jfrog.com/career/software-engineer-conan-development-and-support/){:target="_blank"}, [Developer advocate](https://join.jfrog.com/career/cc-conan-developer-advocate/){:target="_blank"}**
