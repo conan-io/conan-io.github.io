@@ -61,7 +61,7 @@ Conan-center is a curated repository, that will accept inclusion-requests from u
 trusted, maintained and high quality central repository of OSS C/C++ packages.
 
 Over the next few weeks, we will be taking steps to copy the current central repository hosted at conan.io to Bintray.
-You can read about the process in the [Conan documentation](http://docs.conan.io/move_to_bintray.html).
+You can read about the process in the [Conan documentation](http://docs.conan.io/en/latest/move_to_bintray.html).
 If you run into any issues, you are welcome to contact us at **info@conan.io**.
 
 With Conan repositories and conan-center, Bintray provides the next generation of conan servers for worldwide distribution
