@@ -25,7 +25,7 @@ Now it’s time to reward the trust we have received; Conan 1.0 is mainly a comm
 Growing team
 ============
 
-To support the challenges ahead, we are growing our development team. Daniel has just joined us, another engineer will join us in two weeks, and we’re looking for some more talented developers. We’re located in Madrid, a great, fun and friendly city. So if you’re here, or are willing to relocate, [drop us a line](info@conan.io).
+To support the challenges ahead, we are growing our development team. Daniel has just joined us, another engineer will join us in two weeks, and we’re looking for some more talented developers. We’re located in Madrid, a great, fun and friendly city. So if you’re here, or are willing to relocate, [drop us a line](mailto:info@conan.io).
 
 If you do join us, here are some of the challenges you’ll work on. Our top priority for 2018 is the Open Source community and managing the long queue of requests for Open Source packages to be included in [conan-center](https://bintray.com/conan/conan-center), the central, public repository for Conan packages. We will also be working on improving usability of Conan with Bintray as well as integrations with more tools like IDEs.
 
