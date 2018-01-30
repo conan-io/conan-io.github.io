@@ -7,11 +7,15 @@ title: Cross building Boost C++ libraries to Android with Conan
 
 Today we released a Conan package [Boost/1.66.0@conan/stable](https://github.com/lasote/conan-boost) on [conan-center](https://bintray.com/conan/conan-center).
 
-This package contains binaries for **more than 150 different** configurations: Windows (different flavors of Visual Studio), Linux (gcc and clang compilers), OSX. In all systems, it is possible to use different architectures, build types, or choose if we want to link statically, dynamically, or even to use boost header-only libraries.
+This package contains binaries for **more than 150 different** configurations: Windows (different flavors of Visual Studio),
+Linux (gcc and clang compilers), OSX. In all systems, it is possible to use different architectures, build types,
+or choose if we want to link statically, dynamically, or even to use boost header-only libraries.
 
-But this package also includes large improvements for cross building boost to different platforms, like Raspberry PI, or Android. This amazing work is being done thanks to many contributions from the (conan) community, thank you all!!!
+But this package also includes large improvements for cross building boost to different platforms, like Raspberry PI, or Android.
+This amazing work has been done thanks to many contributions from the (conan) community, thank you all!!!
 
-[Conan-center](https://bintray.com/conan/conan-center) only includes the most mainstream binaries, those for Windows, Linux and OSX, but this post explain how you can use conan to easily cross-build Boost to those platforms.
+[Conan-center](https://bintray.com/conan/conan-center) only includes the most mainstream binaries, those for Windows,
+Linux and OSX, but this post explain how you can use conan to easily cross-build Boost to those platforms.
 
 
 
