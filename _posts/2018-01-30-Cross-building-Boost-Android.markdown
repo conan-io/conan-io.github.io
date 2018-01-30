@@ -105,7 +105,7 @@ that contains the conan package recipe:
 	$ conan create . myuser/testing
 
 
-To consume existing packages end users can create a ``conanfile.txt`` or ``conanfile.py``, declaring the necessary package
+The second way is to consume existing packages. End users can create a ``conanfile.txt`` or ``conanfile.py``, declaring the necessary package
 dependency, and then use the command, "conan install" (more info [getting started](http://docs.conan.io/en/latest/getting_started.html#getting-started)).
 
 A **conanfile.txt** to consume the boost library looks like:
