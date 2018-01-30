@@ -280,5 +280,5 @@ and developers using the
 above profile can reuse them without building from sources the whole boost library.
 
 In a **following blog post** we will create an android app, using the boost library, with an Android Studio
-project and a simple "conanfile.txt". We will explain how to generate the same app for multiple architectures (arm, x86 ...)
+project and a simple "conanfile.txt". We will explain how to build the same app for multiple architectures (arm, x86 ...)
 and package everything in a single apk.
