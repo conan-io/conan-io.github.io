@@ -114,7 +114,7 @@ A **conanfile.txt** to consume the boost library looks like:
     boost/1.66.0@conan/stable
 
 
-The "conan install" command will try to download a pre-built binary package for the developer default configuration
+The "conan install" command will try to download a pre-built binary package for developer's default configuration
 (more info [default profile](http://docs.conan.io/en/latest/reference/config_files/default_profile.html)),
 but it can fail if there is no binary for the requested configuration.
 The "--build missing" argument should be used in this case forcing conan to build the library from
@@ -180,7 +180,7 @@ If we want to cross-compile to Raspberry PI from Windows, we could install the c
 
 
 And use this profile with [conan create](http://docs.conan.io/en/latest/creating_packages/getting_started.html)
-which would build the library, in the local cache, with the settings specified in our profile "rpi" then use it accordingly:
+which would build the library, in the local cache, with the settings specified in our profile "rpi":
 
     $ conan create . conan/stable --profile=rpi
 
@@ -211,7 +211,8 @@ script specifying the api level, architecture and standard library:
     $ cd build/tools
     $ python make_standalone_toolchain.py --arch=arm --api=21 --stl=libc++ --install-dir=/myfolder/arm_21_toolchain
 
-Preparing the Conan profile
+### Preparing the Conan profile
+
 Copy and paste this profile in your profiles folder (~/.conan/profiles) adjusting the path to the new
 standalone toolchain (replace *“/myfolder/arm_21_toolchain”* with your install path):
 
