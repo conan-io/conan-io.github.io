@@ -23,7 +23,7 @@ Linux and OSX, but this post explain how you can use conan to easily cross-build
 
 
 Conan packages are defined by recipes, which are python scripts, describing how to build and package the library.
-With one conan recipe, many different binary packages can be created, i.e: one for Windows Visual Studio 14, another one for Linux GCC 6  and so on.
+With one conan recipe, many different binary packages can be created, i.e: one for Windows Visual Studio 14, another one for Linux GCC 6 and so on.
 Conan package recipes are responsible to translate the user settings (os, architecture, compiler, etc) and call the underlying library's
 build system with the right options/flags, generating a different binary package for different input settings.
 
