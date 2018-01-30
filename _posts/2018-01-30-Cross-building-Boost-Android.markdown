@@ -11,7 +11,7 @@ This package contains binaries for **more than 150 different** configurations: W
 Linux (gcc and clang compilers), OSX. In all systems, it is possible to use different architectures, build types,
 or choose if we want to link statically, dynamically, or even to use boost header-only libraries.
 
-But this package also includes large improvements for cross building boost to different platforms, like Raspberry PI, or Android.
+But this package also includes large improvements for cross-building boost to different platforms, like Raspberry PI, or Android.
 This amazing work has been done thanks to many contributions from the (conan) community, thank you all!!!
 
 [Conan-center](https://bintray.com/conan/conan-center) only includes the most mainstream binaries, those for Windows,
@@ -24,13 +24,13 @@ Linux and OSX, but this post explain how you can use conan to easily cross-build
 
 Conan packages are defined by recipes, which are python scripts, describing how to build and package the library.
 With one conan recipe, many different binary packages can be created, i.e: one for Windows Visual Studio 14, another one for Linux GCC 6 and so on.
-Conan package recipes are responsible to translate the user settings (os, architecture, compiler, etc) and call the underlying library's
+Conan package recipes are responsible for translating the user settings (os, architecture, compiler, etc) and call the underlying library's
 build system with the right options/flags, generating a different binary package for different input settings.
 
-Both package recipes and binaries for all platforms and configurations, can be uploaded to the same conan server,
+Both package recipes and binaries for all platforms and configurations can be uploaded to the same conan server,
 to share them with the team. From now on, if any developer wants to work with this library and there is already a binary generated
 for the requested configuration (settings/options) then the library is going to be retrieved directly from the server.
-It will save a huge amount of time to any developer of CI process, specially when we are talking about big and complex libraries like boost.
+It will save a huge amount of time to any developer of CI process, especially when we are talking about big and complex libraries like boost.
 
 <p class="centered">
     <img src="{{ site.url }}/assets/post_images/2018-01-30/conan_model.png" align="center" width="500"/>
@@ -66,8 +66,8 @@ Hence the command like command would be:
 
 But this is not enough because boost has some third-party dependencies, like **zlib** or **bzip2**.
 The user also needs to set some environment configuration, the build tools and compilers paths, the details of
-the toolchain and compilations flags has to be specified. To do it the best approach is to define a ``user-config.jam``
-file with all these details for cross-building, which could look like:
+the toolchain and compilations flags has to be specified. To do it the best approach is to define an ``user-config.jam``
+file with the details for cross-building, which could look like:
 
     using zlib : 1.2.11 : <include>/.conan/data/zlib/1.2.11/conan/stable/package/39a53587004d75943e385925ca011baeab537de0/include
     <search>/.conan/data/zlib/1.2.11/conan/stable/package/39a53587004d75943e385925ca011baeab537de0/lib ;
@@ -77,7 +77,7 @@ file with all these details for cross-building, which could look like:
     <cxxflags>"-fPIC  -I/path/to/arm_21_toolchain/include/c++/4.9.x"
     <cflags>"-fPIC  -I/path/to/arm_21_toolchain/include/c++/4.9.x" <ldflags>""  ;
 
-This is an important detail, if we want to cross-build Boost for Android,
+This is an important detail if we want to cross-build Boost for Android,
 it should link against cross-built versions of zlib and bzip2 for the same configuration we are cross-building Boost.
 
 
@@ -92,7 +92,7 @@ pre-built binaries for hundreds of configurations, but most importantly:
 they also know how to cross-build themselves, using their own build systems.
 
 
-##  Creating Boost packages with native and cross build binaries
+##  Creating Boost packages with native and cross-build binaries
 
 
 
