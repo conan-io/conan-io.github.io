@@ -13,8 +13,8 @@ In this post we will describe how to use these prebuilt Boost libraries in an An
 
 **Note**: This blog post assume that you followed the previous blog post and you have:
 
-- The profile we created for target ``armveabi-v7``, api ``level 21`` and ``clang``: ``~/.conan/profiles/android_21_armeabi-v7_clang``
-- The Boost package uploaded to a remote server (or in our local conan cache).
+- Profile created for target **armveabi-v7**, api **level 21** and **clang**: ``~/.conan/profiles/android_21_armeabi-v7_clang``
+- Boost package uploaded to a remote server (or in our local conan cache).
 - The conan client installed with a remote configured to point to the server where we uploaded the package (not necessary if we are using our local conan cache).
 
 Open the Android Studio and create a new app called **MyBoostApp** including the c++ support:
@@ -57,9 +57,8 @@ Change to the project view:
     <img src="{{ site.url }}/assets/post_images/2018-02-13/menu_project.png" align="center" width="200"/>
 </p>
 
-And in the app folder create a conanfile.txt with the following contents:
+And in the app folder create a ``conanfile.txt`` with the following contents:
 
-**conanfile.txt**
 
     [requires]
     boost/1.66.0@conan/stable
@@ -87,11 +86,11 @@ The ``CMakeLists.txt`` above is:
   the information about how to link with our dependencies, in this case with Boost, but we could add
   other dependencies in the ``conanfile.txt``.
 
-- Adding a native library ``native-lib`` and linking it with the Boost libraries.
+- Adding a native library **native-lib** and linking it with the Boost libraries.
 
 Open the ``app/build.gradle`` file:
 
-- In the **android/defaultConfig** section, specify the usage of ``armeabi-v7a`` and the ``c++_shared`` standard library.
+- In the **android/defaultConfig** section, specify the usage of **armeabi-v7a** and the **c++_shared** standard library.
 
 
         ndk {
@@ -99,7 +98,7 @@ Open the ``app/build.gradle`` file:
            stl 'c++_shared'
         }
 
-- In the **android/defaultConfig/externalNativeBuild** section add the ``-DANDROID_STL=c++shared`` argument
+- In the **android/defaultConfig/externalNativeBuild** section add the **-DANDROID_STL=c++shared** argument
   to force CMake to use the right stl:
 
 
@@ -111,10 +110,10 @@ Open the ``app/build.gradle`` file:
       }
 
 
-Finally after the android block we are adding a new task that will call Conan to retrieve the needed
+Finally we are adding a new task after the android block that will call Conan to retrieve the needed
 Boost packages and generate the mentioned ``conanbuildinfo.cmake`` file.
 
-We are going to use the ``android_21_armeabi-v7a_clang`` profile created in the previous post to
+We are going to use the **android_21_armeabi-v7a_clang** profile created in the previous post to
 build our application for ARM, corresponding to the specified abiFilter: **armeabi-v7a**
 
 
@@ -137,7 +136,7 @@ build our application for ARM, corresponding to the specified abiFilter: **armea
         }
     }
 
-The full ``build.gradle`` file should looks like this:
+The full ``build.gradle`` file should look like this:
 
     apply plugin: 'com.android.application'
 
@@ -207,8 +206,8 @@ The full ``build.gradle`` file should looks like this:
     }
 
 
-Open the default example cpp library in **app/src/main/cpp/native-lib.cpp** and include some lines
-using your library. Be careful with the ``JNICALL`` name if you used other app name in the wizard:
+Open the default example cpp library in ``app/src/main/cpp/native-lib.cpp`` and include some lines
+using your library. Be careful with the **JNICALL** name if you used other app name in the wizard:
 
 
     #include <jni.h>
@@ -263,13 +262,12 @@ repeat the process we saw in the first [blog post](http://blog.conan.io/2018/01/
 for more architectures:
 
 
-1. Build another standalone toolchain for x86:
+1. Build another standalone toolchain for **x86**:
 
         python make_standalone_toolchain.py --arch=x86 --api=21 --stl=libc++ --install-dir=/myfolder/x86_21_toolchain
 
-2. Create a new profile to target the new toolchain for ``x86``:
+2. Create a new profile ``.conan/profiles/android_21_x86_clang`` to target the new toolchain for **x86**:
 
-    **.conan/profiles/android_21_x86_clang**
 
         standalone_toolchain=/myfolder/x86_21_toolchain
         target_host=i686-linux-android
@@ -301,15 +299,16 @@ for more architectures:
         LDFLAGS=
 
 
-3. In the ``app/build.gradle`` file add ``x86`` to the abiFilters, to build the app also for x86
+3. In the ``app/build.gradle`` file add **x86** to the abiFilters, to build the app also for x86
 
         ndk {
            abiFilters 'armeabi-v7a', 'x86'
            stl 'c++_shared'
         }
 
-4. Adjust the task ``conanInstall`` to iterate all the declared abiFilters and install several versions
-   of Boost using the different profiles, this new version is generic and valid for any architecture we could add:
+4. Adjust the task **conanInstall** to iterate all the declared abiFilters and install several versions
+   of Boost using the different profiles, this new version of the task is generic and valid for any
+   architecture we could add to the **abiFilters**:
 
 
         task conanInstall {
@@ -337,7 +336,7 @@ for more architectures:
         }
 
 
-5. Also adjust CMake to find the correct `conanbuildinfo.cmake` according to the architecture being built:
+5. Also adjust CMake to find the correct ``conanbuildinfo.cmake`` according to the architecture being built:
 
         cmake_minimum_required(VERSION 3.4.1)
 
@@ -368,10 +367,10 @@ for more architectures:
 </p>
 
 
-Now your application accepts more architectures in the **abiFilters**, for example ``arm64-v8a`` to target
-``armv8``, follow the same steps to create the standalone toolchain and a new profile ``android_21_arm64-v8a_clang``
+Now your application accepts more architectures in the **abiFilters**, for example **arm64-v8a** to target
+**armv8**, follow the same steps to create the standalone toolchain and a new profile **android_21_arm64-v8a_clang**
 
-If you (or a CI server) builds all the packages that your team is going to use in your projects and
-upload them to a server, you will save a lot of time in your development workflow.
+Building (manually or by a CI server) all packages that your team is going to use and uploading them
+to a server will save a lot time in your development workflow.
 
-You can find the example project in this repository [here](https://github.com/lasote/android-conan-blog-post)
+You can find the example project in [this repository](https://github.com/lasote/android-conan-blog-post)
