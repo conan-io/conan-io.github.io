@@ -25,6 +25,11 @@ time checking everything is setup correctly. To help with this we recently publi
 [how-to in our documentation](http://docs.conan.io/en/latest/howtos/run_conan_in_docker.html) showing a good range of Docker images 
 ready to cross build.
 
+<p class="centered">
+    <img src="{{ site.url }}/assets/post_images/2018-04-23/title.png" align="center"
+    width="600" alt="Continuous integration for C/C++ embedded devices with Jenkins, Docker and Conan"/>
+</p>
+
 In this post we will show you how to use this images to setup a continuous integration job in Jenkins to cross build for ARM devices and
 create a final application.
 
@@ -142,7 +147,10 @@ need:
 
   Follow the installation steps and configure the plugin with your artifactory credentials:
 
-  IMAGE_HERE
+  <p class="centered">
+    <img src="{{ site.url }}/assets/post_images/2018-04-23/jenkins-artifactory-plugin.png" align="center"
+    width="600" alt="Configuration of the Jenkins Artifactory Plug-in"/>
+  </p>
 
 - **Docker**: Of course, we will be using Docker so we need to have it installed in the CI machine too.
 
@@ -214,7 +222,10 @@ Those images are prepared with a profile inside ready to target the architecture
 The trigger of the build can be done with normal Jenkins configuration. I used a self-contained one with a local git repository and a
 multibranch job. This way Jenkins can check the repository for changes and trigger the job.
 
-IMAGE_HERE
+<p class="centered">
+    <img src="{{ site.url }}/assets/post_images/2018-04-23/artifactory.png" align="center"
+    width="600" alt="BlinkApp package for armv7 uploaded to Artifactory"/>
+</p>
 
 The multibranch approach has also other benefits, as you can customize your *Jenkinsfile* in case you have a branch for testing and another
 one stable, as you can change the ``user/channel`` provided in the ``conan create`` step.
@@ -228,8 +239,8 @@ As you can see, the most complicated part of this is configuring Jenkins and Art
 already have an instance of each one up and running this should be very straight forward.
 
 This is just an example of what kind of things you can do taking advantage of Docker and Jenkins and one way it can be used to automate the
-package creation. This could be extended to the creation of libraries, bump of package versions of a of downstream dependencies whenever
-there is a new release upstream, run package tests...
+package creation. This could be extended to the creation of libraries, bumping of package versions of a of downstream dependencies whenever
+there is a new release upstream, running package tests...
 
 You can also create your own Docker image with the tools you want. Check our
 [conan-docker-tools repository](https://github.com/conan-io/conan-docker-tools) to take some inspiration from the *Dockerfiles*.
@@ -237,6 +248,6 @@ You can also create your own Docker image with the tools you want. Check our
 We are also aware of some improvements of this kind of set up, for example:
 - The Docker image is pulled only the first time the job runs. It would much more convenient to pull it every time the way
   [conan-package-tools](https://github.com/conan-io/conan-package-tools#using-docker) does.
-- We have some issues with the Jenkin Aartifactory plug-in and ``CONAN_USER_HOME`` not working in all cases (LINK_TO_ISSUES?).
+- There are some issues with the Jenkin Artifactory plug-in and ``CONAN_USER_HOME`` not fully working in all cases.
 
 Hope you found this example useful to set up a CI machine with everything needed to start automating the creation of your Conan packages!
