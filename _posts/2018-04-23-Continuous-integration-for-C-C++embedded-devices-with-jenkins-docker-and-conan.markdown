@@ -128,7 +128,7 @@ need:
 
     Check the (installation steps)[https://jenkins.io/doc/book/installing/] for other platforms.
 
-- **Artifactory**: We will use it as our binary repository to retieve and upload the Conan packages.
+- **Artifactory**: We will use it as our binary repository to retrieve and upload the Conan packages.
 
   I chose the [latest release of Artifactory Community Edition for C/C++](http://blog.conan.io/2018/03/27/Announcing-JFrog-Artifactory-Community-Edition-C-C++.html) and went for the zip installation:
 
@@ -145,7 +145,7 @@ need:
   [plug-in](https://www.jfrog.com/confluence/display/RTF/Jenkins+Artifactory+Plug-in). Makes the integration much easier in the case of
   Conan to configure the remotes and credentials and to upload the metadata of the build.
 
-  Follow the installation steps and configure the plugin with your artifactory credentials:
+  Follow the installation steps and configure the plugin with your Artifactory credentials:
 
   <p class="centered">
     <img src="{{ site.url }}/assets/post_images/2018-04-23/jenkins-artifactory-plugin.png" align="center"
@@ -200,8 +200,8 @@ Here you can see the *Jenkinsfile* to create this application:
 
 So this is where the magic starts.
 
-As you can see in the *Jenkinsfile* we are setting up the name or our artifactory instance already set up in the Jenkins Artifactory Plug-in
-and the Conan repository name. We dont need to configure any cenrentials or use environment variable ``CONAN_PASSWORD``.
+As you can see in the *Jenkinsfile* we are setting up the name or our Artifactory instance already set up in the Jenkins Artifactory Plug-in
+and the Conan repository name. We don't need to configure any credentials or use environment variable ``CONAN_PASSWORD``.
 
 The Docker image we are using in this case is ``lasote/conangcc6-armv7`` and it will run the build with some directory and network mappings:
 
@@ -233,7 +233,11 @@ one stable, as you can change the ``user/channel`` provided in the ``conan creat
 Any other approach is also valid, for example, you could trigger the build with a [GitHub hook](https://support.cloudbees.com/hc/en-us/articles/224543927-GitHub-Integration-Webhooks) and have the same behavior as if it was a CI build
 running in Travis CI or AppVeyor.
 
-## Conclusions and improvements
+With the package of the final application uploaded, you can test the application in final devices with a simple
+``conan install BlinkApp/0.1@danimtb/stable`` taking advantage of the ``deploy()`` and use it for testing purposes like hardware-in-the-loop
+or create installers/tarballs to deliver the app and its resources.
+
+## Conclusions
 
 As you can see, the most complicated part of this is configuring Jenkins and Artifactory to run the complete example. However, if you
 already have an instance of each one up and running this should be very straight forward.
@@ -244,10 +248,5 @@ there is a new release upstream, running package tests...
 
 You can also create your own Docker image with the tools you want. Check our
 [conan-docker-tools repository](https://github.com/conan-io/conan-docker-tools) to take some inspiration from the *Dockerfiles*.
-
-We are also aware of some improvements of this kind of set up, for example:
-- The Docker image is pulled only the first time the job runs. It would much more convenient to pull it every time the way
-  [conan-package-tools](https://github.com/conan-io/conan-package-tools#using-docker) does.
-- There are some issues with the Jenkin Artifactory plug-in and ``CONAN_USER_HOME`` not fully working in all cases.
 
 Hope you found this example useful to set up a CI machine with everything needed to start automating the creation of your Conan packages!
