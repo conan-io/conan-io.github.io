@@ -158,7 +158,7 @@ need:
       $ Docker -v
       > Docker version 1.13.1, build 092cba3
 
-    Check the [isntallation steps](https://docs.docker.com/install/) for other platforms.
+    Check the [installation steps](https://docs.docker.com/install/) for other platforms.
 
 ## Creating the Jenkins pipeline
 
@@ -197,8 +197,6 @@ Here you can see the *Jenkinsfile* to create this application:
             }
         }
     }
-
-So this is where the magic starts.
 
 As you can see in the *Jenkinsfile* we are setting up the name or our Artifactory instance already set up in the Jenkins Artifactory Plug-in
 and the Conan repository name. We don't need to configure any credentials or use environment variable ``CONAN_PASSWORD``.
