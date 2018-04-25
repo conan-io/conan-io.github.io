@@ -26,7 +26,7 @@ time checking everything is setup correctly. To help with this we recently publi
 ready to cross build.
 
 <p class="centered">
-    <img src="{{ site.url }}/assets/post_images/2018-04-23/title.png" align="center"
+    <img src="{{ site.url }}/assets/post_images/2018-04-25/title.png" align="center"
     width="600" alt="Continuous integration for C/C++ embedded devices with Jenkins, Docker and Conan"/>
 </p>
 
@@ -68,7 +68,7 @@ The application we will be building is a simple blink using the WiringPi library
     }
 
 As you can see it is a quite simple application with some extra defines to avoid the WirignPi library in case it is not needed. We recently
-included (wiringpi/2.46@conan/stable)[https://bintray.com/conan-community/conan/wiringpi%3Aconan] in conan-center so we will use it as an
+included [wiringpi/2.46@conan/stable](https://bintray.com/conan-community/conan/wiringpi%3Aconan) in conan-center so we will use it as an
 optional dependency.
 
 Here you can see the full project: https://github.com/danimtb/conan-blink-app
@@ -148,7 +148,7 @@ need:
   Follow the installation steps and configure the plugin with your Artifactory credentials:
 
   <p class="centered">
-    <img src="{{ site.url }}/assets/post_images/2018-04-23/jenkins-artifactory-plugin.png" align="center"
+    <img src="{{ site.url }}/assets/post_images/2018-04-25/jenkins-artifactory-plugin.png" align="center"
     width="600" alt="Configuration of the Jenkins Artifactory Plug-in"/>
   </p>
 
@@ -221,7 +221,7 @@ The trigger of the build can be done with normal Jenkins configuration. I used a
 multibranch job. This way Jenkins can check the repository for changes and trigger the job.
 
 <p class="centered">
-    <img src="{{ site.url }}/assets/post_images/2018-04-23/artifactory.png" align="center"
+    <img src="{{ site.url }}/assets/post_images/2018-04-25/artifactory.png" align="center"
     width="600" alt="BlinkApp package for armv7 uploaded to Artifactory"/>
 </p>
 
