@@ -26,9 +26,9 @@ integrate CMake relying on ``find_package()``, especially useful for Conan packa
 
 This led to two different generators:
 
-- ``cmake_find_package`` generator creates one *Find<package_name>.cmake* file for each dependency. This will make each find_package in you
+- ``cmake_find_package`` generator creates one *Find\<package_name\>.cmake* file for each dependency. This will make each find_package in you
   *CMakeLists.txt* point to the dependency solved by Conan after a ``conan install``.
-  [Read more.](https://docs.conan.io/en/latest/integrations/cmake/cmake_find_package_generator.html#cmake-find-package-generator).
+  [Read more](https://docs.conan.io/en/latest/integrations/cmake/cmake_find_package_generator.html#cmake-find-package-generator).
 
 - ``cmake_paths`` generator creates a *conan_paths.cmake* file with ``CMAKE_MODULE_PATH`` and ``CMAKE_PREFIX_PATH`` variables adjusted to
   the dependencies folders. This also allow users to integrate Conan without modifying the *CMakeLists.txt*:
