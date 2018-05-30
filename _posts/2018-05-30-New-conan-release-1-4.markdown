@@ -50,6 +50,7 @@ There has been many minor issues related to ``vcvarsall`` in this release:
 
 There are other useful features that will make your live easier:
 
+- New tools including XCRun wrapper for easier development of packages targeting Apple devices (Thanks to the contributors!).
 - In recipes: The ``fPIC`` flag is auto-managed in the Autotools build helper
 - In CI: There is a new ``--json`` argument to output the results of the ``conan search`` command.
 - We also added support for GCC 8 and Clang 7 as well as c++ language standard c++20.
