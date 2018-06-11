@@ -8,7 +8,7 @@ In Conan 1.4 we have introduced two new Conan generators that allow linking with
 
 First of all, let's review what is a Conan generator and to show the pros and cons of both the classic and new generators.
 
-All the code in the examples below are in this GithHub repository: [https://github.com/lasote/transparent_cmake_examples.git](https://github.com/lasote/transparent_cmake_examples.git)
+All the code in the examples below are in this GitHub repository: [https://github.com/lasote/transparent_cmake_examples.git](https://github.com/lasote/transparent_cmake_examples.git)
 
 <p class="centered">
     <img src="{{ site.url }}/assets/post_images/2018-06-11/conan_cmake_blog.png" align="center" width="300"/>
@@ -209,7 +209,8 @@ Why? Because even using `find_package(CURL)`, we need to manage the transitive d
 
 ```cmake
 PROJECT(myapp)
-cmake_minimum_required(VERSION 3.1)
+ls
+(VERSION 3.1)
 
 ADD_EXECUTABLE(myapp main.cpp)
 
@@ -225,8 +226,8 @@ And not less important, we need to make the `target_link_libraries` in the corre
 So definitely, in this case, the transparent integration is far from being ideal, we are losing precious information
 from the package manager, like the transitivity and the order of linkage.
 
-If you are not using Windows, probably the previous example works, otherwise you still will see linker error
-because the `findCURL.cmake` (provided by CMake)
+If you are not using Windows, probably the previous example works, otherwise, you still will see linker error
+because of the `findCURL.cmake` (provided by CMake)
 
 - Is not linking with `Ws2_32`, remember the CMake findXXX modules are not transitive, so you have to declare ALL
   the dependency tree in your CMakeLists.txt file.
@@ -235,7 +236,7 @@ because the `findCURL.cmake` (provided by CMake)
 
 Check the code in the folder [cmake_paths_attempt3_windows](https://github.com/lasote/transparent_cmake_examples/tree/master/cmake_paths_attempt3_windows) of the repository.
 
-We can see that using the cmake provided `findXXX` modules is very far from being ideal, because many
+We can see that using the cmake provided `findXXX` modules is very far from being ideal because many
 information that the package manager already knows is completely lost: Both the transitive dependencies and definitions
 are declared in the `package_info` method of the libcurl recipe, but will never be applied if you use the CMake provided findXXX modules.
 
@@ -246,7 +247,7 @@ How could this be improved?
 
 
 The ``cmake_find_package`` is a different approach. It will generate one ``find<package_name>.cmake`` for
-each dedenpency from the information that Conan has about the dependency tree.
+each dependency from the information that Conan has about the dependency tree.
 We can use it with modern CMake target approach. Every target is transitive, so, in our case,
 the libcurl target will contain the OpenSSL and zlib information too.
 
@@ -331,7 +332,7 @@ the Package Manager to the build system is mingy, while with this generator all 
 propagated:
 
 - The targets are **transitive**, so you will specify only the dependencies you are directly depending on. You don't need to know if
-  libcurl is depending on OpenSSL, actually if you run the previous examples in Mac OSX, by default, it uses the internal Applle SSL implementation.
+  libcurl is depending on OpenSSL, actually, if you run the previous examples in Mac OSX, by default, it uses the internal Apple SSL implementation.
   And our `CMakeLists.txt` will work exactly the same in any system.
 
 - Propagates **definitions**: Without the `CURL_STATICLIB` definition the build fails. This definition is declared in the `package_info` method
@@ -345,16 +346,16 @@ propagated:
 </p>
 
 
-- If you are consuming package and you have high restrictions to change your ``CMakeLists.txt``, probably the ``cmake_paths`` is the better choice.
+- If you are consuming packages and you have high restrictions to change your ``CMakeLists.txt``, probably the ``cmake_paths`` is the better choice.
 
 - If you are consuming packages and you are looking for a way to connect the package manager and the CMake build system in a non-intrusive way, choose ``cmake_find_package``.
 
-- If you are creating packages, for us the best way is to include the ``conanbuildinfo.cmake`` in your ``CMakeLists.txt`` file (you can always patch in your recipe!).
+- If you are creating Conan packages, for us the best way is to include the ``conanbuildinfo.cmake`` in your ``CMakeLists.txt`` file (you can always patch in your recipe!).
 The classic `cmake` generator introduces to our build script more information from the package manager:
 The applied settings and options, the Visual Studio runtime, rpaths, compiler checks, standard library version and fPIC flag.
 
 
-You can find the sources for all this blogpost examples in this repository:
+You can find the sources for the examples in this blog post at this repository:
 [https://github.com/lasote/transparent_cmake_examples](https://github.com/lasote/transparent_cmake_examples)
 
 You can find more information about the integration with CMake in the Conan docs:
