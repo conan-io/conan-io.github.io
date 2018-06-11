@@ -210,8 +210,7 @@ Why? Because even using `find_package(CURL)`, we need to manage the transitive d
 
 ```cmake
 PROJECT(myapp)
-ls
-(VERSION 3.1)
+cmake_minimum_required(VERSION 3.1)
 
 ADD_EXECUTABLE(myapp main.cpp)
 
