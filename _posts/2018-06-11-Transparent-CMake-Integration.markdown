@@ -6,7 +6,7 @@ title: "Conan-CMake transparent integration"
 
 In Conan 1.4 we have introduced two new Conan generators that allow linking with your dependencies without changing your CMakeList.txt file with any line related to Conan.
 
-First of all, let's review what is a Conan generator and to show the pros and cons of both the classic and new generators.
+First of all, let's review what a Conan generator is and show the pros and cons of both the classic and new generators.
 
 All the code in the examples below are in this GitHub repository: [https://github.com/lasote/transparent_cmake_examples.git](https://github.com/lasote/transparent_cmake_examples.git)
 
@@ -18,7 +18,7 @@ All the code in the examples below are in this GitHub repository: [https://githu
 ## Classic CMake integration: "cmake" generator
 
 If you are consuming conan packages in your project, you typically declare a ``conanfile.txt`` file with some dependencies.
-In this case, we are building an application that uses ``libcurl`` to check the Github starts from the Conan repository.
+In this case, we are building an application that uses ``libcurl`` to check the Github stars from the Conan repository.
 
 (Folder [classic_approach](https://github.com/lasote/transparent_cmake_examples/tree/master/classic_approach) in the repository)
 
