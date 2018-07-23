@@ -16,7 +16,7 @@ lines usually in *test_package*:
 ```
     def test(self):
         with tools.environment_append(RunEnvironment(self).vars):
-            bin_path = os.path.join("bin", "test_package")
+            bin_path = os.path.join("bin", "example")
             if self.settings.os == "Windows":
                 self.run(bin_path)
             elif self.settings.os == "Macos":
@@ -31,7 +31,7 @@ needed variables before the command in the conanfile
 
 ```
     def test(self):
-        bin_path = os.path.join("bin", "test_package")
+        bin_path = os.path.join("bin", "example")
         self.run(bin_path, run_environment=True)
 ```
 
@@ -60,7 +60,7 @@ and paste the output into your *remotes.txt* file to use ``conan config install`
 Talking about ``config install``, it has a new ``--type "git"`` flag to indicate installation should be done cloning a git repository from
 the URL provided. This is handy for example if you are working with Microsoft Team Foundation Server TFS git repositories.
 
-Finally, ``conan build --test`` was added together with ``should_configure`` attribute in the conanfile as a logic step to
+Finally, ``conan build --test`` was added together with ``should_test`` attribute in the conanfile as a logic step to
 [control the test stage](https://docs.conan.io/en/latest/reference/conanfile/attributes.html#should-configure-should-build-should-install-should-test)
 
 ## Other highlights
