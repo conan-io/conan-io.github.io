@@ -4,10 +4,6 @@ comments: false
 title: "It's Time to Deprecate Python 2"
 ---
 
-*"When in the Course of human events, it becomes necessary for one people to dissolve the ... bands which have connected them with another ... a decent respect to the opinions of mankind requires that they should declare the causes which impel them to the separation."*
-
-US Declaration of Independence, Thomas Jefferson
-
 ## Why are we doing this?
 
 Python 3 has now been out for a long time, and Python 3 compatibility is quite common. Perhaps more importantly, there are beginning to be cool features in Python libraries that only work in Python 3.
