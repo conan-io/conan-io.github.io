@@ -7,7 +7,7 @@ title: "Conan 1.7: Python requires, support for Python 3.7, SCM feedback and usa
 Summer holidays came to an end and we are back with a new Conan release. We have performed huge internal refactoring clearing the path to
 accommodate a number of the most requested features. Here is the summary:
 
-## Python requires
+## Introducing the Python requires
 
 One of our [most requested features](https://github.com/conan-io/conan/issues/1271) is now alive in this release. Python requires improve
 the usability of Python code across multiple recipes to enable the possibility of subclassing a ConanFile and reusing it as a Conan
@@ -48,7 +48,7 @@ Following the [deprecation notice of Python 2.7](https://blog.conan.io/2018/08/1
 support for [Python 3.7](https://www.python.org/downloads/release/python-370/) in this release. This should work on all supported platforms
 with the current Conan requirements. Test it out and if it is not the case, please report it in the issue tracker.
 
-## SCM improvements and fixes thanks to feedback
+## SCM Improvements and Fixes Following Your Feedback
 
 The SCM feature released in [Conan 1.4](https://blog.conan.io/2018/05/30/New-conan-release-1-4.html) is getting a lot traction and we
 continue improving it thanks to the feedback and users contributions.
@@ -58,7 +58,7 @@ referenced revision.
 
 There is also SVN support in development that will be available in the next release.
 
-## Other usability enhancements
+## Other Usability Enhancements
 
 - You can now filter the uploads with the query parameter: ``conan upload --query``.
 
