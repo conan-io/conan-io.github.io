@@ -53,8 +53,8 @@ with the current Conan requirements. Test it out and if it is not the case, plea
 The SCM feature released in [Conan 1.4](https://blog.conan.io/2018/05/30/New-conan-release-1-4.html) is getting a lot traction and we
 continue improving it thanks to the feedback and users contributions.
 
-Now SCM copies the *.git* folder similar to ``git clone`` and initializes submodules correctly to ``*HEAD*`` prior to checking out the
-referenced revision.
+Now SCM copies the *.git* folder similar to ``git clone`` and initializes submodules correctly after checking out the referenced revision
+rather than to the default ``*HEAD*`` immediately following cloning.
 
 There is also SVN support in development that will be available in the next release.
 
