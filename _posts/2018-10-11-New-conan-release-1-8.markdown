@@ -5,7 +5,7 @@ title: "Conan 1.8: Plugins system, SVN support for SCM, recipe conventions & muc
 ---
 
 After a long and awaited period, here we have the new Conan 1.8 release. It comes packed of new features and fixes and some great
-contributions from the community. Let's go through some of the highlights shipped in this new release.
+contributions from the community. Let's go through some of the highlights shipped in this release.
 
 ## Plugins system
 
@@ -25,7 +25,8 @@ def pre_export(output, conanfile, conanfile_path, reference, **kwargs):
      for field in ["url", "license", "description"]:
          field_value = getattr(conanfile, field, None)
          if not field_value:
-             output.warn("Conanfile doesn't have '%s'. It is recommended to add it as an attribute"
+             output.warn("Conanfile doesn't have '%s'. "
+                        "It is recommended to add it as an attribute"
                          % field)
 ```
 
@@ -118,7 +119,7 @@ class MyConan(ConanFile):
 
     def configure(self):
         if self.settings.os != "Windows":
-            raise ConanInvalidConfiguration("Library 'myconan' is only supported for Windows")
+            raise ConanInvalidConfiguration("Library only supports Windows")
 ```
 
 ### Default options as a dictionary
@@ -216,4 +217,4 @@ resembles the profile used for the installation and not strictly the final value
   ```
 
 If you want to know more about the changes in this release, check the full list of features and fixes in the
-[changelog](https://docs.conan.io/en/latest/changelog.html) and don’t forget to [update](https://conan.io/downloads.html)!
+[changelog](https://docs.conan.io/en/latest/changelog.html) (it includes links to the related Pull Request) and don't forget to [update](https://conan.io/downloads.html)!
