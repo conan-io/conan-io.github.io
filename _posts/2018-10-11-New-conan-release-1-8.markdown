@@ -46,7 +46,7 @@ suggestions for new ones in its own issue tracker.
 
 ## SVN support for SCM
 
-As said in previous releases, the SCM feature keeps improving and finally we have support for SVN in the recipes.
+As said in previous releases, the SCM feature keeps improving and finally we have [support for SVN](https://docs.conan.io/en/latest/reference/conanfile/attributes.html#scm).
 
 There has been a huge interaction with the community with [more than 80 comments](https://github.com/conan-io/conan/pull/3192) and reviews
 to develop this new feature.
@@ -76,16 +76,17 @@ However, we encourage SVN users to try this feature and report new issues or sug
 ## New conventions for recipes
 
 ### Protected ConanFile members
+
 We have seen a great evolution of recipes being created and with the development of new features we think there is a need for a naming
-convention for the `ConanFile` attributes and methods.
+convention for the `ConanFile` attributes and methods to avoid any future collision.
 
 From now on, we encourage users to use protected members in their recipes in case they want to use custom attributes:
 
 ```
 class MyConanFile(ConanFile):
-    name = “myconan”
-    version = “1.0.0”
-    _custom_attribute = “some_value”  # user protected attribute
+    name = "myconan"
+    version = "1.0.0"
+    _custom_attribute = "some_value"  # user protected attribute
 
     def _custom_method(self):
          self.output.info(_custom_attribute)
@@ -94,10 +95,10 @@ class MyConanFile(ConanFile):
 A note has been included in the [reference section](https://docs.conan.io/en/latest/reference/conanfile.html) to make users aware of this
 new convention.
 
-### Raising ConanInvalidConfiguration
+### Raising ``ConanInvalidConfiguration``
 
-There were some points in the Conan documentation (https://docs.conan.io/en/1.7/mastering/conditional.html) where we encouraged to raise
-exceptions in ``configure()`` for configurations not supported in a library.
+There were some points in the Conan documentation where we encouraged to raise exceptions in ``configure()`` for configurations not
+supported in a library.
 
 We have introduced a special exception called
 [`ConanInvalidConfiguration`](https://docs.conan.io/en/latest/reference/conanfile/methods.html#invalid-configuration) for this purpose that
@@ -111,9 +112,9 @@ from conans import ConanFile
 from conans.errors import ConanInvalidConfiguration
 
 class MyConan(ConanFile):
-    name = “myconan”
-    version = “0.1.3”
-    settings = “os”, “compiler”, “arch”, “build_type”
+    name = "myconan"
+    version = "0.1.3"
+    settings = "os", "compiler", "arch", "build_type"
 
     def configure(self):
         if self.settings.os != "Windows":
@@ -131,14 +132,14 @@ path for future development, the recommended way to declare default options is u
 ```
 class MyPkg(ConanFile):
     ...
-    requires = “OtherPkg/0.1@user/channel”
+    requires = "OtherPkg/0.1@user/channel"
     options = {"shared": [True, False],
                "option1": ["value1", "value2"],
                "option2": "ANY"}
     default_options = {"shared": True,
                        "option1": "value1",
                        "option2": 42,
-                       “OtherPkg:shared”: True}
+                       "OtherPkg:shared": True}
 ```
 
 ## Build helpers with fixed installation directories
@@ -158,6 +159,7 @@ directories to the most common default ones for both CMake (see
 You will find a warning regarding this change in the AutoTools reference section with a clear [explanation of the issue](https://docs.conan.io/en/latest/reference/build_helpers/autotools.html#autotools-lib64-warning).
 
 ## New generator: B2
+
 This release brings a new generator for B2, also known as Boost Build. This generator comes with full-fledged features such as the use of
 subprojects and targets. It enhances the capabilities and deprecates the
 [`boost-build` generator](https://docs.conan.io/en/latest/reference/generators/boost_build.html).
@@ -180,6 +182,25 @@ Finally, there has been some changes in the output:
 
 - Now, every time a ``conan install`` is issued, the configuration of the profile is printed in the output. Note that this configuration
 resembles the profile used for the installation and not strictly the final values applied to the package.
+
+  ```
+  $ conan install .
+  Configuration:
+    [settings]
+    os=Windows
+    os_build=Windows
+    arch=x86_64
+    arch_build=x86_64
+    compiler=Visual Studio
+    compiler.version=15
+    build_type=Release
+    [options]
+    [build_requires]
+    [env]
+
+  PROJECT: Installing /home/user/repos/conan-box2d/conanfile.py
+  ...
+  ```
 
 - Following the roadmap of deprecating Python 2, there is a new warning for Python 2 users recommending the migration to Python 3.
 
