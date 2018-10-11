@@ -73,16 +73,6 @@ for any purpose you want.
 Keep in mind that the this feature is still experimental as other SCM types might be added eventually that can change the interface.
 However, we encourage SVN users to try this feature and report new issues or suggest improvements using `[SVN]` in the issue title.
 
-## SCM Improvements and Fixes Following Your Feedback
-
-The SCM feature released in [Conan 1.4](https://blog.conan.io/2018/05/30/New-conan-release-1-4.html) is getting a lot traction and we
-continue improving it thanks to the feedback and users contributions.
-
-Now SCM copies the *.git* folder similar to ``git clone`` and initializes submodules correctly after checking out the referenced revision
-rather than to the default ``*HEAD*`` immediately following cloning.
-
-There is also SVN support in development that will be available in the next release.
-
 ## New conventions for recipes
 
 ### Protected ConanFile members
