@@ -64,6 +64,7 @@ Now that we have the sample code and the build script, we need the environment t
 
 <h2>Folly's dependencies</h2>
 
+Although Folly is an excellent project for C ++ environments, it has a complex dependency structure:
 
 <p class="centered">
     <img  src="{{ site.url }}/assets/post_images/2018-11-19/graph.png"  align="center"
