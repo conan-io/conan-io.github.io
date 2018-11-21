@@ -133,7 +133,7 @@ Lisa added to the slides.
 #### Cross-platform C++ development is challenging - let tools help! (Marc Goodner)
 
 As one would expect, we were really interested in a talk around tooling for the 
-C++ ecosystem. Mac Goodner from Microsoft introduced some of the improvements 
+C++ ecosystem. Marc Goodner from Microsoft introduced some of the improvements 
 available in the latest versions of the tools provided by the company. Of course, 
 he talked about interesting points a C++ developer has to deal with every day, 
 such as using libraries, using new features in the compilers following the standard, 
