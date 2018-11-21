@@ -258,4 +258,4 @@ So looking forward to being there again next year.
 
 [^1]: Meeting Embedded took place on Wednesday, only Daniel and Diego were in Berlin to attend it.
 
-[^2]: On Thursday, more members of the Conan team joined from Spain: Luis and Javier. Also Katrin joined from the marketing team joined from France.
+[^2]: On Thursday, more members of the Conan team joined from Spain: Luis and Javier. Katrin from the marketing team also joined from France.
