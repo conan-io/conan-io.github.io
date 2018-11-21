@@ -7,12 +7,13 @@ title: "Meeting C++ and Meeting Embedded trip report"
 
 ## Meeting Embedded
 
-On Wednesday, before Meeting C++, we attended and presented a talk at Meeting 
-Embedded (https://meetingembedded.com/2018/), a new conference about all embedded 
-things. C++ and C had a relevant role in this conference, obviously (accordingly to 
-Dan Saks statistics around 60% in embedded code is C, then around 20% is C++, 
-followed by assembly), but where other topics presented, like Rust, protocols for 
-embedded (MQTT), academic and professional education, real-time systems. 
+On Wednesday, before Meeting C++, we (Diego and Dani) attended 
+and presented a talk at [Meeting Embedded](https://meetingembedded.com/2018/), 
+a new conference about all embedded things. C++ and C had a relevant role in this 
+conference, obviously (accordingly to Dan Saks statistics around 60% in embedded 
+code is C, then around 20% is C++, followed by assembly), but where other topics 
+presented, like Rust, protocols for embedded (MQTT), academic and professional 
+education, real-time systems. 
 
 We did our own talk “Continuous Integration of C/C++ for embedded and IoT with Jenkins, 
 Docker and Conan”, which went quite well, especially considering that we were running 
@@ -26,14 +27,15 @@ Artifactory, all of that done in the live demo.
 </div>
 
 Overall, the conference was interesting and relevant, highly recommended if you are 
-working in the embedded domain. We think in the following few years it can become a 
-milestone in embedded programming, in the same way, that Meeting C++ has become the 
+working in the embedded domain. We think in the following years it can become a 
+milestone in embedded programming, in the same way that Meeting C++ has become the 
 must go for C++ in Europe.
 
 
 ## Meeting C++
 
-We have been attending Meeting C++ conference in Berlin for many years. As attendees, 
+Next day, other members of the spanish Conan team joined (Luis and Javi) to attend
+Meeting C++ conference in Berlin as we have done for many years. As attendees, 
 as speakers, and recently also as sponsors. We feel at home in this conference, we 
 can meet lots of old friends and colleagues, but also is good to make new ones. Lunch, 
 dinner is served by the conference in the break areas, which is not only very convenient 
@@ -60,8 +62,8 @@ discussions.
 But the best part was meeting in person many users we had already interacted 
 online (mainly in GitHub and Slack). Users coming to say thank you, very happy 
 about Conan. Very interesting feedback and ideas on how to keep further improving 
-Conan. It is great to “de-virtualize” and connect with users, and see what an amazing 
-community is out there.
+Conan. It is great to *de-virtualize* and connect with users, and see what an amazing 
+community is out there. Thanks!
 
 
 ### Talks and keynotes
@@ -77,16 +79,16 @@ privacy, ranges,... and from this starting point he proposed what he thinks it i
 the next big thing for our beloved C++. The main problem for us, developers, is 
 code bases becoming bigger and bigger because of the number of bugs per line of code. 
 He enforces that the most valuable next big thing among concepts, metaclasses and 
-introspection is the last one, and I have to agree with him, it will allow us to write 
+introspection is the last one, and I (Javi) have to agree with him, it will allow us to write 
 less code and get more expressiveness, and the community also must be agreed too because 
-of the several talks there were during this conference.
+of the several talks that addressed this issue during this conference and many others.
 
 #### Data-oriented design in practice (Stoyan Nikolov)
 
 One of the first talk we were able to attend! Stoyan Nikolov gave a great talk 
 comparing Data-oriented with Object-oriented designs and how our mental model 
 structure for programming is not always the best approach to achieve performance. 
-What I really liked about the talk was the real example of the Chromium project 
+What I (Dani) really liked about the talk was the real example of the Chromium project 
 (definitely something we should check out to learn), as we were able to see how a 
 DoD for the animations rendering could have been done instead of the original OoD.
 
@@ -115,12 +117,11 @@ Given these rules, the procedures could become true (the good boy wins) or false
 (the evil one does), differentiating into good programs made of true procedures 
 and bad programs made of undecidable procedures or false ones. 
 
-In the end, there
-was a little bit of hope, as Lisa says, because programming is not about the good 
+In the end, there is hope, as Lisa says, because programming is not about the good 
 programmer against an evil world, but a work of cooperation between good developers 
 where each player is trying to win their own game.
 
-I found it quite interesting and I want to read carefully all the references that 
+I (Javi) found it quite interesting and I want to read carefully all the references that 
 Lisa has added to the slides.
 
 <div align="center">
@@ -132,7 +133,7 @@ Lisa has added to the slides.
 
 #### Cross-platform C++ development is challenging - let tools help! (Marc Goodner)
 
-As part of the Conan team, I was really interested in a talk around tooling for the 
+As part of the Conan team, I (Dani) was really interested in a talk around tooling for the 
 C++ ecosystem. Mac Goodner from Microsoft introduced some of the improvements 
 available in the latest versions of the tools provided by the company. Of course, 
 he talked about interesting points a C++ developer has to deal with every day, 
@@ -155,14 +156,14 @@ reflection API and codegen tool” so he managed, by using tinyrefl, to develop 
 layer to abstract/convert all the Qt types and connect a regular std-types application 
 transparently without all the boilerplate that a QML application usually requires.
 
-It was very interesting how a very common software design issue can be resolved
+I (Luis) found very interesting how a very common software design issue can be resolved
 using very advanced techniques like the static reflection of the language. 
 The talk was also funny!
 
 #### C++ Concepts and Ranges - How to use them? (Mateusz Pusz)
 
 Following the useful and practical talks he gave in past conferences this year
-(code::dive and CppCon), I really wanted to be part of the public at this talk. 
+(code::dive and CppCon), we really wanted to be part of the public at this talk. 
 Mateusz talked about a different thing this time and provided us with useful 
 and detailed information about how to use Concepts and Ranges in our code. 
 He rushed us through a lot of information as usual but included examples in 
@@ -175,7 +176,7 @@ almost every single slide to guide the explanation.
     </figure>
 </div>
 
-However, I felt sometimes that the information was a bit overwhelming 
+However, I (Dani) felt sometimes that the information was a bit overwhelming 
 (too many concepts I guess) and that maybe it would have been better to just 
 provide some insights and let people dig into cppreference.com on their own later. 
 Anyway, it was great to attend one of his talks and I am sure many people will 
@@ -184,27 +185,29 @@ come back to his slides and the recording of the talk once they are uploaded!
 
 ### Additional talks
 
-Other interesting talks we attended and that worth a mention was Text Formatting 
-For a Future Range-Based Standard Library (Arno Schödl), who provided an insight 
+Other interesting talks we attended and that worth a mention was *Text Formatting 
+For a Future Range-Based Standard Library* (Arno Schödl), who provided an insight 
 on how your code can benefit from ranges and how are they using it at Think-Cell 
 providing also a OSS library for the community.
 
-And also the talk of Jonathan Müller about Writing Cache-Friendly C++, which was 
+And also the talk of Jonathan Müller about *Writing Cache-Friendly C++*, which was 
 a great synthesis of how to use efficiently the cache and introduced two libraries 
 for this purpose: tiny and array. He concluded with useful pieces of advice such 
 as reducing main memory access and using benchmarking tools.
 James McNellis did a great talk, but the best part was an impressive demonstration 
 of Microsoft Time Travel Debugging (TTD) reverse debugging toolkit. 
 If you found yourself debugging complex things for Windows platforms very often, 
-you certainly want to have a look at this talk.
+you certainly want to have a look at this talk (Diego).
 
 There were a few talks that we definitely tried to attend but couldn’t 
 (full, packed rooms, and we couldn’t go earlier because of being busy at the booth), 
-like More Modern CMake - Working with CMake 3.12 and later (Deniz Bahadir) and 
-Compile Time Regular Expressions (Hana Dusíková). We are looking forward to 
+like *More Modern CMake - Working with CMake 3.12 and later* (Deniz Bahadir) and 
+*Compile Time Regular Expressions* (Hana Dusíková). We are looking forward to 
 seeing those videos uploaded!
 
+
 ## The Conan Quiz
+
 This is the 3rd year we have been running an (evil) C++ Quiz in Meeting C++. 
 It is our favorite moment of the conference. It requires a ton of effort to prepare 
 it, but is definitely worth it, once you see the attendees struggling with the 
