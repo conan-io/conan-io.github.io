@@ -25,9 +25,9 @@ Folly was also introduced to the world through at CppCon editions, as in the ["E
 ## Why should I use folly in my project?
 
 
-We already have ``std`` and ``Boost``, so why we need another core library? In fact Folly does not aim to replace any library, but complement them. Folly was thought for cases where they require higher performance or have not yet been implemented. Currently it is used by Facebook itself, in its various servers, which support more than 2 billion users, this proves the maturity and reliability of this project.
+We already have ``std`` and ``Boost``, so why we need another core library? In fact Folly does not aim to replace any library, but complement them. Folly was thought for cases where they require higher performance or have not yet been implemented. Currently it is used by Facebook itself, in its various servers, which support more than [2 billion users](https://newsroom.fb.com/company-info/), this proves the maturity and reliability of this project.
 
-In the CppCon 2016 edition, the presentation ["The strange details of std::string at Facebook"](https://youtu.be/kPR8h4-qZdk) demonstrated the work done by [Andrei Alexandrescu](http://erdani.com) in implementing [FBString](https://github.com/facebook/folly/blob/master/folly/docs/FBString.md), a class developed with the objective of being more efficient, compatible with ``std::string``, resulting in **30x faster** than ``string::find()``.
+In the CppCon 2016 edition, the presentation ["The strange details of std::string at Facebook"](https://youtu.be/kPR8h4-qZdk) demonstrated the work done by [Andrei Alexandrescu](http://erdani.com/) in implementing [FBString](https://github.com/facebook/folly/blob/master/folly/docs/FBString.md), a class developed with the objective of being more efficient, compatible with ``std::string``, resulting in **30x faster** than ``string::find()``.
 
 In addition to being designed to achieve great efficiency, Folly was also designed to be easy to use, to acelerate the integration and learning of new users. For example, string conversion can be simplified through [Conv](https://github.com/facebook/folly/blob/master/folly/docs/Conv.md), or mutex synchronization through [Synchrnozed](https://github.com/facebook/folly/blob/master/folly/docs/Synchronized.md), or even [ProducerConsumerQueue](https://github.com/facebook/folly/blob/master/folly/docs/ProducerConsumerQueue.md) to synchronize queues for multhreading programming.
 
@@ -35,7 +35,7 @@ In addition to being designed to achieve great efficiency, Folly was also design
 ## Talk is cheap, Show me the code
 
 
-To illustrate the use of Folly, let's use an example project with the purpose of printing a string using [Futures](https://code.fb.com/developer-tools/futures-for-c-11-at-facebook/), [FBString](https://github.com/facebook/folly/blob/master/folly/docs/FBString.md), [Executors](https://github.com/facebook/folly/blob/master/folly/docs/Executors.md), and [Format](https://github.com/facebook/folly/blob/master/folly/docs/Format.md):
+To illustrate the use of Folly, let's use an example project with the purpose of validating a [URI](https://www.ietf.org/rfc/rfc3986.txt) using [Futures](https://code.fb.com/developer-tools/futures-for-c-11-at-facebook/), [FBString](https://github.com/facebook/folly/blob/master/folly/docs/FBString.md), [Executors](https://github.com/facebook/folly/blob/master/folly/docs/Executors.md), and [Format](https://github.com/facebook/folly/blob/master/folly/docs/Format.md):
 
 {% highlight cpp %}
 
@@ -45,27 +45,59 @@ To illustrate the use of Folly, let's use an example project with the purpose of
 #include <folly/Format.h>
 #include <folly/futures/Future.h>
 #include <folly/executors/ThreadedExecutor.h>
+#include <folly/Uri.h>
 #include <folly/FBString.h>
 
-static void print(const folly::fbstring& value) {
-    const auto formatted = folly::format("Callback Future: {}", value);
-    std::cout << formatted << std::endl;
+static void print_uri(const folly::fbstring& address) {
+    const folly::Uri uri(address);
+    const auto authority = folly::format("The authority from {} is {}", uri.fbstr(), uri.authority());
+    std::cout << authority << std::endl;
 }
 
 int main() {
     folly::ThreadedExecutor executor;
     folly::Promise<folly::fbstring> promise;
     folly::Future<folly::fbstring> future = promise.getSemiFuture().via(&executor);
-    folly::Future<folly::Unit> unit = std::move(future).thenValue(print);
-    promise.setValue("Hello World!");
+    folly::Future<folly::Unit> unit = std::move(future).thenValue(print_uri);
+    promise.setValue("https://conan.io/");
     std::move(unit).get();
     return EXIT_SUCCESS;
 }
 
 {% endhighlight %}
 
-The code above should only print the message *"Callback Future: Hello World!"* shortly after the future callback is executed. [Future](https://isocpp.org/wiki/faq/cpp11-library-concurrency#cpp11-future) is nothing more than a representation of the result of an asynchronous computation that may not yet be available.
-Once completed, it will contain the result of the operation performed. In this case, Folly Future is able to execute a callback after its completion, being the message itself.
+The code above should only print_uri the message *"The authority from https://conan.io is conan.io"* shortly after the future callback is executed. Let's look in detail:
+
+{% highlight cpp %}
+
+static void print_uri(const folly::fbstring& address) {
+    const folly::Uri uri(address);
+    const auto authority = folly::format("The authority from {} is {}", uri.fbstr(), uri.authority());
+    std::cout << authority << std::endl;
+}
+
+{% endhighlight %}
+
+This small function is responsible for parsing the address, validating whether it is a valid URI, formatting a string with the authority present on the URI, and showing through the standard output. The ``FBString`` class has 3 strategies for storing:
+
+- Small strings (<= 23 chars) are stored in-situ without memory allocation.
+- Medium strings (24 - 255 chars) are stored in malloc-allocated memory and copied eagerly.
+- Large strings (> 255 chars) are stored in malloc-allocated memory and copied lazily.
+
+The received address has only 17 characters, so it will be stored without memory allocation. The ``Uri`` will parse the address in its constructor, for this will be used [Boost Regex](https://theboostcpplibraries.com/boost.regex). And finally will format using the fast and powerful ``folly::format``.
+
+{% highlight cpp %}
+
+folly::Future<folly::fbstring> future = promise.getSemiFuture().via(&executor);
+folly::Future<folly::Unit> unit = std::move(future).thenValue(print_uri);
+promise.setValue("https://conan.io/");
+std::move(unit).get();
+
+{% endhighlight %}
+
+[Future](https://isocpp.org/wiki/faq/cpp11-library-concurrency#cpp11-future) is nothing more than a representation of the result of an asynchronous computation that may not yet be available.
+Once completed, it will contain the result of the operation performed. Folly Future is able to execute a callback after its completion through ``thenValue`` and ``thenTry``.
+The executor specifies where work will run, thus given an executor we can convert a ``SemiFuture`` to a ``Future`` with an executor. Finally, we set the value to be consumed by the callback function and wait for the result through ``get()``.
 
 In order for us to build this example project, we will use [CMake](https://cmake.org), with the provided ``CMakeLists.txt``:
 
