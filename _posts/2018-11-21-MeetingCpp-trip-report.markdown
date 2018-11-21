@@ -35,7 +35,7 @@ must go for C++ in Europe.
 ## Meeting C++
 
 We[^2] have attended [Meeting C++](https://meetingcpp.com/2018/) conference for many years. 
-As attendees, as speakers, and recently also as sponsors. We feel at home in this conference, we 
+As attendees, as speakers, and recently also as sponsors (JFrog). We feel at home in this conference, we 
 can meet lots of old friends and colleagues, but also is good to make new ones. Lunch, 
 dinner is served by the conference in the break areas, which is not only very convenient 
 but also helps to socialize and connect with people.
