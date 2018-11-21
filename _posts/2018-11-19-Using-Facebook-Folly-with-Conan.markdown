@@ -19,13 +19,23 @@ The source code for this example can be found on [Github](https://github.com/uil
 * Benchmark
 * Dynamic types
 
-Folly was also introduced to the world through at CppCon editions, as in the ["Experiences with Facebook's C ++ Library"](https://www.youtube.com/watch?v=GDxb21kEthM) at CppCon 2017, and has an extensive documentation on [Github](https://github.com/facebook/folly/tree/master/folly/docs).
+Folly was also introduced to the world through at CppCon editions, as in the ["Experiences with Facebook's C ++ Library"](https://www.youtube.com/watch?v=GDxb21kEthM) at CppCon 2017, and has an extensive documentation on [Github](https://github.com/facebook/folly/blob/master/folly/docs/Overview.md).
+
+
+## Why should I use folly in my project?
+
+
+We already have ``std`` and ``Boost``, so why we need another core library? In fact Folly does not aim to replace any library, but complement them. Folly was thought for cases where they require higher performance or have not yet been implemented. Currently it is used by Facebook itself, in its various servers, which support more than 2 billion users, this proves the maturity and reliability of this project.
+
+In the CppCon 2016 edition, the presentation ["The strange details of std::string at Facebook"](https://youtu.be/kPR8h4-qZdk) demonstrated the work done by [Andrei Alexandrescu](http://erdani.com) in implementing [FBString](https://github.com/facebook/folly/blob/master/folly/docs/FBString.md), a class developed with the objective of being more efficient, compatible with ``std::string``, resulting in **30x faster** than ``string::find()``.
+
+In addition to being designed to achieve great efficiency, Folly was also designed to be easy to use, to acelerate the integration and learning of new users. For example, string conversion can be simplified through [Conv](https://github.com/facebook/folly/blob/master/folly/docs/Conv.md), or mutex synchronization through [Synchrnozed](https://github.com/facebook/folly/blob/master/folly/docs/Synchronized.md), or even [ProducerConsumerQueue](https://github.com/facebook/folly/blob/master/folly/docs/ProducerConsumerQueue.md) to synchronize queues for multhreading programming.
 
 
 ## Talk is cheap, Show me the code
 
 
-To illustrate the use of Folly, let's use an example project with the purpose of printing a string using Folly [Futures](https://code.fb.com/developer-tools/futures-for-c-11-at-facebook/):
+To illustrate the use of Folly, let's use an example project with the purpose of printing a string using [Futures](https://code.fb.com/developer-tools/futures-for-c-11-at-facebook/), [FBString](https://github.com/facebook/folly/blob/master/folly/docs/FBString.md), [Executors](https://github.com/facebook/folly/blob/master/folly/docs/Executors.md), and [Format](https://github.com/facebook/folly/blob/master/folly/docs/Format.md):
 
 {% highlight cpp %}
 
