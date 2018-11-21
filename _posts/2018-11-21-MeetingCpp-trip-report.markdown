@@ -247,6 +247,13 @@ So looking forward to being there again next year.
 
 **See you in MeetingC++ 2019!**
 
+<div align="center">
+    <figure>
+        <img src="{{ site.url }}/assets/post_images/2018-11-21/conan-team.jpeg" width="600"/>
+        <figcaption>Luis, (The Frogarian), Katrin, Diego, Javi and Dani</figcaption>
+    </figure>
+</div>
+
 ----
 
 [^1]: Meeting Embedded took place on Wednesday, only Daniel and Diego were in Berlin to attend it.
