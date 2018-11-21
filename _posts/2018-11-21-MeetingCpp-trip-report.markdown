@@ -245,7 +245,7 @@ couldn’t attend. But the talks are not the best part of the conference. The pe
 the networking, the spirit, the fun we had on the Quiz… difficult to explain. 
 So looking forward to being there again next year.
 
-**See you in MeetingC++ 2019!**
+**See you in Meeting C++ 2019!**
 
 <div align="center">
     <figure>
