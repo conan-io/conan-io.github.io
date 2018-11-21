@@ -7,7 +7,7 @@ title: "Meeting C++ and Meeting Embedded trip report"
 
 ## Meeting Embedded
 
-On Wednesday, before Meeting C++, we (Diego and Dani) attended 
+On Wednesday, before Meeting C++, we[^1] attended 
 and presented a talk at [Meeting Embedded](https://meetingembedded.com/2018/), 
 a new conference about all embedded things. C++ and C had a relevant role in this 
 conference, obviously (accordingly to Dan Saks statistics around 60% in embedded 
@@ -15,8 +15,8 @@ code is C, then around 20% is C++, followed by assembly), but where other topics
 presented, like Rust, protocols for embedded (MQTT), academic and professional 
 education, real-time systems. 
 
-We did our own talk “Continuous Integration of C/C++ for embedded and IoT with Jenkins, 
-Docker and Conan”, which went quite well, especially considering that we were running 
+We did our own talk *Continuous Integration of C/C++ for embedded and IoT with Jenkins, 
+Docker and Conan*, which went quite well, especially considering that we were running 
 a real demo, live updating the embedded code in a Raspberry PI, that was built with 
 Docker in Jenkins, using cross-compiled (from Windows) packages, and uploaded to 
 Artifactory, all of that done in the live demo.
@@ -34,9 +34,8 @@ must go for C++ in Europe.
 
 ## Meeting C++
 
-Next day, other members of the spanish Conan team joined (Luis and Javi) to attend
-Meeting C++ conference in Berlin as we have done for many years. As attendees, 
-as speakers, and recently also as sponsors. We feel at home in this conference, we 
+We[^2] have attended [Meeting C++](https://meetingcpp.com/2018/) conference for many years. 
+As attendees, as speakers, and recently also as sponsors. We feel at home in this conference, we 
 can meet lots of old friends and colleagues, but also is good to make new ones. Lunch, 
 dinner is served by the conference in the break areas, which is not only very convenient 
 but also helps to socialize and connect with people.
@@ -79,7 +78,7 @@ privacy, ranges,... and from this starting point he proposed what he thinks it i
 the next big thing for our beloved C++. The main problem for us, developers, is 
 code bases becoming bigger and bigger because of the number of bugs per line of code. 
 He enforces that the most valuable next big thing among concepts, metaclasses and 
-introspection is the last one, and I (Javi) have to agree with him, it will allow us to write 
+introspection is the last one, and we have to agree with him, it will allow us to write 
 less code and get more expressiveness, and the community also must be agreed too because 
 of the several talks that addressed this issue during this conference and many others.
 
@@ -88,7 +87,7 @@ of the several talks that addressed this issue during this conference and many o
 One of the first talk we were able to attend! Stoyan Nikolov gave a great talk 
 comparing Data-oriented with Object-oriented designs and how our mental model 
 structure for programming is not always the best approach to achieve performance. 
-What I (Dani) really liked about the talk was the real example of the Chromium project 
+What we really liked about the talk was the real example of the Chromium project 
 (definitely something we should check out to learn), as we were able to see how a 
 DoD for the animations rendering could have been done instead of the original OoD.
 
@@ -121,8 +120,8 @@ In the end, there is hope, as Lisa says, because programming is not about the go
 programmer against an evil world, but a work of cooperation between good developers 
 where each player is trying to win their own game.
 
-I (Javi) found it quite interesting and I want to read carefully all the references that 
-Lisa has added to the slides.
+We found it quite interesting and some of us is willing to read all the references that 
+Lisa added to the slides.
 
 <div align="center">
     <figure>
@@ -133,12 +132,12 @@ Lisa has added to the slides.
 
 #### Cross-platform C++ development is challenging - let tools help! (Marc Goodner)
 
-As part of the Conan team, I (Dani) was really interested in a talk around tooling for the 
+As one would expect, we were really interested in a talk around tooling for the 
 C++ ecosystem. Mac Goodner from Microsoft introduced some of the improvements 
 available in the latest versions of the tools provided by the company. Of course, 
 he talked about interesting points a C++ developer has to deal with every day, 
 such as using libraries, using new features in the compilers following the standard, 
-avoiding platform-specific logic… I liked that half of the talk was also a demo, 
+avoiding platform-specific logic… We also liked that half of the talk was a demo, 
 showing attendees how to configure your Visual Studio to debug or test properly 
 and use it to compile with the support for Linux in latest Windows versions. He 
 obviously talked about vcpkg and showed some live usage with SFML but admitted 
@@ -156,7 +155,7 @@ reflection API and codegen tool” so he managed, by using tinyrefl, to develop 
 layer to abstract/convert all the Qt types and connect a regular std-types application 
 transparently without all the boilerplate that a QML application usually requires.
 
-I (Luis) found very interesting how a very common software design issue can be resolved
+It was very interesting how a very common software design issue can be resolved
 using very advanced techniques like the static reflection of the language. 
 The talk was also funny!
 
@@ -176,10 +175,10 @@ almost every single slide to guide the explanation.
     </figure>
 </div>
 
-However, I (Dani) felt sometimes that the information was a bit overwhelming 
-(too many concepts I guess) and that maybe it would have been better to just 
+However, sometimes the information was a bit overwhelming 
+(too many concepts) and that maybe it would have been better to just 
 provide some insights and let people dig into cppreference.com on their own later. 
-Anyway, it was great to attend one of his talks and I am sure many people will 
+Anyway, it was great to attend one of his talks and we are sure that many people will 
 come back to his slides and the recording of the talk once they are uploaded!
 
 
@@ -197,7 +196,7 @@ as reducing main memory access and using benchmarking tools.
 James McNellis did a great talk, but the best part was an impressive demonstration 
 of Microsoft Time Travel Debugging (TTD) reverse debugging toolkit. 
 If you found yourself debugging complex things for Windows platforms very often, 
-you certainly want to have a look at this talk (Diego).
+you certainly want to have a look at this talk.
 
 There were a few talks that we definitely tried to attend but couldn’t 
 (full, packed rooms, and we couldn’t go earlier because of being busy at the booth), 
@@ -248,3 +247,8 @@ So looking forward to being there again next year.
 
 **See you in MeetingC++ 2019!**
 
+----
+
+[^1]: Meeting Embedded took place on Wednesday, only Daniel and Diego were in Berlin to 
+attend it.
+[^2]: On Thursday, more members of the Conan team joined from Spain: Luis and Javier.
