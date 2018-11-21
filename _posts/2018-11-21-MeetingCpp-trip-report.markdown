@@ -9,7 +9,7 @@ title: "Meeting C++ and Meeting Embedded trip report"
 
 On Wednesday, before Meeting C++, we[^1] attended 
 and presented a talk at [Meeting Embedded](https://meetingembedded.com/2018/), 
-a new conference about all embedded things. C++ and C had a relevant role in this 
+a new conference about many topics related to embedded systems. C++ and C had a relevant role in this 
 conference, obviously (accordingly to Dan Saks statistics around 60% in embedded 
 code is C, then around 20% is C++, followed by assembly), but where other topics 
 presented, like Rust, protocols for embedded (MQTT), academic and professional 
