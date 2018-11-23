@@ -1,6 +1,6 @@
 ---
 layout: post
-comments: true
+comments: false
 title: Using Facebook Folly with Conan
 description: How to install Folly library and its dependencies without pain using Conan
 ---
@@ -112,7 +112,7 @@ Although Folly is an excellent project for C ++ environments, it has a complex d
     width="600"  alt="Folly's dependency graph"/>
 </p>
 
-This dependency graph can be generated using the command [conan info](https://docs.conan.io/en/latest/reference/commands/consumer/info.html):
+This graph can be generated with the [conan info](https://docs.conan.io/en/latest/reference/commands/consumer/info.html) command:
 
 {% highlight bash %}
 
@@ -197,3 +197,5 @@ $ bin/folly_example
 The C ++ universe has such incredible projects as Folly to help with real-world problems, however, preparing an environment with all the necessary dependencies can lead to a long and painful task often.
 Although Folly is an excellent tool for your project, the complexity of 11 projects related as transitive dependencies, including Boost regex, can be taken as a bad factor to avoid using it.
 The case of the Folly project demonstrates the importance of a dependency manager and packages like Conan for a modern C++ development environment.
+
+Are you interested in making comments, questions or suggestions? Please open an [issue](https://github.com/conan-io/conan/issues)!
