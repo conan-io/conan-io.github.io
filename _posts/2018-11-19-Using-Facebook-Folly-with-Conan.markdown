@@ -29,7 +29,7 @@ We already have ``std`` and ``Boost``, so why we need another core library? In f
 
 In the CppCon 2016 edition, the presentation ["The strange details of std::string at Facebook"](https://youtu.be/kPR8h4-qZdk) demonstrated the work done by [Andrei Alexandrescu](http://erdani.com/) in implementing [FBString](https://github.com/facebook/folly/blob/master/folly/docs/FBString.md), a class developed with the objective of being more efficient, compatible with ``std::string``, resulting in **30x faster** than ``string::find()``.
 
-In addition to being designed to achieve great efficiency, Folly was also designed to be easy to use, to acelerate the integration and learning of new users. For example, string conversion can be simplified through [Conv](https://github.com/facebook/folly/blob/master/folly/docs/Conv.md), or mutex synchronization through [Synchrnozed](https://github.com/facebook/folly/blob/master/folly/docs/Synchronized.md), or even [ProducerConsumerQueue](https://github.com/facebook/folly/blob/master/folly/docs/ProducerConsumerQueue.md) to synchronize queues for multhreading programming.
+In addition to being designed to achieve great efficiency, Folly was also designed to be easy to use, to acelerate the integration and learning of new users. For example, string conversion can be simplified through [Conv](https://github.com/facebook/folly/blob/master/folly/docs/Conv.md), or mutex synchronization through [Synchronized](https://github.com/facebook/folly/blob/master/folly/docs/Synchronized.md), or even [ProducerConsumerQueue](https://github.com/facebook/folly/blob/master/folly/docs/ProducerConsumerQueue.md) to synchronize queues for multhreading programming.
 
 
 ## Talk is cheap, Show me the code
