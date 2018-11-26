@@ -25,7 +25,7 @@ Folly was also introduced to the world through at CppCon editions, as in the ["E
 ## Why should I use folly in my project?
 
 
-We already have ``std`` and ``Boost``, so why we need another core library? In fact Folly does not aim to replace any library, but complement them. Folly was thought for cases where they require higher performance or have not yet been implemented. Currently it is used by Facebook itself, in its various servers, which support more than [2 billion users](https://newsroom.fb.com/company-info/), this proves the maturity and reliability of this project.
+We already have ``std`` and ``Boost``, so why we need another core library? In fact Folly does not aim to replace any library, but complement them. Folly was thought for cases where they require higher performance or have not yet been implemented. Currently it is used by Facebook itself, in its [millions of servers]( https://code.fb.com/open-source/linux/), which support more than [2 billion users](https://newsroom.fb.com/company-info/), and also is used in [Facebook mobile apps](code.fb.com/android/building-zero-protocol-for-fast-secure-mobile-connections) which are on over a billion devices according to [Google Play](play.google.com/store/apps/details?id=com.facebook.katana). This proves the maturity and reliability of Folly project.
 
 In the CppCon 2016 edition, the presentation ["The strange details of std::string at Facebook"](https://youtu.be/kPR8h4-qZdk) demonstrated the work done by [Andrei Alexandrescu](http://erdani.com/) in implementing [FBString](https://github.com/facebook/folly/blob/master/folly/docs/FBString.md), a class developed with the objective of being more efficient, compatible with ``std::string``, resulting in **30x faster** than ``string::find()``.
 
@@ -39,7 +39,6 @@ To illustrate the use of Folly, let's use an example project with the purpose of
 
 {% highlight cpp %}
 
-#include <cstdlib>
 #include <utility>
 #include <iostream>
 #include <folly/Format.h>
@@ -61,7 +60,7 @@ int main() {
     folly::Future<folly::Unit> unit = std::move(future).thenValue(print_uri);
     promise.setValue("https://conan.io/");
     std::move(unit).get();
-    return EXIT_SUCCESS;
+    return 0;
 }
 
 {% endhighlight %}
