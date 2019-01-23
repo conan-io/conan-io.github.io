@@ -10,7 +10,7 @@ description: "OpenCV conan packages are available in conan-center, but there are
 If you're not familiar with OpenCV yet, check out our previous blog-post about [OpenCV 4.0.0](https://blog.conan.io/2018/12/19/New-OpenCV-release-4-0.html).
 Given the fact OpenCV is a huge library with lots of features for various use-case, it's a good example to demonstrate some typical package challenges (and probably few more specific as well).
 
-### OpenCV conan packages
+### OpenCV's Conan packages
 
 Recently, we have finally accepted OpenCV recipe into [conan-center](https://bintray.com/conan-community/conan/opencv%3Aconan).
 We support all major releases, so we have the following version available on bintray:
