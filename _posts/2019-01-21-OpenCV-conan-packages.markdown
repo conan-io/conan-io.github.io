@@ -78,6 +78,8 @@ Moreover, [package](https://docs.conan.io/en/latest/reference/conanfile/methods.
 
 It doesn't have typical code to copy platform-specific files, like .dll, .so, .dylib, etc. Instead, it uses CMake [install](https://cmake.org/cmake/help/v3.13/command/install.html) feature. CMake may generate special target called *INSTALL*, which copies project's header, libraries, CMake [configuration](https://cmake.org/cmake/help/v3.13/manual/cmake-packages.7.html) files, [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) files, other data files, like [Haar Cascades](https://docs.opencv.org/4.0.1/d7/d8b/tutorial_py_face_detection.html) in case of OpenCV. So, if project itself knows which files to distribute and how to properly layout them, then it doesn't make much sense to replicate this logic in conanfile, right?
 
+But what is *cmake.patch_config_paths()* and why do we need it? Well, CMake-generated config files may contain absolute paths, which something we would like to avoid, because such paths are specific to the machine where recipe was built, and consumers usually won't have dependencies installed in the same paths. For instance, on Windows conan directory usually located within [USERPROFILE](https://msdn.microsoft.com/en-us/library/windows/desktop/bb776892(v=vs.85).aspx) directory, which contains user name (e.g. *AppVeyor*). Given that fact, usage of generated CMake config files may result in inability to build project, so there is a workaround for this problem in conan.
+
 ### dependencies
 
 OpenCV is a very complex library, and has lots of various dependencies. Current conan recipe has the following:
