@@ -33,6 +33,51 @@ cmake
 
 As usual, pre-built packages are available for major platforms (Windows/Linux/MacOS) and compilers (Visual Studio/GCC/Clang).
 
+### building OpenCV
+
+OpenCV uses [CMake](https://cmake.org/), therefore our [recipe](https://github.com/conan-community/conan-opencv/blob/release/4.0.1/conanfile.py) uses [CMake build helper](https://docs.conan.io/en/latest/reference/build_helpers/cmake.html#cmake-reference). The process to build CMake-based project is typical for many recipes, and OpenCV is not an exception here.
+
+First step is to configure CMake:
+
+{% highlight python %}
+
+    def _configure_cmake(self):
+        cmake = CMake(self)
+        cmake.definitions['BUILD_EXAMPLES'] = False
+        # configure various OpenCV options via cmake.definitions
+        cmake.configure(build_folder=self._build_subfolder)
+        return cmake
+
+{% endhighlight %}
+
+There is really nothing especial, besides there are lots of options to manage, that's why code takes so many lines. *cmake.configure(...)* detects compiler and its features, then generates platform-specific build files.
+
+Once CMake configuration is done, we may build the project:
+
+{% highlight python %}
+
+    def build(self):
+        # intentionally skipped code to patch OpenEXR here
+        cmake = self._configure_cmake()
+        cmake.build()
+
+{% endhighlight %}
+
+*cmake.build()* executes build tool depending on CMake [generator](https://cmake.org/cmake/help/v3.13/manual/cmake-generators.7.html), it might be [MSBuild](https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild?view=vs-2017), [GNU Make](https://www.gnu.org/software/make/), [Ninja](https://ninja-build.org/), etc. 
+
+Moreover, [package](https://docs.conan.io/en/latest/reference/conanfile/methods.html#package) method of our recipe is also very simple:
+
+{% highlight python %}
+
+    def package(self):
+        cmake = self._configure_cmake()
+        cmake.install()
+        cmake.patch_config_paths()
+
+{% endhighlight %}
+
+It doesn't have typical code to copy platform-specific files, like .dll, .so, .dylib, etc. Instead, it uses CMake [install](https://cmake.org/cmake/help/v3.13/command/install.html) feature. CMake may generate special target called *INSTALL*, which copies project's header, libraries, CMake [configuration](https://cmake.org/cmake/help/v3.13/manual/cmake-packages.7.html) files, [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) files, other data files, like [Haar Cascades](https://docs.opencv.org/4.0.1/d7/d8b/tutorial_py_face_detection.html) in case of OpenCV. So, if project itself knows which files to distribute and how to properly layout them, then it doesn't make much sense to replicate this logic in conanfile, right?
+
 ### dependencies
 
 OpenCV is a very complex library, and has lots of various dependencies. Current conan recipe has the following:
@@ -70,6 +115,58 @@ opencv:openexr=False
 cmake
 
 {% endhighlight %}
+
+#### declaring dependencies
+
+In order to declare dynamic dependencies on other 3rd-party libraries, OpenCV [recipe](https://github.com/conan-community/conan-opencv/blob/release/4.0.1/conanfile.py) uses [requirements](https://docs.conan.io/en/latest/reference/conanfile/methods.html#requirements) method:
+
+{% highlight python %}
+
+    def requirements(self):
+        self.requires.add('zlib/1.2.11@conan/stable')
+        if self.options.jpeg:
+            self.requires.add('libjpeg/9c@bincrafters/stable')
+        if self.options.tiff:
+            self.requires.add('libtiff/4.0.9@bincrafters/stable')
+        if self.options.webp:
+            self.requires.add('libwebp/1.0.0@bincrafters/stable')
+        if self.options.png:
+            self.requires.add('libpng/1.6.34@bincrafters/stable')
+        if self.options.jasper:
+            self.requires.add('jasper/2.0.14@conan/stable')
+        if self.options.openexr:
+            self.requires.add('openexr/2.3.0@conan/stable')
+
+{% endhighlight %}
+
+The code above adds conditional requirements based on options recipe declares:
+
+{% highlight python %}
+
+    options = {"shared": [True, False],
+               "fPIC": [True, False],
+               "contrib": [True, False],
+               "jpeg": [True, False],
+               "tiff": [True, False],
+               "webp": [True, False],
+               "png": [True, False],
+               "jasper": [True, False],
+               "openexr": [True, False],
+               "gtk": [None, 2, 3]}
+    default_options = {"shared": False,
+                       "fPIC": True,
+                       "contrib": False,
+                       "jpeg": True,
+                       "tiff": True,
+                       "webp": True,
+                       "png": True,
+                       "jasper": True,
+                       "openexr": True,
+                       "gtk": 3}
+
+{% endhighlight %}
+
+Technique mentioned is documented in article [Mastering Conan: Conditional settings, options and requirements](https://docs.conan.io/en/latest/mastering/conditional.html).
 
 ### OpenCV contrib
 
