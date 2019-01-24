@@ -2,7 +2,7 @@
 layout: post
 comments: false
 title: "OpenCV Conan package making off and future challenges"
-description: "OpenCV conan packages are available in conan-center, but there are still things to be done"
+description: "Hands-on packaging OpenCV (the proper way)"
 ---
 
 ### What is OpenCV?
