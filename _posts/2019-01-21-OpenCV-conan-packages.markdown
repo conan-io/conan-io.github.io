@@ -43,7 +43,6 @@ First step is to configure CMake:
 
     def _configure_cmake(self):
         cmake = CMake(self)
-        cmake.definitions['BUILD_EXAMPLES'] = False
         # configure various OpenCV options via cmake.definitions
         cmake.configure(build_folder=self._build_subfolder)
         return cmake
@@ -51,6 +50,31 @@ First step is to configure CMake:
 {% endhighlight %}
 
 There is really nothing especial, besides there are lots of options to manage, that's why code takes so many lines. *cmake.configure(...)* detects compiler and its features, then generates platform-specific build files.
+
+Here we also disable bunch of stuff we would like to avoid:
+
+{% highlight python %}
+
+        cmake.definitions['BUILD_EXAMPLES'] = False
+        cmake.definitions['BUILD_DOCS'] = False
+        cmake.definitions['BUILD_TESTS'] = False
+        cmake.definitions['BUILD_PERF_TEST'] = False
+        cmake.definitions['WITH_IPP'] = False
+        cmake.definitions['BUILD_opencv_apps'] = False
+        cmake.definitions['BUILD_opencv_java'] = False
+
+{% endhighlight %}
+
+*cmake.definitions* is a dictionary which is translated into command line arguments passed to the cmake, for instance, *cmake.definitions['BUILD_EXAMPLES'] = False* maps into *-DBUILD_EXAMPLES=OFF*.
+
+Some exmplanation for the specific variables:
+
+* *BUILD_EXAMPLES* - do not build OpenCV examples, as they are not needed to use OpenCV, but increase build times and package sizes
+* *BUILD_DOCS* - skip documentation for the same reason as examples, we usually keep only things needed to link with package, and also build of documentation may require additional tools (such as [doxygen](http://www.doxygen.nl/))
+* *BUILD_TESTS* - same story, as we're not going to run these tests, skip them from build
+* *BUILD_PERF_TEST* - another set of tests to skip
+* *BUILD_opencv_apps* - skip some demonstration and utility applications supplied with OpenCV
+* *BUILD_opencv_java* - as we're building packages for C++, disable Java bindings as well. also, installation of them requires [JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html), [Apache ANT](https://ant.apache.org/), etc. and may fail, if they are not found
 
 Once CMake configuration is done, we may build the project:
 
@@ -63,7 +87,7 @@ Once CMake configuration is done, we may build the project:
 
 {% endhighlight %}
 
-*cmake.build()* executes build tool depending on CMake [generator](https://cmake.org/cmake/help/v3.13/manual/cmake-generators.7.html), it might be [MSBuild](https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild?view=vs-2017), [GNU Make](https://www.gnu.org/software/make/), [Ninja](https://ninja-build.org/), etc. 
+*cmake.build()* executes build tool depending on CMake [generator](https://cmake.org/cmake/help/v3.13/manual/cmake-generators.7.html), it might be [MSBuild](https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild?view=vs-2017), [GNU Make](https://www.gnu.org/software/make/), [Ninja](https://ninja-build.org/), etc. This is a really nice, as we don't have to deal with platform-specific details on how to build prject. As a counterexample, many projects still use different build systems to compile for various platforms, like Visual Studio solutions are used on Windows, and makefiles otherwise - for such projects recipes need to have several implementations of the [build](https://docs.conan.io/en/latest/reference/conanfile/methods.html#build) method, with handling of all options, ofcourse.
 
 Moreover, [package](https://docs.conan.io/en/latest/reference/conanfile/methods.html#package) method of our recipe is also very simple:
 
@@ -76,7 +100,7 @@ Moreover, [package](https://docs.conan.io/en/latest/reference/conanfile/methods.
 
 {% endhighlight %}
 
-It doesn't have typical code to copy platform-specific files, like .dll, .so, .dylib, etc. Instead, it uses CMake [install](https://cmake.org/cmake/help/v3.13/command/install.html) feature. CMake may generate special target called *INSTALL*, which copies project's header, libraries, CMake [configuration](https://cmake.org/cmake/help/v3.13/manual/cmake-packages.7.html) files, [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) files, other data files, like [Haar Cascades](https://docs.opencv.org/4.0.1/d7/d8b/tutorial_py_face_detection.html) in case of OpenCV. So, if project itself knows which files to distribute and how to properly layout them, then it doesn't make much sense to replicate this logic in conanfile, right?
+It doesn't have typical code to copy platform-specific files, like .dll, .so, .dylib, etc. Instead, it uses CMake [install](https://cmake.org/cmake/help/v3.13/command/install.html) feature. CMake may generate special target called *INSTALL*, which copies project's header, libraries, CMake [configuration](https://cmake.org/cmake/help/v3.13/manual/cmake-packages.7.html) files, [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) files, other data files, like [Haar Cascades](https://docs.opencv.org/4.0.1/d7/d8b/tutorial_py_face_detection.html) in case of OpenCV. So, if project itself knows which files to distribute and how to properly layout them, then it doesn't make much sense to replicate this logic in conanfile, right? Also, *CMake.install* method automatically points [CMAKE_INSTALL_PREFIX](https://cmake.org/cmake/help/v3.13/variable/CMAKE_INSTALL_PREFIX.html) to the [package folder](https://docs.conan.io/en/latest/reference/conanfile/attributes.html?highlight=package_folder#folders-attributes-reference).
 
 But what is *cmake.patch_config_paths()* and why do we need it? Well, CMake-generated config files may contain absolute paths, which something we would like to avoid, because such paths are specific to the machine where recipe was built, and consumers usually won't have dependencies installed in the same paths. For instance, on Windows conan directory usually located within [USERPROFILE](https://msdn.microsoft.com/en-us/library/windows/desktop/bb776892(v=vs.85).aspx) directory, which contains user name (e.g. *AppVeyor*). Given that fact, usage of generated CMake config files may result in inability to build project, so there is a workaround for this problem in conan.
 
@@ -99,7 +123,7 @@ $ conan info opencv/4.0.0@conan/stable --graph opencv
 
 As you can see, currently it mostly depends on image libraries, such as [libjpeg](http://libjpeg.sourceforge.net/), [libtiff](http://www.libtiff.org/), [libpng](http://www.libpng.org/pub/png/libpng.html), [libwepb](https://developers.google.com/speed/webp/), [jasper](http://www.ece.uvic.ca/~frodo/jasper/) and [OpenEXR](http://www.openexr.com/).
 
-All these libraries are available as Conan packages in [conan-center](https://bintray.com/conan-community/conan/opencv%3Aconan) as well.
+All these libraries are available as Conan packages in [conan-center](https://bintray.com/conan-community/conan/opencv%3Aconan) as well. Thanks to [bincrafters](https://github.com/bincrafters/community) for packaging them all.
 
 These libraries are mainly needed by OpenCV [imgcodecs](https://docs.opencv.org/4.0.1/d4/da8/group__imgcodecs.html), to support reading and writing of various image formats.
 
@@ -170,6 +194,69 @@ The code above adds conditional requirements based on options recipe declares:
 
 Technique mentioned is documented in article [Mastering Conan: Conditional settings, options and requirements](https://docs.conan.io/en/latest/mastering/conditional.html).
 
+As we're now using 3rd-party libraries from conan, there is no point to keep the *3rdparty* directory of OpenCV sources, so we remove within [source](https://docs.conan.io/en/latest/reference/conanfile/methods.html#source) method:
+
+{% highlight python %}
+
+    shutil.rmtree(os.path.join(self._source_subfolder, '3rdparty'))
+
+{% endhighlight %}
+
+Why is it important? There are few advantages:
+
+* Consumers have better control on dependencies, e.g. they may easily upgrade or downgrade 3rd-party dependencies of OpenCV, like libpng, just by editing their *conanfile.txt*
+* It saves build times, as you don't need to build rebuild these dependencies if you change some OpenCV options
+* It reduces size of packages
+* It helps to avoid linking or runtime errors, because if two libraries contain libpng sources (e.g. OpenCV and [wxWidgets](https://www.wxwidgets.org/)), and you link both into your projects, you may run into issues extremely hard to debug
+
+Finally, these options are passed to the build system (CMake in case of OpenCV):
+
+{% highlight python %}
+
+        cmake.definitions['WITH_JPEG'] = self.options.jpeg
+        cmake.definitions['WITH_TIFF'] = self.options.tiff
+        cmake.definitions['WITH_WEBP'] = self.options.webp
+        cmake.definitions['WITH_PNG'] = self.options.png
+        cmake.definitions['WITH_JASPER'] = self.options.jasper
+        cmake.definitions['WITH_OPENEXR'] = self.options.openexr
+
+{% endhighlight %}
+
+### patching for OpenEXR
+
+CMake uses so-called [find-modules](https://cmake.org/cmake/help/v3.8/manual/cmake-modules.7.html) to locate various libraries. There are plenty of them for most popular libraries, however, many are still missing, and OpenEXR is one of them.
+
+OpenCV has a [collection](https://github.com/opencv/opencv/tree/master/cmake) of its own find-modules, and there is one for OpenEXR - [OpenCVFindOpenEXR](https://github.com/opencv/opencv/blob/master/cmake/OpenCVFindOpenEXR.cmake).
+
+However, OpenCV's module for OpenEXR suffers from several issues:
+
+* It hard-codes *OPENEXR_ROOT* variable to *C:\deploy* on Windows, so it's unable to find OpenEXR in unusual locations, such as conan cache directory
+* It always prefers looking for libraries in system locations (e.g. */usr/lib*), and *OPENEXR_ROOT* has very least priority
+* It doesn't consider all possible names for OpenEXR libraries. For instance, it always looks for the *IlmImf*, while library might be named *IlmImf-2_3_s*
+
+This is unfortunate. But in reality, very often conan recipes need to workaround various limitations of build scripts. The sad truth is that many libraries were designed without package management use-case in mind, hard-coding paths, library names, versions and other important things. This make life of packager a bit harder, but as popularity of package management in C++ world grows, we hope such things happen less frequently.
+
+Anyway, currently there is a code in recipe to remove hard-coded things:
+
+{% highlight python %}
+
+        # allow to find conan-supplied OpenEXR
+        if self.options.openexr:
+            find_openexr = os.path.join(self._source_subfolder, 'cmake', 'OpenCVFindOpenEXR.cmake')
+            tools.replace_in_file(find_openexr,
+                                  r'SET(OPENEXR_ROOT "C:/Deploy" CACHE STRING "Path to the OpenEXR \"Deploy\" folder")',
+                                  '')
+            tools.replace_in_file(find_openexr, r'set(OPENEXR_ROOT "")', '')
+            tools.replace_in_file(find_openexr, 'SET(OPENEXR_LIBSEARCH_SUFFIXES x64/Release x64 x64/Debug)', '')
+            tools.replace_in_file(find_openexr, 'SET(OPENEXR_LIBSEARCH_SUFFIXES Win32/Release Win32 Win32/Debug)',
+                                  '')
+
+{% endhighlight %}
+
+We use [tools.replce_in_file](https://docs.conan.io/en/latest/reference/tools.html?highlight=replace_in_file#tools-replace-in-file) here to remove several lines of CMake code. In more complex cases, [tools.patch](https://docs.conan.io/en/latest/reference/tools.html?highlight=patch#tools-patch) helper might be used instead.
+
+For our luck, OpenEXR is the only case which requires modifications, other libraries (libpng, libjpeg, etc.) are using standard CMake find-modules, and they don't have limitations described above.
+
 ### OpenCV contrib
 
 In addition to the built-in features, OpenCV has a collection of extra modules, called [OpenCV contrib](https://github.com/opencv/opencv_contrib). Currently, it has about 100 additional modules! Just o name a few:
@@ -192,6 +279,26 @@ opencv:contrib=True
 cmake
 
 {% endhighlight %}
+
+From the recipe point of view, contrib adds additional source tarball:
+
+{% highlight python %}
+
+    tools.get("https://github.com/opencv/opencv_contrib/archive/%s.zip" % self.version)
+    os.rename('opencv_contrib-%s' % self.version, 'contrib')
+
+{% endhighlight %}
+
+And option to toggle contrib is passed to the build system (CMake):
+
+{% highlight python %}
+
+        if self.options.contrib:
+            cmake.definitions['OPENCV_EXTRA_MODULES_PATH'] = os.path.join(self.build_folder, 'contrib', 'modules')
+
+{% endhighlight %}
+
+[OPENCV_EXTRA_MODULES_PATH](https://github.com/opencv/opencv_contrib) is CMake variable to specify additional OpenCV modules to be built, and we pass path to the contrib in this case.
 
 ### Future: other options and dependencies
 
