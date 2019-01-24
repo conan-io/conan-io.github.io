@@ -19,7 +19,7 @@ We support all major releases, so we have the following version available on Bin
 * 3.x - [opencv/3.4.5@conan/stable](https://bintray.com/conan-community/conan/opencv%3Aconan/3.4.5%3Astable)
 * 2.x - [opencv/2.4.13.5@conan/stable](https://bintray.com/conan-community/conan/opencv%3Aconan/2.4.13.5%3Astable)
 
-Installation with conan should be pretty straightforward, e.g. you may use the following [conanfile.txt](https://docs.conan.io/en/latest/reference/conanfile_txt.html) to consume OpenCV 4.0.0:
+Installation with Conan should be pretty straightforward, e.g. you may use the following [conanfile.txt](https://docs.conan.io/en/latest/reference/conanfile_txt.html) to consume OpenCV 4.0.0:
 
 {% highlight conf %}
 
