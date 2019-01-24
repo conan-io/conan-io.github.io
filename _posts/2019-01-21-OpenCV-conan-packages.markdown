@@ -82,7 +82,7 @@ But what is *cmake.patch_config_paths()* and why do we need it? Well, CMake-gene
 
 ### dependencies
 
-OpenCV is a very complex library, and has lots of various dependencies. Current conan recipe has the following:
+OpenCV is a very complex library, and has lots of various dependencies. Current Conan recipe has the following:
 
 <p class="centered">
     <img  src="{{ site.url }}/assets/post_images/2019-01-21/opencv-deps.png"  align="center"
