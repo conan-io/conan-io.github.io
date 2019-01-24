@@ -99,7 +99,7 @@ $ conan info opencv/4.0.0@conan/stable --graph opencv
 
 As you can see, currently it mostly depends on image libraries, such as [libjpeg](http://libjpeg.sourceforge.net/), [libtiff](http://www.libtiff.org/), [libpng](http://www.libpng.org/pub/png/libpng.html), [libwepb](https://developers.google.com/speed/webp/), [jasper](http://www.ece.uvic.ca/~frodo/jasper/) and [OpenEXR](http://www.openexr.com/).
 
-All these libraries are available as conan packages in [conan-center](https://bintray.com/conan-community/conan/opencv%3Aconan) as well.
+All these libraries are available as Conan packages in [conan-center](https://bintray.com/conan-community/conan/opencv%3Aconan) as well.
 
 These libraries are mainly needed by OpenCV [imgcodecs](https://docs.opencv.org/4.0.1/d4/da8/group__imgcodecs.html), to support reading and writing of various image formats.
 
