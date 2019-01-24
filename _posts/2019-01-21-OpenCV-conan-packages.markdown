@@ -33,7 +33,7 @@ cmake
 
 As usual, pre-built packages are available for major platforms (Windows/Linux/MacOS) and compilers (Visual Studio/GCC/Clang).
 
-### building OpenCV
+### Building OpenCV
 
 OpenCV uses [CMake](https://cmake.org/), therefore our [recipe](https://github.com/conan-community/conan-opencv/blob/release/4.0.1/conanfile.py) uses [CMake build helper](https://docs.conan.io/en/latest/reference/build_helpers/cmake.html#cmake-reference). The process to build CMake-based project is typical for many recipes, and OpenCV is not an exception here.
 
