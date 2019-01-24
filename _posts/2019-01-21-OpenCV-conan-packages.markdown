@@ -13,7 +13,7 @@ Given the fact OpenCV is a huge library with lots of features for various use-ca
 ### OpenCV's Conan packages
 
 Recently, we have finally accepted OpenCV recipe into [conan-center](https://bintray.com/conan-community/conan/opencv%3Aconan).
-We support all major releases, so we have the following version available on bintray:
+We support all major releases, so we have the following version available on Bintray:
 
 * 4.x - [opencv/4.0.1@conan/stable](https://bintray.com/conan-community/conan/opencv%3Aconan/4.0.1%3Astable)
 * 3.x - [opencv/3.4.5@conan/stable](https://bintray.com/conan-community/conan/opencv%3Aconan/3.4.5%3Astable)
