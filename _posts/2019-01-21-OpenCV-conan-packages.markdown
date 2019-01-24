@@ -103,7 +103,7 @@ All these libraries are available as Conan packages in [conan-center](https://bi
 
 These libraries are mainly needed by OpenCV [imgcodecs](https://docs.opencv.org/4.0.1/d4/da8/group__imgcodecs.html), to support reading and writing of various image formats.
 
-All mentioned libraries might be enabled or disabled using conan options (They are currently enabled by default). For instance, to disable [OpenEXR](http://www.openexr.com/) support, use the following:
+All mentioned libraries might be enabled or disabled using options (They are currently enabled by default). For instance, to disable [OpenEXR](http://www.openexr.com/) support, use the following:
 
 {% highlight conf %}
 
