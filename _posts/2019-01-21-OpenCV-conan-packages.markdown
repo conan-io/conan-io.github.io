@@ -321,6 +321,58 @@ And option to toggle contrib is passed to the build system (CMake):
 
 [OPENCV_EXTRA_MODULES_PATH](https://github.com/opencv/opencv_contrib) is CMake variable to specify additional OpenCV modules to be built, and we pass path to the contrib in this case.
 
+### System Requirements
+
+Sometimes recipe may need to depend on libraries provided by system package manager, such as [apt](https://packages.qa.debian.org/a/apt.html), [yum](http://yum.baseurl.org/) or [pacman](https://www.archlinux.org/pacman/), instead of libraries provided by conan. It's usually needed for some low-level things, like [VDPAU](https://www.freedesktop.org/wiki/Software/VDPAU/) or [VAAPI](https://freedesktop.org/wiki/Software/vaapi/), but in case of OpenCV, it may depend on [GTK](https://www.gtk.org/).
+
+Unfortunately, System Requirement are something extremely hard to maintain, so our recommendation is to avoid them, if possible. System Requirements have the following limitations, which makes them hard to scale:
+
+* Recipe has to use its own branch for each package manager, e.g. *yum* and *apt* will have different names for same libraries/packages (*gtk2-devel* vs *libgtk2.0-dev*)
+* Sometimes package names differ for various Linux distributions, even if they use the same package manager (e.g. [Fedora](https://getfedora.org/) and [CentOS](https://www.centos.org/) both use *yum*, but have different package name for [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/))
+* Package names may differ even for minor versions for the same Linux distro! (e.g. [Ubuntu 16.04](http://releases.ubuntu.com/16.04/) vs [Ubunutu 12.04](http://releases.ubuntu.com/12.04/))
+* Names of architectures for packages also differ, e.g. *yum* uses *i686* and *x86_64* suffixes, while *apt* uses *i386* and *amd64*
+
+For instance, we're currently using the following code in order to just specify GTK dependency:
+
+{% highlight python %}
+
+    def system_requirements(self):
+        if self.settings.os == 'Linux' and tools.os_info.is_linux:
+            if tools.os_info.with_apt:
+                installer = tools.SystemPackageTool()
+                arch_suffix = ''
+                if self.settings.arch == 'x86':
+                    arch_suffix = ':i386'
+                elif self.settings.arch == 'x86_64':
+                    arch_suffix = ':amd64'
+                packages = []
+                if self.options.gtk == 2:
+                    packages.append('libgtk2.0-dev%s' % arch_suffix)
+                elif self.options.gtk == 3:
+                    packages.append('libgtk-3-dev%s' % arch_suffix)
+                for package in packages:
+                    installer.install(package)
+            elif tools.os_info.with_yum:
+                installer = tools.SystemPackageTool()
+                arch_suffix = ''
+                if self.settings.arch == 'x86':
+                    arch_suffix = '.i686'
+                elif self.settings.arch == 'x86_64':
+                    arch_suffix = '.x86_64'
+                packages = []
+                if self.options.gtk == 2:
+                    packages.append('gtk2-devel%s' % arch_suffix)
+                elif self.options.gtk == 3:
+                    packages.append('gtk3-devel%s' % arch_suffix)
+                for package in packages:
+                    installer.install(package)
+
+{% endhighlight %}
+
+This appears very excessive, isn't it? But if we decide to add support for more Linux distributions or more architectures, the amount of code will grow extremely fast.
+
+As you can see, conan uses [system_requirements](https://docs.conan.io/en/latest/reference/conanfile/methods.html?highlight=system_requirements#system-requirements) method in order to specify system-specific requirements, and there is also [SystemPackageTool](https://docs.conan.io/en/latest/reference/tools.html?highlight=systempackagetool#tools-osinfo-and-tools-systempackagetool) helper which automates installation of packages. Under the hood, it invokes commands specific to the given package manager, like *apt-get install -y libgtk2.0-dev:i386*.
+
 ### Package info
 
 There are some platform-specific system libraries, which have to be explicitly specified in the [package_info](https://docs.conan.io/en/latest/reference/conanfile/methods.html?highlight=package_info#package-info) method of conanfile:
@@ -400,6 +452,7 @@ As packaging of OpenCV was a huge task which consumed lots of time, we have lear
 * Use [build helpers](https://docs.conan.io/en/latest/reference/build_helpers.html), if possible, they automate many things and allow to keep recipe code short and clean
 * [patch_config_paths](https://docs.conan.io/en/latest/reference/build_helpers/cmake.html?highlight=patch_config_paths) might be required for CMake libraries
 * Use exelinkflags/sharedlinkflags to specify [Apple frameworks](https://docs.conan.io/en/latest/howtos/link_apple_framework.html)
+* Avoid System Requirmeents, if possible, package libraries with conan instead
 
 ### Conclusion
 
