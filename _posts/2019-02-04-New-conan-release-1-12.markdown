@@ -123,6 +123,19 @@ $ conan install . --profile windows --profile 32bit
 The priority of the applied values is from right to left. In the case of the example, the "32bits" profile configuration will have priority
 over the "windows" profile configuration.
 
+```
+# windows                  # 32bit              # result
+[settings]                 [settings]           [settings]
+os=Windows                 os=Windows           os=Windows
+os_build=Windows           os_build=Windows     os_build=Windows
+arch=x86_64                arch=x86             arch=x86
+arch_build=x86_64          arch_build=x86       arch_build=x86
+compiler=Visual Studio                          compiler=Visual Studio
+compiler.version=14                             compiler.version=14
+compiler.runtime=MD                             compiler.runtime=MD
+build_type=Release                              build_type=Release
+```
+
 It is a very useful feature when you want to add build require tools like CMake, which is something not specific to a configuration. For
 example, having a profile ``cmake`` with build require [cmake_installer](https://github.com/conan-community/conan-cmake-installer) and a
 ``mingw`` one with the "gcc" compiler and the [mingw_installer](https://github.com/conan-community/conan-mingw-installer) too would make it
