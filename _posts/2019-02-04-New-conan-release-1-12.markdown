@@ -207,8 +207,6 @@ There are new tools and improvements available in this release too:
 
 - ``tools.environment_append()`` is now able to unset variables using the ``None`` value.
   (See[link](https://docs.conan.io/en/latest/reference/tools.html#tools-environment-append)).
- : New tool to replace a path in a file with another string. In Windows, it will match the path even if
-the casing and the path separator doesn’t match.
 
 - Short paths feature now generates them in a deterministic way instead of having a random path in the short paths directory.
 
