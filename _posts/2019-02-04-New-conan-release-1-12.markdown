@@ -26,8 +26,9 @@ developing the "say" library and would like to check the changes in the "hello" 
 library and run ``conan create`` to put its binaries in the local cache. After that, consume it from the "hello" app with a
 ``conan install``.
 
-With this feature, we have a command to tell Conan that we want to consume the "say" library under the package name``say/0.1@user/testing``
-directly from the current folder instead from the Conan cache.
+With this feature, we have a command [conan link](https://docs.conan.io/en/latest/reference/commands/development/link.html) to tell Conan
+that we want to consume the "say" library under the package name``say/0.1@user/testing`` directly from the current folder instead from the
+Conan cache.
 
 ```
 $ cd cmake/say
@@ -38,18 +39,18 @@ $ conan link .. say/0.1@user/testing --layout=../layout
 The *layout* indicates Conan that it has to search in the following paths relative to the directory of the *conanfile.py* used in the
 command. Here is the content of that file:
 
-```
+{% highlight conf %}
 [includedirs]
 src
 
 [libdirs]
 build/lib
-```
+{% endhighlight %}
 
 Now we can build in the development folder (this could also be triggered by an IDE):
 
 ```
-$ conan install ..  # get possible dependencies from conan
+$ conan install ..
 $ cmake ../src -G "Visual Studio 15 2017 Win64"
 $ cmake --build . --config Release
 ```
@@ -60,7 +61,7 @@ Let's consume the "say" library from the "hello" app now:
 $ cd ../../hello
 $ mkdir build && cd build
 $ conan install ..
-…
+...
 conanfile.py (hello/0.1@None/None): Installing package
 Requirements
     say/0.1@user/testing from user folder - Editable
@@ -158,7 +159,7 @@ graph information. We are sure this will come handy for those orchestrating CIs 
 New architectures arrived at this release too. This time we included new ones for Apple and PowerPC.
 
 Apple introduced a new one for watchOS called ``arm64_32``. As we had already followed the ``armvX`` pattern and ``amrv8`` was already in
-place, we decided to call this one ``armv8_32``. Similarly, the new iOS architecture called ``arm64e`` was introduced in *settings.yaml* as
+place, we decided to call this one ``armv8_32``. Similarly, the new iOS architecture called ``arm64e`` was introduced in *settings.yml* as
 ``armv8.3``. You can manage this conversions with ``tools.to_apple_arch()``.
 
 Finally, there was a request to support PowerPC 32-bit architecture, so there is also a new ``ppc32`` one too.
@@ -166,8 +167,8 @@ Finally, there was a request to support PowerPC 32-bit architecture, so there is
 Those can be correctly handled with apple tools and ``tools.get_gnu_triplet()`` and will be taken into account in some generators like
 ``b2``.
 
-Check that your *settings.yaml* is updated when you install Conan 1.12 and run a new ``conan install``. In case your *settings.yaml* was
-modified, a new *settings.yaml.new* will be created so you can check the diff.
+Check that your *settings.yml* is updated when you install Conan 1.12 and run a new ``conan install``. In case your *settings.yml* was
+modified, a new *settings.yml.new* will be created so you can check the diff.
 
 ## Generators: Template files & variable naming convention
 
@@ -182,12 +183,12 @@ cmake generator. There is also an issue open to create a ``cpp_info.cxxflags`` a
 In the other hand, some users requested the the possibility to export some kind of templating files in order to make the task of generating
 the *conanbuildinfo* files easier in some cases. now the use of ``exports`` attribute is allowed in custom generators:
 
-```
+{% highlight python %}
 class MyCustomGeneratorPackage(ConanFile):
     name = "custom"
     version = "0.1"
     exports = "mytemplate.txt"
-```
+{% endhighlight %}
 
 You can see a full example in this
 [howt-to](https://docs.conan.io/en/latest/howtos/custom_generators.html#using-template-files-for-custom-generators).
@@ -211,4 +212,5 @@ There are new tools and improvements available in this release too:
 
 
 If you want to know more about the changes in this release, check the full list of features and fixes in the
-[changelog](https://docs.conan.io/en/latest/changelog.html) (it includes links to the related Pull Request) and don't forget to [update](https://conan.io/downloads.html)!
+[changelog](https://docs.conan.io/en/latest/changelog.html) (it includes links to the related Pull Request) and don't forget to
+[update](https://conan.io/downloads.html)!
