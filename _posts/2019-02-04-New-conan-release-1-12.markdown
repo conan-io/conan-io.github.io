@@ -15,11 +15,11 @@ It is fairly common that to test new code in packages with other dependencies wh
 Following the path of other package managers, we tried to imagine how an “editable” mode for Conan should work and there were some main
 points:
 
-    - The user has to be able to compile without Conan (IDE/command line, not ``conan build``).
+- The user has to be able to compile without Conan (IDE/command line, not ``conan build``).
 
-    - Freedom to choose any project structure for header folders, source code, library folders...
+- Freedom to choose any project structure for header folders, source code, library folders...
 
-    - Handle any configuration of settings without creating artificial packages for all of them.
+- Handle any configuration of settings without creating artificial packages for all of them.
 
 To illustrate how editable package work, we have created a repo [here](https://github.com/memsharded/editables-examples) that we would use
 it as example.
