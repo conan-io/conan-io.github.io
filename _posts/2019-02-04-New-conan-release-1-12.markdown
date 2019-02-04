@@ -124,8 +124,9 @@ The priority of the applied values is from right to left. In the case of the exa
 over the "windows" profile configuration.
 
 It is a very useful feature when you want to add build require tools like CMake, which is something not specific to a configuration. For
-example, having a profile ``cmake`` with build require ``cmake_installer`` and a ``mingw`` one with the "gcc" compiler and the
-``mingw_installer`` too would make it very easy to apply to a and to use it:
+example, having a profile ``cmake`` with build require [cmake_installer](https://github.com/conan-community/conan-cmake-installer) and a
+``mingw`` one with the "gcc" compiler and the [mingw_installer](https://github.com/conan-community/conan-mingw-installer) too would make it
+very easy to apply to a and to use it:
 
 ```
 $ conan install . --profile mingw --profile cmake
@@ -156,7 +157,8 @@ graph information. We are sure this will come handy for those orchestrating CIs 
 
 ## New architectures supported
 
-New architectures arrived at this release too. This time we included new ones for Apple and PowerPC.
+[New architectures](https://docs.conan.io/en/latest/reference/config_files/settings.yml.html#architectures) arrived at this release too.
+This time we included new ones for Apple and PowerPC.
 
 Apple introduced a new one for watchOS called ``arm64_32``. As we had already followed the ``armvX`` pattern and ``amrv8`` was already in
 place, we decided to call this one ``armv8_32``. Similarly, the new iOS architecture called ``arm64e`` was introduced in *settings.yml* as
@@ -172,8 +174,9 @@ modified, a new *settings.yml.new* will be created so you can check the diff.
 
 ## Generators: Template files & variable naming convention
 
-Some releases ago we introduced a new ``make`` generator and there were some issues with the naming of the variables that could be
-misleading to users (See [conan-io/docs#955](https://github.com/conan-io/docs/pull/955#issuecomment-442754327)).
+Some releases ago we introduced a new [make generator](https://docs.conan.io/en/latest/reference/generators/make.html) and there were some
+issues with the naming of the variables that could be misleading to users (See
+[conan-io/docs#955](https://github.com/conan-io/docs/pull/955#issuecomment-442754327)).
 
 As the Conan ``cpp_info`` model includes a ````cppflags`` that is confusing, we finally decided to rename ``CONAN_CPPFLAGS`` to
 ``CONAN_CXXFLAGS`` in the generator and follow this path for premake too, following the convention that was already in place in the
@@ -214,3 +217,6 @@ There are new tools and improvements available in this release too:
 If you want to know more about the changes in this release, check the full list of features and fixes in the
 [changelog](https://docs.conan.io/en/latest/changelog.html) (it includes links to the related Pull Request) and don't forget to
 [update](https://conan.io/downloads.html)!
+
+Finally, if you find a bug or want to start a new discussion, please do not hesitate to open a new issue
+[here](https://github.com/conan-io/conan/issues).
