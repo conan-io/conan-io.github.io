@@ -222,6 +222,27 @@ Finally, these options are passed to the build system (CMake in case of OpenCV):
 
 {% endhighlight %}
 
+We also always disable 3rd-party libraries to be built:
+
+{% highlight python %}
+
+        # disable builds for all 3rd-party components, use libraries from conan only
+        cmake.definitions['BUILD_ZLIB'] = False
+        cmake.definitions['BUILD_TIFF'] = False
+        cmake.definitions['BUILD_JASPER'] = False
+        cmake.definitions['BUILD_JPEG'] = False
+        cmake.definitions['BUILD_PNG'] = False
+        cmake.definitions['BUILD_OPENEXR'] = False
+        cmake.definitions['BUILD_WEBP'] = False
+        cmake.definitions['BUILD_TBB'] = False
+        cmake.definitions['BUILD_IPP_IW'] = False
+        cmake.definitions['BUILD_ITT'] = False
+        cmake.definitions['BUILD_JPEG_TURBO_DISABLE'] = True
+
+{% endhighlight %}
+
+As they are used from conan packages, there is no point to build them from source in context of OpenCV.
+
 ### patching for OpenEXR
 
 CMake uses so-called [find-modules](https://cmake.org/cmake/help/v3.8/manual/cmake-modules.7.html) to locate various libraries. There are plenty of them for most popular libraries, however, many are still missing, and OpenEXR is one of them.
@@ -299,6 +320,34 @@ And option to toggle contrib is passed to the build system (CMake):
 {% endhighlight %}
 
 [OPENCV_EXTRA_MODULES_PATH](https://github.com/opencv/opencv_contrib) is CMake variable to specify additional OpenCV modules to be built, and we pass path to the contrib in this case.
+
+### Package info
+
+There are some platform-specific system libraries, which have to be explicitly specified in the [package_info](https://docs.conan.io/en/latest/reference/conanfile/methods.html?highlight=package_info#package-info) method of conanfile:
+
+* [pthread](http://man7.org/linux/man-pages/man7/pthreads.7.html), or POSIX Threads, provide multi-threading support for POSIX-compatible systems
+* [libm](https://www.gnu.org/software/libc/manual/html_node/Mathematics.html), C mathematical functions
+* [libdl](http://refspecs.linuxfoundation.org/LSB_2.0.1/LSB-Core/LSB-Core/app-libdl.html), for dynamic linking support
+* [Vfw32](https://docs.microsoft.com/en-us/windows/desktop/api/_multimedia/), or [Video for Windows](https://docs.microsoft.com/en-us/windows/desktop/multimedia/video-for-windows), and ancient technology from Windows 95 timeline for video playback, which is still in use
+
+Also, specicially for Apple macOS, there are bunch of frameworks in use. In order to specify frameworks, we use the following code:
+
+{% highlight python %}
+
+            for framework in ['OpenCL',
+                              'Accelerate',
+                              'CoreMedia',
+                              'CoreVideo',
+                              'CoreGraphics',
+                              'AVFoundation',
+                              'QuartzCore',
+                              'Cocoa']:
+                self.cpp_info.exelinkflags.append('-framework %s' % framework)
+            self.cpp_info.sharedlinkflags = self.cpp_info.exelinkflags
+
+{% endhighlight %}
+
+as they are linked differently from libraries. Mostly, these frameworks are fo multimedia-related technologies available on Apple platforms.
 
 ### Future: other options and dependencies
 
