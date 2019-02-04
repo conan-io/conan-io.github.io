@@ -130,7 +130,6 @@ example, having a profile ``cmake`` with build require ``cmake_installer`` and a
 $ conan install . --profile mingw --profile cmake
 ```
 
-
 ## Full reference and JSON for some commands
 
 As you might now, some commands had some issues when referencing names of other packages. For example, the ``conan install --build <name>``
