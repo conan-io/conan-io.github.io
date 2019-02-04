@@ -392,6 +392,14 @@ Also, ffmpeg may use CUDA and OpenCL to accelerate video encoding and filtering 
 
 We're currently working on packaging [GStramer](https://gstreamer.freedesktop.org/) libraries. Similarly to FFMPEG and Google Protobuf, GStreamer itself is pretty large, and requires few other libraries to be packaged first, such as [libffi](https://sourceware.org/libffi/) and [GLib](https://developer.gnome.org/glib/stable/). Along with FFMPEG, GStreamer is one of top-requested libraries to be packaged in conan, and it's obviously on our radar.
 
+### Lessons & advices:
+
+As packaging of OpenCV was a huge task which consumed lots of time, we have learnt some lessons we want to share for packages:
+
+* Use dynamic [requirements](https://docs.conan.io/en/latest/reference/conanfile/methods.html#requirements) for optional dependencies
+* Use [build helpers](https://docs.conan.io/en/latest/reference/build_helpers.html), if possible, they automate many things and allow to keep recipe code short and clean
+* [patch_config_paths](https://docs.conan.io/en/latest/reference/build_helpers/cmake.html?highlight=patch_config_paths) might be required for CMake libraries
+* Use exelinkflags/sharedlinkflags to specify [Apple frameworks](https://docs.conan.io/en/latest/howtos/link_apple_framework.html)
 
 ### Conclusion
 
