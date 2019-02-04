@@ -222,7 +222,7 @@ There are new tools and improvements available in this release too:
   (See [link](https://docs.conan.io/en/latest/reference/build_helpers/visual_studio.html#build)).
 
 - ``tools.environment_append()`` is now able to unset variables using the ``None`` value.
-  (See[link](https://docs.conan.io/en/latest/reference/tools.html#tools-environment-append)).
+  (See [link](https://docs.conan.io/en/latest/reference/tools.html#tools-environment-append)).
 
 - Short paths feature now generates them in a deterministic way instead of having a random path in the short paths directory.
 
