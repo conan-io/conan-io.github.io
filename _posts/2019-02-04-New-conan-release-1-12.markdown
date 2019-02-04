@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Editable packages, Composable profiles, Command improvements & New architectures"
+title: "Conan 1.12: Editable packages, Composable profiles, Command improvements & New architectures"
 ---
 
 This time we have 1.12 out to start the 2019 year and there are some interesting features and improvements we would like to highlight. Let's
@@ -14,8 +14,11 @@ It is fairly common that to test new code in packages with other dependencies wh
 
 Following the path of other package managers, we tried to imagine how an “editable” mode for Conan should work and there were some main
 points:
+
     - The user has to be able to compile without Conan (IDE/command line, not ``conan build``).
+
     - Freedom to choose any project structure for header folders, source code, library folders...
+
     - Handle any configuration of settings without creating artificial packages for all of them.
 
 To illustrate how editable package work, we have created a repo [here](https://github.com/memsharded/editables-examples) that we would use
@@ -191,7 +194,7 @@ Some releases ago we introduced a new [make generator](https://docs.conan.io/en/
 issues with the naming of the variables that could be misleading to users (See
 [conan-io/docs#955](https://github.com/conan-io/docs/pull/955#issuecomment-442754327)).
 
-As the Conan ``cpp_info`` model includes a ````cppflags`` that is confusing, we finally decided to rename ``CONAN_CPPFLAGS`` to
+As the Conan ``cpp_info`` model includes a ``cppflags`` that is confusing, we finally decided to rename ``CONAN_CPPFLAGS`` to
 ``CONAN_CXXFLAGS`` in the generator and follow this path for premake too, following the convention that was already in place in the
 cmake generator. There is also an issue open to create a ``cpp_info.cxxflags`` attribute deprecating ``cpp_info.cppflags`` used in
 ``package_info()`` method of conanfile without breaking ([conan-io/conan#4461](https://github.com/conan-io/conan/issues/4461)).
@@ -207,7 +210,7 @@ class MyCustomGeneratorPackage(ConanFile):
 {% endhighlight %}
 
 You can see a full example in this
-[howt-to](https://docs.conan.io/en/latest/howtos/custom_generators.html#using-template-files-for-custom-generators).
+[how-to](https://docs.conan.io/en/latest/howtos/custom_generators.html#using-template-files-for-custom-generators).
 
 ## Other improvements
 
