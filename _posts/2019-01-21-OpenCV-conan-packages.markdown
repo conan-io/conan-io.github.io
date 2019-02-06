@@ -35,9 +35,9 @@ As usual, pre-built packages are available for major platforms (Windows/Linux/Ma
 
 ### Building OpenCV
 
-OpenCV uses [CMake](https://cmake.org/), therefore our [recipe](https://github.com/conan-community/conan-opencv/blob/release/4.0.1/conanfile.py) uses [CMake build helper](https://docs.conan.io/en/latest/reference/build_helpers/cmake.html#cmake-reference). The process to build CMake-based project is typical for many recipes, and OpenCV is not an exception here.
+OpenCV uses [CMake](https://cmake.org/), therefore our [recipe](https://github.com/conan-community/conan-opencv/blob/release/4.0.1/conanfile.py) uses [CMake build helper](https://docs.conan.io/en/latest/reference/build_helpers/cmake.html#cmake-reference). The process to build a CMake-based project is typical for many recipes, and OpenCV is not an exception here.
 
-First step is to configure CMake:
+The first step is to configure CMake:
 
 {% highlight python %}
 
@@ -49,9 +49,9 @@ First step is to configure CMake:
 
 {% endhighlight %}
 
-There is really nothing especial, besides there are lots of options to manage, that's why code takes so many lines. *cmake.configure(...)* detects compiler and its features, then generates platform-specific build files.
+There is really nothing special, besides there are lots of options to manage, that's why code takes so many lines. *cmake.configure(...)* detects compiler and its features, then generates platform-specific build files.
 
-Here we also disable bunch of stuff we would like to avoid:
+Here we also disable a bunch of stuff we would like to avoid:
 
 {% highlight python %}
 
@@ -67,10 +67,10 @@ Here we also disable bunch of stuff we would like to avoid:
 
 *cmake.definitions* is a dictionary which is translated into command line arguments passed to the cmake, for instance, *cmake.definitions['BUILD_EXAMPLES'] = False* maps into *-DBUILD_EXAMPLES=OFF*.
 
-Some exmplanation for the specific variables:
+Some explanation for the specific variables:
 
 * *BUILD_EXAMPLES* - do not build OpenCV examples, as they are not needed to use OpenCV, but increase build times and package sizes
-* *BUILD_DOCS* - skip documentation for the same reason as examples, we usually keep only things needed to link with package, and also build of documentation may require additional tools (such as [doxygen](http://www.doxygen.nl/))
+* *BUILD_DOCS* - skip documentation for the same reason as examples, we usually keep only things needed to link with the package, and also build of documentation may require additional tools (such as [doxygen](http://www.doxygen.nl/))
 * *BUILD_TESTS* - same story, as we're not going to run these tests, skip them from build
 * *BUILD_PERF_TEST* - another set of tests to skip
 * *BUILD_opencv_apps* - skip some demonstration and utility applications supplied with OpenCV
@@ -87,7 +87,7 @@ Once CMake configuration is done, we may build the project:
 
 {% endhighlight %}
 
-*cmake.build()* executes build tool depending on CMake [generator](https://cmake.org/cmake/help/v3.13/manual/cmake-generators.7.html), it might be [MSBuild](https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild?view=vs-2017), [GNU Make](https://www.gnu.org/software/make/), [Ninja](https://ninja-build.org/), etc. This is a really nice, as we don't have to deal with platform-specific details on how to build prject. As a counterexample, many projects still use different build systems to compile for various platforms, like Visual Studio solutions are used on Windows, and makefiles otherwise - for such projects recipes need to have several implementations of the [build](https://docs.conan.io/en/latest/reference/conanfile/methods.html#build) method, with handling of all options, ofcourse.
+*cmake.build()* executes build tool depending on CMake [generator](https://cmake.org/cmake/help/v3.13/manual/cmake-generators.7.html), it might be [MSBuild](https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild?view=vs-2017), [GNU Make](https://www.gnu.org/software/make/), [Ninja](https://ninja-build.org/), etc. This is really nice, as we don't have to deal with platform-specific details on how to build a project. As a counterexample, many projects still use different build systems to compile for various platforms, like Visual Studio solutions are used on Windows, and makefiles otherwise - for such projects recipes need to have several implementations of the [build](https://docs.conan.io/en/latest/reference/conanfile/methods.html#build) method, with the handling of all options, of course.
 
 Moreover, [package](https://docs.conan.io/en/latest/reference/conanfile/methods.html#package) method of our recipe is also very simple:
 
@@ -100,13 +100,13 @@ Moreover, [package](https://docs.conan.io/en/latest/reference/conanfile/methods.
 
 {% endhighlight %}
 
-It doesn't have typical code to copy platform-specific files, like .dll, .so, .dylib, etc. Instead, it uses CMake [install](https://cmake.org/cmake/help/v3.13/command/install.html) feature. CMake may generate special target called *INSTALL*, which copies project's header, libraries, CMake [configuration](https://cmake.org/cmake/help/v3.13/manual/cmake-packages.7.html) files, [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) files, other data files, like [Haar Cascades](https://docs.opencv.org/4.0.1/d7/d8b/tutorial_py_face_detection.html) in case of OpenCV. So, if project itself knows which files to distribute and how to properly layout them, then it doesn't make much sense to replicate this logic in conanfile, right? Also, *CMake.install* method automatically points [CMAKE_INSTALL_PREFIX](https://cmake.org/cmake/help/v3.13/variable/CMAKE_INSTALL_PREFIX.html) to the [package folder](https://docs.conan.io/en/latest/reference/conanfile/attributes.html?highlight=package_folder#folders-attributes-reference).
+It doesn't have typical code to copy platform-specific files, like .dll, .so, .dylib, etc. Instead, it uses CMake [install](https://cmake.org/cmake/help/v3.13/command/install.html) feature. CMake may generate special target called *INSTALL*, which copies project's header, libraries, CMake [configuration](https://cmake.org/cmake/help/v3.13/manual/cmake-packages.7.html) files, [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) files, other data files, like [Haar Cascades](https://docs.opencv.org/4.0.1/d7/d8b/tutorial_py_face_detection.html) in case of OpenCV. So, if the project itself knows which files to distribute and how to properly layout them, then it doesn't make much sense to replicate this logic in conanfile, right? Also, *CMake.install* method automatically points [CMAKE_INSTALL_PREFIX](https://cmake.org/cmake/help/v3.13/variable/CMAKE_INSTALL_PREFIX.html) to the [package folder](https://docs.conan.io/en/latest/reference/conanfile/attributes.html?highlight=package_folder#folders-attributes-reference).
 
-But what is *cmake.patch_config_paths()* and why do we need it? Well, CMake-generated config files may contain absolute paths, which something we would like to avoid, because such paths are specific to the machine where recipe was built, and consumers usually won't have dependencies installed in the same paths. For instance, on Windows conan directory usually located within [USERPROFILE](https://msdn.microsoft.com/en-us/library/windows/desktop/bb776892(v=vs.85).aspx) directory, which contains user name (e.g. *AppVeyor*). Given that fact, usage of generated CMake config files may result in inability to build project, so there is a workaround for this problem in conan.
+But what is *cmake.patch_config_paths()* and why do we need it? Well, CMake-generated config files may contain absolute paths, which something we would like to avoid, because such paths are specific to the machine where the recipe was built, and consumers usually won't have dependencies installed in the same paths. For instance, on Windows Conan directory usually located within [USERPROFILE](https://msdn.microsoft.com/en-us/library/windows/desktop/bb776892(v=vs.85).aspx) directory, which contains user name (e.g. *AppVeyor*). Given that fact, usage of generated CMake config files may result in the inability to build the project, so there is a workaround for this problem in Conan.
 
 ### dependencies
 
-OpenCV is a very complex library, and has lots of various dependencies. Current Conan recipe has the following:
+OpenCV is a very complex library and has lots of various dependencies. Current Conan recipe has the following:
 
 <p class="centered">
     <img  src="{{ site.url }}/assets/post_images/2019-01-21/opencv-deps.png"  align="center"
@@ -192,9 +192,9 @@ The code above adds conditional requirements based on options recipe declares:
 
 {% endhighlight %}
 
-Technique mentioned is documented in article [Mastering Conan: Conditional settings, options and requirements](https://docs.conan.io/en/latest/mastering/conditional.html).
+The technique mentioned is documented in the article [Mastering Conan: Conditional settings, options, and requirements](https://docs.conan.io/en/latest/mastering/conditional.html).
 
-As we're now using 3rd-party libraries from conan, there is no point to keep the *3rdparty* directory of OpenCV sources, so we remove within [source](https://docs.conan.io/en/latest/reference/conanfile/methods.html#source) method:
+As we're now using 3rd-party libraries from Conan, there is no point to keep the *3rdparty* directory of OpenCV sources, so we remove within [source](https://docs.conan.io/en/latest/reference/conanfile/methods.html#source) method:
 
 {% highlight python %}
 
@@ -202,11 +202,11 @@ As we're now using 3rd-party libraries from conan, there is no point to keep the
 
 {% endhighlight %}
 
-Why is it important? There are few advantages:
+Why is it important? There are a few advantages:
 
-* Consumers have better control on dependencies, e.g. they may easily upgrade or downgrade 3rd-party dependencies of OpenCV, like libpng, just by editing their *conanfile.txt*
+* Consumers have better control over dependencies, e.g. they may easily upgrade or downgrade 3rd-party dependencies of OpenCV, like libpng, just by editing their *conanfile.txt*
 * It saves build times, as you don't need to build rebuild these dependencies if you change some OpenCV options
-* It reduces size of packages
+* It reduces the size of packages
 * It helps to avoid linking or runtime errors, because if two libraries contain libpng sources (e.g. OpenCV and [wxWidgets](https://www.wxwidgets.org/)), and you link both into your projects, you may run into issues extremely hard to debug
 
 Finally, these options are passed to the build system (CMake in case of OpenCV):
@@ -241,7 +241,7 @@ We also always disable 3rd-party libraries to be built:
 
 {% endhighlight %}
 
-As they are used from conan packages, there is no point to build them from source in context of OpenCV.
+As they are used from Conan packages, there is no point to build them from the source in the context of OpenCV.
 
 ### patching for OpenEXR
 
@@ -251,13 +251,13 @@ OpenCV has a [collection](https://github.com/opencv/opencv/tree/master/cmake) of
 
 However, OpenCV's module for OpenEXR suffers from several issues:
 
-* It hard-codes *OPENEXR_ROOT* variable to *C:\deploy* on Windows, so it's unable to find OpenEXR in unusual locations, such as conan cache directory
+* It hard-codes *OPENEXR_ROOT* variable to *C:\deploy* on Windows, so it's unable to find OpenEXR in unusual locations, such as Conan cache directory
 * It always prefers looking for libraries in system locations (e.g. */usr/lib*), and *OPENEXR_ROOT* has very least priority
 * It doesn't consider all possible names for OpenEXR libraries. For instance, it always looks for the *IlmImf*, while library might be named *IlmImf-2_3_s*
 
-This is unfortunate. But in reality, very often conan recipes need to workaround various limitations of build scripts. The sad truth is that many libraries were designed without package management use-case in mind, hard-coding paths, library names, versions and other important things. This make life of packager a bit harder, but as popularity of package management in C++ world grows, we hope such things happen less frequently.
+This is unfortunate. But in reality, very often Conan recipes need to workaround various limitations of build scripts. The sad truth is that many libraries were designed without package management use-case in mind, hard-coding paths, library names, versions, and other important things. This makes the life of packager a bit harder, but as the popularity of package management in C++ world grows, we hope such things happen less frequently.
 
-Anyway, currently there is a code in recipe to remove hard-coded things:
+Anyway, currently there is a code in the recipe to remove hard-coded things:
 
 {% highlight python %}
 
@@ -280,7 +280,7 @@ For our luck, OpenEXR is the only case which requires modifications, other libra
 
 ### OpenCV contrib
 
-In addition to the built-in features, OpenCV has a collection of extra modules, called [OpenCV contrib](https://github.com/opencv/opencv_contrib). Currently, it has about 100 additional modules! Just o name a few:
+In addition to the built-in features, OpenCV has a collection of extra modules, called [OpenCV contrib](https://github.com/opencv/opencv_contrib). Currently, it has about 100 additional modules! Just to name a few:
 
 * [Face Analysis](https://docs.opencv.org/4.0.1/db/d7c/group__face.html)
 * [Optical Flow](https://docs.opencv.org/4.0.1/d2/d84/group__optflow.html)
@@ -310,7 +310,7 @@ From the recipe point of view, contrib adds additional source tarball:
 
 {% endhighlight %}
 
-And option to toggle contrib is passed to the build system (CMake):
+And the option to toggle contrib is passed to the build system (CMake):
 
 {% highlight python %}
 
@@ -319,17 +319,17 @@ And option to toggle contrib is passed to the build system (CMake):
 
 {% endhighlight %}
 
-[OPENCV_EXTRA_MODULES_PATH](https://github.com/opencv/opencv_contrib) is CMake variable to specify additional OpenCV modules to be built, and we pass path to the contrib in this case.
+[OPENCV_EXTRA_MODULES_PATH](https://github.com/opencv/opencv_contrib) is a CMake variable to specify additional OpenCV modules to be built, and we pass the path to the contrib in this case.
 
 ### System Requirements
 
-Sometimes recipe may need to depend on libraries provided by system package manager, such as [apt](https://packages.qa.debian.org/a/apt.html), [yum](http://yum.baseurl.org/) or [pacman](https://www.archlinux.org/pacman/), instead of libraries provided by conan. It's usually needed for some low-level things, like [VDPAU](https://www.freedesktop.org/wiki/Software/VDPAU/) or [VAAPI](https://freedesktop.org/wiki/Software/vaapi/), but in case of OpenCV, it may depend on [GTK](https://www.gtk.org/).
+Sometimes recipe may need to depend on libraries provided by the system package manager, such as [apt](https://packages.qa.debian.org/a/apt.html), [yum](http://yum.baseurl.org/) or [pacman](https://www.archlinux.org/pacman/), instead of libraries provided by Conan. It's usually needed for some low-level things, like [VDPAU](https://www.freedesktop.org/wiki/Software/VDPAU/) or [VAAPI](https://freedesktop.org/wiki/Software/vaapi/), but in case of OpenCV, it may depend on [GTK](https://www.gtk.org/).
 
-Unfortunately, System Requirement are something extremely hard to maintain, so our recommendation is to avoid them, if possible. System Requirements have the following limitations, which makes them hard to scale:
+Unfortunately, System Requirements are something extremely hard to maintain, so our recommendation is to avoid them, if possible. System Requirements have the following limitations, which makes them hard to scale:
 
 * Recipe has to use its own branch for each package manager, e.g. *yum* and *apt* will have different names for same libraries/packages (*gtk2-devel* vs *libgtk2.0-dev*)
 * Sometimes package names differ for various Linux distributions, even if they use the same package manager (e.g. [Fedora](https://getfedora.org/) and [CentOS](https://www.centos.org/) both use *yum*, but have different package name for [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/))
-* Package names may differ even for minor versions for the same Linux distro! (e.g. [Ubuntu 16.04](http://releases.ubuntu.com/16.04/) vs [Ubunutu 12.04](http://releases.ubuntu.com/12.04/))
+* Package names may differ even for minor versions for the same Linux distro! (e.g. [Ubuntu 16.04](http://releases.ubuntu.com/16.04/) vs [Ubuntu 12.04](http://releases.ubuntu.com/12.04/))
 * Names of architectures for packages also differ, e.g. *yum* uses *i686* and *x86_64* suffixes, while *apt* uses *i386* and *amd64*
 
 For instance, we're currently using the following code in order to just specify GTK dependency:
@@ -371,7 +371,7 @@ For instance, we're currently using the following code in order to just specify 
 
 This appears very excessive, isn't it? But if we decide to add support for more Linux distributions or more architectures, the amount of code will grow extremely fast.
 
-As you can see, conan uses [system_requirements](https://docs.conan.io/en/latest/reference/conanfile/methods.html?highlight=system_requirements#system-requirements) method in order to specify system-specific requirements, and there is also [SystemPackageTool](https://docs.conan.io/en/latest/reference/tools.html?highlight=systempackagetool#tools-osinfo-and-tools-systempackagetool) helper which automates installation of packages. Under the hood, it invokes commands specific to the given package manager, like *apt-get install -y libgtk2.0-dev:i386*.
+As you can see, Conan uses [system_requirements](https://docs.conan.io/en/latest/reference/conanfile/methods.html?highlight=system_requirements#system-requirements) method in order to specify system-specific requirements, and there is also [SystemPackageTool](https://docs.conan.io/en/latest/reference/tools.html?highlight=systempackagetool#tools-osinfo-and-tools-systempackagetool) helper which automates the installation of packages. Under the hood, it invokes commands specific to the given package manager, like *apt-get install -y libgtk2.0-dev:i386*.
 
 ### Package info
 
@@ -382,7 +382,7 @@ There are some platform-specific system libraries, which have to be explicitly s
 * [libdl](http://refspecs.linuxfoundation.org/LSB_2.0.1/LSB-Core/LSB-Core/app-libdl.html), for dynamic linking support
 * [Vfw32](https://docs.microsoft.com/en-us/windows/desktop/api/_multimedia/), or [Video for Windows](https://docs.microsoft.com/en-us/windows/desktop/multimedia/video-for-windows), and ancient technology from Windows 95 timeline for video playback, which is still in use
 
-Also, specicially for Apple macOS, there are bunch of frameworks in use. In order to specify frameworks, we use the following code:
+Also, especially for Apple macOS, there are a bunch of frameworks in use. In order to specify frameworks, we use the following code:
 
 {% highlight python %}
 
@@ -399,11 +399,11 @@ Also, specicially for Apple macOS, there are bunch of frameworks in use. In orde
 
 {% endhighlight %}
 
-as they are linked differently from libraries. Mostly, these frameworks are fo multimedia-related technologies available on Apple platforms.
+as they are linked differently from libraries. Mostly, these frameworks are for multimedia-related technologies available on Apple platforms.
 
 ### Future: other options and dependencies
 
-As stated previously, OpenCV is a very large and complex library, and it really has tons of options. And currently, our conan package doesn't support them all. You may check the list of available options on their [GitHub repository](https://github.com/opencv/opencv/blob/4.0.1/CMakeLists.txt#L208). It literally takes almost 300 lines of CMake code just to declare all these options! This is something that actually hard to model in one shot. Moreover, most of the options depend on other 3rd-party libraries.
+As stated previously, OpenCV is a very large and complex library, and it really has tons of options. And currently, our Conan package doesn't support them all. You may check the list of available options on their [GitHub repository](https://github.com/opencv/opencv/blob/4.0.1/CMakeLists.txt#L208). It literally takes almost 300 lines of CMake code just to declare all these options! This is something that actually hard to model in one shot. Moreover, most of the options depend on other 3rd-party libraries.
 
 Just a few examples:
 
@@ -430,29 +430,29 @@ Therefore, in order to provide OpenCL support for OpenCV package, we need to dev
 
 #### CUDA
 
-Similar story to OpenCL, however, there is only one vendor, obviously - the building of the [CUDA](https://developer.nvidia.com/cuda-zone) applications requires [nVidia CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit). The toolkit is pretty large, and contains CUDA compiler, in addition to libraries and headers. We either have to require user to have CUDA installed on the machine during the build, or provide a package for toolkit.
+Similar story to OpenCL, however, there is only one vendor, obviously - the building of the [CUDA](https://developer.nvidia.com/cuda-zone) applications requires [nVidia CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit). The toolkit is pretty large, and contains CUDA compiler, in addition to libraries and headers. We either have to require the user to have CUDA installed on the machine during the build, or provide a package for the toolkit.
 
 #### FFMPEG
 
-It's common to use OpenCV not just for image processing, but for video processing as well, for example for watermarking, green screen replacement, etc. In order to enable OpenCV to read or write video files, [ffmpeg](https://www.ffmpeg.org/) library might be used by OpenCV [Video I/O](https://docs.opencv.org/4.0.1/d0/da7/videoio_overview.html) module. However, ffmpeg itself is probably equally complex to OpenCV (its [configure script](https://github.com/FFmpeg/FFmpeg/blob/master/configure#L65) has about 400 lines just to declare options available!), so its packaging is challenging as well. Hopefully, it will be available in [conan-center](https://bintray.com/conan-community/conan/opencv%3Aconan) in the near future, so OpenCV users will be able to capture and write video streams.
+It's common to use OpenCV not just for image processing, but for video processing as well, for example for watermarking, green screen replacement, etc. In order to enable OpenCV to read or write video files, [ffmpeg](https://www.ffmpeg.org/) library might be used by OpenCV [Video I/O](https://docs.opencv.org/4.0.1/d0/da7/videoio_overview.html) module. However, FFmpeg itself is probably equally complex to OpenCV (its [configure script](https://github.com/FFmpeg/FFmpeg/blob/master/configure#L65) has about 400 lines just to declare options available!), so its packaging is challenging as well. Hopefully, it will be available in [conan-center](https://bintray.com/conan-community/conan/opencv%3Aconan) in the near future, so OpenCV users will be able to capture and write video streams.
 
 For instance, current [recipe](https://github.com/bincrafters/conan-ffmpeg) supports various encoding libraries (conan-packaged as well): [libx264](https://www.videolan.org/developers/x264.html), [libx265](http://x265.org/), [libvpx](https://www.webmproject.org/vp9/), [libopenh264](https://www.openh264.org/), etc. And we hope list will grow significantly, adding modern formats like [libaom](https://aomedia.googlesource.com/aom/) (also knowns as AV1).
 
-Also, ffmpeg may use CUDA and OpenCL to accelerate video encoding and filtering as well, so it will also benefit from addressing CUDA and OpenCL support by conan.
+Also, FFmpeg may use CUDA and OpenCL to accelerate video encoding and filtering as well, so it will also benefit from addressing CUDA and OpenCL support by Conan.
 
 #### GStreamer
 
-We're currently working on packaging [GStramer](https://gstreamer.freedesktop.org/) libraries. Similarly to FFMPEG and Google Protobuf, GStreamer itself is pretty large, and requires few other libraries to be packaged first, such as [libffi](https://sourceware.org/libffi/) and [GLib](https://developer.gnome.org/glib/stable/). Along with FFMPEG, GStreamer is one of top-requested libraries to be packaged in conan, and it's obviously on our radar.
+We're currently working on packaging [GStramer](https://gstreamer.freedesktop.org/) libraries. Similarly to FFMPEG and Google Protobuf, GStreamer itself is pretty large and requires few other libraries to be packaged first, such as [libffi](https://sourceware.org/libffi/) and [GLib](https://developer.gnome.org/glib/stable/). Along with FFMPEG, the GStreamer is one of the top-requested libraries to be packaged in Conan, and it's obviously on our radar.
 
-### Lessons & advices:
+### Lessons & advises:
 
-As packaging of OpenCV was a huge task which consumed lots of time, we have learnt some lessons we want to share for packages:
+As the packaging of OpenCV was a huge task which consumed lots of time, we have learned some lessons we want to share for packages:
 
 * Use dynamic [requirements](https://docs.conan.io/en/latest/reference/conanfile/methods.html#requirements) for optional dependencies
 * Use [build helpers](https://docs.conan.io/en/latest/reference/build_helpers.html), if possible, they automate many things and allow to keep recipe code short and clean
 * [patch_config_paths](https://docs.conan.io/en/latest/reference/build_helpers/cmake.html?highlight=patch_config_paths) might be required for CMake libraries
 * Use exelinkflags/sharedlinkflags to specify [Apple frameworks](https://docs.conan.io/en/latest/howtos/link_apple_framework.html)
-* Avoid System Requirmeents, if possible, package libraries with conan instead
+* Avoid System Requirements, if possible, package libraries with Conan instead
 
 ### Conclusion
 
