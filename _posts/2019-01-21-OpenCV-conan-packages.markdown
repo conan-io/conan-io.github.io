@@ -15,9 +15,9 @@ Given the fact OpenCV is a huge library with lots of features for various use-ca
 Recently, we have finally accepted OpenCV recipe into [conan-center](https://bintray.com/conan-community/conan/opencv%3Aconan).
 We support all major releases, so we have the following version available on Bintray:
 
-* 4.x - [opencv/4.0.1@conan/stable](https://bintray.com/conan-community/conan/opencv%3Aconan/4.0.1%3Astable)
-* 3.x - [opencv/3.4.5@conan/stable](https://bintray.com/conan-community/conan/opencv%3Aconan/3.4.5%3Astable)
-* 2.x - [opencv/2.4.13.5@conan/stable](https://bintray.com/conan-community/conan/opencv%3Aconan/2.4.13.5%3Astable)
+* 4.x - [opencv/4.0.1@conan/stable](https://bintray.com/conan-community/conan/opencv%3Aconan/4.0.1%3Astable).
+* 3.x - [opencv/3.4.5@conan/stable](https://bintray.com/conan-community/conan/opencv%3Aconan/3.4.5%3Astable).
+* 2.x - [opencv/2.4.13.5@conan/stable](https://bintray.com/conan-community/conan/opencv%3Aconan/2.4.13.5%3Astable).
 
 Installation with Conan should be pretty straightforward, e.g. you may use the following [conanfile.txt](https://docs.conan.io/en/latest/reference/conanfile_txt.html) to consume OpenCV 4.0.0:
 
@@ -69,12 +69,12 @@ Here we also disable a bunch of stuff we would like to avoid:
 
 Some explanation for the specific variables:
 
-* *BUILD_EXAMPLES* - do not build OpenCV examples, as they are not needed to use OpenCV, but increase build times and package sizes
-* *BUILD_DOCS* - skip documentation for the same reason as examples, we usually keep only things needed to link with the package, and also build of documentation may require additional tools (such as [doxygen](http://www.doxygen.nl/))
-* *BUILD_TESTS* - same story, as we're not going to run these tests, skip them from build
-* *BUILD_PERF_TEST* - another set of tests to skip
-* *BUILD_opencv_apps* - skip some demonstration and utility applications supplied with OpenCV
-* *BUILD_opencv_java* - as we're building packages for C++, disable Java bindings as well. also, installation of them requires [JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html), [Apache ANT](https://ant.apache.org/), etc. and may fail, if they are not found
+* *BUILD_EXAMPLES* - do not build OpenCV examples, as they are not needed to use OpenCV, but increase build times and package sizes.
+* *BUILD_DOCS* - skip documentation for the same reason as examples, we usually keep only things needed to link with the package, and also build of documentation may require additional tools (such as [doxygen](http://www.doxygen.nl/)).
+* *BUILD_TESTS* - same story, as we're not going to run these tests, skip them from build.
+* *BUILD_PERF_TEST* - another set of tests to skip.
+* *BUILD_opencv_apps* - skip some demonstration and utility applications supplied with OpenCV.
+* *BUILD_opencv_java* - as we're building packages for C++, disable Java bindings as well. also, installation of them requires [JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html), [Apache ANT](https://ant.apache.org/), etc. and may fail, if they are not found.
 
 Once CMake configuration is done, we may build the project:
 
@@ -204,10 +204,10 @@ As we're now using 3rd-party libraries from Conan, there is no point to keep the
 
 Why is it important? There are a few advantages:
 
-* Consumers have better control over dependencies, e.g. they may easily upgrade or downgrade 3rd-party dependencies of OpenCV, like libpng, just by editing their *conanfile.txt*
-* It saves build times, as you don't need to build rebuild these dependencies if you change some OpenCV options
-* It reduces the size of packages
-* It helps to avoid linking or runtime errors, because if two libraries contain libpng sources (e.g. OpenCV and [wxWidgets](https://www.wxwidgets.org/)), and you link both into your projects, you may run into issues extremely hard to debug
+* Consumers have better control over dependencies, e.g. they may easily upgrade or downgrade 3rd-party dependencies of OpenCV, like libpng, just by editing their *conanfile.txt*.
+* It saves build times, as you don't need to build rebuild these dependencies if you change some OpenCV options.
+* It reduces the size of packages.
+* It helps to avoid linking or runtime errors, because if two libraries contain libpng sources (e.g. OpenCV and [wxWidgets](https://www.wxwidgets.org/)), and you link both into your projects, you may run into issues extremely hard to debug.
 
 Finally, these options are passed to the build system (CMake in case of OpenCV):
 
@@ -251,9 +251,9 @@ OpenCV has a [collection](https://github.com/opencv/opencv/tree/master/cmake) of
 
 However, OpenCV's module for OpenEXR suffers from several issues:
 
-* It hard-codes *OPENEXR_ROOT* variable to *C:\deploy* on Windows, so it's unable to find OpenEXR in unusual locations, such as Conan cache directory
-* It always prefers looking for libraries in system locations (e.g. */usr/lib*), and *OPENEXR_ROOT* has very least priority
-* It doesn't consider all possible names for OpenEXR libraries. For instance, it always looks for the *IlmImf*, while library might be named *IlmImf-2_3_s*
+* It hard-codes *OPENEXR_ROOT* variable to *C:\deploy* on Windows, so it's unable to find OpenEXR in unusual locations, such as Conan cache directory.
+* It always prefers looking for libraries in system locations (e.g. */usr/lib*), and *OPENEXR_ROOT* has very least priority.
+* It doesn't consider all possible names for OpenEXR libraries. For instance, it always looks for the *IlmImf*, while library might be named *IlmImf-2_3_s*.
 
 This is unfortunate. But in reality, very often Conan recipes need to workaround various limitations of build scripts. The sad truth is that many libraries were designed without package management use-case in mind, hard-coding paths, library names, versions, and other important things. This makes the life of packager a bit harder, but as the popularity of package management in C++ world grows, we hope such things happen less frequently.
 
@@ -282,9 +282,9 @@ For our luck, OpenEXR is the only case which requires modifications, other libra
 
 In addition to the built-in features, OpenCV has a collection of extra modules, called [OpenCV contrib](https://github.com/opencv/opencv_contrib). Currently, it has about 100 additional modules! Just to name a few:
 
-* [Face Analysis](https://docs.opencv.org/4.0.1/db/d7c/group__face.html)
-* [Optical Flow](https://docs.opencv.org/4.0.1/d2/d84/group__optflow.html)
-* [Image Registration](https://docs.opencv.org/4.0.1/db/d61/group__reg.html)
+* [Face Analysis](https://docs.opencv.org/4.0.1/db/d7c/group__face.html).
+* [Optical Flow](https://docs.opencv.org/4.0.1/d2/d84/group__optflow.html).
+* [Image Registration](https://docs.opencv.org/4.0.1/db/d61/group__reg.html).
 
 By default, our package doesn't have OpenCV contrib modules enabled. But you may easily have them available by passing *opencv:contrib* option:
 
@@ -327,10 +327,10 @@ Sometimes recipe may need to depend on libraries provided by the system package 
 
 Unfortunately, System Requirements are something extremely hard to maintain, so our recommendation is to avoid them, if possible. System Requirements have the following limitations, which makes them hard to scale:
 
-* Recipe has to use its own branch for each package manager, e.g. *yum* and *apt* will have different names for same libraries/packages (*gtk2-devel* vs *libgtk2.0-dev*)
-* Sometimes package names differ for various Linux distributions, even if they use the same package manager (e.g. [Fedora](https://getfedora.org/) and [CentOS](https://www.centos.org/) both use *yum*, but have different package name for [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/))
-* Package names may differ even for minor versions for the same Linux distro! (e.g. [Ubuntu 16.04](http://releases.ubuntu.com/16.04/) vs [Ubuntu 12.04](http://releases.ubuntu.com/12.04/))
-* Names of architectures for packages also differ, e.g. *yum* uses *i686* and *x86_64* suffixes, while *apt* uses *i386* and *amd64*
+* Recipe has to use its own branch for each package manager, e.g. *yum* and *apt* will have different names for same libraries/packages (*gtk2-devel* vs *libgtk2.0-dev*).
+* Sometimes package names differ for various Linux distributions, even if they use the same package manager (e.g. [Fedora](https://getfedora.org/) and [CentOS](https://www.centos.org/) both use *yum*, but have different package name for [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/)).
+* Package names may differ even for minor versions for the same Linux distro! (e.g. [Ubuntu 16.04](http://releases.ubuntu.com/16.04/) vs [Ubuntu 12.04](http://releases.ubuntu.com/12.04/)).
+* Names of architectures for packages also differ, e.g. *yum* uses *i686* and *x86_64* suffixes, while *apt* uses *i386* and *amd64*.
 
 For instance, we're currently using the following code in order to just specify GTK dependency:
 
@@ -377,10 +377,10 @@ As you can see, Conan uses [system_requirements](https://docs.conan.io/en/latest
 
 There are some platform-specific system libraries, which have to be explicitly specified in the [package_info](https://docs.conan.io/en/latest/reference/conanfile/methods.html?highlight=package_info#package-info) method of conanfile:
 
-* [pthread](http://man7.org/linux/man-pages/man7/pthreads.7.html), or POSIX Threads, provide multi-threading support for POSIX-compatible systems
-* [libm](https://www.gnu.org/software/libc/manual/html_node/Mathematics.html), C mathematical functions
-* [libdl](http://refspecs.linuxfoundation.org/LSB_2.0.1/LSB-Core/LSB-Core/app-libdl.html), for dynamic linking support
-* [Vfw32](https://docs.microsoft.com/en-us/windows/desktop/api/_multimedia/), or [Video for Windows](https://docs.microsoft.com/en-us/windows/desktop/multimedia/video-for-windows), and ancient technology from Windows 95 timeline for video playback, which is still in use
+* [pthread](http://man7.org/linux/man-pages/man7/pthreads.7.html), or POSIX Threads, provide multi-threading support for POSIX-compatible systems.
+* [libm](https://www.gnu.org/software/libc/manual/html_node/Mathematics.html), C mathematical functions.
+* [libdl](http://refspecs.linuxfoundation.org/LSB_2.0.1/LSB-Core/LSB-Core/app-libdl.html), for dynamic linking support.
+* [Vfw32](https://docs.microsoft.com/en-us/windows/desktop/api/_multimedia/), or [Video for Windows](https://docs.microsoft.com/en-us/windows/desktop/multimedia/video-for-windows), and ancient technology from Windows 95 timeline for video playback, which is still in use.
 
 Also, especially for Apple macOS, there are a bunch of frameworks in use. In order to specify frameworks, we use the following code:
 
@@ -407,9 +407,9 @@ As stated previously, OpenCV is a very large and complex library, and it really 
 
 Just a few examples:
 
-* [Google Protocol Buffers](https://developers.google.com/protocol-buffers/) might be used to read data from [Caffe](http://caffe.berkeleyvision.org/) networks
-* [OpenCL](https://www.khronos.org/opencl/) and [CUDA](https://developer.nvidia.com/cuda-zone) might be used to accelerate OpenCV algorithms on [heterogeneous systems](https://en.wikipedia.org/wiki/Heterogeneous_System_Architecture)
-* [FFMPEG](https://github.com/bincrafters/conan-ffmpeg) and [GStreamer](https://gstreamer.freedesktop.org/) might be used to read and write video files
+* [Google Protocol Buffers](https://developers.google.com/protocol-buffers/) might be used to read data from [Caffe](http://caffe.berkeleyvision.org/) networks.
+* [OpenCL](https://www.khronos.org/opencl/) and [CUDA](https://developer.nvidia.com/cuda-zone) might be used to accelerate OpenCV algorithms on [heterogeneous systems](https://en.wikipedia.org/wiki/Heterogeneous_System_Architecture).
+* [FFMPEG](https://github.com/bincrafters/conan-ffmpeg) and [GStreamer](https://gstreamer.freedesktop.org/) might be used to read and write video files.
 
 #### Google Protocol Buffers (Protobuf)
 
@@ -421,10 +421,10 @@ We're currently actively working on adding Google Protobuf [recipe](https://gith
 
 OpenCV may also be configured to use [OpenCL](https://www.khronos.org/opencl/), however, its support is very different across various platforms, for instance:
 
-* MacOS has built-in OpenCL support by providing *OpenCL.framework*
-* Linux needs installation of development packages (e.g. [ocl-icd-opencl-dev](https://packages.debian.org/stretch/ocl-icd-opencl-dev) on Debian systems)
-* Windows needs SDK package provided by one of the vendors (e.g. from [Intel](https://software.intel.com/en-us/intel-opencl-support) or from [nVidia](https://developer.nvidia.com/cuda-toolkit))
-* Android also needs SDK package from vendors (e.g. [Mali](https://developer.arm.com/products/software/mali-sdks))
+* MacOS has built-in OpenCL support by providing *OpenCL.framework*.
+* Linux needs installation of development packages (e.g. [ocl-icd-opencl-dev](https://packages.debian.org/stretch/ocl-icd-opencl-dev) on Debian systems).
+* Windows needs SDK package provided by one of the vendors (e.g. from [Intel](https://software.intel.com/en-us/intel-opencl-support) or from [nVidia](https://developer.nvidia.com/cuda-toolkit)).
+* Android also needs SDK package from vendors (e.g. [Mali](https://developer.arm.com/products/software/mali-sdks)).
 
 Therefore, in order to provide OpenCL support for OpenCV package, we need to develop a way how to model such kind of dependency. Probably, we may decide to add a new feature to support so-called [virtual packages](https://www.debian.org/doc/manuals/debian-faq/ch-pkg_basics.en.html#s-virtual).
 
@@ -444,15 +444,15 @@ Also, FFmpeg may use CUDA and OpenCL to accelerate video encoding and filtering 
 
 We're currently working on packaging [GStramer](https://gstreamer.freedesktop.org/) libraries. Similarly to FFMPEG and Google Protobuf, GStreamer itself is pretty large and requires few other libraries to be packaged first, such as [libffi](https://sourceware.org/libffi/) and [GLib](https://developer.gnome.org/glib/stable/). Along with FFMPEG, the GStreamer is one of the top-requested libraries to be packaged in Conan, and it's obviously on our radar.
 
-### Lessons & advises:
+### Lessons & advises
 
 As the packaging of OpenCV was a huge task which consumed lots of time, we have learned some lessons we want to share for packages:
 
-* Use dynamic [requirements](https://docs.conan.io/en/latest/reference/conanfile/methods.html#requirements) for optional dependencies
-* Use [build helpers](https://docs.conan.io/en/latest/reference/build_helpers.html), if possible, they automate many things and allow to keep recipe code short and clean
-* [patch_config_paths](https://docs.conan.io/en/latest/reference/build_helpers/cmake.html?highlight=patch_config_paths) might be required for CMake libraries
-* Use exelinkflags/sharedlinkflags to specify [Apple frameworks](https://docs.conan.io/en/latest/howtos/link_apple_framework.html)
-* Avoid System Requirements, if possible, package libraries with Conan instead
+* Use dynamic [requirements](https://docs.conan.io/en/latest/reference/conanfile/methods.html#requirements) for optional dependencies.
+* Use [build helpers](https://docs.conan.io/en/latest/reference/build_helpers.html), if possible, they automate many things and allow to keep recipe code short and clean.
+* [patch_config_paths](https://docs.conan.io/en/latest/reference/build_helpers/cmake.html?highlight=patch_config_paths) might be required for CMake libraries.
+* Use exelinkflags/sharedlinkflags to specify [Apple frameworks](https://docs.conan.io/en/latest/howtos/link_apple_framework.html).
+* Avoid System Requirements, if possible, package libraries with Conan instead.
 
 ### Conclusion
 
