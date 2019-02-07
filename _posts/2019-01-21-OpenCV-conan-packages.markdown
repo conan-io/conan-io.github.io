@@ -459,3 +459,7 @@ As the packaging of OpenCV was a huge task which consumed lots of time, we have 
 Although OpenCV packages are available in [conan-center](https://bintray.com/conan-community/conan/opencv%3Aconan), they aren't complete in term of supported options and dependencies, and we are looking into adding more in small iterations, in order to satisfy more use-cases and support more features.
 
 But we still encourage users to try our OpenCV packages, and report any issues and feature requests to our [GitHub](https://github.com/conan-community/community/issues). We will be adding missing pieces prioritizing them according to the feedback.
+
+In general, Conan is already flexible and mature enough to handle packaging of very complex libraries, such as OpenCV, and conanfile may handle all requirements, options, patching, etc. Besides that, Conan provides some tools and helpers that make life of packages much easier, saving time.
+
+Conan also clearly separates logic within conanfile, making it much easier to read and write recipe code, and Conan allows to debug recipe step by step, invoking its steps individuall, one by one: [source](https://docs.conan.io/en/latest/reference/commands/development/source.html) -> [build](https://docs.conan.io/en/latest/reference/commands/development/build.html) -> [package](https://docs.conan.io/en/latest/reference/commands/development/package.html) -> [test](https://docs.conan.io/en/latest/reference/commands/creator/test.html).
