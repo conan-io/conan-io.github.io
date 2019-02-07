@@ -274,7 +274,7 @@ Anyway, currently there is a code in the recipe to remove hard-coded things:
 
 {% endhighlight %}
 
-We use [tools.replce_in_file](https://docs.conan.io/en/latest/reference/tools.html?highlight=replace_in_file#tools-replace-in-file) here to remove several lines of CMake code. In more complex cases, [tools.patch](https://docs.conan.io/en/latest/reference/tools.html?highlight=patch#tools-patch) helper might be used instead.
+We use [tools.replace_in_file](https://docs.conan.io/en/latest/reference/tools.html?highlight=replace_in_file#tools-replace-in-file) here to remove several lines of CMake code. In more complex cases, [tools.patch](https://docs.conan.io/en/latest/reference/tools.html?highlight=patch#tools-patch) helper might be used instead.
 
 For our luck, OpenEXR is the only case which requires modifications, other libraries (libpng, libjpeg, etc.) are using standard CMake find-modules, and they don't have limitations described above.
 
