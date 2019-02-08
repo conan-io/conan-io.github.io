@@ -63,7 +63,7 @@ $ protoc --cpp_out=. sensor.proto
 
 The ``protoc`` compiler will generate the ``sensor.pb.h`` and ``sensor.pb.cc`` files, respectively, of which have the getters and setters needed to access the attributes, as well as methods for serializing and parsing. The files work only as a stub, and it is necessary to include the headers distributed by Protobuf. Without this compiler, we would have to describe all the steps of object serialization in our code, and for any new change, it would be needed to update the C++ and Python files.
 
-Now that we have the stubs, we can implement an example to serialize the data collected by a sensor. The file ``*main.cpp`` will be described below:
+Now that we have the stubs, we can implement an example to serialize the data collected by a sensor. The file ``main.cpp`` will be described below:
 
 {% highlight cpp %}
 #include “sensor.pb.h”
