@@ -36,7 +36,7 @@ Another advantage is the size, as the Protobuf format is simplified, the files c
 
 So that we can illustrate the use of Protocol Buffers, we will exchange messages through different architectures and opposite languages. We will compile a code in C++ for _armv7hf_ architecture, serialize an object to file, and retrieve through a Python script. An advantageous model for those who need to exchange messages between opposing architectures through IPC techniques, even for embedded systems.
 
-For our example, we will use a message that has the reading of several sensors. The file **sensor.proto**, which will represent the message, will be described below:
+For our example, we will use a message that has the reading of several sensors. The file **sensor.proto**, which will represent the message, is described below:
 
 {% highlight proto %}
 syntax = "proto2";
