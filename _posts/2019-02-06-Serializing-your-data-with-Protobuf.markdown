@@ -5,10 +5,10 @@ title: "Serialiazing your data with Protobuf"
 ---
 
 You probably already had to develop a project where you needed to exchange information between
-processes or even between different architectures. One well-known technique in this scenario is
-[serialization](https://en.wikipedia.org/wiki/Serialization), which is summarized in the
-translation of data structures or object state into a format that can be stored and retrieved by
-the both sides.
+processes or even across different machines with different processor architectures. One
+well-known technique in this scenario is [serialization](https://en.wikipedia.org/wiki/
+Serialization), which is summarized in the translation of data structures or object state into a
+format that can be stored and retrieved by the both sides.
 
 In this blog post, we will discuss the [Protobuf](https://developers.google.com/protocol-buffers)
 (Protocol Buffers), a project that can extend more than a simple library for serialization. The
