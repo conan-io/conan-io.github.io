@@ -26,7 +26,7 @@ In the example above we use a structure that represents a person's information, 
 
 ## But Why not XML?
 
-But why else a language and serialization mechanism, if we can use something already ready, like XML? The answer is [performance](https://github.com/protocolbuffers/protobuf/blob/master/docs/performance.md).
+But, why another language and serialization mechanism if we can use something already available like XML? The answer is [performance](https://github.com/protocolbuffers/protobuf/blob/master/docs/performance.md).
 
 Protobuf has many advantages for serialization that go beyond the capacity of XML. It allows you to create a simpler description than using XML. Even for small messages, when requiring multiple nested messages, reading XML starts to get difficult for human eyes.
 
