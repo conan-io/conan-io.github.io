@@ -281,7 +281,7 @@ projects available, such as Protobuf, without having to delve into the low level
 process all the data.
 
 The success in using Protobuf is not only in serializing the data, but in the mechanism as a whole,
-from the natural language used, flexible and easy to understand, to the compiler with support for
+from the neutral language used, flexible and easy to understand, to the compiler with support for
 multiple languages, and even integration with other products, such as the gRPC, which provides
 direct communication between processes without much effort.
 
