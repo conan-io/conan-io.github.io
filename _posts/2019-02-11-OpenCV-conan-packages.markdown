@@ -109,7 +109,7 @@ But what is *cmake.patch_config_paths()* and why do we need it? Well, CMake-gene
 OpenCV is a very complex library and has lots of various dependencies. Current Conan recipe has the following:
 
 <p class="centered">
-    <img  src="{{ site.url }}/assets/post_images/2019-01-21/opencv-deps.png"  align="center"
+    <img  src="{{ site.url }}/assets/post_images/2019-02-11/opencv-deps.png"  align="center"
     width="800"  alt="dependencies of OpenCV 4.0.0 package"/>
 </p>
 
@@ -426,7 +426,7 @@ OpenCV may also be configured to use [OpenCL](https://www.khronos.org/opencl/), 
 * Windows needs SDK package provided by one of the vendors (e.g. from [Intel](https://software.intel.com/en-us/intel-opencl-support) or from [nVidia](https://developer.nvidia.com/cuda-toolkit)).
 * Android also needs SDK package from vendors (e.g. [Mali](https://developer.arm.com/products/software/mali-sdks)).
 
-Therefore, in order to provide OpenCL support for OpenCV package, we need to develop a way how to model such kind of dependency. Probably, we may decide to add a new feature to support so-called [virtual packages](https://www.debian.org/doc/manuals/debian-faq/ch-pkg_basics.en.html#s-virtual).
+Therefore, in order to provide OpenCL support for OpenCV package, we need to develop a way how to model such kind of dependency. A possibility could be something in the line of [virtual packages](https://www.debian.org/doc/manuals/debian-faq/ch-pkg_basics.en.html#s-virtual).
 
 #### CUDA
 

@@ -107,7 +107,7 @@ Now that we have the sample code and the build description, we need the environm
 Although Folly is an excellent project for C ++ environments, it has a complex dependency structure:
 
 <p class="centered">
-    <img  src="{{ site.url }}/assets/post_images/2018-11-19/graph.png"  align="center"
+    <img  src="{{ site.url }}/assets/post_images/2018-12-03/graph.png"  align="center"
     width="600"  alt="Folly's dependency graph"/>
 </p>
 
