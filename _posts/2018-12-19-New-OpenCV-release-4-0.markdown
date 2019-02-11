@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "OpenCV 4.0.0: new Graph API (G-API)"
+title: OpenCV 4.0.0 new Graph API (G-API)
 description: OpenCV has released new 4.0.0 version, which introduces new feature called G-API
 ---
 
