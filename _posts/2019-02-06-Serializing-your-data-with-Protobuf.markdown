@@ -233,7 +233,7 @@ cmake --build .
 In the above commands, we have installed only the prebuilt Protobuf libraries for _armv7hf_. The
 ``protoc`` will only hold for _amd64_ because it ignores arch, making use of only the host
 architecture by [arch_build](https://docs.conan.io/en/latest/systems_cross_building/
-cross_building.html#conan-settings). CMake needs to be informed which compiler will be used, so we
+cross_building.html#conan-settings) in your profile. CMake needs to be informed which compiler will be used, so we
 define it through ``CMAKE_CXX_COMPILER``. Once ready, we can copy our application directly to the
 target platform.
 
