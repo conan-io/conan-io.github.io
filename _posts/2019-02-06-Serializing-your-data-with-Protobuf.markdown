@@ -285,8 +285,8 @@ from the neutral language used, flexible and easy to understand, to the compiler
 multiple languages, and even integration with other products, such as the gRPC, which provides
 direct communication between processes without much effort.
 
-This post blog was a tutorial to demonstrate how tasks that could take up to weeks to complete, with
-library development, can be solved in a few hours, only using what is ready and without the need to
+This post blog was a tutorial to demonstrate how tasks that could take up to hours to complete, with
+library development, can be solved in a few steps, only using what is ready and without the need to
 build from the sources.
 
 Interested in knowing more or commenting on the subject? Please do not hesitate to open a new
