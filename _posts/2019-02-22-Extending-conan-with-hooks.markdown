@@ -4,9 +4,9 @@ comments: false
 title: "Extending Conan functionalities with hooks"
 ---
 
-Back in Conan 1.8 blog post release (LINK) we introduced a so called "Plugin System". Reading some of the feedback from users we soon
-realized that although it was a very useful feature, it wasn't exactly a plugin mechanism. Normally a is something more general and powerful
-that replaces or complements the functionality of a tool in a wider way.
+Back in [Conan 1.8 blog post]https://blog.conan.io/2018/10/11/New-conan-release-1-8.html() release we introduced a so called
+"Plugin System". Reading some of the feedback from users we soon realized that although it was a very useful feature, it wasn't exactly a
+plugin mechanism. Normally a is something more general and powerful that replaces or complements the functionality of a tool in a wider way.
 
 Instead, the feature was design in the philosophy on having a way of doing pre and post actions between certain Conan events. This was very
 similar to [git hooks feature](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks), so we decided to rename them after and consider
@@ -22,7 +22,7 @@ However, companies aren't the only ones that can benefit from the power of custo
 are very convenient when it comes to linting syntax in recipes, checking for missing attributes like licenses, ensuring proper application
 of settings and so on.
 
-In recent releases (https://docs.conan.io/en/latest/changelog.html) we have introduced some minor improvements and fixes for hooks although
+In [recent releases](https://docs.conan.io/en/latest/changelog.html) we have introduced some minor improvements and fixes for hooks although
 usability remains almost the same. Hooks can now be installed in different folders under the *hooks* folder in the configuration, allowing
 users to have multiple hooks living together and avoiding naming collision. This structure may come handy when reusing modules in modules or
 storing additional files such as licenses, readmes, requirement files...
@@ -39,7 +39,8 @@ conanio/hooks/conan-center
 conanio/hooks/binary-linter
 ```
 
-You can find more information about how to activate from command line and share hooks in the documentation (https://docs.conan.io/en/latest/extending/hooks.html#storage-activation-and-sharing).
+You can find more information about how to activate from command line and share hooks in the
+[documentation](https://docs.conan.io/en/latest/extending/hooks.html#storage-activation-and-sharing).
 
 ## Hooks under development
 
@@ -64,12 +65,14 @@ directory using a subdirectory for them:
 $ git clone https://github.com/conan-io/hooks.git conan-io
 ```
 
-This give users the power of having hooks under a VCS and updating to new versions very simple.
+This gives users the power of having hooks under a VCS and updating to new versions very simple.
 
 Now it is just a matter of activating the desired hooks:
 
 ```
 $ conan config set hooks.conanio/hooks/attribute_checker
+$ conan config set hooks.conanio/hooks/binary-linter
+...
 ```
 
 ### Attribute checker
@@ -93,7 +96,8 @@ See hook documentation: https://github.com/conan-io/hooks#binary-linter
 
 ### Bintray Updater
 
-As some of you may know, when uploading packages to Bintray the metadata of the recipe is not process at all. This results in the information of Bintray being empty. However, with this hook you would get all the infomration filled.
+As some of you may know, when uploading packages to Bintray the metadata of the recipe is not process at all. This results in the
+information of Bintray being empty. However, with this hook you would get all the information filled.
 
 You will have to provide your Bintray user and API token as environment variables.
 
@@ -103,9 +107,11 @@ See hook documentation: https://github.com/conan-io/hooks#bintray-update
 
 ### Conan Center
 
-Following the inclusion guidelines for third party, we have created a full Conan Center checker with this hook. It is mostly intended for reviewing packages before submitting an inclusion request to Conan Center.
+Following the inclusion guidelines for third party, we have created a full Conan Center checker with this hook. It is mostly intended for
+reviewing packages before submitting an inclusion request to Conan Center.
 
-It is one of the tools used for curating the central repository and although the complete set of checks are only executed during a ``conan create``, you can also use with package development commands such as ``conan source``, ``conan build``...
+It is one of the tools used for curating the central repository and although the complete set of checks are only executed during a
+``conan create``, you can also use with package development commands such as ``conan source``, ``conan build``...
 
 ```
 $ conan create . user/channel
@@ -163,7 +169,7 @@ Keep in mind that hooks are quite versatile and can be use as far as python exte
 that could compromise the binary compatibility interfering with the package ID generation model. Package reproducibility might be also a
 concern at some point, but it is up to the user to track the hooks in the Conan configuration.
 
-We have also thought about improvements for Hooks that might come in the future following the adoption. For example:
+We have also thought about improvements for Hooks that might come in the future following its adoption by the community, such as:
 
 - Dedicated commands for managing hooks: Installation, activation, update, list...
 - A versioning system of hooks and compatibility with versions of Conan client.
