@@ -77,37 +77,100 @@ $ conan config set hooks.conanio/hooks/attribute_checker
 This was the first hook created as an example and is now extracted in this repository. It is a small example to learn how to write a first
 hook.
 
+```
+$ conan export . user/channel
+[HOOK - conanio/hooks/attribute_checker.py] pre_export(): WARN: Conanfile doesn't have 'url'. It is recommended to add it as attribute
+[HOOK - conanio/hooks/attribute_checker.py] pre_export(): WARN: Conanfile doesn't have 'license'. It is recommended to add it as attribute
+```
+
 See hook documentation: https://github.com/conan-io/hooks#attribute-checker
 
 ### Binary Linter
+
+The binary linter hooks provides some hints about the artifacts that has been built after the build() call.
 
 See hook documentation: https://github.com/conan-io/hooks#binary-linter
 
 ### Bintray Updater
 
+As some of you may know, when uploading packages to Bintray the metadata of the recipe is not process at all. This results in the information of Bintray being empty. However, with this hook you would get all the infomration filled.
+
+You will have to provide your Bintray user and API token as environment variables.
+
+With this hook active the information of the conanfile will be extracted during the recipe upload and updated using the Bintray REST API.
+
 See hook documentation: https://github.com/conan-io/hooks#bintray-update
 
 ### Conan Center
+
+Following the inclusion guidelines for third party, we have created a full Conan Center checker with this hook. It is mostly intended for reviewing packages before submitting an inclusion request to Conan Center.
+
+It is one of the tools used for curating the central repository and although the complete set of checks are only executed during a ``conan create``, you can also use with package development commands such as ``conan source``, ``conan build``...
+
+```
+$ conan create . user/channel
+[HOOK - conanio/hooks/conan-center.py] pre_export(): ERROR: [RECIPE METADATA] Conanfile doesn't have 'url'. It is recommended to add it as attribute
+[HOOK - conanio/hooks/conan-center.py] pre_export(): ERROR: [RECIPE METADATA] Conanfile doesn't have 'license'. It is recommended to add it as attribute
+[HOOK - conanio/hooks/conan-center.py] pre_export(): [HEADER ONLY] OK
+[HOOK - conanio/hooks/conan-center.py] pre_export(): [NO COPY SOURCE] OK
+[HOOK - conanio/hooks/conan-center.py] pre_export(): [FPIC OPTION] OK
+[HOOK - conanio/hooks/conan-center.py] pre_export(): [FPIC MANAGEMENT] 'fPIC' option not found
+[HOOK - conanio/hooks/conan-center.py] pre_export(): [VERSION RANGES] OK
+Exporting package recipe
+Installing package: TestPkg/0.0.1@user/channel
+Requirements
+    TestPkg/0.0.1@user/channel from local cache - Cache
+Packages
+    TestPkg/0.0.1@user/channel:ca33edce272a279b24f87dc0d4cf5bbdcffbc187 - Build
+...
+TestPkg/0.0.1@user/channel: Copying sources to build folder
+TestPkg/0.0.1@user/channel: Generator cmake_paths created conan_paths.cmake
+TestPkg/0.0.1@user/channel: Calling build()
+TestPkg/0.0.1@user/channel: WARN: This conanfile has no build step
+TestPkg/0.0.1@user/channel: Package 'ca33edce272a279b24f87dc0d4cf5bbdcffbc187' built
+[HOOK - conanio/hooks/conan-center.py] post_build(): [MATCHING CONFIGURATION] OK
+[HOOK - conanio/hooks/conan-center.py] post_build(): [SHARED ARTIFACTS] OK
+TestPkg/0.0.1@user/channel: Generated conaninfo.txt
+TestPkg/0.0.1@user/channel: Generated conanbuildinfo.txt
+...
+TestPkg/0.0.1@user/channel: Calling package()
+TestPkg/0.0.1@user/channel: WARN: This conanfile has no package step
+TestPkg/0.0.1@user/channel package(): WARN: No files in this package!
+TestPkg/0.0.1@user/channel: Package 'ca33edce272a279b24f87dc0d4cf5bbdcffbc187' created
+[HOOK - conanio/hooks/conan-center.py] post_package(): ERROR: [PACKAGE LICENSE] No package licenses found in: ~/.conan/data/TestPkg/0.0.1/user/channel/package/ca33edce272a279b24f87dc0d4cf5bbdcffbc187. Please package the library license to a 'licenses' folder
+[HOOK - conanio/hooks/conan-center.py] post_package(): [DEFAULT PACKAGE LAYOUT] OK
+[HOOK - conanio/hooks/conan-center.py] post_package(): [MATCHING CONFIGURATION] OK
+[HOOK - conanio/hooks/conan-center.py] post_package(): [SHARED ARTIFACTS] OK
+```
+
+As you can see, all the checks are non blocking and mostly informative. There are recipe syntax checks and also license and binary format
+ones.
 
 See hook documentation: https://github.com/conan-io/hooks#conan-center
 
 ### GitHub Updater
 
-See hook documentation: https://github.com/conan-io/hooks#github-update
+This hook is similar to the Bintray updater but with GitHub. It updates the repository information such as description, topics and webpage.
 
+See hook documentation: https://github.com/conan-io/hooks#github-update
 
 ## Considerations
 
-- Dedicated command for hooks
-- Versioning system of hooks
-- configuration possibilities (conf, environment, custom config)
-- Checks during installation
-- requirements
+All those hooks are under development but we would like to encourage everyone, specially in the OSS community, to use them and provide
+feedback.
+
+Keep in mind that hooks are quite versatile and can be use as far as python extends, however, it is not recommended to use hooks for task
+that could compromise the binary compatibility interfering with the package ID generation model. Package reproducibility might be also a
+concern at some point, but it is up to the user to track the hooks in the Conan configuration.
+
+We have also thought about improvements for Hooks that might come in the future following the adoption. For example:
+
+- Dedicated commands for managing hooks: Installation, activation, update, list...
+- A versioning system of hooks and compatibility with versions of Conan client.
+- Hooks configuration parameters via configuration file, environment or custom.
+- Validation and tests during installation.
+- Automatic resolution of external pip requirements used.
 
 
-If you want to know more about the changes in this release, check the full list of features and fixes in the
-[changelog](https://docs.conan.io/en/latest/changelog.html) (it includes links to the related Pull Request) and don't forget to
-[update](https://conan.io/downloads.html)!
-
-Finally, if you find a bug or want to start a new discussion, please do not hesitate to open a new issue
-[here](https://github.com/conan-io/conan/issues).
+Don't forget to check the [documentation](https://docs.conan.io/en/latest/reference/hooks.html) to learn more about Hooks and if find a bug
+or want to start a new discussion, do not hesitate to open a new issue [here](https://github.com/conan-io/hooks/issues).
