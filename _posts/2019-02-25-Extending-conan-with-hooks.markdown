@@ -90,7 +90,25 @@ See hook documentation: https://github.com/conan-io/hooks#attribute-checker
 
 ### Binary Linter
 
-The binary linter hooks provides some hints about the artifacts that has been built after the build() call.
+The binary linter hooks provides some hints about the artifacts that has been built and eventually packaged after the ``package()`` call. It
+is very helpful to analyze possible missing dependencies in shared libraries as well as to check that the binaries generated match the
+profile used.
+
+Here you can see a brief output of the hook:
+
+```
+$ conan create . docopt/0.6.2@user/testing
+[HOOK - conanio/hooks/binary-linter.py] post_package(): conan binary linter plug-in
+[HOOK - conanio/hooks/binary-linter.py] post_package(): file "C:\Users\danimtb\.conan\data\docopt\0.6.2\danitmb\testing\package\970e773c5651dc2560f86200a4ea56c23f568ff9\conaninfo.txt" is not a executable, skipping...
+[HOOK - conanio/hooks/binary-linter.py] post_package(): checking file "C:\Users\danimtb\.conan\data\docopt\0.6.2\danitmb\testing\package\970e773c5651dc2560f86200a4ea56c23f568ff9\bin\docopt.dll"
+[HOOK - conanio/hooks/binary-linter.py] post_package(): "C:\Users\danimtb\.conan\data\docopt\0.6.2\danitmb\testing\package\970e773c5651dc2560f86200a4ea56c23f568ff9\bin\docopt.dll" doesn't import library "msvcr110.dll"
+...
+[HOOK - conanio/hooks/binary-linter.py] post_package(): "C:\Users\danimtb\.conan\data\docopt\0.6.2\danitmb\testing\package\970e773c5651dc2560f86200a4ea56c23f568ff9\bin\docopt.dll" imports library "vcruntime140.dll"
+[HOOK - conanio/hooks/binary-linter.py] post_package(): "C:\Users\danimtb\.conan\data\docopt\0.6.2\danitmb\testing\package\970e773c5651dc2560f86200a4ea56c23f568ff9\bin\docopt.dll" doesn't import library "vcruntime140d.dll"
+[HOOK - conanio/hooks/binary-linter.py] post_package(): "C:\Users\danimtb\.conan\data\docopt\0.6.2\danitmb\testing\package\970e773c5651dc2560f86200a4ea56c23f568ff9\bin\docopt.dll" imports library "vcruntime140.dll"
+[HOOK - conanio/hooks/binary-linter.py] post_package(): "C:\Users\danimtb\.conan\data\docopt\0.6.2\danitmb\testing\package\970e773c5651dc2560f86200a4ea56c23f568ff9\bin\docopt.dll" doesn't import library "vcruntime140d.dll"
+...
+```
 
 See hook documentation: https://github.com/conan-io/hooks#binary-linter
 
@@ -99,9 +117,20 @@ See hook documentation: https://github.com/conan-io/hooks#binary-linter
 As some of you may know, when uploading packages to Bintray the metadata of the recipe is not process at all. This results in the
 information of Bintray being empty. However, with this hook you would get all the information filled.
 
-You will have to provide your Bintray user and API token as environment variables.
+You will have to provide your Bintray user and API token as environment variables (``CONAN_LOGIN_USERNAME`` & ``CONAN_PASSWORD``).
 
 With this hook active the information of the conanfile will be extracted during the recipe upload and updated using the Bintray REST API.
+
+```
+$ conan upload docopt/0.6.2@user/testing -r bintray
+
+Uploading docopt/0.6.2@danitmb/testing to remote 'bintray'
+...
+Uploaded conan recipe 'docopt/0.6.2@user/testing' to 'bintray': https://bintray.com/user/public-conan
+[HOOK - conanio/hooks/bintray_update.py] post_upload_recipe(): Reading package info form Bintray...
+[HOOK - conanio/hooks/bintray_update.py] post_upload_recipe(): Inspecting recipe info ...
+[HOOK - conanio/hooks/bintray_update.py] post_upload_recipe(): Bintray is outdated. Updating Bintray package info: licenses, issue_tracker_url, vcs_url, website_url, desc
+```
 
 See hook documentation: https://github.com/conan-io/hooks#bintray-update
 
@@ -157,6 +186,10 @@ See hook documentation: https://github.com/conan-io/hooks#conan-center
 ### GitHub Updater
 
 This hook is similar to the Bintray updater but with GitHub. It updates the repository information such as description, topics and webpage.
+This way all the information is in GitHub and it will help when searching for recipe sources.
+
+You will need to set a GitHub API token as environment variable and perform an export of the recipe you want to get its information updated.
+It will use the URL attribute in the recipe to perform the update.
 
 See hook documentation: https://github.com/conan-io/hooks#github-update
 
