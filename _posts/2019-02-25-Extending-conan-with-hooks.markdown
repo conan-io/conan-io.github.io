@@ -6,28 +6,28 @@ title: "Extending Conan functionalities with hooks"
 
 Back in [Conan 1.8 blog post]https://blog.conan.io/2018/10/11/New-conan-release-1-8.html() release we introduced a so called
 "Plugin System". Reading some of the feedback from users we soon realized that although it was a very useful feature, it wasn't exactly a
-plugin mechanism. Normally a is something more general and powerful that replaces or complements the functionality of a tool in a wider way.
+plugin mechanism. Normally such a mechanism is something more general and powerful that replaces or complements the functionality of a tool in a wider way.
 
-Instead, the feature was design in the philosophy on having a way of doing pre and post actions between certain Conan events. This was very
+Instead, the feature was designed with the philosophy on having a way of doing pre and post actions between certain Conan events in mind. This was very
 similar to [git hooks feature](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks), so we decided to rename them after and consider
 developing a real plugin system in the future.
 
 ## Status of Hooks
 
-As you may know, hooks were release to give users a way perform additional tasks besides the usual actions in Conan like exporting,
-building, uploading... and even to customize part of the Conan behavior. This view has not change and we strongly believe they make a lot of
+As you may know, hooks were released to give users a way perform additional tasks besides the usual actions in Conan like exporting,
+building, uploading... and even to customize part of the Conan behavior. This view has not changed and we strongly believe they make a lot of
 sense for people using Conan inside a company or organization that want a custom behavior when building all of their packages.
 
 However, companies aren't the only ones that can benefit from the power of custom actions in Conan but also the open source community. Hooks
 are very convenient when it comes to linting syntax in recipes, checking for missing attributes like licenses, ensuring proper application
 of settings and so on.
 
-In [recent releases](https://docs.conan.io/en/latest/changelog.html) we have introduced some minor improvements and fixes for hooks although
-usability remains almost the same. Hooks can now be installed in different folders under the *hooks* folder in the configuration, allowing
+In [recent releases](https://docs.conan.io/en/latest/changelog.html) we introduced some minor improvements and fixes for hooks although
+usability remained almost the same. Hooks can now be installed in different folders under the *hooks* folder in the configuration, allowing
 users to have multiple hooks living together and avoiding naming collision. This structure may come handy when reusing modules in modules or
 storing additional files such as licenses, readmes, requirement files...
 
-Therefore, activation of hooks can now be done with a path to the hook interface (LINK TO DOCS):
+Therefore, activation of hooks can now be done with a path to the hook interface:
 
 *conan.conf*
 ```
@@ -57,7 +57,7 @@ Here we want to share the hooks created in this repo and how to use them.
 ### Cloning the hooks repository
 
 As stated in the documentation, hooks can be shared with ``conan config install``, making them part of the configuration and managing also
-its default activation. This mechanism is useful form people sharing the configuration all together but what do you do when want to try
+its default activation. This mechanism is useful for those sharing the configuration all together but, what do you do when want to try
 hooks developed here and there? The mechanism proposed for this in the documentation is using ``git clone`` directly in the *~/.conan/hooks*
 directory using a subdirectory for them:
 
@@ -103,8 +103,6 @@ $ conan create . docopt/0.6.2@user/testing
 [HOOK - conanio/hooks/binary-linter.py] post_package(): checking file "C:\Users\danimtb\.conan\data\docopt\0.6.2\danitmb\testing\package\970e773c5651dc2560f86200a4ea56c23f568ff9\bin\docopt.dll"
 [HOOK - conanio/hooks/binary-linter.py] post_package(): "C:\Users\danimtb\.conan\data\docopt\0.6.2\danitmb\testing\package\970e773c5651dc2560f86200a4ea56c23f568ff9\bin\docopt.dll" doesn't import library "msvcr110.dll"
 ...
-[HOOK - conanio/hooks/binary-linter.py] post_package(): "C:\Users\danimtb\.conan\data\docopt\0.6.2\danitmb\testing\package\970e773c5651dc2560f86200a4ea56c23f568ff9\bin\docopt.dll" imports library "vcruntime140.dll"
-[HOOK - conanio/hooks/binary-linter.py] post_package(): "C:\Users\danimtb\.conan\data\docopt\0.6.2\danitmb\testing\package\970e773c5651dc2560f86200a4ea56c23f568ff9\bin\docopt.dll" doesn't import library "vcruntime140d.dll"
 [HOOK - conanio/hooks/binary-linter.py] post_package(): "C:\Users\danimtb\.conan\data\docopt\0.6.2\danitmb\testing\package\970e773c5651dc2560f86200a4ea56c23f568ff9\bin\docopt.dll" imports library "vcruntime140.dll"
 [HOOK - conanio/hooks/binary-linter.py] post_package(): "C:\Users\danimtb\.conan\data\docopt\0.6.2\danitmb\testing\package\970e773c5651dc2560f86200a4ea56c23f568ff9\bin\docopt.dll" doesn't import library "vcruntime140d.dll"
 ...
