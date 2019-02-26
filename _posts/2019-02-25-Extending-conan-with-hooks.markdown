@@ -28,20 +28,63 @@ usability remained almost the same. Hooks can now be installed in different fold
 users to have multiple hooks living together and avoiding naming collision. This structure may come handy when reusing modules in hooks or
 storing additional files such as licenses, readmes, requirement files...
 
-Therefore, activation of hooks can now be done with a path to the hook interface:
-
-*conan.conf*
-```
-...
-
-[hooks]
-conan-io/hooks/attribute_checker
-conan-io/hooks/conan-center_reviewer
-conan-io/hooks/binary_linter
-```
-
 You can find more information about how to activate from command line and share hooks in the
 [documentation](https://docs.conan.io/en/latest/extending/hooks.html#storage-activation-and-sharing).
+
+## Using Hooks
+
+Hooks are just python scripts that could be more or less complicated but with an interface in common. To use them we would need to have the source code of the hook to be executed by Conan and get them activated with some commands.
+
+Let's take a look to how to do this.
+
+### Cloning a Hooks repository
+
+As stated in the documentation, hooks can be shared with ``conan config install``, making them part of the configuration and managing also
+its default activation. This mechanism is useful for those sharing the configuration all together but, what if you are developing a hook?,
+what if you want to have them versioned in their own repository? The mechanism proposed for this in the documentation is using ``git clone``
+directly in the *~/.conan/hooks* directory using a subdirectory for them:
+
+```
+$ cd ~/.conan/hooks
+$ git clone https://github.com/conan-io/hooks.git conan-io
+```
+
+We strongly believe they need a separated repository to grow and get mature, so weWe have come with the solution on
+having the development controlled under ``git`` and this will help us with the versioning in the future.
+
+You might have noticed that we cloned the repository into a ``conan-io`` folder, this is done to avoid name collision of hooks so we can
+distinguish them using its path.
+
+### Activating some Hooks
+
+Now that we have hooks cloned it is just a matter of activating the desired ones. There are different possibilities for doing this:
+
+(CHECK ABSOULTE PATHS)
+
+- Editing the *conan.conf* file: You can go to the ``[hooks]`` section and write the path to the hook you want to use.
+
+  *conan.conf*
+  ```
+  ...
+
+  [hooks]
+  conan-io/hooks/attribute_checker
+  conan-io/hooks/binary_linter
+  ```
+
+- From command line: Using `conan config set hooks.<hook path>` command.
+
+  ```
+  $ conan config set hooks.conan-io/hooks/attribute_checker
+  $ conan config set hooks.conan-io/hooks/binary_linter
+  ...
+  ```
+
+- Using the environment variable ``CONAN_HOOKS``: This might be useful for CI environments.
+
+  ```
+  $ export CONAN_HOOKS="/home/user/.conan/hooks/conan-io/hooks/attribute_checker","/home/user/.conan/hooks/conan-io/hooks/binary_linter"
+  ```
 
 ## Hooks under development
 
@@ -54,28 +97,6 @@ requests and bunch of issues with ideas on how to improve the hooks integration 
 testing, documentation...
 
 In this post we want to share the hooks created in this repo and how to use them.
-
-### Cloning the hooks repository
-
-As stated in the documentation, hooks can be shared with ``conan config install``, making them part of the configuration and managing also
-its default activation. This mechanism is useful for those sharing the configuration all together but, what if you are developing a hook?,
-what if you want to have them versioned in their own repository? The mechanism proposed for this in the documentation is using ``git clone``
-directly in the *~/.conan/hooks* directory using a subdirectory for them:
-
-```
-$ cd ~/.conan/hooks
-$ git clone https://github.com/conan-io/hooks.git conan-io
-```
-
-This gives users the power of having hooks under a VCS and updating to new versions very simple.
-
-Now it is just a matter of activating the desired hooks:
-
-```
-$ conan config set hooks.conan-io/hooks/attribute_checker
-$ conan config set hooks.conan-io/hooks/binary_linter
-...
-```
 
 ### Attribute Checker
 
@@ -122,7 +143,7 @@ You will have to provide your Bintray user and API token as environment variable
 With this hook active, the information is collected from the recipe attributes, such as ``name``, ``license``, ``url``, ``homepage`` and
 ``description``. The maturity level is based on the branch name like `master`, `release` and `stable` are considered ``Stable`` maturity
 level. The project logo is not supported by this hook, since the Bintray API does not allow file uploads, and it is updated during the
-recipe upload using the Bintray REST API.
+recipe upload using the Bintray REST API (LINK).
 
 ```
 $ conan upload docopt/0.6.2@user/testing -r bintray
@@ -198,10 +219,7 @@ It will use the URL attribute in the recipe to perform the update.
 
 See hook documentation: https://github.com/conan-io/hooks#github-updater
 
-## Considerations
-
-All those hooks are under development but we would like to encourage everyone, specially in the OSS community, to use them and provide
-feedback.
+## Considerations for Hooks development
 
 Keep in mind that hooks are quite versatile and can be use as far as python extends, however, it is not recommended to use hooks for task
 that could compromise the binary compatibility interfering with the package ID generation model. Package reproducibility might be also a
@@ -215,6 +233,12 @@ We have also thought about improvements for Hooks that might come in the future 
 - Validation and tests during installation.
 - Automatic resolution of external pip requirements used.
 
+## Final notes
+
+- experimental (this is what it is all about)
+
+All those hooks are under development but we would like to encourage everyone, specially in the OSS community, to use them and provide
+feedback.
 
 Don't forget to check the [documentation](https://docs.conan.io/en/latest/reference/hooks.html) to learn more about Hooks and if find a bug
 or want to start a new discussion, do not hesitate to open a new issue [here](https://github.com/conan-io/hooks/issues).
