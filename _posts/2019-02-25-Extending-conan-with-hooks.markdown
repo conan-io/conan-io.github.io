@@ -117,7 +117,10 @@ information of Bintray being empty. However, with this hook you would get all th
 
 You will have to provide your Bintray user and API token as environment variables (``BINTRAY_LOGIN_USERNAME`` & ``BINTRAY_PASSWORD``).
 
-With this hook active the information of the conanfile will be extracted during the recipe upload and updated using the Bintray REST API.
+With this hook active, the information is collected from the recipe attributes, such as ``name``, ``license``, ``url``, ``homepage`` and
+``description``. The maturity level is based on the branch name like `master`, `release` and `stable` are considered ``Stable`` maturity
+level. The project logo is not supported by this hook, since the Bintray API does not allow file uploads, and it is updated during the
+recipe upload using the Bintray REST API.
 
 ```
 $ conan upload docopt/0.6.2@user/testing -r bintray
