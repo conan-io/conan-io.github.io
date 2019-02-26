@@ -115,7 +115,7 @@ See hook documentation: https://github.com/conan-io/hooks#binary-linter
 As some of you may know, when uploading packages to Bintray the metadata of the recipe is not process at all. This results in the
 information of Bintray being empty. However, with this hook you would get all the information filled.
 
-You will have to provide your Bintray user and API token as environment variables (``CONAN_LOGIN_USERNAME`` & ``CONAN_PASSWORD``).
+You will have to provide your Bintray user and API token as environment variables (``BINTRAY_LOGIN_USERNAME`` & ``BINTRAY_PASSWORD``).
 
 With this hook active the information of the conanfile will be extracted during the recipe upload and updated using the Bintray REST API.
 
