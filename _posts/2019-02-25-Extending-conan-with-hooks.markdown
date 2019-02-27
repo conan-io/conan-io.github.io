@@ -33,8 +33,8 @@ You can find more information about how to activate from command line and share 
 
 ## Using Hooks
 
-Hooks are just python scripts that could be more or less complicated but with an interface in common. To use them we would need to have the
-source code of the hook to be executed by Conan and get them activated with some commands.
+The Conan hooks are a Python scripts intended to extend the Conan functionalities and let users enhance the client behavior at determined
+points. To use them we would need to have the source code of the hook to be executed by Conan and get them activated with some commands.
 
 Let's take a look to how to do this.
 
