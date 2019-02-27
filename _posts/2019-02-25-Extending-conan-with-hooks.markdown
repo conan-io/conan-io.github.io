@@ -4,7 +4,7 @@ comments: false
 title: "Extending Conan functionalities with hooks"
 ---
 
-Back in [Conan 1.8 blog post](https://blog.conan.io/2018/10/11/New-conan-release-1-8.html release we introduced a so called
+Back in [Conan 1.8 blog post](https://blog.conan.io/2018/10/11/New-conan-release-1-8.html) release we introduced a so called
 "Plugin System". Reading some of the feedback from users we soon realized that although it was a very useful feature, it wasn't exactly a
 plugin mechanism. Normally such a mechanism is something more general and powerful that replaces or complements the functionality of a tool
 in a wider way.
