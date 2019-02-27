@@ -50,7 +50,7 @@ $ cd ~/.conan/hooks
 $ git clone https://github.com/conan-io/hooks.git conan-io
 ```
 
-We strongly believe they need a separated repository to grow and get mature, so weWe have come with the solution on
+We strongly believe they need a separated repository to grow and get mature, so we have come with the solution on
 having the development controlled under ``git`` and this will help us with the versioning in the future.
 
 You might have noticed that we cloned the repository into a ``conan-io`` folder, this is done to avoid name collision of hooks so we can
