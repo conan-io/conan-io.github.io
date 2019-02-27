@@ -16,8 +16,8 @@ and will consider developing a real plugin system in the future.
 ## Status of Hooks
 
 Hooks were released to give users a way to perform additional tasks besides the usual actions in Conan like exporting, building,
-uploading... and even to customize part of the Conan behavior. This view has not changed and we strongly believe they make a lot of sense
-for people using Conan inside a company or organization that want a custom behavior when building all of their packages.
+uploading... and even to implement additional actions as part of the Conan behavior. This view has not changed and we strongly believe they
+make a lot of sense for people using Conan inside a company or organization that want a custom behavior when building all of their packages.
 
 However, companies aren't the only ones that can benefit from the power of custom actions in Conan but also the open source community. Hooks
 are very convenient when it comes to linting syntax in recipes, checking for missing attributes like licenses, ensuring proper application
@@ -33,7 +33,8 @@ You can find more information about how to activate from command line and share 
 
 ## Using Hooks
 
-Hooks are just python scripts that could be more or less complicated but with an interface in common. To use them we would need to have the source code of the hook to be executed by Conan and get them activated with some commands.
+Hooks are just python scripts that could be more or less complicated but with an interface in common. To use them we would need to have the
+source code of the hook to be executed by Conan and get them activated with some commands.
 
 Let's take a look to how to do this.
 
@@ -59,9 +60,8 @@ distinguish them using its path.
 
 Now that we have hooks cloned it is just a matter of activating the desired ones. There are different possibilities for doing this:
 
-(CHECK ABSOULTE PATHS)
-
-- Editing the *conan.conf* file: You can go to the ``[hooks]`` section and write the path to the hook you want to use.
+- Editing the *conan.conf* file: You can go to the ``[hooks]`` section and write the path to the hook you want to use relative to the
+  *hooks* folder.
 
   *conan.conf*
   ```
@@ -72,7 +72,7 @@ Now that we have hooks cloned it is just a matter of activating the desired ones
   conan-io/hooks/binary_linter
   ```
 
-- From command line: Using `conan config set hooks.<hook path>` command.
+- From command line: Using `conan config set hooks.<hook path>` command (relative path as described above).
 
   ```
   $ conan config set hooks.conan-io/hooks/attribute_checker
@@ -80,10 +80,11 @@ Now that we have hooks cloned it is just a matter of activating the desired ones
   ...
   ```
 
-- Using the environment variable ``CONAN_HOOKS``: This might be useful for CI environments.
+- Using the environment variable ``CONAN_HOOKS``: This allows using more than one hook separated by commas and path can be either relative
+  to *hooks* folder or absolute to any other location. This might be useful for CI environments.
 
   ```
-  $ export CONAN_HOOKS="/home/user/.conan/hooks/conan-io/hooks/attribute_checker","/home/user/.conan/hooks/conan-io/hooks/binary_linter"
+  $ set CONAN_HOOKS=/home/user/.conan/hooks/conan-io/hooks/attribute_checker,/home/user/.conan/hooks/conan-io/hooks/binary_linter
   ```
 
 ## Hooks under development
@@ -235,10 +236,10 @@ We have also thought about improvements for Hooks that might come in the future 
 
 ## Final notes
 
-- experimental (this is what it is all about)
-
 All those hooks are under development but we would like to encourage everyone, specially in the OSS community, to use them and provide
 feedback.
 
-Don't forget to check the [documentation](https://docs.conan.io/en/latest/reference/hooks.html) to learn more about Hooks and if find a bug
-or want to start a new discussion, do not hesitate to open a new issue [here](https://github.com/conan-io/hooks/issues).
+We are open to contributions improving the current hooks or proposing new ones that could be of interest of the community. If you are
+interested, comment in the [hooks issue tracker](https://github.com/conan-io/hooks/issues) and feel free to open a PR with your proposals.
+
+Finally, don't forget to check the [documentation](https://docs.conan.io/en/latest/reference/hooks.html) to learn more!
