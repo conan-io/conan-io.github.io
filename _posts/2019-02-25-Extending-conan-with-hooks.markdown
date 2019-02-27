@@ -110,7 +110,7 @@ $ conan export . user/channel
 [HOOK - conan-io/hooks/attribute_checker.py] pre_export(): WARN: Conanfile doesn't have 'license'. It is recommended to add it as attribute
 ```
 
-See hook documentation: https://github.com/conan-io/hooks#attribute-checker
+See hook documentation: [attribute-checker](https://github.com/conan-io/hooks#attribute-checker)
 
 ### Binary Linter
 
