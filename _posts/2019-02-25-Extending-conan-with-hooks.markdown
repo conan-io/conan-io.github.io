@@ -4,7 +4,7 @@ comments: false
 title: "Extending Conan functionalities with hooks"
 ---
 
-Back in [Conan 1.8 blog post](https://blog.conan.io/2018/10/11/New-conan-release-1-8.html release we introduced a so called
+Back in [Conan 1.8 blog post](https://blog.conan.io/2018/10/11/New-conan-release-1-8.html) release we introduced a so called
 "Plugin System". Reading some of the feedback from users we soon realized that although it was a very useful feature, it wasn't exactly a
 plugin mechanism. Normally such a mechanism is something more general and powerful that replaces or complements the functionality of a tool
 in a wider way.
@@ -50,7 +50,7 @@ $ cd ~/.conan/hooks
 $ git clone https://github.com/conan-io/hooks.git conan-io
 ```
 
-We strongly believe they need a separated repository to grow and get mature, so weWe have come with the solution on
+We strongly believe they need a separated repository to grow and get mature, so we have come with the solution on
 having the development controlled under ``git`` and this will help us with the versioning in the future.
 
 You might have noticed that we cloned the repository into a ``conan-io`` folder, this is done to avoid name collision of hooks so we can
@@ -89,7 +89,7 @@ Now that we have hooks cloned it is just a matter of activating the desired ones
 
 ## Hooks under development
 
-In the documentation we proposed some ideas and small examples (https://docs.conan.io/en/latest/extending/hooks.html) about hooks like
+In the documentation we proposed some ideas and small [examples](https://docs.conan.io/en/latest/extending/hooks.html) about hooks like
 attribute checks in the recipe, package signing or source code download immutability. We have already implemented the attribute checker
 linter as a hook.
 
@@ -110,7 +110,7 @@ $ conan export . user/channel
 [HOOK - conan-io/hooks/attribute_checker.py] pre_export(): WARN: Conanfile doesn't have 'license'. It is recommended to add it as attribute
 ```
 
-See hook documentation: https://github.com/conan-io/hooks#attribute-checker
+See hook documentation: [attribute-checker](https://github.com/conan-io/hooks#attribute-checker)
 
 ### Binary Linter
 
