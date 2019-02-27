@@ -218,7 +218,7 @@ This way all the information is in GitHub and it will help when searching for re
     <img src="{{ site.url }}/assets/post_images/2019-02-27/github_updater.png" align="center"/>
 </p>
 
-You will need to set a GitHub API token as environment variable and perform an export of the recipe you want to get its information updated.
+You will need to set a GitHub API token as environment variable ``GITHUB_TOKEN`` and perform an export of the recipe you want to get its information updated.
 It will use the URL attribute in the recipe to perform the update.
 
 See hook documentation: [github-updater](https://github.com/conan-io/hooks#github-updater)
