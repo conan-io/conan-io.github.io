@@ -33,17 +33,18 @@ You can find more information about how to activate from command line and share 
 
 ## Using Hooks
 
-The Conan hooks are a Python scripts intended to extend the Conan functionalities and let users enhance the client behavior at determined
-points. To use them we would need to have the source code of the hook to be executed by Conan and get them activated with some commands.
+The Conan hooks are kind of Python modules intended to extend the Conan functionalities and let users enhance the client behavior at
+determined points. To use them we would need to have the source code of the hook to be executed by Conan and get them activated with some
+commands (see section below).
 
 Let's take a look to how to do this.
 
 ### Cloning a Hooks repository
 
-As stated in the documentation, hooks can be shared with ``conan config install``, making them part of the configuration and managing also
-its default activation. This mechanism is useful for those sharing the configuration all together but, what if you are developing a hook?,
-what if you want to have them versioned in their own repository? The mechanism proposed for this in the documentation is using ``git clone``
-directly in the *~/.conan/hooks* directory using a subdirectory for them:
+As stated in the documentation, hooks can be shared with ``conan config install``, making them part of the configuration and having them
+activated in the *conan.conf* by default. This mechanism is useful for those sharing the configuration all together but, what if you are
+developing a hook?, what if you want to have them versioned in their own repository? The mechanism proposed for this in the documentation is
+using ``git clone`` directly in the *~/.conan/hooks* directory using a subdirectory for them:
 
 ```
 $ cd ~/.conan/hooks
@@ -110,7 +111,7 @@ $ conan export . user/channel
 [HOOK - conan-io/hooks/attribute_checker.py] pre_export(): WARN: Conanfile doesn't have 'license'. It is recommended to add it as attribute
 ```
 
-See hook documentation: [attribute-checker](https://github.com/conan-io/hooks#attribute-checker)
+See hook documentation: [attribute_checker](https://github.com/conan-io/hooks#attribute-checker)
 
 ### Binary Linter
 
@@ -132,7 +133,7 @@ $ conan create . docopt/0.6.2@user/testing
 ...
 ```
 
-See hook documentation: https://github.com/conan-io/hooks#binary-linter
+See hook documentation: [binary_linter](https://github.com/conan-io/hooks#binary-linter)
 
 ### Bintray Updater
 
@@ -157,7 +158,7 @@ Uploaded conan recipe 'docopt/0.6.2@user/testing' to 'bintray': https://bintray.
 [HOOK - conan-io/hooks/bintray_update.py] post_upload_recipe(): Bintray is outdated. Updating Bintray package info: licenses, issue_tracker_url, vcs_url, website_url, desc
 ```
 
-See hook documentation: https://github.com/conan-io/hooks#bintray-update
+See hook documentation: [bintray_updater](https://github.com/conan-io/hooks#bintray-updater)
 
 ### Conan Center Reviewer
 
@@ -206,7 +207,7 @@ TestPkg/0.0.1@user/channel: Package 'ca33edce272a279b24f87dc0d4cf5bbdcffbc187' c
 As you can see, all the checks are non blocking and mostly informative. There are recipe syntax checks and also license and binary format
 ones.
 
-See hook documentation: https://github.com/conan-io/hooks#conan-center
+See hook documentation: [conan-center_reviewer](https://github.com/conan-io/hooks#conan-center-reviewer)
 
 ### GitHub Updater
 
