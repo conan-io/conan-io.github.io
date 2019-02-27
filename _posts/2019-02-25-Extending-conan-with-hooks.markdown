@@ -222,7 +222,7 @@ See hook documentation: https://github.com/conan-io/hooks#github-updater
 
 ## Considerations for Hooks development
 
-Keep in mind that hooks are quite versatile and can be use as far as python extends, however, it is not recommended to use hooks for task
+Keep in mind that hooks are quite versatile and can be used as far as python extends, however, it is not recommended to use hooks for task
 that could compromise the binary compatibility interfering with the package ID generation model. Package reproducibility might be also a
 concern at some point, but it is up to the user to track the hooks in the Conan configuration.
 
