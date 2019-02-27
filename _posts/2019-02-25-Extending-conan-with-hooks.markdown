@@ -214,7 +214,9 @@ See hook documentation: [conan-center_reviewer](https://github.com/conan-io/hook
 This hook is similar to the Bintray updater but with GitHub. It updates the repository information such as description, topics and webpage.
 This way all the information is in GitHub and it will help when searching for recipe sources.
 
-![](../assests/post_images/2019-02-27/github_updater.png)
+<p class="centered">
+    <img src="{{ site.url }}/assets/post_images/2019-02-27/github_updater.png" align="center"/>
+</p>
 
 You will need to set a GitHub API token as environment variable and perform an export of the recipe you want to get its information updated.
 It will use the URL attribute in the recipe to perform the update.
