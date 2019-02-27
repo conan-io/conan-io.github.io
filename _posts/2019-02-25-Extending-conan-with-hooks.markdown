@@ -89,7 +89,7 @@ Now that we have hooks cloned it is just a matter of activating the desired ones
 
 ## Hooks under development
 
-In the documentation we proposed some ideas and small examples (https://docs.conan.io/en/latest/extending/hooks.html) about hooks like
+In the documentation we proposed some ideas and small [examples](https://docs.conan.io/en/latest/extending/hooks.html) about hooks like
 attribute checks in the recipe, package signing or source code download immutability. We have already implemented the attribute checker
 linter as a hook.
 
