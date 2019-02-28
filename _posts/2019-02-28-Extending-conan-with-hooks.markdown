@@ -215,7 +215,7 @@ This hook is similar to the Bintray updater but with GitHub. It updates the repo
 This way all the information is in GitHub and it will help when searching for recipe sources.
 
 <p class="centered">
-    <img src="{{ site.url }}/assets/post_images/2019-02-27/github_updater.png" align="center"/>
+    <img src="{{ site.url }}/assets/post_images/2019-02-28/github_updater.png" align="center"/>
 </p>
 
 You will need to set a GitHub API token as an environment variable and perform an export of the recipe you want to get its information updated.
