@@ -12,7 +12,7 @@ format that can be stored and retrieved by the both sides.
 
 In this blog post, we will discuss the [Protobuf](https://developers.google.com/protocol-buffers)
 (Protocol Buffers), a project that can extend more than a simple library for serialization. The
-entire example presented here is available on [Github](https://github.com/uilianries/conan-protobuf-example).
+entire example presented here is available on [Github](https://github.com/conan-io/examples/protobuf).
 
 ## What is Protobuf?
 
