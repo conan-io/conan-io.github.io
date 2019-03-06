@@ -197,8 +197,10 @@ In addition, you must also declare the
 following dependencies:
 
 {% highlight text %}
-[requires]
+[build_requires]
 protoc_installer/3.6.1@bincrafters/stable
+
+[requires]
 protobuf/3.6.1@bincrafters/stable
 
 [generators]
@@ -226,7 +228,7 @@ to inform the compiler and the target platform:
 
 {% highlight bash %}
 conan install .. -s arch=armv7hf
-cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++``
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++
 cmake --build .
 {% endhighlight %}
 
