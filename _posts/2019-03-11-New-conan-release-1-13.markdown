@@ -41,7 +41,7 @@ two more levels:
 - Package revision (*PREV*): A unique ID using the checksum of the package manifest (all files stored in a binary package).
 
 This would mean that now to specifically refer to a binary package you would have to indicate something like:
-``<package_name>/<version>@<user_name>/<channel>#<RREV>:<PREV><package_id>``
+``<package_name>/<version>@<user_name>/<channel>#<RREV>:<package_id>#<PREV>``
 
 ### Working with revisions
 
