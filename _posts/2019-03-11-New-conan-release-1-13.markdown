@@ -224,8 +224,8 @@ In this release we have enhanced this feature with useful changes:
 
 - Layout files now allow the usage of [Jinja templating](http://jinja.pocoo.org/) for settings and options:
 
-  {% highlight ini %}
-  [includedirs]
+  ```
+  {% raw %}[includedirs]
   src/core/include
   src/cmp_a/include
 
@@ -234,8 +234,8 @@ In this release we have enhanced this feature with useful changes:
   build/{{settings.build_type}}/shared
   {% else %}
   build/{{settings.build_type}}/static
-  {% endif %}
-  {% endhighlight %}
+  {% endif %}{% endraw %}
+  ```
 
 - Command has been renamed to ``conan editable`` with the corresponding subcommands ``conan editable add``,
   ``conan editable remove`` to put a package in this editable mode or remove it.
