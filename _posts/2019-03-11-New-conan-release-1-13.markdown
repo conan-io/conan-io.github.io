@@ -205,7 +205,7 @@ Let's make test it:
 This behavior was the default and couldn't be changed until Conan 1.13, where you are able to set this globally in your configuration file
 *conan.conf*:
 
-```
+{% highlight ini %}
 [general]
 default_package_id_mode = full_package_mode
 ```
