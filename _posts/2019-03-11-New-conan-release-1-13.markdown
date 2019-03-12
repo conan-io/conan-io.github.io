@@ -147,7 +147,7 @@ Let's make test it:
 - *libB/1.0.0*:
 
   *conanfile.py*
-  ```
+  {% highlight python %}
   from conans import ConanFile
 
   class Lib(ConanFile):
