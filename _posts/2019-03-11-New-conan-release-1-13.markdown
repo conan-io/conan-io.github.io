@@ -183,7 +183,7 @@ Let's check it:
   ``f1fc64edd1a6c2fb7d41b78ecf5972a0e7a85df8``.
 
   ```
-  $ conan info conanfile.py
+  $ conan info .
   libA/2.0.0@user/channel
       ID: 5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9
       BuildID: None
