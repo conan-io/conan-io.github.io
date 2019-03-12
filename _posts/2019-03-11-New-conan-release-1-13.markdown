@@ -13,7 +13,7 @@ Some releases ago we started to include some of the changes needed to adapt the 
 is an implicit way of creating revisions of the same version of a package without having to bump the version explicitly.
 
 The motivation to include this concept in packages an recipes was mainly driven by the fact that in most of the situations when developing a
-Conan package, the recipe *conanfile.py* follows a different development cycle. An example of this could be a recipe adding support for
+Conan package, the recipe *conanfile.py* __follows a different development cycle__. An example of this could be a recipe adding support for
 building in another OS. Adding this change would probably not require any change in the library itself nor in the build system, however, to
 reflect that change you would need to upload the recipe to a remote with the same reference (e.g. ``lib/1.1.2@user/channel``) and overwrite
 the previous version.
@@ -24,7 +24,7 @@ library version, something like ``lib/1.1.2-<commit-hash>@user/channel``. Althou
 disadvantage of having to bump the version on every other recipe depending on the updated one.
 
 We have realized that to make it work properly, this behavior should be implemented as part of the Conan model and that's why this release
-includes the first experimental version of Conan working with revisions!
+includes the **first experimental version of Conan working with revisions**!
 
 ### Revisions explained
 
@@ -45,8 +45,8 @@ and package revisions: ``<package_name>/<version>@<user_name>/<channel>#<RREV>:<
 
 ### Working with revisions
 
-The concept of revisions is mostly server side, where all the recipe revisions and package revisions will be stored. In the client side (in the Conan cache) we
-can only have one revision at a time.
+The concept of revisions is mostly server side, where all the recipe revisions and package revisions will be stored. In the client side (in
+the Conan cache) we can only have one revision at a time.
 
 To try and work with revisions in the client, you would need to opt in setting ``CONAN_REVISIONS_ENABLED=1`` in the environment or enabling
 that in the configuration file:
@@ -96,7 +96,7 @@ Revisions for 'IrrXML/1.2@user/channel' at remote 'conan-local':
 ```
 
 Now, anyone installing or performing a ``conan install --update`` will automatically get the latest revision from the server. Moreover, they
-can also target target a specific recipe revision:
+can also target target a __specific recipe revision__:
 
 ```
 $ conan install IrrXML/1.2@user/channel#681d7e590d2da0a164166f737a49cf32c735ee6c --remote server --update
@@ -105,7 +105,7 @@ $ conan install IrrXML/1.2@user/channel#681d7e590d2da0a164166f737a49cf32c735ee6c
 IrrXML/1.2@user/channel: WARN: The package IrrXML/1.2@user/channel:6cc50b139b9c3d27b3e9042d5f5372d327b3a9f7 doesn't belong to the installed recipe revision, removing folder
 Installing package: IrrXML/1.2@user/channel
 Requirements
-    IrrXML/1.2@user/channel from 'conan-local' - Cache
+    IrrXML/1.2@user/channel from 'conan-local' - Download
 Packages
     IrrXML/1.2@user/channel:6cc50b139b9c3d27b3e9042d5f5372d327b3a9f7 - Download
 ...
@@ -212,8 +212,8 @@ change on the version of *libA*.
 
 Any of the modes described in
 [Defining Package ABI compatibility](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#id3) section from the
-documentation can be used and setting this will come handy to anyone who wants to have fine control over the package ID generation and the
-compatibility of binaries regarding its dependencies.
+documentation can be used and setting this will come handy to anyone who wants to have **fine control over the package ID generation** and
+the **compatibility of binaries regarding its dependencies**.
 
 ## Update on editable packages
 
@@ -222,7 +222,7 @@ without the need of exporting them to the cache.
 
 In this release we have enhanced this feature with useful changes:
 
-- Layout files now allow the usage of [Jinja templating](http://jinja.pocoo.org/) for settings and options:
+- Layout files now allow the usage of [Jinja templating](http://jinja.pocoo.org/) for **settings** and **options**:
 
   ```
   {% raw %}[includedirs]
@@ -253,12 +253,12 @@ Check the docs for more info about [editable packages](https://docs.conan.io/en/
 
 ## New implementation for Workspaces
 
-The workspaces feature is back with a new implementation on top of the *editables*. The use case for this feature was the fact of working
-simultaneously on more than one package. Making changes on any dependency will require to issue a Conan command to make the changes
-available in the cache to be consumed by a downstream package.
+The workspaces feature is back with a new implementation on top of the *editables*. The use case for this feature was the fact of
+__working simultaneously on more than one package__. Making changes on any dependency will require to issue a Conan command to make the
+changes available in the cache to be consumed by a downstream package.
 
-The Conan workspaces allow to have more than one package in user folders, and have them to directly use other packages from user folders
-without needing to put them in the local cache. Furthermore, it enables incremental builds on large projects containing multiple packages.
+The Conan workspaces allow to have more than one package in user folders and directly use other packages from user folders too without the
+need to put them in the local cache. Furthermore, it enables incremental builds on large projects containing multiple packages.
 
 Basically, you define a workspace YAML file with the layout of your projects:
 
