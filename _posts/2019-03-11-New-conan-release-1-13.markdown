@@ -123,7 +123,7 @@ From the beginning Conan has always used [Semantic Versioning](https://semver.or
 for every binary package. That means that a package ``libA/1.2.3`` which is a dependency of ``libB/1.0.0`` will change the binary hash of
 ``libB`` only if the major part of the version is changed. Otherwise it will hash to the same package ID.
 
-Let's make test it:
+Let's check it:
 
 - *libA/1.2.3*
 
