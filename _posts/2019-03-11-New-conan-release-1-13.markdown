@@ -241,7 +241,7 @@ In this release we have enhanced this feature with useful changes:
   {% endhighlight %}
 
 - Command has been renamed to ``conan editable`` with the corresponding subcommands ``conan editable add``,
-  ``conan editable remove``.
+  ``conan editable remove`` to put a package in this editable mode or remove it.
 
 - Now you can show all the packages that are configured as editable too:
 
