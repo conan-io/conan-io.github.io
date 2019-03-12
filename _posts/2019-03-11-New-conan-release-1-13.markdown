@@ -279,7 +279,7 @@ workspace_generator: cmake
 root: chat/0.1@user/testing
 ```
 
-And you indicate a general (editable layout file)[https://docs.conan.io/en/latest/reference/config_files/editable_layout.html] or set a
+And you indicate a general [editable layout file](https://docs.conan.io/en/latest/reference/config_files/editable_layout.html) or set a
 specific one for each package as well as the root *consumer* package you are building for.
 
 Finally a workspace generator that will be the wrapper for all the packages in the workspace. Similar to the concept of Visual Studio with
