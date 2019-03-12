@@ -227,7 +227,7 @@ In this release we have enhanced this feature with useful changes:
 
 - Layout files now allow the usage of [Jinja templating](http://jinja.pocoo.org/) for settings and options:
 
-  ```
+  {% highlight ini %}
   [includedirs]
   src/core/include
   src/cmp_a/include
