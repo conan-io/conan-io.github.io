@@ -131,16 +131,16 @@ Let's check it:
   {% highlight python %}
   from conans import ConanFile
 
-  class Lib(ConanFile):
+  class LibA(ConanFile):
       pass
   {% endhighlight %}
 
   ```
-  $ conan create conanfile.py libB/1.2.3@user/channel
+  $ conan create conanfile.py libA/1.2.3@user/channel
   ...
-  $ conan create conanfile.py libB/1.2.3@user/channel
+  $ conan create conanfile.py libA/1.2.3@user/channel
   ...
-  $ conan create conanfile.py libB/2.0.0@user/channel
+  $ conan create conanfile.py libA/2.0.0@user/channel
   ...
   ```
 
@@ -150,7 +150,7 @@ Let's check it:
   {% highlight python %}
   from conans import ConanFile
 
-  class Lib(ConanFile):
+  class LibB(ConanFile):
       name = "libB"
       version = "1.0.0"
       requires = "libA/1.2.3@user/channel"
@@ -177,9 +177,9 @@ Let's check it:
         libA/1.2.3@user/channel
   ```
 
-  You can see that the binary ID generated for *libA* would be ``8a4d75100b721bfde375a978c780bf3880a22bab``. If we change the requirement to
+  You can see that the binary ID generated for *libB* would be ``8a4d75100b721bfde375a978c780bf3880a22bab``. If we change the requirement to
   ``libA/1.3.3@user/channel`` we will get the same ID for *libA*. However, if we change the requirement to the major version
-  ``libA/2.0.0@user/channel`` this will be reflected as a **new package ID** for *libA*, in this case
+  ``libA/2.0.0@user/channel`` this will be reflected as a **new package ID** for *libB*, in this case
   ``f1fc64edd1a6c2fb7d41b78ecf5972a0e7a85df8``.
 
   ```
@@ -210,8 +210,8 @@ This behavior was the default and couldn't be changed until Conan 1.13, where yo
 default_package_id_mode = full_package_mode
 {% endhighlight %}
 
-Following the previous example but using the default package ID mode to ``full_package_mode``, will indicate a new libA binary for any
-change on the version of *libB*.
+Following the previous example but using the default package ID mode to ``full_package_mode``, will indicate a new *libB* binary for any
+change on the version of *libA*.
 
 Any of the modes described in
 [Defining Package ABI compatibility](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#id3) section from the
