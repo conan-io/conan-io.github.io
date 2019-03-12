@@ -312,8 +312,8 @@ chat/0.1@user/testing: Generated graphinfo
 chat/0.1@user/testing: Generated conanbuildinfo.txt
 ```
 
-Take a look at the [workspaces documentation](https://docs.conan.io/en/latest/developing_packages/workspaces.html) things like changing the
-layout of packages, having more than one root or how to use multi configuration (Release/Debug) packages.
+Take a look at the [workspaces documentation](https://docs.conan.io/en/latest/developing_packages/workspaces.html) to learn more things like
+changing the layout of packages, having more than one root or how to use multi configuration (Release/Debug) packages.
 
 ----
 <br>
