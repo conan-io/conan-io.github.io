@@ -252,7 +252,7 @@ In this release we have enhanced this feature with useful changes:
     Layout: None
   ```
 
-Check the docs for more info about (editable packages)[https://docs.conan.io/en/latest/developing_packages/editable_packages.html].
+Check the docs for more info about [editable packages](https://docs.conan.io/en/latest/developing_packages/editable_packages.html]).
 
 ## New implementation for Workspaces
 
