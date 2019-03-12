@@ -125,12 +125,12 @@ Let's check it:
 - *libA/1.2.3*
 
   *conanfile.py*
-  {% highlight python %}
+  ```python
   from conans import ConanFile
 
   class LibA(ConanFile):
       pass
-  {% endhighlight %}
+  ```
 
   ```
   $ conan create conanfile.py libA/1.2.3@user/channel
@@ -144,14 +144,14 @@ Let's check it:
 - *libB/1.0.0*:
 
   *conanfile.py*
-  {% highlight python %}
+  ```python
   from conans import ConanFile
 
   class LibB(ConanFile):
       name = "libB"
       version = "1.0.0"
       requires = "libA/1.2.3@user/channel"
-  {% endhighlight %}
+  ```
 
   ```
   $ conan info .
