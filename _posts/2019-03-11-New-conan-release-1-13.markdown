@@ -133,7 +133,7 @@ Let's make test it:
 
   class Lib(ConanFile):
       pass
-  ```
+  {% endhighlight %}
 
   ```
   $ conan create conanfile.py libB/1.2.3@user/channel
