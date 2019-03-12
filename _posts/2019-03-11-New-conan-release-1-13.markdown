@@ -99,9 +99,7 @@ Now, anyone installing or performing a ``conan install --update`` will automatic
 can also target target a specific recipe revision:
 
 ```
-$ conan install IrrXML/1.2@user/channel#681d7e590d2da0a164166f737a49cf32c735ee6c --remote server
-
-(py37-conan) λ conan install IrrXML/1.2@user/channel#681d7e590d2da0a164166f737a49cf32c735ee6c -r conan-local --update
+$ conan install IrrXML/1.2@user/channel#681d7e590d2da0a164166f737a49cf32c735ee6c --remote server --update
 ...
 [==================================================] 372B/372B
 IrrXML/1.2@user/channel: WARN: The package IrrXML/1.2@user/channel:6cc50b139b9c3d27b3e9042d5f5372d327b3a9f7 doesn't belong to the installed recipe revision, removing folder
