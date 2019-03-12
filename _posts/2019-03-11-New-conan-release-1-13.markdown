@@ -114,7 +114,7 @@ Packages
 ...
 ```
 
-Read more about revisions in the (documentation)[https://docs.conan.io/en/latest/mastering/revisions.html] and don't forget that we are open
+Read more about revisions in the [documentation](https://docs.conan.io/en/latest/mastering/revisions.html) and don't forget that we are open
 to any feedback.
 
 ## Package ID versioning mode
