@@ -199,7 +199,7 @@ Let's check it:
           libA/2.0.0@user/channel
   ```
 
-This behavior was the default and couldn't be changed until Conan 1.13, where you are able to set this globally in your configuration file
+This was the only default behavior allowed until Conan 1.13, now you can change this default in your configuration file
 *conan.conf*:
 
 {% highlight ini %}
