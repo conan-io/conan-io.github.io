@@ -154,7 +154,7 @@ Let's make test it:
       name = "libB"
       version = "1.0.0"
       requires = "libA/1.2.3@user/channel"
-  ```
+  {% endhighlight %}
 
   ```
   $ conan info .
