@@ -214,7 +214,7 @@ Following the previous example but using the default package ID mode to ``full_p
 change on the version of *libB*.
 
 Any of the modes described in
-(Defining Package ABI compatibility)[https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#id3] section from the
+[Defining Package ABI compatibility](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#id3) section from the
 documentation can be used and setting this will come handy to anyone who wants to have fine control over the package ID generation and the
 compatibility of binaries regarding its dependencies.
 
