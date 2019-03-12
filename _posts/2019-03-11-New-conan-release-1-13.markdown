@@ -46,7 +46,7 @@ This would mean that now to specifically refer to a binary package you would hav
 ### Working with revisions
 
 The concept of revisions is mostly server side, where all the recipe revisions and package revisions will be stored. In the client side (in the Conan cache) we
-only have one revision always.
+can only have one revision at a time.
 
 To try and work with revisions in the client, you would need to opt in setting ``CONAN_REVISIONS_ENABLED=1`` in the environment or enabling
 that in the configuration file:
