@@ -225,7 +225,7 @@ without the need of exporting them to the cache.
 
 In this release we have enhanced this feature with useful changes:
 
-- Layout files now allow the usage of (Jinja templating)[http://jinja.pocoo.org/] for settings and options:
+- Layout files now allow the usage of [Jinja templating](http://jinja.pocoo.org/) for settings and options:
 
   ```
   [includedirs]
