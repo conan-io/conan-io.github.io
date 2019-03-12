@@ -238,7 +238,7 @@ In this release we have enhanced this feature with useful changes:
   {% else %}
   build/{{settings.build_type}}/static
   {% endif %}
-  ```
+  {% endhighlight %}
 
 - Command has been renamed to ``conan editable`` with the corresponding subcommands ``conan editable add``,
   ``conan editable remove``.
