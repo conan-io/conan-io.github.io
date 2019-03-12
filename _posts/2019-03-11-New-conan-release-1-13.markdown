@@ -46,7 +46,7 @@ and package revisions: ``<package_name>/<version>@<user_name>/<channel>#<RREV>:<
 ### Working with revisions
 
 The concept of revisions is mostly server side, where all the recipe revisions and package revisions will be stored. In the client side (in the Conan cache) we
-only have one revision always.
+can only have one revision at a time.
 
 To try and work with revisions in the client, you would need to opt in setting ``CONAN_REVISIONS_ENABLED=1`` in the environment or enabling
 that in the configuration file:
@@ -199,7 +199,7 @@ Let's check it:
           libA/2.0.0@user/channel
   ```
 
-This behavior was the default and couldn't be changed until Conan 1.13, where you are able to set this globally in your configuration file
+This was the only default behavior allowed until Conan 1.13, now you can change this default in your configuration file
 *conan.conf*:
 
 {% highlight ini %}
