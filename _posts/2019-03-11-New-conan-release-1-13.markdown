@@ -208,7 +208,7 @@ This behavior was the default and couldn't be changed until Conan 1.13, where yo
 {% highlight ini %}
 [general]
 default_package_id_mode = full_package_mode
-```
+{% endhighlight %}
 
 Following the previous example but using the default package ID mode to ``full_package_mode``, will indicate a new libA binary for any
 change on the version of *libB*.
