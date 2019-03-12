@@ -61,7 +61,6 @@ Now, every time a recipe is exported or a package is created, it will get a new 
 
 ```
 $ conan create . user/channel
-(py37-conan) λ conan create . user/channel
 Exporting package recipe
 ...
 IrrXML/1.2@user/channel: Folder: C:\Users\danimtb\.conan\data\IrrXML\1.2\user\channel\export
