@@ -31,7 +31,7 @@ includes the first experimental version of Conan working with revisions!
 The current Conan model uses *references* to talk about a recipe associated to a scope created with a user and a channel ``<package_name>/<version>@<user_name>/<channel>`` and a *package ID* which is a hash of the settings options and requirements used to identify the binary
 packages.
 
-Normally to indicate a binary package of package you would need something like: ``<package_name>/<version>@<user_name>/<channel>:<package_id>``
+Normally to indicate a binary package of a package you would need something like: ``<package_name>/<version>@<user_name>/<channel>:<package_id>``
 
 This model has not changed and you will still be able to use this *package reference* in the commands and recipes. However, we have added
 two more levels:
