@@ -174,7 +174,7 @@ WARN: Poco/1.9.0@pocoproject/stable requirement OpenSSL/1.0.2o@conan/stable over
 As shown above, a warning is printed currently. However, in case that you don't want to override upstream dependencies and you want Conan to
 error on that behavior, you can set the new environment variable or configuration entry in the *conan.conf*:
 
-- Environment variable: ``CONAN_ERROR_ON_OVERRIDE=~/cacert.pem``
+- Environment variable: ``CONAN_ERROR_ON_OVERRIDE=1``
 - Configuration entry: ``error_on_override = True``
 
 ```
