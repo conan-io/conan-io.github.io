@@ -12,7 +12,7 @@ Coming in the previous 1.14 release, we introduced **revisions** as the way to i
 bumping the actual reference version. That is something implemented now as part of the Conan model, which means that the latest revision
 that exists in a remote is the one that is automatically installed (unless otherwise stated).
 
-Take a look at the revisions section in the documentation to read more about it.
+Take a look at the [revisions section](https://docs.conan.io/en/latest/mastering/revisions.html) in the documentation to read more about it.
 
 The revisions feature is one of the key steps towards reproducibility, this means that the revisions are computed as a unique ID known as
 the "recipe revision" and "package revision".
@@ -33,7 +33,8 @@ class MyRecipe(ConanFile):
 
 Take into account that some CVS systems, like Git, has a unique commit for all the repository. So, if you have several recipes in the same
 repo you probably don't want to create a new recipe revision if you only commit changes for one of the recipes, but a new revision only for
-the recipe that has been modified. In that case, you should use the the default mode ``revision_mode = "hash"``.
+the recipe that has been modified. In that case, you should use the the default mode ``revision_mode = "hash"``. The revision will be a hash
+of the recipe contents (beware of EOL between different systems).
 
 ## Artifactory supports revisions now!
 
@@ -44,7 +45,8 @@ new layout: ``<user>/<name>/<version>/<channel>/<recipe_revision>/<package_id>/p
 
 Conan clients < 1.13 will still be working and a ``0`` recipe and package revision will be created in the repo to keep compatibility.
 
-Bear in mind that the revision feature is opt in and you would have to activate it in your configuration with ``conan config set general.revisions_enabled=True`` or set the envrionment variable ``CONAN_REVISIONS_ENABLED=1``.
+Bear in mind that the revision feature is opt-in in the client and you would have to activate it in your configuration with
+``conan config set general.revisions_enabled=True`` or set the envrionment variable ``CONAN_REVISIONS_ENABLED=1``.
 
 You can start using revisions with [Artifactory Community Edition for C++](https://jfrog.com/open-source/#conan).
 
@@ -143,7 +145,7 @@ $ conan install Poco/1.9.0@pocoproject/stable --build zlib/1.2.11@conan/stable
 This is useful to build dependencies individually in the dependency graph, like private requirements that might be repeated in name but
 different in version, user or channel.
 
-You use wildcards with the full reference too:
+You can use wildcards with the full reference too:
 
 ```
 $ conan install Poco/1.9.0@pocoproject/stable --build z*@conan/stable
@@ -173,8 +175,8 @@ $ conan install .
 WARN: Poco/1.9.0@pocoproject/stable requirement OpenSSL/1.0.2o@conan/stable overridden by your conanfile to OpenSSL/1.0.2r@conan/stable
 ```
 
-As shown above, a warning is printed currently. However, in case that you want Conan to
-error on that behavior, you can set the new environment variable or configuration entry in the *conan.conf* to avoid unnoticed overrides:
+As shown above, the output wars about this behavior by default. However, in case that you want Conan to error on that behavior, you can set
+the new environment variable or configuration entry in the *conan.conf* to avoid unnoticed overrides:
 
 - Environment variable: ``CONAN_ERROR_ON_OVERRIDE=1``
 - Configuration entry: ``error_on_override = True``
