@@ -172,7 +172,7 @@ $ conan install .
 WARN: Poco/1.9.0@pocoproject/stable requirement OpenSSL/1.0.2o@conan/stable overridden by your conanfile to OpenSSL/1.0.2r@conan/stable
 ```
 As shown above, a warning is printed currently. However, in case that you want Conan to
-error on that behavior, you can set the new environment variable or configuration entry in the *conan.conf*:
+error on that behavior, you can set the new environment variable or configuration entry in the *conan.conf* to avoid unnoticed overrides:
 
 - Environment variable: ``CONAN_ERROR_ON_OVERRIDE=1``
 - Configuration entry: ``error_on_override = True``
