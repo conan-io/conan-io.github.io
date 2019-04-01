@@ -31,9 +31,9 @@ class MyRecipe(ConanFile):
     revision_mode = "scm"
 ```
 
-Forcing the ``revision_mode = "hash"`` comes handy if you have several recipes in the same repository. In that case you probably don't want
-to create a new recipe revision if you only commit changes for one of the recipes, but a new revision only for the recipe that has been
-modified.
+Take into account that some CVS systems, like Git, has a unique commit for all the repository. So, if you have several recipes in the same
+repo you probably don't want to create a new recipe revision if you only commit changes for one of the recipes, but a new revision only for
+the recipe that has been modified. In that case, you should use the the default mode ``revision_mode = "hash"``.
 
 ## Artifactory supports revisions now!
 
@@ -164,13 +164,15 @@ Poco/1.9.0@pocoproject/stable
 OpenSSL/1.0.2r@conan/stable
 ```
 
-The second line will override the ``OpenSSL/1.0.2o@conan/stable`` required by ``Poco`` with ``OpenSSL/1.0.2r@conan/stable``.
+The second line will override the ``OpenSSL/1.0.2o@conan/stable`` required by ``Poco`` with ``OpenSSL/1.0.2r@conan/stable`` **and** add the
+requirement to consumer project.
 
 ```
 $ conan install .
 ...
 WARN: Poco/1.9.0@pocoproject/stable requirement OpenSSL/1.0.2o@conan/stable overridden by your conanfile to OpenSSL/1.0.2r@conan/stable
 ```
+
 As shown above, a warning is printed currently. However, in case that you want Conan to
 error on that behavior, you can set the new environment variable or configuration entry in the *conan.conf* to avoid unnoticed overrides:
 
@@ -185,8 +187,9 @@ $ conan install .
 ERROR: Poco/1.9.0@pocoproject/stable: requirement OpenSSL/1.0.2o@conan/stable overridden by your conanfile to OpenSSL/1.0.2r@conan/stable
 ```
 
-In case you want to achieve the behavior of the consumer project really depending on ``OpenSSL/1.0.2r@conan/stable`` but not overriding the
-``OpenSSL/1.0.2o@conan/stable`` dependency of ``Poco``, when have an [issue open here](https://github.com/conan-io/conan/issues/4779).
+Currently, it is not possible to declare a requirement and also add it with the ``override`` keyword to avoid raising errors for that
+specific dependency. Conan will raise an error saying it is duplicated. There is an [open issue](https://github.com/conan-io/conan/issues/4779)
+about it.
 
 ## Configuration of the CA certificate
 
