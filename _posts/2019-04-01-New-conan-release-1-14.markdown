@@ -39,7 +39,7 @@ modified.
 
 Released right before Conan, the new [6.9 version of Artifactory](https://www.jfrog.com/confluence/display/RTF/Release+Notes#ReleaseNotes-Artifactory6.9) comes with full support for revisions.
 
-All new Artifactory versions will be using revisions by default. This means that packages will be stores in the Conan repositories with a
+All new Artifactory versions will be using revisions by default. This means that packages will be stored in the Conan repositories with a
 new layout: ``<user>/<name>/<version>/<channel>/<recipe_revision>/<package_id>/package_revision>``.
 
 Conan clients < 1.13 will still be working and a ``0`` recipe and package revision will be created in the repo to keep compatibility.
