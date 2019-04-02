@@ -52,8 +52,9 @@ You can start using revisions with [Artifactory Community Edition for C++](https
 
 ## New ``cmake_find_package_multi`` generator
 
-Continuing with the list of new [CMake generators for transparent integration](), we introduce the ``cmake_find_package_multi`` generator to
-achieve multi-configuration of packages in Release/Debug modes.
+Continuing with the list of new
+[CMake generators for transparent integration](https://blog.conan.io/2018/06/11/Transparent-CMake-Integration.html), we introduce the
+``cmake_find_package_multi`` generator to achieve multi-configuration of packages in Release/Debug modes.
 
 Let's try to make the getting started example with this new generator:
 
