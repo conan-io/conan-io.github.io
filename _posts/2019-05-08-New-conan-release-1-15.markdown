@@ -40,7 +40,6 @@ of the different values. If no value is given, the default for the given compile
 the same package ID as if that default value had been explicitly set (this package ID will also be the same as the one generated using the
 deprecated ``cppstd`` setting).
 
-
 You have more information in [this section](https://docs.conan.io/en/latest/howtos/manage_cpp_standard.html) of the docs and you can also
 check the new [settings.yml](https://docs.conan.io/en/latest/reference/config_files/settings.yml.html) file.
 
@@ -54,13 +53,13 @@ Currently, the recipe is the one that describes how a package is deployed and it
 needed for its deployment and the resources needed from its dependencies. However, there are scenarios where you may want to have the
 deployment logic separated from the recipe and the ability to deploy every package in the same way.
 
-Following that rationale, we thought that that point of view was closer to the consumer side and letting they chose how the deployment should
-be done. Thanks to the feedback of users and proof-testing some ideas, we came out with the idea of __deployment generators__:
+Following that rationale, we thought that that point of view was closer to the consumer side and letting they chose how the deployment
+should be done. Thanks to the feedback of users and proof-testing some ideas, we came out with the idea of __deployment generators__:
 [Custom generator packages](https://docs.conan.io/en/latest/howtos/custom_generators.html) with the deployment logic that can be used to
 consume/deploy any existing package.
 
 The [deploy](https://docs.conan.io/en/latest/reference/generators/deploy.html) generator is just a Conan built-in one that copies the
-contents of package folder (LINK) of every package in the dependency graph to the installation folder.
+contents of package folder of every package in the dependency graph to the installation folder.
 
 For example:
 
@@ -89,17 +88,15 @@ custom one, or you could create your own [generator](https://docs.conan.io/en/la
 
 ## Reusing source files trough python requires
 
-In Conan 1.9 we introduced a way of reusing source files that were exported with `exports_sources` in a python require. One of the problems
-of this is that the behavior was somehow unexpected and introduced some intrinsic knowledge. (SIMPLIFY THIS)
-
-In Conan 1.15 we have removed this default behavior and added an explicit way of doing this through the
+In Conan release 1.9 we introduced python requires as a way to reuse Python code from existing recipes, while in this release we are
+defining how to reuse source files too. We have added an explicit way of doing this through the
 [python_requires](https://docs.conan.io/en/latest/reference/conanfile/attributes.html#python-requires) attribute. One could use something
 like `self.python_requires["pyreq"].exports_sources_folder` to reuse the exported sources of a python require.
 
 Moreover, if you want to reuse sources and inherit from base `ConanFile`, our recommendation is to follow this approach for the python
 require recipe:
 
-*conanfile.py*
+*conanfile.py with a python require and a base ConanFile reusing a CMakeLists.txt*
 ```
 import os
 import shutil
@@ -131,7 +128,6 @@ def get_conanfile():
 
     return BaseConanFile
 ```
-*conanfile.py with a python require and a base ConanFile reusing a CMakeLists.txt*
 
 Note the function ``get_conanfile()`` to be used as a way to avoid the double declaration of a `ConanFile` object and keep the logic of the
 python require separated.
@@ -148,7 +144,7 @@ relevant features.
 
 Here is a brief list of the features we would like to bring in the near future:
 
-- Graph lock: Create a way to lock dependencies taking into account the graph relations and be able to reproduce a build with the information gathered (LINK)
+- Graph lock: Create a way to lock dependencies taking into account the graph relations and be able to reproduce a build with the information gathered.
 - Cross-building: New approach for the cross-building model focused on the concept of "context building"
   (https://github.com/conan-io/conan/projects/4).
 - Components: How to model the internal relations of libraries inside the same package (https://github.com/conan-io/conan/issues/5090).
