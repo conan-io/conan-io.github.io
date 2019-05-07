@@ -136,7 +136,7 @@ def get_conanfile():
 Note the function ``get_conanfile()`` to be used as a way to avoid the double declaration of a `ConanFile` object and keep the logic of the
 python require separated.
 
-You can find an extended example and more information about the documentation:
+You can find an extended example and more information about it in the documentation:
 [Python requires: reusing code](https://docs.conan.io/en/latest/extending/python_requires.html)
 
 ## Roadmap features development
