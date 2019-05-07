@@ -24,6 +24,7 @@ usage of the setting ``compiler.cppstd`` is not compatible with the deprecated `
 
 To use ``compiler.cppstd`` you only need this subsetting available in your ``settings.yml`` file (the default provided by Conan already has current values) and you should provide a value for it in your profile or using the command line:
 
+*profile*
 ```
 [settings]
 os=Windows
