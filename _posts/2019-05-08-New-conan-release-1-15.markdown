@@ -84,7 +84,7 @@ $ ls deployment
 paho-cpp/  paho-c/  deploy_manifest.txt  conanbuildinfo.txt
 ```
 
-In case you want to customize the deployment layout, you can create a custom script that copies the files from this basic layout to you
+In case you want to customize the deployment layout, you can create a custom script that copies the files from this basic layout to your
 custom one, or you could create your own [generator](https://docs.conan.io/en/latest/reference/generators/custom.html#custom-generator).
 
 ## Reusing source files trough python requires
