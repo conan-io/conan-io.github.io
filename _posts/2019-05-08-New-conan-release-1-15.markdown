@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Conan 1.15: C++ standard as a subsetting, deploy generator, python requires source reuse and roadmap features ahead"
+title: "Conan 1.15: C++ standard as a subsetting, deploy generator, python requires source reuse and ongoing development"
 ---
 
 Another month and another Conan release. This time we bring the 1.15 release with some interesting changes and hints about what is coming up
@@ -86,7 +86,7 @@ paho-cpp/  paho-c/  deploy_manifest.txt  conanbuildinfo.txt
 In case you want to customize the deployment layout, you can create a custom script that copies the files from this basic layout to your
 custom one, or you could create your own [generator](https://docs.conan.io/en/latest/reference/generators/custom.html#custom-generator).
 
-## Reusing source files trough python requires
+## Reusing source files through python requires
 
 In Conan release 1.9 we introduced python requires as a way to reuse Python code from existing recipes, while in this release we are
 defining how to reuse source files too. We have added an explicit way of doing this through the
@@ -135,7 +135,7 @@ python require separated.
 You can find an extended example and more information about it in the documentation:
 [Python requires: reusing code](https://docs.conan.io/en/latest/extending/python_requires.html)
 
-## Roadmap features development
+## Ongoing development and future work
 
 As we continue to develop Conan, we have agreed on some important features that can have a big impact on the evolution of the tool and the improvement of the user experience. We have been working in parallel with other big features in the past, such as the
 [revisions](https://docs.conan.io/en/latest/mastering/revisions.html) or the
@@ -152,8 +152,8 @@ Here is a brief list of the features we would like to bring in the near future:
 with all the information that the build helpers use (https://github.com/conan-io/conan/projects/5).
 
 This means that we will focus the development effort in key features for Conan, although we would not stop our monthly release schedule.
-There will be releases with bugfixes and small improvements coming on every release and we will be introducing the roadmap features in a
-more paced way.
+There will be releases with bugfixes and small improvements coming on every release and we will be introducing these big features in a more
+paced way.
 
 We believe this is the right path to bring meaningful features to the community and that this will help to shape the future of a better tool towards Conan 2.0.
 
