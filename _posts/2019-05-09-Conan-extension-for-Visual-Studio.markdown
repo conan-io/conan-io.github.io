@@ -73,7 +73,7 @@ available in our repository, and if you have doubts, face any issue or want to p
 feedback, you can reach us in Cpplang Slack (channel #conan), social networks and, of course,
 in [Github](https://github.com/conan-io).
 
-Keep updated to new version, there is a lot of work ahead and we expect to release new versions
+Keep updated to new versions, there is a lot of work ahead and we expect to release new versions
 of this plugin with new functionalities.
 
 Happy coding!
