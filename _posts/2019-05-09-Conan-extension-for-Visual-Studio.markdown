@@ -58,8 +58,9 @@ be included in your project with all the paths and flags needed to use and link 
 required libraries.
 
 Conan will detect the configuration used in your build to select the proper settings for the
-requirements, you can change build type from ``Debug`` to ``Release``, or the toolset and Conan
-will use the proper settings and flags. You can check it having a look to the output window.
+requirements, you can change build type from ``Debug`` to ``Release``, the toolset or runtime
+and Conan will use the proper settings and flags. The output window shows all the information
+printed by Conan related to the executed command.
 
 <div align="center">
     <figure>
