@@ -71,8 +71,8 @@ printed by Conan related to the executed command.
 
 Have a look at the [CLI example](https://github.com/conan-io/conan-vs-extension/tree/master/Conan.VisualStudio.Examples/ExampleCLI)
 available in our repository, and if you have doubts, face any issue or want to provide useful
-feedback, you can reach us in Cpplang Slack (channel #conan), social networks and, of course,
-in [Github](https://github.com/conan-io).
+feedback, you can reach us in [Cpplang Slack](https://cpplang.slack.com/messages/C41CWV9HA/),
+social networks and, of course, in [Github](https://github.com/conan-io).
 
 Keep updated to new versions, there is a lot of work ahead and we expect to release new versions
 of this plugin with new functionalities.
