@@ -20,7 +20,7 @@ to endorse and share with the rest of our users.
 
 This extension provides smooth integration between Conan and your Visual Studio project. It
 will detect a ``conanfile.py`` or ``conanfile.txt`` in the solution, retrieve the requirements
-and generate the `.prop` file to be included in your solution.
+and generate the `.props` file to be included in your solution.
 
 ## Install and configure
 
@@ -53,7 +53,7 @@ follow the next steps to get it working in your Visual Studio IDE (only version 
 
 To use this extension you will need a ``conanfile.txt`` or ``conanfile.py`` in your Visual Studio
 solution declaring the dependencies of your project. Conan will download them from the configured
-remotes (or build them if binaries are not available) and generate the `.prop` file that will
+remotes (or build them if binaries are not available) and generate the `.props` file that will
 be included in your project with all the paths and flags needed to use and link against that
 required libraries.
 
