@@ -144,12 +144,13 @@ relevant features.
 
 Here is a brief list of the features we would like to bring in the near future:
 
-- Graph lock: Create a way to lock dependencies taking into account the graph relations and be able to reproduce a build with the information gathered.
+- Graph lock: Create a way to lock dependencies taking into account the graph relations and be able to reproduce a build with the
+  information gathered (https://github.com/conan-io/conan/pull/5035).
 - Cross-building: New approach for the cross-building model focused on the concept of "context building"
   (https://github.com/conan-io/conan/projects/4).
 - Components: How to model the internal relations of libraries inside the same package (https://github.com/conan-io/conan/issues/5090).
 - Build helpers and generators: Separate the build logic from the dependency information in generators and be able to feed build systems
-with all the information that the build helpers use (https://github.com/conan-io/conan/projects/5).
+  with all the information that the build helpers use (https://github.com/conan-io/conan/projects/5).
 
 This means that we will focus the development effort in key features for Conan, although we would not stop our monthly release schedule.
 There will be releases with bugfixes and small improvements coming on every release and we will be introducing these big features in a more
