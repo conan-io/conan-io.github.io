@@ -18,7 +18,7 @@ to endorse and share with the rest of our users.
     </figure>
 </div>
 
-This extension provides an smooth integration between Conan and your Visual Studio project. It
+This extension provides smooth integration between Conan and your Visual Studio project. It
 will detect a ``conanfile.py`` or ``conanfile.txt`` in the solution, retrieve the requirements
 and generate the `.prop` file to be included in your solution.
 
