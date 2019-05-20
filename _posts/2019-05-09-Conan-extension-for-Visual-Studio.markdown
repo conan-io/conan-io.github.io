@@ -8,7 +8,8 @@ Thanks to our amazing community we can release today a first version of the
 [Conan Extension for Visual Studio](https://marketplace.visualstudio.com/items?itemName=conan-io.conan-vs-extension).
 It's been a team effort of several people, we have to mention SSE4, ForNeVer, solvingj and
 sboulema, but many others have contributed providing feedback, reporting early issues and
-testing the first versions ([all contributors](https://github.com/conan-io/conan-vs-extension/graphs/contributors)). Thanks to all of them today we have an usable version we want
+testing the first versions ([all contributors](https://github.com/conan-io/conan-vs-extension/graphs/contributors)).
+Thanks to all of them today we have an usable version we want
 to endorse and share with the rest of our users. 
 
 <div align="center">
@@ -19,13 +20,13 @@ to endorse and share with the rest of our users.
 </div>
 
 This extension provides smooth integration between Conan and your Visual Studio project. It
-will detect a ``conanfile.py`` or ``conanfile.txt`` in the solution, retrieve the requirements
-and generate the `.props` file to be included in your solution.
+will detect a ``conanfile.py`` or ``conanfile.txt`` next to a project file, retrieve the requirements
+and generate the `.props` file to be included in that project.
 
 ## Install and configure
 
 This first version we are realeasing in May has a very basic behaviour and configuration, but
-it convers the most common use cases. Once you have Conan already installed in your system,
+it covers the most common use cases. Once you have Conan already installed in your system,
 follow the next steps to get it working in your Visual Studio IDE (only version 2017 and
 2019 are currently supported):
 
@@ -51,8 +52,8 @@ follow the next steps to get it working in your Visual Studio IDE (only version 
 
 ## Use Conan Extension for Visual Studio
 
-To use this extension you will need a ``conanfile.txt`` or ``conanfile.py`` in your Visual Studio
-solution declaring the dependencies of your project. Conan will download them from the configured
+To use this extension you will need a ``conanfile.txt`` or ``conanfile.py`` added to your **Visual Studio
+project** declaring the requirements of your project. Conan will download them from the configured
 remotes (or build them if binaries are not available) and generate the `.props` file that will
 be included in your project with all the paths and flags needed to use and link against that
 required libraries.
