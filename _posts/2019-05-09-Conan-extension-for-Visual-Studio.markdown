@@ -4,7 +4,7 @@ comments: false
 title: "Conan Extension for Visual Studio"
 ---
 
-Thanks to our amazing community we can release today a first version of the
+Thanks to our amazing community we can release a first version of the
 [Conan Extension for Visual Studio](https://marketplace.visualstudio.com/items?itemName=conan-io.conan-vs-extension).
 It's been a team effort of several people, we have to mention SSE4, ForNeVer, solvingj and
 sboulema, but many others have contributed providing feedback, reporting early issues and
@@ -20,12 +20,14 @@ to endorse and share with the rest of our users.
 </div>
 
 This extension provides smooth integration between Conan and your Visual Studio project. It
-will detect a ``conanfile.py`` or ``conanfile.txt`` next to a project file, retrieve the requirements
-and generate the `.props` file to be included in that project.
+will detect a ``conanfile.py`` or ``conanfile.txt`` next to a project file (or in parent directory),
+retrieve the requirements and generate the property sheet (`.props` file) with all the information
+of the dependencies handled by Conan to be included in that project. The extension will also add
+the property sheet automatically to the project.
 
 ## Install and configure
 
-This first version we are realeasing in May has a very basic behaviour and configuration, but
+This first version we are releasing, ``v1.0.x`` has a very basic behaviour and configuration, but
 it covers the most common use cases. Once you have Conan already installed in your system,
 follow the next steps to get it working in your Visual Studio IDE (only version 2017 and
 2019 are currently supported):
@@ -36,6 +38,7 @@ follow the next steps to get it working in your Visual Studio IDE (only version 
    download de VSIX file and install it.
    
    >>> Image here with the extension found in the marketplace (download button...) <<<<
+   
  * Enter the configuration options of the Conan Extension and make sure that the Conan executable
    has been correctly identified.
     
@@ -52,16 +55,16 @@ follow the next steps to get it working in your Visual Studio IDE (only version 
 
 ## Use Conan Extension for Visual Studio
 
-To use this extension you will need a ``conanfile.txt`` or ``conanfile.py`` added to your **Visual Studio
+To use this extension you will need a ``conanfile.txt`` or ``conanfile.py`` in your **Visual Studio
 project** declaring the requirements of your project. Conan will download them from the configured
-remotes (or build them if binaries are not available) and generate the `.props` file that will
-be included in your project with all the paths and flags needed to use and link against that
-required libraries.
+remotes (or build them if binaries are not available), the extension will generate the `.props`
+file and it will automatically included it in your project with all the paths and flags needed
+to use and link against those required libraries.
 
 Conan will detect the configuration used in your build to select the proper settings for the
-requirements, you can change build type from ``Debug`` to ``Release``, the toolset or runtime
-and Conan will use the proper settings and flags. The output window shows all the information
-printed by Conan related to the executed command.
+requirements, so if you change build type from ``Debug`` to ``Release``, the toolset or runtime,
+Conan will use the proper settings and flags to retrieve or build the matching binaries.
+The output window shows all the information printed by Conan related to the executed command.
 
 <div align="center">
     <figure>
