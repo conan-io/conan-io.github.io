@@ -21,7 +21,7 @@ to endorse and share with the rest of our users.
 
 This extension provides smooth integration between Conan and your Visual Studio project. It
 will detect a ``conanfile.py`` or ``conanfile.txt`` next to a project file (or in parent directory),
-retrieve the requirements and generate the property sheet (`.props` file) with all the information
+retrieve the requirements and generate the property sheet (``.props`` file) with all the information
 of the dependencies handled by Conan to be included in that project. The extension will also add
 the property sheet automatically to the project.
 
