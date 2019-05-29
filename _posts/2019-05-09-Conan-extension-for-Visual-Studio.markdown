@@ -37,8 +37,13 @@ follow the next steps to get it working in your Visual Studio IDE (only version 
    [marketplace](https://marketplace.visualstudio.com/items?itemName=conan-io.conan-vs-extension),
    download de VSIX file and install it.
    
-   >>> Image here with the extension found in the marketplace (download button...) <<<<
-   
+    <div align="center">
+        <figure>
+            <img src="{{ site.url }}/assets/post_images/2019-05-09/vs-marketplace-conan.png" width="600"/>
+            <figcaption>Install Conan using the Extension Manager inside Visual Studio</figcaption>
+        </figure>
+    </div>
+       
  * Enter the configuration options of the Conan Extension and make sure that the Conan executable
    has been correctly identified.
     
