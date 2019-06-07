@@ -98,7 +98,7 @@ Templates placed in the Conan cache will benefit from sharing over ``conan confi
 - Meson build helper is now able to use [appropriate compiler flags](https://github.com/conan-io/conan/pull/5222).
 - Conan execution now returns with ``6`` code ([Invalid Configuration](https://docs.conan.io/en/latest/reference/commands/return_codes.html#invalid-configuration)) for
 [constrained settings in a recipe](https://docs.conan.io/en/latest/mastering/conditional.html?highlight=restricted#constrain-settings-and-options).
-- New syntax using a full reference to upload specific packages with ``conan upload <ref>:<package_id>`` (``--package`` flag is now deprecated).
+- New syntax using a full reference to upload specific packages with ``conan upload <ref>:<package_id>`` (``--package`` argument is now deprecated).
 
 ## Ongoing development
 
