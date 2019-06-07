@@ -119,7 +119,7 @@ Note that this work is still a draft of the final features. Any feedback is alwa
 -----------
 <br>
 
-As always, you can heck the full list of features and fixes in the [changelog](https://docs.conan.io/en/latest/changelog.html).
+As always, you can check the full list of features and fixes in the [changelog](https://docs.conan.io/en/latest/changelog.html).
 We are open for [new issues](https://github.com/conan-io/conan/issues) with any bug report or feedback for discussion on GitHub.
 
 Finally, don't forget to [update](https://conan.io/downloads.html) to this 1.16 release! Thanks!
