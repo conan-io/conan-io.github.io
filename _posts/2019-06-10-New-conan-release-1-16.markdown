@@ -93,6 +93,9 @@ Create new packages like this:
 $ conan new library/1.0.0 --template=template.py
 ```
 
+Templates placed in the Conan cache will benefit from sharing over ``conan config isntall`` command. Check the documentation
+[here](https://docs.conan.io/en/latest/reference/commands/creator/new.html)
+
 ## Minor improvements and fixes
 
 - Meson build helper is now able to use [appropriate compiler flags](https://github.com/conan-io/conan/pull/5222).
