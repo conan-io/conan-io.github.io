@@ -114,7 +114,7 @@ You can check the status of those features in the following links:
 - Cross-building: [conan-io/conan#5202](https://github.com/conan-io/conan/pull/5202).
 - Components: [conan-io/conan#5242](https://github.com/conan-io/conan/pull/5242).
 
-Note that this work is still a draft of the final features and are far from being completed. Any feedback is always welcome.
+Note that this work is still a draft of the final features. Any feedback is always welcome.
 
 -----------
 <br>
