@@ -110,7 +110,7 @@ the lockfiles (a.k.a. Graph locks), the new cross-building model and the ``cpp_i
 
 You can check the status of those features in the following links:
 
-- Lockfiles (a.k.a. Graph locks): [conan-io/conan#5035](https://github.com/conan-io/conan/pull/5035).
+- Lockfiles: [conan-io/conan#5035](https://github.com/conan-io/conan/pull/5035).
 - Cross-building: [conan-io/conan#5202](https://github.com/conan-io/conan/pull/5202).
 - Components: [conan-io/conan#5242](https://github.com/conan-io/conan/pull/5242).
 
