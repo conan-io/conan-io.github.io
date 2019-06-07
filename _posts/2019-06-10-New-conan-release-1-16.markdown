@@ -106,7 +106,7 @@ Templates placed in the Conan cache will benefit from sharing over ``conan confi
 ## Ongoing development
 
 As we did in the previous release post, the Conan team is under heavy development of key features. For this release we have been working on
-the lockfiles (a.k.a. Graph locks), the cross-building model, ``cpp_info`` components.
+the lockfiles (a.k.a. Graph locks), the new cross-building model and the ``cpp_info`` components.
 
 You can check the status of those features in the following links:
 
