@@ -112,7 +112,7 @@ You can check the status of those features in the following links:
 
 - Lockfiles: [conan-io/conan#5035](https://github.com/conan-io/conan/pull/5035).
 - Cross-building: [conan-io/conan#5202](https://github.com/conan-io/conan/pull/5202).
-- Components: [conan-io/conan#5242](https://github.com/conan-io/conan/pull/5242).
+- cpp_info components: [conan-io/conan#5242](https://github.com/conan-io/conan/pull/5242).
 
 Note that this work is still a draft of the final features. Any feedback is always welcome.
 
