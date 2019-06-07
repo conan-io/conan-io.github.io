@@ -39,7 +39,7 @@ for our ``app`` project:
 <img src="{{ site.url }}/assets/post_images/2019-06-10/conan-info-graph.png" width="50%"/>
 </p>
 
-Now let's say that for some reason the ``libsodium/1.0.16@bincrafters/stable`` upstream dependency has to be built (we are forcing the
+Now let's say that for some reason the ``libsodium/1.0.16@bincrafters/stable`` upstream dependency has to be built, because for example, we fixed a bug in a header, (we are forcing the
 rebuild with ``--build libsodium``). Now we can install the dependencies using the ``cascade`` mode and Conan will mark it as ``Build`` as
 well as the downstream dependencies:
 
