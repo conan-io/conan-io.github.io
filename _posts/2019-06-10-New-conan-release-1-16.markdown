@@ -19,9 +19,6 @@ different binaries than other minor gcc versions as 8.2.
 There are cases in which creating binaries with the specific version will be handy, however, following just the major should be fine
 regarding binary compatibility.
 
-As we did with the ``cppstd`` subsetting in the 1.15 release, this settings will be available when you
-[update Conan](https://docs.conan.io/en/latest/installation.html#update) to 1.16.
-
 ## Cascade build mode
 
 Coming from a feature request, some people asked how to make the downstream dependencies rebuild if an upstream dependency changes. The
@@ -112,7 +109,7 @@ You can check the status of those features in the following links:
 
 - Lockfiles: [conan-io/conan#5035](https://github.com/conan-io/conan/pull/5035).
 - Cross-building: [conan-io/conan#5202](https://github.com/conan-io/conan/pull/5202).
-- cpp_info components: [conan-io/conan#5242](https://github.com/conan-io/conan/pull/5242).
+- ``cpp_info`` components: [conan-io/conan#5242](https://github.com/conan-io/conan/pull/5242).
 
 Note that this work is still a draft of the final features. Any feedback is always welcome.
 
