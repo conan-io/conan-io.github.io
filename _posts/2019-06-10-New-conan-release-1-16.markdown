@@ -71,7 +71,7 @@ libsodium/1.0.16@bincrafters/stable, zmq/4.2.5@bincrafters/stable, cppzmq/4.3.0@
 ## Conan new with templates
 
 A less advanced feature but still quite useful when creating new recipes is the new ``--template`` flag for the ``conan new`` command.
-The template files support ninja syntax and the only variables available at this moment are the ``name`` and the ``version`` of the package.
+The template files support jinja syntax and the only variables available at this moment are the ``name`` and the ``version`` of the package.
 
 Conan will look for template files in the folder ``~/.conan/templates`` or will use an absolute path pointing to a template file.
 
