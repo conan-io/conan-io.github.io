@@ -27,7 +27,7 @@ truth is that you can really achieve this behavior modelling you package ID corr
 [changing the package-id mode](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#changing-the-default-package-id-mode).
 
 However, this is a fine-grained control that will only work when bumping the version of a dependency but not when it is compiled again. To
-cover this use case we have introduced the ``--build cascade``.
+cover this use case we have introduced the ``--build cascade`` in [policies](https://docs.conan.io/en/latest/mastering/policies.html).
 
 For example, let's say we have an application that requires ``cppzmq/4.3.0@bincrafters/stable`` and we have the following dependency graph
 for our ``app`` project:
