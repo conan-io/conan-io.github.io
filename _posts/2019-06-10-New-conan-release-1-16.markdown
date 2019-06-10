@@ -14,7 +14,7 @@ Following the [gcc releases](http://gcc.gnu.org/releases.html) we updated the de
 
 Note that Conan by default uses the major versions of GCC only (8, 9...), as the minor is really a patch and those are intended to be fully
 binary compatible. The 8.3 and 9.1 minor versions can be explicitly defined though, in profiles and in command line, but they will result in
-different binaries than other minor gcc versions as 8.2.
+different binaries than other minor GCC versions as 8.2.
 
 There are cases in which creating binaries with the specific version will be handy, however, following just the major should be fine
 regarding binary compatibility.
