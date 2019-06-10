@@ -7,9 +7,9 @@ title: "Conan 1.16: Support for GCC 8.3 and 9.1, Cascade build mode & custom tem
 We got Conan 1.16 release out this time with some features and many fixes. We are also sharing the ongoing the development of the upcoming
 enhancements!
 
-## Support for gcc 8.3 and 9.1
+## Support for GCC 8.3 and 9.1
 
-Following the [gcc releases](http://gcc.gnu.org/releases.html) we updated the default
+Following the [GCC releases](http://gcc.gnu.org/releases.html) we updated the default
 [settings.yml](https://docs.conan.io/en/latest/reference/config_files/settings.yml.html) to include the latest versions of the compiler.
 
 Note that Conan by default uses the major versions of GCC only (8, 9...), as the minor is really a patch and those are intended to be fully
@@ -33,12 +33,12 @@ For example, let's say we have an application that requires ``cppzmq/4.3.0@bincr
 for our ``app`` project:
 
 <p class="centered">
-<img src="{{ site.url }}/assets/post_images/2019-06-10/conan-info-graph.png" width="50%"/>
+<img src="{{ site.url }}/assets/post_images/2019-06-10/conan-info-graph.png" width="70%"/>
 </p>
 
-Now let's say that for some reason the ``libsodium/1.0.16@bincrafters/stable`` upstream dependency has to be built, because for example, we fixed a bug in a header, (we are forcing the
-rebuild with ``--build libsodium``). Now we can install the dependencies using the ``cascade`` mode and Conan will mark it as ``Build`` as
-well as the downstream dependencies:
+Now let's say that for some reason the ``libsodium/1.0.16@bincrafters/stable`` upstream dependency has to be built, because for example, we
+fixed a bug in a header, (we are forcing the rebuild with ``--build libsodium``). Now we can install the dependencies using the ``cascade``
+mode and Conan will mark it as ``Build`` as well as the downstream dependencies:
 
 ```
 $ conan install .. --build libsodium --build cascade
@@ -91,15 +91,18 @@ $ conan new library/1.0.0 --template=template.py
 ```
 
 Templates placed in the Conan cache will benefit from sharing over ``conan config install`` command. Check the documentation
-[here](https://docs.conan.io/en/latest/reference/commands/creator/new.html)
+[here](https://docs.conan.io/en/latest/reference/commands/creator/new.html).
 
 ## Minor improvements and fixes
 
+- Any warnings or errors of Conan command execution are now printed to ``stderr``: This is useful to catch specific errors in CI, provide
+  a meaningful error output to users or create error logs.
+- Conan execution now returns with ``6`` exit code
+  ([Invalid Configuration](https://docs.conan.io/en/latest/reference/commands/return_codes.html#invalid-configuration)) for
+  [constrained settings in a recipe](https://docs.conan.io/en/latest/mastering/conditional.html?highlight=restricted#constrain-settings-and-options).
+- New syntax using a full reference to upload specific packages with ``conan upload <ref>:<package_id>`` (``--package`` argument is now
+  deprecated).
 - Meson build helper is now able to use [appropriate compiler flags](https://github.com/conan-io/conan/pull/5222).
-- Conan execution now returns with ``6`` exit code ([Invalid Configuration](https://docs.conan.io/en/latest/reference/commands/return_codes.html#invalid-configuration)) for
-[constrained settings in a recipe](https://docs.conan.io/en/latest/mastering/conditional.html?highlight=restricted#constrain-settings-and-options).
-- New syntax using a full reference to upload specific packages with ``conan upload <ref>:<package_id>`` (``--package`` argument is now deprecated).
-- Warnings and errors of Conan are now printed to ``stderr``.
 
 ## Ongoing development
 
