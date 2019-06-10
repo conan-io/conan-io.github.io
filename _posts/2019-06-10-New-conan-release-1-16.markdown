@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Conan 1.16: Support for gcc 8.3 and 9.1, Cascade build mode & custom templates for conan new command"
+title: "Conan 1.16: Support for GCC 8.3 and 9.1, Cascade build mode & custom templates for conan new command"
 ---
 
 We got Conan 1.16 release out this time with some features and many fixes. We are also sharing the ongoing the development of the upcoming
