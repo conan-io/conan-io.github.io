@@ -19,7 +19,7 @@ libraries and the appropriate flags to link with all of them.
 </p>
 
 Also the plugin allows to link Conan profiles to the CLion ones, so you can change the settings of you build right from the IDE and have the
-the packages for your dependencies installed right away.
+packages for your dependencies installed right away.
 
 You can check all the details of the plugin and how to set it up in
 ["Getting Started with the Conan CLion Plugin"](https://blog.jetbrains.com/clion/2019/05/getting-started-with-the-conan-clion-plugin) posted
