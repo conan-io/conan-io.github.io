@@ -159,7 +159,7 @@ add_custom_command(TARGET dear-imgui-conan
 conan_target_link_libraries(dear-imgui-conan)
 {% endhighlight %}
 
-We will also need the Conan file to declare the libraries it depends on. Besides from the GLFW library we already talked about we need the GLEW library to handle OpenGL functions loading. We will use cmake_multi to generate projects for Debug and Release configurations.
+We will also need the *conanfile* to declare the libraries it depends on. Besides from the GLFW library we already talked about we need the GLEW library to handle OpenGL functions loading. We will use ``cmake_multi`` to generate projects for Debug and Release configurations.
 
 {% highlight text %}
 [requires]
