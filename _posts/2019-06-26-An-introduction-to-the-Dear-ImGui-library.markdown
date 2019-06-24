@@ -4,7 +4,7 @@ comments: false
 title: "An introduction to the Dear ImGui library"
 ---
 
-As developers, we all have faced the pain of introducing graphical interfaces to our programs. Traditional GUI libraries add a degree of complexity which you may not want if you are making tools that are intended for debugging. Here we present a library that makes it possible to create [loggers](https://github.com/ocornut/imgui/issues/2529), [profilers](https://github.com/ocornut/imgui/issues/2265), [debuggers](https://github.com/ocornut/imgui/issues/2265) or even an [entire game making editor](https://github.com/ocornut/imgui/issues/1607) quick and easy. The entire [example](https://github.com/czoido/dear-imgui-conan-example) presented here is available on [Github](https://github.com/czoido/dear-imgui-conan-example).
+As developers, we all have faced the pain of introducing graphical interfaces to our programs. Traditional GUI libraries add a degree of complexity which you may not want if you are making tools that are intended for debugging. Here we present a library that makes it possible to create [loggers](https://github.com/ocornut/imgui/issues/2529), [profilers](https://github.com/ocornut/imgui/issues/2265), [debuggers](https://github.com/ocornut/imgui/issues/2265) or even an [entire game making editor](https://github.com/ocornut/imgui/issues/1607) quickly and easily. The entire [example](https://github.com/czoido/dear-imgui-conan-example) presented here is available on [Github](https://github.com/czoido/dear-imgui-conan-example).
 
 ### Dear ImGui?
 
