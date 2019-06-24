@@ -9,11 +9,13 @@ Traditional GUI libraries add a degree of complexity which you may not want if y
 Here we present a library that makes it possible to create [loggers](https://github.com/ocornut/imgui/issues/2529),
 [profilers](https://github.com/ocornut/imgui/issues/2265), [debuggers](https://github.com/ocornut/imgui/issues/2265)
 or even an [entire game making editor](https://github.com/ocornut/imgui/issues/1607) quickly and easily.
-The entire [example](https://github.com/czoido/dear-imgui-conan-example) presented here is available on Github.
+The entire [example](https://github.com/conan-io/examples/tree/feature/conan_imgui/libraries/dear-imgui/basic) 
+presented here is available on Github.
 
 ### Dear ImGui?
 
-[Dear ImGui](https://github.com/ocornut/imgui) is an amazing C++ GUI library mainly used in game developement. The project is open-source software, licensed under MIT license. Dear ImGui focuses on simplicity and productivity using what is called 
+[Dear ImGui](https://github.com/ocornut/imgui) is an amazing C++ GUI library mainly used in game developement. 
+The project is open-source software, licensed under MIT license. Dear ImGui focuses on simplicity and productivity using what is called 
 [Inmediate Mode GUI paradigm](https://caseymuratori.com/blog_0001). 
 
 Immediate mode GUI's are different from the traditional retained-mode interfaces in that widgets are created and drawn on each frame
@@ -45,7 +47,8 @@ ImGui's repo. As we will use Dear ImGui v1.69 these are the ones we will need:
 * [imgui_impl_glfw.cpp](https://github.com/ocornut/imgui/blob/v1.69/examples/imgui_impl_glfw.cpp)
 * [imgui_impl_glfw.h](https://github.com/ocornut/imgui/blob/v1.69/examples/imgui_impl_glfw.h)
 
-The minimal code to make this work is in ``main.cpp``. First, you initialize the window for rendering and then you have to initialize a Dear ImGui context and the helper platform and Renderer bindings. You can change the rendering style if you want as well.
+The minimal code to make this work is in ``main.cpp``. First, you initialize the window for rendering and then you have to 
+initialize a Dear ImGui context and the helper platform and Renderer bindings. You can change the rendering style if you want as well.
 
 {% highlight cpp %}
 // Setup Dear ImGui context
@@ -216,6 +219,7 @@ dear-imgui-conan
 
 Dear ImGui is a powerful library with an easy to use API which integrates into 3D-pipeline enabled applications almost seamlessly.
 It has lots of widgets and can be a great tool to make debugging software such as profilers, loggers or object editors of any kind. 
-Also, new functionalities like [docking](https://github.com/ocornut/imgui/issues/2109) or [multiple viewports](https://github.com/ocornut/imgui/issues/1542) 
+Also, new functionalities like [docking](https://github.com/ocornut/imgui/issues/2109) or 
+[multiple viewports](https://github.com/ocornut/imgui/issues/1542) 
 are currently being developed. Now it's time to experiment with the library and making it interact with your own code!
 
