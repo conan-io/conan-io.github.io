@@ -13,8 +13,8 @@ The entire [example](https://github.com/czoido/dear-imgui-conan-example) present
 
 ### Dear ImGui?
 
-[Dear ImGui](https://github.com/ocornut/imgui) is an amazing C++ GUI library which focuses on simplicity and productivity using what 
-is called [Inmediate Mode GUI paradigm](https://caseymuratori.com/blog_0001). 
+[Dear ImGui](https://github.com/ocornut/imgui) is an amazing C++ GUI library mainly used in game developement. The project is open-source software, licensed under MIT license. Dear ImGui focuses on simplicity and productivity using what is called 
+[Inmediate Mode GUI paradigm](https://caseymuratori.com/blog_0001). 
 
 Immediate mode GUI's are different from the traditional retained-mode interfaces in that widgets are created and drawn on each frame
 vs the traditional approach of first creating a widget and adding callbacks to it. Some of the benefits of this paradigm are your
