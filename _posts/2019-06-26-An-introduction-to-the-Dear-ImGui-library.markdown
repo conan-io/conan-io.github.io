@@ -154,11 +154,16 @@ First, let's make the CMake project. It has the bindings for GLFW and OpenGL3 an
  reading. It will also copy the shaders that render the triangle to the working directory each time the application is recompiled.
 
 {% highlight cmake %}
-cmake_minimum_required(VERSION 2.8.12)
-project(dear-imgui-conan)
+cmake_minimum_required(VERSION 3.0)
+project(dear-imgui-conan CXX)
 
-include(${CMAKE_BINARY_DIR}/conanbuildinfo_multi.cmake)
-conan_basic_setup()
+set(CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
+set(CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+
+# CONFIG option is important so that CMake doesnt search for modules into the default modules directory
+find_package(imgui CONFIG)
+find_package(glfw CONFIG)
+find_package(glew CONFIG)
 
 add_executable( dear-imgui-conan 
                 main.cpp 
@@ -179,7 +184,9 @@ add_custom_command(TARGET dear-imgui-conan
     COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/assets/simple-shader.fs ${PROJECT_BINARY_DIR}
 )
 
-conan_target_link_libraries(dear-imgui-conan)
+add_compile_definitions(IMGUI_IMPL_OPENGL_LOADER_GLEW)
+
+target_link_libraries(dear-imgui-conan imgui::imgui glfw::glfw glew::glew)
 {% endhighlight %}
 
 We will also need the *conanfile* to declare the libraries it depends on. Besides from the GLFW library we already talked about we need
@@ -193,7 +200,7 @@ glfw/3.2.1@bincrafters/stable
 glew/2.1.0@bincrafters/stable
 
 [generators]
-cmake_multi
+cmake_find_package_multi
 
 [imports]
 ./misc/bindings, imgui_impl_glfw.cpp -> ../bindings
@@ -205,11 +212,12 @@ cmake_multi
 Now let's build the project and run the application.
 
 {% highlight bash %}
+cd dear-imgui-conan-example
 mkdir build
 cd build
 conan install .. -s build_type=Release
 conan install .. -s build_type=Debug
-cmake .. -DCMAKE_CONFIGURATION_TYPES=Debug;Release -G "Visual Studio 15 Win64"
+cmake .. -G "Visual Studio 15 2017 Win64"
 cmake --build . --config Release
 cd Release
 dear-imgui-conan
