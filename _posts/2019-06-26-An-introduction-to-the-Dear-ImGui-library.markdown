@@ -154,11 +154,11 @@ If you want to give a try tou can download all the files from the Conan examples
 
 {% highlight bash %}
 git clone https://github.com/conan-io/examples.git
-cd examples\libraries\dear-imgui\basic\
+cd examples/libraries/dear-imgui/basic
 {% endhighlight %}
 
 First, let's inspect the CMake project. It has the bindings for GLFW and OpenGL3 and two more files to handle OpenGL shaders and file 
- reading. It will also copy the shaders that render the triangle to the working directory each time the application is recompiled.
+reading. It will also copy the shaders that render the triangle to the working directory each time the application is recompiled.
 
 {% highlight cmake %}
 cmake_minimum_required(VERSION 3.0)
