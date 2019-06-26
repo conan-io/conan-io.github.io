@@ -148,7 +148,7 @@ and have a look at the different examples.
 ### Setting up a project with Conan
 
 Setting up a project that uses ImGui is a matter of minutes with Conan. The example shown here is using Windows and Visual Studio 2017
- but it is very similar in [MacOS or Linux](https://github.com/czoido/dear-imgui-conan-example/blob/master/README.md).
+ but it is very similar in [MacOS or Linux](https://github.com/conan-io/examples/blob/feature/conan_imgui/libraries/dear-imgui/basic/README.md).
 
 First, let's make the CMake project. It has the bindings for GLFW and OpenGL3 and two more files to handle OpenGL shaders and file 
  reading. It will also copy the shaders that render the triangle to the working directory each time the application is recompiled.
