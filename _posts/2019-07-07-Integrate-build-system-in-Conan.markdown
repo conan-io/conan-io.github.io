@@ -62,4 +62,5 @@ def build(bld):
 	bld.program(source='main.cpp', target='app', use='mylib')
 {% endhighlight %}
 
-As you can see there are several commands defined here: 
+As you can see there are several commands defined here, being ``configure`` and ``build`` the ones that matter
+most to us. 
