@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Conan 1.17: Lockfiles, graph command for CI, package ID modes for revisions, apple-clang 11.0 support and usability improvements"
+title: "Conan 1.17: Lockfiles, new graph commands, package ID modes for revisions, apple-clang 11.0 support and usability improvements"
 ---
 
 Great news in this 1.17 release! The new lockfile feature has arrived together with a new ``conan graph`` commands and package ID modes for recipe and package revisions. Let's check them out!
