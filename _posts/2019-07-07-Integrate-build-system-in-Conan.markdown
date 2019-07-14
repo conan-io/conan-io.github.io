@@ -10,8 +10,8 @@ As you will probably know Conan has official support for integration with severa
 that is not currently supported, Conan provides the tools to integrate it and build and consume packages that
 use your preferred build system.
 
-All the code for this post is available in the conan examples repo. Feel free to clone it and do your own
-experiments with all the code. **TODO: PUT LINK**
+All the code for this post is available in the [conan examples repo](https://github.com/conan-io/examples).
+Feel free to clone it and do your own experiments with all the code.
 
 ### Where do I start ?
 
@@ -68,19 +68,20 @@ def build(bld):
 As you can see there are several commands defined here, being ``configure`` and ``build`` the ones that matter
 most to us in this moment.
 
-* ``configure`` command has the responsibility to configure the project and find the location of the
-  prerequisites. As you can see  we have to modify the *configuration context* variable in order to tell Waf
-  where will it be able to find the includes and library files. Conan has all this information so we will need
-  a tool that transforms that information in a way we can load in the *wscript* and that's exactly what a
-  *Conan generator* is designed to do.
+* ``configure`` command has the responsibility to set several settings and find the location of the
+  prerequisites. We have to modify the *configuration context* (``conf.env``) variable in order to tell Waf where will it be
+  able to find the includes and library files. Conan has all this information so we will need a tool that
+  transforms that information in a way we can load in the *wscript* and that's exactly what a *Conan
+  generator* is designed to do.
 
 * ``build`` command will transform the source files into build files. Note that in the call to ``bld.program``
   we can tell Waf which libraries we are linking through the ``use`` argument. *Conan generator* will have to
   provide this argument to Waf as well.
 
 Waf provides us with the capability of loading *python modules* using the ``load`` command so we could create
-some Python code with the generator that modifies the Waf *configuration context* to include the information
-of the libraries location and one variable with all the list of dependencies as input to the ``use`` argument.
+some Python code with the Conan generator that modifies the Waf *configuration context* to include the
+information of the libraries location and one variable with all the list of dependencies as input to the
+``use`` argument.
 
 #### Custom Conan generators
 
@@ -94,18 +95,13 @@ Conan is a class that extends ``Generator`` and implements two properties:
   that information from the ``deps_build_info`` property of the ``Generator`` class. That property is a
   dictionary that has all the information needed to link the library.
 
-If we want to use the generator in our consumers we will have to make a package that we can load as a
-``build_requires``. The implementation of the generator then will go in ``conanfile.py`` and can be as simple
+To use the generator in our consumers we will have to make a package that can be loaded as a
+``build_requires``. The implementation of the generator will go in ``conanfile.py`` and can be as simple
 as this:
 
 {% highlight python %}
-from conans.model import Generator
-from conans import ConanFile
-
 
 class Waf(Generator):
-    def _remove_lib_extension(self, libs):
-        return [lib[0:-4] if lib.endswith(".lib") else lib for lib in libs]
 
     @property
     def filename(self):
@@ -115,8 +111,6 @@ class Waf(Generator):
     def content(self):
         sections = []
         sections.append("def configure(ctx):")
-        self.deps_build_info.libs = self._remove_lib_extension(
-            self.deps_build_info.libs)
         conan_libs = []
         for dep_name, info in self.deps_build_info.dependencies:
             if dep_name not in self.conanfile.build_requires:
@@ -137,20 +131,12 @@ class Waf(Generator):
 class WafGeneratorPackage(ConanFile):
     name = "WafGen"
     version = "0.1"
-    url = "https://github.com/czoido/conan-waf-generator" **TODO: CHANGE LINK**
     license = "MIT"
 
 {% endhighlight %}
 
-Once implemented the generator we can create the package via conan the conan ``create`` command:
-
-{% highlight bash %}
-conan create . user/channel
-{% endhighlight %}
-
-Now we have the tools to invoke the Waf generator in our ``conanfile.py`` and creating a
-``waf_conan_libs_info.py`` file with all the dependencies information that we can load in Waf with the
-``load`` command in the *wscript*:
+This generator will create the ``waf_conan_libs_info.py`` file with all the dependencies information. We can
+pass this information to Waf with the ``load`` command in the *wscript*:
 
 {% highlight python %}
 def configure(conf):
@@ -159,26 +145,20 @@ def configure(conf):
 {% endhighlight %}
 
 But that would only work if we have the Waf build tool in our path and we don't know if our consumers are
-going to have the tool so it would be great if we could install this tool using Conan.
+going to have the tool installed. We can solve this problem creating a Conan *installer package*.
 
 ### Creating a package to install the build-system
 
-As we said earlier Waf is a build-system written in Python and in order to use it we will need to download the
-python script from their servers. For this we can create a Conan package that downloads the tool and makes it
-available to perform our build. All Conan packages for building tools follow a similar structure. This would
-be the structure of the ``conanfile.py`` for our installer:
+As we said earlier Waf is a build-system written in Python so in order to use it we will need to download the
+python script from the [Waf repository](https://gitlab.com/ita1024/waf/). We can create a Conan package that
+downloads the tool and makes it available to perform our build. This would be the structure of the
+``conanfile.py`` for our installer:
 
 {% highlight python %}
 
-from conans import ConanFile, tools
-import os
-
-
 class WAFInstallerConan(ConanFile):
     name = "waf"
-    version = "2.0.17"
-    url = "https://github.com/czoido/conan-wasf-installer"
-    description = "Waf is a Python-based build system"
+    version = "2.0.18"
     settings = "os_build"
     homepage = "https://gitlab.com/ita1024/waf"
     license = "BSD"
@@ -211,20 +191,234 @@ Note that **only** the ``os_build`` setting has been left from the settings of t
 because it does not make sense to create different installer packages depending for example on the
 ``compiler`` or ``arch_build`` as the tool will be the same for all those configurations. It will only create
 different packages for differentiating ``os_build`` as the tool is going to be called through a *.bat* file in
-*Windows* and in *Linux* the permissions have to be set. Now if one consumer declares this package as
-``build_requires`` it will have this tool available on the path to build the project with it.
+*Windows* and in *Linux* the permissions have to be set. After installing this package all consumers that
+declare it as ``build_requires`` will have this tool available on the path.
 
-So at this point we are able to *tell Waf about the libraries locations* and we *can invoke Waf while using
-our consumers* so we could call it directly from a *conanfile* using ``self.run`` and passing manually
-settings like the ``build_type`` in the *conanfile*. But there is a better way of doing this that will be the
-missing piece of our puzzle: *creating our own Conan build-helper*.
+At this point we are able to *tell Waf about the libraries locations* and we *can invoke Waf using our
+consumers* so we could call it directly from a *conanfile* using ``self.run`` passing manually settings like
+the ``build_type`` in the *conanfile*. But there is a better way of doing this that will be the missing piece
+of our puzzle: *creating our own Conan build-helper*.
 
 ### Conan build-helper for Waf
 
-Build helpers are Python wrappers of a build tool that help with the conversion of the Conan settings to the
-build system’s ones. They assist users with the compilation of libraries and applications in the ``build()``
-method of a recipe. 
+Our build-helper will have two missions:
+
+* Generate all the information with the Conan build settings to a format Waf can understand. We will generate
+  another *Python module* that transmits build information that Conan has such as ``arch_build``,
+  ``build_type``, ``compiler``, ``compiler.runtime`` and so on. The name of this file will be
+  ``waf_conan_toolchain.py``.
+
+* Assist with the compilation of libraries and applications in the ``build()`` method of a recipe. We will
+  create a method that invokes the build system abstracting the calls to ``self.run`` in the *conanfile*.
+
+To be able to create our own build-helper we will use the ``python_requires()`` feature of Conan. That way we
+will be able to reuse python code existing in other ``conanfile.py`` recipes. We will create a package with
+our build-helper code and reuse it in the consumers importing them as a *Python requires*. We will implement a
+minimal skeleton of the *Python requires* in the ``conanfile.py`` but all the important code will reside in
+the ``waf_environment.py`` file that contains the ``WafBuildEnvironment`` class. To learn a bit more about
+*Python Requires*, please visit the [conan
+documentation](https://docs.conan.io/en/latest/extending/python_requires.html#python-requires).
+
+{% highlight python %}
+
+class PythonRequires(ConanFile):
+    name = "waf-build-helper"
+    version = "0.1"
+    exports = "waf_environment.py"
 
 
+def get_conanfile():
+    class BaseConanFile(ConanFile):
+        pass
 
-### Putting It All Together
+    return BaseConanFile
+{% endhighlight %}
+
+Lets see an example of a simplified build-helper implementation that only takes into account the Conan
+``build_type`` and passes the information to the build-system. As we said, all the important code resides in
+the ``WafBuildEnvironment`` class in ``waf_environment.py``. The configuration of the environment happens
+calling to the ``configure`` method of the ``WafBuildEnvironment`` class.
+
+{% highlight python %}
+
+class WafBuildEnvironment(object):
+    def __init__(self, conanfile):
+        self._conanfile = conanfile
+        self._compiler = self._conanfile.settings.compiler
+        self._build_type = self._conanfile.settings.build_type
+
+    def _toolchain_content(self):
+        sections = []
+        sections.append("def configure(conf):")
+        sections.append("    if not conf.env.CXXFLAGS:")
+        sections.append("       conf.env.CXXFLAGS = []")
+        sections.append("    if not conf.env.LINKFLAGS:")
+        sections.append("       conf.env.LINKFLAGS = []")
+        if "Visual Studio" in self._compiler:
+            if self._build_type == "Debug":
+                sections.append("    conf.env.CXXFLAGS.extend(['/Zi', '/FS'])")
+                sections.append("    conf.env.LINKFLAGS.extend(['/DEBUG'])")
+            elif self._build_type == "Release":
+                sections.append("    conf.env.CXXFLAGS.extend(['/O2', '/DNDEBUG'])")
+        else:
+            if self._build_type == "Debug":
+                sections.append("    conf.env.CXXFLAGS.extend(['-g'])")
+            elif self._build_type == "Release":
+                sections.append("    conf.env.CXXFLAGS.extend(['-O3'])")
+
+        return "\n".join(sections)
+
+    def _save_toolchain_file(self):
+        filename = "waf_conan_toolchain.py"
+        content = self._toolchain_content()
+        output_path = self._conanfile.build_folder
+        save(
+            os.path.join(output_path, filename),
+            content,
+            only_if_modified=True)
+
+    def configure(self, args=None):
+        self._save_toolchain_file()
+        args = args or []
+        command = "waf configure " + " ".join(arg for arg in args)
+        self._conanfile.run(command)
+
+    def build(self, args=None):
+        args = args or []
+        command = "waf build " + " ".join(arg for arg in args)
+        self._conanfile.run(command)
+
+{% endhighlight %}
+
+We modify the configuration environment through the ``conf.env`` variable setting all the relevant flags for
+*Release* and *Debug* configurations depending if we are building with Visual Studio or any other compiler. We
+also define a ``build`` method that runs the Waf build tool.
+
+### Putting it all together
+
+#### Building the library
+
+At this point we are able to create a recipe that builds our library with the Waf build-system. An example of
+the possible structure of the project would be as follows:
+ 
+{% highlight text%}
+
+waf-mylib/
+├── src/
+│   └── mylib.cpp
+├── include/
+│   └── mylib.hpp
+├── conanfile.py
+└── wscript
+
+{% endhighlight %}
+
+With a ``conanfile.py`` that declares the requirement of all the necessary tools for building the project.
+
+{% highlight python %}
+
+base = python_requires("waf-build-helper/0.1@user/channel")
+
+class MyLibConan(base.get_conanfile()):
+    settings = "os", "compiler", "build_type", "arch", "arch_build"
+    name = "mylib-waf"
+    version = "1.0"
+    license = "MIT"
+    author = "Conan Team"
+    description = "Just a simple example of using Conan to package a Waf lib"
+    exports = "wscript", "src/mylib.cpp", "include/mylib.hpp", "LICENSE"
+    build_requires = "waf/2.0.18@user/channel"
+
+    def build(self):
+        waf = base.WafBuildEnvironment(self)
+        waf.configure()
+        waf.build()
+
+    def package(self):
+        self.copy("*.hpp", dst="include", src="include", keep_path=False)
+        self.copy("*.lib", dst="lib", src="build", keep_path=False)
+        self.copy("*.dll", dst="bin", keep_path=False)
+        self.copy("*.dylib*", dst="lib", src="build", keep_path=False)
+        self.copy("*.so", dst="lib", src="build", keep_path=False)
+        self.copy("*.a", dst="lib", src="build", keep_path=False)
+        self.copy("LICENSE", dst="licenses", src=".", keep_path=False)
+
+    def package_info(self):
+        self.cpp_info.libs = ["mylib"]
+
+{% endhighlight %}
+
+The simplest ``wscript`` to build the library could be like this:
+
+{% highlight python %}
+top = '.'
+out = 'build'
+
+def options(opt):
+	opt.load('compiler_cxx')
+
+def configure(conf):
+	conf.load('compiler_cxx')
+	conf.load('waf_conan_toolchain', tooldir='.')
+
+def build(bld):
+	bld.stlib(target='mylib', source='./src/mylib.cpp')
+{% endhighlight %}
+
+The information for the build-system is passed through the loading the of the ``waf_conan_toolchain.py`` file
+that was created by the build-helper.
+
+#### Consuming the library
+
+If we want to consume the library we have just created using Waf we just have to declare the needed
+``build_requires`` and ``python_requires`` in the ``conanfile.py``.
+
+{% highlight python %}
+
+base = python_requires("waf-build-helper/0.1@user/channel")
+
+class TestWafConan(base.get_conanfile()):
+    settings = "os", "compiler", "build_type", "arch", "arch_build"
+    name = "waf-consumer"
+    generators = "Waf"
+    requires = "mylib-waf/1.0@user/channel"
+    build_requires = "WafGen/0.1@user/channel", "waf/2.0.18@user/channel"
+    exports_sources = "wscript", "main.cpp"
+
+    def build(self):
+        waf = base.WafBuildEnvironment(self)
+        waf.configure()
+        waf.build()
+
+{% endhighlight %}
+
+And create a ``wscript`` that loads all the Conan information in Waf environment.
+
+{% highlight python %}
+
+def options(opt):
+	opt.load('compiler_cxx')
+
+def configure(conf):
+    conf.load('compiler_cxx')
+    conf.load('waf_conan_libs_info', tooldir='.')
+    conf.load('waf_conan_toolchain', tooldir='.')
+
+def build(bld):
+	bld.program(source='main.cpp', target='app', use=bld.env.CONAN_LIBS)
+
+{% endhighlight %}
+
+Now, we could build or application using conan:
+
+{% highlight text %}
+
+conan source . --source-folder=build
+conan install . --install-folder=build
+conan build . --build-folder=build
+
+{% endhighlight %}
+
+At this point you should have a general understanding on what Conan *generators*, *build-helpers* and
+*installers* are and how they can help you to integrate almost any build-system in Conan. Feel free to clone
+the Conan examples repository and start integrating your favourite build-system in the Conan package manager.
