@@ -1,10 +1,20 @@
 ---
 layout: post
 comments: false
-title: "Conan 1.17: Lockfiles, new graph commands, package ID modes for revisions, apple-clang 11.0 support and usability improvements"
+title: "Conan 1.17: The Conan user survey, lockfiles, new graph commands, package ID modes for revisions, apple-clang 11.0 support and
+usability improvements"
 ---
 
-Great news in this 1.17 release! The new lockfile feature has arrived together with a new ``conan graph`` commands and package ID modes for recipe and package revisions. Let's check them out!
+Great news in this 1.17 release! The new lockfile feature has arrived together with a new ``conan graph`` commands and package ID modes for recipe and package revisions. We are also running a user survey to gather some feedback. Let's check it out!
+
+## The Conan User Survey
+
+We are running a user survey to gather some feedback from the community. As you know, Conan Package Manager is fully OpenSource, we do not
+capture any kind of information on your usage. This survey will help us to size our resources accordingly across different areas
+(development, support, etc.), to estimate the importance of some feature requests, the impact of bugs or regressions, and to prioritize development in general.
+
+Please take **2 minutes** to [fill the survey](https://www.surveymonkey.com/r/ConanCommunity) and help the Conan project. The results of the
+survey will be exclusively for the internal use of the JFrog-Conan team to evolve Conan to better suit your needs. Thanks!
 
 ## Freeze your dependencies with lockfiles
 
@@ -129,9 +139,3 @@ Have a look at the full list of features and fixes in the [changelog](https://do
 
 Report any bug or share your feedback opening a new issue in our [issue tracker](https://github.com/conan-io/conan/issues) and don't forget
 to [update](https://conan.io/downloads.html). Have a good summer!
-
-### Something else! The Conan User Survey
-
-We are running a user survey to gather some feedback from the community. This will help us size our resources accordingly across
-different areas, including development, support, etc. Please take **2 minutes** to
-[fill the survey](https://www.surveymonkey.com/r/ConanCommunity) and help the Conan project. Thanks!
