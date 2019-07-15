@@ -39,7 +39,7 @@ In order to create, clean or update the graph saved in the lockfile we have rele
 
 - Generate lockfiles for a given graph without running a complete installation (without downloading or rebuilding): ``conan graph lock``
 
-- Update packages that has been rebuilt in one lockfile generating a new one: ``conan graph update-lock``
+- Update packages that have been rebuilt in one lockfile generating a new one: ``conan graph update-lock``
 
 - Clean the modified packages in a lockfile to perform a new operation that will mark packages as modified: ``conan graph clean-modified``
 
