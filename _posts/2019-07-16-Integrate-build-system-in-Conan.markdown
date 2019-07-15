@@ -5,7 +5,7 @@ title: "Integrate a build system in Conan"
 ---
 
 As you will probably know Conan has official support for integration with several build systems such as
-[CMake](https://cmake.org/), [Visual Studio](https://visualstudio.microsoft.com) or
+[CMake](https://cmake.org/), [MSBuild](https://visualstudio.microsoft.com) or
 [Meson](https://mesonbuild.com/) amongst others. But maybe you don't know that if you are using a build system
 that is not currently supported, Conan provides the tools to integrate it and build and consume packages that
 use your preferred build system.
