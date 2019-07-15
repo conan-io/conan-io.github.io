@@ -94,7 +94,7 @@ There has been some improvements and deprecations in favor of the new syntax:
   $ conan download <name>/<version>@<user>/<channel>#<RREV>:<package_id>#<PREV> -r my_remote
   ```
 
-- The *conanfile.txt* recipe format now supports indicating an specific recipe revision for requirements
+- The *conanfile.txt* recipe format now supports indicating a specific recipe revision for requirements
 
   ```
   [requires]
