@@ -110,8 +110,6 @@ There has been some improvements and deprecations in favor of the new syntax:
   boost/[>=1.68.0]@conan/stable resolved to 'boost/1.70.0@lasote/stable' in remote 'conan-center'
   ```
 
-- The ``conan info`` command now accepts ``--graph`` and ``--build-order`` parameters at the same time.
-
 - Other UX improvements like unified progress bars, deprecation warning message for ``general.no_proxy`` configuration and the profile path
   showed in warning messages.
 
