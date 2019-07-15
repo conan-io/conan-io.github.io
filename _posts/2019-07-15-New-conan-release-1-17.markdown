@@ -11,8 +11,8 @@ Great news in this 1.17 release! The new lockfile feature has arrived together w
 When a package in a dependency graph is modified and a new version or revision is created, it is sometimes desired to test if that new
 version works well within a larger product or project, that is, when that package is part of a larger dependency graph.
 
-The packages that depend on the modified one might need to be rebuilt, but if something else changed, it is impossible to achieve
-reproducible builds.
+The packages that depend on the modified one might need to be rebuilt, but if something else changed (a new version of an upstream
+dependency is released), it is impossible to achieve reproducible builds.
 
 The Conan lockfiles achieve that functionality storing the information of a dependency graph. This information includes the exact versions, revisions, options, and configuration. As every graph in Conan is different depending on the input settings and options of each profile used, there will be one lockfile for each configuration.
 
@@ -135,5 +135,5 @@ to [update](https://conan.io/downloads.html). Have a good summer!
 ### Something else! The Conan User Survey
 
 We are running a user survey to gather some feedback from the community. This will help us size our resources accordingly across
-different areas, including development, support, etc. Please take 2 minutes to
+different areas, including development, support, etc. Please take **2 minutes** to
 [fill the survey](https://www.surveymonkey.com/r/ConanCommunity) and help the Conan project. Thanks!
