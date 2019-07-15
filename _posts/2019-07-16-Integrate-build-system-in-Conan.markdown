@@ -15,19 +15,19 @@ Feel free to clone it and experiment with the code.
 
 ### Where do I start ?
 
-Imagine that you want to create some packages using a specific build-system and let others consume your packages and build them in case there are not binaries generated for their configuration. Conan has three features that can help you with that:
+Imagine that you want to create some packages using a specific build system and let others consume your packages and build them in case there are not binaries generated for their configuration. Conan has three features that can help you with that:
 
 * [Conan generators](https://docs.conan.io/en/latest/reference/generators.html). They provide all the
-  information to your build-system of which are the dependencies and where are they in a format it will
+  information to your build system of which are the dependencies and where are they in a format it will
   understand.
  
 * [Conan installer](https://docs.conan.io/en/latest/devtools/create_installer_packages.html). Conan allows you
   to create packages for tools needed in the build process and installing them later with a ``build_requires`` to
-  be able to invoke that tool from Conan. In our case, we want to install the tools to run our build-system.
+  be able to invoke that tool from Conan. In our case, we want to install the tools to run our build system.
 
 * [Conan build-helper](https://docs.conan.io/en/latest/reference/build_helpers.html). Build-helpers assist you
   in the process of translating settings such as ``build_type``, ``compiler.version`` or ``arch_build`` to the
-  build-system. It can also invoke the build-system tools to build our sources. To use the build helper inside
+  build system. It can also invoke the build system tools to build our sources. To use the build helper inside
   a ``conanfile.py`` we will use a [Python
   requires](https://docs.conan.io/en/latest/reference/conanfile/other.html)
 
@@ -148,9 +148,9 @@ def configure(conf):
 But that would only work if we have the Waf build tool in our path and we don't know if our consumers are
 going to have it installed. We can solve this problem creating a Conan *installer package*.
 
-### Creating a package to install the build-system
+### Creating a package to install the build system
 
-As we said, Waf is a build-system written in Python so to use it we will need to download the
+As we said, Waf is a build system written in Python so to use it we will need to download the
 Python script from the [Waf repository](https://gitlab.com/ita1024/waf/). We can create a Conan package that
 downloads the tool and makes it available to perform our build. This would be the structure of the
 ``conanfile.py`` for our installer:
@@ -298,7 +298,7 @@ We also define a ``build`` method that runs the Waf build tool.
 
 #### Building the library
 
-At this point, we are able to create a recipe that builds our library with the Waf build-system. An example of
+At this point, we are able to create a recipe that builds our library with the Waf build system. An example of
 the structure of the project would be as follows:
  
 {% highlight text%}
@@ -367,7 +367,7 @@ def build(bld):
 
 {% endhighlight %}
 
-The information for the build-system is passed through the loading the of the ``waf_conan_toolchain.py`` file
+The information for the build system is passed through the loading the of the ``waf_conan_toolchain.py`` file
 that was created by the build-helper.
 
 #### Consuming the library
@@ -422,6 +422,6 @@ conan build . --build-folder=build
 {% endhighlight %}
 
 At this point, you should have a general understanding of what Conan *generators*, *build-helpers* and
-*installers* are and how they can help you to integrate almost any build-system in Conan. Now you can clone
+*installers* are and how they can help you to integrate almost any build system in Conan. Now you can clone
 the [Conan examples repository](https://github.com/conan-io/examples) to see the implementation at a higher
-detail and start integrating your favourite build-system in the Conan package manager.
+detail and start integrating your favourite build system in the Conan package manager.
