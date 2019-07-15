@@ -18,7 +18,7 @@ The Conan lockfiles achieve that functionality storing the information of a depe
 
 <div align="center">
     <figure>
-        <img src="{{ site.url }}/assets/post_images/2019-07-15/conan_lockfiles_graph.png" width="600"/>
+        <img src="{{ site.url }}/assets/post_images/2019-07-15/conan-lockfiles_graph.png" width="600"/>
         <figcaption>A nondeterministic dependency graph</figcaption>
     </figure>
 </div>
@@ -119,7 +119,7 @@ There has been some improvements and deprecations in favor of the new syntax:
 
 <div align="center">
     <figure>
-        <img src="{{ site.url }}/assets/post_images/2019-07-15/conan_progress_bars.gif" width="500"/>
+        <img src="{{ site.url }}/assets/post_images/2019-07-15/conan-progress_bars.gif" width="500"/>
         <figcaption>Unified progress bars for installation</figcaption>
     </figure>
 </div>
