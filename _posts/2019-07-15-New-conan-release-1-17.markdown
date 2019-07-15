@@ -14,7 +14,7 @@ version works well within a larger product or project, that is, when that packag
 The packages that depend on the modified one might need to be rebuilt, but if something else changed, it is impossible to achieve
 reproducible builds.
 
-The Conan lockfiles achieve that functionality storing the information of a dependency graph. This information includes the exact versions, revisions, options, and configuration. As every graph in Conan is different depending on de input settings and options of each profile used, there will be one lockfile for each configuration.
+The Conan lockfiles achieve that functionality storing the information of a dependency graph. This information includes the exact versions, revisions, options, and configuration. As every graph in Conan is different depending on the input settings and options of each profile used, there will be one lockfile for each configuration.
 
 <div align="center">
     <figure>
