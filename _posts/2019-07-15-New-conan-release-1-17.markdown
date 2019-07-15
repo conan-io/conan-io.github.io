@@ -11,7 +11,8 @@ Great news in this 1.17 release! The new lockfile feature has arrived together w
 
 We are running a user survey to gather some feedback from the community. As you know, Conan Package Manager is fully OpenSource, we do not
 capture any kind of information on your usage. This survey will help us to size our resources accordingly across different areas
-(development, support, etc.), to estimate the importance of some feature requests, the impact of bugs or regressions, and to prioritize development in general.
+(development, support, etc.), to estimate the importance of some feature requests, the impact of bugs or regressions, and to prioritize
+development in general.
 
 Please take **2 minutes** to [fill the survey](https://www.surveymonkey.com/r/ConanCommunity) and help the Conan project. The results of the
 survey will be exclusively for the internal use of the JFrog-Conan team to evolve Conan to better suit your needs. Thanks!
@@ -24,7 +25,9 @@ version works well within a larger product or project, that is, when that packag
 The packages that depend on the modified one might need to be rebuilt, but if something else changed (a new version of an upstream
 dependency is released), it is impossible to achieve reproducible builds.
 
-The Conan lockfiles achieve that functionality storing the information of a dependency graph. This information includes the exact versions, revisions, options, and configuration. As every graph in Conan is different depending on the input settings and options of each profile used, there will be one lockfile for each configuration.
+The Conan lockfiles achieve that functionality storing the information of a dependency graph. This information includes the exact versions,
+revisions, options, and configuration. As every graph in Conan is different depending on the input settings and options of each profile used,
+there will be one lockfile for each configuration.
 
 <div align="center">
     <figure>
@@ -46,7 +49,8 @@ downstream consumers. This can be achieved with the aforementioned lockfiles and
 section).
 
 However, managing the update of dependencies might be tricky, as some packages will require the rebuild of downstream ones and the update of
-one dependency might not be as easy as changing the version manually. In order to achieve that, we have released the new ``conan graph`` command. This new command will allow you to:
+one dependency might not be as easy as changing the version manually. In order to achieve that, we have released the new ``conan graph``
+command. This new command will allow you to:
 
 - Generate lockfiles for a given graph without running a complete installation (without downloading or rebuilding): ``conan graph lock``
 
@@ -61,7 +65,8 @@ Check the full reference of the commands in the [documentation](https://docs.con
 ## Package ID modes for recipe and package revisions
 
 We have increased the possibilities of the package ID
-[versioning schema](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#versioning-schema) including the ``recipe_revision_mode()`` and ``package_revision_mode()``. These modes will make the package ID of a package depending on the
+[versioning schema](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#versioning-schema) including the
+``recipe_revision_mode()`` and ``package_revision_mode()``. These modes will make the package ID of a package depending on the
 recipe revision (for the first mode) and on the package ID and package revision (for the latest mode) of the requirements.
 
 ```
@@ -83,7 +88,10 @@ Conan configuration file:
 default_package_id_mode=package_revision_mode
 ```
 
-These modes are very important together with the lockfiles in order to achieve a fully reproducible graph, as this mode make sure that the packages has been built with the exact same recipe revision and package revision in upstream dependencies.
+These modes are **very important** together with the lockfiles in order to achieve a fully reproducible graph, as this mode make sure that
+the packages has been built with the exact same recipe revision and package revision in upstream dependencies. In other words, this will
+achieve **exact binary addressing** (the package revision is the hash of the contents), meaning that in case an upstream binary is rebuilt,
+it will induce a compulsory build of new binaries downstream.
 
 ## Apple-clang 11.0 support
 
