@@ -48,9 +48,11 @@ One of the applications of lockfiles, is to be able to propagate changes in one 
 downstream consumers. This can be achieved with the aforementioned lockfiles and the package ID revision mode (read more in the next
 section).
 
-However, managing the update of dependencies might be tricky, as some packages will require the rebuild of downstream ones and the update of
-one dependency might not be as easy as changing the version manually. In order to achieve that, we have released the new ``conan graph``
-command. This new command will allow you to:
+The main point about manipulating lockfiles is to coordinate the rebuild of the affected packages building them in isolated environments,
+for example, different slaves. So you get the results of an isolated package creation, and then you update the main lockfile to continue
+processing the rest of the packages guaranteeing that the following compilations will use the previously built packages.
+
+In order to achieve that, we have released the new ``conan graph``command, that will allow you to:
 
 - Generate lockfiles for a given graph without running a complete installation (without downloading or rebuilding): ``conan graph lock``
 
@@ -60,7 +62,8 @@ command. This new command will allow you to:
 
 - Compute the packages that have to be rebuilt in order to achieve the result of a given lockfile: ``conan graph build-order``
 
-Check the full reference of the commands in the [documentation](https://docs.conan.io/en/latest/reference/commands/misc/graph.html).
+Check the full reference of the commands in the [documentation](https://docs.conan.io/en/latest/reference/commands/misc/graph.html). You
+will also find a full example using lockfiles here: https://github.com/conan-io/examples#lockfiles
 
 ## Package ID modes for recipe and package revisions
 
