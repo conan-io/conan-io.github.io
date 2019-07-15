@@ -362,7 +362,7 @@ def build(bld):
 
 {% endhighlight %}
 
-The information for the build system is passed through the loading the of the ``waf_conan_toolchain.py`` file
+The information for the build system is passed through the loading of the ``waf_conan_toolchain.py`` file
 that was created by the build-helper.
 
 #### Consuming the library
