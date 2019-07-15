@@ -45,7 +45,7 @@ this powerful feature!
 
 ## Manage lockfiles and the update of dependencies in your graph
 
-One of the applications of lockfiles, is to be able to propagate changes in one package belonging to a dependency graph to its affected
+One of the applications of lockfiles is to be able to propagate changes in one package belonging to a dependency graph to its affected
 downstream consumers. This can be achieved with the aforementioned lockfiles and the package ID revision mode (read more in the next
 section).
 
@@ -53,7 +53,7 @@ The main point about manipulating lockfiles is to coordinate the rebuild of the 
 for example, different slaves. So you get the results of an isolated package creation, and then you update the main lockfile to continue
 processing the rest of the packages guaranteeing that the following compilations will use the previously built packages.
 
-In order to achieve that, we have released the new ``conan graph``command, that will allow you to:
+In order to achieve that, we have released the new ``conan graph`` command, that will allow you to:
 
 - Generate lockfiles for a given graph without running a complete installation (without downloading or rebuilding): ``conan graph lock``
 
@@ -92,8 +92,8 @@ Conan configuration file:
 default_package_id_mode=package_revision_mode
 ```
 
-These modes are **very important** together with the lockfiles in order to achieve a fully reproducible graph, as this mode make sure that
-the packages has been built with the exact same recipe revision and package revision in upstream dependencies. In other words, this will
+These modes are **very important** together with the lockfiles in order to achieve a fully reproducible graph, as this mode makes sure that
+the packages have been built with the exact same recipe revision and package revision in upstream dependencies. In other words, this will
 achieve **exact binary addressing** (the package revision is the hash of the contents), meaning that in case an upstream binary is rebuilt,
 it will induce a compulsory build of new binaries downstream.
 
