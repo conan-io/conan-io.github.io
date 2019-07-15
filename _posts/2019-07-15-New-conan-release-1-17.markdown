@@ -31,11 +31,12 @@ this powerful feature!
 
 ## Manage lockfiles and the update of dependencies in your graph
 
-One of the applications of lockfiles, is to be able to propagate changes in one package belonging to a dependency graph to its affected downstream consumers. This can be achieved with the aforementioned lockfiles and the package ID revision mode (read more in the next
-section). Additionally to this, we need to be able to make changes to our graph in a safe way, subsequently updating and saving the results
-in a new lockfile.
+One of the applications of lockfiles, is to be able to propagate changes in one package belonging to a dependency graph to its affected
+downstream consumers. This can be achieved with the aforementioned lockfiles and the package ID revision mode (read more in the next
+section).
 
-In order to create, clean or update the graph saved in the lockfile we have released the new ``conan graph`` command. This new command will allow you to:
+However, managing the update of dependencies might be tricky, as some packages will require the rebuild of downstream ones and the update of
+one dependency might not be as easy as changing the version manually. In order to achieve that, we have released the new ``conan graph`` command. This new command will allow you to:
 
 - Generate lockfiles for a given graph without running a complete installation (without downloading or rebuilding): ``conan graph lock``
 
