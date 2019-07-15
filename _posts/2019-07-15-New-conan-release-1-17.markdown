@@ -5,7 +5,8 @@ title: "Conan 1.17: The Conan user survey, lockfiles, new graph commands, packag
 usability improvements"
 ---
 
-Great news in this 1.17 release! The new lockfile feature has arrived together with a new ``conan graph`` commands and package ID modes for recipe and package revisions. We are also running a user survey to gather some feedback. Let's check it out!
+Great news in this 1.17 release! The new lockfile feature has arrived together with a new ``conan graph`` commands and package ID modes for
+recipe and package revisions. We are also running a user survey to gather some feedback. Let's check it out!
 
 ## The Conan User Survey
 
@@ -22,7 +23,7 @@ survey will be exclusively for the internal use of the JFrog-Conan team to evolv
 When a package in a dependency graph is modified and a new version or revision is created, it is sometimes desired to test if that new
 version works well within a larger product or project, that is, when that package is part of a larger dependency graph.
 
-The packages that depend on the modified one might need to be rebuilt, but if something else changed (a new version of an upstream
+The packages that depend on the modified one might need to be rebuilt, but if something else changed (a new version of another upstream
 dependency is released), it is impossible to achieve reproducible builds.
 
 The Conan lockfiles achieve that functionality storing the information of a dependency graph. This information includes the exact versions,
@@ -36,8 +37,8 @@ there will be one lockfile for each configuration.
     </figure>
 </div>
 
-Lockfiles are useful for achieving deterministic builds, even if the dependency definitions in conanfile recipes are not fully
-deterministic, for example when using version ranges or using package revisions.
+Lockfiles are useful to achieve deterministic builds, even if the dependency definitions in conanfile recipes are not fully deterministic,
+for example when using version ranges or using package revisions.
 
 Check the [new section about lockfiles](https://docs.conan.io/en/latest/versioning/lockfiles.html) in our documentation to learn more about
 this powerful feature!
