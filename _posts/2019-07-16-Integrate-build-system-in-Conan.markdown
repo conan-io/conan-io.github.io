@@ -395,7 +395,7 @@ And create a ``wscript`` that loads all the Conan information in the Waf environ
 {% highlight python %}
 
 def options(opt):
-	opt.load('compiler_cxx')
+    opt.load('compiler_cxx')
 
 def configure(conf):
     conf.load('compiler_cxx')
@@ -403,7 +403,7 @@ def configure(conf):
     conf.load('waf_conan_toolchain', tooldir='.')
 
 def build(bld):
-	bld.program(source='main.cpp', target='app', use=bld.env.CONAN_LIBS)
+    bld.program(source='main.cpp', target='app', use=bld.env.CONAN_LIBS)
 
 {% endhighlight %}
 
