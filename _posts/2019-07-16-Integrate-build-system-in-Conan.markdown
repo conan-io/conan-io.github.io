@@ -26,7 +26,7 @@ Imagine that you want to create some packages using a specific build system and 
   be able to invoke that tool from Conan. In our case, we want to install the tools to run our build system.
 
 * [Conan build-helper](https://docs.conan.io/en/latest/reference/build_helpers.html). Build-helpers assist you
-  in the process of translating settings such as ``build_type``, ``compiler.version`` or ``arch_build`` to the
+  in the process of translating settings such as ``build_type``, ``compiler.version`` or ``arch`` to the
   build system. It can also invoke the build system tools to build our sources. To use the build helper inside
   a ``conanfile.py`` we will use a [Python
   requires](https://docs.conan.io/en/latest/reference/conanfile/other.html)
@@ -103,6 +103,8 @@ this:
 {% highlight python %}
 
 class Waf(Generator):
+    def _remove_lib_extension(self, libs):
+        return [lib[0:-4] if lib.endswith(".lib") else lib for lib in libs]
 
     @property
     def filename(self):
@@ -115,14 +117,13 @@ class Waf(Generator):
         conan_libs = []
         for dep_name, info in self.deps_build_info.dependencies:
             if dep_name not in self.conanfile.build_requires:
-                info.libs = self._remove_lib_extension(info.libs)
                 dep_name = dep_name.replace("-", "_")
                 sections.append("   ctx.env.INCLUDES_{} = {}".format(
                     dep_name, info.include_paths))
                 sections.append("   ctx.env.LIBPATH_{} = {}".format(
                     dep_name, info.lib_paths))
                 sections.append("   ctx.env.LIB_{} = {}".format(
-                    dep_name, info.libs))
+                    dep_name, self._remove_lib_extension(info.libs)))
                 conan_libs.append(dep_name)
         sections.append("   ctx.env.CONAN_LIBS = {}".format(conan_libs))
         sections.append("")
@@ -190,7 +191,7 @@ class WAFInstallerConan(ConanFile):
 
 Note that **only** the ``os_build`` setting has been left from the settings of the ``conanfile.py`` because it
 does not make sense to create different installer packages depending for example on the ``compiler`` or
-``arch_build`` as the tool will be the same for all those configurations. It will only create different
+``arch`` as the tool will be the same for all those configurations. It will only create different
 packages for differentiating ``os_build`` as the tool is going to be called through a *.bat* file in *Windows*
 and in *Linux* the permissions have to be set. After installing this package all consumers that declare it as
 ``build_requires`` will have this tool available on the path.
@@ -204,7 +205,7 @@ way of doing this that will be the missing piece of our puzzle: *creating our ow
 Our build-helper will have two missions:
 
 * Generate all the information with the Conan *build settings* to a format Waf can understand. We will generate
-  another *Python module* that sets build information that Conan has such as ``arch_build``,
+  another *Python module* that sets build information that Conan has such as ``arch``,
   ``build_type``, ``compiler`` or ``compiler.runtime`` in Waf. The name of this file will be
   ``waf_conan_toolchain.py``.
 
@@ -226,12 +227,6 @@ class PythonRequires(ConanFile):
     version = "0.1"
     exports = "waf_environment.py"
 
-
-def get_conanfile():
-    class BaseConanFile(ConanFile):
-        pass
-
-    return BaseConanFile
 {% endhighlight %}
 
 As we said, all the important code is in the ``WafBuildEnvironment`` class in ``waf_environment.py``. Let’s
@@ -317,10 +312,10 @@ With a ``conanfile.py`` that declares the requirement of all the necessary tools
 
 {% highlight python %}
 
-base = python_requires("waf-build-helper/0.1@user/channel")
+waf_import = python_requires("waf-build-helper/0.1@user/channel")
 
-class MyLibConan(base.get_conanfile()):
-    settings = "os", "compiler", "build_type", "arch", "arch_build"
+class MyLibConan(ConanFile):
+    settings = "os", "compiler", "build_type", "arch"
     name = "mylib-waf"
     version = "1.0"
     license = "MIT"
@@ -330,7 +325,7 @@ class MyLibConan(base.get_conanfile()):
     build_requires = "waf/2.0.18@user/channel"
 
     def build(self):
-        waf = base.WafBuildEnvironment(self)
+        waf = waf_import.WafBuildEnvironment(self)
         waf.configure()
         waf.build()
 
@@ -377,10 +372,10 @@ If we want to consume the library we have just created using Waf we just have to
 
 {% highlight python %}
 
-base = python_requires("waf-build-helper/0.1@user/channel")
+waf_import = python_requires("waf-build-helper/0.1@user/channel")
 
-class TestWafConan(base.get_conanfile()):
-    settings = "os", "compiler", "build_type", "arch", "arch_build"
+class TestWafConan(ConanFile):
+    settings = "os", "compiler", "build_type", "arch"
     name = "waf-consumer"
     generators = "Waf"
     requires = "mylib-waf/1.0@user/channel"
@@ -388,7 +383,7 @@ class TestWafConan(base.get_conanfile()):
     exports_sources = "wscript", "main.cpp"
 
     def build(self):
-        waf = base.WafBuildEnvironment(self)
+        waf = waf_import.WafBuildEnvironment(self)
         waf.configure()
         waf.build()
 
