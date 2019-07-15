@@ -72,7 +72,7 @@ Conan configuration file:
 default_package_id_mode=package_revision_mode
 ```
 
-This modes are very important together with the lockfiles in order to achieve a fully reproducible graph, as this mode make sure that the packages has been built with the exact same recipe revision and package revision in upstream dependencies.
+These modes are very important together with the lockfiles in order to achieve a fully reproducible graph, as this mode make sure that the packages has been built with the exact same recipe revision and package revision in upstream dependencies.
 
 ## Apple-clang 11.0 support
 
