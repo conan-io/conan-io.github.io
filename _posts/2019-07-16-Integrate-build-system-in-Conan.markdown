@@ -89,7 +89,7 @@ information of the libraries location and one variable with all the list of depe
 A [custom generator](https://docs.conan.io/en/latest/reference/generators/custom.html#custom-generator) in
 Conan is a class that extends ``Generator`` and implements two properties:
 
-* ``filename`` should return the name of the file that will be generated. In our case we will generate a
+* ``filename`` should return the name of the file that will be generated. In our case, we will generate a
   file called ``waf_conan_libs_info.py`` 
 
 * ``content`` should return the contents of the file with the desired format. Here we will retrieve all
