@@ -50,7 +50,7 @@ Check the full reference of the commands in the [documentation](https://docs.con
 ## Package ID modes for recipe and package revisions
 
 We have increased the possibilities of the package ID
-[versioning schema](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#versioning-schema) including the ``recipe_revision_mode()`` and ``package_revision_mode()``. These modes will make the package ID of a package depend on the
+[versioning schema](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#versioning-schema) including the ``recipe_revision_mode()`` and ``package_revision_mode()``. These modes will make the package ID of a package depending on the
 recipe revision (for the first mode) and on the package ID and package revision (for the latest mode) of the requirements.
 
 ```
