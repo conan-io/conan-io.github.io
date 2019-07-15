@@ -112,8 +112,6 @@ There has been some improvements and deprecations in favor of the new syntax:
 
 - The ``conan info`` command now accepts ``--graph`` and ``--build-order`` parameters at the same time.
 
-- Fix: retry for requests (appveyor/azure)
-
 - Other UX improvements like unified progress bars, deprecation warning message for ``general.no_proxy`` configuration and the profile path
   showed in warning messages.
 
