@@ -321,7 +321,8 @@ class MyLibConan(ConanFile):
     license = "MIT"
     author = "Conan Team"
     description = "Just a simple example of using Conan to package a Waf lib"
-    exports = "wscript", "src/mylib.cpp", "include/mylib.hpp", "LICENSE"
+    exports = "LICENSE"
+    exports_sources = "wscript", "src/mylib.cpp", "include/mylib.hpp"
     build_requires = "waf/2.0.18@user/channel"
 
     def build(self):
