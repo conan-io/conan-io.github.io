@@ -19,7 +19,7 @@ The Conan lockfiles achieve that functionality storing the information of a depe
 <div align="center">
     <figure>
         <img src="{{ site.url }}/assets/post_images/2019-07-15/conan_lockfiles_graph.png" width="600"/>
-        <figcaption>A non deterministic dependency graph</figcaption>
+        <figcaption>A nondeterministic dependency graph</figcaption>
     </figure>
 </div>
 
