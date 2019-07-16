@@ -17,9 +17,8 @@ Feel free to clone it and experiment with the code.
 
 Imagine that you want to create some packages using a specific build system and let others consume your packages and build them in case there are not binaries generated for their configuration. Conan has three features that can help you with that:
 
-* [Conan generators](https://docs.conan.io/en/latest/reference/generators.html). They provide all the
-  information to your build system of which are the dependencies and where are they in a format it will
-  understand.
+* [Conan generators](https://docs.conan.io/en/latest/reference/generators.html). They provide your build
+  system with all the information about dependencies in a suitable format.
  
 * [Conan installer](https://docs.conan.io/en/latest/devtools/create_installer_packages.html). Conan allows you
   to create packages for tools needed in the build process and installing them later with a ``build_requires`` to
@@ -38,8 +37,8 @@ designed to help in the automatic compilation and installation of computer softw
 software written in Python and is released under the terms of the [BSD
 license](https://waf.io/book/#_customization_and_redistribution).
 
-Waf is a generic utility for building projects and project-specific details are stored in Python modules under
-the name *wscript*. A Waf project must contain a top-level *wscript* where the commands that will make the
+*Waf is a generic utility for building projects and project-specific details are stored in Python modules under
+the name wscript*. A Waf project must contain a top-level *wscript* where the commands that will make the
 build happen are defined. Also, a *configuration context* will store data which may be re-used during the build.
 Let's see how a minimal implementation for that *wscript* would look for a C++ project where we want to build
 an executable that depends on ``mylib`` library.
@@ -66,7 +65,7 @@ def build(bld):
 
 {% endhighlight %}
 
-As you can see, there are several commands defined here being ``configure`` and ``build`` the ones that matter
+As you can see, there are several commands defined here being ``configure()`` and ``build()`` the ones that matter
 most to us at this moment.
 
 * ``configure`` command has the responsibility to set several settings and find the location of the
@@ -191,13 +190,11 @@ class WAFInstallerConan(ConanFile):
 
 Note that **only** the ``os_build`` setting has been left from the settings of the ``conanfile.py`` because it
 does not make sense to create different installer packages depending for example on the ``compiler`` or
-``arch`` as the tool will be the same for all those configurations. It will only create different
-packages for differentiating ``os_build`` as the tool is going to be called through a *.bat* file in *Windows*
-and in *Linux* the permissions have to be set. After installing this package all consumers that declare it as
-``build_requires`` will have this tool available on the path.
+``arch`` as the tool will be the same for all those configurations. After installing this package all
+consumers that declare it as ``build_requires`` will have this tool available on the path.
 
 At this point, we are able to *tell Waf about the libraries locations* and we *can invoke Waf* from a
-*conanfile* using ``self.run`` and manually passing settings like the ``build_type``. But there is a better
+*conanfile* using ``self.run()`` and manually passing settings like the ``build_type``. But there is a better
 way of doing this that will be the missing piece of our puzzle: *creating our own Conan build-helper*.
 
 ### Conan build-helper for Waf
@@ -231,8 +228,8 @@ class PythonRequires(ConanFile):
 
 As we said, all the important code is in the ``WafBuildEnvironment`` class in ``waf_environment.py``. Let’s
 see an example of a simplified build-helper implementation that only takes into account the Conan
-``build_type`` would be. The configuration of the environment is made calling to the ``configure`` method of
-the ``WafBuildEnvironment`` class.
+``build_type``. The configuration of the environment is made calling to the ``configure`` method of the
+``WafBuildEnvironment`` class.
 
 {% highlight python %}
 
