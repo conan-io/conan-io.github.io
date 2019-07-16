@@ -127,12 +127,6 @@ class Waf(Generator):
         sections.append("")
         return "\n".join(sections)
 
-
-class WafGeneratorPackage(ConanFile):
-    name = "WafGen"
-    version = "0.1"
-    license = "MIT"
-
 {% endhighlight %}
 
 This generator will create the ``waf_conan_libs_info.py`` file with all the dependencies information. We can
