@@ -35,7 +35,7 @@ Imagine that you want to create some packages using a specific build system and 
 To test these tools, we have selected the [Waf](https://waf.io/) build system. Waf is a build-automation tool
 designed to help in the automatic compilation and installation of computer software. It is open-source
 software written in Python and is released under the terms of the [BSD
-license](https://waf.io/book/#_customization_and_redistribution).
+license](https://waf.io/book).
 
 Waf is a generic utility for building projects and project-specific details are stored in Python modules under
 the name *wscript*. A Waf project must contain a top-level *wscript* where the commands that will make the
