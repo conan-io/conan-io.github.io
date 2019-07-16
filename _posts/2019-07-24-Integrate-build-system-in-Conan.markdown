@@ -37,8 +37,8 @@ designed to help in the automatic compilation and installation of computer softw
 software written in Python and is released under the terms of the [BSD
 license](https://waf.io/book/#_customization_and_redistribution).
 
-*Waf is a generic utility for building projects and project-specific details are stored in Python modules under
-the name wscript*. A Waf project must contain a top-level *wscript* where the commands that will make the
+Waf is a generic utility for building projects and project-specific details are stored in Python modules under
+the name *wscript*. A Waf project must contain a top-level *wscript* where the commands that will make the
 build happen are defined. Also, a *configuration context* will store data which may be re-used during the build.
 Let's see how a minimal implementation for that *wscript* would look for a C++ project where we want to build
 an executable that depends on ``mylib`` library.
