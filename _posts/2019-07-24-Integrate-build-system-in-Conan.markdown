@@ -414,6 +414,10 @@ conan build . --build-folder=build
 
 {% endhighlight %}
 
+<p class="centered">
+    <img  src="{{ site.url }}/assets/post_images/2019-07-24/success_waf.gif"  align="center"  alt="When the build is succesful..."/>
+</p>
+
 At this point, you should have a general understanding of what Conan *generators*, *build-helpers* and
 *installers* are and how they can help you to integrate almost any build system in Conan. Now you can clone
 the [Conan examples repository](https://github.com/conan-io/examples) to see the implementation at a higher
