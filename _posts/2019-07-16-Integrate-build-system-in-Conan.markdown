@@ -8,7 +8,7 @@ As you will probably know, Conan has official support for integration with sever
 [CMake](https://cmake.org/), [MSBuild](https://visualstudio.microsoft.com) or
 [Meson](https://mesonbuild.com/) amongst others. But maybe you don't know that if you are using a build system
 that is not currently supported, Conan provides the tools to integrate it and build and consume packages that
-use your preferred build system.
+use it.
 
 The code for this post is now available in the [Conan examples repository](https://github.com/conan-io/examples). 
 Feel free to clone it and experiment with the code.
