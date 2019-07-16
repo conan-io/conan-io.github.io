@@ -68,20 +68,19 @@ def build(bld):
 As you can see, there are several commands defined here being ``configure()`` and ``build()`` the ones that matter
 most to us at this moment.
 
-* ``configure`` command has the responsibility to set several settings and find the location of the
+* The ``configure`` command has the responsibility to set several settings and find the location of the
   prerequisites. We have to modify the *configuration context* (``conf.env``) variable to tell Waf where will
   it be able to find the *includes* and *library* files. Conan has all this information so we will need a tool
   that transforms that information in a way we can load in the *wscript* and that's what a *Conan
   generator* is designed to do.
 
-* ``build`` command will transform the source files into build files. Note that in the call to ``bld.program``
-  we can tell Waf which libraries we are linking through the ``use`` argument. The *Conan generator* will have to
+* The ``build`` command will transform the source files into build files. Note that in the call to ``bld.program``
+  we can tell Waf which libraries we are linking with the ``use`` argument. The *Conan generator* will have to
   provide this argument to Waf as well.
 
-Waf provides us with the capability of loading *python modules* using the ``load`` command so we could create
-some Python code with the *Conan generator* that modifies the Waf *configuration context* to include the
-information of the libraries location and one variable with all the list of dependencies as input to the
-``use`` argument.
+Waf provides us with the capability of loading *python modules* using the ``load`` command. We can load the
+Python code created by the *Conan generator* to modify the Waf *configuration context*. That way we can
+include the information about all the dependencies.
 
 #### Custom Conan generators
 
@@ -145,8 +144,8 @@ def configure(conf):
 	conf.load('waf_conan_libs_info', tooldir='.')
 {% endhighlight %}
 
-But that would only work if we have the Waf build tool in our path and we don't know if our consumers are
-going to have it installed. We can solve this problem creating a Conan *installer package*.
+But that would only work if we have the Waf build tool in our path. However, we don't know if our consumers
+are going to have it installed. We can solve this problem creating a Conan *installer package*.
 
 ### Creating a package to install the build system
 
@@ -179,8 +178,7 @@ class WAFInstallerConan(ConanFile):
     def package(self):
         self.copy(pattern="LICENSE", src='.', dst="licenses")
         self.copy('waf', src='.', dst="bin", keep_path=False)
-        if self.settings.os_build == "Windows":
-            self.copy('waf.bat', src='.', dst="bin", keep_path=False)
+        self.copy('waf.bat', src='.', dst="bin", keep_path=False)
 
     def package_info(self):
         self.output.info("Using Waf %s version" % self.version)
