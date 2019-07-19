@@ -6,7 +6,14 @@ comments: true
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
-    <p class="post-meta"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}</p>
+    <p class="post-meta" style="display: flex; justify-content: space-between;">
+        <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>
+        {% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}
+        <span>Share:
+            <a href="https://twitter.com/home?status={{ page.url }}" target="_blank">
+            <img src="/assets/twitter_logo_blue.png" width="25" height="25" />
+        </a></span>
+    </p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
