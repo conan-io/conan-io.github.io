@@ -357,8 +357,9 @@ that was created by the build-helper.
 
 #### Consuming the library
 
-If we want to consume the library we have just created using Waf we just have to declare the needed
-``build_requires`` and ``python_requires`` in the ``conanfile.py``.
+We could now consume the library even if we didn't have Waf installed but for the sake of completeness, let's
+consume it using Waf as well. We will have to declare the needed ``build_requires`` and ``python_requires`` in
+the ``conanfile.py``:
 
 {% highlight python %}
 
