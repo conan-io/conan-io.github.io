@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Integrate a build system in Conan"
+title: "C++-build-systems-new-integrations-in-Conan-package-manager"
 ---
 
 As you will probably know, Conan has official support for integration with several build systems such as
