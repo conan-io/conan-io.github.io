@@ -52,16 +52,16 @@ top = '.'
 out = 'build'
 
 def options(opt):
-	opt.load('compiler_cxx')
+    opt.load('compiler_cxx')
 
 def configure(conf):
-	conf.load('compiler_cxx')
-	conf.env.INCLUDES_mylib = ['dir_to_mylib_includes']
-	conf.env.LIBPATH_mylib = ['dir_to_mylib_libs']
-	conf.env.LIB_mylib = 'mylib'
+    conf.load('compiler_cxx')
+    conf.env.INCLUDES_mylib = ['dir_to_mylib_includes']
+    conf.env.LIBPATH_mylib = ['dir_to_mylib_libs']
+    conf.env.LIB_mylib = 'mylib'
 
 def build(bld):
-	bld.program(source='main.cpp', target='app', use='mylib')
+    bld.program(source='main.cpp', target='app', use='mylib')
 
 {% endhighlight %}
 
@@ -341,14 +341,14 @@ top = '.'
 out = 'build'
 
 def options(opt):
-	opt.load('compiler_cxx')
+    opt.load('compiler_cxx')
 
 def configure(conf):
-	conf.load('compiler_cxx')
-	conf.load('waf_conan_toolchain', tooldir='.')
+    conf.load('compiler_cxx')
+    conf.load('waf_conan_toolchain', tooldir='.')
 
 def build(bld):
-	bld.stlib(target='mylib', source='./src/mylib.cpp')
+    bld.stlib(target='mylib', source='./src/mylib.cpp')
 
 {% endhighlight %}
 
