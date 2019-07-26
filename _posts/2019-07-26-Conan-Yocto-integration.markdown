@@ -14,8 +14,8 @@ Linux distribution without any additional requirements on the host machine.
 
 <div align="center">
     <figure>
-        <img src="{{ site.url }}/assets/post_images/2019-07-29/conan-yocto.png"
-             width="70%"
+        <img src="{{ site.url }}/assets/post_images/2019-07-26/conan-yocto.png"
+             width="50%"
              alt="Conan and Yocto logos."/>
     </figure>
 </div>
@@ -45,7 +45,7 @@ and later uploaded to an Artifactory repository.
 
 <div align="center">
     <figure>
-        <img src="{{ site.url }}/assets/post_images/2019-07-29/conan-yocto_flow.png"
+        <img src="{{ site.url }}/assets/post_images/2019-07-26/conan-yocto_flow.png"
              width="70%"
              alt="Creating Conan packages with Yocto for embedded development."/>
         <figcaption>Creating Conan packages with Yocto for embedded development.</figcaption>
