@@ -20,7 +20,8 @@ Linux distribution without any additional requirements on the host machine.
     </figure>
 </div>
 
-This layers and recipes system provides an extensible mechanism to incorporate new software components to the final Linux image. Users can create their layers to deploy their software into the image.
+This layers and recipes system provides an extensible mechanism to incorporate new software components to the final Linux image. Users can
+create their layers to deploy their software into the image.
 
 The Yocto Project is intended for **embedded development** as it offers capabilities of customization at bootloader, kernel and filesystem
 level. Yocto is also able to generate SDKs with a specific toolchain for the targeting device to cross-compile for the hardware in use.
@@ -35,10 +36,11 @@ constrained set of tools, difficult configuration for development and long build
 
 ## Conan packages in your Yocto builds
 
-Using Conan you can create packages for different platforms. This allows developers to work on different systems and with their usual set of
-tools for debugging and testing.
+Using Conan you can create packages for different platforms. This allows developers to work on different systems (Windows in the example
+below) and with their usual set of tools for debugging and testing.
 
-With the usage of the Yocto SDK toolchain, packages can be cross-compiled and created as any other regular package, providing the same development experience. This step can be easily automated in CI servers to create the packages for any embedded device supported by Yocto
+With the usage of the Yocto SDK toolchain, packages can be cross-compiled and created as any other regular package, providing the same
+development experience. This step can be easily automated in CI servers to create the packages for any embedded device supported by Yocto
 and later uploaded to an Artifactory repository.
 
 <div align="center">
@@ -50,8 +52,8 @@ and later uploaded to an Artifactory repository.
     </figure>
 </div>
 
-Moreover, those cross-built packages can be deployed into the final image without rebuilding them in the Yocto build. Just install them from
-the Artifactory repository!
+Moreover, those cross-built packages (ARM v8 in the figure above) can be deployed into the final image without rebuilding them in the Yocto
+build. Just install them from the Artifactory repository!
 
 We have created a [meta-conan layer](https://github.com/conan-io/meta-conan) that includes the Conan client into Yocto and makes the
 deployment of packages a matter of indicating the Conan reference and the Artifactory repository details.
