@@ -242,7 +242,7 @@ define $(2)_BUILD_CMDS
         -s compiler=$$(CONAN_SETTING_COMPILER) \
         -s compiler.version=$$(CONAN_SETTING_COMPILER_VERSION) \
         -g deploy \
-        --build $$($$(PKG)_CONAN_BUILD_POLICY)
+        --build $$(CONAN_BUILD_POLICY)
 endef
 
 {% endhighlight %}
@@ -333,8 +333,71 @@ Once configured and saved, simply run `make` again to install the package. Durin
 
 As you can see, Conan is following the same profile used by Buildroot, which gives us the advantage of not having to create a profile manually.
 
-At the end of the installation it will be copied to the output directory, which brings us to the last step of this process.
+At the end of the installation it will be copied to the output directory.
 
+## Customizing Conan remote
+
+Let's say we have an [Artifactory](https://docs.conan.io/en/latest/uploading_packages/artifactory_ce.html) instance where all packages are available for download. How could we customize the remote used by Buildroot? We need to introduce a new option, where we can write the remote name and Conan will be able to consume such variable. First we need to create a new configuration file to insert new options in Conan's menu:
+
+{% highlight bash %}
+
+$ mkdir package/conan
+$ touch package/conan/Config.in
+
+{% endhighlight %}
+
+The file *Config.in* should contain:
+
+{% highlight text %}
+
+config CONAN_REMOTE_NAME
+	string "Conan remote name"
+    help
+	  Look in the specified remote server.
+
+{% endhighlight %}
+
+Also, we need to parse the option ``CONAN_REMOTE_NAME`` in *pkg-conan.mk* and add it to Conan command line:
+
+{% highlight makefile %}
+
+ifneq ($(CONAN_REMOTE_NAME),"")
+CONAN_REMOTE = -r $$(CONAN_REMOTE_NAME)
+endif
+
+...
+
+define $(2)_BUILD_CMDS
+    $$(TARGET_MAKE_ENV) $$(CONAN_ENV) $$($$(PKG)_CONAN_ENV) \
+        CC=$$(TARGET_CC) CXX=$$(TARGET_CXX) \
+        $$(CONAN) install $$(CONAN_OPTS) $$($$(PKG)_CONAN_OPTS) \
+        $$($$(PKG)_REFERENCE) \
+        -s build_type=$$(CONAN_SETTING_BUILD_TYPE) \
+        -s arch=$$(CONAN_SETTING_ARCH) \
+        -s compiler=$$(CONAN_SETTING_COMPILER) \
+        -s compiler.version=$$(CONAN_SETTING_COMPILER_VERSION) \
+        -g deploy \
+        --build $$(CONAN_BUILD_POLICY) \
+        $$(CONAN_REMOTE)
+endef
+
+{% endhighlight %}
+
+Now we are ready to set our specific remote name. We only need to run ``make menuconfig`` and follow the path:
+
+`Target Packages -> Libraries -> Conan -> Conan remote name`
+
+And we will see:
+
+<div align="center">
+    <figure>
+        <img src="{{ site.url }}/assets/post_images/2019-08-14/buildroot-conan-remote.png" width="500"/>
+        <figcaption>Buildroot build</figcaption>
+    </figure>
+</div>
+
+Now Conan is configured to search for packages in the remote named *artifactory*. But we need to run ``make`` again.
+Note that it will cost less time to build, since now we have the cache provided by Buildroot. Now we are ready for the last step.
 
 ## Installing the Image
 
