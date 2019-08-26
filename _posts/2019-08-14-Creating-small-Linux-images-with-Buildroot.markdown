@@ -16,8 +16,6 @@ In this blog post we will comment on using Buildroot and how we can use it to cr
 
 Buildroot is a tool for automating the creation of Embedded Linux distributions. It builds the code for the architecture of the board so it was set up, all through an overview of Makefiles. In addition to being open-source, it is licensed under [GPL-2.0-or-later](https://spdx.org/licenses/GPL-2.0-or-later.html).
 
-If you want to know more about cross-compilation process, we have a blog post about it [here](https://blog.conan.io/2017/03/30/Cross-building-and-debugging-C-C++-libraries-for-the-Raspberry-PI.html).
-
 ## How to Install
 
 Before starting Buildroot installation, let's assume you have a Linux environment ready for building C projects, as well as tools for git, svn, and rsync.
@@ -171,11 +169,16 @@ $ make
 
 {% endhighlight %}
 
-From now, Buildroot will take care of the entire build process, which may take a few hours the first time. For future builds, the cache may be reused which will decrease the build time in a few minutes.
+From now, Buildroot will take care of the entire build process, which may take a few hours the first time. For future builds, the cache may be reused which will down the build time to a few minutes.
 
-## Conan to the rescue
+## Using Conan for Buildroot builds
 
-Although Buildroot can accept new packages through its package structure, the build process is still a bit long, it could take few hours on the first time. But what if this process could be reduced to just a few minutes by downloading pre-built packages? Conan is able to install new packages already compiled, so its integration with Buildroot can improve the build process.
+Although Buildroot can accept new packages through its package structure, the build process is still a bit long, it could take few hours on the first time. But what if this process could be reduced to just a few minutes by downloading pre-built packages? Let us see some features and aspects from Conan which are related to our scenario:
+
+- Able to provide a unified view of all binaries for all platforms and configurations, not only buildroot;
+- Developers might develop fast, test locally with native binaries in their Linux boxes;
+- Faster builds, thanks to reusing binaries, not only for development but for production and releases;
+- Best DevOps practices, avoiding rebuilding binaries from sources more than once.
 
 Before introducing Conan into Buildroot, we need to understand how the structure of scripts that collaborate with buildroot for package building:
 
