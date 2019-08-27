@@ -12,7 +12,7 @@ In this blog post we will comment on using Buildroot and how we can use it to cr
 
 ## Buildroot
 
-<img src="{{ site.url }}/assets/post_images/2019-08-14/buildroot-logo.png" style="width:200px;display: block;margin: 0 auto;"/>
+<img src="{{ site.url }}/assets/post_images/2019-08-27/conan-buildroot-logo.png" style="width:200px;display: block;margin: 0 auto;"/>
 
 Buildroot is a tool for automating the creation of Embedded Linux distributions. It builds the code for the architecture of the board so it was set up, all through an overview of Makefiles. In addition to being open-source, it is licensed under [GPL-2.0-or-later](https://spdx.org/licenses/GPL-2.0-or-later.html).
 
@@ -150,7 +150,7 @@ During this example we will use *menuconfig*, as it has a minimal graphical inte
 
 After executing the configuration command, we will have the following output:
 
-<img src="{{ site.url }}/assets/post_images/2019-08-14/buildroot-menuconfig.png" style="display: block;margin: 0 auto;"/>
+<img src="{{ site.url }}/assets/post_images/2019-08-27/conan-buildroot-menuconfig.png" style="display: block;margin: 0 auto;"/>
 
 As we had already detailed the *fmt* library before, we will include it in our image, so we have to navigate thought the menu in the following way:
 
@@ -323,13 +323,13 @@ Now just select the package through menuconfig:
 
 `Target Packages -> Conan -> conan-zlib`
 
-<img src="{{ site.url }}/assets/post_images/2019-08-14/buildroot-conan-menuconfig.png" style="display: block;margin: 0 auto;"/>
+<img src="{{ site.url }}/assets/post_images/2019-08-27/conan-buildroot-conan-menuconfig.png" style="display: block;margin: 0 auto;"/>
 
 Once configured and saved, simply run `make` again to install the package. During its installation we will have the following output:
 
 <div align="center">
     <figure>
-        <img src="{{ site.url }}/assets/post_images/2019-08-14/build.gif" width="800"/>
+        <img src="{{ site.url }}/assets/post_images/2019-08-27/conan-build.gif" width="800"/>
         <figcaption>Buildroot build</figcaption>
     </figure>
 </div>
@@ -394,7 +394,7 @@ And we will see:
 
 <div align="center">
     <figure>
-        <img src="{{ site.url }}/assets/post_images/2019-08-14/buildroot-conan-remote.png" width="500"/>
+        <img src="{{ site.url }}/assets/post_images/2019-08-27/conan-buildroot-conan-remote.png" width="500"/>
         <figcaption>Buildroot build</figcaption>
     </figure>
 </div>
