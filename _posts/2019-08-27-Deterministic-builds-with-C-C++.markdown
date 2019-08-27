@@ -1,67 +1,56 @@
 ---
 layout: post
 comments: false
-title: "An introduction to deterministic builds with Conan"
+title: "An introduction to deterministic builds with C/C++"
 ---
 
-# What are deterministic builds ?
+## What are deterministic builds ?
 
-A deterministic build is the process of building sources at the same revision with the same build environment
-and build instructions producing exactly the same binary in two builds, even if they are made on different
-machines, build directories and with different names. They are also sometimes called reproducible or hermetic
-builds.
+A deterministic build is the process of building the same source code with the same build environment
+and build instructions producing exactly the same binary in two builds, even if they are made on
+different machines, build directories and with different names. They are also sometimes called
+reproducible or hermetic builds if it is guaranteed to produce the same binaries even compiling from
+different folders.
 
-Deterministic builds are not something that happens naturally. Normal projects do not produce deterministic
-builds and the reasons that they are not produced can be different for each operating system and compiler.
+Deterministic builds are not something that happens naturally. Normal projects do not produce
+deterministic builds and the reasons that they are not produced can be different for each operating
+system and compiler.
 
-Deterministic builds should be guaranteed for a given *build environment*. That means that certain variables
-such as the *operating system*, *build system versions* and *target architecture* should remain the same between
-different builds.
+Deterministic builds should be guaranteed for a given *build environment*. That means that certain
+variables such as the *operating system*, *build system versions* and *target architecture* are
+assumed to remain the same between different builds.
 
-There are lots of efforts coming from different organizations in the past years to achieve deterministic
-builds such as [Chromium](https://www.chromium.org/developers/testing/isolated-testing/deterministic-builds),
+There are lots of efforts coming from different organizations in the past years to achieve
+deterministic builds such as
+[Chromium](https://www.chromium.org/developers/testing/isolated-testing/deterministic-builds),
 [Reproducible builds](https://reproducible-builds.org/), or
 [Yocto](https://wiki.yoctoproject.org/wiki/Reproducible_Builds).
 
-# The importance of deterministic builds
+## The importance of deterministic builds
 
 There are two main reasons why deterministic builds are important:
 
- - **Security**. Modifying binaries instead of the upstream source code can make the changes invisible for the
-   original authors. This can be fatal in safety critical environments such as medical, aerospace and
-   automotive. Promising identical results for given inputs allows third parties to come to a consensus on a
-   *correct* result.
+ - **Security**. Modifying binaries instead of the upstream source code can make the changes
+   invisible for the original authors. This can be fatal in safety critical environments such as
+   medical, aerospace and automotive. Promising identical results for given inputs allows third
+   parties to come to a consensus on a *correct* result.
 
-- **Storing binaries**. If you want to have a repository to store your binaries you do not want to generate
-  binaries with random checksums from sources at the same revision. That could lead the repository system to
-  store different binaries as different versions when they should be the same.
+- **Traceability and binary management**. If you want to have a repository to store your binaries you
+  do not want to generate binaries with random checksums from sources at the same revision. That
+  could lead the repository system to store different binaries as different versions when they should
+  be the same. For example, if you are working in Windows or MacOs the most simple library will lead
+  binaries with different checksums because of the timestamps included in the library formats for
+  these Operating Systems.
 
-The second case could be a concern if you are using Conan to manage your packages. For example, if you have
-revisions enabled and are working in Windows or MacOs the most simple library will lead binaries with
-different checksums because of the timestamps included in the library formats for these Operating Systems.
+## Sources of variation
 
-# Sources of variation
+There are many different factors that can make your builds *non-deterministic*. Factors will vary
+between different operating systems and compilers. Each compiler has specific options to fix the
+sources of indeterminism. To date `gcc` and `clang` are the ones that incorporate more options to fix
+the sources of variation. For `msvc` there are some undocumented options that you can try but in the
+end you will probably need to patch the binaries to get deterministic builds.
 
-There are many different factors that can make your builds *non-deterministic*. Factors will vary between
-different operating systems and compilers. Each compiler has specific options to fix the sources of
-indeterminism. To date `gcc` and `clang` are the ones that incorporate more options to fix the sources of
-variation. For `msvc` there are some undocumented options that you can try but in the end you will probably
-need to patch the binaries to get deterministic builds.
-
-# Fixing the problem
-
-For the examples presented here there are two approaches to fix the causes of indeterminism:
-
-- Applying a Conan hook. This hook can be used to setup environment variables in the `pre_build` step
-  and patch binaries in `post_build`. The intention of the annexed hook named
-  `deterministic-build.py` is to show the tools that can be used to produce deterministic builds but
-  not to enter in much detail in how to do it. 
-- Modifying compiler/linker flags. This can be done modifying the `CMakeLists.txt` if using CMake.
-
-Here are the most common sources of indeterminism that can happen and possible solutions to avoid
-them.
-
-## Timestamps introduced by the compiler / linker
+### Timestamps introduced by the compiler / linker
 
 There are two main reasons for that our binaries could end up containing time information that will
 make them not reproducible:
@@ -72,11 +61,7 @@ make them not reproducible:
   is the case of `Portable Executable` format in Windows and `Mach-O` in MacOs. In Linux `ELF` files
   do not encode any kind of timestamp. 
 
-### Possible solutions
-
-The solutions depend on the compiler used:
-
-#### Microsoft Visual Studio
+#### Possible solutions for Microsoft Visual Studio
 
 Microsoft Visual Studio has an linker flag `/Brepro` that is undocumented by Microsoft. That flag
 sets the timestamps from the `Portable Executable` format to a `-1` value as can be seen in the
@@ -113,8 +98,7 @@ files. The only way to remove this information from the `.lib` binaries is patch
 substituting the bytes corresponding to the `TimeDateStamp` field with any known value. This patching
 process can be done in the `post_build` step.
 
-
-#### GCC and CLANG
+#### Possible solutions for GCC and CLANG
 
 - `gcc` detects the existence of the `SOURCE_DATE_EPOCH` environment variable. If this variable is
   set, its value specifies a UNIX timestamp to be used in replacement of the current date and time in
@@ -211,11 +195,16 @@ endforeach()
 
 ## File order feeding to the build system
 
-File ordering can be a problem if directories are read to return the files contain. For example Unix does not have a deterministic order in which `readdir()` and `listdir()` should return the contents of a directory, so trusting in this functions to feed the build system could produce non deterministic builds.
+File ordering can be a problem if directories are read to return the files contain. For example Unix
+does not have a deterministic order in which `readdir()` and `listdir()` should return the contents
+of a directory, so trusting in this functions to feed the build system could produce non
+deterministic builds.
 
-The same problem arises for example if your build system stores the files for the linker in a container that can return the elements in a non-deterministic order. This would make that each time files were linked in different order and produce different binaries.
+The same problem arises for example if your build system stores the files for the linker in a
+container that can return the elements in a non-deterministic order. This would make that each time
+files were linked in different order and produce different binaries.
 
-### References
+## References
 
 - [https://www.chromium.org/developers/testing/isolated-testing/deterministic-builds]()
 - [https://reproducible-builds.org/]()
@@ -225,7 +214,7 @@ The same problem arises for example if your build system stores the files for th
 - [https://devblogs.microsoft.com/oldnewthing/20180103-00/?p=97705]()
 - [https://www.geoffchappell.com/studies/msvc/link/link/options/brepro.htm?tx=37&ts=0,267]()
 
-### Tools
+## Tools
 
 - [https://diffoscope.org/]()
 - [https://salsa.debian.org/reproducible-builds/strip-nondeterminism]()
