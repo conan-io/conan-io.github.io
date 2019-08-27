@@ -42,6 +42,24 @@ There are two main reasons why deterministic builds are important:
   binaries with different checksums because of the timestamps included in the library formats for
   these Operating Systems.
 
+## Binaries involved in the building process in C/C++
+
+There are different types of binaries that are created during the building process in C/C++ depending
+on the operating system. 
+
+ - **Microsoft Windows**. The most important files are the ones with `.obj`, `.lib`,`.dll` and `.exe`
+   extensions. All of them follow the specification of the Portable Executable format (PE). This
+   files can be analyzed with tools such as
+   [dumpbin](https://docs.microsoft.com/en-us/cpp/build/reference/dumpbin-reference?view=vs-2019). 
+
+ - **Linux**. Files with `.o`, `.a`,`.so` and `none` (for executable binaries) follow the Executable
+   and Linkable Format (ELF). The contents of ELF files can be analyzed by [readelf](https://sourceware.org/binutils/docs/binutils/readelf.html).   
+
+ - **Mac OS**. Files with `.o`, `.a`,`.dylib` and `none` (for executable binaries) follow the Mach-O
+   format specification. This files can be inspected with the
+   [otool](https://opensource.apple.com/source/cctools/cctools-921/otool/) application that is part
+   of the XCode toolchain in MacOs.
+
 ## Sources of variation
 
 There are many different factors that can make your builds *non-deterministic*. Factors will vary
@@ -216,13 +234,24 @@ files were linked in different order and produce different binaries.
 
 ## Tools
 
+# Tools for comparing files
+
 - [https://diffoscope.org/]()
+- [https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fc]()
+
+# Tools for patching files
+
 - [https://salsa.debian.org/reproducible-builds/strip-nondeterminism]()
 - [https://github.com/erocarrera/pefile]()
 - [https://github.com/trailofbits/pe-parse]()
 - [https://github.com/smarttechnologies/peparser]()
 - [https://github.com/google/syzygy]()
-- [https://github.com/llvm-mirror/llvm/tree/master/tools]()
 - [https://github.com/nh2/ar-timestamp-wiper]()
-- [https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fc]()
-- [https://try.diffoscope.org/]()
+
+# Tools for analyzing files
+
+- [https://docs.microsoft.com/en-us/cpp/build/reference/dumpbin-reference?view=vs-2019]()
+- [https://sourceware.org/binutils/docs/binutils/readelf.html]()
+- [https://github.com/llvm-mirror/llvm/tree/master/tools]()
+- [https://github.com/lief-project/LIEF]()
+
