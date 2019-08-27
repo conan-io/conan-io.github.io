@@ -52,11 +52,12 @@ on the operating system.
    files can be analyzed with tools such as
    [dumpbin](https://docs.microsoft.com/en-us/cpp/build/reference/dumpbin-reference?view=vs-2019). 
 
- - **Linux**. Files with `.o`, `.a`,`.so` and `none` (for executable binaries) follow the Executable
-   and Linkable Format (ELF). The contents of ELF files can be analyzed by [readelf](https://sourceware.org/binutils/docs/binutils/readelf.html).   
+ - **Linux**. Files with `.o`, `.a`,`.so` and `none` (for executable binaries) extensions follow the
+   Executable and Linkable Format (ELF). The contents of ELF files can be analyzed by
+   [readelf](https://sourceware.org/binutils/docs/binutils/readelf.html).   
 
- - **Mac OS**. Files with `.o`, `.a`,`.dylib` and `none` (for executable binaries) follow the Mach-O
-   format specification. This files can be inspected with the
+ - **Mac OS**. Files with `.o`, `.a`,`.dylib` and `none` (for executable binaries) extensions follow
+   the Mach-O format specification. This files can be inspected with the
    [otool](https://opensource.apple.com/source/cctools/cctools-921/otool/) application that is part
    of the XCode toolchain in MacOs.
 
@@ -78,6 +79,155 @@ make them not reproducible:
 - When the definition of the file format forces to store time information in the object files. This
   is the case of `Portable Executable` format in Windows and `Mach-O` in MacOs. In Linux `ELF` files
   do not encode any kind of timestamp. 
+
+Let's put an example of where does this information end with a basic hello world project linking a
+static library in MacOs. 
+
+```bash
+.
+├── CMakeLists.txt
+├── hello_world.cpp
+├── hello_world.hpp
+├── main.cpp
+└── run_build.sh
+```
+
+The library prints a message in the terminal:
+
+{% highlight cpp %}
+#include "hello_world.hpp"
+#include <iostream>
+void HelloWorld::PrintMessage(const std::string & message)
+{
+    std::cout << message << std::endl;
+}
+{% endhighlight %}
+
+And the application will use it to print a "Hello World!" message:
+
+{% highlight cpp %}
+#include <iostream>
+#include "hello_world.hpp"
+int main(int argc, char** argv)
+{
+    HelloWorld hello;
+    hello.PrintMessage("Hello World!");
+    return 0;
+}
+{% endhighlight %}
+
+We will use CMake to build the project:
+
+{% highlight cmake %}
+cmake_minimum_required(VERSION 3.0)
+project(HelloWorld)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_library(HelloLibA hello_world.cpp)
+add_library(HelloLibB hello_world.cpp)
+add_executable(helloA main.cpp)
+add_executable(helloB main.cpp)
+target_link_libraries(helloA HelloLibA)
+target_link_libraries(helloB HelloLibB)
+{% endhighlight %}
+
+If we build the project and execute md5sum to show the checksums of the binaries:
+
+{% highlight bash %}
+mkdir build && cd build
+cmake ..
+make
+md5sum helloA
+md5sum helloB
+md5sum CMakeFiles/HelloLibA.dir/hello_world.cpp.o
+md5sum CMakeFiles/HelloLibB.dir/hello_world.cpp.o
+md5sum libHelloLibA.a
+md5sum libHelloLibB.a
+{% endhighlight %}
+
+We get an output like this:
+
+{% highlight bash %}
+b5dce09c593658ee348fd0f7fae22c94  helloA
+b5dce09c593658ee348fd0f7fae22c94  helloB
+0a4a0de3df8cc7f053f2fcb6d8b75e6d  CMakeFiles/HelloLibA.dir/hello_world.cpp.o
+0a4a0de3df8cc7f053f2fcb6d8b75e6d  CMakeFiles/HelloLibB.dir/hello_world.cpp.o
+adb80234a61bb66bdc5a3b4b7191eac7  libHelloLibA.a
+5ac3c70d28d9fdd9c6571e077131545e  libHelloLibB.a
+{% endhighlight %}
+
+This is interesting because the executables files `helloA` and `helloB` have the same checksums as well
+as the intermediate Mach-O object files `hello_world.cpp.o` but that is not the case of the `.a` files.
+That is because they store the information of the intermediate object files in an `archive format`. The
+definition of the header of this format includes a field named `st_time` return by `stat` system
+call. If we inspect the `libHelloLibA.a` and `libHelloLibA.a` using `otool` to show the headers:
+
+{% highlight bash %}
+> otool -a libHelloLibA.a   
+Archive : libHelloLibA.a
+0100644 503/20    612 1566927276 #1/20
+0100644 503/20  13036 1566927271 #1/28
+> otool -a libHelloLibB.a   
+Archive : libHelloLibB.a
+0100644 503/20    612 1566927277 #1/20
+0100644 503/20  13036 1566927272 #1/28
+{% endhighlight %}
+
+We can see that the file includes several time fields that will make our build non-deterministic.
+Let's note that those fields are not propagated to the final executable because they have the same
+checksum. This problem would also happen if building in Windows with Visual Studio but with the
+`Portable Executable` instead of `Mach-O`.
+
+At this point we could try to make things even worse and try to force our binaries to be non-deterministic as well. If we change `main.cpp` file to include the `__DATE__` macro:
+
+{% highlight cpp %}
+#include <iostream>
+#include "hello_world.hpp"
+int main(int argc, char** argv)
+{
+    HelloWorld hello;
+    hello.PrintMessage("Hello World!");
+    std::cout << "At time: " << __TIME__ << std::endl;
+    return 0;
+}
+{% endhighlight %}
+
+Getting the checksums of the files again:
+
+{% highlight bash %}
+625ecc7296e15d41e292f67b57b04f15  helloA
+20f92d2771a7d2f9866c002de918c4da  helloB
+0a4a0de3df8cc7f053f2fcb6d8b75e6d  CMakeFiles/HelloLibA.dir/hello_world.cpp.o
+0a4a0de3df8cc7f053f2fcb6d8b75e6d  CMakeFiles/HelloLibB.dir/hello_world.cpp.o
+b7801c60d3bc4f83640cadc1183f43b3  libHelloLibA.a
+4ef6cae3657f2a13ed77830953b0aee8  libHelloLibB.a
+{% endhighlight %}
+
+We see that now we have different binaries as well. We could analyze the executable file with a tool
+such as [diffoscope](https://diffoscope.org/) that shows us the difference between the two binaries:
+
+{% highlight bash %}
+> diffoscope libHelloLibA.a libHelloLibB.a
+--- helloA
++++ helloB
+├── otool -arch x86_64 -tdvV {}
+│┄ Code for architecture x86_64
+│ @@ -16,15 +16,15 @@
+│  00000001000018da	jmp	0x1000018df
+│  00000001000018df	leaq	-0x30(%rbp), %rdi
+│  00000001000018e3	callq	0x100002d54 ## symbol stub for: __ZNSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEED1Ev
+│  00000001000018e8	movq	0x1721(%rip), %rdi ## literal pool symbol address: __ZNSt3__14coutE
+│  00000001000018ef	leaq	0x162f(%rip), %rsi ## literal pool for: "At time: "
+│  00000001000018f6	callq	0x100002d8a ## symbol stub for: __ZNSt3__1lsINS_11char_traitsIcEEEERNS_13basic_ostreamIcT_EES6_PKc
+│  00000001000018fb	movq	%rax, %rdi
+│ -00000001000018fe	leaq	0x162a(%rip), %rsi ## literal pool for: "19:40:47"
+│ +00000001000018fe	leaq	0x162a(%rip), %rsi ## literal pool for: "19:40:48"
+│  0000000100001905	callq	0x100002d8a ## symbol stub for: __ZNSt3__1lsINS_11char_traitsIcEEEERNS_13basic_ostreamIcT_EES6_PKc
+│  000000010000190a	movq	%rax, %rdi
+│  000000010000190d	leaq	__ZNSt3__1L4endlIcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_(%rip), %rsi #
+{% endhighlight %}
+
+That shows that the `__TIME__` information was inserted in the binary making it non-deterministic. Let's see what we could do to avoid this problem.
 
 #### Possible solutions for Microsoft Visual Studio
 
