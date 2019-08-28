@@ -83,14 +83,14 @@ make them not reproducible:
 Let's put an example of where does this information end with a basic hello world project linking a
 static library in MacOs. 
 
-```bash
+{% highlight console %}
 .
 ├── CMakeLists.txt
 ├── hello_world.cpp
 ├── hello_world.hpp
 ├── main.cpp
 └── run_build.sh
-```
+{% endhighlight %}
 
 The library prints a message in the terminal:
 
@@ -131,9 +131,10 @@ target_link_libraries(helloA HelloLibA)
 target_link_libraries(helloB HelloLibB)
 {% endhighlight %}
 
-If we build the project and execute md5sum to show the checksums of the binaries:
+We build two different libraries with the exact same sources and two binaries with the same sources
+as well. If we build the project and execute md5sum to show the checksums of all the binaries:
 
-{% highlight bash %}
+{% highlight console %}
 mkdir build && cd build
 cmake ..
 make
@@ -147,7 +148,7 @@ md5sum libHelloLibB.a
 
 We get an output like this:
 
-{% highlight bash %}
+{% highlight console %}
 b5dce09c593658ee348fd0f7fae22c94  helloA
 b5dce09c593658ee348fd0f7fae22c94  helloB
 0a4a0de3df8cc7f053f2fcb6d8b75e6d  CMakeFiles/HelloLibA.dir/hello_world.cpp.o
@@ -158,11 +159,11 @@ adb80234a61bb66bdc5a3b4b7191eac7  libHelloLibA.a
 
 This is interesting because the executables files `helloA` and `helloB` have the same checksums as well
 as the intermediate Mach-O object files `hello_world.cpp.o` but that is not the case of the `.a` files.
-That is because they store the information of the intermediate object files in an `archive format`. The
-definition of the header of this format includes a field named `st_time` return by `stat` system
+That is because they store the information of the intermediate object files in `archive format`. The
+definition of the header of this format includes a field named `st_time` set by a `stat` system
 call. If we inspect the `libHelloLibA.a` and `libHelloLibA.a` using `otool` to show the headers:
 
-{% highlight bash %}
+{% highlight console %}
 > otool -a libHelloLibA.a   
 Archive : libHelloLibA.a
 0100644 503/20    612 1566927276 #1/20
@@ -194,7 +195,7 @@ int main(int argc, char** argv)
 
 Getting the checksums of the files again:
 
-{% highlight bash %}
+{% highlight console %}
 625ecc7296e15d41e292f67b57b04f15  helloA
 20f92d2771a7d2f9866c002de918c4da  helloB
 0a4a0de3df8cc7f053f2fcb6d8b75e6d  CMakeFiles/HelloLibA.dir/hello_world.cpp.o
@@ -206,7 +207,7 @@ b7801c60d3bc4f83640cadc1183f43b3  libHelloLibA.a
 We see that now we have different binaries as well. We could analyze the executable file with a tool
 such as [diffoscope](https://diffoscope.org/) that shows us the difference between the two binaries:
 
-{% highlight bash %}
+{% highlight console %}
 > diffoscope libHelloLibA.a libHelloLibB.a
 --- helloA
 +++ helloB
@@ -233,14 +234,10 @@ That shows that the `__TIME__` information was inserted in the binary making it 
 
 Microsoft Visual Studio has an linker flag `/Brepro` that is undocumented by Microsoft. That flag
 sets the timestamps from the `Portable Executable` format to a `-1` value as can be seen in the
-attached images. 
+image bellow. 
 
 <p class="centered">
-    <img  src="{{ site.url }}/assets/post_images/2019-08-27/conan-bin-with-brepro.png" align="center" alt="With BRepro flag"/>
-</p>
-
-<p class="centered">
-    <img  src="{{ site.url }}/assets/post_images/2019-08-27/conan-bin-without-brepro.png" align="center" alt="Without BRepro flag"/>
+    <img  src="{{ site.url }}/assets/post_images/2019-08-27/conan-brepro.png" align="center" alt="With BRepro flag"/>
 </p>
 
 To activate that flag with CMake we will have to add this lines if creating a `.exe`:
