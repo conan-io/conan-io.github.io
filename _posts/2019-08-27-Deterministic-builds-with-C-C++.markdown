@@ -208,7 +208,7 @@ We see that now we have different binaries as well. We could analyze the executa
 such as [diffoscope](https://diffoscope.org/) that shows us the difference between the two binaries:
 
 {% highlight console %}
-> diffoscope libHelloLibA.a libHelloLibB.a
+> diffoscope helloA helloB
 --- helloA
 +++ helloB
 ├── otool -arch x86_64 -tdvV {}
@@ -228,7 +228,7 @@ such as [diffoscope](https://diffoscope.org/) that shows us the difference betwe
 │  000000010000190d	leaq	__ZNSt3__1L4endlIcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_(%rip), %rsi #
 {% endhighlight %}
 
-That shows that the `__TIME__` information was inserted in the binary making it non-deterministic. Let's see what we could do to avoid this problem.
+That shows that the `__TIME__` information was inserted in the binary making it non-deterministic. Let's see what we could do to avoid this.
 
 #### Possible solutions for Microsoft Visual Studio
 
@@ -293,7 +293,7 @@ b5dce09c593658ee348fd0f7fae22c94  helloB
 9f9a9af4bb3e220e7a22fb58d708e1e5  libHelloLibB.a
 {% endhighlight %}
 
-Now all the checksums are the same. And analyzing the `.a` files headers:
+All the checksums are now the same. And analyzing the `.a` files headers:
 
 {% highlight console %}
 > otool -a libHelloLibA.a
@@ -308,7 +308,7 @@ Archive : libHelloLibB.a
 
 We can see that the timestamp field of the library header has been set to zero value.
 
-## Build folder information propagated to binaries
+### Build folder information propagated to binaries
 
 If the same sources are compiled in different folders sometimes folder information is propagated to
 the binaries. This can happen mainly for two reasons:
@@ -317,14 +317,96 @@ the binaries. This can happen mainly for two reasons:
 
 - Creating debug binaries that store information of where the sources are.
 
-### Possible solutions
+Continuing with our hello world MacOs example let's separate the sources so we can show the effect over the final binaries. The project structure will be like the one below.
+
+{% highlight console %}
+.
+├── run_build.sh
+├── srcA
+│   ├── CMakeLists.txt
+│   ├── hello_world.cpp
+│   ├── hello_world.hpp
+│   └── main.cpp
+└── srcB
+    ├── CMakeLists.txt
+    ├── hello_world.cpp
+    ├── hello_world.hpp
+    └── main.cpp
+{% endhighlight %}
+
+If we build our binaries in `Debug` mode.
+
+{% highlight console %}
+cd srcA/build
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+make
+cd .. && cd ..
+cd srcB/build
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+make
+cd .. && cd ..
+md5sum srcA/build/hello
+md5sum srcB/build/hello
+md5sum srcA/build/CMakeFiles/HelloLib.dir/hello_world.cpp.o
+md5sum srcB/build/CMakeFiles/HelloLib.dir/hello_world.cpp.o
+md5sum srcA/build/libHelloLib.a
+md5sum srcB/build/libHelloLib.a
+{% endhighlight %}
+
+We get the following checksums:
+
+{% highlight console %}
+3572a95a8699f71803f3e967f92a5040  srcA/build/hello
+7ca693295e62de03a1bba14853efa28c  srcB/build/hello
+76e0ae7c4ef79ec3be821ccf5752730f  srcA/build/CMakeFiles/HelloLib.dir/hello_world.cpp.o
+5ef044e6dcb73359f46d48f29f566ae5  srcB/build/CMakeFiles/HelloLib.dir/hello_world.cpp.o
+dc941156608b578c91e38f8ecebfef6d  srcA/build/libHelloLib.a
+1f9697ef23bf70b41b39ef3469845f76  srcB/build/libHelloLib.a
+{% endhighlight %}
+
+The folder information is propagated from the object files all the way to the final executables
+making our builds non reproducible. We could show the differences between binaries using diffoscope
+to see where the folder information is embedded.
+
+{% highlight console %}
+> diffoscope helloA helloB
+--- srcA/build/hello
++++ srcB/build/hello
+@@ -1282,20 +1282,20 @@
+...
+ 00005070: 5f77 6f72 6c64 5f64 6562 7567 2f73 7263  _world_debug/src
+-00005080: 412f 006d 6169 6e2e 6370 7000 2f55 7365  A/.main.cpp./Use
++00005080: 422f 006d 6169 6e2e 6370 7000 2f55 7365  B/.main.cpp./Use
+ 00005090: 7273 2f63 6172 6c6f 732f 446f 6375 6d65  rs/carlos/Docume
+ 000050a0: 6e74 732f 6465 7665 6c6f 7065 722f 7265  nts/developer/re
+ 000050b0: 7072 6f64 7563 6962 6c65 2d62 7569 6c64  producible-build
+ 000050c0: 732f 7361 6e64 626f 782f 6865 6c6c 6f5f  s/sandbox/hello_
+-000050d0: 776f 726c 645f 6465 6275 672f 7372 6341  world_debug/srcA
++000050d0: 776f 726c 645f 6465 6275 672f 7372 6342  world_debug/srcB
+ 000050e0: 2f62 7569 6c64 2f43 4d61 6b65 4669 6c65  /build/CMakeFile
+ 000050f0: 732f 6865 6c6c 6f2e 6469 722f 6d61 696e  s/hello.dir/main
+ 00005100: 2e63 7070 2e6f 005f 6d61 696e 005f 5f5a  .cpp.o._main.__Z
+...
+@@ -1336,15 +1336,15 @@
+...
+ 000053c0: 6962 6c65 2d62 7569 6c64 732f 7361 6e64  ible-builds/sand
+ 000053d0: 626f 782f 6865 6c6c 6f5f 776f 726c 645f  box/hello_world_
+-000053e0: 6465 6275 672f 7372 6341 2f62 7569 6c64  debug/srcA/build
++000053e0: 6465 6275 672f 7372 6342 2f62 7569 6c64  debug/srcB/build
+ 000053f0: 2f6c 6962 4865 6c6c 6f4c 6962 2e61 2868  /libHelloLib.a(h
+ 00005400: 656c 6c6f 5f77 6f72 6c64 2e63 7070 2e6f  ello_world.cpp.o
+ 00005410: 2900 5f5f 5a4e 3130 4865 6c6c 6f57 6f72  ).__ZN10HelloWor
+...
+{% endhighlight %}
+
+#### Possible solutions
 
 Again the solutions will depend on the compiler used:
 
 - `msvc` can't set options to avoid the propagation of this information to the binary files. The only
-  way to get reproducible binaries is again using a Hook to strip this information in the build step.
-  Note that as we are patching the binaries to achieve reproducible binaries the folders used for
-  different builds should have the same length in characters.
+  way to get reproducible binaries is again using a patching tool to strip this information in the
+  build step. Note that as we are patching the binaries to achieve reproducible binaries the folders
+  used for different builds should have the same length in characters.
 
 - `gcc` has three compiler flags to work around the issue:
     - `-fdebug-prefix-map=OLD=NEW` can strip directory prefixes from debug info.
@@ -336,13 +418,77 @@ Again the solutions will depend on the compiler used:
 - `clang` supports `-fdebug-prefix-map=OLD=NEW` from version 3.8 and is working on supporting the
   other two flags for future versions.
 
-The best way to solve this is adding the flags to compiler options, for example is using `CMake`:
+The best way to solve this is adding the flags to compiler options. If we are using `CMake`:
 
 ```CMake
-add_compile_options("-ffile-prefix-map=${CMAKE_SOURCE_DIR}=.")
+target_compile_options(target PUBLIC "-ffile-prefix-map=${CMAKE_SOURCE_DIR}=.")
 ```
+### File order feeding to the build system
 
-## Randomness created by the compiler
+File ordering can be a problem if directories are read to list their files. For example Unix
+does not have a deterministic order in which `readdir()` and `listdir()` should return the contents
+of a directory, so trusting in this functions to feed the build system could produce non
+deterministic builds.
+
+The same problem arises for example if your build system stores the files for the linker in a
+container (like a regular python dictionary) that can return the elements in a non-deterministic
+order. This would make that each time files were linked in different order and produce different
+binaries.
+
+We can simulate this problem changing the order of files in CMake. If we modify the previous example
+to have more than just one source file for the library:
+
+{% highlight console %}
+.
+├── CMakeLists.txt
+├── CMakeListsA.txt
+├── CMakeListsB.txt
+├── hello_world.cpp
+├── hello_world.hpp
+├── main.cpp
+├── sources0.cpp
+├── sources0.hpp
+├── sources1.cpp
+├── sources1.hpp
+├── sources2.cpp
+└── sources2.hpp
+{% endhighlight %}
+
+We can see that the results of the compilation are different if we change the order of files in the `CMakeLists.txt`:
+
+{% highlight cmake %}
+cmake_minimum_required(VERSION 3.0)
+project(HelloWorld)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_library(HelloLib hello_world.cpp 
+                     sources0.cpp 
+                     sources1.cpp 
+                     sources2.cpp)
+add_executable(hello main.cpp)
+target_link_libraries(hello HelloLib)
+{% endhighlight %}
+
+If we make two consecutive builds named `A` and `B` swapping `sources0.cpp` and `sources1.cpp` in the files list the resulting checksums will be:
+
+{% highlight console %}
+30ab264d6f8e1784282cd1a415c067f2  helloA
+cdf3c9dd968f7363dc9e8b40918d83af  helloB
+707c71bc2a8def6885b96fb67b84d79c  hello_worldA.cpp.o
+707c71bc2a8def6885b96fb67b84d79c  hello_worldB.cpp.o
+694ff3765b688e6faeebf283052629a3  sources0A.cpp.o
+694ff3765b688e6faeebf283052629a3  sources0B.cpp.o
+0db24dc6a94da1d167c68b96ff319e56  sources1A.cpp.o
+0db24dc6a94da1d167c68b96ff319e56  sources1B.cpp.o
+fd0754d9a4a44b0fcc4e4f3c66ad187c  sources2A.cpp.o
+fd0754d9a4a44b0fcc4e4f3c66ad187c  sources2B.cpp.o
+baba9709d69c9e5fd51ad985ee328172  libHelloLibA.a
+72641dc6fc4f4db04166255f62803353  libHelloLibB.a
+{% endhighlight %}
+
+Object files `.o` are identical but `.a` libraries and executables are not. That is because the insertion order in the libraries depends on the order the files were listed.
+
+### Randomness created by the compiler
 
 This problem arises for example in `gcc` when [Link-Time
 Optimizations](https://gcc.gnu.org/wiki/LinkTimeOptimization) are activated (with the `-flto` flag).
@@ -354,7 +500,7 @@ files that produce them. This setting has to be different for each source file. 
 to set it to the checksum of the file so the probability of collision is very low. For example in
 CMake it could be made with a function like this:
 
-```CMake
+{% highlight cmake %}
 set(LIB_SOURCES
     ./src/source1.cpp
     ./src/source2.cpp
@@ -365,26 +511,19 @@ foreach(_file ${LIB_SOURCES})
     string(SUBSTRING ${checksum} 0 8 checksum)
     set_property(SOURCE ${_file} APPEND_STRING PROPERTY COMPILE_FLAGS "-frandom-seed=0x${checksum}")
 endforeach()
-```
+{% endhighlight %}
 
-## File order feeding to the build system
+## Some tips using Conan
 
-File ordering can be a problem if directories are read to return the files contain. For example Unix
-does not have a deterministic order in which `readdir()` and `listdir()` should return the contents
-of a directory, so trusting in this functions to feed the build system could produce non
-deterministic builds.
+Conan [hooks](https://docs.conan.io/en/latest/extending/hooks.html) can help us in the process of
+making our builds reproducible. This feature makes it possible to customize the client behaviour at
+determined points.
 
-The same problem arises for example if your build system stores the files for the linker in a
-container that can return the elements in a non-deterministic order. This would make that each time
-files were linked in different order and produce different binaries.
-
-## Some tips if using Conan
-
-These variables can be set by the Conan hook in the `pre_build` step calling a function like
-`set_environment` and the restored if necessary in the `post_build` step with something like
+One use of hooks could be setting environment variables in the `pre_build` step. The example below is
+calling a function `set_environment` and then restoring the environment in the `post_build` step with
 `reset_environment`. 
 
-```python
+{% highlight python %}
 def set_environment(self):
     if self._os == "Linux":
         self._old_source_date_epoch = os.environ.get("SOURCE_DATE_EPOCH")
@@ -405,9 +544,49 @@ def reset_environment(self):
             os.environ["SOURCE_DATE_EPOCH"] = self._old_source_date_epoch
     elif self._os == "Macos":
         del os.environ["ZERO_AR_DATE"]
-```
+{% endhighlight %}
+
+Hooks can also be useful to patch binaries in the `post_build` step. There are different binary files
+analysis and patching tools like [ducible](https://github.com/jasonwhite/ducible),
+[pefile](https://github.com/erocarrera/pefile), [pe-parse](https://github.com/trailofbits/pe-parse)
+or [strip-nondeterminism](https://salsa.debian.org/reproducible-builds/strip-nondeterminism). An example of a hook for patching a `PE` binary using *ducible* could be like this one:
+
+{% highlight python %}
+class Patcher(object):
+...
+    def patch(self):
+        if self._os == "Windows" and self._compiler == "Visual Studio":
+            for root, _, filenames in os.walk(self._conanfile.build_folder):
+                for filename in filenames:
+                    filename = os.path.join(root, filename)
+                    if ".exe" in filename or ".dll" in filename:
+                        self._patch_pe(filename)
+
+    def _patch_pe(self, filename):
+        patch_tool_location = "C:/ducible/ducible.exe"
+        if os.path.isfile(patch_tool_location):
+            self._output.info("Patching {} with md5sum: {}".format(filename,md5sum(filename)))
+            self._conanfile.run("{} {}".format(patch_tool_location, filename))
+            self._output.info("Patched file: {} with md5sum: {}".format(filename,md5sum(filename)))
+...
+
+def pre_build(output, conanfile, **kwargs):
+    lib_patcher.init(output, conanfile)
+    lib_patcher.set_environment()
+
+def post_build(output, conanfile, **kwargs):
+    lib_patcher.patch()
+    lib_patcher.reset_environment()
+
+{% endhighlight %}
+
+## Conclusions
+
+Deterministic builds are a complex problem highly coupled with the operating system and toolchain used. This introduction should have served to understand the most common causes of indeterminism and how to avoid them. 
 
 ## References
+
+### General info
 
 - [https://www.chromium.org/developers/testing/isolated-testing/deterministic-builds]()
 - [https://reproducible-builds.org/]()
@@ -417,14 +596,14 @@ def reset_environment(self):
 - [https://devblogs.microsoft.com/oldnewthing/20180103-00/?p=97705]()
 - [https://www.geoffchappell.com/studies/msvc/link/link/options/brepro.htm?tx=37&ts=0,267]()
 
-## Tools
+### Tools
 
-# Tools for comparing files
+#### Tools for comparing binaries
 
 - [https://diffoscope.org/]()
 - [https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fc]()
 
-# Tools for patching files
+#### Tools for patching files
 
 - [https://salsa.debian.org/reproducible-builds/strip-nondeterminism]()
 - [https://github.com/erocarrera/pefile]()
@@ -433,7 +612,7 @@ def reset_environment(self):
 - [https://github.com/google/syzygy]()
 - [https://github.com/nh2/ar-timestamp-wiper]()
 
-# Tools for analyzing files
+#### Tools for analyzing files
 
 - [https://docs.microsoft.com/en-us/cpp/build/reference/dumpbin-reference?view=vs-2019]()
 - [https://sourceware.org/binutils/docs/binutils/readelf.html]()
