@@ -234,7 +234,7 @@ That shows that the `__TIME__` information was inserted in the binary making it 
 
 Microsoft Visual Studio has an linker flag `/Brepro` that is undocumented by Microsoft. That flag
 sets the timestamps from the `Portable Executable` format to a `-1` value as can be seen in the
-image bellow. 
+image below. 
 
 <p class="centered">
     <img  src="{{ site.url }}/assets/post_images/2019-08-27/conan-brepro.png" align="center" alt="With BRepro flag"/>
@@ -242,26 +242,26 @@ image bellow.
 
 To activate that flag with CMake we will have to add this lines if creating a `.exe`:
 
-```CMake
+{% highlight cmake %}
 add_link_options("/Brepro")
-```
+{% endhighlight %}
 
 or this for `.lib`
 
-```CMake
+{% highlight cmake %}
 set_target_properties(
     TARGET
     PROPERTIES STATIC_LIBRARY_OPTIONS "/Brepro"
 )
-```
+{% endhighlight %}
 
 The problem is that this flag makes the binaries reproducible (regarding timestamps in the file
-format) if our final binary is a `.exe` but will not remove all timestamps if we are compiling a
-`.lib`. In fact it does not remove the `TimeDateStamp` field from the  [COFF File
-Header](https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#file-headers) for the `.lib`
-files. The only way to remove this information from the `.lib` binaries is patching the `.lib`
-substituting the bytes corresponding to the `TimeDateStamp` field with any known value. This patching
-process can be done in the `post_build` step.
+format) in our final binary is a `.exe` but will not remove all timestamps from the `.lib` (same
+problem that we talked about with the Mach-O object files above). The `TimeDateStamp` field from the
+[COFF File Header](https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#file-headers) for
+the `.lib` files will stay. The only way to remove this information from the `.lib` binaries is
+patching the `.lib` substituting the bytes corresponding to the `TimeDateStamp` field with any known
+value.
 
 #### Possible solutions for GCC and CLANG
 
@@ -271,34 +271,42 @@ process can be done in the `post_build` step.
   value can be set to a known timestamp such as the last modification time of the source or package.
 
 - `clang` makes use of `ZERO_AR_DATE` that if set, resets the timestamp that is introduced in the
-  binary setting it to `epoch 0`.
+  `archive files` setting it to `epoch 0`. Take into account that this will not fix the `__DATE__` or
+  `__TIME__` macros. If we want to fix the effect of this macros we should either patch the binaries
+  or fake the system time.
 
-These variables can be set by the Conan hook in the `pre_build` step calling a function like
-`set_environment` and the restored if necessary in the `post_build` step with something like
-`reset_environment`. 
+Let's continue with our example project for MacOs and see what the results are when setting
+`ZERO_AR_DATE` environment variable. 
 
-```python
-def set_environment(self):
-    if self._os == "Linux":
-        self._old_source_date_epoch = os.environ.get("SOURCE_DATE_EPOCH")
-        timestamp = "1564483496"
-        os.environ["SOURCE_DATE_EPOCH"] = timestamp
-        self._output.info(
-            "set SOURCE_DATE_EPOCH: {}".format(timestamp))
-    elif self._os == "Macos":
-        os.environ["ZERO_AR_DATE"] = "1"
-        self._output.info(
-            "set ZERO_AR_DATE: {}".format(timestamp))
+{% highlight console %}
+export ZERO_AR_DATE=1
+{% endhighlight %}
 
-def reset_environment(self):
-    if self._os == "Linux":
-        if self._old_source_date_epoch is None:
-            del os.environ["SOURCE_DATE_EPOCH"]
-        else:
-            os.environ["SOURCE_DATE_EPOCH"] = self._old_source_date_epoch
-    elif self._os == "Macos":
-        del os.environ["ZERO_AR_DATE"]
-```
+Now, if we build our executable and libraries (omitting the `__DATE__` macro in the sources), we get:
+
+{% highlight console %}
+b5dce09c593658ee348fd0f7fae22c94  helloA
+b5dce09c593658ee348fd0f7fae22c94  helloB
+0a4a0de3df8cc7f053f2fcb6d8b75e6d  CMakeFiles/HelloLibA.dir/hello_world.cpp.o
+0a4a0de3df8cc7f053f2fcb6d8b75e6d  CMakeFiles/HelloLibB.dir/hello_world.cpp.o
+9f9a9af4bb3e220e7a22fb58d708e1e5  libHelloLibA.a
+9f9a9af4bb3e220e7a22fb58d708e1e5  libHelloLibB.a
+{% endhighlight %}
+
+Now all the checksums are the same. And analyzing the `.a` files headers:
+
+{% highlight console %}
+> otool -a libHelloLibA.a
+Archive : libHelloLibA.a
+0100644 503/20    612 0 #1/20
+0100644 503/20  13036 0 #1/28
+> otool -a libHelloLibB.a
+Archive : libHelloLibB.a
+0100644 503/20    612 0 #1/20
+0100644 503/20  13036 0 #1/28
+{% endhighlight %}
+
+We can see that the timestamp field of the library header has been set to zero value.
 
 ## Build folder information propagated to binaries
 
@@ -306,6 +314,7 @@ If the same sources are compiled in different folders sometimes folder informati
 the binaries. This can happen mainly for two reasons:
 
 - Use of macros that contain current file information like `__FILE__` macro.
+
 - Creating debug binaries that store information of where the sources are.
 
 ### Possible solutions
@@ -368,6 +377,35 @@ deterministic builds.
 The same problem arises for example if your build system stores the files for the linker in a
 container that can return the elements in a non-deterministic order. This would make that each time
 files were linked in different order and produce different binaries.
+
+## Some tips if using Conan
+
+These variables can be set by the Conan hook in the `pre_build` step calling a function like
+`set_environment` and the restored if necessary in the `post_build` step with something like
+`reset_environment`. 
+
+```python
+def set_environment(self):
+    if self._os == "Linux":
+        self._old_source_date_epoch = os.environ.get("SOURCE_DATE_EPOCH")
+        timestamp = "1564483496"
+        os.environ["SOURCE_DATE_EPOCH"] = timestamp
+        self._output.info(
+            "set SOURCE_DATE_EPOCH: {}".format(timestamp))
+    elif self._os == "Macos":
+        os.environ["ZERO_AR_DATE"] = "1"
+        self._output.info(
+            "set ZERO_AR_DATE: {}".format(timestamp))
+
+def reset_environment(self):
+    if self._os == "Linux":
+        if self._old_source_date_epoch is None:
+            del os.environ["SOURCE_DATE_EPOCH"]
+        else:
+            os.environ["SOURCE_DATE_EPOCH"] = self._old_source_date_epoch
+    elif self._os == "Macos":
+        del os.environ["ZERO_AR_DATE"]
+```
 
 ## References
 
