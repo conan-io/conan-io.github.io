@@ -237,7 +237,7 @@ sets the timestamps from the `Portable Executable` format to a `-1` value as can
 image below. 
 
 <p class="centered">
-    <img  src="{{ site.url }}/assets/post_images/2019-09-03/conan-brepro.png" align="center" alt="With BRepro flag"/>
+    <img  src="{{ site.url }}/assets/post_images/2019-08-27/conan-brepro.png" align="center" alt="With BRepro flag"/>
 </p>
 
 To activate that flag with CMake we will have to add this lines if creating a `.exe`:
