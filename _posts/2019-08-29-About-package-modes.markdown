@@ -1,8 +1,19 @@
 ---
 layout: post
 comments: false
-title: "ABI compatibility and Conan package modes"
+title: "The riddle of C++ builds"
+subtitle: "ABI compatibility and Conan package modes"
 ---
+
+> **Thulsa Doom:** There was a time, boy, when I searched for steel, when steel
+>     meant more to me than gold or jewels.
+>
+> **Conan:** The riddle... of steel.
+>
+> **Thulsa Doom:** Yes! You know what it is, don't you boy? Shall I tell you?
+>
+> <div style="text-align: right">Conan the Barbarian (John Milius, 1982)</div>
+
 
 **Application binary interface (ABI)** is the interface between two
 binary program modules; these modules could be libraries, operating system
@@ -171,6 +182,7 @@ requirement (even a new build of the same binary if it produces a different pack
 
 
 TODO: REQUIRES -vs- BUILD_REQUIRES
+
 TODO: NOTE ABOUT LIBRARIES NOT FOLLOWING SEMVER
 
 
@@ -214,16 +226,179 @@ conanfile.py (name/version)
 ```
 
 In the output above it is shown that the package ID for the recipe only
-changes when the _major_ component of the requirement ``fmt`` changes (although
-the package ID for ``fmt`` is the same). And it doesn't change if we modify
-an option of the ``fmt`` package, the package ID corresponding to ``fmt`` changes
-but the one of the example recipe doesn't.
+changes (from ``38dbf89d`` to ``19d34f4e``) when the _major_ component of
+the requirement ``fmt`` changes (although the package ID for ``fmt`` is the same).
+And it doesn't change if we modify an option of the ``fmt`` package, the package ID
+corresponding to ``fmt`` changes but the one of the example recipe doesn't.
 
 
 #### Other package ID modes
 
+There are many more package ID modes to use (see [full list](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#versioning-schema)),
+here we are going to show just some of them:
+
+ * **``full_version_mode``**: it will take into account all the components of the
+   semver version:
+   
+   ```bash
+   ⇒  conan config set general.default_package_id_mode=full_version_mode
+   
+   ⇒  conan info . --only id  --profile=default                         
+   fmt/5.2.1@bincrafters/stable
+       ID: 853c4b61e2571e98cd7b854c1cda6bc111b8b32c
+   conanfile.py (name/version)
+       ID: 840962321acb965eeab4e8507bdb9e85c11a06fd
+   
+   ⇒  conan info . --only id  --profile=default                         
+   fmt/5.2.0@bincrafters/stable
+       ID: 853c4b61e2571e98cd7b854c1cda6bc111b8b32c
+   conanfile.py (name/version)
+       ID: 8e9392814f9e6f0132c2e383d60364623ca759b5
+   ``` 
+   
+ * **``full_package_mode``**: any change in the package reference (excluding revisions) will
+   modify the package ID of the consumer recipe. Let's see how modifying an option in the
+   required recipe affects the recipe itself:
+   
+   ```bash
+   ⇒  conan config set general.default_package_id_mode=full_package_mode
+   
+   ⇒  conan info . --only id  --profile=default -o fmt:shared=False
+   fmt/5.2.0@bincrafters/stable
+       ID: 853c4b61e2571e98cd7b854c1cda6bc111b8b32c
+   conanfile.py (name/version)
+       ID: 50fb56084639e9d7f970e1c79e36f53b452eb552
+   
+   ⇒  conan info . --only id  --profile=default -o fmt:shared=True
+   fmt/5.2.0@bincrafters/stable
+       ID: 95b87e2c9261497d05b76244c015fbde06fe50b3
+   conanfile.py (name/version)
+       ID: 159983fa331b57530730eaf05aedeb3628307264
+   
+   ```
+
+Try other modes in your machine changing the versions of your requirements and see how the
+package ID of the consumer recipe changes. All these modes provide a high level of 
+customization that allow fine-grained control over the package ID.
+
+
 #### Working with revisions
 
+Conan v1.10.0 introduced [revisions for recipes and packages](https://docs.conan.io/en/latest/versioning/revisions.html),
+although the feature is experimental we are pretty sure that it arrived to stay and
+will become stable soon. Revisions for recipes (``<rrev>``) provide a way to version the recipe
+sources without changing the version of the recipe itself, while package revisions (``<prev>``) are a
+way to differentiate binaries built using exactly the same recipe sources (see [reproducible builds](TODO: Add link to zoido's)).
+
+Together with revisions, two new modes were added to the available list of package ID modes to
+optionally consider these components of the full Conan reference (``<ref>#<rrev>:<pid>#<prev>``)
+of the requirements. These modes were:
+
+ * **``recipe_revision_mode``**: it is like the ``full_package_mode``, but it takes into account
+   the recipe revision too.
+ * **``package_revision_mode``**: to take into account the full reference including the package
+   and recipe revisions.
+   
+Using these modes, Conan will compute a new package ID for any change in the requirements, usually
+it is more than needed but it is the safest way to ensure ABI compatibility: it the package ID
+computed has been already compiled, then we can be sure that the binary available will be ABI
+compatible.
+
+To play the following example we need to activate revisions and use different revisions of
+the requirements. Take into account that the Conan cache will store only one revision at a time,
+you wll need to use one Artifactory server (download free
+[JFrog Artifactory Community Edition for C/C++](https://jfrog.com/blog/announcing-jfrog-artifactory-community-edition-c-c/))
+if you want to persist them because Bintray repositories doesn't implement revisions:
+
+ 1. Let's configure Conan for this example (use the proper URL for the repository in your
+    Artifactory instance):
+
+    ```bash
+    ⇒  conan config set general.revisions_enabled=1
+    ⇒  conan config set general.default_package_id_mode=recipe_revision_mode
+    ```
+    
+ 2. Now we will check the ID generated with one revisions of the ``fmt`` requirement:
+ 
+    ```bash
+    ⇒  git clone https://github.com/bincrafters/conan-fmt.git
+    ⇒  cd conan-fmt
+    ⇒  conan export . bincrafters/stable
+    ...
+    fmt/5.3.0@bincrafters/stable: Exported revision: 500ad2e039e90e5aa50b8ceb6a35a3e1
+    ```
+    
+    We can ask Conan to compute the package ID of our recipe, it will use the recipe of the
+    ``fmt`` library that we have just exported:
+    
+    ```bash
+    ⇒  conan info . --only id  --profile=default
+    fmt/5.3.0@bincrafters/stable
+        ID: 853c4b61e2571e98cd7b854c1cda6bc111b8b32c
+    conanfile.py (name/version)
+        ID: 46516d5f2debf0f4b7e55da9e75bfe277d26a1fc  
+    ```
+    
+ 3. We can modify the recipe of ``fmt`` to generate a different revision, and we can export it
+    to the Conan cache (it will override the existing one as only one revision can be in the
+    cache at a time):
+    
+    ```bash
+    ⇒  git clone https://github.com/bincrafters/conan-fmt.git
+    ⇒  cd conan-fmt
+    ⇒  echo "# Add a comment at the end of the file" >> conanfile.py
+    ⇒  conan export . bincrafters/stable
+    ...
+    fmt/5.3.0@bincrafters/stable: Exported revision: 30bb32c064e1c43b70d5cb9e2749e484
+    ```
+    
+    If we compute the package ID of our recipe, now it is a different one, and only the recipe
+    revision of the ``fmt`` package has changed.
+
+    ```bash
+    ⇒  conan info . --only id  --profile=default
+    fmt/5.3.0@bincrafters/stable
+        ID: 853c4b61e2571e98cd7b854c1cda6bc111b8b32c
+    conanfile.py (name/version)
+        ID: 859c7995b3e1554bd4a456aee82a45f0c6ade2f7  
+    ```
+
+As a final note related to the revisions, if we try to compute the package ID of our recipe using
+the ``package_revision_mode`` Conan will take into account the package revision of the
+requirements too. In the previous steps we have just exported a new recipe revision for
+the ``fmt`` package, but we haven't generated the binaries:
+
+```bash
+⇒  conan config set general.default_package_id_mode=package_revision_mode
+⇒  conan info . --only id --profile=default       
+
+fmt/5.3.0@bincrafters/stable
+    ID: 853c4b61e2571e98cd7b854c1cda6bc111b8b32c
+conanfile.py (name/version)
+    ID: Package_ID_unknown
+```
+
+With this mode enabled, Conan cannot compute the package ID because it cannot know the package
+revision of the ``fmt`` package it would use if it were available. Once we compile the binary,
+Conan will be able to compute the package ID:
+
+```bash
+⇒  conan install fmt/5.3.0@bincrafters/stable --profile=default --build fmt
+
+⇒  conan info . --only id --profile=default         
+
+fmt/5.3.0@bincrafters/stable
+    ID: 853c4b61e2571e98cd7b854c1cda6bc111b8b32c
+conanfile.py (name/version)
+    ID: b2110045f8b2598a521adad9753eb610ba4059ee
+```
 
 # Conclusion
 
+ABI compatibility should be a major concern of any build engineer involved in a C++ project.
+Understanding ABI complexity, defining a meaningful version scheme for the libraries involved
+in the project and using the right tools for the problem, CI build times and developers
+compile efforts could be reduced in several orders of magnitude with confidence.
+
+Conan provides the tools, it is up to the project manager to define a versioning scheme and
+everything should be ready to exploit a CI system without wasting resources.
