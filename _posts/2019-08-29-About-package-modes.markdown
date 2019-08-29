@@ -80,7 +80,7 @@ class Library(ConanFile):
     options = {"shared": [True, False]}
     default_options = {"shared": True}
     
-    requires = "opencv/4.1.1@conan/stable"
+    requires = "fmt/5.3.0@bincrafters/stable"
     build_requires = "cmake_installer/3.15.2@conan/stable"
 
 ```
@@ -188,30 +188,37 @@ in a different package ID, while any other change won't affect that ID:
 ⇒  conan config set general.default_package_id_mode=semver_direct_mode
 
 ⇒  conan info . --only id --profile=default
-opencv/4.1.1@conan/stable
-    ID: 97d27add3c76aee8a50a952acb3602976930d601
+fmt/5.3.0@bincrafters/stable
+    ID: 853c4b61e2571e98cd7b854c1cda6bc111b8b32c
 conanfile.py (name/version)
-    ID: f38e4ae2fcc1fd3b6f76fde9093cfce7d4d11f94
+    ID: 38dbf89d158028a99d09852abf8b8a82ede43714
 
 ⇒  conan info . --only id --profile=default
-opencv/4.0.0@conan/stable
-    ID: 9f67cefb3b597b342ffd9241a4a7dc5a0df50bef
+fmt/5.2.1@bincrafters/stable
+    ID: 853c4b61e2571e98cd7b854c1cda6bc111b8b32c
 conanfile.py (name/version)
-    ID: 15b1cc854d0fd5711b0e70745ec84b5fb233e3f5
+    ID: 38dbf89d158028a99d09852abf8b8a82ede43714
 
 ⇒  conan info . --only id --profile=default
-opencv/3.4.5@conan/stable
-    ID: 8cb67aa8aca987bb2ebfa7814003995d7aaf8388
+fmt/4.1.0@bincrafters/stable
+    ID: 853c4b61e2571e98cd7b854c1cda6bc111b8b32c
 conanfile.py (name/version)
-    ID: 16270ea17040950aea9f8590865934ff1bbb25cd
+    ID: 19d34f4e911e399b2fb93166523221c5e1f14f06
 
+⇒  conan info . --only id --profile=default -o fmt:shared=True
+fmt/4.1.0@bincrafters/stable
+    ID: 95b87e2c9261497d05b76244c015fbde06fe50b3
+conanfile.py (name/version)
+    ID: 19d34f4e911e399b2fb93166523221c5e1f14f06
 
 ```
 
+In the output above it is shown that the package ID for the recipe only
+changes when the _major_ component of the requirement ``fmt`` changes (although
+the package ID for ``fmt`` is the same). And it doesn't change if we modify
+an option of the ``fmt`` package, the package ID corresponding to ``fmt`` changes
+but the one of the example recipe doesn't.
 
-
-For the recipe of the example, we will get the same package ID for all the versions
-of the 
 
 #### Other package ID modes
 
