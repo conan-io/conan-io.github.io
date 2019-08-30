@@ -4,23 +4,23 @@ comments: false
 title: "Package ID modes"
 ---
 
-As we explained in our previous blogpost about [deterministic builds](LINK) it is not possible
-to identify a compiled C/C++ artifact by its checksum, same sources will lead to different
+As we explained in our previous blog post about [deterministic builds](LINK) it is not possible
+to identify a compiled C/C++ artifact by its checksum, the same sources will lead to different
 binaries, so there is no _correct_ result we can agree on to certify a binary.
 
-This is big problem for many industries where software is a critical component in their
+This is a big problem for many industries where software is a critical component in their
 products: aeronautics, medical, automotive,... almost any industry will get into trouble if
-its artifacts can be tampered with without noticing. 
+its artifacts can be tampered with without notice. 
 
 Conan doesn't rely on the checksum of the binaries, but on the **package ID to identify the
-binaries**, it is an unique identifier that encodes information about settings, options and
+binaries**, it is a unique identifier that encodes information about settings, options, and
 requirements of each package. We will explain how knowing the package ID you can know
 exactly which are the libraries deployed or even the source code used to generate the artifacts.
 
 
 ## How package ID works
 
-Conan compute a different package ID for any combination of the following elements:
+Conan computes a different package ID for any combination of the following elements:
  * **Settings**. Depending on the value of the settings declared in the recipe, a different
    package ID will be computed, so different _operating systems_, _compilers_, _build types_,...
    will produce different IDs.
@@ -29,7 +29,7 @@ Conan compute a different package ID for any combination of the following elemen
    package ID.
    
  * **Requirements**. Depending on the package ID mode configured for the Conan client or the
-   one declared for an specific requirement, different components of the full Conan 
+   one declared for a specific requirement, different components of the full Conan 
    package reference could affect the package ID of the consumer.
    
    Take into account that transitive requirements (dependencies of my dependencies) are
@@ -39,7 +39,7 @@ Conan compute a different package ID for any combination of the following elemen
 ``requirements()`` method will be considered, **build requires doesn't affect the package ID**.
 
 
-## Quick reminder about Conan package reference
+## A quick reminder about Conan package reference
 
 Before moving on, we need to introduce what a Conan package reference is and which are its
 components. A Conan package reference is the unique identifier of the products of a build that
@@ -60,10 +60,10 @@ are bundled into a package, it is compounded by the following parts:
    Notice that Conan will interpret the ``<version>`` component as SemVer if possible.
    
  * **Package ID**. It is the unique identifier of the package binaries, we will elaborate on it
-   on next sections in this blogpost.
+   in the next sections in this blog post.
    
  * **Package revision**. Introduced in Conan v1.10, it is the hash of the contents of the package.
-   As it was said before, same sources will tipically generate different binaries even using the
+   As it was said before, the same sources will typically generate different binaries even using the
    same environment.
    
 Given all this components, a full Conan package reference will contain all these information
@@ -73,13 +73,13 @@ every Conan package build.
 
 ## Importance of package ID modes
 
-Conan has the ability to identify every single package build, and all this information could
+Conan can identify every single package build, and all this information could
 be propagated to the consumer's package ID, but this would lead to a big drawback: any build
 of a requirement (or transitive requirement) would modify all the package IDs down in the
 dependency graph, those new IDs wouldn't have binaries available and we would need to compile
-them. In most cases this is an undesirable effect.
+them. In most cases, this is an undesirable effect.
 
-Here relies the utility and importance of package ID modes, they allow to configure which
+Here lies the utility and importance of package ID modes, they allow to configure which
 components of the full package reference should be considered to compute the package ID of
 the consumer.
 
@@ -88,18 +88,18 @@ account to ``package_revision_mode`` where everything (including package revisio
 modify the package ID. And there are many other modes in between.
 
 Choosing the right package ID mode for your project is an important decision. You should
-carefully consider the versioning schema of your dependencies, your CI times, the criticity
+carefully consider the versioning schema of your dependencies, your CI times, the criticality
 of source code changes in your system (can a bugfix be a breaking change?),... all these
 factors can be managed using the right package ID mode in your recipes.
 
 ## Conan default behavior: ``semver_direct_mode``
 
-By default Conan uses ``semver_direct_mode`` which means that it will compute a different
+By default, Conan uses ``semver_direct_mode`` which means that it will compute a different
 package ID whenever the _major component_ of the version of its requirements is different.
 This is a quite relaxed method with big assumptions: all the dependencies use properly a
-SemVer versioning schema, my application is not sensible to new features or bugfixes, and
+SemVer versioning schema, my application is not sensible to new features or bug fixes, and
 it is ok to ignore changes in options or settings of my requirements.
-Although it might be adecuate for general purpose libraries and the open source community,
+Although it might be adequate for general-purpose libraries and the open-source community,
 it is probably not the best approach for company software.
 
 Let's explore it with the example recipe in the ``conanfile.py`` below: 
@@ -192,7 +192,7 @@ modify the transitive dependencies (even add or remove them) as much as we want:
 can modify options to activate features or switch behaviors, we can use different linking
 options,... it all depends on the library writer, but we can agree that there are too
 many degrees of freedom under the same package ID of our library. We won't be able
-to dissambiguate as many configuration lead to the same package ID.
+to disambiguate as many configurations lead to the same package ID.
 
 
 ## Other package ID modes
@@ -221,7 +221,7 @@ here we are going to show just some of them:
 
   * **``full_package_mode``**: any change in the package reference (excluding revisions) will
     modify the package ID of the consumer recipe. Let's see how modifying an option in the
-    required recipe modify its package ID and a new value is computes for our package:
+    required recipe modify its package ID and a new value is computed for our package:
 
     ```bash
     ⇒  conan config set general.default_package_id_mode=full_package_mode
@@ -241,7 +241,7 @@ here we are going to show just some of them:
    
 Try other modes in your machine changing the versions of your requirements and see how the
 package ID of the consumer recipe changes. All these modes provide a high level of 
-customization that allow fine-grained control over the package ID.
+customization that allows fine-grained control over the package ID.
 
 The two last fields of the Conan reference of the requirements, ``user`` and ``channel`` does
 not affect for most of the package ID modes, only ``full_recipe_mode`` and ``full_package_mode``
@@ -276,8 +276,8 @@ To play the following example we need to activate revisions and use different re
 the requirements. Take into account that the Conan cache will store only one revision at a time,
 you will need to use one Artifactory server (download free
 [JFrog Artifactory Community Edition for C/C++](https://jfrog.com/blog/announcing-jfrog-artifactory-community-edition-c-c/))
-if you want to persist them because Bintray repositories doesn't implement revisions. Follow
-this steps for the ``recipe_revision_mode``:
+if you want to persist them because Bintray repositories don't implement revisions. Follow
+these steps for the ``recipe_revision_mode``:
 
   1. Configure Conan for this example:
 
@@ -286,7 +286,7 @@ this steps for the ``recipe_revision_mode``:
      ⇒  conan config set general.default_package_id_mode=recipe_revision_mode
      ```
 
-  2. Check the ID generated with one revisions of the ``fmt`` requirement:
+  2. Check the ID generated with one revision of the ``fmt`` requirement:
 
      ```bash
      ⇒  git clone https://github.com/bincrafters/conan-fmt.git
@@ -374,11 +374,11 @@ you are executing the examples, and you will get a new value with each compilati
 
 ## Conclusion
 
-Conan package ID modes allow really fine-grained control to choose how the dependencies
+Conan package ID modes allow fine-grained control to choose how the dependencies
 may affect the package ID of your libraries, if you make the deploy of your applications
 using Conan packages and keep track of these identifiers, you can control which are the
 requirements included in any release.
 
-Software more sensitive should use more strict modes, while the community will tipically
-use relaxed modes, but with Conan is easy to change the mode as we've seen along the post,
+Software more sensitive should use more strict modes, while the community will typically
+use relaxed modes, but with Conan is easy to change the mode as we've seen along with the post,
 it is just a value in the Conan settings.
