@@ -412,7 +412,7 @@ Again the solutions will depend on the compiler used:
     - `-fdebug-prefix-map=OLD=NEW` can strip directory prefixes from debug info.
     - `-fmacro-prefix-map=OLD=NEW` is available since `gcc 8` and addresses irreproducibility due to
       the use of `__FILE__` macro.
-    - `-ffile-prefix-map=OLD=NEW` is available sice `gcc 8` and is the union of `-fdebug-prefix-map`
+    - `-ffile-prefix-map=OLD=NEW` is available since `gcc 8` and is the union of `-fdebug-prefix-map`
       and `-fmacro-prefix-map`
 
 - `clang` supports `-fdebug-prefix-map=OLD=NEW` from version 3.8 and is working on supporting the
