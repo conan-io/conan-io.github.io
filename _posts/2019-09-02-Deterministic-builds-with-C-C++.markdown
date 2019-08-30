@@ -4,10 +4,10 @@ comments: false
 title: "An introduction to deterministic builds with C/C++"
 ---
 
-## What are deterministic builds ?
+## What are deterministic builds?
 
-A deterministic build is the process of building the same source code with the same build environment
-and build instructions producing exactly the same binary in two builds, even if they are made on
+A deterministic build is a process of building the same source code with the same build environment
+and build instructions producing the same binary in two builds, even if they are made on
 different machines, build directories and with different names. They are also sometimes called
 reproducible or hermetic builds if it is guaranteed to produce the same binaries even compiling from
 different folders.
@@ -31,14 +31,14 @@ deterministic builds such as
 There are two main reasons why deterministic builds are important:
 
  - **Security**. Modifying binaries instead of the upstream source code can make the changes
-   invisible for the original authors. This can be fatal in safety critical environments such as
+   invisible for the original authors. This can be fatal in safety-critical environments such as
    medical, aerospace and automotive. Promising identical results for given inputs allows third
    parties to come to a consensus on a *correct* result.
 
 - **Traceability and binary management**. If you want to have a repository to store your binaries you
   do not want to generate binaries with random checksums from sources at the same revision. That
   could lead the repository system to store different binaries as different versions when they should
-  be the same. For example, if you are working in Windows or MacOs the most simple library will lead
+  be the same. For example, if you are working on Windows or MacOs the most simple library will lead
   binaries with different checksums because of the timestamps included in the library formats for
   these Operating Systems.
 
@@ -57,19 +57,19 @@ on the operating system.
    [readelf](https://sourceware.org/binutils/docs/binutils/readelf.html).   
 
  - **Mac OS**. Files with `.o`, `.a`,`.dylib` and `none` (for executable binaries) extensions follow
-   the Mach-O format specification. This files can be inspected with the
+   the Mach-O format specification. These files can be inspected with the
    [otool](https://opensource.apple.com/source/cctools/cctools-921/otool/) application that is part
    of the XCode toolchain in MacOs.
 
 ## Sources of variation
 
-There are many different factors that can make your builds *non-deterministic*. Factors will vary
+Many different factors can make your builds *non-deterministic*. Factors will vary
 between different operating systems and compilers. Each compiler has specific options to fix the
 sources of indeterminism. To date `gcc` and `clang` are the ones that incorporate more options to fix
 the sources of variation. For `msvc` there are some undocumented options that you can try but in the
-end you will probably need to patch the binaries to get deterministic builds.
+end, you will probably need to patch the binaries to get deterministic builds.
 
-### Timestamps introduced by the compiler / linker
+### Timestamps introduced by the compiler/linker
 
 There are two main reasons for that our binaries could end up containing time information that will
 make them not reproducible:
@@ -179,7 +179,7 @@ Let's note that those fields are not propagated to the final executable because 
 checksum. This problem would also happen if building in Windows with Visual Studio but with the
 `Portable Executable` instead of `Mach-O`.
 
-At this point we could try to make things even worse and try to force our binaries to be non-deterministic as well. If we change `main.cpp` file to include the `__DATE__` macro:
+At this point we could try to make things even worse and force our binaries to be non-deterministic as well. If we change `main.cpp` file to include the `__TIME__` macro:
 
 {% highlight cpp %}
 #include <iostream>
@@ -232,12 +232,12 @@ That shows that the `__TIME__` information was inserted in the binary making it 
 
 #### Possible solutions for Microsoft Visual Studio
 
-Microsoft Visual Studio has an linker flag `/Brepro` that is undocumented by Microsoft. That flag
+Microsoft Visual Studio has a linker flag `/Brepro` that is undocumented by Microsoft. That flag
 sets the timestamps from the `Portable Executable` format to a `-1` value as can be seen in the
 image below. 
 
 <p class="centered">
-    <img  src="{{ site.url }}/assets/post_images/2019-08-27/conan-brepro.png" align="center" alt="With BRepro flag"/>
+    <img  src="{{ site.url }}/assets/post_images/2019-09-02/conan-brepro.png" align="center" alt="With BRepro flag"/>
 </p>
 
 To activate that flag with CMake we will have to add this lines if creating a `.exe`:
@@ -256,10 +256,10 @@ set_target_properties(
 {% endhighlight %}
 
 The problem is that this flag makes the binaries reproducible (regarding timestamps in the file
-format) in our final binary is a `.exe` but will not remove all timestamps from the `.lib` (same
+format) in our final binary is a `.exe` but will not remove all timestamps from the `.lib` (the same
 problem that we talked about with the Mach-O object files above). The `TimeDateStamp` field from the
 [COFF File Header](https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#file-headers) for
-the `.lib` files will stay. The only way to remove this information from the `.lib` binaries is
+the `.lib` files will stay. The only way to remove this information from the `.lib` binary is
 patching the `.lib` substituting the bytes corresponding to the `TimeDateStamp` field with any known
 value.
 
@@ -267,7 +267,7 @@ value.
 
 - `gcc` detects the existence of the `SOURCE_DATE_EPOCH` environment variable. If this variable is
   set, its value specifies a UNIX timestamp to be used in replacement of the current date and time in
-  the `__DATE__` and `__TIME__` macros, so that the embedded timestamps become reproducible. The
+  the `__DATE__` and `__TIME__` macros so that the embedded timestamps become reproducible. The
   value can be set to a known timestamp such as the last modification time of the source or package.
 
 - `clang` makes use of `ZERO_AR_DATE` that if set, resets the timestamp that is introduced in the
@@ -364,8 +364,8 @@ dc941156608b578c91e38f8ecebfef6d  srcA/build/libHelloLib.a
 1f9697ef23bf70b41b39ef3469845f76  srcB/build/libHelloLib.a
 {% endhighlight %}
 
-The folder information is propagated from the object files all the way to the final executables
-making our builds non reproducible. We could show the differences between binaries using diffoscope
+The folder information is propagated from the object files to the final executables
+making our builds non-reproducible. We could show the differences between binaries using diffoscope
 to see where the folder information is embedded.
 
 {% highlight console %}
@@ -418,21 +418,21 @@ Again the solutions will depend on the compiler used:
 - `clang` supports `-fdebug-prefix-map=OLD=NEW` from version 3.8 and is working on supporting the
   other two flags for future versions.
 
-The best way to solve this is adding the flags to compiler options. If we are using `CMake`:
+The best way to solve this is by adding the flags to compiler options. If we are using `CMake`:
 
 ```CMake
 target_compile_options(target PUBLIC "-ffile-prefix-map=${CMAKE_SOURCE_DIR}=.")
 ```
 ### File order feeding to the build system
 
-File ordering can be a problem if directories are read to list their files. For example Unix
-does not have a deterministic order in which `readdir()` and `listdir()` should return the contents
-of a directory, so trusting in this functions to feed the build system could produce non
-deterministic builds.
+File ordering can be a problem if directories are read to list their files. For example Unix does not
+have a deterministic order in which `readdir()` and `listdir()` should return the contents of a
+directory, so trusting in these functions to feed the build system could produce non-deterministic
+builds.
 
 The same problem arises for example if your build system stores the files for the linker in a
 container (like a regular python dictionary) that can return the elements in a non-deterministic
-order. This would make that each time files were linked in different order and produce different
+order. This would make that each time files were linked in a different order and produce different
 binaries.
 
 We can simulate this problem changing the order of files in CMake. If we modify the previous example
@@ -492,7 +492,7 @@ Object files `.o` are identical but `.a` libraries and executables are not. That
 
 This problem arises for example in `gcc` when [Link-Time
 Optimizations](https://gcc.gnu.org/wiki/LinkTimeOptimization) are activated (with the `-flto` flag).
-This options introduces random generated names in the binary files. The only way to avoid this
+This option introduces randomly generated names in the binary files. The only way to avoid this
 problem is to use `-frandom-seed` flag. This option provides a seed that `gcc` uses when it would
 otherwise use random numbers. It is used to generate certain symbol names that have to be different
 in every compiled file. It is also used to place unique stamps in coverage data files and the object
@@ -516,7 +516,7 @@ endforeach()
 ## Some tips using Conan
 
 Conan [hooks](https://docs.conan.io/en/latest/extending/hooks.html) can help us in the process of
-making our builds reproducible. This feature makes it possible to customize the client behaviour at
+making our builds reproducible. This feature makes it possible to customize the client behavior at
 determined points.
 
 One use of hooks could be setting environment variables in the `pre_build` step. The example below is
@@ -549,7 +549,8 @@ def reset_environment(self):
 Hooks can also be useful to patch binaries in the `post_build` step. There are different binary files
 analysis and patching tools like [ducible](https://github.com/jasonwhite/ducible),
 [pefile](https://github.com/erocarrera/pefile), [pe-parse](https://github.com/trailofbits/pe-parse)
-or [strip-nondeterminism](https://salsa.debian.org/reproducible-builds/strip-nondeterminism). An example of a hook for patching a `PE` binary using *ducible* could be like this one:
+or [strip-nondeterminism](https://salsa.debian.org/reproducible-builds/strip-nondeterminism). An
+example of a hook for patching a `PE` binary using *ducible* could be like this one:
 
 {% highlight python %}
 class Patcher(object):
