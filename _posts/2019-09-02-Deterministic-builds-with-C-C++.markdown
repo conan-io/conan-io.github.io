@@ -77,10 +77,10 @@ make them not reproducible:
 - The use of `__DATE__` or `__TIME__` macros in the sources.
 
 - When the definition of the file format forces to store time information in the object files. This
-  is the case of `Portable Executable` format in Windows and `Mach-O` in MacOs. In Linux `ELF` files
+  is the case of *Portable Executable* format in Windows and `Mach-O` in MacOs. In Linux `ELF` files
   do not encode any kind of timestamp. 
 
-Let's put an example of where does this information end with a basic hello world project linking a
+Let's put an example of where does this information ends with a basic hello world project linking a
 static library in MacOs. 
 
 {% highlight console %}
