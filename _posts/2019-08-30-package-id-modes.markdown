@@ -276,8 +276,7 @@ To play the following example we need to activate revisions and use different re
 the requirements. Take into account that the Conan cache will store only one revision at a time,
 you will need to use one Artifactory server (download free
 [JFrog Artifactory Community Edition for C/C++](https://jfrog.com/blog/announcing-jfrog-artifactory-community-edition-c-c/))
-if you want to persist them because Bintray repositories don't implement revisions. Follow
-these steps for the ``recipe_revision_mode``:
+or Bintray if you want to persist them. Follow these steps for the ``recipe_revision_mode``:
 
   1. Configure Conan for this example:
 
