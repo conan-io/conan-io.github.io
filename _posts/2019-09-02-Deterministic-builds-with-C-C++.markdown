@@ -161,7 +161,7 @@ This is interesting because the executables files `helloA` and `helloB` have the
 as the intermediate Mach-O object files `hello_world.cpp.o` but that is not the case of the `.a` files.
 That is because they store the information of the intermediate object files in `archive format`. The
 definition of the header of this format includes a field named `st_time` set by a `stat` system
-call. If we inspect the `libHelloLibA.a` and `libHelloLibA.a` using `otool` to show the headers:
+call. If we inspect the `libHelloLibA.a` and `libHelloLibB.a` using `otool` to show the headers:
 
 {% highlight console %}
 > otool -a libHelloLibA.a   
