@@ -9,11 +9,7 @@ Traditional GUI libraries add a degree of complexity which you may not want if y
 Here we present a library that makes it possible to create [loggers](https://github.com/ocornut/imgui/issues/2529),
 [profilers](https://github.com/ocornut/imgui/issues/2265), [debuggers](https://github.com/ocornut/imgui/issues/2265)
 or even an [entire game making editor](https://github.com/ocornut/imgui/issues/1607) quickly and easily.
-<<<<<<< HEAD
-The entire [example](https://github.com/conan-io/examples/tree/feature/conan_imgui/libraries/dear-imgui/basic) 
-=======
 The entire [example](https://github.com/conan-io/examples/tree/master/libraries/dear-imgui/basic) 
->>>>>>> 8cf010cfceedce6726f3fc98cfe481408e5ebed9
 presented here is available on Github.
 
 ### Dear ImGui?
@@ -152,12 +148,6 @@ and have a look at the different examples.
 ### Setting up a project with Conan
 
 Setting up a project that uses ImGui is a matter of minutes with Conan. The example shown here is using Windows and Visual Studio 2017
-<<<<<<< HEAD
- but it is very similar in [MacOS or Linux](https://github.com/conan-io/examples/blob/feature/conan_imgui/libraries/dear-imgui/basic/README.md).
-
-First, let's make the CMake project. It has the bindings for GLFW and OpenGL3 and two more files to handle OpenGL shaders and file 
- reading. It will also copy the shaders that render the triangle to the working directory each time the application is recompiled.
-=======
  but it is very similar in [MacOS or Linux](https://github.com/conan-io/examples/blob/master/libraries/dear-imgui/basic/README.md).
 
 If you want to give a try tou can download all the files from the Conan examples repo:
@@ -169,7 +159,6 @@ cd examples/libraries/dear-imgui/basic
 
 First, let's inspect the CMake project. It has the bindings for GLFW and OpenGL3 and two more files to handle OpenGL shaders and file 
 reading. It will also copy the shaders that render the triangle to the working directory each time the application is recompiled.
->>>>>>> 8cf010cfceedce6726f3fc98cfe481408e5ebed9
 
 {% highlight cmake %}
 cmake_minimum_required(VERSION 3.0)
