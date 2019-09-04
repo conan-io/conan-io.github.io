@@ -28,7 +28,7 @@ The contributor workflow is as follows:
 3. Push to Github, and submit a pull request.
 
 
-Once the contributor’s pull request is submitted, the conan-center-index CI process of creating and uploading the packages to the Conan Center begins.
+Once the contributor’s pull request is submitted, the conan-center-index CI process of creating and uploading the packages to the Conan-center begins.
 
 
 1. The CI launches the build, runs a series of automated quality checks, builds package binaries for multiple configurations and output results and alerts on any possible error messages as Github comments. The build logs can be directly downloaded from Github. 
