@@ -45,7 +45,6 @@ pkg1/1.2.3
 pkg2/4.5.6
 ```
 
-And ``conan install pkg3/7.8.9@ -g=virtualrunenv``
 ---
 
 
@@ -66,6 +65,6 @@ The repository is now public, anyone might see it, submit issues, requests, etc.
 
 The Early Access Program applies to early contributors. The CI will only allow registered contributors, otherwise, no build will be produced. The idea is to be able to improve the system and the user experience before opening it to the whole community.
 
-If you want to be part of this EAP, please send a petition to ``info@conan.io`` with the subject ``[EAP access]`` or add a comment on [this Github issue](https://github.com/conan-io/conan-center-index/issues/4). After you have requested access, please go to [Wiki](https://github.com/conan-io/conan-center-index/wiki) for more details about the contribution process.
+If you want to be part of this EAP, please send a petition to ``info@conan.io`` with the subject ``[EAP access]`` or add a comment on [this Github issue](https://github.com/conan-io/conan-center-index/issues/4). After you have requested access, please go to [the Wiki](https://github.com/conan-io/conan-center-index/wiki) for more details about the contribution process.
 
 For any related issue, suggestion, please use the [repository issues](https://github.com/conan-io/conan-center-index/issues). Looking forward to making Conan-center bigger and more useful for the community!
