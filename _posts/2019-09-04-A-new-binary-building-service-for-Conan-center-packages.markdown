@@ -45,7 +45,7 @@ pkg1/1.2.3
 pkg2/4.5.6
 ```
 
-And ``conan install pkg3/7.8.9 -g=virtualrunenv``
+And ``conan install pkg3/7.8.9@ -g=virtualrunenv``
 ---
 
 
