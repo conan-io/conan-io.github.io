@@ -25,13 +25,13 @@ The contributor workflow is as follows:
 
 1. Fork the [conan-center-index](https://github.com/conan-io/conan-center-index) git repository, and then clone it.
 2. Create a new folder with the Conan package recipe (conanfile.py)
-3. Push to Github, and submit a pull request.
+3. Push to GitHub, and submit a pull request.
 
 
 Once the contributor’s pull request is submitted, the conan-center-index CI process of creating and uploading the packages to the Conan-center begins.
 
 
-1. The CI launches the build, runs a series of automated quality checks, builds package binaries for multiple configurations and output results and alerts on any possible error messages as Github comments. The build logs can be directly downloaded from Github. 
+1. The CI launches the build, runs a series of automated quality checks, builds package binaries for multiple configurations and output results and alerts on any possible error messages as GitHub comments. The build logs can be directly downloaded from GitHub. 
 2. The pull request is reviewed. 
 3. After the pull request is merged, the built binaries are automatically uploaded to Conan-center
 
@@ -52,7 +52,7 @@ pkg2/4.5.6
 
 The benefits of this new proposed flow are:
 
-- It is a more natural way to contribute, only a Github account is needed, and no additional requests besides a pull-request is necessary. It is also the most natural approach for community contributions and collaborating to maintain the package recipes. It will also serve as a centralized resource for learning how the different open-source libraries are packaged.
+- It is a more natural way to contribute, only a GitHub account is needed, and no additional requests besides a pull-request is necessary. It is also the most natural approach for community contributions and collaborating to maintain the package recipes. It will also serve as a centralized resource for learning how the different open-source libraries are packaged.
 - The conan-center-index CI service will implement building binaries for many different configurations, including more than 100 different binaries, with different operating systems (Windows, Linux, Mac OSX), compilers (Visual Studio, GCC, apple-clang), compiler versions, debug/release, static/shared, etc. No need to further set up your own CI with other external services to create the packages (of course you can still have your own CI for developing and testing your code, but no Conan package creation will be necessary there).
 - Submitting new versions and fixes go through the same process. According to the previous process, once a package was accepted in the Conan-center, the new package versions could be uploaded without the need to be revalidated. With this new flow, all modifications to the existing recipes and new versions will also go through the same build and validation process. Adding new package versions will usually be done by adding the new version to a list (and submitting the pull request), which can be done by anyone in the community.
 - It will be much easier to produce new binaries when new compiler versions are released, which happens quite frequently. For example, Apple-Clang new versions quickly affect users because of the aggressive updates, while it takes time for the community to produce new binaries. With this new flow, firing re-builds of the entire repository for new compiler versions will now be possible. Also, keeping the Conan-center consistent, by using the latest versions of packages by default when possible, will be possible.
@@ -65,6 +65,6 @@ The repository is now public, anyone might see it, submit issues, requests, etc.
 
 The Early Access Program applies to early contributors. The CI will only allow registered contributors, otherwise, no build will be produced. The idea is to be able to improve the system and the user experience before opening it to the whole community.
 
-If you want to be part of this EAP, please send a petition to ``info@conan.io`` with the subject ``[EAP access]`` or add a comment on [this Github issue](https://github.com/conan-io/conan-center-index/issues/4). After you have requested access, please go to [the Wiki](https://github.com/conan-io/conan-center-index/wiki) for more details about the contribution process.
+If you want to be part of this EAP, please send a petition to ``info@conan.io`` with the subject ``[EAP access]`` or add a comment on [this GitHub issue](https://github.com/conan-io/conan-center-index/issues/4). After you have requested access, please go to [the Wiki](https://github.com/conan-io/conan-center-index/wiki) for more details about the contribution process.
 
 For any related issue, suggestion, please use the [repository issues](https://github.com/conan-io/conan-center-index/issues). Looking forward to making Conan-center bigger and more useful for the community!
