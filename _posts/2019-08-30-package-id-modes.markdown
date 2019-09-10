@@ -37,11 +37,11 @@ Conan computes a different package ID for any combination of the following eleme
    configurable, from a mode taking into account only the name of the dependencies to other
    modes including any change in the sources or even the build environment.
    
-   Transitive requirements (dependencies of my dependencies) are
-   encoded into my package ID through the package ID of my requirements.
+   Very important to note that transitive requirements (dependencies of my dependencies) are
+   only encoded into my package ID through the package ID of my requirements.
    
 *Note.-* Only the dependencies declared using the ``requires`` attribute or inside the
-``requirements()`` method will be considered, **build requires doesn't affect the package ID**.
+``requirements()`` method will be considered, **``build_requires`` don't affect the package ID**.
 
 
 ## A quick reminder about Conan package reference
@@ -71,7 +71,7 @@ are bundled into a package, it is compounded by the following parts:
    As it was said before, the same sources will typically generate different binaries even using the
    same environment.
    
-Given all this components, a full Conan package reference will contain all these information
+Given all these components, a full Conan package reference will contain all these information
 ``<name>/<version>@<user>/<channel>#<rrev>:<pkg_id>#<prev>`` and it identifies uniquely
 every Conan package build.
 
@@ -105,13 +105,19 @@ between all the posibilities is very important:
 Choosing the right package ID mode for your project is an important decision. You should
 carefully consider the versioning schema of your dependencies, your CI times, the criticality
 of source code changes in your system (can a bugfix be a breaking change?),... all these
-factors can be managed using the right package ID mode in your recipes.
+factors can be managed using the right package ID mode.
+ 
+These modes can be configured for a Conan client (we are going to use it like that in this
+blogpost), but the global behavior can be overriden for any single requirement of any
+recipe using the ``package_id`` method (more about this in the
+[docs](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#using-package-id-for-package-dependencies)) 
+
 
 
 ## Conan default behavior: ``semver_direct_mode``
 
 By default, Conan uses ``semver_direct_mode`` which means that it will compute a different
-package ID whenever the _major component_ of the version of its requirements is different.
+package ID whenever the _major_ component of the version of its requirements is different.
 This is a quite relaxed method with big assumptions: all the dependencies use properly a
 SemVer versioning schema, my application is not sensible to new features or bug fixes, and
 it is ok to ignore changes in options or settings of my requirements.
