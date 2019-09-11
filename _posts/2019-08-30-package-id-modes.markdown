@@ -82,8 +82,12 @@ Conan can identify every single package build, and all this information could
 be propagated to the consumer's package ID, but this would lead to a big drawback: any build
 of a requirement (or transitive requirement) would modify all the package IDs down in the
 dependency graph, those new IDs wouldn't have binaries available and we would need to compile
-them. In most cases, this requires too much compilation times and we want to take advantage
-of available binaries if they are ABI compatible.
+them.
+
+In some situations it is not convenient because it will consume too much compilation time
+and we want to take advantage of available binaries if they are ABI compatible. However,
+in other situations, that's exactly what we want to achieve: we can't take the risk
+of a requirement changing a header file without bumping the version.
 
 Here it lies the utility and importance of package ID modes, they allow to configure which
 components of the full package reference should be considered to compute the package ID of
@@ -184,11 +188,13 @@ _major_ component of the requirements will affect the package ID value:
    ⇒  conan config set general.default_package_id_mode=semver_direct_mode
    
    ⇒  conan info . --only id --profile=default
+   # when we require fmt 5.3.0
    fmt/5.3.0@bincrafters/stable
        ID: 853c4b61e2571e98cd7b854c1cda6bc111b8b32c
    conanfile.py (name/version)
        ID: 38dbf89d158028a99d09852abf8b8a82ede43714
    
+   # when we require fmt 5.2.1
    ⇒  conan info . --only id --profile=default
    fmt/5.2.1@bincrafters/stable
        ID: 853c4b61e2571e98cd7b854c1cda6bc111b8b32c
@@ -198,8 +204,9 @@ _major_ component of the requirements will affect the package ID value:
 
  * We need to change the _major_ component (to ``4.1.0``) to get a different ID:
  
-   ```
+   ```bash
    ⇒  conan info . --only id --profile=default
+   # when we require fmt 4.1.0
    fmt/4.1.0@bincrafters/stable
        ID: 853c4b61e2571e98cd7b854c1cda6bc111b8b32c
    conanfile.py (name/version)
@@ -210,6 +217,7 @@ _major_ component of the requirements will affect the package ID value:
    the package ID of the consumer:
 
    ```bash
+   # when we require fmt 4.1.0 (shared=True)
    ⇒  conan info . --only id --profile=default -o fmt:shared=True
    fmt/4.1.0@bincrafters/stable
        ID: 95b87e2c9261497d05b76244c015fbde06fe50b3
@@ -242,13 +250,15 @@ here we are going to show just some of them:
     ```bash
     ⇒  conan config set general.default_package_id_mode=full_version_mode
    
-    ⇒  conan info . --only id  --profile=default                         
+    ⇒  conan info . --only id  --profile=default
+    # when we require fmt 5.2.1
     fmt/5.2.1@bincrafters/stable
         ID: 853c4b61e2571e98cd7b854c1cda6bc111b8b32c
     conanfile.py (name/version)
         ID: 840962321acb965eeab4e8507bdb9e85c11a06fd
    
-    ⇒  conan info . --only id  --profile=default                         
+    ⇒  conan info . --only id  --profile=default
+    # when we require fmt 5.2.0
     fmt/5.2.0@bincrafters/stable
         ID: 853c4b61e2571e98cd7b854c1cda6bc111b8b32c
     conanfile.py (name/version)
@@ -264,12 +274,14 @@ here we are going to show just some of them:
     ⇒  conan config set general.default_package_id_mode=full_package_mode
    
     ⇒  conan info . --only id  --profile=default -o fmt:shared=False
+    # when we require fmt 5.2.0 (shared=False)
     fmt/5.2.0@bincrafters/stable
         ID: 853c4b61e2571e98cd7b854c1cda6bc111b8b32c
     conanfile.py (name/version)
         ID: 50fb56084639e9d7f970e1c79e36f53b452eb552
    
     ⇒  conan info . --only id  --profile=default -o fmt:shared=True
+    # with the same fmt 5.2.0, but changing option value (shared=True)
     fmt/5.2.0@bincrafters/stable
         ID: 95b87e2c9261497d05b76244c015fbde06fe50b3
     conanfile.py (name/version)
