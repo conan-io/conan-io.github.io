@@ -62,7 +62,7 @@ There are several solutions already available, the most popular are:
 
 Creating tarballs manually might be boring, especially if project has many dependencies.
 
-There is an idea - if [conan](https://conan.io) already knows about all dependencies, why not use information provided by [conan](https://conan.io) to generate deployment artifact?
+There is an idea - if [conan](https://conan.io) already knows about all dependencies, why not use the information provided by [conan](https://conan.io) to generate deployment artifact?
 
 As [conan](https://conan.io) itself is a package manager, conan developers decided to follow the unix-way, and do only one thing and do it well - package management.
 
