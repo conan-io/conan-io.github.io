@@ -119,7 +119,7 @@ The internal process of creating an artifact is simple:
 
 - copy files from binary and library directories of all dependencies into the destination directory
 
-- invoke ``conan imports`` to copy another resources, such as images, fonts or whatever is required by the specific application
+- invoke ``conan imports`` to copy other resources, such as images, fonts or whatever is required by the specific application
 
 - copy the executable specified by the configuration file into the destination directory
 
