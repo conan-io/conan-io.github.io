@@ -36,7 +36,7 @@ The most simple way to distribute the application is to make an archive (tarball
 
 - libraries used by the application (shared libraries of dependencies like ``boost``, ``OpenCV``, etc.)
 
-the obvious disadvantage is that it might be required to set up some environment variables before the execution, like ``PATH`` or ``LD_LIBRARY_PATH`` in order to locate dependent libraries, so small launch script has to be provided.
+the obvious disadvantage is that it might be required to set up some environment variables before the execution, like ``PATH`` or ``LD_LIBRARY_PATH``  to locate dependent libraries, so small launch script has to be provided.
 
 ### Makeself.io
 
