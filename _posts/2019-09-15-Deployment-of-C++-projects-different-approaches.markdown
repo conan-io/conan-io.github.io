@@ -40,7 +40,7 @@ the obvious disadvantage is that it might be required to set up some environment
 
 ### Makeself.io
 
-[Makeself.io](https://makeself.io) is very simple tool to create a self-extracting archives (SFX).
+[Makeself.io](https://makeself.io) is a very simple tool to create a self-extracting archives (SFX).
 The tool first creates an tarball of the application and its resources, then attaches a small script stub,
 which extracts the archive into temporary directory, and passes the control to the embedded executable.
 Such self-extracting archives are often named ``mysoftware.run`` or ``mysoftware.sh``, and the technique
