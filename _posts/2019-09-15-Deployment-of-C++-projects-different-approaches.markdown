@@ -48,7 +48,7 @@ is widely used by various popular software (e.g. [CMake](https://cmake.org/downl
 
 ### Portable applications
 
-The next logical step is to create a portable application, which are usually sand-boxed images with virtual file system containing all the files required by the application.
+The next logical step is to create a portable application, which is usually sand-boxed images with virtual file system containing all the files required by the application.
 
 There are several solutions already available, the most popular are:
 
