@@ -24,7 +24,7 @@ Although usage of system package managers is usually a recommended way, there ar
 
 - It might be problematic to have a dependency on up-to-date libraries (e.g. CentOS or Debian packages for the latest ``boost`` release might not be always available)
 
-Due to the limitations above, there are another approaches available around.
+Due to the limitations above, there are other approaches available around.
 
 ### Archives
 
