@@ -129,6 +129,6 @@ The internal process of creating an artifact is simple:
 
 ### Conclusion
 
-The illustrated approach of ``conan-deploy-tool`` is just an example and prototype to show how is it possible to use information provided by [conan](https://conan.io) in order to make a deployment artifact.
+The illustrated approach of ``conan-deploy-tool`` is just an example and prototype to show how is it possible to use the information provided by [conan](https://conan.io) in order to make a deployment artifact.
 
 It's not recommended to use it in production or enterprise environment, and instead it's much better and convenient to use some industry-standard tools, like [chef](https://www.chef.io/), [puppet](https://puppet.com/) or [ansible](https://www.ansible.com/).
