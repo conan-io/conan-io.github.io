@@ -123,7 +123,7 @@ The internal process of creating an artifact is simple:
 
 - copy the executable specified by the configuration file into the destination directory
 
-- generate startup shell script, which sets required environment variables (mostly ``PATH`` and ``LD_LIBRARY_PATH``) and passes control to the main executable
+- generate a startup shell script, which sets required environment variables (mostly ``PATH`` and ``LD_LIBRARY_PATH``) and passes control to the main executable
 
 - generate an image, archive or another artifact from the directory
 
