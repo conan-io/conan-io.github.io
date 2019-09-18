@@ -97,7 +97,7 @@ as result, it will produce the ``Camera.zip`` archive. And to use ``AppImage`` i
 $ conan-deploy-tool -g appimage
 {% endhighlight %}
 
-this will automatically download AppImageTool and AppImageRuntime files and create an ``Camera-x86_64.AppImage`` executable.
+this will automatically download AppImageTool and AppImageRuntime files and create a ``Camera-x86_64.AppImage`` executable.
 
 There are several generators available at the moment:
 
