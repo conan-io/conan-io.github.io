@@ -42,7 +42,7 @@ the obvious disadvantage is that it might be required to set up some environment
 
 [Makeself.io](https://makeself.io) is a very simple tool to create a self-extracting archives (SFX).
 The tool first creates a tarball of the application and its resources, then attaches a small script stub,
-which extracts the archive into temporary directory, and passes the control to the embedded executable.
+which extracts the archive into a temporary directory, and passes the control to the embedded executable.
 Such self-extracting archives are often named ``mysoftware.run`` or ``mysoftware.sh``, and the technique
 is widely used by various popular software (e.g. [CMake](https://cmake.org/download/)).
 
