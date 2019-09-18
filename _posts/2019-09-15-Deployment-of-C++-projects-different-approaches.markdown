@@ -18,7 +18,7 @@ Although usage of system package managers is usually a recommended way, there ar
 
 - Even for the same distribution, it's often needed to provide N packages for each supported version
 
-- Due to the differences in distributions (notably, system libraries, like ``glibc`` or ``libstdc++``), it's sometimes needed to compile application several times using different environment
+- Due to the differences in distributions (notably, system libraries, like ``glibc`` or ``libstdc++``), it's sometimes needed to compile application several times using a different environment
 
 - In addition to the scalability problems mentioned above, not all systems have package managers, like some embedded systems or LFS distributions
 
