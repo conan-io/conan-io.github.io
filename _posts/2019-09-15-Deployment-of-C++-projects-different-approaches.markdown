@@ -14,7 +14,7 @@ For the time being, it's frequently asked on how to deploy C++ applications, and
 
 Although usage of system package managers is usually a recommended way, there are some minor disadvantages:
 
-- Scalability problem - each distribution requires its own package format, like ``pacman`` on ``Arch``, ``deb`` on ``Debian`` and ``rpm`` on ``RedHat``
+- Scalability problem - each distribution requires its package format, like ``pacman`` on ``Arch``, ``deb`` on ``Debian`` and ``rpm`` on ``RedHat``
 
 - Even for the same distribution, it's often needed to provide N packages for each supported version
 
