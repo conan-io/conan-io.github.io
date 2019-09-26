@@ -67,7 +67,9 @@ are bundled into a package, it is compounded by the following parts:
  * **Package ID**. It is the unique identifier of the package binaries, we will elaborate on it
    in the next sections in this blog post.
    
- * **Package revision**. Introduced in Conan v1.10, it is the hash of the contents of the package.
+ * **Package revision**. Introduced in Conan v1.10, the
+   [package revision](https://docs.conan.io/en/latest/versioning/revisions.html) is the hash of
+   the contents of the package.
    As it was said before, the same sources will typically generate different binaries even using the
    same environment.
    
