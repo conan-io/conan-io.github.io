@@ -433,8 +433,16 @@ example, neither we can, there will be a new value with each compilation of the
 Conan package ID modes allow fine-grained control to choose how the dependencies
 may affect the package ID of consumer libraries, if you make the deploy of your applications
 using Conan packages and keep track of these identifiers, you can control which are the
-requirements included in any release and how they were compiled and configured.
+libraries included in any release and how they were compiled and configured.
 
-Software more sensitive should use more strict modes, while the community will typically
-use relaxed modes, but with Conan is easy to change the mode as we've seen along with the post,
+More sensitive software should use more strict modes, while the community will typically
+use relaxed modes, but with Conan it is easy to change the mode as we've seen along with the post,
 it is just a value in the Conan settings.
+
+With a good understanding of package ID modes and some powerful features like
+[lockfiles](https://docs.conan.io/en/latest/versioning/lockfiles.html#how-to-use-lockfiles-in-ci)
+it is possible to setup a robust CI mechanism to coordinate the libraries to build given
+any change in a dependency. Conan will know which binaries can be reused and which ones have to be
+rebuilt, it will tell you too the build order and which libraries can be built in parallel. All
+this information is very helpful to optimize build times and help you to make your release cycle
+much faster.
