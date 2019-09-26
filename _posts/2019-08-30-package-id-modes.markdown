@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Package ID modes"
+title: "Package ID modes: how to summarize all your project information"
 ---
 
 As we explained in our previous blog post about
