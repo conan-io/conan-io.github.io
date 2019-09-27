@@ -38,7 +38,8 @@ Conan computes a different package ID for any combination of the following eleme
    modes including any change in the sources or even the build environment.
    
    Very important to note that transitive requirements (dependencies of my dependencies) are
-   only encoded into my package ID through the package ID of my requirements.
+   only encoded into my package ID through the package reference (Conan reference, package ID
+   and revisions) of my requirements.
    
 *Note.-* Only the dependencies declared using the ``requires`` attribute or inside the
 ``requirements()`` method will be considered, **``build_requires`` don't affect the package ID**.
@@ -247,7 +248,7 @@ There are many more package ID modes to use (see [full list](https://docs.conan.
 here we are going to show just some of them:
 
   * **``full_version_mode``**: it will take into account all the components of the
-    SemVer version (in the following example we are modifying the _micro_ component):
+    SemVer version (in the following example we are modifying the _patch_ component):
 
     ```bash
     ⇒  conan config set general.default_package_id_mode=full_version_mode
@@ -426,7 +427,10 @@ compilation will get a different package revision for that requirement and the c
 package ID will be different. That's the reason why you can't get the same value of the last
 example, neither we can, there will be a new value with each compilation of the
 ``fmt`` library.
- 
+
+{% include callout.html content="**``package_revision_mode`` is guaranteed to be exact:** 
+the package ID would only be reproduced using the same set of libraries and the same graph of
+dependencies that were used to build the binary at the time." type="info" %}
 
 ## Conclusion
 
