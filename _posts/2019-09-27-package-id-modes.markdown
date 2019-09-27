@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Package ID modes: how to summarize all your project information"
+title: "Package ID modes: control the ABI and the traceability of your dependencies"
 ---
 
 As we explained in our previous blog post about
