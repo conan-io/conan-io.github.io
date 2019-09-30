@@ -150,7 +150,7 @@ class Library(ConanFile):
 
 Using the Conan client we can compute the package ID of the package that will
 be generated with the command
-[``conan info`](https://docs.conan.io/en/latest/reference/commands/consumer/info.html#conan-info):
+[conan info](https://docs.conan.io/en/latest/reference/commands/consumer/info.html#conan-info):
 
  ```bash
 ⇒  conan info . --profile=default
