@@ -41,7 +41,7 @@ with the `-framework` flag. Some recipes were declaring flags to link with frame
 
 So this Conan release is including two more variables to `cpp_info` dedicated for this purpose:
 
-- `cpp_info.frameworks`: List containing the names of the frameworks created by the package.
+- `cpp_info.frameworks`:A list containing the names of the frameworks created by the package.
 - `cpp_info.framework_paths`: A list of the relative directories to package folder used to locate the framework binaries (Default to
   `["Frameworks"]`).
 
