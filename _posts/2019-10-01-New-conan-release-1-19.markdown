@@ -56,7 +56,7 @@ Conan uses a decentralized model in order to retrieve and share your packages. T
 the client and choose which one to install packages from or upload those to. However, sometimes remotes are not available for connection
 (working behind a proxy for example) when a `conan install` is done and it fails.
 
-With `conan remote disable <remote>` you can now disable remotes the remotes that you don't want to use for an installation. The remote will
+With `conan remote disable <remote>` you can now disable  the remotes that you don't want to use for an installation. The remote will
 not be used but it won't be removed from the remote list in the Conan configuration, so you can always activate it back again with
 `conan remote enable <remote>`.
 
