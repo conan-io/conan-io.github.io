@@ -21,7 +21,7 @@ Topics covered will include: Integrations, challenges, lessons learned, scaling 
 
 Want to share your knowledge with the community? If you're using Conan, then you should submit a talk! Our [Call for Speakers is open](https://sessionize.com/conandays-2020/).
 
-You’ll also get a chance to get insights directly from the Conan founders and maintainers, and find out about the history and exciting future ahead..
+You’ll also get a chance to get insights directly from the Conan founders and maintainers and find out about the history and exciting future ahead.
 
 ### Hands-On Technical Training
 The first day will start with three different 3-hour hands-on technical training. Including: Conan introduction for beginners, helping those starting out get the most out of the rest of the conference, and Conan advanced topics for more savvy users, introducing some of the latest and greatest Conan features. Additional training will also be available, please submit your ideas to us and stay tuned for new training announcements.
