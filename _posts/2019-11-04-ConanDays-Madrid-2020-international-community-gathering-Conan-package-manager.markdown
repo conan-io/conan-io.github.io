@@ -48,7 +48,7 @@ The event will be held in Madrid city, the amazing and vibrant capital of Spain 
 
 
 ## See you in Madrid!
-If you have any questions, do not hesitate to reach us at conandays@jfrog.com, and follow our [twitter](https://twitter.com/conan_io), [GitHub](https://github.com/conan-io/conan) and [#conan channel in CppLang slack](https://cpplang.slack.com) channels for updates. Keep tuned, we will be sharing more details soon!
+If you have any questions, do not hesitate to reach us at conandays@jfrog.com, and follow our [Twitter](https://twitter.com/conan_io), [GitHub](https://github.com/conan-io/conan) and [#conan channel in CppLang slack](https://cpplang.slack.com) channels for updates. Keep tuned, we will be sharing more details soon!
 
 
 
