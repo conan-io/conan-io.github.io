@@ -27,7 +27,7 @@ You’ll also get a chance to get insights directly from the Conan founders and 
 The first day will start with three different 3-hour hands-on technical training. Including: Conan introduction for beginners, helping those starting out get the most out of the rest of the conference, and Conan advanced topics for more savvy users, introducing some of the latest and greatest Conan features. Additional training will also be available, please submit your ideas to us and stay tuned for new training announcements.
 
 ### The Future of Conan: Listening to the Tribes
-This will probably be the most important session of the conference. All attendees will be working in groups for a couple of hours around hot topics according to their preference. This is an opportunity to discuss problems, put in common solutions, future challenges, and more interestingly provide feedback to help prioritize the future evolution of Conan.
+This will probably be the most important session of the conference. All attendees will be working in groups for a couple of hours around hot topics according to their preferences. This is an opportunity to discuss problems, put in common solutions, future challenges, and more interestingly provide feedback to help prioritize the future evolution of Conan.
 
 ### The Evening Event
 Conan Barbarians also need to eat and have some fun! All coffee breaks and lunches are included in the conference. There will also be a dinner, followed by fun social entertainment. This is a great opportunity to meet and greet other Conan users , contributors and maintainers in a nice atmosphere and enjoy some fresh air and fun activities.
