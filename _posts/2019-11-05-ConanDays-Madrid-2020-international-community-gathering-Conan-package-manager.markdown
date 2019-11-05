@@ -51,7 +51,6 @@ The event will be held in Madrid city, the amazing and vibrant capital of Spain 
 If you have any questions, do not hesitate to reach us at conandays@jfrog.com, and follow our [Twitter](https://twitter.com/conan_io), [GitHub](https://github.com/conan-io/conan) and [#conan channel in CppLang slack](https://cpplang.slack.com) channels for updates. Keep tuned, we will be sharing more details soon!
 
 
-
 <p class="centered">
     <img  src="{{ site.url }}/assets/post_images/2019-11-04/ConanDays-Madrid-skyline.png" align="center" alt="ConanDays Madrid 2020 Location"/>
 </p>
