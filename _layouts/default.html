@@ -7,6 +7,19 @@
 
     {% include header.html %}
 
+    {% if page.name != "search.html" %}
+    <div class="grid" id="searchBar">
+        <div>
+            <div id="search">
+                <form role="search" method="get" action="{{ site.url }}/search">
+                    <input id="searchString" name="searchString" type="text">
+                    <input id="searchButton" name="googleSearchButton" type="submit" value="Search">
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="page-content">
       <div class="wrapper">
         {{ content }}
