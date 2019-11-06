@@ -54,3 +54,4 @@ If you have any questions, do not hesitate to reach us at conandays@jfrog.com, a
 <p class="centered">
     <img  src="{{ site.url }}/assets/post_images/2019-11-04/ConanDays-Madrid-skyline.png" align="center" alt="ConanDays Madrid 2020 Location"/>
 </p>
+
