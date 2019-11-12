@@ -147,7 +147,7 @@ of this feature.
 
 ## Clang 10 and GCC 7.4 support
 
-Conan 1.20 includes support for both Clang 10 and includes a specific version for GCC 7.4 in the default *settings.yml* file.
+Conan 1.20 adds support for Clang 10 and includes the specific 7.4 version for GCC in the default *settings.yml* file.
 
 Remember that the minor version values in the `gcc` compiler are claimed to be compatible and that Conan will use by default just GCC 7 as
 the version value in the profile unless it is explicitly indicated in the profile.
