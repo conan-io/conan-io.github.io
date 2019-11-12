@@ -60,7 +60,7 @@ this feature.
 
 ## Support for system libraries
 
-Another useful improvement coming to the `cpp_info` model is the system libraries. It is very common that libraries
+Another useful improvement coming to the `cpp_info` model is the system libraries. Commonly, libraries
 require consumers to link to system libraries like `pthread`, `m` or `Ws2_32`.
 
 This was normally done appending those system libs to the `cpp_info.libs` and therefore, mixing package libraries with the 
