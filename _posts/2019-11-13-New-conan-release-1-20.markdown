@@ -15,7 +15,7 @@ This new feature allows reusing the CMake macros on the consumer side in a trans
 kind of helper as a function or macro to consumers to create or link targets or to use a built-in tool.
 
 We did some tests using the [pybind11 library](https://github.com/pybind/pybind11). This library provides a CMake macro 
-that helps consumer to create and link their targets: [pybin11_add_module()](https://pybind11.readthedocs.io/en/stable/compiling.html#pybind11-add-module).
+that helps a consumer to create and link its targets: [pybin11_add_module()](https://pybind11.readthedocs.io/en/stable/compiling.html#pybind11-add-module).
 
 The recommended way to use the library can be found in the (library's documentation)[https://pybind11.readthedocs.io/en/stable/compiling.html#building-with-cmake] as the following:
 
@@ -60,7 +60,7 @@ this feature.
 
 ## Support for system libraries
 
-Another useful improvement coming to the `cpp_info` model is the system libraries. It is very common that libraries
+Another useful improvement coming to the `cpp_info` model is the system libraries. Commonly, libraries
 require consumers to link to system libraries like `pthread`, `m` or `Ws2_32`.
 
 This was normally done appending those system libs to the `cpp_info.libs` and therefore, mixing package libraries with the 
