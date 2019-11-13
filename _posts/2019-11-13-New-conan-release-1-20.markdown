@@ -80,12 +80,17 @@ You can read more about system libraries in the
 In our investigation to support new compilers, we realized while integrating the Intel C++ compiler that the compatibility with packages
 built with a base compiler was not possible due to the package ID model restriction in Conan.
 
-Until this release, the only compatibility possible was to create the same package (unique package ID) with the same settings input.
-However, that is not the case when mixing packages for the Intel C++ compiler and Visual Studio and GCC.
+Until this release, the only compatibility possible was to create the same package (unique package ID) with the same
+settings input. This means, that if you wanted to model the compatibility of a package for GCC 4.7, 4.8 and 4.9, the only
+possible way was to define a unique ID for all of them with a *fixed* version value (see example
+[here](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#defining-a-custom-package-id)). However, that is not
+the case when mixing packages for the Intel C++ compiler and Visual Studio and GCC.
 
 This new feature allows package creators to define compatible packages with a completely different package ID. A list of compatible packages
 can be defined in the `package_id()` method, for example, you can define GCC 4.9 and 4.7 as compatible packages for consumers that are using
-GCC 4.9 as input in their profiles like this:
+GCC 4.9 as input in their profiles. The difference here is that now, if you apply a profile for GCC 4.7 you will generate a package for 4.7,
+if you apply a profile of 4.8 you will get a package ID for 4.8, but if you don't generate a package for 4.9 and you require this package as
+a consumer, you will get a binary for 4.8 or 4.7 if available:
 
 ```
 ...
@@ -111,8 +116,8 @@ Using compatible package '1151fe341e6b310f7645a76b4d3d524342835acc'
 
 Note that this implies that the packages are compatible at all effects, as Conan will treat them as fully interchangeable.
 
-Take a look at [the documentation](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#compatible-packages) and
-the examples to learn more about this useful feature.
+This is has been introduced as a experimental feature and the interface might change in future releases but you can take a look at
+[the documentation](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#compatible-packages) and the examples to learn more about it.
 
 ## Dynamically set the name or the version of your packages
 
@@ -151,6 +156,15 @@ Conan 1.20 adds support for Clang 10 and includes the specific 7.4 version for G
 
 Remember that the minor version values in the `gcc` compiler are claimed to be compatible and that Conan will use by default just GCC 7 as
 the version value in the profile unless it is explicitly indicated in the profile.
+
+## Generating Artifactory build-info from lockfiles
+
+With out focus on improving the continuous integration flows for Conan packages, we have released a new approach to generate build
+information for packages using the [Build Info JSON format](https://github.com/jfrog/build-info) for Artifactory. Instead of using the Conan trace file to gather the information, this is now done using a [lockfile](https://docs.conan.io/en/latest/versioning/lockfiles.html).
+
+This [new experimental feature](https://docs.conan.io/en/latest/howtos/generic_ci_artifactory.html#generating-build-info-from-lockfiles-information)
+is available through the `conan_build_info` command and we believe it will help to look into and develop how to achieve an efficient, robust
+and complete CI flow for C/C++ projects using Conan.
 
 -----------
 <br>
