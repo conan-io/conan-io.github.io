@@ -11,7 +11,7 @@ New 1.20 release with useful features and improvements. Here you have the main h
 Following the line of previous releases, we continue to pursue a transparent integration with build systems and in this case, we have
 improved the `cpp_info` model to include build system files or build modules in the case of CMake.
 
-This new feature allows reusing the CMake macros on the consumer side in a transparent way. This comes handy when libraries provide some
+This new feature allows reusing the CMake macros on the consumer side in a transparent way. This comes in handy when libraries provide some
 kind of helper as a function or macro to consumers to create or link targets or to use a built-in tool.
 
 We did some tests using the [pybind11 library](https://github.com/pybind/pybind11). This library provides a CMake macro 
