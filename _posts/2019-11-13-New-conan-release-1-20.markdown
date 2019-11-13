@@ -159,11 +159,11 @@ the version value in the profile unless it is explicitly indicated in the profil
 
 ## Generating Artifactory build-info from lockfiles
 
-With out focus on improving the continuous integration flows for Conan packages, we have released a new approach to generate build
+With our focus on improving the continuous integration flows for Conan packages, we have released a new approach to generate build
 information for packages using the [Build Info JSON format](https://github.com/jfrog/build-info) for Artifactory. Instead of using the Conan trace file to gather the information, this is now done using a [lockfile](https://docs.conan.io/en/latest/versioning/lockfiles.html).
 
 This [new experimental feature](https://docs.conan.io/en/latest/howtos/generic_ci_artifactory.html#generating-build-info-from-lockfiles-information)
-is available through the `conan_build_info` command and we believe it will help to look into and develop how to achieve an efficient, robust
+is available through the `conan_build_info` command and we trust it will help to look into and develop how to achieve an efficient, robust
 and complete CI flow for C/C++ projects using Conan.
 
 -----------
