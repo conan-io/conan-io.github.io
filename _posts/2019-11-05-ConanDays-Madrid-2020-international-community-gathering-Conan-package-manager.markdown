@@ -5,10 +5,14 @@ title: "ConanDays Madrid 2020: an international gathering of the Conan C and C++
 ---
 
 <p class="centered">
-    <img  src="{{ site.url }}/assets/post_images/2019-11-04/ConanDays-Madrid-2020.png" align="center" alt="ConanDays Madrid 2020 Gathering The Tribes Event"/>
+    <img src="{{ site.url }}/assets/post_images/2019-11-04/ConanDays-Madrid-2020.png" align="center" alt="ConanDays Madrid 2020 Gathering The Tribes Event"/>
 </p>
 
 We are excited to share the first international gathering of [Conan C/C++ Package Manager](https://conan.io/) users at [ConanDays 2020, Madrid!](https://conandays.conan.io/)
+
+<p class="centered">
+   <a href="https://conandays.conan.io/" target="_blank"><b>REGISTER HERE</b></a>
+</p>
 
 ## The Event
 
