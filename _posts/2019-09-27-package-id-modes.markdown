@@ -126,7 +126,7 @@ recipe using the ``package_id`` method (more about this in the
 By default, Conan uses ``semver_direct_mode`` which means that it will compute a different
 package ID whenever the _major_ component of the version of its requirements is different.
 This is a quite relaxed method with big assumptions: all the dependencies use properly a
-SemVer versioning schema, my application is not sensible to new features or bug fixes, and
+SemVer versioning schema, my application is not sensitive to new features or bug fixes, and
 it is ok to ignore changes in options or settings of my requirements.
 Although it might be adequate for general-purpose libraries and the open-source community,
 it is probably not the best approach for company software.
