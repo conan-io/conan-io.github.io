@@ -1,0 +1,8 @@
+I"þ<p>As developers, we all have faced the pain of introducing graphical interfaces to our programs.
+Traditional GUI libraries add a degree of complexity which you may not want if you are making tools that are intended for debugging.
+Here we present a library that makes it possible to create <a href="https://github.com/ocornut/imgui/issues/2529">loggers</a>,
+<a href="https://github.com/ocornut/imgui/issues/2265">profilers</a>, <a href="https://github.com/ocornut/imgui/issues/2265">debuggers</a>
+or even an <a href="https://github.com/ocornut/imgui/issues/1607">entire game making editor</a> quickly and easily.
+The entire <a href="https://github.com/conan-io/examples/tree/master/libraries/dear-imgui/basic">example</a> 
+presented here is available on Github.</p>
+:ET

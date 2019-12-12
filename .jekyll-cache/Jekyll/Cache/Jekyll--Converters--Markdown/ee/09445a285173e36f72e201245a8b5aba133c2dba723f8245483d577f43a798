@@ -1,0 +1,64 @@
+I"q<p><a href="https://bintray.com/conan/conan-center">Bintray Conan-center</a> is the main repository for curated Conan packages. Users have been able to contribute to it by uploading packages to their own Bintray repositories, then submitting them via an “Inclusion Request” process.</p>
+
+<p>Bintray repositories account for a large number of downloads (24 million downloads so far in 2019 including many terabytes of transfers), which is attributed to the decentralized nature of Conan. While Conan-center is the most popular one, some other repositories like the Bincrafters, contain a larger number of packages and account for many of those downloads.</p>
+
+<p>So one may ask, why aren’t there more packages in the Conan-center? The truth is that the submission process and contributing packages is difficult. Not only is there a new process to learn, but also creating all the binaries and uploading them to the personal Bintray repos, prior to submitting them to Conan-center is difficult, and requires a lot of work, especially when setting up the CI services. We listened to your feedback, and this is the reason for launching this new service</p>
+
+<h1 id="a-new-way-to-contribute-packages-to-conan-center">A new way to contribute packages to Conan-center</h1>
+
+<p>The new process for contributing packages to the Conan-center uses the git repository <a href="https://github.com/conan-io/conan-center-index">conan-center-index</a>. This repository will contain all the package recipes upon which the binaries will be built and then uploaded to the Conan-center. The repository readme and wiki describe how to contribute new packages, new versions, and fixes using the pull-requests to this repository.</p>
+
+<p class="centered">
+    <img src="http://localhost:4000/assets/post_images/2019-09-04/conan-center-build-service.png" align="center" alt="Conan-center binary build service" />
+</p>
+
+<p>The contributor workflow is as follows:</p>
+
+<ol>
+  <li>Fork the <a href="https://github.com/conan-io/conan-center-index">conan-center-index</a> git repository, and then clone it.</li>
+  <li>Create a new folder with the Conan package recipe (conanfile.py)</li>
+  <li>Push to GitHub, and submit a pull request.</li>
+</ol>
+
+<p>Once the contributor’s pull request is submitted, the conan-center-index CI process of creating and uploading the packages to the Conan-center begins.</p>
+
+<ol>
+  <li>The CI launches the build, runs a series of automated quality checks, builds package binaries for multiple configurations and output results and alerts on any possible error messages as GitHub comments. The build logs can be directly downloaded from GitHub.</li>
+  <li>The pull request is reviewed.</li>
+  <li>After the pull request is merged, the built binaries are automatically uploaded to Conan-center</li>
+</ol>
+
+<hr />
+<p><strong>Note:</strong> New packages uploaded to the Conan-center will not use <code class="highlighter-rouge">user/channel</code>. This is a new Conan 1.18.2 feature, therefore this version or greater is needed to be able to consume those packages with the following syntax:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[requires]
+pkg1/1.2.3
+pkg2/4.5.6
+</code></pre></div></div>
+
+<hr />
+<p><br /><br /></p>
+
+<h1 id="moving-towards-a-community-focused-flow">Moving towards a community-focused flow</h1>
+
+<p>The benefits of this new proposed flow are:</p>
+
+<ul>
+  <li>It is a more natural way to contribute, only a GitHub account is needed, and no additional requests besides a pull-request is necessary. It is also the most natural approach for community contributions and collaborating to maintain the package recipes. It will also serve as a centralized resource for learning how the different open-source libraries are packaged.</li>
+  <li>The conan-center-index CI service will implement building binaries for many different configurations, including more than 100 different binaries, with different operating systems (Windows, Linux, Mac OSX), compilers (Visual Studio, GCC, apple-clang), compiler versions, debug/release, static/shared, etc. No need to further set up your own CI with other external services to create the packages (of course you can still have your own CI for developing and testing your code, but no Conan package creation will be necessary there).</li>
+  <li>Submitting new versions and fixes go through the same process. According to the previous process, once a package was accepted in the Conan-center, the new package versions could be uploaded without the need to be revalidated. With this new flow, all modifications to the existing recipes and new versions will also go through the same build and validation process. Adding new package versions will usually be done by adding the new version to a list (and submitting the pull request), which can be done by anyone in the community.</li>
+  <li>It will be much easier to produce new binaries when new compiler versions are released, which happens quite frequently. For example, Apple-Clang new versions quickly affect users because of the aggressive updates, while it takes time for the community to produce new binaries. With this new flow, firing re-builds of the entire repository for new compiler versions will now be possible. Also, keeping the Conan-center consistent, by using the latest versions of packages by default when possible, will be possible.</li>
+  <li>It will be possible to maintain multiple versions of the same package with the same recipe and some metadata. Fixes to those recipes will automatically apply to all those versions and by being built by CI service, will extensively improve package maintenance and backporting fixes.</li>
+  <li>The new quality checks, for example, the requirement that ensures that all package names use lowercase, will help to automate reviews and achieve higher quality packages. They are implemented as hooks, so users can also use them even before submitting recipes.</li>
+</ul>
+
+<h1 id="how-to-start-using-it-early-access-program">How to start using it: Early Access Program</h1>
+
+<p>The repository is now public, anyone might see it, submit issues, requests, etc. Consumers of packages from Conan-center might start using the new packages as soon as they become available just by updating their Conan clients.</p>
+
+<p>The Early Access Program applies to early contributors. The CI will only allow registered contributors, otherwise, no build will be produced. The idea is to be able to improve the system and the user experience before opening it to the whole community.</p>
+
+<p>If you want to be part of this EAP, please send a petition to <code class="highlighter-rouge">info@conan.io</code> with the subject <code class="highlighter-rouge">[EAP access]</code> or add a comment on <a href="https://github.com/conan-io/conan-center-index/issues/4">this GitHub issue</a>. After you have requested access, please go to <a href="https://github.com/conan-io/conan-center-index/wiki">the Wiki</a> for more details about the contribution process.</p>
+
+<p>For any related issue, suggestion, please use the <a href="https://github.com/conan-io/conan-center-index/issues">repository issues</a>. Looking forward to making Conan-center bigger and more useful for the community!</p>
+:ET

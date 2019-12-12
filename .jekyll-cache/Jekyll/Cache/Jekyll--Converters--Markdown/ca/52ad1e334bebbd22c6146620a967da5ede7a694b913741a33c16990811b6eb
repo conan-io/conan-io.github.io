@@ -1,0 +1,6 @@
+I"8<p>This post makes a brief introduction to the C++ modules (we wished C++17, but we will have to
+wait). Modules have already been experimentally available in an early implementation in CLang, and now Microsoft is also
+providing them in Visual Studio 2015. We will see their syntax and how to build them, as introduced in the 
+<a href="https://blogs.msdn.microsoft.com/vcblog/2015/12/03/c-modules-in-vs-2015-update-1/">Visual Studio Blog</a>, and at the same time, we will show how to create
+and consumes packages with C++ modules with conan C/C++ package manager.</p>
+:ET

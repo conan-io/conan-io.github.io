@@ -1,0 +1,2 @@
+I"ß<p>The <strong>Raspberry PI</strong> is an amazing mini computer, powerful and cheap, the dream of hobbyists and developers around the world. With its potential to implement embedded systems, it is common to use C/C++ for developing its code, specially when efficiency and performance is relevant. However, even if it is a powerful system for the money, it can be slow while building relatively large C/C++ libraries, so cross-building can be very convenient for developers.</p>
+:ET

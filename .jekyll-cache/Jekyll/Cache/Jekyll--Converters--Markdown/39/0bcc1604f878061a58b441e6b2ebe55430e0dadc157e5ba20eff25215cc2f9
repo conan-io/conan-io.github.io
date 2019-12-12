@@ -1,0 +1,161 @@
+I"�O<p>Some developers think that a package manager for C/C++ should, by default, bundle both debug and release artifacts in the same package, so that they can easily be used by developers changing configuration while working.</p>
+
+<p>But other developers might think that this is not good practice, and that release and debug packages should be different and installed separately by default. Linux “-dbg” symbol packages is  an example.</p>
+
+<p>The truth is that both have advantages and disadvantages, and if we have learned something from our experience in developing package managers it’s that there is no absolute truth, and a C/C++ package manager should provide the means for developers to support the packaging paradigm they want to implement. We constantly listen to users feedback, and the latest Conan 0.20 release contains some utilities that help support multiple package paradigms.</p>
+
+<p>First, it is interesting to review and understand how Conan processes packages:</p>
+
+<p class="centered">
+    <img src="http://localhost:4000/assets/post_images/2017_03_07/generalflow.png" width="80%" align="center" />
+</p>
+
+<p>Each block in the diagram above  is a folder for a given package. The package recipe is stored in the “export” folder, it is copied to the “source” folder so that the recipe <code class="highlighter-rouge">source()</code> method can fetch the package source code. Then, for each different configuration (different settings, such as different compiler versions or architecture), a new, clean build folder is used, the recipe <code class="highlighter-rouge">build()</code> method is triggered, and finally, the artifacts (typically the headers and the libraries) are extracted by the <code class="highlighter-rouge">package()</code> method to the final package folder. Each package is identified by a SHA-1 hash of the configuration values.</p>
+
+<h2 id="single-configuration-packages">Single configuration packages</h2>
+
+<p>This is the most used approach in Conan, used thoroughly in the documentation, and in most packages in conan.io. With this approach, each package contains the artifacts for only one configuration. So if there is a package recipe that builds a “hello” library, there will be one package containing the release version of the <code class="highlighter-rouge">hello.lib</code> library and a different package containing a <code class="highlighter-rouge">hello_d.lib</code> debug version of that library. The name suffix is optional, the library could be named the same without any problems, but it is used here to make it more clear.</p>
+
+<p>The typical recipe for it would be something like this (not a complete recipe):</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">HelloConan</span><span class="p">(</span><span class="n">ConanFile</span><span class="p">):</span>
+
+    <span class="n">settings</span> <span class="o">=</span> <span class="s">"os"</span><span class="p">,</span> <span class="s">"compiler"</span><span class="p">,</span> <span class="s">"build_type"</span><span class="p">,</span> <span class="s">"arch"</span>
+
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cmake</span> <span class="o">=</span> <span class="n">CMake</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">)</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="c1"># calls "cmake . -G ... "
+</span>        <span class="n">cmake</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="c1"># calls "cmake --build ."
+</span>
+    <span class="k">def</span> <span class="nf">package_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cpp_info</span><span class="o">.</span><span class="n">libs</span> <span class="o">=</span> <span class="p">[</span><span class="s">"hello"</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>It is very important to note that it is declaring the <code class="highlighter-rouge">build_type</code> as a setting. This means that a different package will be generated for each different value of such setting.</p>
+
+<p class="centered">
+<img src="http://localhost:4000/assets/post_images/2017_03_07/singleconf.png" width="60%" />
+</p>
+
+<p>When installing these packages, the files generated for the build system, like the <code class="highlighter-rouge">conanbuildinfo.cmake</code> file by the <code class="highlighter-rouge">cmake</code> generator, will contain different information depending on the install settings:</p>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">set</span><span class="p">(</span>CONAN_LIBS_HELLO hello<span class="p">)</span>
+...
+<span class="nb">set</span><span class="p">(</span>CONAN_LIBS hello <span class="si">${</span><span class="nv">CONAN_LIBS</span><span class="si">}</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>If the developer wants to switch configuration of the dependencies, he will usually switch with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>conan <span class="nb">install</span> <span class="nt">-s</span> <span class="nv">build_type</span><span class="o">=</span>Release ... 
+// when need to debug
+<span class="nv">$ </span>conan <span class="nb">install</span> <span class="nt">-s</span> <span class="nv">build_type</span><span class="o">=</span>Debug ... 
+</code></pre></div></div>
+
+<p>These switches will be fast, since all the dependencies are already cached locally.</p>
+
+<p>This process has some advantages: it is quite easy to implement and maintain. The packages are of minimal size, so disk space and transfers are faster, and builds from sources are also kept to the necessary minimum. The decoupling of configurations might help with isolating issues related to mixing different types of artifacts, and also protecting valuable information from deploy and distribution mistakes. For example, debug artifacts might contain symbols or source code, which could help or directly provide means for reverse engineering. So distributing debug artifacts by artifacts could be a very risky issue.  The major disadvantage would be having to remember to install the specific configuration of dependencies while switching from Debug to Release and vice versa. This is something that heavy IDE users, such as Visual Studio, will find a bit inconvenient.</p>
+
+<h1 id="consuming-multiple-debugrelease-single-configuration-packages">Consuming multiple debug/release single-configuration packages</h1>
+
+<p>Even if the packages are single-configuration, if the end-user developer want to use them easily in multi-configuration environments, like Visual Studio, they can do it via the CMake <code class="highlighter-rouge">cmake_multi</code> generator. With the generator, it’s enough to install both debug and release configurations of the dependencies:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>conan <span class="nb">install</span> <span class="nt">-g</span> cmake_multi <span class="nt">-s</span> <span class="nv">build_type</span><span class="o">=</span>Release <span class="nt">-s</span> compiler.runtime<span class="o">=</span>MD ... 
+<span class="nv">$ </span>conan <span class="nb">install</span> <span class="nt">-g</span> cmake_multi <span class="nt">-s</span> <span class="nv">build_type</span><span class="o">=</span>Debug <span class="nt">-s</span> compiler.runtime<span class="o">=</span>MDd ...
+</code></pre></div></div>
+
+<p>These commands will generate 3 files: <code class="highlighter-rouge">conanbuildinfo_multi.cmake</code>, <code class="highlighter-rouge">conanbuildinfo_debug.cmake</code> and <code class="highlighter-rouge">conanbuildinfo_release.cmake</code>. The <code class="highlighter-rouge">_debug</code> and the <code class="highlighter-rouge">_release</code> files will contain their own cmake variables.</p>
+
+<p>Then, use in the consumer CMakeLists.txt:</p>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">project</span><span class="p">(</span>MyHello<span class="p">)</span>
+<span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 2.8.12<span class="p">)</span>
+
+<span class="nb">include</span><span class="p">(</span><span class="si">${</span><span class="nv">CMAKE_BINARY_DIR</span><span class="si">}</span>/conanbuildinfo_multi.cmake<span class="p">)</span>
+<span class="nf">conan_basic_setup</span><span class="p">()</span>
+
+<span class="nb">add_executable</span><span class="p">(</span>say_hello main.cpp<span class="p">)</span>
+<span class="nf">conan_target_link_libraries</span><span class="p">(</span>say_hello<span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="multi-configuration-packages">Multi configuration packages</h2>
+
+<p>In multi-configuration packages, the same package will contain artifacts for different configurations. In our example, the same package could contain both the release and debug versions of the library “hello”.</p>
+
+<p class="centered">
+<img src="http://localhost:4000/assets/post_images/2017_03_07/multiconf.png" width="60%" />
+</p>
+
+<p>This doesn’t imply that you will only have 1 package or strictly 1 build folder per recipe, as you can still have different packages for different architectures, for example, or for different compiler versions. Package creators can define their unique packaging logic.</p>
+
+<p>To implement this approach a package recipe could do:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">cmake</span> <span class="o">=</span> <span class="n">CMake</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cmake</span><span class="o">.</span><span class="n">is_multi_configuration</span><span class="p">:</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="s">'cmake "</span><span class="si">%</span><span class="s">s" </span><span class="si">%</span><span class="s">s'</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conanfile_directory</span><span class="p">,</span> <span class="n">cmake</span><span class="o">.</span><span class="n">command_line</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s">"cmake --build . --config Debug"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s">"cmake --build . --config Release"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="p">(</span><span class="s">"Debug"</span><span class="p">,</span> <span class="s">"Release"</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Building </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="n">config</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s">'cmake "</span><span class="si">%</span><span class="s">s" </span><span class="si">%</span><span class="s">s -DCMAKE_BUILD_TYPE=</span><span class="si">%</span><span class="s">s'</span>
+                        <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conanfile_directory</span><span class="p">,</span> <span class="n">cmake</span><span class="o">.</span><span class="n">command_line</span><span class="p">,</span> <span class="n">config</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s">"cmake --build ."</span><span class="p">)</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="s">"CMakeFiles"</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">"CMakeCache.txt"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>And assuming that a <code class="highlighter-rouge">_d</code> suffix name is being used (other approaches are valid, as having different folders), the <code class="highlighter-rouge">package_info()</code> method could be:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">package_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">cpp_info</span><span class="o">.</span><span class="n">release</span><span class="o">.</span><span class="n">libs</span> <span class="o">=</span> <span class="p">[</span><span class="s">"hello"</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">cpp_info</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">libs</span> <span class="o">=</span> <span class="p">[</span><span class="s">"hello_d"</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>These packages do not require specifying the build type at install time, and if provided, it will be ignored, for example, for consumers using the cmake generator:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>conan <span class="nb">install</span> <span class="nt">-g</span> cmake  <span class="c"># no -s build_type=Release/Debug</span>
+</code></pre></div></div>
+
+<p>This will generate different variables for the consumer build system in the same <code class="highlighter-rouge">conanbuildinfo.cmake</code>, like:</p>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">set</span><span class="p">(</span>CONAN_LIBS_HELLO_DEBUG hello_d<span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span>CONAN_LIBS_HELLO_RELEASE hello<span class="p">)</span>
+...
+<span class="nb">set</span><span class="p">(</span>CONAN_LIBS_DEBUG hello_d <span class="si">${</span><span class="nv">CONAN_LIBS_DEBUG</span><span class="si">}</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span>CONAN_LIBS_RELEASE hello <span class="si">${</span><span class="nv">CONAN_LIBS_RELEASE</span><span class="si">}</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This approach will have the risk of distribution of debug artifacts, as mentioned above, this is an important issue that could facilitate reverse engineering. Also, packages will always be larger, taking more time to build, to transfer and to install, even if you are not using all the artifacts (like in production). The major advantage is that it’s easier for developers to jump between debug and release configurations in their IDEs without having to do anything else.</p>
+
+<h2 id="build-once-package-many">Build once, package many</h2>
+<p>It’s possible that an already existing build script is building binaries for different configurations at once, like debug/release, or different architectures (32/64bits), or library types (shared/static). If such build script is used in the previous “Single configuration packages” approach, it will definitely work without problems, but we’ll be wasting precious build time, as we’ll be re-building the whole project for each package, then extracting the relevant artifacts for the given configuration, leaving the others.</p>
+
+<p>With Conan 0.20, it is possible to specify the logic, so the same build can be reused to create different packages, which will be more efficient:</p>
+
+<p class="centered">
+<img src="http://localhost:4000/assets/post_images/2017_03_07/multipackage.png" width="50%" />
+</p>
+
+<p>This can be done by defining a <code class="highlighter-rouge">build_id()</code> method in the package recipe that will specify the logic.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">settings</span> <span class="o">=</span> <span class="s">"os"</span><span class="p">,</span> <span class="s">"compiler"</span><span class="p">,</span> <span class="s">"arch"</span><span class="p">,</span> <span class="s">"build_type"</span>
+
+<span class="k">def</span> <span class="nf">build_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">info_build</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">build_type</span> <span class="o">=</span> <span class="s">"Any"</span>
+
+<span class="k">def</span> <span class="nf">package</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">build_type</span> <span class="o">==</span> <span class="s">"Debug"</span><span class="p">:</span>
+        <span class="c1">#package debug artifacts
+</span>    <span class="k">else</span><span class="p">:</span> 
+        <span class="c1"># package release
+</span></code></pre></div></div>
+
+<p>Note that the <code class="highlighter-rouge">build_id()</code> method uses the <code class="highlighter-rouge">self.info_build</code> object to alter the build hash. If the method doesn’t change it, the hash will match the package folder one. By setting <code class="highlighter-rouge">build_type="Any"</code>, we are forcing that for both <code class="highlighter-rouge">Debug</code> and <code class="highlighter-rouge">Release</code> values of <code class="highlighter-rouge">build_type</code>, the hash will be the same (the particular string is mostly irrelevant, as long as it is the same for both configurations). Note that the build hash <code class="highlighter-rouge">sha3</code> will be different of both <code class="highlighter-rouge">sha1</code> and <code class="highlighter-rouge">sha2</code> package identifiers.</p>
+
+<p>This doesn’t imply that there will be strictly one build folder. There will be a build folder for every configuration (architecture, compiler version, etc). So if we just have Debug/Release build types, and we’re producing N packages for N different configurations, we’ll have N/2 build folders, saving half of the build time.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>This blog post illustrates how Conan allows for very different packaging paradigms. This is a constant effort that’s driven by our community of maintainers, contributors and users, who try to provide the tools to support the very different use-cases and needs that we have in our C and C++ communities. Many thanks to all of them!</p>
+:ET

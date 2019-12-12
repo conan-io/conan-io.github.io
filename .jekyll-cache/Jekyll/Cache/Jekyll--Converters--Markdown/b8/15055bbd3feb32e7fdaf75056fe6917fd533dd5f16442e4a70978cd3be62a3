@@ -1,0 +1,86 @@
+I"� <p>Welcome to conan 0.9 release! Here is a short summary of some relevant changes, though the release include
+some other improvements and bug fixes, please <a href="https://www.conan.io/downloads">upgrade now!</a></p>
+
+<h2 class="section-heading">Python 3 support</h2>
+
+<p>The whole codebase has been updated to provide Python 2 and 3 compatibility, for those of you running Python 3 installations.
+Which, by the way, is becoming the de-facto standard in modern Linux distros, so it is a necessary investment towards a close future. Some things that you should take into account:</p>
+
+<ul>
+  <li>Python 3 support is not so battle-tested as Python 2, so consider it “experimental”. We have setup Continuous Integration (travis, appveyor) tests to run the full conan test suite with Python 3 too, so in a few iterations it will become stable too. Please use it and report any problems you might have.</li>
+  <li>Package recipes, must be also Python2-3 compatible. If you are creating packages, all standard usage is already compatible. Maybe if you are using plain “print” stataments or “iteritems()” in some dict, could be a minor incompatibility but easily fixable. Package users using Python3 might report problems, please make sure to add the <code class="highlighter-rouge">url</code> field to your package recipes, pointing to your repository, to ease collaboration and sending issues.</li>
+</ul>
+
+<h2 class="section-heading">Create your own custom generators for your build systems and tools</h2>
+
+<p>Conan has some built-in generators, like cmake, xcode, visual_studio… If you are using a different one,
+or those are not fine for your needs, you can easily create your own generator, and handle it as a regular
+package: upload it (keep it private in your own in-house server if you want), evolve and version it, and
+reference it in your projects <code class="highlighter-rouge">[requires]</code>, so it is dynamically retrieved and used in your projects.</p>
+
+<p>Generators are created just by extending the <code class="highlighter-rouge">Generator</code> class in a <code class="highlighter-rouge">conanfile.py</code>, which is mostly
+empty, just used to define the package, name, version and metadata.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">conans.model</span> <span class="kn">import</span> <span class="n">Generator</span>
+<span class="kn">from</span> <span class="nn">conans.paths</span> <span class="kn">import</span> <span class="n">BUILD_INFO</span>
+<span class="kn">from</span> <span class="nn">conans</span> <span class="kn">import</span> <span class="n">ConanFile</span><span class="p">,</span> <span class="n">CMake</span>
+        
+<span class="k">class</span> <span class="nc">Premake</span><span class="p">(</span><span class="n">Generator</span><span class="p">):</span>
+    <span class="o">@</span><span class="nb">property</span>
+    <span class="k">def</span> <span class="nf">filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">"conanpremake.lua"</span>
+
+    <span class="o">@</span><span class="nb">property</span>
+    <span class="k">def</span> <span class="nf">content</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>     
+        <span class="o">...</span>
+        <span class="k">return</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sections</span><span class="p">)</span>
+  
+<span class="k">class</span> <span class="nc">MyCustomGeneratorPackage</span><span class="p">(</span><span class="n">ConanFile</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">"PremakeGen"</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="s">"0.1"</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">"https://github.com/memsharded/conan-premake"</span>
+    <span class="n">license</span> <span class="o">=</span> <span class="s">"MIT"</span>
+        </code></pre></figure>
+
+<p>Using such generator in your project is simple, just add it to your <code class="highlighter-rouge">conanfile</code>:</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">[requires]
+Hello/0.1@memsharded/testing
+PremakeGen@0.1@memsharded/testing
+
+[generators]
+Premake</code></pre></figure>
+
+<p>There is already a <strong>Premake4</strong> experimental generator using this feature, check <a href="https://www.conan.io/source/PremakeGen/0.1/memsharded/testing">the PremakeGen package</a></p>
+
+<p>If you want to know more about this feature, go to <a href="http://docs.conan.io/howtos/dyn_generators.html#dyn-generators">the documentation</a></p>
+
+<h2 class="section-heading">Conan test has been renamed to test_package, and changed layout</h2>
+
+<p>The name <code class="highlighter-rouge">conan test</code> was a bit misleading, as it could be associated to project unit or integration tests.
+Those tests can be easily run if you want in your <code class="highlighter-rouge">build()</code> method, but the <code class="highlighter-rouge">conan test</code> was intended to
+test the package, i.e. that it is correctly created, the headers are found, it links (the created library name
+is the expected one) and execute a test project properly-</p>
+
+<p>So both the command and the default folder have been renamed to <code class="highlighter-rouge">conan test_package</code>. Backwards compatibility
+is kept, using <code class="highlighter-rouge">conan test</code> and a <code class="highlighter-rouge">test</code> folder instead of a <code class="highlighter-rouge">test_package</code> folder keep working, but might
+be eventually deprecated.</p>
+
+<p>The test folder name can be customized with the <code class="highlighter-rouge">conan test -f</code> option</p>
+
+<p>The layout of the temporary <code class="highlighter-rouge">build</code> folder has changed though. It is typicall to have a <code class="highlighter-rouge">build</code> folder in project roots for other purposes, like build scripts, and conan was using that name for temporary tests builds. 
+Now <code class="highlighter-rouge">conan test_package</code> command creates the <code class="highlighter-rouge">build</code> folder inside the <code class="highlighter-rouge">test_package</code> folder, so no
+conflicts are produced. This might require some changing to your test code, depending on how you are using it.
+Automatic checks and warnings have been introduced, but just to summarize: You have to make sure that your test project is location independent (exactly the same as the main package), so both in-source and out-of-source builds are allowed, and the temporary build folder can be located anywhere.</p>
+
+<p>That typically requires the <code class="highlighter-rouge">conanfile.py</code> <strong>of the test project</strong> making use of the <code class="highlighter-rouge">conanfile_directory</code> property.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s">'cmake </span><span class="si">%</span><span class="s">s </span><span class="si">%</span><span class="s">s'</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conanfile_directory</span><span class="p">,</span> <span class="n">cmake</span><span class="o">.</span><span class="n">command_line</span><span class="p">))</span></code></pre></figure>
+
+<p>And if you are using CMake, also make sure that the generated .cmake file location is in the <code class="highlighter-rouge">${CMAKE_BINARY_DIR}</code>.</p>
+
+<figure class="highlight"><pre><code class="language-cmake" data-lang="cmake"><span class="nb">include</span><span class="p">(</span><span class="si">${</span><span class="nv">CMAKE_BINARY_DIR</span><span class="si">}</span>/conanbuildinfo.cmake<span class="p">)</span></code></pre></figure>
+
+<p>Once more, thanks a lot to all the community, for all the feedback and support received.<br />
+Keep the good job!</p>
+:ET

@@ -1,0 +1,215 @@
+I"�s<p>The benefit of using a package manager like conan is, in addition to many other advantages, manage your project dependencies. You can build your project even in different computers and with different operating systems just running <code class="highlighter-rouge">conan install</code> command again.</p>
+
+<p>But that’s not completely true, you usually need some tools like a compiler and maybe a separate build system to build your project. 
+So, if you change your computer you will need to setup your build tools with the system package manager (apt, yum…) or downloading the installers, etc.</p>
+
+<p>In the latest 0.11 release, we’ve introduced some minor changes to conan to try to help our users to reproduce their environments easily. We don’t pretend to replace the current applications managers; yum, apt, brew…etc, are GREAT tools, but maybe conan users can benefit of custom and easy installers for the applications that they use to build software.</p>
+
+<p>Conan has a new generator called <code class="highlighter-rouge">virtualenv</code>, inspired in python virtual environments that we really love. This generator can be activated like any other in the [generators] section of your conanfile, and will generate two files: <code class="highlighter-rouge">activate.[sh|bat]</code> and <code class="highlighter-rouge">deactivate.[sh|bat]</code>. 
+If we run the activate script, conan will set our current shell environment variables with the values that the installed packages declare. The most common usage would be setting the PATH environment variable, so tools can be easily executed.</p>
+
+<p>Let’s see an example. Lets suppose we are working on a Windows machine, and we want to build and test a project with different versions of MinGW and CMake. So we can do:</p>
+
+<p>Create a separate folder from your project. This folder will handle our development environment.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">mkdir </span>my_cpp_environ
+<span class="nv">$ </span><span class="nb">cd </span>my_cpp_environ</code></pre></figure>
+
+<p>Now, create a <code class="highlighter-rouge">conanfile.txt</code> file:</p>
+
+<figure class="highlight"><pre><code class="language-conf" data-lang="conf">[<span class="n">requires</span>]
+<span class="n">mingw_installer</span>/<span class="m">0</span>.<span class="m">1</span>@<span class="n">lasote</span>/<span class="n">testing</span>
+<span class="n">cmake_installer</span>/<span class="m">0</span>.<span class="m">1</span>@<span class="n">lasote</span>/<span class="n">testing</span>
+
+[<span class="n">generators</span>]
+<span class="n">virtualenv</span></code></pre></figure>
+
+<p>In this file we are requiring two packages, one is the MinGW installer and the other is a CMake installer. The “0.1” version is the version of the installer recipe, not the MinGW nor CMake tools. If you want to create your own recipes matching the tool version, you can, but in this way we are able to handle many MinGW and CMake versions just with the same recipes. Later we will se how can we install those different versions.</p>
+
+<p>Install the packages:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>conan <span class="nb">install</span></code></pre></figure>
+
+<p>Once the tools have been installed, you can activate the virtual environment in your shell:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>activate
+<span class="o">(</span>my_cpp_environ<span class="o">)</span> <span class="err">$</span></code></pre></figure>
+
+<p>Check that everything is working and the tools are in the path:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">(</span>my_cpp_environ<span class="o">)</span> <span class="nv">$ </span>gcc <span class="nt">--version</span>
+
+<span class="o">&gt;</span> gcc <span class="o">(</span>x86_64-posix-sjlj-rev1, Built by MinGW-W64 project<span class="o">)</span> 4.9.2
+ Copyright <span class="o">(</span>C<span class="o">)</span> 2014 Free Software Foundation, Inc.
+ This is free software<span class="p">;</span> see the <span class="nb">source </span><span class="k">for </span>copying conditions.  There is NO
+ warranty<span class="p">;</span> not even <span class="k">for </span>MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">(</span>my_cpp_environ<span class="o">)</span> <span class="nv">$ </span>cmake <span class="nt">--version</span>
+cmake version 3.6.0
+
+CMake suite maintained and supported by Kitware <span class="o">(</span>kitware.com/cmake<span class="o">)</span>.</code></pre></figure>
+
+<p>You can now deactivate the virtual environment with the <code class="highlighter-rouge">deactivate</code> script</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">(</span>my_cpp_environ<span class="o">)</span> <span class="nv">$ </span>deactivate</code></pre></figure>
+
+<p>The same can be done (with CMake, because MinGW is just for Windows), in Linux/OSx.
+If you are a Conan user you will know that every package depends on the settings and options. So, we can change the available options to get a different MinGW version easily.</p>
+
+<p>Let’s take a look to the MinGW installer recipe. Go to (https://www.conan.io/source/mingw_installer/0.1/lasote/testing) and click in “conanfile.py” tab.</p>
+
+<p>We have available these options:</p>
+
+<figure class="highlight"><pre><code class="language-conf" data-lang="conf"><span class="n">options</span> = {<span class="s2">"threads"</span>: [<span class="s2">"posix"</span>, <span class="s2">"win32"</span>],
+          <span class="s2">"exception"</span>: [<span class="s2">"dwarf2"</span>, <span class="s2">"sjlj"</span>, <span class="s2">"seh"</span>], 
+          <span class="s2">"arch"</span>: [<span class="s2">"x86"</span>, <span class="s2">"x86_64"</span>],
+          <span class="s2">"version"</span>: [<span class="s2">"4.8"</span>, <span class="s2">"4.9"</span>]}
+<span class="n">default_options</span> = <span class="s2">"exception=sjlj"</span>, <span class="s2">"threads=posix"</span>, <span class="s2">"arch=x86_64"</span>, <span class="s2">"version=4.9"</span>
+       </code></pre></figure>
+
+<p>By default we are installing MinGW 4.9 with posix thread support and sjlj exceptions. But we can install MinGW with other options:</p>
+
+<p>Edit your conanfile.txt:</p>
+
+<figure class="highlight"><pre><code class="language-conf" data-lang="conf">[<span class="n">requires</span>]
+<span class="n">mingw_installer</span>/<span class="m">0</span>.<span class="m">1</span>@<span class="n">lasote</span>/<span class="n">testing</span>
+<span class="n">cmake_installer</span>/<span class="m">0</span>.<span class="m">1</span>@<span class="n">lasote</span>/<span class="n">testing</span>
+
+[<span class="n">generators</span>]
+<span class="n">virtualenv</span>
+
+[<span class="n">options</span>]
+<span class="n">mingw_installer</span>:<span class="n">threads</span>=<span class="n">win32</span>
+<span class="n">mingw_installer</span>:<span class="n">version</span>=<span class="m">4</span>.<span class="m">8</span></code></pre></figure>
+
+<p>Remember to deactivate the previous virtual environment:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">(</span>my_cpp_environ<span class="o">)</span> <span class="nv">$ </span>deactivate</code></pre></figure>
+
+<p>And install again:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>conan <span class="nb">install</span></code></pre></figure>
+
+<p>You can also pass the options in the command line instead of specifying them in the conanfile.txt file</p>
+
+<p>Activate the virtual environment and check that the tools have changed:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>activate
+<span class="o">(</span>my_cpp_environ<span class="o">)</span> <span class="nv">$ </span>gcc <span class="nt">--version</span>
+
+<span class="o">&gt;</span> gcc <span class="o">(</span>rev0, Built by MinGW-W64 project<span class="o">)</span> 4.8.2
+Copyright <span class="o">(</span>C<span class="o">)</span> 2013 Free Software Foundation, Inc.
+This is free software<span class="p">;</span> see the <span class="nb">source </span><span class="k">for </span>copying conditions.  There is NO
+warranty<span class="p">;</span> not even <span class="k">for </span>MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</code></pre></figure>
+
+<p>You can share this <code class="highlighter-rouge">conanfile.txt</code> with your team and share this way the development environment!</p>
+
+<h2 id="how-can-i-create-my-own-tool-packages">How can I create my own tool packages?</h2>
+
+<p>If you want to create conan packages for any tool it is easy, specially if you are already familiar creating conan packages.</p>
+
+<p>Let’s see how the conan <a href="https://www.conan.io/source/cmake_installer/0.1/lasote/testing">CMake recipe is done</a>:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">conans</span> <span class="kn">import</span> <span class="n">ConanFile</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">class</span> <span class="nc">CMakeInstallerConan</span><span class="p">(</span><span class="n">ConanFile</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">"cmake_installer"</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="s">"0.1"</span>
+    <span class="n">license</span> <span class="o">=</span> <span class="s">"MIT"</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">"http://github.com/lasote/conan-cmake-installer"</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="p">{</span><span class="s">"os"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Windows"</span><span class="p">,</span> <span class="s">"Linux"</span><span class="p">,</span> <span class="s">"Macos"</span><span class="p">],</span> <span class="s">"arch"</span><span class="p">:</span> <span class="p">[</span><span class="s">"x86"</span><span class="p">,</span> <span class="s">"x86_64"</span><span class="p">]}</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s">"version"</span><span class="p">:</span> <span class="p">[</span><span class="s">"3.6.0"</span><span class="p">,</span> <span class="s">"3.5.2"</span><span class="p">,</span> <span class="s">"3.4.3"</span><span class="p">,</span> <span class="s">"3.3.2"</span><span class="p">,</span> 
+                           <span class="s">"3.2.3"</span><span class="p">,</span> <span class="s">"3.1.3"</span><span class="p">,</span> <span class="s">"3.0.2"</span><span class="p">,</span> <span class="s">"2.8.12"</span><span class="p">]}</span>
+    <span class="n">default_options</span> <span class="o">=</span> <span class="s">"version=3.6.0"</span>
+    
+    <span class="k">def</span> <span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">os</span> <span class="o">==</span> <span class="s">"Macos"</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">arch</span> <span class="o">==</span> <span class="s">"x86"</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="nb">Exception</span><span class="p">(</span><span class="s">"Not supported x86 for OSx"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">os</span> <span class="o">==</span> <span class="s">"Linux"</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">version</span> <span class="o">==</span> <span class="s">"2.8.12"</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">arch</span> <span class="o">==</span> <span class="s">"x86_64"</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="nb">Exception</span><span class="p">(</span><span class="s">"Not supported 2.8.12 for x86_64 binaries"</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">os</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Macos"</span><span class="p">:</span> <span class="s">"Darwin"</span><span class="p">,</span> <span class="s">"Windows"</span><span class="p">:</span> <span class="s">"win32"</span><span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">os</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">os</span><span class="p">))</span>
+        <span class="n">arch</span> <span class="o">=</span> <span class="p">{</span><span class="s">"x86"</span><span class="p">:</span> <span class="s">"i386"</span><span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">arch</span><span class="p">),</span> 
+                                   <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">arch</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">os</span> <span class="o">!=</span> <span class="s">"Windows"</span> <span class="k">else</span> <span class="s">"x86"</span>
+        <span class="k">return</span> <span class="s">"cmake-</span><span class="si">%</span><span class="s">s-</span><span class="si">%</span><span class="s">s-</span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">version</span><span class="p">,</span> <span class="n">os</span><span class="p">,</span> <span class="n">arch</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">keychain</span> <span class="o">=</span> <span class="s">"</span><span class="si">%</span><span class="s">s_</span><span class="si">%</span><span class="s">s_</span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">os</span><span class="p">,</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">arch</span><span class="p">,</span>
+                                 <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">version</span><span class="p">))</span>
+        <span class="n">minor</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">version</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">ext</span> <span class="o">=</span> <span class="s">"tar.gz"</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">os</span> <span class="o">==</span> <span class="s">"Windows"</span> <span class="k">else</span> <span class="s">"zip"</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s">"https://cmake.org/files/v</span><span class="si">%</span><span class="s">s/</span><span class="si">%</span><span class="s">s.</span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">minor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_filename</span><span class="p">(),</span> <span class="n">ext</span><span class="p">)</span>
+
+        <span class="n">dest_file</span> <span class="o">=</span> <span class="s">"file.tgz"</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">os</span> <span class="o">!=</span> <span class="s">"Windows"</span> <span class="k">else</span> <span class="s">"file.zip"</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">"Downloading: </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="n">url</span><span class="p">)</span>
+        <span class="n">tools</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">dest_file</span><span class="p">)</span>
+        <span class="n">tools</span><span class="o">.</span><span class="n">unzip</span><span class="p">(</span><span class="n">dest_file</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">package</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="s">"*"</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="s">""</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_filename</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">package_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env_info</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">package_folder</span><span class="p">,</span> <span class="s">"bin"</span><span class="p">))</span>
+   </code></pre></figure>
+
+<p>The config method is avoiding some setting/options combinations throwing an exception.
+The build method is downloading the right CMake file and unzipping it.
+The package method is copying all the files from the zip to the package folder.
+The package info is using the “self.env_info” to append to the environment variable “path” the package’s bin folder.</p>
+
+<p>This package have only 2 different things than a regular conan library package:</p>
+
+<p>The source method is missing. That’s because when you compile a library, the source code is always the same for all the generated packages, but, in this case we are downloading the binaries, so we do it in the build method to download the different zip file for each settings/option combination. Instead of really building the tools, we are just downloading them. Of course if you want to build it from source, you can do it too, create your own package recipe
+The package_info method use the new <code class="highlighter-rouge">self.env_info</code> object. 
+With “self.env_info” the package can declare environment variables that will be setted with the <code class="highlighter-rouge">virtualenv</code> generator.</p>
+
+<p>The <code class="highlighter-rouge">self.env_info</code> variable can also be useful if a package tool depends on another tool.
+Take a look to the <a href="https://www.conan.io/source/mingw_installer/0.1/lasote/testing">MinGW conanfile.py recipe</a>:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">MingwinstallerConan</span><span class="p">(</span><span class="n">ConanFile</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">"mingw_installer"</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="s">"0.1"</span>
+    <span class="n">license</span> <span class="o">=</span> <span class="s">"MIT"</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">"http://github.com/lasote/conan-mingw-installer"</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="p">{</span><span class="s">"os"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Windows"</span><span class="p">]}</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s">"threads"</span><span class="p">:</span> <span class="p">[</span><span class="s">"posix"</span><span class="p">,</span> <span class="s">"win32"</span><span class="p">],</span>
+               <span class="s">"exception"</span><span class="p">:</span> <span class="p">[</span><span class="s">"dwarf2"</span><span class="p">,</span> <span class="s">"sjlj"</span><span class="p">,</span> <span class="s">"seh"</span><span class="p">],</span> 
+               <span class="s">"arch"</span><span class="p">:</span> <span class="p">[</span><span class="s">"x86"</span><span class="p">,</span> <span class="s">"x86_64"</span><span class="p">],</span>
+               <span class="s">"version"</span><span class="p">:</span> <span class="p">[</span><span class="s">"4.8"</span><span class="p">,</span> <span class="s">"4.9"</span><span class="p">]}</span>
+    <span class="n">default_options</span> <span class="o">=</span> <span class="s">"exception=sjlj"</span><span class="p">,</span> <span class="s">"threads=posix"</span><span class="p">,</span> <span class="s">"arch=x86_64"</span><span class="p">,</span> <span class="s">"version=4.9"</span>
+
+    <span class="k">def</span> <span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">requires</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">"7z_installer/0.1@lasote/testing"</span><span class="p">,</span> <span class="n">private</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="err">…</span>
+   
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
+        
+        <span class="n">tools</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="n">keychain</span><span class="p">],</span> <span class="s">"file.7z"</span><span class="p">)</span>
+        <span class="n">env</span> <span class="o">=</span> <span class="n">ConfigureEnvironment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s">"</span><span class="si">%</span><span class="s">s &amp;&amp; 7z x file.7z"</span> <span class="o">%</span> <span class="n">env</span><span class="o">.</span><span class="n">command_line</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">package</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="s">"*"</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="s">""</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="s">"mingw32"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="s">"*"</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="s">""</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="s">"mingw64"</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">package_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env_info</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">package_folder</span><span class="p">,</span> <span class="s">"bin"</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env_info</span><span class="o">.</span><span class="n">CXX</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">package_folder</span><span class="p">,</span> <span class="s">"bin"</span><span class="p">,</span> <span class="s">"g++.exe"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env_info</span><span class="o">.</span><span class="n">CC</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">package_folder</span><span class="p">,</span> <span class="s">"bin"</span><span class="p">,</span> <span class="s">"gcc.exe"</span><span class="p">)</span></code></pre></figure>
+
+<p>In the config method we are adding a require to another package, the 7z_installer that will be used to unzip the mingw installers (with 7z compression).</p>
+
+<p>In the build method we are downloading the right MinGW installer and using the helper 
+<code class="highlighter-rouge">ConfigureEnvironment</code>. This helper will provide us a string with a command to set the environment variables. That means that the 7z executable will be in the path, because the 7z_installer dependency declares the <code class="highlighter-rouge">bin</code> folder in its <code class="highlighter-rouge">package_info()</code> method.</p>
+
+<p>In the package_info method we are declaring CC and CXX variables, used by CMake, autotools etc, to locate the compiler for C/C++ respectively. 
+Also we are appending to <code class="highlighter-rouge">path</code> variable the bin folder, so we can invoke gcc, g++, make and other tools in the command line using the virtualenv generator when we execute the <code class="highlighter-rouge">activate</code> script.</p>
+
+<p>The possibilities of these features are even larger. They are very useful for example in CI environments. Also, if you want to avoid copying shared (.dlls, .dylib) libraries to the project binary directory (which can be done with the <code class="highlighter-rouge">imports</code> feature), you can make packages to add them to the environment PATH variable, so consumers can use it to easily find the correct shared libraries for multiple different versions and settings.</p>
+
+<p>What do you think? Do you like this feature? What tools would you like to have as a conan package? Use our <a href="https://github.com/conan-io/wishlist">whislist</a> and tell us what is your development environment!</p>
+:ET

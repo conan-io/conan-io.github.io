@@ -1,0 +1,167 @@
+I"'+<p>This post explains how to setup a development environment for C and C++ projects
+using Clang as compiler, CMake as build system, CLion as IDE and Conan
+as package manager. The name 4 Cs is cool, but not my idea, it has been
+coined by well known C++ blogger <a href="https://twitter.com/arne_mertz">Arne Metz</a>, author
+of the great <a href="http://arne-mertz.de/">Simplify C++ blog</a></p>
+
+<p>Though Clang has some support in Windows, its usage there is still low compared with MSVC,
+and Apple-Clang is the default on OSX, so it has not special difficulties. This post
+will use Ubuntu 14.04. As example, we will develop a simple application using the
+well known <a href="http://pocoproject.org/">POCO</a> and <a href="http://www.boost.org/">Boost</a> libraries.</p>
+
+<h2 class="section-heading">Setting up Clang C/C++ compiler</h2>
+
+<p>The default compiler in Ubuntu is GNU/gcc, so we have to install first Clang:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install </span>clang-3.6</code></pre></figure>
+
+<p>Installed this way, clang will not add itself to the path. It is true that
+setting environment variables CC and CXX is enough for most use cases. But
+for others, as building boost, it is much simpler if clang is in the path,
+otherwise editing .bjam files might be necessary. Currently, the conan package for boost,
+does not do that, so it requires clang to be in the path. Lets add a couple of links
+(most likely we can also use other ways as update-alternatives):</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">sudo ln</span> <span class="nt">-s</span> /usr/bin/clang-3.6 /usr/local/bin/clang
+<span class="nv">$ </span><span class="nb">sudo ln</span> <span class="nt">-s</span> /usr/bin/clang++-3.6 /usr/local/bin/clang++
+<span class="nv">$ </span>clang <span class="nt">--version</span>
+<span class="nv">$ </span>clang++ <span class="nt">--version</span></code></pre></figure>
+
+<h2 class="section-heading">Setting up latest CMake (meta) build system</h2>
+
+<p>The default CMake version bundled with Ubuntu 14 is still 2.8.12, which is really old.
+CMake current version is 3.5 at the time of this writing, so lets install it. Go to
+<a href="https://cmake.org/download/">CMake downloads</a> and get it. In this case, the tar.gz
+was retrieved and installed, prepending the <code class="highlighter-rouge">bin</code> subfolder to the path, so it gets
+higher priority. I did this way because I have to keep CMake 2.8.12 as default, but
+it is easy to add it permanently to the path.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>/home/user/cmake-3.5/bin:<span class="nv">$PATH</span>
+<span class="nv">$ </span>cmake <span class="nt">--version</span></code></pre></figure>
+
+<p>We will be using CMake “Unix Makefiles” generators. Though it is possible to pass
+the compilers to CMake in the command line, I find it error prone, so I usually
+prefer to set the CC and CXX environment variables:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">export </span><span class="nv">CC</span><span class="o">=</span>clang
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">CXX</span><span class="o">=</span>clang++</code></pre></figure>
+
+<p>This is also convenient for later CLion usage with this compiler.</p>
+
+<h2 class="section-heading">Setting up Conan C/C++ package manager</h2>
+
+<p>To install conan in your computer, the easiest way is with Python package:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">sudo </span>pip <span class="nb">install </span>conan</code></pre></figure>
+
+<p>You might need to use <strong>sudo</strong> if you are installing it globally, not necessary
+if using a virtualenv.</p>
+
+<h2 class="section-heading">Set up the project</h2>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>git clone https://github.com/memsharded/four-c-example.git
+<span class="nv">$ </span><span class="nb">cd </span>four-c-example</code></pre></figure>
+
+<p>Inside the folder there is a simple <code class="highlighter-rouge">conanfile.txt</code> defining our dependencies:</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">[requires]
+Poco/1.7.2@lasote/stable
+Boost/1.60.0@lasote/stable
+
+[generators]
+cmake</code></pre></figure>
+
+<p>Let’s install the dependencies. We will use a temporary folder called <code class="highlighter-rouge">.conan</code>
+(you can use any name), as the CLion editor uses an external build folder. Using
+a known and close folder for conan temporary files allows easy management of dependencies:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">mkdir</span> .conan <span class="o">&amp;&amp;</span> <span class="nb">cd</span> .conan
+<span class="nv">$ </span>conan <span class="nb">install</span> .. <span class="nt">-s</span> <span class="nv">compiler</span><span class="o">=</span>clang <span class="nt">-s</span> compiler.version<span class="o">=</span>3.6 <span class="nt">-s</span> compiler.libcxx<span class="o">=</span>libstdc++ <span class="nt">--build</span><span class="o">=</span>missing</code></pre></figure>
+
+<p>Note the final <code class="highlighter-rouge">--build=missing</code>. Most packages in conan provide binaries for the mainstream compilers,
+MSVC in Win, GNU/gcc in Linux and Apple-Clang in OSX. So, it is expected that pre-compiled binaries
+for CLang in Linux will not be available, so we have to tell conan to build them from sources.
+Go and grab a coffee, it will build Poco, Boost and some other libs!</p>
+
+<p>This install step will generate 2 files: <code class="highlighter-rouge">conanbuildinfo.cmake</code> with some CMake variables
+defined inside, as include paths and library names and <code class="highlighter-rouge">conaninfo.txt</code> which stores your current
+configuration. You can use in parallel many configurations if you want, just place each one in a
+separate folder.</p>
+
+<p>You can check the installed dependencies with:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>conan info ..
+PROJECT
+    Requires:
+        Boost/1.60.0@lasote/stable
+        Poco/1.7.2@lasote/stable
+Boost/1.60.0@lasote/stable
+    Remote: conan.io<span class="o">=</span>https://server.conan.io
+    URL: https://github.com/lasote/conan-boost
+    License: Boost Software License - Version 1.0. http://www.boost.org/LICENSE_1_0.txt
+    Updates: You have the latest version <span class="o">(</span>conan.io<span class="o">)</span>
+    Required by:
+        PROJECT
+    Requires:
+        zlib/1.2.8@lasote/stable
+        bzip2/1.0.6@lasote/stable
+...</code></pre></figure>
+
+<h2 class="section-heading">Developing with CLion</h2>
+
+<p><a href="https://www.jetbrains.com/clion/">CLion</a> is a cross-platform C/C++ IDE from JetBrains.
+Let’s build our application with CLion. As we already have defined CC and CXX environment variables, launching CLion in
+our terminal will automatically use CLang as default compiler.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">cd</span> ..
+<span class="nv">$ </span>/path/to/clion/bin/clion.sh</code></pre></figure>
+
+<p>If you go to File-&gt;Settings, you could see the compiler is Clang:</p>
+
+<p><img src="http://localhost:4000/assets/clion_settings.png" alt="CLion Settings" /></p>
+
+<p>It is possible too to use the CMake variables <code class="highlighter-rouge">-D CMAKE_C_COMPILER=clang-3.6 -D CMAKE_CXX_COMPILER=clang++-3.6</code>
+defined in the CLion IDE, to define the compiler. Note that typically a CMake cache clean&amp;restart might be necessary.
+Now, it is possible to do such clean&amp;restart without restarting the IDE in <em>Menu-&gt;Tools-&gt;CMake-&gt;Reset Cache and Reload Project</em>
+(the other option is <em>Menu-&gt;File-&gt;InvalidateCache&amp;Restart</em>, but as it restarts the IDE, it is slower). 
+The clang compiler will be used in your builds, but it will not show as default in the Settings dialog.</p>
+
+<p>From CLion CMakeLists.txt project file, we can load the generated <code class="highlighter-rouge">conanbuildinfo.cmake</code>.</p>
+
+<figure class="highlight"><pre><code class="language-cmake" data-lang="cmake"><span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 2.8<span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span>four_c<span class="p">)</span>
+
+<span class="nb">include</span><span class="p">(</span>.conan/conanbuildinfo.cmake<span class="p">)</span>
+
+<span class="nf">conan_basic_setup</span><span class="p">()</span>
+
+<span class="nb">add_compile_options</span><span class="p">(</span>-std=c++11<span class="p">)</span>
+<span class="nb">add_executable</span><span class="p">(</span>timer timer.cpp<span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span>timer <span class="si">${</span><span class="nv">CONAN_LIBS</span><span class="si">}</span><span class="p">)</span></code></pre></figure>
+
+<p>CLion will be able to autocomplete from both Poco and Boost headers:</p>
+
+<p><img src="http://localhost:4000/assets/poco_autocomplete.png" alt="Poco autocomplete" /></p>
+
+<p>That is all! You can now select in CLion the “timer” target, build it, and run it!</p>
+
+<p><img src="http://localhost:4000/assets/clion_run.png" alt="CLion run" /></p>
+
+<h2 class="section-heading">Conclusions</h2>
+
+<p>Setting up a development environment for C++ with these 4 tools is not complicated.
+Basically make sure that CLang is in the path, and that CMake is using it (through
+the environment variables CC and CXX) instead of the sytem GNU/gcc compiler.</p>
+
+<p>Also I found more intuitive to launch CLion with those variable defined, so it detects
+the CLang compiler and shows it in the Settings dialog. It is possible to use cmake command line
+parameters <code class="highlighter-rouge">-DCMAKE_C_COMPILER=clang-3.6 -DCMAKE_CXX_COMPILER=clang++-3.6</code> in the same CLion
+Settings dialog, but a CMake cache restart is typically necessary, as CMake cache only
+stores the compiler the first invocation (which is automatically done by CLion, before able to set
+the command line parameters).</p>
+
+<p>Conan packages (Poco, Boost and their dependencies: Zlib, electric-fence…) have built fine
+with Clang, but it is also possible that some other conan packages have not been thoroughly
+tested yet with CLang, and they might eventually fail to build. Please contribute in that
+case, submitting an issue to the package repository.</p>
+:ET

@@ -1,0 +1,347 @@
+I"[g<p>In Conan 1.4 we have introduced two new Conan generators that allow linking with your dependencies without changing your CMakeList.txt file with any line related to Conan.</p>
+
+<p>First of all, let’s review what a Conan generator is and show the pros and cons of both the classic and new generators.</p>
+
+<p>All the code in the examples below are in this GitHub repository: <a href="https://github.com/lasote/transparent_cmake_examples.git">https://github.com/lasote/transparent_cmake_examples.git</a></p>
+
+<p class="centered">
+    <img src="http://localhost:4000/assets/post_images/2018-06-11/conan_cmake_blog.png" align="center" width="300" />
+</p>
+
+<h2 id="classic-cmake-integration-cmake-generator">Classic CMake integration: “cmake” generator</h2>
+
+<p>If you are consuming conan packages in your project, you typically declare a <code class="highlighter-rouge">conanfile.txt</code> file with some dependencies.
+In this case, we are building an application that uses <code class="highlighter-rouge">libcurl</code> to check the Github stars from the Conan repository.</p>
+
+<p>(Folder <a href="https://github.com/lasote/transparent_cmake_examples/tree/master/classic_approach">classic_approach</a> in the repository)</p>
+
+<p><strong>conanfile.txt</strong></p>
+<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+[<span class="n">requires</span>]
+<span class="n">libcurl</span>/<span class="m">7</span>.<span class="m">52</span>.<span class="m">1</span>@<span class="n">bincrafters</span>/<span class="n">stable</span>
+
+[<span class="n">generators</span>]
+<span class="n">cmake</span>
+
+[<span class="n">options</span>]
+<span class="n">libcurl</span>:<span class="n">with_openssl</span>=<span class="n">True</span>
+
+
+</code></pre></div></div>
+
+<p><strong>CMakeLists.txt</strong></p>
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">project</span><span class="p">(</span>myapp<span class="p">)</span>
+<span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 3.1<span class="p">)</span>
+
+<span class="nb">include</span><span class="p">(</span><span class="si">${</span><span class="nv">CMAKE_BINARY_DIR</span><span class="si">}</span>/conanbuildinfo.cmake<span class="p">)</span>
+<span class="nf">conan_basic_setup</span><span class="p">(</span>TARGETS<span class="p">)</span>
+
+<span class="nb">add_executable</span><span class="p">(</span>myapp main.cpp<span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span>myapp CONAN_PKG::libcurl<span class="p">)</span>
+
+</code></pre></div></div>
+
+<p><strong>main.cpp</strong></p>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cp">#include &lt;stdio.h&gt;
+#include &lt;curl/curl.h&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">CURL</span> <span class="o">*</span><span class="n">curl</span><span class="p">;</span>
+  <span class="n">CURLcode</span> <span class="n">res</span><span class="p">;</span>
+
+  <span class="n">curl_global_init</span><span class="p">(</span><span class="n">CURL_GLOBAL_DEFAULT</span><span class="p">);</span>
+
+  <span class="n">curl</span> <span class="o">=</span> <span class="n">curl_easy_init</span><span class="p">();</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">curl</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">curl_slist</span> <span class="o">*</span><span class="n">list</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">list</span> <span class="o">=</span> <span class="n">curl_slist_append</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="s">"user-agent: libcurl"</span><span class="p">);</span>
+    <span class="n">curl_easy_setopt</span><span class="p">(</span><span class="n">curl</span><span class="p">,</span> <span class="n">CURLOPT_SSL_VERIFYPEER</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">);</span>
+    <span class="n">curl_easy_setopt</span><span class="p">(</span><span class="n">curl</span><span class="p">,</span> <span class="n">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="n">list</span><span class="p">);</span>
+    <span class="n">curl_easy_setopt</span><span class="p">(</span><span class="n">curl</span><span class="p">,</span> <span class="n">CURLOPT_URL</span><span class="p">,</span> <span class="s">"https://api.github.com/repos/conan-io/conan/stargazers"</span><span class="p">);</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">curl_easy_perform</span><span class="p">(</span><span class="n">curl</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">res</span> <span class="o">!=</span> <span class="n">CURLE_OK</span><span class="p">)</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"curl_easy_perform() failed: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">curl_easy_strerror</span><span class="p">(</span><span class="n">res</span><span class="p">));</span>
+    <span class="n">curl_easy_cleanup</span><span class="p">(</span><span class="n">curl</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="n">curl_global_cleanup</span><span class="p">();</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>Create a “build” folder and call “conan install”:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="nv">$ </span><span class="nb">mkdir </span>build <span class="o">&amp;&amp;</span> <span class="nb">cd </span>build
+<span class="nv">$ </span>conan <span class="nb">install</span> ..
+
+</code></pre></div></div>
+
+<p>Conan has generated a <code class="highlighter-rouge">conanbuildinfo.cmake</code> file (corresponding with the “cmake” generator) with all the information about the libcurl
+dependency and all the transitive ones, in this case, OpenSSL and ZLib, and some macros we can call to ease the
+task of linking with our dependencies.</p>
+
+<p>In our <code class="highlighter-rouge">CMakeLists.txt</code> (shown above) we are including that file and calling <code class="highlighter-rouge">conan_basic_setup()</code>.</p>
+
+<p>This macro will do several things for us:</p>
+
+<ul>
+  <li>Check if the specified compiler in the conan install matches the one detected by CMake.</li>
+  <li>Adjusting the output directories, rpaths configurations, std library, runtime (only Visual Studio), fPIC flag, all according to the specified settings in the conan install command (default profile in this example).</li>
+  <li>Prepare transitive targets (modern CMake) and needed variables (global approach) to link with the dependencies.</li>
+</ul>
+
+<p>Any of these automatic adjustments can be <a href="https://docs.conan.io/en/latest/reference/generators/cmake.html#methods-available-in-conanbuildinfo-cmake">called individually</a>
+instead of calling <code class="highlighter-rouge">conan_basic_setup()</code> so we can control exactly what we want Conan to do for us.</p>
+
+<p>Now we can build the application just calling CMake:</p>
+
+<p><strong>Linux/Mac</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>cmake .. <span class="nt">-DCMAKE_BUILD_TYPE</span><span class="o">=</span>Release
+<span class="nv">$ </span>cmake <span class="nt">--build</span> <span class="nb">.</span>
+<span class="nv">$ </span>./bin/myapp
+<span class="c"># a JSON will be outputted here</span>
+</code></pre></div></div>
+
+<p><strong>Windows</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>cmake .. <span class="nt">-G</span> “Visual Studio 15 2017 Win64”
+<span class="nv">$ </span>cmake <span class="nt">--build</span> <span class="nb">.</span> <span class="nt">--config</span> Release
+<span class="nv">$ </span>./bin/myapp
+<span class="c"># a JSON will be outputted here</span>
+</code></pre></div></div>
+
+<p>This approach is pretty useful and the usage is very straightforward, but you need to change your <code class="highlighter-rouge">CMakelists.txt</code>
+file to include the <code class="highlighter-rouge">conanbuildinfo.cmake</code> file.
+Some users prefer to rely on the CMake <code class="highlighter-rouge">find_package()</code> feature to decouple the build system and the package manager.</p>
+
+<h2 id="transparent-cmake-integration-cmake_paths-generator">Transparent CMake integration: “cmake_paths” generator</h2>
+
+<p>(Folder <a href="https://github.com/lasote/transparent_cmake_examples/tree/master/cmake_paths">cmake_paths</a> in the repository)</p>
+
+<p>We can adjust our project to use a transparent integration with CMake:</p>
+
+<p><strong>conanfile.txt</strong> Change the generator to <code class="highlighter-rouge">cmake_paths</code></p>
+
+<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[<span class="n">requires</span>]
+<span class="n">libcurl</span>/<span class="m">7</span>.<span class="m">52</span>.<span class="m">1</span>@<span class="n">bincrafters</span>/<span class="n">stable</span>
+
+[<span class="n">generators</span>]
+<span class="n">cmake_paths</span>
+
+[<span class="n">options</span>]
+<span class="n">libcurl</span>:<span class="n">with_openssl</span>=<span class="n">True</span>
+</code></pre></div></div>
+
+<p><strong>CMakeLists.txt</strong> Here we are not including the <code class="highlighter-rouge">conanbuildinfo.cmake</code> file, only calling to find_package:</p>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">project</span><span class="p">(</span>myapp<span class="p">)</span>
+<span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 3.1<span class="p">)</span>
+
+<span class="nb">add_executable</span><span class="p">(</span>myapp main.cpp<span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span>CURL<span class="p">)</span>
+<span class="nb">include_directories</span><span class="p">(</span><span class="si">${</span><span class="nv">CURL_INCLUDE_DIRS</span><span class="si">}</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span>myapp <span class="si">${</span><span class="nv">CURL_LIBRARIES</span><span class="si">}</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Clean the “build” directory and install again, it will generate the <code class="highlighter-rouge">conan_paths.cmake</code> file:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">rm</span> <span class="nt">-rf</span> build <span class="o">&amp;&amp;</span> <span class="nb">mkdir </span>build <span class="o">&amp;&amp;</span> <span class="nb">cd </span>build
+<span class="nv">$ </span>conan <span class="nb">install</span> ..
+</code></pre></div></div>
+
+<p>Now call CMake including the <code class="highlighter-rouge">conan_paths.cmake</code> as a toolchain:</p>
+
+<p><strong>Linux/Mac</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>cmake .. <span class="nt">-DCMAKE_BUILD_TYPE</span><span class="o">=</span>Release <span class="nt">-DCMAKE_TOOLCHAIN_FILE</span><span class="o">=</span>./conan_paths.cmake
+<span class="nv">$ </span>cmake <span class="nt">--build</span> <span class="nb">.</span>
+<span class="nv">$ </span>./bin/myapp
+<span class="c"># a JSON will be outputted here</span>
+</code></pre></div></div>
+
+<p><strong>Windows</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>cmake .. <span class="nt">-G</span> “Visual Studio 15 2017 Win64” <span class="nt">-DCMAKE_TOOLCHAIN_FILE</span><span class="o">=</span>./conan_paths.cmake
+<span class="nv">$ </span>cmake <span class="nt">--build</span> <span class="nb">.</span> <span class="nt">--config</span> Release
+<span class="nv">$ </span>./release/myapp
+<span class="c"># a JSON will be outputted here</span>
+</code></pre></div></div>
+
+<p>Unfortunately, <strong>it won’t work</strong>, many linker errors will occur:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  ...
+  <span class="s2">"_sk_value"</span>, referenced from:
+      _ossl_connect_common <span class="k">in </span>libcurl.a<span class="o">(</span>libcurl_la-openssl.o<span class="o">)</span>
+  <span class="s2">"_zlibVersion"</span>, referenced from:
+      _Curl_version_init <span class="k">in </span>libcurl.a<span class="o">(</span>libcurl_la-version.o<span class="o">)</span>
+      _curl_version <span class="k">in </span>libcurl.a<span class="o">(</span>libcurl_la-version.o<span class="o">)</span>
+      _curl_version_info <span class="k">in </span>libcurl.a<span class="o">(</span>libcurl_la-version.o<span class="o">)</span>
+      _Curl_unencode_gzip_write <span class="k">in </span>libcurl.a<span class="o">(</span>libcurl_la-content_encoding.o<span class="o">)</span>
+ld: symbol<span class="o">(</span>s<span class="o">)</span> not found <span class="k">for </span>architecture x86_64
+clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code 1 <span class="o">(</span>use <span class="nt">-v</span> to see invocation<span class="o">)</span>
+</code></pre></div></div>
+
+<p>Why? Because even using <code class="highlighter-rouge">find_package(CURL)</code>, we need to manage the transitive dependencies, OpenSSL and Zlib:</p>
+
+<p>(Folder <a href="https://github.com/lasote/transparent_cmake_examples/tree/master/cmake_paths_attempt2">cmake_paths_attempt2</a> in the repository)</p>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">PROJECT</span><span class="p">(</span>myapp<span class="p">)</span>
+<span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 3.1<span class="p">)</span>
+
+<span class="nf">ADD_EXECUTABLE</span><span class="p">(</span>myapp main.cpp<span class="p">)</span>
+
+<span class="nb">find_package</span><span class="p">(</span>ZLIB<span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span>OpenSSL<span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span>CURL<span class="p">)</span>
+
+<span class="nb">include_directories</span><span class="p">(</span><span class="si">${</span><span class="nv">ZLIB_INCLUDE_DIRS</span><span class="si">}</span> <span class="si">${</span><span class="nv">OPENSSL_INCLUDE_DIRS</span><span class="si">}</span> <span class="si">${</span><span class="nv">CURL_INCLUDE_DIRS</span><span class="si">}</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span>myapp <span class="si">${</span><span class="nv">CURL_LIBRARIES</span><span class="si">}</span> <span class="si">${</span><span class="nv">OPENSSL_LIBRARIES</span><span class="si">}</span> <span class="si">${</span><span class="nv">ZLIB_LIBRARIES</span><span class="si">}</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>And not less important, we need to make the <code class="highlighter-rouge">target_link_libraries</code> in the correct order.
+So definitely, in this case, the transparent integration is far from ideal, we are losing precious information
+from the package manager, like the transitivity and the order of linkage.</p>
+
+<p>If you are not using Windows, the previous example will probably work. If not, you will still see linker errors
+because of the <code class="highlighter-rouge">findCURL.cmake</code> (provided by CMake).</p>
+
+<ul>
+  <li>
+    <p>It is not linking with <code class="highlighter-rouge">Ws2_32</code>: Remember the CMake findXXX modules are not transitive, so you have to declare ALL
+the dependency tree in your <code class="highlighter-rouge">CMakeLists.txt</code> file.</p>
+  </li>
+  <li>
+    <p>It is not propagating the definition <code class="highlighter-rouge">CURL_STATICLIB</code> needed to link correctly with the static library.</p>
+  </li>
+</ul>
+
+<p>Check the code in the folder <a href="https://github.com/lasote/transparent_cmake_examples/tree/master/cmake_paths_attempt3_windows">cmake_paths_attempt3_windows</a> of the repository.</p>
+
+<p>We can see that using the CMake provided <code class="highlighter-rouge">findXXX</code> modules is very far from being ideal because many
+information that the package manager already knows is completely lost: Both the transitive dependencies and definitions
+are declared in the <code class="highlighter-rouge">package_info</code> method of the libcurl recipe, but will never be applied if you use the CMake provided findXXX modules.</p>
+
+<p>How could this be improved?</p>
+
+<h2 id="transparent-cmake-integration-2-cmake_find_package-generator">Transparent CMake integration (2): “cmake_find_package” generator</h2>
+
+<p>The <code class="highlighter-rouge">cmake_find_package</code> is a different approach. It will generate one <code class="highlighter-rouge">find&lt;package_name&gt;.cmake</code> for
+each dependency from the information that Conan has about the dependency tree.
+We can use it with modern CMake target approach. As every target is transitive, libcurl target will
+contain the OpenSSL and zlib information too.</p>
+
+<p>(Folder <a href="https://github.com/lasote/transparent_cmake_examples/tree/master/cmake_find_package">cmake_find_package</a> in the repository)</p>
+
+<p><strong>conanfile.txt</strong> Change the generator to <code class="highlighter-rouge">cmake_find_package</code>:</p>
+<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[<span class="n">requires</span>]
+<span class="n">libcurl</span>/<span class="m">7</span>.<span class="m">52</span>.<span class="m">1</span>@<span class="n">bincrafters</span>/<span class="n">stable</span>
+
+[<span class="n">generators</span>]
+<span class="n">cmake_find_package</span>
+
+[<span class="n">options</span>]
+<span class="n">libcurl</span>:<span class="n">with_openssl</span>=<span class="n">True</span>
+<span class="n">libcurl</span>:<span class="n">darwin_ssl</span>=<span class="n">False</span> <span class="c"># Force use openssl in OSX too
+</span></code></pre></div></div>
+
+<p><strong>CMakeLists.txt</strong> Conan will generate the <code class="highlighter-rouge">libcurl::libcurl</code> target, we only need to modify the <code class="highlighter-rouge">CMAKE_MODULE_PATH</code> to let CMake find our custom scripts:</p>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">project</span><span class="p">(</span>myapp<span class="p">)</span>
+<span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 3.1<span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span>CMAKE_MODULE_PATH <span class="si">${</span><span class="nv">CMAKE_BINARY_DIR</span><span class="si">}</span><span class="p">)</span>
+<span class="nb">message</span><span class="p">(</span><span class="si">${</span><span class="nv">CMAKE_BINARY_DIR</span><span class="si">}</span><span class="p">)</span>
+
+<span class="nb">add_executable</span><span class="p">(</span>myapp main.cpp<span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span>libcurl<span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span>myapp libcurl::libcurl<span class="p">)</span>
+</code></pre></div></div>
+
+<p>After cleaning the <em>build</em> directory and installing again, we will end up with the following files:</p>
+
+<ul>
+  <li>FindOpenSSL.cmake</li>
+  <li>Findzlib.cmake</li>
+  <li>Findlibcurl.cmake</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">rm</span> <span class="nt">-rf</span> build <span class="o">&amp;&amp;</span> <span class="nb">mkdir </span>build <span class="o">&amp;&amp;</span> <span class="nb">cd </span>build
+<span class="nv">$ </span>conan <span class="nb">install</span> ..
+</code></pre></div></div>
+
+<p>Now let’s call CMake again:</p>
+
+<p><strong>Linux/Mac</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>cmake .. <span class="nt">-DCMAKE_BUILD_TYPE</span><span class="o">=</span>Release
+<span class="nv">$ </span>cmake <span class="nt">--build</span> <span class="nb">.</span>
+<span class="nv">$ </span>./bin/myapp
+<span class="c"># a JSON will be outputted here</span>
+</code></pre></div></div>
+
+<p><strong>Windows</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>cmake .. <span class="nt">-G</span> “Visual Studio 15 2017 Win64”
+<span class="nv">$ </span>cmake <span class="nt">--build</span> <span class="nb">.</span> <span class="nt">--config</span> Release
+<span class="nv">$ </span>./release/myapp
+<span class="c"># a JSON will be outputted here</span>
+</code></pre></div></div>
+
+<p>If we would like to avoid the <code class="highlighter-rouge">CMAKE_MODULE_PATH</code> manipulation we could also use both <code class="highlighter-rouge">cmake_paths</code> and
+<code class="highlighter-rouge">cmake_find_package</code> generators and use it as a toolchain like in the previous example, it will adjust also the
+module path to locate our <code class="highlighter-rouge">find&lt;package_name&gt;.cmake</code> scripts in the current directory.</p>
+
+<p>CMake will try to locate the find <code class="highlighter-rouge">find&lt;package_name&gt;.cmake</code> scripts in the following order: First the packages folder,
+then the directory where we are building the project and finally the CMake installation/Modules directory.</p>
+
+<h2 id="wait-is-this-really-transparent">Wait… Is this really transparent?</h2>
+
+<p>Probably you noticed that the <code class="highlighter-rouge">find_package(CURL)</code> has been replaced with a <code class="highlighter-rouge">find_package(libcurl)</code>.
+And maybe you are thinking: Well, but the name of the <code class="highlighter-rouge">findXXX</code> files do not correspond with my classic <code class="highlighter-rouge">find_package</code> invocations
+in my <code class="highlighter-rouge">CMakelists.txt</code>. And I don’t want to change my <code class="highlighter-rouge">CMakeLists.txt</code> file and this is the only reason why I’m reading this blog post!</p>
+
+<p>And you are right, but this generator is not intended to replace the original CMake installation <code class="highlighter-rouge">find_package</code> modules,
+because they behave in a very different way. As you can see, using the classic <code class="highlighter-rouge">find_package</code> modules, the information transmitted from
+the Package Manager to the build system is mingy, while with this generator all the information from the targets is automatically
+propagated:</p>
+
+<ul>
+  <li>
+    <p>Targets are <strong>transitive</strong>, so you will specify only the dependencies you are directly depending on. You don’t need to know if
+libcurl is depending on OpenSSL. Actually, the previous examples in Mac OSX use the internal Apple SSL implementation by default.
+And our <code class="highlighter-rouge">CMakeLists.txt</code> will work exactly the same in any system.</p>
+  </li>
+  <li>
+    <p>Propagates <strong>definitions</strong>: Without the <code class="highlighter-rouge">CURL_STATICLIB</code> definition the build fails. This definition is declared in the <code class="highlighter-rouge">package_info</code> method
+of the libcurl package.</p>
+  </li>
+  <li>
+    <p>Propagates <strong>linker and compiler flags</strong>: For example, to link with the SSL framework in Mac OSX, the recipe injects: <code class="highlighter-rouge">-framework Security</code> and <code class="highlighter-rouge">-framework Cocoa</code>
+but only in OSX and only if you do not force it to use OpenSSL.</p>
+  </li>
+</ul>
+
+<p class="centered">
+    <img src="http://localhost:4000/assets/post_images/2018-06-11/coupling_cmake.png" align="center" width="600" />
+</p>
+
+<ul>
+  <li>
+    <p>If you are consuming packages and you have high restrictions to change your <code class="highlighter-rouge">CMakeLists.txt</code>, probably the <code class="highlighter-rouge">cmake_paths</code> is the best choice.</p>
+  </li>
+  <li>
+    <p>If you are consuming packages and you are looking for a way to connect the package manager and the CMake build system in a non-intrusive way, choose <code class="highlighter-rouge">cmake_find_package</code>.</p>
+  </li>
+  <li>
+    <p>If you are creating Conan packages, we strongly recommend you to include the <code class="highlighter-rouge">conanbuildinfo.cmake</code> in your <code class="highlighter-rouge">CMakeLists.txt</code> file
+(you can always patch your <code class="highlighter-rouge">CMakeLists.txt</code> from the recipe!).
+The classic <code class="highlighter-rouge">cmake</code> generator introduces to our build script more information from the package manager:
+The applied settings and options, the Visual Studio runtime, rpaths, compiler checks, standard library version and fPIC flag.</p>
+  </li>
+</ul>
+
+<p>You can find the sources for the examples in this blog post at this repository:
+<a href="https://github.com/lasote/transparent_cmake_examples">https://github.com/lasote/transparent_cmake_examples</a></p>
+
+<p>You can find more information about the integration with CMake in the Conan docs:
+<a href="https://docs.conan.io/en/latest/integrations/cmake.html#cmake">https://docs.conan.io/en/latest/integrations/cmake.html#cmake</a></p>
+:ET

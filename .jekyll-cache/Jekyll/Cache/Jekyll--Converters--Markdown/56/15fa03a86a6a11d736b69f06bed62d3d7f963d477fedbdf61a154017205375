@@ -1,0 +1,137 @@
+I"�:<p>This post makes a brief introduction to the C++ modules (we wished C++17, but we will have to
+wait). Modules have already been experimentally available in an early implementation in CLang, and now Microsoft is also
+providing them in Visual Studio 2015. We will see their syntax and how to build them, as introduced in the 
+<a href="https://blogs.msdn.microsoft.com/vcblog/2015/12/03/c-modules-in-vs-2015-update-1/">Visual Studio Blog</a>, and at the same time, we will show how to create
+and consumes packages with C++ modules with conan C/C++ package manager.</p>
+
+<h2 class="section-heading">A math C++ module library and package</h2>
+
+<p>First we will create a very simple math library with addition and multiplication functions,
+which will be implemented in a module, called <code class="highlighter-rouge">MyMath</code> in a filename <strong>mymath.ixx</strong>. This extension
+will be the one used to indicate C++ modules syntax:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">module MyMath<span class="p">;</span>
+<span class="nb">export </span>double addition<span class="o">(</span>double a, double b<span class="o">){</span>
+    <span class="k">return </span>a + b<span class="p">;</span>
+<span class="o">}</span>
+<span class="nb">export </span>double multiplication<span class="o">(</span>double y, int z<span class="o">){</span>
+    <span class="k">return </span>y <span class="k">*</span> z<span class="p">;</span>
+<span class="o">}</span> </code></pre></figure>
+
+<p>Currently, building it requires command line invocation of the MSVC compiler <strong>cl.exe</strong>. This should be done
+in the Visual Studio Prompt, or with the Visual Studio environment variables loaded. I usually work
+in the <em>cmder</em> console in windows, so I prefer to load the environment variables:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>call <span class="s2">"%vs140comntools%../../VC/vcvarsall.bat"</span>
+<span class="nv">$ </span>cl /c /experimental:module mymath.ixx</code></pre></figure>
+
+<p>When building this file, the compiler will generate the typical object code, and also an <em>IFC</em> file,
+called “MyMath.ifc”, which is the module interface description metadata. If we want to build an actual
+static library, we can also do it in the command line:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>lib mymath.obj <span class="nt">-OUT</span>:mymath.lib</code></pre></figure>
+
+<p>From the user point of view, the <em>.ifc files can be handled and linked as if they were another libraries,
+so all we have to do to create a conan package recipe for this code, just besides the *mymath.ixx</em> file:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">conans</span> <span class="kn">import</span> <span class="n">ConanFile</span><span class="p">,</span> <span class="n">CMake</span><span class="p">,</span> <span class="n">tools</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">class</span> <span class="nc">VSModulesConan</span><span class="p">(</span><span class="n">ConanFile</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">"MyMath"</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="s">"0.1"</span>
+    <span class="n">license</span> <span class="o">=</span> <span class="s">"MIT"</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="s">"os"</span><span class="p">,</span> <span class="s">"compiler"</span><span class="p">,</span> <span class="s">"build_type"</span><span class="p">,</span> <span class="s">"arch"</span>
+    <span class="n">exports</span> <span class="o">=</span> <span class="s">"mymath.ixx"</span>
+
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="s">"x86"</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">arch</span> <span class="o">==</span> <span class="s">"x86"</span> <span class="k">else</span> <span class="s">"amd64"</span>
+        <span class="c1"># Missing handling of build_type, but lets keep it simple
+</span>        <span class="n">vcvars</span> <span class="o">=</span> <span class="s">'call "</span><span class="si">%%</span><span class="s">vs140comntools</span><span class="si">%%</span><span class="s">../../VC/vcvarsall.bat" </span><span class="si">%</span><span class="s">s'</span> <span class="o">%</span> <span class="n">param</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s">'</span><span class="si">%</span><span class="s">s &amp;&amp; cl /c /experimental:module mymath.ixx'</span> <span class="o">%</span> <span class="n">vcvars</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s">'</span><span class="si">%</span><span class="s">s &amp;&amp; lib mymath.obj -OUT:mymath.lib'</span> <span class="o">%</span> <span class="n">vcvars</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">package</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="s">"*.lib"</span><span class="p">,</span> <span class="s">"lib"</span><span class="p">)</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="s">"*.ifc"</span><span class="p">,</span> <span class="s">"lib"</span><span class="p">)</span> 
+
+    <span class="k">def</span> <span class="nf">package_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cpp_info</span><span class="o">.</span><span class="n">libs</span> <span class="o">=</span> <span class="p">[</span><span class="s">"MyMath.ifc"</span><span class="p">,</span> <span class="s">"mymath.lib"</span><span class="p">]</span></code></pre></figure>
+
+<p>We can now export the package to the conan local storage, so we can consume it from there:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>conan <span class="nb">export </span>memsharded/testing</code></pre></figure>
+
+<h2 class="section-heading">Consuming the C++ module library</h2>
+
+<p>Now, in a different folder, we can create the consuming project, that will link against the library:</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cp">#include &lt;iostream&gt;
+</span><span class="n">import</span> <span class="n">MyMath</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">"MyModules</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">addition</span><span class="p">(</span><span class="mf">5.1</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">multiplication</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span> </code></pre></figure>
+
+<p>Building an executable from this code, the following commands would be required:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>cl /EHsc /experimental:module /module:reference &lt;libpath&gt;/MyMath.ifc &lt;libpath&gt;/mymath.lib  main.cpp </code></pre></figure>
+
+<p>We need the library path, if we built the library manually, it would be the path when we generated it.
+For conan packages, using a recipe to declare the dependency to the library package, and automating the 
+build is very convenient, even if we are not creating a package for the consumer project. Remember, 
+conan recipes are basically convenient python scripts:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">conans</span> <span class="kn">import</span> <span class="n">ConanFile</span><span class="p">,</span> <span class="n">CMake</span><span class="p">,</span> <span class="n">tools</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">class</span> <span class="nc">VSModulesTestConan</span><span class="p">(</span><span class="n">ConanFile</span><span class="p">):</span>
+    <span class="n">license</span> <span class="o">=</span> <span class="s">"MIT"</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="s">"os"</span><span class="p">,</span> <span class="s">"compiler"</span><span class="p">,</span> <span class="s">"build_type"</span><span class="p">,</span> <span class="s">"arch"</span>
+    <span class="n">requires</span> <span class="o">=</span> <span class="s">"MyMath/0.1@memsharded/testing"</span>
+
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="s">"x86"</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">arch</span> <span class="o">==</span> <span class="s">"x86"</span> <span class="k">else</span> <span class="s">"amd64"</span>
+        <span class="n">vcvars</span> <span class="o">=</span> <span class="s">'call "</span><span class="si">%%</span><span class="s">vs140comntools</span><span class="si">%%</span><span class="s">../../VC/vcvarsall.bat" </span><span class="si">%</span><span class="s">s'</span> <span class="o">%</span> <span class="n">param</span>
+        <span class="n">lib_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">deps_cpp_info</span><span class="o">.</span><span class="n">lib_paths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">libs</span> <span class="o">=</span> <span class="s">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">"</span><span class="si">%</span><span class="s">s/</span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">lib_path</span><span class="p">,</span> <span class="n">lib</span><span class="p">)</span> <span class="k">for</span> <span class="n">lib</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">deps_cpp_info</span><span class="o">.</span><span class="n">libs</span><span class="p">)</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="p">(</span><span class="s">'</span><span class="si">%</span><span class="s">s &amp;&amp; cl /EHsc /experimental:module /module:reference </span><span class="si">%</span><span class="s">s </span><span class="si">%</span><span class="s">s/main.cpp '</span>
+                     <span class="o">%</span> <span class="p">(</span><span class="n">vcvars</span><span class="p">,</span> <span class="n">libs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conanfile_directory</span><span class="p">,</span> <span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s">"main"</span><span class="p">)</span></code></pre></figure>
+
+<p>With this recipe, installing the required dependencies (in our case, building the library with
+the <em>MyMath</em> C++ module) is simple:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>conan <span class="nb">install</span> <span class="nt">--build</span></code></pre></figure>
+
+<p>And then, building and executing the application:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>conan build
+<span class="nv">$ </span>main
+MyModules
+8.3
+6</code></pre></figure>
+
+<h2 class="section-heading">Conclusion</h2>
+
+<p>If you want to test this quickly you might just:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>git clone https://github.com/memsharded/vs_modules
+<span class="nv">$ </span><span class="nb">cd </span>vs_modules
+<span class="nv">$ </span>conan <span class="nb">export </span>memsharded/testing
+<span class="nv">$ </span>conan test_package </code></pre></figure>
+
+<p>We have always considered Windows as a first class citizen (as well as Linux and OSX) in conan, and we design, implement, test and
+deploy with Windows users in mind (we also develop in Windows about 50% of our time).</p>
+
+<p>We hope that this post proves it, as despite the early stage of the Visual Studio C++ modules build infrastructure (just the command line), conan package manager is able to both create and consume packages quite easily and in an intuitive way. This can be further simplified by improving the existing “Visual Studio” or “CMake” generators, once C++ modules have full support in the IDE and build system.</p>
+
+<p>We are also very excited to be able to test this amazing feature in Visual Studio, undoubtly Microsoft is doing an amazing work on C++ lately,
+and really looking forward to seeing C++ modules becoming mainstream.</p>
+:ET

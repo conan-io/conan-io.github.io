@@ -1,0 +1,2 @@
+I"2<p>The benefit of using a package manager like conan is, in addition to many other advantages, manage your project dependencies. You can build your project even in different computers and with different operating systems just running <code class="highlighter-rouge">conan install</code> command again.</p>
+:ET

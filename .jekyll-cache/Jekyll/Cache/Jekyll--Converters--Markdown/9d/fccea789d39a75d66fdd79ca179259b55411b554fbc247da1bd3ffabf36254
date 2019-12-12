@@ -1,0 +1,68 @@
+I"Y<p>New release and some new features! Conan 1.6 comes with many small improvements around tooling and process execution inside recipes as well
+as with small additions to the command line.</p>
+
+<h2 id="new-parameters-for-selfrun">New parameters for self.run()</h2>
+
+<p>Having a look at many many recipes we realized that setting environment variables such as <code class="highlighter-rouge">DYLD_LIBRARY_PATH</code> to launch packaged apps is a
+very recurrent use case. There were already some tools to help with the process but still there was a nasty repeatedly used bunch of code
+lines usually in <em>test_package</em>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    def test(self):
+        with tools.environment_append(RunEnvironment(self).vars):
+            bin_path = os.path.join("bin", "example")
+            if self.settings.os == "Windows":
+                self.run(bin_path)
+            elif self.settings.os == "Macos":
+                self.run("DYLD_LIBRARY_PATH=%s %s" % (os.environ.get('DYLD_LIBRARY_PATH', ''), bin_path))
+            else:
+                self.run("LD_LIBRARY_PATH=%s %s" % (os.environ.get('LD_LIBRARY_PATH', ''), bin_path))
+</code></pre></div></div>
+
+<p>So we came with <a href="https://docs.conan.io/en/latest/reference/tools.html#tools-run-environment">tools.run_environment()</a> and injected those
+needed variables before the command in the conanfile
+<a href="https://docs.conan.io/en/latest/reference/conanfile/other.html#running-commands">self.run() method</a>. Now you can simply use:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    def test(self):
+        bin_path = os.path.join("bin", "example")
+        self.run(bin_path, run_environment=True)
+</code></pre></div></div>
+
+<h2 id="improved-tooling">Improved tooling</h2>
+
+<p>This release has been very much about improvements to the Conan tools and new additions as mentioned above with <code class="highlighter-rouge">tools.run_environment()</code>.</p>
+
+<p>We have new <code class="highlighter-rouge">tools.unix2dos()</code>/<code class="highlighter-rouge">dos2unix()</code> to convert between LF and CRLF line endings.</p>
+
+<p>There were some improvements in <code class="highlighter-rouge">tools.get()</code> with parameters <code class="highlighter-rouge">filename</code>, to download files with a name that cannot be deduced from URL,
+and <code class="highlighter-rouge">keep_permissions</code>, to propagate the flag to <code class="highlighter-rouge">tools.unzip()</code>.</p>
+
+<p>Moreover, in <code class="highlighter-rouge">tools.unzip()</code> we have introduced support for XZ extensions. This would only be available for Python 3 users and starts the
+journey towards Python 2 deprecation as there is no support to implement such new features.</p>
+
+<p>Finally we continued improving the <code class="highlighter-rouge">tools.Git()</code>, this time to allow capturing the current branch with <code class="highlighter-rouge">get_branch()</code> and current commit
+with <code class="highlighter-rouge">get_commit()</code>.</p>
+
+<p>Go and check all the new changes in the <a href="https://docs.conan.io/en/latest/reference/tools.html">tools section</a>.</p>
+
+<h2 id="small-additions-to-commands">Small additions to commands</h2>
+
+<p>We included new <code class="highlighter-rouge">--raw</code> flag to <code class="highlighter-rouge">conan remote list</code> to display remotes in the same way they are configured in the registry. You can copy
+and paste the output into your <em>remotes.txt</em> file to use <code class="highlighter-rouge">conan config install</code> feature!</p>
+
+<p>Talking about <code class="highlighter-rouge">config install</code>, it has a new <code class="highlighter-rouge">--type "git"</code> flag to indicate installation should be done cloning a git repository from
+the URL provided. This is handy for example if you are working with Microsoft Team Foundation Server TFS git repositories.</p>
+
+<p>Finally, <code class="highlighter-rouge">conan build --test</code> was added together with <code class="highlighter-rouge">should_test</code> attribute in the conanfile as a logic step to
+<a href="https://docs.conan.io/en/latest/reference/conanfile/attributes.html#should-configure-should-build-should-install-should-test">control the test stage</a></p>
+
+<h2 id="other-highlights">Other highlights</h2>
+
+<ul>
+  <li>LLVM toolsets for Visual Studio has been included in <em>settings.yml</em>.</li>
+  <li>We have improved our pyinstaller to include the Python dependencies and improved the
+<a href="https://bintray.com/conan/installers/client_installers/1.6.0#files">deb installer</a> for distros such as Debian 9.</li>
+</ul>
+
+<p>Check the full list of features and fixes in the <a href="https://docs.conan.io/en/latest/changelog.html#july-2018">changelog</a> and don’t forget to
+<a href="https://conan.io/downloads.html">update</a>!</p>
+:ET

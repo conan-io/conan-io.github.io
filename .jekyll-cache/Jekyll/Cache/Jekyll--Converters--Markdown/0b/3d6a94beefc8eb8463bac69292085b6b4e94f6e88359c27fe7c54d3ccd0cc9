@@ -1,0 +1,152 @@
+I"RQ<p>This blog post goals to present the Facebook Folly project and its complex dependency chain as well as its usage. It will also present Conan as a solution for its installation and for its dependencies.
+The source code for this example can be found on <a href="https://github.com/conan-io/examples/tree/master/libraries/folly/basic">Github</a>.</p>
+
+<h2 id="what-is-folly">What is Folly</h2>
+
+<p><a href="https://github.com/facebook/folly">Folly</a> is the “acronym” for <em>Facebook Open Source Library</em>, a C ++ project that has been developed with the community and has become quite popular on Github, with more than 11,000 stars and 2,000 forks. The project was introduced in 2012 through <a href="https://www.facebook.com/notes/facebook-engineering/folly-the-facebook-open-source-library/10150864656793920/">Facebook</a>, aiming at a complete library, focused on ease of use, speed on development and as complement to real-world solutions, including:</p>
+
+<ul>
+  <li>Asynchronous computation</li>
+  <li>String formatting</li>
+  <li>Benchmark</li>
+  <li>Dynamic types</li>
+</ul>
+
+<p>Folly was also introduced to the world through at CppCon editions, as in the <a href="https://www.youtube.com/watch?v=GDxb21kEthM">“Experiences with Facebook’s C ++ Library”</a> at CppCon 2017, and has an extensive documentation on <a href="https://github.com/facebook/folly/blob/master/folly/docs/Overview.md">Github</a>.</p>
+
+<h2 id="why-should-i-use-folly-in-my-project">Why should I use folly in my project?</h2>
+
+<p>We already have <code class="highlighter-rouge">std</code> and <code class="highlighter-rouge">Boost</code>, so why we need another core library? In fact Folly does not aim to replace any library, but complement them. Folly was thought for cases where they require higher performance or have not yet been implemented. Currently it is used by Facebook itself, in its <a href="https://code.fb.com/open-source/linux/">millions of servers</a>, which support more than <a href="https://newsroom.fb.com/company-info/">2 billion users</a>, and also is used in <a href="code.fb.com/android/building-zero-protocol-for-fast-secure-mobile-connections">Facebook mobile apps</a> which are on over a billion devices according to <a href="play.google.com/store/apps/details?id=com.facebook.katana">Google Play</a>. This proves the maturity and reliability of Folly project.</p>
+
+<p>In the CppCon 2016 edition, the presentation <a href="https://youtu.be/kPR8h4-qZdk">“The strange details of std::string at Facebook”</a> demonstrated the work done by <a href="http://erdani.com/">Andrei Alexandrescu</a> in implementing <a href="https://github.com/facebook/folly/blob/master/folly/docs/FBString.md">FBString</a>, a class developed with the objective of being more efficient, compatible with <code class="highlighter-rouge">std::string</code>, resulting in <strong>30x faster</strong> than <code class="highlighter-rouge">string::find()</code>.</p>
+
+<p>In addition to being designed to achieve great efficiency, Folly was also designed to be easy to use, to acelerate the integration and learning of new users. For example, string conversion can be simplified through <a href="https://github.com/facebook/folly/blob/master/folly/docs/Conv.md">Conv</a>, or mutex synchronization through <a href="https://github.com/facebook/folly/blob/master/folly/docs/Synchronized.md">Synchronized</a>, or even <a href="https://github.com/facebook/folly/blob/master/folly/docs/ProducerConsumerQueue.md">ProducerConsumerQueue</a> to synchronize queues for multhreading programming.</p>
+
+<h2 id="talk-is-cheap-show-me-the-code">Talk is cheap, Show me the code</h2>
+
+<p>To illustrate the use of Folly, let’s use an example project with the purpose of validating a <a href="https://www.ietf.org/rfc/rfc3986.txt">URI</a> using <a href="https://code.fb.com/developer-tools/futures-for-c-11-at-facebook/">Futures</a>, <a href="https://github.com/facebook/folly/blob/master/folly/docs/FBString.md">FBString</a>, <a href="https://github.com/facebook/folly/blob/master/folly/docs/Executors.md">Executors</a>, and <a href="https://github.com/facebook/folly/blob/master/folly/docs/Format.md">Format</a>:</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cp">#include &lt;utility&gt;
+#include &lt;iostream&gt;
+#include &lt;folly/Format.h&gt;
+#include &lt;folly/futures/Future.h&gt;
+#include &lt;folly/executors/ThreadedExecutor.h&gt;
+#include &lt;folly/Uri.h&gt;
+#include &lt;folly/FBString.h&gt;
+</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">print_uri</span><span class="p">(</span><span class="k">const</span> <span class="n">folly</span><span class="o">::</span><span class="n">fbstring</span><span class="o">&amp;</span> <span class="n">address</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="n">folly</span><span class="o">::</span><span class="n">Uri</span> <span class="n">uri</span><span class="p">(</span><span class="n">address</span><span class="p">);</span>
+    <span class="k">const</span> <span class="k">auto</span> <span class="n">authority</span> <span class="o">=</span> <span class="n">folly</span><span class="o">::</span><span class="n">format</span><span class="p">(</span><span class="s">"The authority from {} is {}"</span><span class="p">,</span> <span class="n">uri</span><span class="p">.</span><span class="n">fbstr</span><span class="p">(),</span> <span class="n">uri</span><span class="p">.</span><span class="n">authority</span><span class="p">());</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">authority</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">folly</span><span class="o">::</span><span class="n">ThreadedExecutor</span> <span class="n">executor</span><span class="p">;</span>
+    <span class="n">folly</span><span class="o">::</span><span class="n">Promise</span><span class="o">&lt;</span><span class="n">folly</span><span class="o">::</span><span class="n">fbstring</span><span class="o">&gt;</span> <span class="n">promise</span><span class="p">;</span>
+    <span class="n">folly</span><span class="o">::</span><span class="n">Future</span><span class="o">&lt;</span><span class="n">folly</span><span class="o">::</span><span class="n">fbstring</span><span class="o">&gt;</span> <span class="n">future</span> <span class="o">=</span> <span class="n">promise</span><span class="p">.</span><span class="n">getSemiFuture</span><span class="p">().</span><span class="n">via</span><span class="p">(</span><span class="o">&amp;</span><span class="n">executor</span><span class="p">);</span>
+    <span class="n">folly</span><span class="o">::</span><span class="n">Future</span><span class="o">&lt;</span><span class="n">folly</span><span class="o">::</span><span class="n">Unit</span><span class="o">&gt;</span> <span class="n">unit</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">future</span><span class="p">).</span><span class="n">thenValue</span><span class="p">(</span><span class="n">print_uri</span><span class="p">);</span>
+    <span class="n">promise</span><span class="p">.</span><span class="n">setValue</span><span class="p">(</span><span class="s">"https://conan.io/"</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">unit</span><span class="p">).</span><span class="n">get</span><span class="p">();</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The code above should only print_uri the message <em>“The authority from https://conan.io is conan.io”</em> shortly after the future callback is executed. Let’s look in detail:</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">static</span> <span class="kt">void</span> <span class="nf">print_uri</span><span class="p">(</span><span class="k">const</span> <span class="n">folly</span><span class="o">::</span><span class="n">fbstring</span><span class="o">&amp;</span> <span class="n">address</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="n">folly</span><span class="o">::</span><span class="n">Uri</span> <span class="n">uri</span><span class="p">(</span><span class="n">address</span><span class="p">);</span>
+    <span class="k">const</span> <span class="k">auto</span> <span class="n">authority</span> <span class="o">=</span> <span class="n">folly</span><span class="o">::</span><span class="n">format</span><span class="p">(</span><span class="s">"The authority from {} is {}"</span><span class="p">,</span> <span class="n">uri</span><span class="p">.</span><span class="n">fbstr</span><span class="p">(),</span> <span class="n">uri</span><span class="p">.</span><span class="n">authority</span><span class="p">());</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">authority</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>This small function is responsible for parsing the address, validating whether it is a valid URI, formatting a string with the authority present on the URI, and showing through the standard output. The <code class="highlighter-rouge">FBString</code> class has 3 strategies for storing:</p>
+
+<ul>
+  <li>Small strings (&lt;= 23 chars) are stored in-situ without memory allocation.</li>
+  <li>Medium strings (24 - 255 chars) are stored in malloc-allocated memory and copied eagerly.</li>
+  <li>Large strings (&gt; 255 chars) are stored in malloc-allocated memory and copied lazily.</li>
+</ul>
+
+<p>The received address has only 17 characters, so it will be stored without memory allocation. The <code class="highlighter-rouge">Uri</code> will parse the address in its constructor, for this will be used <a href="https://theboostcpplibraries.com/boost.regex">Boost Regex</a>. And finally will format using the fast and powerful <code class="highlighter-rouge">folly::format</code>.</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">folly</span><span class="o">::</span><span class="n">Future</span><span class="o">&lt;</span><span class="n">folly</span><span class="o">::</span><span class="n">fbstring</span><span class="o">&gt;</span> <span class="n">future</span> <span class="o">=</span> <span class="n">promise</span><span class="p">.</span><span class="n">getSemiFuture</span><span class="p">().</span><span class="n">via</span><span class="p">(</span><span class="o">&amp;</span><span class="n">executor</span><span class="p">);</span>
+<span class="n">folly</span><span class="o">::</span><span class="n">Future</span><span class="o">&lt;</span><span class="n">folly</span><span class="o">::</span><span class="n">Unit</span><span class="o">&gt;</span> <span class="n">unit</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">future</span><span class="p">).</span><span class="n">thenValue</span><span class="p">(</span><span class="n">print_uri</span><span class="p">);</span>
+<span class="n">promise</span><span class="p">.</span><span class="n">setValue</span><span class="p">(</span><span class="s">"https://conan.io/"</span><span class="p">);</span>
+<span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">unit</span><span class="p">).</span><span class="n">get</span><span class="p">();</span></code></pre></figure>
+
+<p><a href="https://isocpp.org/wiki/faq/cpp11-library-concurrency#cpp11-future">Future</a> is nothing more than a representation of the result of an asynchronous computation that may not yet be available.
+Once completed, it will contain the result of the operation performed. Folly Future is able to execute a callback after its completion through <code class="highlighter-rouge">thenValue</code> and <code class="highlighter-rouge">thenTry</code>.
+The executor specifies where work will run, thus given an executor we can convert a <code class="highlighter-rouge">SemiFuture</code> to a <code class="highlighter-rouge">Future</code> with an executor. Finally, we set the value to be consumed by the callback function and wait for the result through <code class="highlighter-rouge">get()</code>.</p>
+
+<p>Now that we have the sample code and the build description, we need the environment to build the project, including the Folly library and its dependencies.</p>
+
+<h2 id="follys-dependencies">Folly’s dependencies</h2>
+
+<p>Although Folly is an excellent project for C ++ environments, it has a complex dependency structure:</p>
+
+<p class="centered">
+    <img src="http://localhost:4000/assets/post_images/2018-12-03/graph.png" align="center" width="600" alt="Folly's dependency graph" />
+</p>
+
+<p>This graph can be generated with the <a href="https://docs.conan.io/en/latest/reference/commands/consumer/info.html">conan info</a> command:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>conan info folly/2018.11.12.00@bincrafters/stable <span class="nt">--graph</span> index.html</code></pre></figure>
+
+<p>As noted, Conan listed 11 other projects directly related to Folly, including the <a href="https://boost.org">Boost library</a>. Now you can realize just how difficult and time-consuming the task of preparing the environment to use Folly is.</p>
+
+<p>The project itself lists how to resolve its dependencies on Linux, Windows, and OSX platforms. However, in Linux it will be mandatory to use the version offered by the distribution and will not always be what is wanted. On Windows there is still the option to use <a href="https://docs.microsoft.com/en-us/cpp/vcpkg">Vcpkg</a>, however, you will need to wait for the construction of all dependencies before you can compile any sample code.</p>
+
+<h2 id="conan-to-the-rescue">Conan to the rescue</h2>
+
+<p>Conan the C++ package manager is able to compute the dependency graph and resolve dependencies. In order for such dependencies to be resolved, the small file <code class="highlighter-rouge">conanfile.txt</code> must be created to tells conan to retrieve the conan Folly package and generate a cmake file for our convenience:</p>
+
+<figure class="highlight"><pre><code class="language-conf" data-lang="conf">[<span class="n">requires</span>]
+<span class="n">folly</span>/<span class="m">2018</span>.<span class="m">11</span>.<span class="m">12</span>.<span class="m">00</span>@<span class="n">bincrafters</span>/<span class="n">stable</span>
+
+[<span class="n">generators</span>]
+<span class="n">cmake</span></code></pre></figure>
+
+<p>The file shows the requirements for our project, in this case only the Folly project, distributed in version 2018.11.12.00, by <a href="https://bincrafters.github.io/">Bincrafters</a> and is available on <a href="https://bintray.com/bincrafters/public-conan/folly%3Abincrafters">Bintray</a> and <a href="https://bintray.com/conan/conan-center">Conan center</a>, which comes pre-configured in the conan-cli.
+Since we are using CMake to build our project, we need to tell Conan to run its <a href="https://docs.conan.io/en/latest/integrations/cmake/cmake_generator.html#cmake-generator">cmake generator</a> to provide a file with all the necessary settings to be able to import Folly.
+Although we use cmake for this project, Conan has several other <a href="https://docs.conan.io/en/latest/integrations.html">generators</a>, including <a href="https://docs.conan.io/en/latest/integrations/qmake.html">QMake</a>, <a href="https://docs.conan.io/en/latest/integrations/visual_studio.html">Visual Studio</a>, <a href="https://docs.conan.io/en/latest/integrations/xcode.html">XCode</a> and many others.</p>
+
+<p>All those 11 dependencies listed by Folly will be solved automatically by Conan!</p>
+
+<p>Unfortunately, CMake alone is not able to solve all the extra dependencies required through Folly, so we will need to use Conan and <a href="https://cmake.org/">CMake</a> together to declare the extra packages. Let’s write <code class="highlighter-rouge">CMakeLists.txt</code>:</p>
+
+<figure class="highlight"><pre><code class="language-cmake" data-lang="cmake"><span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 3.1.3<span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span>folly_example CXX<span class="p">)</span>
+
+<span class="nb">include</span><span class="p">(</span><span class="si">${</span><span class="nv">CMAKE_BINARY_DIR</span><span class="si">}</span>/conanbuildinfo.cmake<span class="p">)</span>
+<span class="nf">conan_basic_setup</span><span class="p">(</span>TARGETS<span class="p">)</span>
+
+<span class="nb">add_executable</span><span class="p">(</span><span class="si">${</span><span class="nv">PROJECT_NAME</span><span class="si">}</span> main.cpp<span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="si">${</span><span class="nv">PROJECT_NAME</span><span class="si">}</span> CONAN_PKG::folly<span class="p">)</span>
+<span class="nb">set_target_properties</span><span class="p">(</span><span class="si">${</span><span class="nv">PROJECT_NAME</span><span class="si">}</span> PROPERTIES CXX_STANDARD 14<span class="p">)</span></code></pre></figure>
+
+<p>The function <code class="highlighter-rouge">conan_basic_setup</code> will be responsible of configuring all necessary settings, including the paths to the headers and libraries files. The <code class="highlighter-rouge">conanbuildinfo.cmake</code> is generated by Conan, once the generator configured is of type <strong>cmake</strong>. The <code class="highlighter-rouge">CONAN_PKG::folly</code> target, generated by Conan, owns the Folly project, in addition to all the libraries listed as dependencies.</p>
+
+<h2 id="time-to-build">Time to build</h2>
+
+<p>Now that the CMake file was updated and the Conan recipe has the appropriate dependency listed, we can build our example:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">mkdir </span>build <span class="o">&amp;&amp;</span> <span class="nb">cd </span>build
+<span class="nv">$ </span>conan <span class="nb">install</span> ..
+<span class="nv">$ </span>cmake .. <span class="nt">-G</span> <span class="s2">"Visual Studio 15 Win64"</span>
+<span class="nv">$ </span>cmake <span class="nt">--build</span> <span class="nb">.</span> <span class="nt">--config</span> Release</code></pre></figure>
+
+<p>The <a href="https://docs.conan.io/en/latest/reference/commands/consumer/install.html">conan install</a> command is responsible for reading the <code class="highlighter-rouge">conanfile.txt</code> file, downloading and installing Folly according to the default profile (based on the host configuration), and generating the <code class="highlighter-rouge">conanbuildinfo.cmake</code> with all the information we need for the next step.
+The commands using CMake will take care of generating the file for construction, in addition to building the example.</p>
+
+<p>Once built, we can run our example project:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>bin/folly_example
+ Callback Future: Hello World!</code></pre></figure>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The C ++ universe has such incredible projects as Folly to help with real-world problems, however, preparing an environment with all the necessary dependencies can lead to a long and painful task often.
+Although Folly is an excellent tool for your project, the complexity of 11 projects related as transitive dependencies, including Boost regex, can be taken as a bad factor to avoid using it.
+The case of the Folly project demonstrates the importance of a dependency manager and packages like Conan for a modern C++ development environment.</p>
+
+<p>Are you interested in making comments, questions or suggestions? Please open an <a href="https://github.com/conan-io/conan/issues">issue</a>!</p>
+:ET

@@ -1,0 +1,156 @@
+I"�%<p>Great news in this 1.17 release! The new lockfile feature has arrived together with a new <code class="highlighter-rouge">conan graph</code> commands and package ID modes for
+recipe and package revisions. We are also running a user survey to gather some feedback. Let’s check it out!</p>
+
+<h2 id="the-conan-user-survey">The Conan User Survey</h2>
+
+<p>We are running a user survey to gather some feedback from the community. As you know, Conan Package Manager is fully OpenSource, we do not
+capture any kind of information on your usage. This survey will help us to size our resources accordingly across different areas
+(development, support, etc.), to estimate the importance of some feature requests, the impact of bugs or regressions, and to prioritize
+development in general.</p>
+
+<p>Please take <strong>2 minutes</strong> to <a href="https://www.surveymonkey.com/r/ConanCommunity">fill the survey</a> and help the Conan project. The results of the
+survey will be exclusively for the internal use of the JFrog-Conan team to evolve Conan to better suit your needs. Thanks!</p>
+
+<h2 id="freeze-your-dependencies-with-lockfiles">Freeze your dependencies with lockfiles</h2>
+
+<p>When a package in a dependency graph is modified and a new version or revision is created, it is sometimes desired to test if that new
+version works well within a larger product or project, that is, when that package is part of a larger dependency graph.</p>
+
+<p>The packages that depend on the modified one might need to be rebuilt, but if something else changed (a new version of another upstream
+dependency is released), it is impossible to achieve reproducible builds.</p>
+
+<p>The Conan lockfiles achieve that functionality storing the information of a dependency graph. This information includes the exact versions,
+revisions, options, and configuration. As every graph in Conan is different depending on the input settings and options of each profile used,
+there will be one lockfile for each configuration.</p>
+
+<div align="center">
+    <figure>
+        <img src="http://localhost:4000/assets/post_images/2019-07-15/conan-lockfiles_graph.png" width="600" />
+        <figcaption>A nondeterministic dependency graph</figcaption>
+    </figure>
+</div>
+
+<p>Lockfiles are useful to achieve deterministic builds, even if the dependency definitions in conanfile recipes are not fully deterministic,
+for example when using version ranges or using package revisions.</p>
+
+<p>Check the <a href="https://docs.conan.io/en/latest/versioning/lockfiles.html">new section about lockfiles</a> in our documentation to learn more about
+this powerful feature!</p>
+
+<h2 id="manage-lockfiles-and-the-update-of-dependencies-in-your-graph">Manage lockfiles and the update of dependencies in your graph</h2>
+
+<p>One of the applications of lockfiles is to be able to propagate changes in one package belonging to a dependency graph to its affected
+downstream consumers. This can be achieved with the aforementioned lockfiles and the package ID revision mode (read more in the next
+section).</p>
+
+<p>The main point about manipulating lockfiles is to coordinate the rebuild of the affected packages building them in isolated environments,
+for example, different slaves. So you get the results of an isolated package creation, and then you update the main lockfile to continue
+processing the rest of the packages guaranteeing that the following compilations will use the previously built packages.</p>
+
+<p>In order to achieve that, we have released the new <code class="highlighter-rouge">conan graph</code> command, that will allow you to:</p>
+
+<ul>
+  <li>
+    <p>Generate lockfiles for a given graph without running a complete installation (without downloading or rebuilding): <code class="highlighter-rouge">conan graph lock</code></p>
+  </li>
+  <li>
+    <p>Update packages that have been rebuilt in one lockfile generating a new one: <code class="highlighter-rouge">conan graph update-lock</code></p>
+  </li>
+  <li>
+    <p>Clean the modified packages in a lockfile to perform a new operation that will mark packages as modified: <code class="highlighter-rouge">conan graph clean-modified</code></p>
+  </li>
+  <li>
+    <p>Compute the packages that have to be rebuilt in order to achieve the result of a given lockfile: <code class="highlighter-rouge">conan graph build-order</code></p>
+  </li>
+</ul>
+
+<p>Check the full reference of the commands in the <a href="https://docs.conan.io/en/latest/reference/commands/misc/graph.html">documentation</a>. You
+will also find a full example using lockfiles here: https://github.com/conan-io/examples#lockfiles</p>
+
+<h2 id="package-id-modes-for-recipe-and-package-revisions">Package ID modes for recipe and package revisions</h2>
+
+<p>We have increased the possibilities of the package ID
+<a href="https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#versioning-schema">versioning schema</a> including the
+<code class="highlighter-rouge">recipe_revision_mode()</code> and <code class="highlighter-rouge">package_revision_mode()</code>. These modes will make the package ID of a package depending on the
+recipe revision (for the first mode) and on the package ID and package revision (for the latest mode) of the requirements.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    def package_id(self):
+        # &lt;name&gt;/&lt;version&gt;@&lt;user&gt;/&lt;channel&gt;#&lt;RREV&gt; for all the dependencies
+        self.info.requires.recipe_revision_mode()
+
+        # &lt;name&gt;/&lt;version&gt;@&lt;user&gt;/&lt;channel&gt;#&lt;RREV&gt;:&lt;package_id&gt;#&lt;PREV&gt;
+        # for the "mypkgdep" dependency
+        self.info.requires["mypkgdep"].package_revision_mode()
+</code></pre></div></div>
+
+<p>As done with the other modes, this can be separately applied to each recipe or configured globally as the default version schema in the
+Conan configuration file:</p>
+
+<p><em>conan.conf</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[general]
+default_package_id_mode=package_revision_mode
+</code></pre></div></div>
+
+<p>These modes are <strong>very important</strong> together with the lockfiles in order to achieve a fully reproducible graph, as this mode makes sure that
+the packages have been built with the exact same recipe revision and package revision in upstream dependencies. In other words, this will
+achieve <strong>exact binary addressing</strong> (the package revision is the hash of the contents), meaning that in case an upstream binary is rebuilt,
+it will induce a compulsory build of new binaries downstream.</p>
+
+<h2 id="apple-clang-110-support">Apple-clang 11.0 support</h2>
+
+<p>Apple released in June a new beta version of XCode 11.0 and it will stay in beta during some months. However, there are some brave
+developers already taking advantage of the new release, so we have included the new apple-clang 11 version in the default
+<a href="https://docs.conan.io/en/latest/reference/config_files/settings.yml.html">settings.yml</a> file.</p>
+
+<p>Remember that the values in this file are a convention for open source packages but you can
+<a href="https://docs.conan.io/en/latest/extending/custom_settings.html">customize the settings</a> to fit your needs.</p>
+
+<h2 id="usability-improvements">Usability improvements</h2>
+
+<p>There has been some improvements and deprecations in favor of the new syntax:</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">conan copy|download|upload</code> commands can be used indicating a full reference instead of the <code class="highlighter-rouge">--package</code> flag (now deprecated).
+Remember that the download command can also specify the recipe and the package revision:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan download &lt;name&gt;/&lt;version&gt;@&lt;user&gt;/&lt;channel&gt;#&lt;RREV&gt;:&lt;package_id&gt;#&lt;PREV&gt; -r my_remote
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>The <em>conanfile.txt</em> recipe format now supports indicating a specific
+<a href="https://docs.conan.io/en/latest/versioning/revisions.html">recipe revision</a> for requirements:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[requires]
+MyPackage/1.2@user/channel#3453453453
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Resolution of package search to resolve version ranges has been improved as well as the result is now displayed at the end of the
+installation:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan install "boost/[&gt;=1.68.0]@conan/stable"
+...
+boost/[&gt;=1.68.0]@conan/stable resolved to 'boost/1.70.0@lasote/stable' in remote 'conan-center'
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Other UX improvements like unified progress bars, deprecation warning message for <code class="highlighter-rouge">general.no_proxy</code> configuration and the profile path
+showed in warning messages.</p>
+  </li>
+</ul>
+
+<div align="center">
+    <figure>
+        <img src="http://localhost:4000/assets/post_images/2019-07-15/conan-progress_bars.gif" width="500" />
+        <figcaption>Unified progress bars for installation</figcaption>
+    </figure>
+</div>
+
+<hr />
+<p><br /></p>
+
+<p>Have a look at the full list of features and fixes in the <a href="https://docs.conan.io/en/latest/changelog.html">changelog</a>.</p>
+
+<p>Report any bug or share your feedback opening a new issue in our <a href="https://github.com/conan-io/conan/issues">issue tracker</a> and don’t forget
+to <a href="https://conan.io/downloads.html">update</a>. Have a good summer!</p>
+:ET

@@ -1,0 +1,121 @@
+I"�<p>We got Conan 1.16 release out this time with some features and many fixes. We are also sharing the ongoing the development of the upcoming
+enhancements!</p>
+
+<h2 id="support-for-gcc-83-and-91">Support for GCC 8.3 and 9.1</h2>
+
+<p>Following the <a href="http://gcc.gnu.org/releases.html">GCC releases</a> we updated the default
+<a href="https://docs.conan.io/en/latest/reference/config_files/settings.yml.html">settings.yml</a> to include the latest versions of the compiler.</p>
+
+<p>Note that Conan by default uses the major versions of GCC only (8, 9…), as the minor is really a patch and those are intended to be fully
+binary compatible. The 8.3 and 9.1 minor versions can be explicitly defined though, in profiles and in command line, but they will result in
+different binaries than other minor GCC versions as 8.2.</p>
+
+<p>There are cases in which creating binaries with the specific version will be handy, however, following just the major should be fine
+regarding binary compatibility.</p>
+
+<h2 id="cascade-build-mode">Cascade build mode</h2>
+
+<p>Coming from a feature request, some people asked how to make the downstream dependencies rebuild if an upstream dependency changes. The
+truth is that you can really achieve this behavior modelling you package ID correctly
+<a href="https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html">in the recipes</a> or globally
+<a href="https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#changing-the-default-package-id-mode">changing the package-id mode</a>.</p>
+
+<p>However, this is a fine-grained control that will only work when bumping the version of a dependency but not when it is compiled again. To
+cover this use case we have introduced the <code class="highlighter-rouge">--build cascade</code> in <a href="https://docs.conan.io/en/latest/mastering/policies.html">policies</a>.</p>
+
+<p>For example, let’s say we have an application that requires <code class="highlighter-rouge">cppzmq/4.3.0@bincrafters/stable</code> and we have the following dependency graph
+for our <code class="highlighter-rouge">app</code> project:</p>
+
+<p class="centered">
+<img src="http://localhost:4000/assets/post_images/2019-06-10/conan-info-graph.png" width="70%" />
+</p>
+
+<p>Now let’s say that for some reason the <code class="highlighter-rouge">libsodium/1.0.16@bincrafters/stable</code> upstream dependency has to be built, because for example, we
+fixed a bug in a header, (we are forcing the rebuild with <code class="highlighter-rouge">--build libsodium</code>). Now we can install the dependencies using the <code class="highlighter-rouge">cascade</code>
+mode and Conan will mark it as <code class="highlighter-rouge">Build</code> as well as the downstream dependencies:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan install .. --build libsodium --build cascade
+
+libsodium/1.0.16@bincrafters/stable: Forced build from source
+zmq/4.2.5@bincrafters/stable: Forced build from source
+cppzmq/4.3.0@bincrafters/stable: Forced build from source
+conanfile.py (app/0.0.1@None/None): Installing package
+Requirements
+    cppzmq/4.3.0@bincrafters/stable from 'conan-center' - Cache
+    libsodium/1.0.16@bincrafters/stable from 'conan-center' - Cache
+    zmq/4.2.5@bincrafters/stable from 'conan-center' - Cache
+Packages
+    cppzmq/4.3.0@bincrafters/stable:5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9 - Build
+    libsodium/1.0.16@bincrafters/stable:6cc50b139b9c3d27b3e9042d5f5372d327b3a9f7 - Build
+    zmq/4.2.5@bincrafters/stable:92105e8fc16d129eb40755d7d2152c4855f68c46 - Build
+</code></pre></div></div>
+
+<p>This might be useful for doing basic CI rebuild operations too. If you want to rebuild when an upstream dependency changes, you can check
+the build order and fire a CI job for each dependency like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan info .. --build libsodium --build cascade --graph=f.html
+libsodium/1.0.16@bincrafters/stable: Forced build from source
+zmq/4.2.5@bincrafters/stable: Forced build from source
+cppzmq/4.3.0@bincrafters/stable: Forced build from source
+libsodium/1.0.16@bincrafters/stable, zmq/4.2.5@bincrafters/stable, cppzmq/4.3.0@bincrafters/stable
+</code></pre></div></div>
+
+<h2 id="conan-new-with-templates">Conan new with templates</h2>
+
+<p>A less advanced feature but still quite useful when creating new recipes is the new <code class="highlighter-rouge">--template</code> flag for the <code class="highlighter-rouge">conan new</code> command.
+The template files support jinja syntax and the only variables available at this moment are the <code class="highlighter-rouge">name</code> and the <code class="highlighter-rouge">version</code> of the package.</p>
+
+<p>Conan will look for template files in the folder <code class="highlighter-rouge">~/.conan/templates</code> or will use an absolute path pointing to a template file.</p>
+
+<p>For example, something like this could be used to generate a new Conan recipe:</p>
+
+<p><em>template.py</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class {{package_name}}Conan(ConanFile):
+    name = "{{name}}"
+    version = "{{version}}"
+</code></pre></div></div>
+
+<p>Create new packages like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan new library/1.0.0 --template=template.py
+</code></pre></div></div>
+
+<p>Templates placed in the Conan cache will benefit from sharing over <code class="highlighter-rouge">conan config install</code> command. Check the documentation
+<a href="https://docs.conan.io/en/latest/reference/commands/creator/new.html">here</a>.</p>
+
+<h2 id="minor-improvements-and-fixes">Minor improvements and fixes</h2>
+
+<ul>
+  <li>Any warnings or errors of Conan command execution are now printed to <code class="highlighter-rouge">stderr</code>: This is useful to catch specific errors in CI, provide
+a meaningful error output to users or create error logs.</li>
+  <li>Conan execution now returns with <code class="highlighter-rouge">6</code> exit code
+(<a href="https://docs.conan.io/en/latest/reference/commands/return_codes.html#invalid-configuration">Invalid Configuration</a>) for
+<a href="https://docs.conan.io/en/latest/mastering/conditional.html?highlight=restricted#constrain-settings-and-options">constrained settings in a recipe</a>.</li>
+  <li>New syntax using a full reference to upload specific packages with <code class="highlighter-rouge">conan upload &lt;ref&gt;:&lt;package_id&gt;</code> (<code class="highlighter-rouge">--package</code> argument is now
+deprecated).</li>
+  <li>Meson build helper is now able to use <a href="https://github.com/conan-io/conan/pull/5222">appropriate compiler flags</a>.</li>
+</ul>
+
+<h2 id="ongoing-development">Ongoing development</h2>
+
+<p>As we did in the previous release post, the Conan team is under heavy development of key features. For this release we have been working on
+the lockfiles (a.k.a. Graph locks), the new cross-building model and the <code class="highlighter-rouge">cpp_info</code> components.</p>
+
+<p>You can check the status of those features in the following links:</p>
+
+<ul>
+  <li>Lockfiles: <a href="https://github.com/conan-io/conan/pull/5035">conan-io/conan#5035</a>.</li>
+  <li>Cross-building: <a href="https://github.com/conan-io/conan/pull/5202">conan-io/conan#5202</a>.</li>
+  <li><code class="highlighter-rouge">cpp_info</code> components: <a href="https://github.com/conan-io/conan/pull/5242">conan-io/conan#5242</a>.</li>
+</ul>
+
+<p>Note that this work is still a draft of the final features. Any feedback is always welcome.</p>
+
+<hr />
+<p><br /></p>
+
+<p>As always, you can check the full list of features and fixes in the <a href="https://docs.conan.io/en/latest/changelog.html">changelog</a>.
+We are open for <a href="https://github.com/conan-io/conan/issues">new issues</a> with any bug report or feedback for discussion on GitHub.</p>
+
+<p>Finally, don’t forget to <a href="https://conan.io/downloads.html">update</a> to this 1.16 release! Thanks!</p>
+:ET

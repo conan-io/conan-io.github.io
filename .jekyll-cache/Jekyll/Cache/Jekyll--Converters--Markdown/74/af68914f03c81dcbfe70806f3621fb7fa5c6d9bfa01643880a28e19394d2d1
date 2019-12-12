@@ -1,0 +1,66 @@
+I"%<p>We have introduced big improvements in this release, from using isolated conan environments to a much better remote management and update functionality.</p>
+
+<p>We have also addressed some issues with the libstdc++ ABI incompatibilities of the new gcc &gt; 5.1 compilers, that now has two different implementations, the standard and a new C++11 one.</p>
+
+<h2 class="section-heading">C++ Projects</h2>
+
+<p>So when building a C++ library with a modern compiler (gcc&gt;5.1), you can choose which one to use, and this setting has to be consistent with the overall project and build settings.</p>
+
+<p>So we have introduced this new settings in the defaults, you can check them in ~/.conan/settings.yml</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="na">os</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">Windows</span><span class="pi">,</span> <span class="nv">Linux</span><span class="pi">,</span> <span class="nv">Macos</span><span class="pi">,</span> <span class="nv">Android</span><span class="pi">,</span> <span class="nv">iOS</span><span class="pi">]</span>
+<span class="na">arch</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">x86</span><span class="pi">,</span> <span class="nv">x86_64</span><span class="pi">,</span> <span class="nv">armv6</span><span class="pi">,</span> <span class="nv">armv7</span><span class="pi">,</span> <span class="nv">armv7hf</span><span class="pi">,</span> <span class="nv">armv8</span><span class="pi">]</span>
+<span class="na">compiler</span><span class="pi">:</span>
+    <span class="na">gcc</span><span class="pi">:</span>
+        <span class="na">version</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">4.4"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">4.5"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">4.6"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">4.7"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">4.8"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">4.9"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">5.1"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">5.2"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">5.3"</span><span class="pi">]</span>
+        <span class="na">libcxx</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">libstdc++</span><span class="pi">,</span> <span class="nv">libstdc++11</span><span class="pi">]</span>
+    <span class="na">Visual Studio</span><span class="pi">:</span>
+        <span class="na">runtime</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">MD</span><span class="pi">,</span> <span class="nv">MT</span><span class="pi">,</span> <span class="nv">MTd</span><span class="pi">,</span> <span class="nv">MDd</span><span class="pi">]</span>
+        <span class="na">version</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">8"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">9"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">10"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">11"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">12"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">14"</span><span class="pi">]</span>
+    <span class="na">clang</span><span class="pi">:</span>
+        <span class="na">version</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">3.3"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">3.4"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">3.5"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">3.6"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">3.7"</span><span class="pi">]</span>
+        <span class="na">libcxx</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">libstdc++</span><span class="pi">,</span> <span class="nv">libstdc++11</span><span class="pi">,</span> <span class="nv">libc++</span><span class="pi">]</span>
+    <span class="na">apple-clang</span><span class="pi">:</span>
+        <span class="na">version</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">5.0"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">5.1"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">6.0"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">6.1"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">7.0"</span><span class="pi">]</span>
+        <span class="na">libcxx</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">libstdc++</span><span class="pi">,</span> <span class="nv">libc++</span><span class="pi">]</span>
+
+<span class="na">build_type</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">None</span><span class="pi">,</span> <span class="nv">Debug</span><span class="pi">,</span> <span class="nv">Release</span><span class="pi">]</span></code></pre></figure>
+
+<p>The default auto-detected setting in ~/.conan/conan.conf will be libcxx=libstdc++, irrespective of your compiler, as it is the most compatible one.</p>
+
+<p>If you are building packages with gcc&gt;5.1, you should regenerate your packages to account for this new settings. First, remove your existing ones, both locally and from the remotes:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>conan remove MyPackage<span class="k">*</span> <span class="nt">-f</span> 
+<span class="nv">$ </span>conan remove MyPackage<span class="k">*</span> <span class="nt">-f</span> <span class="nt">-r</span><span class="o">=</span>conan.io</code></pre></figure>
+
+<p>Then, rebuild them. If you are using the test command, you could do:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>conan <span class="nb">test</span> <span class="nt">-s</span> <span class="nv">compiler</span><span class="o">=</span>gcc <span class="nt">-s</span> compiler.version<span class="o">=</span>5.3 <span class="nt">-s</span> compiler.libcxx<span class="o">=</span>libstdc++11</code></pre></figure>
+
+<p>Please note, that libstdc++ version depends not only on the compiler, but also on your distro. Old distros libstdc++ cannot upgrade without upgrading large part of the system, so it sticks to libstdc++, even if upgrading gcc to 5.2 or 5.3.</p>
+
+<p>On the contrary, modern distros already feature a modern gcc with the latest libstdc++11 as default. These modern systems can opt to use the old libstdc++, so specifying -s compiler.libcxx=libstdc++ works on them, and the resulting package can be consumed easily by users in old distros too. Of course you can build both versions of the package, one with libstdc++11 and other with libstdc++.</p>
+
+<p>The similar reasoning applies to libc++ in Apple Clang.</p>
+
+<h2 class="section-heading">C Projects</h2>
+
+<p>Finally, it is important to note, that pure C projects has nothing to do with this libcxx setting, so the correct approach for C projects is to specify that they do not depend on this settings, which can be done in their conanfile.py as:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">compiler</span><span class="o">.</span><span class="n">libcxx</span></code></pre></figure>
+
+<h2 class="section-heading">Management of remotes</h2>
+
+<p>Remotes were previously defined in the <code class="highlighter-rouge">conan.conf</code> file, but now with the new remote command, they are stored in another file in your <code class="highlighter-rouge">~/.conan/registry.txt</code> that stores information both about remotes urls and packages. By default it is initialized to two remotes, the test local one (pointing to localhost, to test the conan_server), and the conan.io remote. If you have your own remote, you can just edit that file or better try the new <code class="highlighter-rouge">conan remote</code> command:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>conan remote list
+<span class="nv">$ </span>conan remote remove <span class="nb">local</span> 
+<span class="nv">$ </span>conan remote add myremote http://myremote.url
+<span class="nv">$ </span>conan remote list</code></pre></figure>
+
+<h2 class="section-heading">Automated package creation</h2>
+
+<p>Finally, if you are creating packages, you might be interested in checking out latest version of <a href="https://github.com/conan-io/conan-package-tools">conan-package-tools</a>, some utilities for building many configurations in Win, Linux, OSX in travis-ci, appveyor Continuous Integration systems. We use them to create hundreds of packages for many libraries by just pushing to github.</p>
+
+:ET

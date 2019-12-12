@@ -1,0 +1,318 @@
+I"�E<p>We are bringing Conan 1.13 release and here you have a new edition of the highlighted features you may find handy in this new version. Let’s
+check them out!</p>
+
+<h2 id="recipe-and-package-revisions">Recipe and package revisions</h2>
+
+<p>Some releases ago we started to include some of the changes needed to adapt the Conan internals to work with the new revisions concept, that
+is an implicit way of creating revisions of the same version of a package without having to bump the version explicitly.</p>
+
+<p>The motivation to include this concept in packages an recipes was mainly driven by the fact that in most of the situations when developing a
+Conan package, the recipe <em>conanfile.py</em> <strong>follows a different development cycle</strong>. An example of this could be a recipe adding support for
+building in another OS. Adding this change would probably not require any change in the library itself nor in the build system, however, to
+reflect that change you would need to upload the recipe to a remote with the same reference (e.g. <code class="highlighter-rouge">lib/1.1.2@user/channel</code>) and overwrite
+the previous version.</p>
+
+<p>This has problems for the traceability of packages (you lose the old version -in fact “revision”-) and have no way to go back to previous
+state. Some users already noticed it when using Conan in production and started to append the commit or just a number at the end of the
+library version, something like <code class="highlighter-rouge">lib/1.1.2-&lt;commit-hash&gt;@user/channel</code>. Although this solved the traceability issue, this has the
+disadvantage of having to bump the version on every other recipe depending on the updated one.</p>
+
+<p>We have realized that to make it work properly, this behavior should be implemented as part of the Conan model and that’s why this release
+includes the <strong>first experimental version of Conan working with revisions</strong>!</p>
+
+<h3 id="revisions-explained">Revisions explained</h3>
+
+<p>The current Conan model uses <em>references</em> to talk about a recipe associated to a scope created with a user and a channel <code class="highlighter-rouge">&lt;package_name&gt;/&lt;version&gt;@&lt;user_name&gt;/&lt;channel&gt;</code> and a <em>package ID</em> which is a hash of the settings options and requirements used to identify the binary
+packages.</p>
+
+<p>Normally to indicate a binary package of a package you would need something like: <code class="highlighter-rouge">&lt;package_name&gt;/&lt;version&gt;@&lt;user_name&gt;/&lt;channel&gt;:&lt;package_id&gt;</code></p>
+
+<p>This model has not changed and you will still be able to use this <em>package reference</em> in the commands and recipes. However, we have added
+two more levels:</p>
+
+<ul>
+  <li>Recipe revision (<em>RREV</em>): A unique ID using the latest VCS hash or a checksum of the recipe manifest (<em>conanfile.py</em> with files exported
+if any).</li>
+  <li>Package revision (<em>PREV</em>): A unique ID using the checksum of the package manifest (all files stored in a binary package).</li>
+</ul>
+
+<p>This means that now you can point to an exact revision of a binary package writing the reference and package ID together with the recipe
+and package revisions: <code class="highlighter-rouge">&lt;package_name&gt;/&lt;version&gt;@&lt;user_name&gt;/&lt;channel&gt;#&lt;RREV&gt;:&lt;package_id&gt;#&lt;PREV&gt;</code></p>
+
+<h3 id="working-with-revisions">Working with revisions</h3>
+
+<p>The concept of revisions is mostly server side, where all the recipe revisions and package revisions will be stored. In the client side (in
+the Conan cache) we can only have one revision at a time.</p>
+
+<p>To try and work with revisions in the client, you would need to opt in setting <code class="highlighter-rouge">CONAN_REVISIONS_ENABLED=1</code> in the environment or enabling
+that in the configuration file:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan config set general.revisions_enabled=True
+</code></pre></div></div>
+
+<p>You would also need a <code class="highlighter-rouge">conan_server</code> updated to 1.13 and it will be fully supported in upcoming versions of JFrog Artifactory soon.</p>
+
+<p>Now, every time a recipe is exported or a package is created, it will get a new revision:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan create . user/channel
+Exporting package recipe
+...
+IrrXML/1.2@user/channel: Folder: C:\Users\danimtb\.conan\data\IrrXML\1.2\user\channel\export
+IrrXML/1.2@user/channel: Using git commit as the recipe revision: 681d7e590d2da0a164166f737a49cf32c735ee6c
+...
+Requirements
+    IrrXML/1.2@user/channel from local cache - Cache
+Packages
+    IrrXML/1.2@user/channel:6cc50b139b9c3d27b3e9042d5f5372d327b3a9f7 - Build
+...
+IrrXML/1.2@user/channel: Package '6cc50b139b9c3d27b3e9042d5f5372d327b3a9f7' created
+</code></pre></div></div>
+
+<p>You can search the packages created as usual but also the recipe revision just created:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan search IrrXML/1.2@user/channel --revisions
+
+Revisions for 'IrrXML/1.2@user/channel':
+681d7e590d2da0a164166f737a49cf32c735ee6c (No time)
+</code></pre></div></div>
+
+<p>The “(No time)” output is just a reference to get when it was exported, however this time will come from the server. If the commit of the
+repo where the recipe is living changes, there will be a new revision created that will replace the current one in the client. However, you
+can upload it to the server and you will have different revisions:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan search IrrXML/1.2@user/channel --revisions --remote server
+
+Revisions for 'IrrXML/1.2@user/channel' at remote 'conan-local':
+72389507bbaab233bb3bad798432c19a05752ae7 (2019-03-11 14:26:25 UTC)
+681d7e590d2da0a164166f737a49cf32c735ee6c (2019-03-11 13:42:50 UTC)
+</code></pre></div></div>
+
+<p>Now, anyone installing or performing a <code class="highlighter-rouge">conan install --update</code> will automatically get the latest revision from the server. Moreover, they
+can also target target a <strong>specific recipe revision</strong>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan install IrrXML/1.2@user/channel#681d7e590d2da0a164166f737a49cf32c735ee6c --remote server --update
+...
+[==================================================] 372B/372B
+IrrXML/1.2@user/channel: WARN: The package IrrXML/1.2@user/channel:6cc50b139b9c3d27b3e9042d5f5372d327b3a9f7 doesn't belong to the installed recipe revision, removing folder
+Installing package: IrrXML/1.2@user/channel
+Requirements
+    IrrXML/1.2@user/channel from 'conan-local' - Download
+Packages
+    IrrXML/1.2@user/channel:6cc50b139b9c3d27b3e9042d5f5372d327b3a9f7 - Download
+...
+</code></pre></div></div>
+
+<p>Read more about revisions in the <a href="https://docs.conan.io/en/latest/mastering/revisions.html">documentation</a> and don’t forget that we are open
+to any feedback.</p>
+
+<h2 id="package-id-versioning-mode">Package ID versioning mode</h2>
+
+<p>From the beginning Conan has always used <a href="https://semver.org/">Semantic Versioning</a> for requirements version to calculate the package ID has
+for every binary package. That means that a package <code class="highlighter-rouge">libA/1.2.3</code> which is a dependency of <code class="highlighter-rouge">libB/1.0.0</code> will change the binary hash of
+<code class="highlighter-rouge">libB</code> only if the major part of the version is changed. Otherwise it will hash to the same package ID.</p>
+
+<p>Let’s check it:</p>
+
+<ul>
+  <li>
+    <p><em>libA/1.2.3</em></p>
+
+    <p><em>conanfile.py</em></p>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">conans</span> <span class="kn">import</span> <span class="n">ConanFile</span>
+
+<span class="k">class</span> <span class="nc">LibA</span><span class="p">(</span><span class="n">ConanFile</span><span class="p">):</span>
+    <span class="k">pass</span>
+</code></pre></div>    </div>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan create conanfile.py libA/1.2.3@user/channel
+...
+$ conan create conanfile.py libA/1.3.3@user/channel
+...
+$ conan create conanfile.py libA/2.0.0@user/channel
+...
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><em>libB/1.0.0</em>:</p>
+
+    <p><em>conanfile.py</em></p>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">conans</span> <span class="kn">import</span> <span class="n">ConanFile</span>
+
+<span class="k">class</span> <span class="nc">LibB</span><span class="p">(</span><span class="n">ConanFile</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">"libB"</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="s">"1.0.0"</span>
+    <span class="n">requires</span> <span class="o">=</span> <span class="s">"libA/1.2.3@user/channel"</span>
+</code></pre></div>    </div>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan info .
+...
+libA/1.2.3@user/channel
+    ID: 5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9
+    BuildID: None
+    Remote: None
+    Recipe: Cache
+    Revision: 7ee2bfe571d258167c9356f2d7f503b3
+    Binary: Cache
+    Binary remote: None
+    Creation date: 2019-03-11 16:09:47
+    Required by:
+        conanfile.py (libB/1.0.0@None/None)
+conanfile.py (libB/1.0.0@None/None)
+  ID: 8a4d75100b721bfde375a978c780bf3880a22bab
+  BuildID: None
+  Requires:
+      libA/1.2.3@user/channel
+</code></pre></div>    </div>
+
+    <p>You can see that the binary ID generated for <em>libB</em> would be <code class="highlighter-rouge">8a4d75100b721bfde375a978c780bf3880a22bab</code>. If we change the requirement to
+<code class="highlighter-rouge">libA/1.3.3@user/channel</code> we will get the same ID for <em>libA</em>. However, if we change the requirement to the major version
+<code class="highlighter-rouge">libA/2.0.0@user/channel</code> this will be reflected as a <strong>new package ID</strong> for <em>libB</em>, in this case
+<code class="highlighter-rouge">f1fc64edd1a6c2fb7d41b78ecf5972a0e7a85df8</code>.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan info .
+libA/2.0.0@user/channel
+    ID: 5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9
+    BuildID: None
+    Remote: None
+    Recipe: Cache
+    Revision: 233bc35f1c94fcf2a2f18420d0d2bb45
+    Binary: Cache
+    Binary remote: None
+    Creation date: 2019-03-11 16:19:42
+    Required by:
+        conanfile.py (libB/1.2.3@None/None)
+conanfile.py (libB/1.2.3@None/None)
+    ID: f1fc64edd1a6c2fb7d41b78ecf5972a0e7a85df8
+    BuildID: None
+    Requires:
+        libA/2.0.0@user/channel
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>This was the only default behavior allowed until Conan 1.13, now you can change this default in your configuration file
+<em>conan.conf</em>:</p>
+
+<figure class="highlight"><pre><code class="language-ini" data-lang="ini"><span class="nn">[general]</span>
+<span class="py">default_package_id_mode</span> <span class="p">=</span> <span class="s">full_package_mode</span></code></pre></figure>
+
+<p>Following the previous example but using the default package ID mode to <code class="highlighter-rouge">full_package_mode</code>, will indicate a new <em>libB</em> binary for any
+change on the version of <em>libA</em>.</p>
+
+<p>Any of the modes described in
+<a href="https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#id3">Defining Package ABI compatibility</a> section from the
+documentation can be used and setting this will come handy to anyone who wants to have <strong>fine control over the package ID generation</strong> and
+the <strong>compatibility of binaries regarding its dependencies</strong>.</p>
+
+<h2 id="update-on-editable-packages">Update on editable packages</h2>
+
+<p>In latest release we also brought <em>editable</em> packages as a way to map a custom layout of a project to consume the binaries of a package
+without the need of exporting them to the cache.</p>
+
+<p>In this release we have enhanced this feature with useful changes:</p>
+
+<ul>
+  <li>
+    <p>Layout files now allow the usage of <a href="http://jinja.pocoo.org/">Jinja templating</a> for <strong>settings</strong> and <strong>options</strong>:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[includedirs]
+src/core/include
+src/cmp_a/include
+
+[libdirs]
+{% if options.shared %}
+build/{{settings.build_type}}/shared
+{% else %}
+build/{{settings.build_type}}/static
+{% endif %}
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Command has been renamed to <code class="highlighter-rouge">conan editable</code> with the corresponding subcommands <code class="highlighter-rouge">conan editable add</code>,
+<code class="highlighter-rouge">conan editable remove</code> to put a package in this editable mode or remove it.</p>
+  </li>
+  <li>
+    <p>Now you can show all the packages that are configured as editable too:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan editable list
+libB/1.2.3@user/channel
+  Path: C:\Users\danimtb\test
+  Layout: None
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>Check the docs for more info about <a href="https://docs.conan.io/en/latest/developing_packages/editable_packages.html]">editable packages</a>.</p>
+
+<h2 id="new-implementation-for-workspaces">New implementation for Workspaces</h2>
+
+<p>The workspaces feature is back with a new implementation on top of the <em>editables</em>. The use case for this feature was the fact of
+<strong>working simultaneously on more than one package</strong>. Making changes on any dependency will require to issue a Conan command to make the
+changes available in the cache to be consumed by a downstream package.</p>
+
+<p>The Conan workspaces allow to have more than one package in user folders and directly use other packages from user folders too without the
+need to put them in the local cache. Furthermore, it enables incremental builds on large projects containing multiple packages.</p>
+
+<p>Basically, you define a workspace YAML file with the layout of your projects:</p>
+
+<p><em>conanws.yml</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>editables:
+    say/0.1@user/testing:
+        path: say
+    hello/0.1@user/testing:
+        path: hello
+    chat/0.1@user/testing:
+        path: chat
+layout: layout_gcc
+workspace_generator: cmake
+root: chat/0.1@user/testing
+</code></pre></div></div>
+
+<p>And you indicate a general <a href="https://docs.conan.io/en/latest/reference/config_files/editable_layout.html">editable layout file</a> or set a
+specific one for each package as well as the root <em>consumer</em> package you are building for.</p>
+
+<p>Finally a workspace generator that will be the wrapper for all the packages in the workspace. Similar to the concept of Visual Studio with
+the projects (editable packages) that can be included in a global solution (workspace). Currently the only supported generator is CMake,
+although a Visual Studio one could be feasible.</p>
+
+<p>We have introduced a specific command and subcommand for workspaces, <code class="highlighter-rouge">conan workspace install</code>, that will use the aforementioned workspace
+file to set the libraries into editable mode and generate the workspace generator file <em>conanworkspace.cmake</em> to be used:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan workspace install ../cmake/conanws_gcc.yml
+
+Requirements
+    chat/0.1@user/testing from user folder - Editable
+    hello/0.1@user/testing from user folder - Editable
+    say/0.1@user/testing from user folder - Editable
+Packages
+    chat/0.1@user/testing:586bfc45a254754b47be1e6553aab648a85e425b - Editable
+    hello/0.1@user/testing:98ce62312cb8b844c4a47cba2e495294a7e3e4ba - Editable
+    say/0.1@user/testing:6cc50b139b9c3d27b3e9042d5f5372d327b3a9f7 - Editable
+
+say/0.1@user/testing: Generator cmake created conanbuildinfo.cmake
+say/0.1@user/testing: Generated conaninfo.txt
+say/0.1@user/testing: Generated graphinfo
+say/0.1@user/testing: Generated conanbuildinfo.txt
+hello/0.1@user/testing: Generator cmake created conanbuildinfo.cmake
+hello/0.1@user/testing: Generated conaninfo.txt
+hello/0.1@user/testing: Generated graphinfo
+hello/0.1@user/testing: Generated conanbuildinfo.txt
+chat/0.1@user/testing: Generator cmake created conanbuildinfo.cmake
+chat/0.1@user/testing: Generated conaninfo.txt
+chat/0.1@user/testing: Generated graphinfo
+chat/0.1@user/testing: Generated conanbuildinfo.txt
+</code></pre></div></div>
+
+<p>Take a look at the <a href="https://docs.conan.io/en/latest/developing_packages/workspaces.html">workspaces documentation</a> to learn more things like
+changing the layout of packages, having more than one root or how to use multi configuration (Release/Debug) packages.</p>
+
+<hr />
+<p><br /></p>
+
+<p>In case you want to learn more about the changes in this release, check the full list of features and fixes in the
+<a href="https://docs.conan.io/en/latest/changelog.html">changelog</a> with the link to the Pull Request with the implementation and discussion details
+and don’t forget to <a href="https://conan.io/downloads.html">update</a>.</p>
+
+<p>Finally, if you find a bug or want to start a new discussion, please do not hesitate to open a new issue
+<a href="https://github.com/conan-io/conan/issues">here</a>. Many thanks!</p>
+:ET

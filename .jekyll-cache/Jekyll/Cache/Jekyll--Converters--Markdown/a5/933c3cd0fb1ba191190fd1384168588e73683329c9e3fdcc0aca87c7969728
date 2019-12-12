@@ -1,0 +1,604 @@
+I"�<h2 id="what-are-deterministic-builds">What are deterministic builds?</h2>
+
+<p>A deterministic build is a process of building the same source code with the same build environment
+and build instructions producing the same binary in two builds, even if they are made on
+different machines, build directories and with different names. They are also sometimes called
+reproducible or hermetic builds if it is guaranteed to produce the same binaries even compiling from
+different folders.</p>
+
+<p>Deterministic builds are not something that happens naturally. Normal projects do not produce
+deterministic builds and the reasons that they are not produced can be different for each operating
+system and compiler.</p>
+
+<p>Deterministic builds should be guaranteed for a given <em>build environment</em>. That means that certain
+variables such as the <em>operating system</em>, <em>build system versions</em> and <em>target architecture</em> are
+assumed to remain the same between different builds.</p>
+
+<p>There are lots of efforts coming from different organizations in the past years to achieve
+deterministic builds such as
+<a href="https://www.chromium.org/developers/testing/isolated-testing/deterministic-builds">Chromium</a>,
+<a href="https://reproducible-builds.org/">Reproducible builds</a>, or
+<a href="https://wiki.yoctoproject.org/wiki/Reproducible_Builds">Yocto</a>.</p>
+
+<h2 id="the-importance-of-deterministic-builds">The importance of deterministic builds</h2>
+
+<p>There are two main reasons why deterministic builds are important:</p>
+
+<ul>
+  <li>
+    <p><strong>Security</strong>. Modifying binaries instead of the upstream source code can make the changes
+invisible for the original authors. This can be fatal in safety-critical environments such as
+medical, aerospace and automotive. Promising identical results for given inputs allows third
+parties to come to a consensus on a <em>correct</em> result.</p>
+  </li>
+  <li>
+    <p><strong>Traceability and binary management</strong>. If you want to have a repository to store your binaries you
+do not want to generate binaries with random checksums from sources at the same revision. That
+could lead the repository system to store different binaries as different versions when they should
+be the same. For example, if you are working on Windows or MacOs the most simple library will lead
+binaries with different checksums because of the timestamps included in the library formats for
+these Operating Systems.</p>
+  </li>
+</ul>
+
+<h2 id="binaries-involved-in-the-building-process-in-cc">Binaries involved in the building process in C/C++</h2>
+
+<p>There are different types of binaries that are created during the building process in C/C++ depending
+on the operating system.</p>
+
+<ul>
+  <li>
+    <p><strong>Microsoft Windows</strong>. The most important files are the ones with <code class="highlighter-rouge">.obj</code>, <code class="highlighter-rouge">.lib</code>,<code class="highlighter-rouge">.dll</code> and <code class="highlighter-rouge">.exe</code>
+extensions. All of them follow the specification of the Portable Executable format (PE). This
+files can be analyzed with tools such as
+<a href="https://docs.microsoft.com/en-us/cpp/build/reference/dumpbin-reference?view=vs-2019">dumpbin</a>.</p>
+  </li>
+  <li>
+    <p><strong>Linux</strong>. Files with <code class="highlighter-rouge">.o</code>, <code class="highlighter-rouge">.a</code>,<code class="highlighter-rouge">.so</code> and <code class="highlighter-rouge">none</code> (for executable binaries) extensions follow the
+Executable and Linkable Format (ELF). The contents of ELF files can be analyzed by
+<a href="https://sourceware.org/binutils/docs/binutils/readelf.html">readelf</a>.</p>
+  </li>
+  <li>
+    <p><strong>Mac OS</strong>. Files with <code class="highlighter-rouge">.o</code>, <code class="highlighter-rouge">.a</code>,<code class="highlighter-rouge">.dylib</code> and <code class="highlighter-rouge">none</code> (for executable binaries) extensions follow
+the Mach-O format specification. These files can be inspected with the
+<a href="https://opensource.apple.com/source/cctools/cctools-921/otool/">otool</a> application that is part
+of the XCode toolchain in MacOs.</p>
+  </li>
+</ul>
+
+<h2 id="sources-of-variation">Sources of variation</h2>
+
+<p>Many different factors can make your builds <em>non-deterministic</em>. Factors will vary
+between different operating systems and compilers. Each compiler has specific options to fix the
+sources of indeterminism. To date <code class="highlighter-rouge">gcc</code> and <code class="highlighter-rouge">clang</code> are the ones that incorporate more options to fix
+the sources of variation. For <code class="highlighter-rouge">msvc</code> there are some undocumented options that you can try but in the
+end, you will probably need to patch the binaries to get deterministic builds.</p>
+
+<h3 id="timestamps-introduced-by-the-compilerlinker">Timestamps introduced by the compiler/linker</h3>
+
+<p>There are two main reasons for that our binaries could end up containing time information that will
+make them not reproducible:</p>
+
+<ul>
+  <li>
+    <p>The use of <code class="highlighter-rouge">__DATE__</code> or <code class="highlighter-rouge">__TIME__</code> macros in the sources.</p>
+  </li>
+  <li>
+    <p>When the definition of the file format forces to store time information in the object files. This
+is the case of <em>Portable Executable</em> format in Windows and <code class="highlighter-rouge">Mach-O</code> in MacOs. In Linux <code class="highlighter-rouge">ELF</code> files
+do not encode any kind of timestamp.</p>
+  </li>
+</ul>
+
+<p>Let’s put an example of where does this information ends with a basic hello world project linking a
+static library in MacOs.</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="c">.
+</span><span class="go">├── CMakeLists.txt
+├── hello_world.cpp
+├── hello_world.hpp
+├── main.cpp
+└── run_build.sh</span></code></pre></figure>
+
+<p>The library prints a message in the terminal:</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cp">#include "hello_world.hpp"
+#include &lt;iostream&gt;
+</span><span class="kt">void</span> <span class="n">HelloWorld</span><span class="o">::</span><span class="n">PrintMessage</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span> <span class="n">message</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">message</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>And the application will use it to print a “Hello World!” message:</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cp">#include &lt;iostream&gt;
+#include "hello_world.hpp"
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">HelloWorld</span> <span class="n">hello</span><span class="p">;</span>
+    <span class="n">hello</span><span class="p">.</span><span class="n">PrintMessage</span><span class="p">(</span><span class="s">"Hello World!"</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We will use CMake to build the project:</p>
+
+<figure class="highlight"><pre><code class="language-cmake" data-lang="cmake"><span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 3.0<span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span>HelloWorld<span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span>CMAKE_CXX_STANDARD 11<span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span>CMAKE_CXX_STANDARD_REQUIRED ON<span class="p">)</span>
+<span class="nb">add_library</span><span class="p">(</span>HelloLibA hello_world.cpp<span class="p">)</span>
+<span class="nb">add_library</span><span class="p">(</span>HelloLibB hello_world.cpp<span class="p">)</span>
+<span class="nb">add_executable</span><span class="p">(</span>helloA main.cpp<span class="p">)</span>
+<span class="nb">add_executable</span><span class="p">(</span>helloB main.cpp<span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span>helloA HelloLibA<span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span>helloB HelloLibB<span class="p">)</span></code></pre></figure>
+
+<p>We build two different libraries with the exact same sources and two binaries with the same sources
+as well. If we build the project and execute md5sum to show the checksums of all the binaries:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">mkdir build &amp;&amp; cd build
+cmake ..
+make
+md5sum helloA
+md5sum helloB
+md5sum CMakeFiles/HelloLibA.dir/hello_world.cpp.o
+md5sum CMakeFiles/HelloLibB.dir/hello_world.cpp.o
+md5sum libHelloLibA.a
+md5sum libHelloLibB.a</span></code></pre></figure>
+
+<p>We get an output like this:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">b5dce09c593658ee348fd0f7fae22c94  helloA
+b5dce09c593658ee348fd0f7fae22c94  helloB
+0a4a0de3df8cc7f053f2fcb6d8b75e6d  CMakeFiles/HelloLibA.dir/hello_world.cpp.o
+0a4a0de3df8cc7f053f2fcb6d8b75e6d  CMakeFiles/HelloLibB.dir/hello_world.cpp.o
+adb80234a61bb66bdc5a3b4b7191eac7  libHelloLibA.a
+5ac3c70d28d9fdd9c6571e077131545e  libHelloLibB.a</span></code></pre></figure>
+
+<p>This is interesting because the executables files <code class="highlighter-rouge">helloA</code> and <code class="highlighter-rouge">helloB</code> have the same checksums as well
+as the intermediate Mach-O object files <code class="highlighter-rouge">hello_world.cpp.o</code> but that is not the case of the <code class="highlighter-rouge">.a</code> files.
+That is because they store the information of the intermediate object files in <code class="highlighter-rouge">archive format</code>. The
+definition of the header of this format includes a field named <code class="highlighter-rouge">st_time</code> set by a <code class="highlighter-rouge">stat</code> system
+call. If we inspect the <code class="highlighter-rouge">libHelloLibA.a</code> and <code class="highlighter-rouge">libHelloLibB.a</code> using <code class="highlighter-rouge">otool</code> to show the headers:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>otool <span class="nt">-a</span> libHelloLibA.a   
+<span class="go">Archive : libHelloLibA.a
+</span><span class="gp">0100644 503/20    612 1566927276 #</span>1/20
+<span class="gp">0100644 503/20  13036 1566927271 #</span>1/28
+<span class="gp">&gt;</span><span class="w"> </span>otool <span class="nt">-a</span> libHelloLibB.a   
+<span class="go">Archive : libHelloLibB.a
+</span><span class="gp">0100644 503/20    612 1566927277 #</span>1/20
+<span class="gp">0100644 503/20  13036 1566927272 #</span>1/28</code></pre></figure>
+
+<p>We can see that the file includes several time fields that will make our build non-deterministic.
+Let’s note that those fields are not propagated to the final executable because they have the same
+checksum. This problem would also happen if building in Windows with Visual Studio but with the
+<code class="highlighter-rouge">Portable Executable</code> instead of <code class="highlighter-rouge">Mach-O</code>.</p>
+
+<p>At this point we could try to make things even worse and force our binaries to be non-deterministic as well. If we change <code class="highlighter-rouge">main.cpp</code> file to include the <code class="highlighter-rouge">__TIME__</code> macro:</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cp">#include &lt;iostream&gt;
+#include "hello_world.hpp"
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">HelloWorld</span> <span class="n">hello</span><span class="p">;</span>
+    <span class="n">hello</span><span class="p">.</span><span class="n">PrintMessage</span><span class="p">(</span><span class="s">"Hello World!"</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"At time: "</span> <span class="o">&lt;&lt;</span> <span class="n">__TIME__</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Getting the checksums of the files again:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">625ecc7296e15d41e292f67b57b04f15  helloA
+20f92d2771a7d2f9866c002de918c4da  helloB
+0a4a0de3df8cc7f053f2fcb6d8b75e6d  CMakeFiles/HelloLibA.dir/hello_world.cpp.o
+0a4a0de3df8cc7f053f2fcb6d8b75e6d  CMakeFiles/HelloLibB.dir/hello_world.cpp.o
+b7801c60d3bc4f83640cadc1183f43b3  libHelloLibA.a
+4ef6cae3657f2a13ed77830953b0aee8  libHelloLibB.a</span></code></pre></figure>
+
+<p>We see that now we have different binaries as well. We could analyze the executable file with a tool
+such as <a href="https://diffoscope.org/">diffoscope</a> that shows us the difference between the two binaries:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>diffoscope helloA helloB
+<span class="go">--- helloA
++++ helloB
+├── otool -arch x86_64 -tdvV {}
+│┄ Code for architecture x86_64
+│ @@ -16,15 +16,15 @@
+│  00000001000018da	jmp	0x1000018df
+│  00000001000018df	leaq	-0x30(%rbp), %rdi
+</span><span class="gp">│  00000001000018e3	callq	0x100002d54 #</span><span class="c"># symbol stub for: __ZNSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEED1Ev</span>
+<span class="gp">│  00000001000018e8	movq	0x1721(%rip), %rdi #</span><span class="c"># literal pool symbol address: __ZNSt3__14coutE</span>
+<span class="gp">│  00000001000018ef	leaq	0x162f(%rip), %rsi #</span><span class="c"># literal pool for: "At time: "</span>
+<span class="gp">│  00000001000018f6	callq	0x100002d8a #</span><span class="c"># symbol stub for: __ZNSt3__1lsINS_11char_traitsIcEEEERNS_13basic_ostreamIcT_EES6_PKc</span>
+<span class="go">│  00000001000018fb	movq	%rax, %rdi
+</span><span class="gp">│ -00000001000018fe	leaq	0x162a(%rip), %rsi #</span><span class="c"># literal pool for: "19:40:47"</span>
+<span class="gp">│ +00000001000018fe	leaq	0x162a(%rip), %rsi #</span><span class="c"># literal pool for: "19:40:48"</span>
+<span class="gp">│  0000000100001905	callq	0x100002d8a #</span><span class="c"># symbol stub for: __ZNSt3__1lsINS_11char_traitsIcEEEERNS_13basic_ostreamIcT_EES6_PKc</span>
+<span class="go">│  000000010000190a	movq	%rax, %rdi
+</span><span class="gp">│  000000010000190d	leaq	__ZNSt3__1L4endlIcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_(%rip), %rsi #</span></code></pre></figure>
+
+<p>That shows that the <code class="highlighter-rouge">__TIME__</code> information was inserted in the binary making it non-deterministic. Let’s see what we could do to avoid this.</p>
+
+<h4 id="possible-solutions-for-microsoft-visual-studio">Possible solutions for Microsoft Visual Studio</h4>
+
+<p>Microsoft Visual Studio has a linker flag <code class="highlighter-rouge">/Brepro</code> that is undocumented by Microsoft. That flag
+sets the timestamps from the <code class="highlighter-rouge">Portable Executable</code> format to a <code class="highlighter-rouge">-1</code> value as can be seen in the
+image below.</p>
+
+<p class="centered">
+    <img src="http://localhost:4000/assets/post_images/2019-09-02/conan-brepro.png" align="center" alt="With BRepro flag" />
+</p>
+
+<p>To activate that flag with CMake we will have to add this lines if creating a <code class="highlighter-rouge">.exe</code>:</p>
+
+<figure class="highlight"><pre><code class="language-cmake" data-lang="cmake"><span class="nf">add_link_options</span><span class="p">(</span><span class="s2">"/Brepro"</span><span class="p">)</span></code></pre></figure>
+
+<p>or this for <code class="highlighter-rouge">.lib</code></p>
+
+<figure class="highlight"><pre><code class="language-cmake" data-lang="cmake"><span class="nb">set_target_properties</span><span class="p">(</span>
+    TARGET
+    PROPERTIES STATIC_LIBRARY_OPTIONS <span class="s2">"/Brepro"</span>
+<span class="p">)</span></code></pre></figure>
+
+<p>The problem is that this flag makes the binaries reproducible (regarding timestamps in the file
+format) in our final binary is a <code class="highlighter-rouge">.exe</code> but will not remove all timestamps from the <code class="highlighter-rouge">.lib</code> (the same
+problem that we talked about with the Mach-O object files above). The <code class="highlighter-rouge">TimeDateStamp</code> field from the
+<a href="https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#file-headers">COFF File Header</a> for
+the <code class="highlighter-rouge">.lib</code> files will stay. The only way to remove this information from the <code class="highlighter-rouge">.lib</code> binary is
+patching the <code class="highlighter-rouge">.lib</code> substituting the bytes corresponding to the <code class="highlighter-rouge">TimeDateStamp</code> field with any known
+value.</p>
+
+<h4 id="possible-solutions-for-gcc-and-clang">Possible solutions for GCC and CLANG</h4>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">gcc</code> detects the existence of the <code class="highlighter-rouge">SOURCE_DATE_EPOCH</code> environment variable. If this variable is
+set, its value specifies a UNIX timestamp to be used in replacement of the current date and time in
+the <code class="highlighter-rouge">__DATE__</code> and <code class="highlighter-rouge">__TIME__</code> macros so that the embedded timestamps become reproducible. The
+value can be set to a known timestamp such as the last modification time of the source or package.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">clang</code> makes use of <code class="highlighter-rouge">ZERO_AR_DATE</code> that if set, resets the timestamp that is introduced in the
+<code class="highlighter-rouge">archive files</code> setting it to <code class="highlighter-rouge">epoch 0</code>. Take into account that this will not fix the <code class="highlighter-rouge">__DATE__</code> or
+<code class="highlighter-rouge">__TIME__</code> macros. If we want to fix the effect of this macros we should either patch the binaries
+or fake the system time.</p>
+  </li>
+</ul>
+
+<p>Let’s continue with our example project for MacOs and see what the results are when setting
+<code class="highlighter-rouge">ZERO_AR_DATE</code> environment variable.</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">export ZERO_AR_DATE=1</span></code></pre></figure>
+
+<p>Now, if we build our executable and libraries (omitting the <code class="highlighter-rouge">__DATE__</code> macro in the sources), we get:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">b5dce09c593658ee348fd0f7fae22c94  helloA
+b5dce09c593658ee348fd0f7fae22c94  helloB
+0a4a0de3df8cc7f053f2fcb6d8b75e6d  CMakeFiles/HelloLibA.dir/hello_world.cpp.o
+0a4a0de3df8cc7f053f2fcb6d8b75e6d  CMakeFiles/HelloLibB.dir/hello_world.cpp.o
+9f9a9af4bb3e220e7a22fb58d708e1e5  libHelloLibA.a
+9f9a9af4bb3e220e7a22fb58d708e1e5  libHelloLibB.a</span></code></pre></figure>
+
+<p>All the checksums are now the same. And analyzing the <code class="highlighter-rouge">.a</code> files headers:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>otool <span class="nt">-a</span> libHelloLibA.a
+<span class="go">Archive : libHelloLibA.a
+</span><span class="gp">0100644 503/20    612 0 #</span>1/20
+<span class="gp">0100644 503/20  13036 0 #</span>1/28
+<span class="gp">&gt;</span><span class="w"> </span>otool <span class="nt">-a</span> libHelloLibB.a
+<span class="go">Archive : libHelloLibB.a
+</span><span class="gp">0100644 503/20    612 0 #</span>1/20
+<span class="gp">0100644 503/20  13036 0 #</span>1/28</code></pre></figure>
+
+<p>We can see that the timestamp field of the library header has been set to zero value.</p>
+
+<h3 id="build-folder-information-propagated-to-binaries">Build folder information propagated to binaries</h3>
+
+<p>If the same sources are compiled in different folders sometimes folder information is propagated to
+the binaries. This can happen mainly for two reasons:</p>
+
+<ul>
+  <li>
+    <p>Use of macros that contain current file information like <code class="highlighter-rouge">__FILE__</code> macro.</p>
+  </li>
+  <li>
+    <p>Creating debug binaries that store information of where the sources are.</p>
+  </li>
+</ul>
+
+<p>Continuing with our hello world MacOs example let’s separate the sources so we can show the effect over the final binaries. The project structure will be like the one below.</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="c">.
+</span><span class="go">├── run_build.sh
+├── srcA
+│   ├── CMakeLists.txt
+│   ├── hello_world.cpp
+│   ├── hello_world.hpp
+│   └── main.cpp
+└── srcB
+    ├── CMakeLists.txt
+    ├── hello_world.cpp
+    ├── hello_world.hpp
+    └── main.cpp</span></code></pre></figure>
+
+<p>If we build our binaries in <code class="highlighter-rouge">Debug</code> mode.</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">cd srcA/build
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+make
+cd .. &amp;&amp; cd ..
+cd srcB/build
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+make
+cd .. &amp;&amp; cd ..
+md5sum srcA/build/hello
+md5sum srcB/build/hello
+md5sum srcA/build/CMakeFiles/HelloLib.dir/hello_world.cpp.o
+md5sum srcB/build/CMakeFiles/HelloLib.dir/hello_world.cpp.o
+md5sum srcA/build/libHelloLib.a
+md5sum srcB/build/libHelloLib.a</span></code></pre></figure>
+
+<p>We get the following checksums:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">3572a95a8699f71803f3e967f92a5040  srcA/build/hello
+7ca693295e62de03a1bba14853efa28c  srcB/build/hello
+76e0ae7c4ef79ec3be821ccf5752730f  srcA/build/CMakeFiles/HelloLib.dir/hello_world.cpp.o
+5ef044e6dcb73359f46d48f29f566ae5  srcB/build/CMakeFiles/HelloLib.dir/hello_world.cpp.o
+dc941156608b578c91e38f8ecebfef6d  srcA/build/libHelloLib.a
+1f9697ef23bf70b41b39ef3469845f76  srcB/build/libHelloLib.a</span></code></pre></figure>
+
+<p>The folder information is propagated from the object files to the final executables
+making our builds non-reproducible. We could show the differences between binaries using diffoscope
+to see where the folder information is embedded.</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>diffoscope helloA helloB
+<span class="go">--- srcA/build/hello
++++ srcB/build/hello
+@@ -1282,20 +1282,20 @@
+</span><span class="c">...
+</span><span class="go"> 00005070: 5f77 6f72 6c64 5f64 6562 7567 2f73 7263  _world_debug/src
+-00005080: 412f 006d 6169 6e2e 6370 7000 2f55 7365  A/.main.cpp./Use
++00005080: 422f 006d 6169 6e2e 6370 7000 2f55 7365  B/.main.cpp./Use
+ 00005090: 7273 2f63 6172 6c6f 732f 446f 6375 6d65  rs/carlos/Docume
+ 000050a0: 6e74 732f 6465 7665 6c6f 7065 722f 7265  nts/developer/re
+ 000050b0: 7072 6f64 7563 6962 6c65 2d62 7569 6c64  producible-build
+ 000050c0: 732f 7361 6e64 626f 782f 6865 6c6c 6f5f  s/sandbox/hello_
+-000050d0: 776f 726c 645f 6465 6275 672f 7372 6341  world_debug/srcA
++000050d0: 776f 726c 645f 6465 6275 672f 7372 6342  world_debug/srcB
+ 000050e0: 2f62 7569 6c64 2f43 4d61 6b65 4669 6c65  /build/CMakeFile
+ 000050f0: 732f 6865 6c6c 6f2e 6469 722f 6d61 696e  s/hello.dir/main
+ 00005100: 2e63 7070 2e6f 005f 6d61 696e 005f 5f5a  .cpp.o._main.__Z
+</span><span class="c">...
+</span><span class="go">@@ -1336,15 +1336,15 @@
+</span><span class="c">...
+</span><span class="go"> 000053c0: 6962 6c65 2d62 7569 6c64 732f 7361 6e64  ible-builds/sand
+ 000053d0: 626f 782f 6865 6c6c 6f5f 776f 726c 645f  box/hello_world_
+-000053e0: 6465 6275 672f 7372 6341 2f62 7569 6c64  debug/srcA/build
++000053e0: 6465 6275 672f 7372 6342 2f62 7569 6c64  debug/srcB/build
+ 000053f0: 2f6c 6962 4865 6c6c 6f4c 6962 2e61 2868  /libHelloLib.a(h
+ 00005400: 656c 6c6f 5f77 6f72 6c64 2e63 7070 2e6f  ello_world.cpp.o
+ 00005410: 2900 5f5f 5a4e 3130 4865 6c6c 6f57 6f72  ).__ZN10HelloWor
+</span><span class="c">...</span></code></pre></figure>
+
+<h4 id="possible-solutions">Possible solutions</h4>
+
+<p>Again the solutions will depend on the compiler used:</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">msvc</code> can’t set options to avoid the propagation of this information to the binary files. The only
+way to get reproducible binaries is again using a patching tool to strip this information in the
+build step. Note that as we are patching the binaries to achieve reproducible binaries the folders
+used for different builds should have the same length in characters.</p>
+  </li>
+  <li><code class="highlighter-rouge">gcc</code> has three compiler flags to work around the issue:
+    <ul>
+      <li><code class="highlighter-rouge">-fdebug-prefix-map=OLD=NEW</code> can strip directory prefixes from debug info.</li>
+      <li><code class="highlighter-rouge">-fmacro-prefix-map=OLD=NEW</code> is available since <code class="highlighter-rouge">gcc 8</code> and addresses irreproducibility due to
+the use of <code class="highlighter-rouge">__FILE__</code> macro.</li>
+      <li><code class="highlighter-rouge">-ffile-prefix-map=OLD=NEW</code> is available sice <code class="highlighter-rouge">gcc 8</code> and is the union of <code class="highlighter-rouge">-fdebug-prefix-map</code>
+and <code class="highlighter-rouge">-fmacro-prefix-map</code></li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">clang</code> supports <code class="highlighter-rouge">-fdebug-prefix-map=OLD=NEW</code> from version 3.8 and is working on supporting the
+other two flags for future versions.</li>
+</ul>
+
+<p>The best way to solve this is by adding the flags to compiler options. If we are using <code class="highlighter-rouge">CMake</code>:</p>
+
+<pre><code class="language-CMake">target_compile_options(target PUBLIC "-ffile-prefix-map=${CMAKE_SOURCE_DIR}=.")
+</code></pre>
+<h3 id="file-order-feeding-to-the-build-system">File order feeding to the build system</h3>
+
+<p>File ordering can be a problem if directories are read to list their files. For example Unix does not
+have a deterministic order in which <code class="highlighter-rouge">readdir()</code> and <code class="highlighter-rouge">listdir()</code> should return the contents of a
+directory, so trusting in these functions to feed the build system could produce non-deterministic
+builds.</p>
+
+<p>The same problem arises for example if your build system stores the files for the linker in a
+container (like a regular python dictionary) that can return the elements in a non-deterministic
+order. This would make that each time files were linked in a different order and produce different
+binaries.</p>
+
+<p>We can simulate this problem changing the order of files in CMake. If we modify the previous example
+to have more than just one source file for the library:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="c">.
+</span><span class="go">├── CMakeLists.txt
+├── CMakeListsA.txt
+├── CMakeListsB.txt
+├── hello_world.cpp
+├── hello_world.hpp
+├── main.cpp
+├── sources0.cpp
+├── sources0.hpp
+├── sources1.cpp
+├── sources1.hpp
+├── sources2.cpp
+└── sources2.hpp</span></code></pre></figure>
+
+<p>We can see that the results of the compilation are different if we change the order of files in the <code class="highlighter-rouge">CMakeLists.txt</code>:</p>
+
+<figure class="highlight"><pre><code class="language-cmake" data-lang="cmake"><span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 3.0<span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span>HelloWorld<span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span>CMAKE_CXX_STANDARD 11<span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span>CMAKE_CXX_STANDARD_REQUIRED ON<span class="p">)</span>
+<span class="nb">add_library</span><span class="p">(</span>HelloLib hello_world.cpp 
+                     sources0.cpp 
+                     sources1.cpp 
+                     sources2.cpp<span class="p">)</span>
+<span class="nb">add_executable</span><span class="p">(</span>hello main.cpp<span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span>hello HelloLib<span class="p">)</span></code></pre></figure>
+
+<p>If we make two consecutive builds named <code class="highlighter-rouge">A</code> and <code class="highlighter-rouge">B</code> swapping <code class="highlighter-rouge">sources0.cpp</code> and <code class="highlighter-rouge">sources1.cpp</code> in the files list the resulting checksums will be:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">30ab264d6f8e1784282cd1a415c067f2  helloA
+cdf3c9dd968f7363dc9e8b40918d83af  helloB
+707c71bc2a8def6885b96fb67b84d79c  hello_worldA.cpp.o
+707c71bc2a8def6885b96fb67b84d79c  hello_worldB.cpp.o
+694ff3765b688e6faeebf283052629a3  sources0A.cpp.o
+694ff3765b688e6faeebf283052629a3  sources0B.cpp.o
+0db24dc6a94da1d167c68b96ff319e56  sources1A.cpp.o
+0db24dc6a94da1d167c68b96ff319e56  sources1B.cpp.o
+fd0754d9a4a44b0fcc4e4f3c66ad187c  sources2A.cpp.o
+fd0754d9a4a44b0fcc4e4f3c66ad187c  sources2B.cpp.o
+baba9709d69c9e5fd51ad985ee328172  libHelloLibA.a
+72641dc6fc4f4db04166255f62803353  libHelloLibB.a</span></code></pre></figure>
+
+<p>Object files <code class="highlighter-rouge">.o</code> are identical but <code class="highlighter-rouge">.a</code> libraries and executables are not. That is because the insertion order in the libraries depends on the order the files were listed.</p>
+
+<h3 id="randomness-created-by-the-compiler">Randomness created by the compiler</h3>
+
+<p>This problem arises for example in <code class="highlighter-rouge">gcc</code> when <a href="https://gcc.gnu.org/wiki/LinkTimeOptimization">Link-Time
+Optimizations</a> are activated (with the <code class="highlighter-rouge">-flto</code> flag).
+This option introduces randomly generated names in the binary files. The only way to avoid this
+problem is to use <code class="highlighter-rouge">-frandom-seed</code> flag. This option provides a seed that <code class="highlighter-rouge">gcc</code> uses when it would
+otherwise use random numbers. It is used to generate certain symbol names that have to be different
+in every compiled file. It is also used to place unique stamps in coverage data files and the object
+files that produce them. This setting has to be different for each source file. One option would be
+to set it to the checksum of the file so the probability of collision is very low. For example in
+CMake it could be made with a function like this:</p>
+
+<figure class="highlight"><pre><code class="language-cmake" data-lang="cmake"><span class="nb">set</span><span class="p">(</span>LIB_SOURCES
+    ./src/source1.cpp
+    ./src/source2.cpp
+    ./src/source3.cpp<span class="p">)</span>
+
+<span class="nb">foreach</span><span class="p">(</span>_file <span class="si">${</span><span class="nv">LIB_SOURCES</span><span class="si">}</span><span class="p">)</span>
+    <span class="nb">file</span><span class="p">(</span>SHA1 <span class="si">${</span><span class="nv">_file</span><span class="si">}</span> checksum<span class="p">)</span>
+    <span class="nb">string</span><span class="p">(</span>SUBSTRING <span class="si">${</span><span class="nv">checksum</span><span class="si">}</span> 0 8 checksum<span class="p">)</span>
+    <span class="nb">set_property</span><span class="p">(</span>SOURCE <span class="si">${</span><span class="nv">_file</span><span class="si">}</span> APPEND_STRING PROPERTY COMPILE_FLAGS <span class="s2">"-frandom-seed=0x</span><span class="si">${</span><span class="nv">checksum</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">endforeach</span><span class="p">()</span></code></pre></figure>
+
+<h2 id="some-tips-using-conan">Some tips using Conan</h2>
+
+<p>Conan <a href="https://docs.conan.io/en/latest/extending/hooks.html">hooks</a> can help us in the process of
+making our builds reproducible. This feature makes it possible to customize the client behavior at
+determined points.</p>
+
+<p>One use of hooks could be setting environment variables in the <code class="highlighter-rouge">pre_build</code> step. The example below is
+calling a function <code class="highlighter-rouge">set_environment</code> and then restoring the environment in the <code class="highlighter-rouge">post_build</code> step with
+<code class="highlighter-rouge">reset_environment</code>.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">set_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_os</span> <span class="o">==</span> <span class="s">"Linux"</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_old_source_date_epoch</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"SOURCE_DATE_EPOCH"</span><span class="p">)</span>
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="s">"1564483496"</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">"SOURCE_DATE_EPOCH"</span><span class="p">]</span> <span class="o">=</span> <span class="n">timestamp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s">"set SOURCE_DATE_EPOCH: {}"</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span><span class="n">timestamp</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_os</span> <span class="o">==</span> <span class="s">"Macos"</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">"ZERO_AR_DATE"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"1"</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s">"set ZERO_AR_DATE: {}"</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span><span class="n">timestamp</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">reset_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_os</span> <span class="o">==</span> <span class="s">"Linux"</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_old_source_date_epoch</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">"SOURCE_DATE_EPOCH"</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">"SOURCE_DATE_EPOCH"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_old_source_date_epoch</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_os</span> <span class="o">==</span> <span class="s">"Macos"</span><span class="p">:</span>
+        <span class="k">del</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">"ZERO_AR_DATE"</span><span class="p">]</span></code></pre></figure>
+
+<p>Hooks can also be useful to patch binaries in the <code class="highlighter-rouge">post_build</code> step. There are different binary files
+analysis and patching tools like <a href="https://github.com/jasonwhite/ducible">ducible</a>,
+<a href="https://github.com/erocarrera/pefile">pefile</a>, <a href="https://github.com/trailofbits/pe-parse">pe-parse</a>
+or <a href="https://salsa.debian.org/reproducible-builds/strip-nondeterminism">strip-nondeterminism</a>. An
+example of a hook for patching a <code class="highlighter-rouge">PE</code> binary using <em>ducible</em> could be like this one:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Patcher</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="o">...</span>
+    <span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_os</span> <span class="o">==</span> <span class="s">"Windows"</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiler</span> <span class="o">==</span> <span class="s">"Visual Studio"</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_conanfile</span><span class="o">.</span><span class="n">build_folder</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+                    <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s">".exe"</span> <span class="ow">in</span> <span class="n">filename</span> <span class="ow">or</span> <span class="s">".dll"</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_patch_pe</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_patch_pe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="n">patch_tool_location</span> <span class="o">=</span> <span class="s">"C:/ducible/ducible.exe"</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">patch_tool_location</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Patching {} with md5sum: {}"</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="n">md5sum</span><span class="p">(</span><span class="n">filename</span><span class="p">)))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_conanfile</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s">"{} {}"</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span><span class="n">patch_tool_location</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Patched file: {} with md5sum: {}"</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="n">md5sum</span><span class="p">(</span><span class="n">filename</span><span class="p">)))</span>
+<span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">pre_build</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">conanfile</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">lib_patcher</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">conanfile</span><span class="p">)</span>
+    <span class="n">lib_patcher</span><span class="o">.</span><span class="n">set_environment</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">post_build</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">conanfile</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">lib_patcher</span><span class="o">.</span><span class="n">patch</span><span class="p">()</span>
+    <span class="n">lib_patcher</span><span class="o">.</span><span class="n">reset_environment</span><span class="p">()</span></code></pre></figure>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Deterministic builds are a complex problem highly coupled with the operating system and toolchain used. This introduction should have served to understand the most common causes of indeterminism and how to avoid them.</p>
+
+<h2 id="references">References</h2>
+
+<h3 id="general-info">General info</h3>
+
+<ul>
+  <li><a href="">https://www.chromium.org/developers/testing/isolated-testing/deterministic-builds</a></li>
+  <li><a href="">https://reproducible-builds.org/</a></li>
+  <li><a href="">https://wiki.yoctoproject.org/wiki/Reproducible_Builds</a></li>
+  <li><a href="">https://stackoverflow.com/questions/1180852/deterministic-builds-under-windows</a></li>
+  <li><a href="">https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#archive-library-file-format</a></li>
+  <li><a href="">https://devblogs.microsoft.com/oldnewthing/20180103-00/?p=97705</a></li>
+  <li><a href="">https://www.geoffchappell.com/studies/msvc/link/link/options/brepro.htm?tx=37&amp;ts=0,267</a></li>
+</ul>
+
+<h3 id="tools">Tools</h3>
+
+<h4 id="tools-for-comparing-binaries">Tools for comparing binaries</h4>
+
+<ul>
+  <li><a href="">https://diffoscope.org/</a></li>
+  <li><a href="">https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fc</a></li>
+</ul>
+
+<h4 id="tools-for-patching-files">Tools for patching files</h4>
+
+<ul>
+  <li><a href="">https://salsa.debian.org/reproducible-builds/strip-nondeterminism</a></li>
+  <li><a href="">https://github.com/erocarrera/pefile</a></li>
+  <li><a href="">https://github.com/trailofbits/pe-parse</a></li>
+  <li><a href="">https://github.com/smarttechnologies/peparser</a></li>
+  <li><a href="">https://github.com/google/syzygy</a></li>
+  <li><a href="">https://github.com/nh2/ar-timestamp-wiper</a></li>
+</ul>
+
+<h4 id="tools-for-analyzing-files">Tools for analyzing files</h4>
+
+<ul>
+  <li><a href="">https://docs.microsoft.com/en-us/cpp/build/reference/dumpbin-reference?view=vs-2019</a></li>
+  <li><a href="">https://sourceware.org/binutils/docs/binutils/readelf.html</a></li>
+  <li><a href="">https://github.com/llvm-mirror/llvm/tree/master/tools</a></li>
+  <li><a href="">https://github.com/lief-project/LIEF</a></li>
+</ul>
+
+:ET

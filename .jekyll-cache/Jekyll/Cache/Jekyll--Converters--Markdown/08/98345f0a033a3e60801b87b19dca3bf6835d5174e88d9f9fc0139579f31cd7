@@ -1,0 +1,53 @@
+I"<p>In a previous post <a href="http://blog.conan.io/2016/03/30/are-c-and-c++-languages-ready-for-the-npm-debacle.html">“Are C and C++ languages ready for the NPM debacle”</a>, we described the approach of Conan package manager to security, which stands on:</p>
+
+<ul>
+  <li>Namespaces. Packages are created on user accounts namespace, so, even if they are removed by the author (like happened in NPM), they cannot be replaced by other user under the same namespace.</li>
+  <li>Easy fork/copy of packages. Packages can be forked or copied, just like git repos, and put under your own account namespace, so you don’t depend on others and possible changes on their packages do not affect your dependencies.</li>
+  <li>Distributed nature of conan. Actually, most of conan users that are using it in production are running their own conan servers, and copying packages for OSS libraries from conan.io remote if necessary, even just generating the binary packages from package recipes obtained from github.</li>
+  <li>Manifests: Every package recipe and package binary has a manifest of files and checksums, and some integrity checks were optionally possible.</li>
+</ul>
+
+<h2 id="capturing-and-verifying-manifests">Capturing and verifying manifests</h2>
+
+<p>Even if conan had the manifests already in place, there were still practically not used. From conan 0.13 a new requested functionality has been added to implement security checks over the dependencies of a project, machine or user account. It has been implemented as an option, as some users that are running against their own server already have their own security measures and do not need it.</p>
+
+<p>The first step is to capture the manifests of all recipes and package binaries for the dependencies of a project:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>conan <span class="nb">install</span> <span class="nb">.</span> <span class="nt">--manifests</span></code></pre></figure>
+
+<p>This will capture the dependencies of the current folder <code class="highlighter-rouge">conanfile</code> into a folder called by default <code class="highlighter-rouge">.conan_manifests</code></p>
+
+<p>This folder can (and probably should) added to version control, for later checks, irrespective of the machine that it runs. Different package binaries can be added to the <code class="highlighter-rouge">conan_manifests</code> folder, capturing manifests for different OS, architectures, and compilers, in the same project. Under version control, it can be known which developers checked and pulled the different dependencies (and manifests) for different settings.</p>
+
+<p>Also, a specific folder can be used, both with a relative and absolute path:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>conan <span class="nb">install</span> <span class="nb">.</span> <span class="nt">--manifests</span><span class="o">=</span>/path/to/myfolder</code></pre></figure>
+
+<p>This would be a good solution to run checks machine-wide instead of project-wide, in a CI server, or on a developer machine that wants to check all projects in a single manifest storage.</p>
+
+<p>Afterwards, a manifest capture can be checked against the installed dependencies very easily:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>conan <span class="nb">install</span> <span class="nb">.</span> <span class="nt">--verify</span></code></pre></figure>
+
+<p>This will check the current <code class="highlighter-rouge">conanfile</code> full dependency tree against the stored manifests. If a recipe or a package binary manifest has changed with respect to the stored manifest, it will show the error and abort the installation.</p>
+
+<p>As above, a specific folder can be given as the manifests storage:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>conan <span class="nb">install</span> <span class="nb">.</span> <span class="nt">--verify</span><span class="o">=</span>/path/to/myfolder</code></pre></figure>
+
+<h2 id="resistance-of-implemented-approach">Resistance of implemented approach</h2>
+
+<p>While implementing a security measure, it is necessary to analyze other possible attack vectors, and how such security measure can deal with them.</p>
+
+<p>After some iterations in which manifests checks were done in different points of the stack, like while downloading packages, we decided to put it in the latest place of the stack. In this way, the user is protected against any tampering, hacking, replacement and even user mistakes installing untrusted packages in the local cache. All the manifests are checked from the local cache, irrespective of their sources, local or remote. In the verification, also current disk files contents are checked against the manifests to ensure that their checksums match.</p>
+
+<p>Conan current manifests are based on MD5 checksums. Some users might be concerned, saying that MD5 is broken. It is not. It is known that its “collision resistance” is broken, and two different contents can be generated with the same hash. However, its <strong>second pre-image resistance</strong>, i.e. given a content with a computed hash, obtain a new, different content with the same hash, is still completely secure. In our case, the potential attacker not only has to find another, random content with the same hash, but they would have to find a very similar content, with their malware injected, with the same hash. This is totally impossible, so conan is completely safe with MD5 checksums in their manifests.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>This has been just one of the recent conan 0.13 release improvements. Other important things have been released, like doing all the upload and download transfers streaming from and to disk, instead of memory, which will use less memory resources than previous conan versions. Read the <a href="http://docs.conan.io/en/latest/changelog.html">changelog</a> for a full list of changes in conan 0.13.</p>
+
+<p>We take the security of conan very seriously. This is the main reason it was decided to do a fully distributed approach, in which users, especially companies, could run their own in-house conan servers, and fully control their infrastructure and security. Now, with the check of conan manifests, it is also very secure to use other remotes trusted sources without being exposed to hacks, hijacks and other issues on such remote servers. It is also very useful for self-protection, especially for very large teams and complex projects, to ensure absolute guarantees of reproducibility of the dependencies.</p>
+
+<p>Do you have any further suggestions how to improve the security of conan? Please contribute it in <a href="https://github.com/conan-io/conan">github</a></p>
+:ET

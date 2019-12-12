@@ -1,0 +1,79 @@
+I""<p>MeetingC++, the major C++ conference in Europe, and the 2nd largest in the world was celebrated in Berlin last week. Like previous conferences, it was very well organized, with very interesting talks and a gorgeous environment.</p>
+
+<p>We wanted to collaborate, so we joined as silver sponsors, and we also organized and sponsored a C++ quiz that was held in the evening after a nice pizza &amp; pasta buffet.</p>
+
+<p><img src="http://localhost:4000/assets/meetingcpp_quiz.jpeg" /></p>
+
+<p>It seems the initiative was very welcome. Thanks very much to the many people who attended and participated in the quiz!</p>
+
+<h1 id="the-rules-of-the-quiz">The rules of the quiz</h1>
+<p>The rules were very simple; to guess the output of 10 code snippets, all guaranteed to compile and work, and print a single line of text of up to 10 characters. Each question had to be solved within  3 minutes, after the code was projected on the screen. Each correct character scored 1 point, which means that the best score achievable was 100.</p>
+
+<p>Attendees worked in teams of up to 6 people each. We encouraged them to mix and meet others,  and not to stick with their  work colleagues. Each team  received a single paper form, and was not allowed to use any computer or device (besides their analog brains) for the task.</p>
+
+<p>The rule that I liked most was that the quiz code didn’t have to be portable, modern, to make sense, be good practice, or even work on other machines. I could say <strong>as it works on MY machine</strong>. A programmer’s heaven :)  If you intend to replicate the code, I was using an MBP with Win10, Visual Studio 14u2, building for Release and 64 bits with the standard build provided by CMake “add_executable” command.</p>
+
+<h1 id="code--solutions">Code &amp; Solutions</h1>
+<p>I must admit, the quiz was not simple. I was afraid that others would get all the correct answers, so I crafted some crazy exercises, some simple, but others quite convoluted. Here are the snippets, go ahead, solve each one in 3 minutes!:</p>
+
+<script async="" class="speakerdeck-embed" data-id="f4d028ec381c4b5eaf106af13c2434e8" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+
+<p>We wanted the exercise to be entertaining and fun, so there were more slides besides the code! Obviously, you can only enjoy that part if you attend in person, so if you want to have fun, make sure you don’t miss any of the upcoming  MeetingC++ conferences.</p>
+
+<p>There were tricks, like the comparison of <code class="highlighter-rouge">unsigned int i=4</code> with <code class="highlighter-rouge">i &gt; -1</code>, which is false! Other exercises were more conventional, like recursive variadic templates, in the sense that the only challenge was to track the evaluation of the templates, without any tricks. Some quiz questions included modern C++ features like lambdas, while others had terrible legacy meta-programming with macros, STL, delegating constructions, threads with a barrier, moving semantics… Controversial practices, like using an object after moving it (nope, it is not undefined behavior), or guessing the result of a random_shuffle, all provided some spice to the mix.</p>
+
+<h1 id="and-the-winners">And the winners!</h1>
+<p>We didn’t expect so many attendees, so some volunteers helped to evaluate the forms, thanks very much to all of them.</p>
+
+<p>We were more than impressed, and completely baffled by the expert level of the participants. The average score of 75 points was even higher than expected, and all scores were above 60 points. Congrats to all of them!</p>
+
+<p><img src="http://localhost:4000/assets/meetingcpp_quiz_winners.jpeg" /></p>
+
+<p>We still can’t believe it, but the winners scored a perfect 100!! They were a team of just 2 people, but they proved to be extremely talented: Rostislav Khlebnikov, from <a href="https://www.think-cell.com/en/">think-cell</a> and Ivan Sorokin from the JetBrains <a href="https://www.jetbrains.com/resharper-cpp/">ResharperC++</a> team. Congrats!</p>
+
+<p>These are the teams that achieved glory, the MeetingC++2016 Quiz hall of fame:</p>
+
+<p><strong>1st place: (100 points) “SPb”</strong></p>
+
+<ul>
+  <li>Rostislav Khlebnikov, from <a href="https://www.think-cell.com/en/">think-cell</a></li>
+  <li>Ivan Sorokin, from JetBrains <a href="https://www.jetbrains.com/resharper-cpp">ResharperC++</a> team</li>
+</ul>
+
+<p><strong>2nd place (96 points): “Operator ++”</strong></p>
+
+<ul>
+  <li>Marco Foco, from Nvidia <a href="http://marcofoco.com/">blog</a></li>
+  <li>Matthew Chaplain, from TomTom</li>
+  <li>Paul M. Bendixen</li>
+  <li>Valentino Picotti <a href="https://twitter.com/paicoz">@paicoz</a>.</li>
+  <li>Paul Dreik, <a href="https://www.dreik.se/">Dreik Ingenjörskonst AB</a></li>
+  <li>Lukas Bergdoll <a href="https://www.lukas-bergdoll.net">homepage</a></li>
+</ul>
+
+<p><strong>3rd place (86 points): “reinterpret_cast&lt;cpp&gt;(Java)”</strong></p>
+
+<ul>
+  <li>Jakub Chlanda, from <a href="https://www.codeplay.com/">Codeplay Software</a></li>
+  <li>Peter Goldsborough</li>
+  <li>Bruno Manganelli,  student</li>
+  <li>Jan Babst, from <a href="https://www.elektrobit.com">Elektrobit</a></li>
+  <li>Philipp Lenk</li>
+</ul>
+
+<p>There are some missing names here! Please check your emails, or contribute with a PR to this post.</p>
+
+<p>Special mention also needs to go to the teams “; drop table *” and “Number 1”, who were really close to third place.</p>
+
+<h1 id="prizes">Prizes</h1>
+<p>The winners received a new innovative puzzle: a customized Rubik’s cube, even more challenging that the original, with tiles that need to be in the correct orientation, besides color, and letters.</p>
+
+<p><img src="http://localhost:4000/assets/RubikCube.jpeg" style="width:200px;display: block;margin: 0 auto;" /></p>
+
+<p>We will also send them to the 2nd place team members, if you were part of it, please check your email!</p>
+
+<h1 id="after-the-quiz">After the quiz</h1>
+<p>When the quiz was over we all joined a very nice party organized by MeetingC++, where we had drinks and lots of fun. We strongly believe that the best part of these conferences is meeting other developers, face to face, meeting new people and sharing experiences, and of course the party is just as important. We wouldn’t trade it for anything else!. Thanks very much to Jens for organizing such a great conference.</p>
+
+<p>We think that most people had fun with the quiz, we indeed had a great time ourselves, so we are definitely proposing it again for next year! Couldn’t make it to MeetingC++ this year? You should definitely try to attend next years. Hope to see you all there :)</p>
+:ET

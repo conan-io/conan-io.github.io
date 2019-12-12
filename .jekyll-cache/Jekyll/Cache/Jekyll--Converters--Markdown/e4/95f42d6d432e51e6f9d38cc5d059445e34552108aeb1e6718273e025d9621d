@@ -1,0 +1,221 @@
+I"M<p>As developers, we all have faced the pain of introducing graphical interfaces to our programs.
+Traditional GUI libraries add a degree of complexity which you may not want if you are making tools that are intended for debugging.
+Here we present a library that makes it possible to create <a href="https://github.com/ocornut/imgui/issues/2529">loggers</a>,
+<a href="https://github.com/ocornut/imgui/issues/2265">profilers</a>, <a href="https://github.com/ocornut/imgui/issues/2265">debuggers</a>
+or even an <a href="https://github.com/ocornut/imgui/issues/1607">entire game making editor</a> quickly and easily.
+The entire <a href="https://github.com/conan-io/examples/tree/master/libraries/dear-imgui/basic">example</a> 
+presented here is available on Github.</p>
+
+<h3 id="dear-imgui">Dear ImGui?</h3>
+
+<p><a href="https://github.com/ocornut/imgui">Dear ImGui</a> is an amazing C++ GUI library mainly used in game developement. 
+The project is open-source software, licensed under MIT license. Dear ImGui focuses on simplicity and productivity using what is called 
+<a href="https://caseymuratori.com/blog_0001">Inmediate Mode GUI paradigm</a>.</p>
+
+<p>Immediate mode GUI’s are different from the traditional retained-mode interfaces in that widgets are created and drawn on each frame
+vs the traditional approach of first creating a widget and adding callbacks to it. Some of the benefits of this paradigm are your
+UI “lives closer” to your data and that it allows for fast prototyping.</p>
+
+<p>Dear ImGui is mainly designed for developers to use in content creation and debug tools. It’s renderer agnostic in the way that you
+have to provide the tools to render the data but It’s very easy to integrate into your own code as it has multiple bindings for
+different window and events handling libraries (like <a href="https://www.glfw.org/">GLFW</a>, <a href="https://www.libsdl.org/index.php">SDL2</a> and GLUT) 
+and multiple renderers (like OpenGL, DirectX and <a href="https://www.khronos.org/vulkan/">Vulkan</a>).</p>
+
+<p>Dear ImGui comes with lots of widgets like windows, labels, input boxes, progress bars, buttons, sliders, trees, etc. You can see
+some examples in the image beneath.</p>
+
+<p class="centered">
+    <img src="http://localhost:4000/assets/post_images/2019-06-26/conan-imgui-widgets.gif" align="center" alt="Different Dear ImGui widgets" />
+</p>
+
+<h3 id="integrating-dear-imgui-in-your-application">Integrating Dear ImGui in your application</h3>
+
+<p>The typical use of ImGui is when you already have a 3D-pipeline enabled application like a content creation or game development tool
+where you want to add a GUI. Let’s see how easy it is to integrate ImGui in our application. Our example application renders a
+triangle using OpenGL3. We will use GLFW to manage window creation and events handling. As ImGui is independent of the rendering
+system and platform we have to introduce some binding for our rendering system. Fortunately, there are many premade bindings in Dear
+ImGui’s repo. As we will use Dear ImGui v1.69 these are the ones we will need:</p>
+
+<ul>
+  <li><a href="https://github.com/ocornut/imgui/blob/v1.69/examples/imgui_impl_opengl3.cpp">imgui_impl_opengl3.cpp</a></li>
+  <li><a href="https://github.com/ocornut/imgui/blob/v1.69/examples/imgui_impl_opengl3.h">imgui_impl_opengl3.h</a></li>
+  <li><a href="https://github.com/ocornut/imgui/blob/v1.69/examples/imgui_impl_glfw.cpp">imgui_impl_glfw.cpp</a></li>
+  <li><a href="https://github.com/ocornut/imgui/blob/v1.69/examples/imgui_impl_glfw.h">imgui_impl_glfw.h</a></li>
+</ul>
+
+<p>The minimal code to make this work is in <code class="highlighter-rouge">main.cpp</code>. First, you initialize the window for rendering and then you have to 
+initialize a Dear ImGui context and the helper platform and Renderer bindings. You can change the rendering style if you want as well.</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="c1">// Setup Dear ImGui context</span>
+<span class="n">IMGUI_CHECKVERSION</span><span class="p">();</span>
+<span class="n">ImGui</span><span class="o">::</span><span class="n">CreateContext</span><span class="p">();</span>
+<span class="n">ImGuiIO</span> <span class="o">&amp;</span><span class="n">io</span> <span class="o">=</span> <span class="n">ImGui</span><span class="o">::</span><span class="n">GetIO</span><span class="p">();</span>
+<span class="c1">// Setup Platform/Renderer bindings</span>
+<span class="n">ImGui_ImplGlfw_InitForOpenGL</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
+<span class="n">ImGui_ImplOpenGL3_Init</span><span class="p">(</span><span class="n">glsl_version</span><span class="p">);</span>
+<span class="c1">// Setup Dear ImGui style</span>
+<span class="n">ImGui</span><span class="o">::</span><span class="n">StyleColorsDark</span><span class="p">();</span></code></pre></figure>
+
+<p>Then you enter the main application loop where you can clearly see the difference with the classical retained mode GUI’s.</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">glfwWindowShouldClose</span><span class="p">(</span><span class="n">window</span><span class="p">))</span>
+<span class="p">{</span>
+    <span class="n">glfwPollEvents</span><span class="p">();</span>
+    <span class="n">glClearColor</span><span class="p">(</span><span class="mf">0.45</span><span class="n">f</span><span class="p">,</span> <span class="mf">0.55</span><span class="n">f</span><span class="p">,</span> <span class="mf">0.60</span><span class="n">f</span><span class="p">,</span> <span class="mf">1.00</span><span class="n">f</span><span class="p">);</span>
+    <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span><span class="p">);</span>
+
+    <span class="c1">// feed inputs to dear imgui, start new frame</span>
+    <span class="n">ImGui_ImplOpenGL3_NewFrame</span><span class="p">();</span>
+    <span class="n">ImGui_ImplGlfw_NewFrame</span><span class="p">();</span>
+    <span class="n">ImGui</span><span class="o">::</span><span class="n">NewFrame</span><span class="p">();</span>
+
+    <span class="c1">// rendering our geometries</span>
+    <span class="n">triangle_shader</span><span class="p">.</span><span class="n">use</span><span class="p">();</span>
+    <span class="n">glBindVertexArray</span><span class="p">(</span><span class="n">vao</span><span class="p">);</span>
+    <span class="n">glDrawElements</span><span class="p">(</span><span class="n">GL_TRIANGLES</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">GL_UNSIGNED_INT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">glBindVertexArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+    <span class="c1">// render your GUI</span>
+    <span class="n">ImGui</span><span class="o">::</span><span class="n">Begin</span><span class="p">(</span><span class="s">"Demo window"</span><span class="p">);</span>
+    <span class="n">ImGui</span><span class="o">::</span><span class="n">Button</span><span class="p">(</span><span class="s">"Hello!"</span><span class="p">);</span>
+    <span class="n">ImGui</span><span class="o">::</span><span class="n">End</span><span class="p">();</span>
+
+    <span class="c1">// Render dear imgui into screen</span>
+    <span class="n">ImGui</span><span class="o">::</span><span class="n">Render</span><span class="p">();</span>
+    <span class="n">ImGui_ImplOpenGL3_RenderDrawData</span><span class="p">(</span><span class="n">ImGui</span><span class="o">::</span><span class="n">GetDrawData</span><span class="p">());</span>
+
+    <span class="kt">int</span> <span class="n">display_w</span><span class="p">,</span> <span class="n">display_h</span><span class="p">;</span>
+    <span class="n">glfwGetFramebufferSize</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">display_w</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">display_h</span><span class="p">);</span>
+    <span class="n">glViewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">display_w</span><span class="p">,</span> <span class="n">display_h</span><span class="p">);</span>
+    <span class="n">glfwSwapBuffers</span><span class="p">(</span><span class="n">window</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>And, of course, do some cleanup when the loop ends.</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">ImGui_ImplOpenGL3_Shutdown</span><span class="p">();</span>
+<span class="n">ImGui_ImplGlfw_Shutdown</span><span class="p">();</span>
+<span class="n">ImGui</span><span class="o">::</span><span class="n">DestroyContext</span><span class="p">();</span></code></pre></figure>
+
+<p>So, this is what we get:</p>
+
+<p class="centered">
+    <img src="http://localhost:4000/assets/post_images/2019-06-26/conan-imgui-hello-world.gif" align="center" alt="ImGui Hello World" />
+</p>
+
+<p>Let’s say, for example, that we want to change the triangle’s position/orientation and colour. That would be as simple as calling
+some sliders and a colour picker and passing the data to the triangle via shader uniforms:</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="c1">// render your GUI</span>
+<span class="n">ImGui</span><span class="o">::</span><span class="n">Begin</span><span class="p">(</span><span class="s">"Triangle Position/Color"</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">float</span> <span class="n">rotation</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="n">ImGui</span><span class="o">::</span><span class="n">SliderFloat</span><span class="p">(</span><span class="s">"rotation"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rotation</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">PI</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">float</span> <span class="n">translation</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">};</span>
+<span class="n">ImGui</span><span class="o">::</span><span class="n">SliderFloat2</span><span class="p">(</span><span class="s">"position"</span><span class="p">,</span> <span class="n">translation</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">float</span> <span class="n">color</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mf">1.0</span><span class="n">f</span><span class="p">,</span><span class="mf">1.0</span><span class="n">f</span><span class="p">,</span><span class="mf">1.0</span><span class="n">f</span><span class="p">,</span><span class="mf">1.0</span><span class="n">f</span> <span class="p">};</span>
+<span class="c1">// pass the parameters to the shader</span>
+<span class="n">triangle_shader</span><span class="p">.</span><span class="n">setUniform</span><span class="p">(</span><span class="s">"rotation"</span><span class="p">,</span> <span class="n">rotation</span><span class="p">);</span>
+<span class="n">triangle_shader</span><span class="p">.</span><span class="n">setUniform</span><span class="p">(</span><span class="s">"translation"</span><span class="p">,</span> <span class="n">translation</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">translation</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="c1">// color picker</span>
+<span class="n">ImGui</span><span class="o">::</span><span class="n">ColorEdit3</span><span class="p">(</span><span class="s">"color"</span><span class="p">,</span> <span class="n">color</span><span class="p">);</span>
+<span class="c1">// multiply triangle's color with this color</span>
+<span class="n">triangle_shader</span><span class="p">.</span><span class="n">setUniform</span><span class="p">(</span><span class="s">"color"</span><span class="p">,</span> <span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span></code></pre></figure>
+
+<p class="centered">
+    <img src="http://localhost:4000/assets/post_images/2019-06-26/conan-imgui-triangle-rotate-color.gif" align="center" alt="Change triangle's color" />
+</p>
+
+<p>There are some basic drawing tools as well.</p>
+
+<p class="centered">
+    <img src="http://localhost:4000/assets/post_images/2019-06-26/conan-imgui-logo.png" align="center" alt="Render Conan logo" />
+</p>
+
+<p>If you want to explore the different library widgets and options the best way to do it is to make a call to <code class="highlighter-rouge">ImGui::ShowDemoWindow()</code>
+and have a look at the different examples.</p>
+
+<h3 id="setting-up-a-project-with-conan">Setting up a project with Conan</h3>
+
+<p>Setting up a project that uses ImGui is a matter of minutes with Conan. The example shown here is using Windows and Visual Studio 2017
+ but it is very similar in <a href="https://github.com/conan-io/examples/blob/master/libraries/dear-imgui/basic/README.md">MacOS or Linux</a>.</p>
+
+<p>If you want to give a try tou can download all the files from the Conan examples repo:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">git clone https://github.com/conan-io/examples.git
+<span class="nb">cd </span>examples/libraries/dear-imgui/basic</code></pre></figure>
+
+<p>First, let’s inspect the CMake project. It has the bindings for GLFW and OpenGL3 and two more files to handle OpenGL shaders and file 
+reading. It will also copy the shaders that render the triangle to the working directory each time the application is recompiled.</p>
+
+<figure class="highlight"><pre><code class="language-cmake" data-lang="cmake"><span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 3.0<span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span>dear-imgui-conan CXX<span class="p">)</span>
+
+<span class="nb">set</span><span class="p">(</span>CMAKE_PREFIX_PATH <span class="si">${</span><span class="nv">CMAKE_BINARY_DIR</span><span class="si">}</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span>CMAKE_MODULE_PATH <span class="si">${</span><span class="nv">CMAKE_BINARY_DIR</span><span class="si">}</span><span class="p">)</span>
+
+<span class="c1"># CONFIG option is important so that CMake doesnt search for modules into the default modules directory</span>
+<span class="nb">find_package</span><span class="p">(</span>imgui CONFIG<span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span>glfw CONFIG<span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span>glew CONFIG<span class="p">)</span>
+
+<span class="nb">add_executable</span><span class="p">(</span> dear-imgui-conan 
+                main.cpp 
+                opengl_shader.cpp
+                file_manager.cpp
+                opengl_shader.h 
+                file_manager.h 
+                bindings/imgui_impl_glfw.cpp
+                bindings/imgui_impl_opengl3.cpp
+                bindings/imgui_impl_glfw.h
+                bindings/imgui_impl_opengl3.h 
+                assets/simple-shader.vs
+                assets/simple-shader.fs <span class="p">)</span>
+
+<span class="nb">add_custom_command</span><span class="p">(</span>TARGET dear-imgui-conan
+    POST_BUILD
+    COMMAND <span class="si">${</span><span class="nv">CMAKE_COMMAND</span><span class="si">}</span> -E copy <span class="si">${</span><span class="nv">PROJECT_SOURCE_DIR</span><span class="si">}</span>/assets/simple-shader.vs <span class="si">${</span><span class="nv">PROJECT_BINARY_DIR</span><span class="si">}</span>
+    COMMAND <span class="si">${</span><span class="nv">CMAKE_COMMAND</span><span class="si">}</span> -E copy <span class="si">${</span><span class="nv">PROJECT_SOURCE_DIR</span><span class="si">}</span>/assets/simple-shader.fs <span class="si">${</span><span class="nv">PROJECT_BINARY_DIR</span><span class="si">}</span>
+<span class="p">)</span>
+
+<span class="nb">target_compile_definitions</span><span class="p">(</span>dear-imgui-conan PUBLIC IMGUI_IMPL_OPENGL_LOADER_GLEW<span class="p">)</span>
+
+<span class="nb">target_link_libraries</span><span class="p">(</span>dear-imgui-conan imgui::imgui glfw::glfw glew::glew<span class="p">)</span></code></pre></figure>
+
+<p>We will also need the <em>conanfile</em> to declare the libraries it depends on. Besides from the GLFW library we already talked about we need
+ the GLEW library to handle OpenGL functions loading. We will use <code class="highlighter-rouge">cmake_multi</code> to generate projects for Debug and Release
+ configurations. An imports section was also added to download the required bindings for GLFW and OpenGL3.</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">[requires]
+imgui/1.69@bincrafters/stable
+glfw/3.2.1@bincrafters/stable
+glew/2.1.0@bincrafters/stable
+
+[generators]
+cmake_find_package_multi
+
+[imports]
+./misc/bindings, imgui_impl_glfw.cpp -&gt; ../bindings
+./misc/bindings, imgui_impl_opengl3.cpp -&gt; ../bindings
+./misc/bindings, imgui_impl_glfw.h -&gt; ../bindings
+./misc/bindings, imgui_impl_opengl3.h -&gt; ../bindings</code></pre></figure>
+
+<p>Now let’s build the project and run the application.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd </span>dear-imgui-conan-example
+<span class="nb">mkdir </span>build
+<span class="nb">cd </span>build
+conan <span class="nb">install</span> .. <span class="nt">-s</span> <span class="nv">build_type</span><span class="o">=</span>Release
+conan <span class="nb">install</span> .. <span class="nt">-s</span> <span class="nv">build_type</span><span class="o">=</span>Debug
+cmake .. <span class="nt">-G</span> <span class="s2">"Visual Studio 15 2017 Win64"</span>
+cmake <span class="nt">--build</span> <span class="nb">.</span> <span class="nt">--config</span> Release
+<span class="nb">cd </span>Release
+dear-imgui-conan</code></pre></figure>
+
+<h3 id="conclusions">Conclusions</h3>
+
+<p>Dear ImGui is a powerful library with an easy to use API which integrates into 3D-pipeline enabled applications almost seamlessly.
+It has lots of widgets and can be a great tool to make debugging software such as profilers, loggers or object editors of any kind. 
+Also, new functionalities like <a href="https://github.com/ocornut/imgui/issues/2109">docking</a> or 
+<a href="https://github.com/ocornut/imgui/issues/1542">multiple viewports</a> 
+are currently being developed. Now it’s time to experiment with the library and making it interact with your own code!</p>
+
+:ET

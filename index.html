@@ -8,6 +8,26 @@ layout: default
 
   <ul class="post-list">
     {% for post in site.posts %}
+       {% if forloop.index == 4 %}
+       <li class="banner">
+         <a href="https://conandays.conan.io/" target="_blank" class="conan-gat-banner">
+           <img src="assets/cd_background_tinified.png" class="cd-back cd-desktop-back" alt="Conan days - Register">
+           <img src="assets/cd_mobile_back.png" class="cd-back cd-mobile-back" alt="Conan days - Register">
+           <img src="assets/campfire_small.gif" alt="Conan days - Register" class="flame">
+           <div class="banner-abs-content">
+             <h2>
+               GATHERING THE TRIBES
+             </h2>
+             <h3>
+               March 19-20 | Madrid
+             </h3>
+             <div class="banner-button">
+               REGISTER
+             </div>
+           </div>
+         </a>
+       </li>
+       {% endif %}
        {% if post.title != "Rust Cargo And Conan Are Friends With Benefits" %}
       <li>
         <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>

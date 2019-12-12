@@ -1,0 +1,2 @@
+I"6<p>This is the short story of the 0.7.X conan releases, in which we had to launch several minor versions to fix unexpected problems related to CMake and the libstdc++ ABI incompatibility, though the lessons learnt might be useful for any C and C++ developer, so let’s try to summarize them in this post.</p>
+:ET

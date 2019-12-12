@@ -1,0 +1,3 @@
+I"<p>Conan can automate the package creation with any compiler that you have installed.
+In <strong>Windows</strong>, it is very common to have two or more <strong>Visual Studio</strong> versions, tools like CMake will just use the Visual Studio specified by the user.</p>
+:ET

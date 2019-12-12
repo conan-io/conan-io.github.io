@@ -1,0 +1,406 @@
+I"��<h3 id="what-is-opencv">What is OpenCV?</h3>
+
+<p>If you’re not familiar with OpenCV yet, check out our previous blog-post about <a href="https://blog.conan.io/2018/12/19/New-OpenCV-release-4-0.html">OpenCV 4.0.0</a>.
+Given the fact OpenCV is a huge library with lots of features for various use-case, it’s a good example to demonstrate some typical package challenges (and probably few more specific as well).</p>
+
+<h3 id="opencvs-conan-packages">OpenCV’s Conan packages</h3>
+
+<p>Recently, we have finally accepted OpenCV recipe into <a href="https://bintray.com/conan-community/conan/opencv%3Aconan">conan-center</a>.
+We support all major releases, so we have the following version available on Bintray:</p>
+
+<ul>
+  <li>4.x - <a href="https://bintray.com/conan-community/conan/opencv%3Aconan/4.0.1%3Astable">opencv/4.0.1@conan/stable</a>.</li>
+  <li>3.x - <a href="https://bintray.com/conan-community/conan/opencv%3Aconan/3.4.5%3Astable">opencv/3.4.5@conan/stable</a>.</li>
+  <li>2.x - <a href="https://bintray.com/conan-community/conan/opencv%3Aconan/2.4.13.5%3Astable">opencv/2.4.13.5@conan/stable</a>.</li>
+</ul>
+
+<p>Installation with Conan should be pretty straightforward, e.g. you may use the following <a href="https://docs.conan.io/en/latest/reference/conanfile_txt.html">conanfile.txt</a> to consume OpenCV 4.0.0:</p>
+
+<figure class="highlight"><pre><code class="language-conf" data-lang="conf">[<span class="n">requires</span>]
+<span class="n">opencv</span>/<span class="m">4</span>.<span class="m">0</span>.<span class="m">1</span>@<span class="n">conan</span>/<span class="n">stable</span>
+
+[<span class="n">generators</span>]
+<span class="n">cmake</span></code></pre></figure>
+
+<p>As usual, pre-built packages are available for major platforms (Windows/Linux/MacOS) and compilers (Visual Studio/GCC/Clang).</p>
+
+<h3 id="building-opencv">Building OpenCV</h3>
+
+<p>OpenCV uses <a href="https://cmake.org/">CMake</a>, therefore our <a href="https://github.com/conan-community/conan-opencv/blob/release/4.0.1/conanfile.py">recipe</a> uses <a href="https://docs.conan.io/en/latest/reference/build_helpers/cmake.html#cmake-reference">CMake build helper</a>. The process to build a CMake-based project is typical for many recipes, and OpenCV is not an exception here.</p>
+
+<p>The first step is to configure CMake:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="k">def</span> <span class="nf">_configure_cmake</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cmake</span> <span class="o">=</span> <span class="n">CMake</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="c1"># configure various OpenCV options via cmake.definitions
+</span>        <span class="n">cmake</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">build_folder</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_build_subfolder</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cmake</span></code></pre></figure>
+
+<p>There is really nothing special, besides there are lots of options to manage, that’s why code takes so many lines. <em>cmake.configure(…)</em> detects compiler and its features, then generates platform-specific build files.</p>
+
+<p>Here we also disable a bunch of stuff we would like to avoid:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'BUILD_EXAMPLES'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'BUILD_DOCS'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'BUILD_TESTS'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'BUILD_PERF_TEST'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'WITH_IPP'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'BUILD_opencv_apps'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'BUILD_opencv_java'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span></code></pre></figure>
+
+<p><em>cmake.definitions</em> is a dictionary which is translated into command line arguments passed to the cmake, for instance, <em>cmake.definitions[‘BUILD_EXAMPLES’] = False</em> maps into <em>-DBUILD_EXAMPLES=OFF</em>.</p>
+
+<p>Some explanation for the specific variables:</p>
+
+<ul>
+  <li><em>BUILD_EXAMPLES</em> - do not build OpenCV examples, as they are not needed to use OpenCV, but increase build times and package sizes.</li>
+  <li><em>BUILD_DOCS</em> - skip documentation for the same reason as examples, we usually keep only things needed to link with the package, and also build of documentation may require additional tools (such as <a href="http://www.doxygen.nl/">doxygen</a>).</li>
+  <li><em>BUILD_TESTS</em> - same story, as we’re not going to run these tests, skip them from build.</li>
+  <li><em>BUILD_PERF_TEST</em> - another set of tests to skip.</li>
+  <li><em>BUILD_opencv_apps</em> - skip some demonstration and utility applications supplied with OpenCV.</li>
+  <li><em>BUILD_opencv_java</em> - as we’re building packages for C++, disable Java bindings as well. also, installation of them requires <a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">JDK</a>, <a href="https://ant.apache.org/">Apache ANT</a>, etc. and may fail, if they are not found.</li>
+</ul>
+
+<p>Once CMake configuration is done, we may build the project:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># intentionally skipped code to patch OpenEXR here
+</span>        <span class="n">cmake</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configure_cmake</span><span class="p">()</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">build</span><span class="p">()</span></code></pre></figure>
+
+<p><em>cmake.build()</em> executes build tool depending on CMake <a href="https://cmake.org/cmake/help/v3.13/manual/cmake-generators.7.html">generator</a>, it might be <a href="https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild?view=vs-2017">MSBuild</a>, <a href="https://www.gnu.org/software/make/">GNU Make</a>, <a href="https://ninja-build.org/">Ninja</a>, etc. This is really nice, as we don’t have to deal with platform-specific details on how to build a project. As a counterexample, many projects still use different build systems to compile for various platforms, like Visual Studio solutions are used on Windows, and makefiles otherwise - for such projects recipes need to have several implementations of the <a href="https://docs.conan.io/en/latest/reference/conanfile/methods.html#build">build</a> method, with the handling of all options, of course.</p>
+
+<p>Moreover, <a href="https://docs.conan.io/en/latest/reference/conanfile/methods.html#package">package</a> method of our recipe is also very simple:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="k">def</span> <span class="nf">package</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cmake</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configure_cmake</span><span class="p">()</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">install</span><span class="p">()</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">patch_config_paths</span><span class="p">()</span></code></pre></figure>
+
+<p>It doesn’t have typical code to copy platform-specific files, like .dll, .so, .dylib, etc. Instead, it uses CMake <a href="https://cmake.org/cmake/help/v3.13/command/install.html">install</a> feature. CMake may generate special target called <em>INSTALL</em>, which copies project’s header, libraries, CMake <a href="https://cmake.org/cmake/help/v3.13/manual/cmake-packages.7.html">configuration</a> files, <a href="https://www.freedesktop.org/wiki/Software/pkg-config/">pkg-config</a> files, other data files, like <a href="https://docs.opencv.org/4.0.1/d7/d8b/tutorial_py_face_detection.html">Haar Cascades</a> in case of OpenCV. So, if the project itself knows which files to distribute and how to properly layout them, then it doesn’t make much sense to replicate this logic in conanfile, right? Also, <em>CMake.install</em> method automatically points <a href="https://cmake.org/cmake/help/v3.13/variable/CMAKE_INSTALL_PREFIX.html">CMAKE_INSTALL_PREFIX</a> to the <a href="https://docs.conan.io/en/latest/reference/conanfile/attributes.html?highlight=package_folder#folders-attributes-reference">package folder</a>.</p>
+
+<p>But what is <em>cmake.patch_config_paths()</em> and why do we need it? Well, CMake-generated config files may contain absolute paths, which something we would like to avoid, because such paths are specific to the machine where the recipe was built, and consumers usually won’t have dependencies installed in the same paths. For instance, on Windows Conan directory usually located within <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb776892(v=vs.85).aspx">USERPROFILE</a> directory, which contains user name (e.g. <em>AppVeyor</em>). Given that fact, usage of generated CMake config files may result in the inability to build the project, so there is a workaround for this problem in Conan.</p>
+
+<h3 id="dependencies">dependencies</h3>
+
+<p>OpenCV is a very complex library and has lots of various dependencies. Current Conan recipe has the following:</p>
+
+<p class="centered">
+    <img src="http://localhost:4000/assets/post_images/2019-02-11/opencv-deps.png" align="center" width="800" alt="dependencies of OpenCV 4.0.0 package" />
+</p>
+
+<p>A graph was generated by the <a href="https://docs.conan.io/en/latest/reference/commands/consumer/info.html">conan info</a> command:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>conan info opencv/4.0.0@conan/stable <span class="nt">--graph</span> opencv</code></pre></figure>
+
+<p>As you can see, currently it mostly depends on image libraries, such as <a href="http://libjpeg.sourceforge.net/">libjpeg</a>, <a href="http://www.libtiff.org/">libtiff</a>, <a href="http://www.libpng.org/pub/png/libpng.html">libpng</a>, <a href="https://developers.google.com/speed/webp/">libwepb</a>, <a href="http://www.ece.uvic.ca/~frodo/jasper/">jasper</a> and <a href="http://www.openexr.com/">OpenEXR</a>.</p>
+
+<p>All these libraries are available as Conan packages in <a href="https://bintray.com/conan-community/conan/opencv%3Aconan">conan-center</a> as well. Thanks to <a href="https://github.com/bincrafters/community">bincrafters</a> for packaging them all.</p>
+
+<p>These libraries are mainly needed by OpenCV <a href="https://docs.opencv.org/4.0.1/d4/da8/group__imgcodecs.html">imgcodecs</a>, to support reading and writing of various image formats.</p>
+
+<p>All mentioned libraries might be enabled or disabled using options (They are currently enabled by default). For instance, to disable <a href="http://www.openexr.com/">OpenEXR</a> support, use the following:</p>
+
+<figure class="highlight"><pre><code class="language-conf" data-lang="conf">[<span class="n">requires</span>]
+<span class="n">opencv</span>/<span class="m">4</span>.<span class="m">0</span>.<span class="m">1</span>@<span class="n">conan</span>/<span class="n">stable</span>
+
+[<span class="n">options</span>]
+<span class="n">opencv</span>:<span class="n">openexr</span>=<span class="n">False</span>
+
+[<span class="n">generators</span>]
+<span class="n">cmake</span></code></pre></figure>
+
+<h4 id="declaring-dependencies">declaring dependencies</h4>
+
+<p>In order to declare dynamic dependencies on other 3rd-party libraries, OpenCV <a href="https://github.com/conan-community/conan-opencv/blob/release/4.0.1/conanfile.py">recipe</a> uses <a href="https://docs.conan.io/en/latest/reference/conanfile/methods.html#requirements">requirements</a> method:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="k">def</span> <span class="nf">requirements</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">requires</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">'zlib/1.2.11@conan/stable'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">jpeg</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">requires</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">'libjpeg/9c@bincrafters/stable'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">tiff</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">requires</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">'libtiff/4.0.9@bincrafters/stable'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">webp</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">requires</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">'libwebp/1.0.0@bincrafters/stable'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">png</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">requires</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">'libpng/1.6.34@bincrafters/stable'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">jasper</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">requires</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">'jasper/2.0.14@conan/stable'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">openexr</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">requires</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">'openexr/2.3.0@conan/stable'</span><span class="p">)</span></code></pre></figure>
+
+<p>The code above adds conditional requirements based on options recipe declares:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s">"shared"</span><span class="p">:</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">],</span>
+               <span class="s">"fPIC"</span><span class="p">:</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">],</span>
+               <span class="s">"contrib"</span><span class="p">:</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">],</span>
+               <span class="s">"jpeg"</span><span class="p">:</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">],</span>
+               <span class="s">"tiff"</span><span class="p">:</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">],</span>
+               <span class="s">"webp"</span><span class="p">:</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">],</span>
+               <span class="s">"png"</span><span class="p">:</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">],</span>
+               <span class="s">"jasper"</span><span class="p">:</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">],</span>
+               <span class="s">"openexr"</span><span class="p">:</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">],</span>
+               <span class="s">"gtk"</span><span class="p">:</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]}</span>
+    <span class="n">default_options</span> <span class="o">=</span> <span class="p">{</span><span class="s">"shared"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                       <span class="s">"fPIC"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                       <span class="s">"contrib"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                       <span class="s">"jpeg"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                       <span class="s">"tiff"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                       <span class="s">"webp"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                       <span class="s">"png"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                       <span class="s">"jasper"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                       <span class="s">"openexr"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                       <span class="s">"gtk"</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span></code></pre></figure>
+
+<p>The technique mentioned is documented in the article <a href="https://docs.conan.io/en/latest/mastering/conditional.html">Mastering Conan: Conditional settings, options, and requirements</a>.</p>
+
+<p>As we’re now using 3rd-party libraries from Conan, there is no point to keep the <em>3rdparty</em> directory of OpenCV sources, so we remove within <a href="https://docs.conan.io/en/latest/reference/conanfile/methods.html#source">source</a> method:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_source_subfolder</span><span class="p">,</span> <span class="s">'3rdparty'</span><span class="p">))</span></code></pre></figure>
+
+<p>Why is it important? There are a few advantages:</p>
+
+<ul>
+  <li>Consumers have better control over dependencies, e.g. they may easily upgrade or downgrade 3rd-party dependencies of OpenCV, like libpng, just by editing their <em>conanfile.txt</em>.</li>
+  <li>It saves build times, as you don’t need to build rebuild these dependencies if you change some OpenCV options.</li>
+  <li>It reduces the size of packages.</li>
+  <li>It helps to avoid linking or runtime errors, because if two libraries contain libpng sources (e.g. OpenCV and <a href="https://www.wxwidgets.org/">wxWidgets</a>), and you link both into your projects, you may run into issues extremely hard to debug.</li>
+</ul>
+
+<p>Finally, these options are passed to the build system (CMake in case of OpenCV):</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'WITH_JPEG'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">jpeg</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'WITH_TIFF'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">tiff</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'WITH_WEBP'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">webp</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'WITH_PNG'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">png</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'WITH_JASPER'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">jasper</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'WITH_OPENEXR'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">openexr</span></code></pre></figure>
+
+<p>We also always disable 3rd-party libraries to be built:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">        <span class="c1"># disable builds for all 3rd-party components, use libraries from conan only
+</span>        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'BUILD_ZLIB'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'BUILD_TIFF'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'BUILD_JASPER'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'BUILD_JPEG'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'BUILD_PNG'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'BUILD_OPENEXR'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'BUILD_WEBP'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'BUILD_TBB'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'BUILD_IPP_IW'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'BUILD_ITT'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'BUILD_JPEG_TURBO_DISABLE'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span></code></pre></figure>
+
+<p>As they are used from Conan packages, there is no point to build them from the source in the context of OpenCV.</p>
+
+<h3 id="patching-for-openexr">patching for OpenEXR</h3>
+
+<p>CMake uses so-called <a href="https://cmake.org/cmake/help/v3.8/manual/cmake-modules.7.html">find-modules</a> to locate various libraries. There are plenty of them for most popular libraries, however, many are still missing, and OpenEXR is one of them.</p>
+
+<p>OpenCV has a <a href="https://github.com/opencv/opencv/tree/master/cmake">collection</a> of its own find-modules, and there is one for OpenEXR - <a href="https://github.com/opencv/opencv/blob/master/cmake/OpenCVFindOpenEXR.cmake">OpenCVFindOpenEXR</a>.</p>
+
+<p>However, OpenCV’s module for OpenEXR suffers from several issues:</p>
+
+<ul>
+  <li>It hard-codes <em>OPENEXR_ROOT</em> variable to <em>C:\deploy</em> on Windows, so it’s unable to find OpenEXR in unusual locations, such as Conan cache directory.</li>
+  <li>It always prefers looking for libraries in system locations (e.g. <em>/usr/lib</em>), and <em>OPENEXR_ROOT</em> has very least priority.</li>
+  <li>It doesn’t consider all possible names for OpenEXR libraries. For instance, it always looks for the <em>IlmImf</em>, while library might be named <em>IlmImf-2_3_s</em>.</li>
+</ul>
+
+<p>This is unfortunate. But in reality, very often Conan recipes need to workaround various limitations of build scripts. The sad truth is that many libraries were designed without package management use-case in mind, hard-coding paths, library names, versions, and other important things. This makes the life of packager a bit harder, but as the popularity of package management in C++ world grows, we hope such things happen less frequently.</p>
+
+<p>Anyway, currently there is a code in the recipe to remove hard-coded things:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">        <span class="c1"># allow to find conan-supplied OpenEXR
+</span>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">openexr</span><span class="p">:</span>
+            <span class="n">find_openexr</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_source_subfolder</span><span class="p">,</span> <span class="s">'cmake'</span><span class="p">,</span> <span class="s">'OpenCVFindOpenEXR.cmake'</span><span class="p">)</span>
+            <span class="n">tools</span><span class="o">.</span><span class="n">replace_in_file</span><span class="p">(</span><span class="n">find_openexr</span><span class="p">,</span>
+                                  <span class="s">r'SET(OPENEXR_ROOT "C:/Deploy" CACHE STRING "Path to the OpenEXR \"Deploy\" folder")'</span><span class="p">,</span>
+                                  <span class="s">''</span><span class="p">)</span>
+            <span class="n">tools</span><span class="o">.</span><span class="n">replace_in_file</span><span class="p">(</span><span class="n">find_openexr</span><span class="p">,</span> <span class="s">r'set(OPENEXR_ROOT "")'</span><span class="p">,</span> <span class="s">''</span><span class="p">)</span>
+            <span class="n">tools</span><span class="o">.</span><span class="n">replace_in_file</span><span class="p">(</span><span class="n">find_openexr</span><span class="p">,</span> <span class="s">'SET(OPENEXR_LIBSEARCH_SUFFIXES x64/Release x64 x64/Debug)'</span><span class="p">,</span> <span class="s">''</span><span class="p">)</span>
+            <span class="n">tools</span><span class="o">.</span><span class="n">replace_in_file</span><span class="p">(</span><span class="n">find_openexr</span><span class="p">,</span> <span class="s">'SET(OPENEXR_LIBSEARCH_SUFFIXES Win32/Release Win32 Win32/Debug)'</span><span class="p">,</span>
+                                  <span class="s">''</span><span class="p">)</span></code></pre></figure>
+
+<p>We use <a href="https://docs.conan.io/en/latest/reference/tools.html?highlight=replace_in_file#tools-replace-in-file">tools.replace_in_file</a> here to remove several lines of CMake code. In more complex cases, <a href="https://docs.conan.io/en/latest/reference/tools.html?highlight=patch#tools-patch">tools.patch</a> helper might be used instead.</p>
+
+<p>For our luck, OpenEXR is the only case which requires modifications, other libraries (libpng, libjpeg, etc.) are using standard CMake find-modules, and they don’t have limitations described above.</p>
+
+<h3 id="opencv-contrib">OpenCV contrib</h3>
+
+<p>In addition to the built-in features, OpenCV has a collection of extra modules, called <a href="https://github.com/opencv/opencv_contrib">OpenCV contrib</a>. Currently, it has about 100 additional modules! Just to name a few:</p>
+
+<ul>
+  <li><a href="https://docs.opencv.org/4.0.1/db/d7c/group__face.html">Face Analysis</a>.</li>
+  <li><a href="https://docs.opencv.org/4.0.1/d2/d84/group__optflow.html">Optical Flow</a>.</li>
+  <li><a href="https://docs.opencv.org/4.0.1/db/d61/group__reg.html">Image Registration</a>.</li>
+</ul>
+
+<p>By default, our package doesn’t have OpenCV contrib modules enabled. But you may easily have them available by passing <em>opencv:contrib</em> option:</p>
+
+<figure class="highlight"><pre><code class="language-conf" data-lang="conf">[<span class="n">requires</span>]
+<span class="n">opencv</span>/<span class="m">4</span>.<span class="m">0</span>.<span class="m">1</span>@<span class="n">conan</span>/<span class="n">stable</span>
+
+[<span class="n">options</span>]
+<span class="n">opencv</span>:<span class="n">contrib</span>=<span class="n">True</span>
+
+[<span class="n">generators</span>]
+<span class="n">cmake</span></code></pre></figure>
+
+<p>From the recipe point of view, contrib adds additional source tarball:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="n">tools</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"https://github.com/opencv/opencv_contrib/archive/</span><span class="si">%</span><span class="s">s.zip"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s">'opencv_contrib-</span><span class="si">%</span><span class="s">s'</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span> <span class="s">'contrib'</span><span class="p">)</span></code></pre></figure>
+
+<p>And the option to toggle contrib is passed to the build system (CMake):</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">contrib</span><span class="p">:</span>
+            <span class="n">cmake</span><span class="o">.</span><span class="n">definitions</span><span class="p">[</span><span class="s">'OPENCV_EXTRA_MODULES_PATH'</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">build_folder</span><span class="p">,</span> <span class="s">'contrib'</span><span class="p">,</span> <span class="s">'modules'</span><span class="p">)</span></code></pre></figure>
+
+<p><a href="https://github.com/opencv/opencv_contrib">OPENCV_EXTRA_MODULES_PATH</a> is a CMake variable to specify additional OpenCV modules to be built, and we pass the path to the contrib in this case.</p>
+
+<h3 id="system-requirements">System Requirements</h3>
+
+<p>Sometimes recipe may need to depend on libraries provided by the system package manager, such as <a href="https://packages.qa.debian.org/a/apt.html">apt</a>, <a href="http://yum.baseurl.org/">yum</a> or <a href="https://www.archlinux.org/pacman/">pacman</a>, instead of libraries provided by Conan. It’s usually needed for some low-level things, like <a href="https://www.freedesktop.org/wiki/Software/VDPAU/">VDPAU</a> or <a href="https://freedesktop.org/wiki/Software/vaapi/">VAAPI</a>, but in case of OpenCV, it may depend on <a href="https://www.gtk.org/">GTK</a>.</p>
+
+<p>Unfortunately, System Requirements are something extremely hard to maintain, so our recommendation is to avoid them, if possible. System Requirements have the following limitations, which makes them hard to scale:</p>
+
+<ul>
+  <li>Recipe has to use its own branch for each package manager, e.g. <em>yum</em> and <em>apt</em> will have different names for same libraries/packages (<em>gtk2-devel</em> vs <em>libgtk2.0-dev</em>).</li>
+  <li>Sometimes package names differ for various Linux distributions, even if they use the same package manager (e.g. <a href="https://getfedora.org/">Fedora</a> and <a href="https://www.centos.org/">CentOS</a> both use <em>yum</em>, but have different package name for <a href="https://www.freedesktop.org/wiki/Software/pkg-config/">pkg-config</a>).</li>
+  <li>Package names may differ even for minor versions for the same Linux distro! (e.g. <a href="http://releases.ubuntu.com/16.04/">Ubuntu 16.04</a> vs <a href="http://releases.ubuntu.com/12.04/">Ubuntu 12.04</a>).</li>
+  <li>Names of architectures for packages also differ, e.g. <em>yum</em> uses <em>i686</em> and <em>x86_64</em> suffixes, while <em>apt</em> uses <em>i386</em> and <em>amd64</em>.</li>
+</ul>
+
+<p>For instance, we’re currently using the following code in order to just specify GTK dependency:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="k">def</span> <span class="nf">system_requirements</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">os</span> <span class="o">==</span> <span class="s">'Linux'</span> <span class="ow">and</span> <span class="n">tools</span><span class="o">.</span><span class="n">os_info</span><span class="o">.</span><span class="n">is_linux</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">tools</span><span class="o">.</span><span class="n">os_info</span><span class="o">.</span><span class="n">with_apt</span><span class="p">:</span>
+                <span class="n">installer</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">SystemPackageTool</span><span class="p">()</span>
+                <span class="n">arch_suffix</span> <span class="o">=</span> <span class="s">''</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">arch</span> <span class="o">==</span> <span class="s">'x86'</span><span class="p">:</span>
+                    <span class="n">arch_suffix</span> <span class="o">=</span> <span class="s">':i386'</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">arch</span> <span class="o">==</span> <span class="s">'x86_64'</span><span class="p">:</span>
+                    <span class="n">arch_suffix</span> <span class="o">=</span> <span class="s">':amd64'</span>
+                <span class="n">packages</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">gtk</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">packages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">'libgtk2.0-dev</span><span class="si">%</span><span class="s">s'</span> <span class="o">%</span> <span class="n">arch_suffix</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">gtk</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="n">packages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">'libgtk-3-dev</span><span class="si">%</span><span class="s">s'</span> <span class="o">%</span> <span class="n">arch_suffix</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">package</span> <span class="ow">in</span> <span class="n">packages</span><span class="p">:</span>
+                    <span class="n">installer</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">tools</span><span class="o">.</span><span class="n">os_info</span><span class="o">.</span><span class="n">with_yum</span><span class="p">:</span>
+                <span class="n">installer</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">SystemPackageTool</span><span class="p">()</span>
+                <span class="n">arch_suffix</span> <span class="o">=</span> <span class="s">''</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">arch</span> <span class="o">==</span> <span class="s">'x86'</span><span class="p">:</span>
+                    <span class="n">arch_suffix</span> <span class="o">=</span> <span class="s">'.i686'</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">arch</span> <span class="o">==</span> <span class="s">'x86_64'</span><span class="p">:</span>
+                    <span class="n">arch_suffix</span> <span class="o">=</span> <span class="s">'.x86_64'</span>
+                <span class="n">packages</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">gtk</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">packages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">'gtk2-devel</span><span class="si">%</span><span class="s">s'</span> <span class="o">%</span> <span class="n">arch_suffix</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">gtk</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="n">packages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">'gtk3-devel</span><span class="si">%</span><span class="s">s'</span> <span class="o">%</span> <span class="n">arch_suffix</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">package</span> <span class="ow">in</span> <span class="n">packages</span><span class="p">:</span>
+                    <span class="n">installer</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">package</span><span class="p">)</span></code></pre></figure>
+
+<p>This appears very excessive, isn’t it? But if we decide to add support for more Linux distributions or more architectures, the amount of code will grow extremely fast.</p>
+
+<p>As you can see, Conan uses <a href="https://docs.conan.io/en/latest/reference/conanfile/methods.html?highlight=system_requirements#system-requirements">system_requirements</a> method in order to specify system-specific requirements, and there is also <a href="https://docs.conan.io/en/latest/reference/tools.html?highlight=systempackagetool#tools-osinfo-and-tools-systempackagetool">SystemPackageTool</a> helper which automates the installation of packages. Under the hood, it invokes commands specific to the given package manager, like <em>apt-get install -y libgtk2.0-dev:i386</em>.</p>
+
+<h3 id="package-info">Package info</h3>
+
+<p>There are some platform-specific system libraries, which have to be explicitly specified in the <a href="https://docs.conan.io/en/latest/reference/conanfile/methods.html?highlight=package_info#package-info">package_info</a> method of conanfile:</p>
+
+<ul>
+  <li><a href="http://man7.org/linux/man-pages/man7/pthreads.7.html">pthread</a>, or POSIX Threads, provide multi-threading support for POSIX-compatible systems.</li>
+  <li><a href="https://www.gnu.org/software/libc/manual/html_node/Mathematics.html">libm</a>, C mathematical functions.</li>
+  <li><a href="http://refspecs.linuxfoundation.org/LSB_2.0.1/LSB-Core/LSB-Core/app-libdl.html">libdl</a>, for dynamic linking support.</li>
+  <li><a href="https://docs.microsoft.com/en-us/windows/desktop/api/_multimedia/">Vfw32</a>, or <a href="https://docs.microsoft.com/en-us/windows/desktop/multimedia/video-for-windows">Video for Windows</a>, and ancient technology from Windows 95 timeline for video playback, which is still in use.</li>
+</ul>
+
+<p>Also, especially for Apple macOS, there are a bunch of frameworks in use. In order to specify frameworks, we use the following code:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">            <span class="k">for</span> <span class="n">framework</span> <span class="ow">in</span> <span class="p">[</span><span class="s">'OpenCL'</span><span class="p">,</span>
+                              <span class="s">'Accelerate'</span><span class="p">,</span>
+                              <span class="s">'CoreMedia'</span><span class="p">,</span>
+                              <span class="s">'CoreVideo'</span><span class="p">,</span>
+                              <span class="s">'CoreGraphics'</span><span class="p">,</span>
+                              <span class="s">'AVFoundation'</span><span class="p">,</span>
+                              <span class="s">'QuartzCore'</span><span class="p">,</span>
+                              <span class="s">'Cocoa'</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cpp_info</span><span class="o">.</span><span class="n">exelinkflags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">'-framework </span><span class="si">%</span><span class="s">s'</span> <span class="o">%</span> <span class="n">framework</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cpp_info</span><span class="o">.</span><span class="n">sharedlinkflags</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpp_info</span><span class="o">.</span><span class="n">exelinkflags</span></code></pre></figure>
+
+<p>as they are linked differently from libraries. Mostly, these frameworks are for multimedia-related technologies available on Apple platforms.</p>
+
+<h3 id="future-other-options-and-dependencies">Future: other options and dependencies</h3>
+
+<p>As stated previously, OpenCV is a very large and complex library, and it really has tons of options. And currently, our Conan package doesn’t support them all. You may check the list of available options on their <a href="https://github.com/opencv/opencv/blob/4.0.1/CMakeLists.txt#L208">GitHub repository</a>. It literally takes almost 300 lines of CMake code just to declare all these options! This is something that actually hard to model in one shot. Moreover, most of the options depend on other 3rd-party libraries.</p>
+
+<p>Just a few examples:</p>
+
+<ul>
+  <li><a href="https://developers.google.com/protocol-buffers/">Google Protocol Buffers</a> might be used to read data from <a href="http://caffe.berkeleyvision.org/">Caffe</a> networks.</li>
+  <li><a href="https://www.khronos.org/opencl/">OpenCL</a> and <a href="https://developer.nvidia.com/cuda-zone">CUDA</a> might be used to accelerate OpenCV algorithms on <a href="https://en.wikipedia.org/wiki/Heterogeneous_System_Architecture">heterogeneous systems</a>.</li>
+  <li><a href="https://github.com/bincrafters/conan-ffmpeg">FFMPEG</a> and <a href="https://gstreamer.freedesktop.org/">GStreamer</a> might be used to read and write video files.</li>
+</ul>
+
+<h4 id="google-protocol-buffers-protobuf">Google Protocol Buffers (Protobuf)</h4>
+
+<p>OpenCV module <a href="https://docs.opencv.org/4.0.1/d6/d0f/group__dnn.html">DNN</a> (Deep Neural Network) may be compiled with <a href="https://developers.google.com/protocol-buffers/">Google Protobuf</a> support.</p>
+
+<p>We’re currently actively working on adding Google Protobuf <a href="https://github.com/bincrafters/conan-protobuf">recipe</a> accepted into <a href="https://bintray.com/conan-community/conan/opencv%3Aconan">conan-center</a>. The library is itself challenging, especially for the cross-compilation use case. As soon as it’s accepted, we are going to enable our OpenCV package to use Protocol Buffers by default.</p>
+
+<h4 id="opencl">OpenCL</h4>
+
+<p>OpenCV may also be configured to use <a href="https://www.khronos.org/opencl/">OpenCL</a>, however, its support is very different across various platforms, for instance:</p>
+
+<ul>
+  <li>MacOS has built-in OpenCL support by providing <em>OpenCL.framework</em>.</li>
+  <li>Linux needs installation of development packages (e.g. <a href="https://packages.debian.org/stretch/ocl-icd-opencl-dev">ocl-icd-opencl-dev</a> on Debian systems).</li>
+  <li>Windows needs SDK package provided by one of the vendors (e.g. from <a href="https://software.intel.com/en-us/intel-opencl-support">Intel</a> or from <a href="https://developer.nvidia.com/cuda-toolkit">nVidia</a>).</li>
+  <li>Android also needs SDK package from vendors (e.g. <a href="https://developer.arm.com/products/software/mali-sdks">Mali</a>).</li>
+</ul>
+
+<p>Therefore, in order to provide OpenCL support for OpenCV package, we need to develop a way how to model such kind of dependency. A possibility could be something in the line of <a href="https://www.debian.org/doc/manuals/debian-faq/ch-pkg_basics.en.html#s-virtual">virtual packages</a>.</p>
+
+<h4 id="cuda">CUDA</h4>
+
+<p>Similar story to OpenCL, however, there is only one vendor, obviously - the building of the <a href="https://developer.nvidia.com/cuda-zone">CUDA</a> applications requires <a href="https://developer.nvidia.com/cuda-toolkit">nVidia CUDA Toolkit</a>. The toolkit is pretty large, and contains CUDA compiler, in addition to libraries and headers. We either have to require the user to have CUDA installed on the machine during the build, or provide a package for the toolkit.</p>
+
+<h4 id="ffmpeg">FFMPEG</h4>
+
+<p>It’s common to use OpenCV not just for image processing, but for video processing as well, for example for watermarking, green screen replacement, etc. In order to enable OpenCV to read or write video files, <a href="https://www.ffmpeg.org/">ffmpeg</a> library might be used by OpenCV <a href="https://docs.opencv.org/4.0.1/d0/da7/videoio_overview.html">Video I/O</a> module. However, FFmpeg itself is probably equally complex to OpenCV (its <a href="https://github.com/FFmpeg/FFmpeg/blob/master/configure#L65">configure script</a> has about 400 lines just to declare options available!), so its packaging is challenging as well. Hopefully, it will be available in <a href="https://bintray.com/conan-community/conan/opencv%3Aconan">conan-center</a> in the near future, so OpenCV users will be able to capture and write video streams.</p>
+
+<p>For instance, current <a href="https://github.com/bincrafters/conan-ffmpeg">recipe</a> supports various encoding libraries (conan-packaged as well): <a href="https://www.videolan.org/developers/x264.html">libx264</a>, <a href="http://x265.org/">libx265</a>, <a href="https://www.webmproject.org/vp9/">libvpx</a>, <a href="https://www.openh264.org/">libopenh264</a>, etc. And we hope list will grow significantly, adding modern formats like <a href="https://aomedia.googlesource.com/aom/">libaom</a> (also knowns as AV1).</p>
+
+<p>Also, FFmpeg may use CUDA and OpenCL to accelerate video encoding and filtering as well, so it will also benefit from addressing CUDA and OpenCL support by Conan.</p>
+
+<h4 id="gstreamer">GStreamer</h4>
+
+<p>We’re currently working on packaging <a href="https://gstreamer.freedesktop.org/">GStramer</a> libraries. Similarly to FFMPEG and Google Protobuf, GStreamer itself is pretty large and requires few other libraries to be packaged first, such as <a href="https://sourceware.org/libffi/">libffi</a> and <a href="https://developer.gnome.org/glib/stable/">GLib</a>. Along with FFMPEG, the GStreamer is one of the top-requested libraries to be packaged in Conan, and it’s obviously on our radar.</p>
+
+<h3 id="lessons--advises">Lessons &amp; advises</h3>
+
+<p>As the packaging of OpenCV was a huge task which consumed lots of time, we have learned some lessons we want to share for packages:</p>
+
+<ul>
+  <li>Use dynamic <a href="https://docs.conan.io/en/latest/reference/conanfile/methods.html#requirements">requirements</a> for optional dependencies.</li>
+  <li>Use <a href="https://docs.conan.io/en/latest/reference/build_helpers.html">build helpers</a>, if possible, they automate many things and allow to keep recipe code short and clean.</li>
+  <li><a href="https://docs.conan.io/en/latest/reference/build_helpers/cmake.html?highlight=patch_config_paths">patch_config_paths</a> might be required for CMake libraries.</li>
+  <li>Use exelinkflags/sharedlinkflags to specify <a href="https://docs.conan.io/en/latest/howtos/link_apple_framework.html">Apple frameworks</a>.</li>
+  <li>Avoid System Requirements, if possible, package libraries with Conan instead.</li>
+</ul>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>Although OpenCV packages are available in <a href="https://bintray.com/conan-community/conan/opencv%3Aconan">conan-center</a>, they aren’t complete in term of supported options and dependencies, and we are looking into adding more in small iterations, in order to satisfy more use-cases and support more features.</p>
+
+<p>But we still encourage users to try our OpenCV packages, and report any issues and feature requests to our <a href="https://github.com/conan-community/community/issues">GitHub</a>. We will be adding missing pieces prioritizing them according to the feedback.</p>
+
+<p>In general, Conan is already flexible and mature enough to handle packaging of very complex libraries, such as OpenCV, and conanfile may handle all requirements, options, patching, etc. Besides that, Conan provides some tools and helpers that make life of packages much easier, saving time.</p>
+
+<p>Conan also clearly separates logic within conanfile, making it much easier to read and write recipe code, and Conan allows to debug recipe step by step, invoking its steps individuall, one by one: <a href="https://docs.conan.io/en/latest/reference/commands/development/source.html">source</a> -&gt; <a href="https://docs.conan.io/en/latest/reference/commands/development/build.html">build</a> -&gt; <a href="https://docs.conan.io/en/latest/reference/commands/development/package.html">package</a> -&gt; <a href="https://docs.conan.io/en/latest/reference/commands/creator/test.html">test</a>.</p>
+:ET

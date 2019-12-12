@@ -1,0 +1,83 @@
+I"I<p><img src="http://localhost:4000/assets/conan_cargo.png" /></p>
+
+<p>Cargo and Conan both produce cross-platform, C-compatibile binaries, and have similar ease-of-use goals. Interoperability is an obvious step.</p>
+
+<p>Let’s take a look at Rust, Cargo and Conan C/C++ package manager, and how they can work together to ease the creation of better Rust code with embedded C code.</p>
+
+<h2 class="section-heading">Rust packages, Always repeatable?</h2>
+
+<p>Extracted from their website:</p>
+
+<p><em>«Cargo is a tool that allows Rust projects to declare their various dependencies and ensure that you’ll always get a repeatable build.»</em></p>
+
+<p>But when you are talking about C library dependencies and cross platform support… 
+you may need some help with the “always repeteable” thing and keeping it clean.</p>
+
+<p>The Cargo <a href="http://doc.crates.io/build-script.html">solution</a> to integrate C code is:</p>
+
+<p><em>«allowing a package to specify a script (written in Rust) to run before invoking rustc. Rust is leveraged to implement platform-specific configuration and refactor out common build functionality among packages.»</em></p>
+
+<p>And we really think that is a good approach, but also a big problem if we want to keep our Rust code cross platform.</p>
+
+<h2 class="section-heading">Conan to the rescue!</h2>
+
+<p>Cargo just need to know the following information for the C libraries:</p>
+
+<ul>
+  <li>Which are the libraries we need to link with.</li>
+  <li>Where are those libraries.</li>
+  <li>Where are the headers of those libraries.</li>
+</ul>
+
+<p>Cargo requires that the build script outputs the assignment of some variables to the appropiate values for the C libraries you want to build, something like this:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">fn main<span class="o">()</span> <span class="o">{</span>
+    println!<span class="o">(</span><span class="s2">"cargo:rustc-link-search=native=/path/to/my/lib"</span><span class="o">)</span><span class="p">;</span>
+    println!<span class="o">(</span><span class="s2">"cargo:rustc-link-lib=mylibname"</span><span class="o">)</span><span class="p">;</span>
+    println!<span class="o">(</span><span class="s2">"cargo:include=/path/to/my/lib/headers"</span><span class="o">)</span><span class="p">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>So the issue is how retrieve to your computer the required C library, build the binary if needed, and automatically get the include directories, library name and library directories, in a cross-platform way. Conan package manager can do this tasks, and it knows well where are all those paths and libraries, and their link order (very important if you have transitive dependencies)</p>
+
+<p>Moreover the file’s format needed by Cargo is very simple, so it can be easily automated with a conan generator. A conan generator produces an output file that can be consumed by a certain tool. For example conan already has build-in file generators for cmake, visual studio, xcode…etc.</p>
+
+<p>With the recently introduced generator packages, we can create and require a generator in the same way we require a conan package. So we can write our conanfile.txt file with the required dependencies and the cargo generator:</p>
+
+<p><strong>conanfile.txt</strong>:</p>
+
+<figure class="highlight"><pre><code class="language-conf" data-lang="conf">[<span class="n">requires</span>]
+<span class="n">ConanCargoWrapper</span>/<span class="m">0</span>.<span class="m">1</span>@<span class="n">lasote</span>/<span class="n">testing</span>
+<span class="n">OpenSSL</span>/<span class="m">1</span>.<span class="m">0</span>.<span class="m">2</span><span class="n">h</span>@<span class="n">lasote</span>/<span class="n">stable</span>
+
+[<span class="n">generators</span>]
+<span class="n">ConanCargoWrapper</span></code></pre></figure>
+
+<p>and execute conan install:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"> <span class="nv">$ </span>conan <span class="nb">install</span> </code></pre></figure>
+
+<p>Conan has automatically generated a <strong>conan_cargo_build.rs</strong> file . 
+This file should be ignored in git (or any other vcs), as it will be regenerated with “conan install” command in every clean project.</p>
+
+<p>Edit your <strong>Cargo.toml</strong> file and specify the build script:</p>
+
+<figure class="highlight"><pre><code class="language-rust" data-lang="rust">    <span class="p">[</span><span class="n">package</span><span class="p">]</span>
+	<span class="n">name</span> <span class="o">=</span> <span class="s">"mypackage"</span>
+	<span class="n">version</span> <span class="o">=</span> <span class="s">"0.1.0"</span>
+	<span class="n">build</span> <span class="o">=</span> <span class="s">"conan_cargo_build.rs"</span>
+	</code></pre></figure>
+
+<p>Now build your Cargo project:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"> <span class="nv">$ </span>cargo clean
+ <span class="nv">$ </span>cargo build</code></pre></figure>
+
+<p>Need to add a new C or C++(with C API) dependency? Add it to conanfile.txt and execute <em>conan install</em></p>
+
+<p>Now yes, we can say that Rust packages cargo builds (using C/C++ code too) are Always repeatable.</p>
+
+<p>You can find the conan-cargo generator and it’s documentation <a href="https://github.com/lasote/conan-cargo-wrapper-generator">here</a>.</p>
+
+<p>You can see the <a href="https://github.com/imazen/imageflow"><strong>Imageflow</strong></a> project as a complete example of creating a C library’s <a href="https://github.com/imazen/imageflow/tree/master/wrappers/server">Rust wrapper</a>.</p>
+
+:ET

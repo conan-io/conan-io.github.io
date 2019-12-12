@@ -1,0 +1,201 @@
+I"�-<p>Lots of fixes and minor improvements landed in the last 1.14 Conan release. Here you have an overview of them!</p>
+
+<h2 id="chose-the-revision-mode-for-your-recipes">Chose the revision mode for your recipes</h2>
+
+<p>Coming in the previous 1.14 release, we introduced <strong>revisions</strong> as the way to implicitly version the changes done in a recipe without
+bumping the actual reference version. That is something implemented now as part of the Conan model, which means that the latest revision
+that exists in a remote is the one that is automatically installed (unless otherwise stated).</p>
+
+<p>Take a look at the <a href="https://docs.conan.io/en/latest/mastering/revisions.html">revisions section</a> in the documentation to read more about it.</p>
+
+<p>The revisions feature is one of the key steps towards reproducibility, this means that the revisions are computed as a unique ID known as
+the “recipe revision” and “package revision”.</p>
+
+<p>The new feature coming with this release is the ability to chose the
+<a href="https://docs.conan.io/en/latest/reference/conanfile/attributes.html#revision-mode">revision mode</a> for each recipe. You either use a hash of
+the contents of the recipe (by default) as the recipe revision, or the commit for the SCM detected: <code class="highlighter-rouge">git</code> or <code class="highlighter-rouge">SVN</code>.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from conans import ConanFile
+
+
+class MyRecipe(ConanFile):
+    name = "library"
+    version = "1.0.3"
+    revision_mode = "scm"
+</code></pre></div></div>
+
+<p>Take into account that some CVS systems, like Git, has a unique commit for all the repository. So, if you have several recipes in the same
+repo you probably don’t want to create a new recipe revision if you only commit changes for one of the recipes, but a new revision only for
+the recipe that has been modified. In that case, you should use the the default mode <code class="highlighter-rouge">revision_mode = "hash"</code>. The revision will be a hash
+of the recipe contents (beware of EOL between different systems).</p>
+
+<h2 id="artifactory-supports-revisions-now">Artifactory supports revisions now!</h2>
+
+<p>Released right before Conan, the new <a href="https://www.jfrog.com/confluence/display/RTF/Release+Notes#ReleaseNotes-Artifactory6.9">6.9 version of Artifactory</a> comes with full support for revisions.</p>
+
+<p>All new Artifactory versions will be using revisions by default. This means that packages will be stored in the Conan repositories with a
+new layout: <code class="highlighter-rouge">&lt;user&gt;/&lt;name&gt;/&lt;version&gt;/&lt;channel&gt;/&lt;recipe_revision&gt;/&lt;package_id&gt;/package_revision&gt;</code>.</p>
+
+<p>Conan clients &lt; 1.13 will still be working and a <code class="highlighter-rouge">0</code> recipe and package revision will be created in the repo to keep compatibility.</p>
+
+<p>Bear in mind that the revision feature is opt-in in the client and you would have to activate it in your configuration with
+<code class="highlighter-rouge">conan config set general.revisions_enabled=True</code> or set the envrionment variable <code class="highlighter-rouge">CONAN_REVISIONS_ENABLED=1</code>.</p>
+
+<p>You can start using revisions with <a href="https://jfrog.com/open-source/#conan">Artifactory Community Edition for C++</a>.</p>
+
+<h2 id="new-cmake_find_package_multi-generator">New <code class="highlighter-rouge">cmake_find_package_multi</code> generator</h2>
+
+<p>Continuing with the list of new
+<a href="https://blog.conan.io/2018/06/11/Transparent-CMake-Integration.html">CMake generators for transparent integration</a>, we introduce the
+<code class="highlighter-rouge">cmake_find_package_multi</code> generator to achieve multi-configuration of packages in Release/Debug modes.</p>
+
+<p>Let’s try to make the getting started example with this new generator:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git clone git@github.com:conan-io/examples.git
+$ cd examples/libraries/poco/md5
+$ ls
+CMakeLists.txt  README.md  build.bat  build.sh*  conanfile.txt  md5.cpp
+</code></pre></div></div>
+
+<p>The <em>CMakeLists.txt</em> file will be changed to the following one:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmake_minimum_required(VERSION 3.0)
+project(MD5Encrypter)
+
+set(CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
+set(CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+
+find_package(Poco)
+
+add_executable(md5 md5.cpp)
+target_link_libraries(md5 Poco::Poco)
+
+</code></pre></div></div>
+
+<p>And let’s use the new <code class="highlighter-rouge">cmake_find_package_multi</code> in the <em>conanfile.txt</em> too:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[requires]
+Poco/1.9.0@pocoproject/stable
+
+[generators]
+cmake_find_package_multi
+</code></pre></div></div>
+
+<p>Now we can install both Release and Debug packages and build with CMake as usual:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ mkdir build &amp;&amp; cd build
+$ conan install .. -s build_type=Debug
+$ conan install .. -s build_type=Release
+
+$ cmake .. -G "Visual Studio 15 2017 Win32"
+
+$ cmake --build . --config Debug
+.\Debug\md5.exe
+c3fcd3d76192e4007dfb496cca67e13b
+
+$ cmake --build . --config Release
+.\Release\md5.exe
+c3fcd3d76192e4007dfb496cca67e13b
+</code></pre></div></div>
+
+<p>Learn more in the <a href="https://docs.conan.io/en/latest/integrations/cmake/cmake_find_package_multi_generator.html">cmake_find_package_multi documentation</a>.</p>
+
+<h2 id="install-the-conan-configuration-to-a-folder">Install the Conan configuration to a folder</h2>
+
+<p>We are working towards improving the functionality of <code class="highlighter-rouge">conan config install</code>, so you can mix configuration files from different sources.
+Now you can select the origin folder to get the files form and the target one you want to install the files to.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan config install http://url/to/some/config.zip -sf=origin -tf=target
+$ conan config install http://url/to/some/config.zip -sf=origin2 -tf=target2
+$ conan config install http://other/url/to/other.zip -sf=hooks -tf=hooks
+</code></pre></div></div>
+
+<p>The actions will be cached so you can do <code class="highlighter-rouge">conan config install</code> and the previous actions will be executed in order.</p>
+
+<p>This will be useful to set in place <strong>hooks</strong> from different locations, for example, to test the official hooks like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan config install git@github.com:conan-io/hooks.git --source-folder hooks --target-folder hooks/conan-io
+</code></pre></div></div>
+
+<p>This can be also used to install specific profiles or remotes from a repository or zip file.</p>
+
+<p>Read more in the <a href="https://docs.conan.io/en/latest/reference/commands/consumer/config.html">conan config command documentation</a>.</p>
+
+<h2 id="install-package-rebuilding-a-reference">Install package rebuilding a reference</h2>
+
+<p>The command <code class="highlighter-rouge">conan install . --build</code> now accepts a full reference as argument. You can use it to rebuild specific references in the
+dependency graph:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan install Poco/1.9.0@pocoproject/stable --build zlib/1.2.11@conan/stable
+</code></pre></div></div>
+
+<p>This is useful to build dependencies individually in the dependency graph, like private requirements that might be repeated in name but
+different in version, user or channel.</p>
+
+<p>You can use wildcards with the full reference too:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan install Poco/1.9.0@pocoproject/stable --build z*@conan/stable
+</code></pre></div></div>
+
+<p>Read more in the <a href="https://docs.conan.io/en/latest/reference/commands/consumer/install.html">conan install command documentation</a>.</p>
+
+<h2 id="error-on-override-of-dependencies">Error on override of dependencies</h2>
+
+<p>When <a href="https://docs.conan.io/en/latest/using_packages/conanfile_txt.html#overriding-requirements">overriding requirements</a> there is a
+possibility that instead of doing an override, you would like to explicitly depend on that dependency.</p>
+
+<p>For example, when doing this in a <em>conanfile.txt</em>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[requires]
+Poco/1.9.0@pocoproject/stable
+OpenSSL/1.0.2r@conan/stable
+</code></pre></div></div>
+
+<p>The second line will override the <code class="highlighter-rouge">OpenSSL/1.0.2o@conan/stable</code> required by <code class="highlighter-rouge">Poco</code> with <code class="highlighter-rouge">OpenSSL/1.0.2r@conan/stable</code> <strong>and</strong> add the
+requirement to consumer project.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan install .
+...
+WARN: Poco/1.9.0@pocoproject/stable requirement OpenSSL/1.0.2o@conan/stable overridden by your conanfile to OpenSSL/1.0.2r@conan/stable
+</code></pre></div></div>
+
+<p>As shown above, the output wars about this behavior by default. However, in case that you want Conan to error on that behavior, you can set
+the new environment variable or configuration entry in the <em>conan.conf</em> to avoid unnoticed overrides:</p>
+
+<ul>
+  <li>Environment variable: <code class="highlighter-rouge">CONAN_ERROR_ON_OVERRIDE=1</code></li>
+  <li>Configuration entry: <code class="highlighter-rouge">error_on_override = True</code></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ conan config set general.error_on_override=True
+
+$ conan install .
+...
+ERROR: Poco/1.9.0@pocoproject/stable: requirement OpenSSL/1.0.2o@conan/stable overridden by your conanfile to OpenSSL/1.0.2r@conan/stable
+</code></pre></div></div>
+
+<p>Currently, it is not possible to declare a requirement and also add it with the <code class="highlighter-rouge">override</code> keyword to avoid raising errors for that
+specific dependency. Conan will raise an error saying it is duplicated. There is an <a href="https://github.com/conan-io/conan/issues/4779">open issue</a>
+about it.</p>
+
+<h2 id="configuration-of-the-ca-certificate">Configuration of the CA certificate</h2>
+
+<p>It is very common in enterprise organizations to have a custom CA certificate to be use on every HTTP request. However, if you want to
+install the Conan configuration via <code class="highlighter-rouge">conan config install</code> you are not able to specify the certificate to be used. You could use <code class="highlighter-rouge">--verify-ssl=False</code> to override this check but is not the most appropriate solution.</p>
+
+<p>We have introduced an environment variable and configuration entry to point to the certificate file to be used:</p>
+
+<ul>
+  <li>Environment variable: <code class="highlighter-rouge">CONAN_CACERT_PATH=~/cacert.pem</code></li>
+  <li>Configuration entry: <code class="highlighter-rouge">cacert_path = ~/cacert.pem</code></li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<p>Check the full list of features and fixes in the <a href="https://docs.conan.io/en/latest/changelog.html">changelog</a> and don’t forget to
+<a href="https://conan.io/downloads.html">update</a>.</p>
+
+<p>Finally, if you find a bug or want to start a new discussion, please do not hesitate to open a new issue
+<a href="https://github.com/conan-io/conan/issues">here</a>. Many thanks!</p>
+:ET

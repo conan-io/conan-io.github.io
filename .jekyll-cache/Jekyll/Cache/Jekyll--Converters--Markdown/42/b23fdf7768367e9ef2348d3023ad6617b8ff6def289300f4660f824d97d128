@@ -1,0 +1,2 @@
+I"�<p>A few days ago, during the CppCon C++ conference, Microsoft presented <a href="https://github.com/Microsoft/vcpkg"><strong>Vcpkg</strong></a>. It helps you get and build from sources C and C++  open source libraries on Windows for Microsoft Visual Studio. It is a good initiative, it has been well received by the community, and several users have already collaborated making pull requests with new “ports” (the way vcpkg calls the recipes, or formulas).</p>
+:ET

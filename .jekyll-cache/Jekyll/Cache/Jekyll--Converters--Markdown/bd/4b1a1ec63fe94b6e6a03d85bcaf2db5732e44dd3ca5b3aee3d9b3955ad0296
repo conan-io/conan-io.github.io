@@ -1,0 +1,119 @@
+I"�%<p>Conan 0.16 introduced a feature that allows to override any setting for a specific conan package in your dependencies graph. Also allows to specify environment variables to be set during the <code class="highlighter-rouge">conan install</code> command.</p>
+
+<p>That feature was born from the conan github repository issue (a feature request). Users wanted to build some of their project dependencies using gcc in Windows (MinGW), but compiling their project using Visual Studio. When we read the issue the first thing we thought was, What?? Is it possible?? And the answer is yes, pure C libraries might be compatible even though they have been built with different compilers.</p>
+
+<p>When we implemented and started to use this feature we realized that the combination of package specific settings and environment variables with profiles feature is very powerful.</p>
+
+<h2 id="mixing-compilers">Mixing compilers</h2>
+
+<p>Let’s see an example. We are going to build OpenSSL conan package with gcc 4.9 compiler (the native in my Linux machine) but building the zlib dependency with clang compiler (installed in /usr/bin/clang).</p>
+
+<p>We could use the command line arguments to specify it, but let’s start creating  for convenience a profile “openssl” (use whatever name you want) file in  ~/.conan/profiles/openssl.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[settings]
+compiler=gcc
+compiler.version=4.9
+zlib:compiler=clang
+zlib:compiler.version=3.5
+
+[env]
+zlib:CXX=/usr/bin/clang++
+zlib:CC=/usr/bin/clang
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">CXX</code> and <code class="highlighter-rouge">CC</code> environment variables are used by build tools like CMake or autotools to locate the compiler to be used.</p>
+
+<p>We only need the above profile file to mix two different compilers, but let’s write an <code class="highlighter-rouge">OpenSSL</code> example code as a test project to see it in action.</p>
+
+<p>In a new folder create a <code class="highlighter-rouge">main.c</code> file with a simple OpenSSL test program:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include "openssl/md5.h"
+#include "openssl/crypto.h"
+#include "zlib.h"
+</span> 
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">digest</span><span class="p">[</span><span class="n">MD5_DIGEST_LENGTH</span><span class="p">];</span>
+    <span class="kt">char</span> <span class="n">string</span><span class="p">[]</span> <span class="o">=</span> <span class="s">"happy"</span><span class="p">;</span>
+    
+    <span class="n">MD5</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">string</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">string</span><span class="p">),</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">digest</span><span class="p">);</span>    
+ 
+    <span class="kt">char</span> <span class="n">mdString</span><span class="p">[</span><span class="mi">33</span><span class="p">];</span>
+    
+    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+         <span class="n">sprintf</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mdString</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">],</span> <span class="s">"%02x"</span><span class="p">,</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="p">)</span><span class="n">digest</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+ 
+    <span class="n">printf</span><span class="p">(</span><span class="s">"md5 digest: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">mdString</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"SSL library version: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">SSLeay_version</span><span class="p">(</span><span class="n">SSLEAY_VERSION</span><span class="p">));</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"ZLIB version: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">ZLIB_VERSION</span><span class="p">);</span>
+ 
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Write a simple <code class="highlighter-rouge">CMakeLists.txt</code> to build the example:</p>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">project</span><span class="p">(</span>MyHello<span class="p">)</span>
+<span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 2.8<span class="p">)</span>
+
+<span class="nb">include</span><span class="p">(</span><span class="si">${</span><span class="nv">CMAKE_BINARY_DIR</span><span class="si">}</span>/conanbuildinfo.cmake<span class="p">)</span>
+<span class="nf">conan_basic_setup</span><span class="p">()</span>
+
+<span class="nb">add_executable</span><span class="p">(</span>md5 main.c<span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span>md5 <span class="si">${</span><span class="nv">CONAN_LIBS</span><span class="si">}</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Write a <code class="highlighter-rouge">conanfile.txt</code>`with the required package:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[requires]
+OpenSSL/1.0.2i@lasote/stable
+
+[generators]
+cmake
+</code></pre></div></div>
+
+<p>Then you can run conan install command specifying the profile to use with “–build” to force build the project dependencies:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">mkdir </span>build <span class="o">&amp;&amp;</span> <span class="nb">cd </span>build
+<span class="nv">$ </span>conan <span class="nb">install</span> <span class="nt">--build</span>  <span class="nt">--profile</span> openssl ../
+</code></pre></div></div>
+
+<p>Invoke CMake to build the example project:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>cmake ../ <span class="nt">-DCMAKE_BUILD_TYPE</span><span class="o">=</span>Release
+<span class="nv">$ </span>cmake <span class="nt">--build</span> <span class="nb">.</span>
+</code></pre></div></div>
+
+<p>And finally, run the example:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span> ./bin/md5 
+
+md5 digest: 56ab24c15b72a457069c5ea42fcfc640
+SSL library version: OpenSSL 1.0.2i  22 Sep 2016
+ZLIB version: 1.2.8
+
+</code></pre></div></div>
+
+<p>Indeed you could use this feature without using conan profile, you need to pass the all the arguments to <code class="highlighter-rouge">conan install</code> command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>conan <span class="nb">install</span> <span class="nt">--build</span> <span class="nt">-s</span> <span class="nv">compiler</span><span class="o">=</span>gcc <span class="nt">-s</span> compiler.version<span class="o">=</span>4.9 <span class="nt">-s</span> zlib:compiler<span class="o">=</span>clang <span class="nt">-s</span> zlib:compiler.version<span class="o">=</span>3.5 <span class="nt">-e</span> zlib:CXX<span class="o">=</span>/usr/bin/clang++ <span class="nt">-e</span> zlib:CC<span class="o">=</span>/usr/bin/clang
+
+</code></pre></div></div>
+
+<h2 id="managing-the-build-environment">Managing the build environment</h2>
+
+<p>With environment variables defined at package level we can adjust the whole build environment, for example, we can use different CMake versions for each package  setting the <code class="highlighter-rouge">PATH</code> environment variable pointing to different CMake installations for different packages:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[env]
+package1:PATH=/my/path/to/cmake/3.5.0/bin
+package2:PATH=/my/path/to/cmake/2.8.0/bin
+package2:PATH=/my/path/to/other_tools
+</code></pre></div></div>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>These new features endow Conan a lot of flexibility to control the build environment, controlling not only each package settings and options but all the tools involved in our project and dependencies build.</p>
+
+<p>Do you have any further suggestions about this feature? Please give feedback or contribute in github.</p>
+:ET

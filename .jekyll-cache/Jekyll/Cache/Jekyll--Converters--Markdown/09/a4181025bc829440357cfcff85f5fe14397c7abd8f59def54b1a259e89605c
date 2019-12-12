@@ -1,0 +1,2 @@
+I"<p>Conan 0.16 introduced a feature that allows to override any setting for a specific conan package in your dependencies graph. Also allows to specify environment variables to be set during the <code class="highlighter-rouge">conan install</code> command.</p>
+:ET
