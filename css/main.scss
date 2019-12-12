@@ -117,6 +117,9 @@ form[role=search] {
 }
 
 li.banner {
+  &.conan-banner-mobile {
+    display: none;
+  }
   a.conan-gat-banner {display: block;}
   position: relative;
   .cd-mobile-back {
@@ -172,6 +175,12 @@ li.banner {
 
 @media screen and (max-width: $on-palm) {
   li.banner {
+    &.conan-banner-mobile {
+      display: block;
+    }
+    &.conan-banner-desktop {
+      display: none;
+    }
     .banner-abs-content {
       h2 {
         margin-top: 13%;
