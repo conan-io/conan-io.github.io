@@ -157,4 +157,4 @@ Have a look at the full list of features and fixes in the
 
 Report any bug or share your feedback opening a new issue in our [issue
 tracker](https://github.com/conan-io/conan/issues), don't forget to
-[update](https://conan.io/downloads.html) and merry Christmas!
+[update](https://conan.io/downloads.html) and **merry Christmas!**
