@@ -1,5 +1,0 @@
-I"�<p>Back in <a href="https://blog.conan.io/2018/10/11/New-conan-release-1-8.html">Conan 1.8 blog post</a> release, we introduced a so-called
-“Plugin System”. Reading some of the feedback from users we soon realized that although it was a very useful feature, it wasn’t exactly a
-plugin mechanism. Normally such a mechanism is something more general and powerful that replaces or complements the functionality of a tool
-in a wider way.</p>
-:ET

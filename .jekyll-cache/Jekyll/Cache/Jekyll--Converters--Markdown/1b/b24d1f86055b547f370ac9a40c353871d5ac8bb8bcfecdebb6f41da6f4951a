@@ -1,6 +1,0 @@
-I"h<p>As we explained in our previous blog post about
-<a href="https://blog.conan.io/2019/09/02/Deterministic-builds-with-C-C++.html">deterministic builds</a>
-it is not possible to identify a compiled C/C++ artifact by its checksum, the same sources
-will lead to different binaries, so there is no <em>correct</em> result we can agree on to certify
-a binary.</p>
-:ET

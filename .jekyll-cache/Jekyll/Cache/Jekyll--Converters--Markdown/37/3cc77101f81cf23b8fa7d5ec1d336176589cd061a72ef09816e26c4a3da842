@@ -1,2 +1,0 @@
-I"@<p>There are many embedded Linux distributions ready for use with good functionality, but at the cost of image size, some images can reach 4GB. Sometimes we want embedded systems that support Linux with only the minimum packages needed for our system, such as running a small FTP server with no graphical interface.</p>
-:ET

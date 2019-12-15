@@ -1,3 +1,0 @@
-I"_<p>This blog post goals to present the Facebook Folly project and its complex dependency chain as well as its usage. It will also present Conan as a solution for its installation and for its dependencies.
-The source code for this example can be found on <a href="https://github.com/conan-io/examples/tree/master/libraries/folly/basic">Github</a>.</p>
-:ET

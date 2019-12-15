@@ -1,4 +1,0 @@
-I";<p>Packaging C/C++ is not very difficult, as long as you have a well known, documented, relatively portable build setup for your library. OpenSSL builds very differently in different operating systems, using different tools and commands. Thus, creating binary packages from sources, in a portable manner, for someone who’s not savvy with their build system, is challenging, just because building it is challenging.</p>
-
-<p>This post describes how to achieve a fully automated build for <a href="https://www.openssl.org/">OpenSSL</a> packages in multiple platforms.</p>
-:ET

@@ -1,4 +1,0 @@
-I"†<p>In the previous blog post <a href="http://blog.conan.io/2018/01/30/Cross-building-Boost-Android.html">Cross building Boost C++ libraries to Android with Conan</a>
-we cross built the Boost C++ libraries to Android and explained how to upload them to a conan server.
-That way, developers in our organization can reuse them without having to build from sources again the same binaries.</p>
-:ET

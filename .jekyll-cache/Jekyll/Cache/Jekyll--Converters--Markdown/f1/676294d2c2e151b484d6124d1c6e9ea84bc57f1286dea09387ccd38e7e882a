@@ -1,6 +1,0 @@
-I"Æ<p>As you will probably know, Conan has official support for integration with several build systems such as
-<a href="https://cmake.org/">CMake</a>, <a href="https://visualstudio.microsoft.com">MSBuild</a> or
-<a href="https://mesonbuild.com/">Meson</a> amongst others. But maybe you donâ€™t know that if you are using a build system
-that is not currently supported, Conan provides the tools to integrate it and build and consume packages that
-use it.</p>
-:ET

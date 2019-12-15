@@ -1,6 +1,0 @@
-I"Š<p>This post explains how to setup a development environment for C and C++ projects
-using Clang as compiler, CMake as build system, CLion as IDE and Conan
-as package manager. The name 4 Cs is cool, but not my idea, it has been
-coined by well known C++ blogger <a href="https://twitter.com/arne_mertz">Arne Metz</a>, author
-of the great <a href="http://arne-mertz.de/">Simplify C++ blog</a></p>
-:ET
