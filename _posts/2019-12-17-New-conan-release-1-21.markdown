@@ -150,7 +150,7 @@ be generated with a library name `my_lib` inside.
    to Conan using a name instead of a number, which is much more intuitive. The available logging
    levels are: `critical`, `error`, `warning`, `info` and `debug`.
  * Use
-   [`tools.check_min_cppstd`](https://docs.conan.io/en/latest/reference/tools.html?#tools-check-min-cppstd)
+   [`tools.check_min_cppstd()`](https://docs.conan.io/en/latest/reference/tools.html?#tools-check-min-cppstd)
    and
    [`tools.valid_min_cppstd`](https://docs.conan.io/en/latest/reference/tools.html?#tools-valid-min-cppstd)
    to check if the cppstd version is valid for a specific package.
