@@ -106,7 +106,7 @@ And with the new syntax it looks like this:
 from conans import ConanFile
 
 class Pkg(ConanFile):
-    python_requires = "pyreq/0.1"
+    python_requires = "pyreq/version"
     python_requires_extend = "pyreq.MyBase"
 ```
 
