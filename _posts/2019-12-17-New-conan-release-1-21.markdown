@@ -87,7 +87,7 @@ These are the main features of the new implementation:
 
  * **PackageID modification**. Now `python_requires` will affect the consumers package_id.
 
-As we said, the syntax now is easier and more aligned with the rest of the recipe syntax. With the
+As we said, now the syntax is easier and more aligned with the rest of the recipe syntax. With the
 previous version if you wanted to reuse methods from a base class you had to do something like this:
 
 ```python
