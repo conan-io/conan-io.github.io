@@ -110,7 +110,7 @@ class Pkg(ConanFile):
     python_requires_extend = "pyreq.MyBase"
 ```
 
-The version of the `python_requires` will now affect the packageID of the packages that use them with
+The version of the `python_requires` will now affect the package ID of the packages that use them with
 a `minor_mode` policy. That means that if you change the minor or major components of the version, it
 will generate a new package ID but the patch component will not affect the ID. Learn more about the
 new implementation [in the Conan
