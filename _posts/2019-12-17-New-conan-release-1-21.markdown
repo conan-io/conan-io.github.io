@@ -155,7 +155,7 @@ be generated with a library name `my_lib` inside.
    [`tools.valid_min_cppstd`](https://docs.conan.io/en/latest/reference/tools.html?#tools-valid-min-cppstd)
    to check if the cppstd version is valid for a specific package.
  * Use [`fuzz`](https://docs.conan.io/en/latest/reference/tools.html?#tools-patch)
-   parameter in `tools.patch` function to accept fuzzy patches.
+   parameter in `tools.patch()` function to accept fuzzy patches.
 
 <br>
 
