@@ -93,7 +93,7 @@ previous version if you wanted to reuse methods from a base class you had to do 
 ```python
 from conans import ConanFile, python_requires
 
-base = python_requires("pyreq/version@user/channel")
+base = python_requires("pyreq/version")
 
 class ConsumerConan(base.get_conanfile()):
     name = "consumer"
@@ -106,7 +106,7 @@ And with the new syntax it looks like this:
 from conans import ConanFile
 
 class Pkg(ConanFile):
-    python_requires = "pyreq/0.1@user/channel"
+    python_requires = "pyreq/0.1"
     python_requires_extend = "pyreq.MyBase"
 ```
 
