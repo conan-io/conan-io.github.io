@@ -30,6 +30,7 @@ $on-small-mobile:  350px;
 $on-mobile:        480px;
 $on-palm:          600px;
 $on-laptop:        800px;
+$on-large-laptop: 1280px;
 
 
 
@@ -104,6 +105,7 @@ form[role=search] {
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
+  // margin-bottom: 20px;
   input {
     height: 35px;
     box-sizing: border-box;
@@ -116,6 +118,7 @@ form[role=search] {
   }
 }
 
+//CONAN DAYS BANNER STYLE
 li.banner {
   &.conan-banner-mobile {
     display: none;
@@ -173,6 +176,85 @@ li.banner {
   }
 }
 
+article.post {
+  position: relative;
+}
+
+.page-content.content-post {
+  >.wrapper {
+    padding-right: 270px;
+    .fixed-cd-banner {
+      left: calc(50% + 280px);
+    }
+  }
+}
+
+.fixed-cd-banner {
+  width: 240px;
+  height: 360px;
+  background-color: gray;
+  position: fixed;
+  left: calc(50% + 400px);
+  top: 20px;
+  top: calc(50vh - 180px);
+  z-index: 3;
+  .flame {
+    position: absolute;
+    z-index: 1;
+    margin: auto;
+    left: 0;
+    right: 10px;
+    bottom: 40px;
+  }
+  .banner-abs-content {
+    z-index: 2;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    text-align: center;
+    h2 {
+      font-family: $banner-font;
+      text-align: center;
+      font-size: 32px;
+      font-weight: 700;
+      color: #40DE46;
+      background: -webkit-linear-gradient(#40DE46, #40DE46, #40DE46, #40DE46, #40DE46, #7CA8D4, #7CA8D4, #7CA8D4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0;
+      line-height: 1.1;
+      &:first-child {
+        margin-top: 60px;
+      }
+    }
+    h3 {
+      font-family: $banner-font;
+      color: #fff;
+      font-size: 25px;
+      font-weight: 300;
+      line-height: 1;
+      padding-top: 7px;
+    }
+    .banner-button {
+      font-family: $banner-font;
+      font-weight: 700;
+      color: #fff;
+      background: #40DE46;
+      padding: 10px 20px;
+      display: inline-block;
+      line-height: 1;
+    }
+  }
+}
+
+@media screen and (max-width: $on-large-laptop) {
+
+}
+
+
+
+
 @media screen and (max-width: $on-palm) {
   li.banner {
     &.conan-banner-mobile {
@@ -224,8 +306,29 @@ li.banner {
   }
 }
 
+.page-content.content-home ul.post-page-top-banner-holder {
+  display: none !important;
+}
+.page-content.content-post {padding-top: 40px;}
+
 @media screen and (max-width: $on-small-mobile) {
   li.banner .banner-abs-content h2 {
     font-size: 25px;
+  }
+}
+
+@media screen and (min-width: 1041px) {
+  .page-content.content-post > .wrapper li.banner {display: none;}
+} //post page banner position change.
+@media screen and (max-width: 1040px) { //post page banner position change.
+  .page-content.content-post > .wrapper {
+    padding-right: 30px;
+    .fixed-cd-banner {display: none;}
+    .post-page-top-banner-holder {
+      display: block;
+      list-style: none;
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 }
