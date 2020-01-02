@@ -5,7 +5,7 @@ title: Android Studio project using Conan and C++ Boost libraries
 # other options
 ---
 
-In the previous blog post [Cross building Boost C++ libraries to Android with Conan](http://blog.conan.io/2018/01/30/Cross-building-Boost-Android.html)
+In the previous blog post [Cross building Boost C++ libraries to Android with Conan](https://blog.conan.io/2018/01/30/Cross-building-Boost-Android.html)
 we cross built the Boost C++ libraries to Android and explained how to upload them to a conan server.
 That way, developers in our organization can reuse them without having to build from sources again the same binaries.
 
@@ -258,7 +258,7 @@ Then run the app in an ARM emulator, it takes a while because emulating this ARM
 Running an Android emulator for ARM architecture is very slow, so if we want to test or debug our
 app is always a good idea to build the application to Android/x86.
 Also, applications can be distributed for different architectures in a bundle, so we are going to
-repeat the process we saw in the first [blog post](http://blog.conan.io/2018/01/30/Cross-building-Boost-Android.html)
+repeat the process we saw in the first [blog post](https://blog.conan.io/2018/01/30/Cross-building-Boost-Android.html)
 for more architectures:
 
 
