@@ -130,7 +130,7 @@ need:
 
 - **Artifactory**: We will use it as our binary repository to retrieve and upload the Conan packages.
 
-  I chose the [latest release of Artifactory Community Edition for C/C++](http://blog.conan.io/2018/03/27/Announcing-JFrog-Artifactory-Community-Edition-C-C++.html) and went for the zip installation:
+  I chose the [latest release of Artifactory Community Edition for C/C++](https://blog.conan.io/2018/03/27/Announcing-JFrog-Artifactory-Community-Edition-C-C++.html) and went for the zip installation:
 
     - Download zip: https://www.conan.io/downloads.html
     - Set ``JAVA_HOME=/usr/lib/jvm/default-java``

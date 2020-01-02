@@ -12,7 +12,7 @@ Sorry for the click-bait title, but when we realized what conan was able to do, 
 Conan is a C and C++ package manager, and to deal with the vast variability of C and C++ build systems, compilers, configurations, etc., it was designed with a great flexibility in mind, trying to let the users do almost what they want. This is one of the reasons to use Python as the scripting language for conan package recipes. 
 
 
-With this flexibility, conan is able to do very different tasks: it is able to [package Visual Studio modules](http://blog.conan.io/2016/06/01/Building-and-packaging-C++-modules-in-VS2015.html), also to [package go-lang packages](http://docs.conan.io/en/latest/examples/go.html), build packages from sources, from binaries retrieved from elsewhere, etc.
+With this flexibility, conan is able to do very different tasks: it is able to [package Visual Studio modules](https://blog.conan.io/2016/06/01/Building-and-packaging-C++-modules-in-VS2015.html), also to [package go-lang packages](http://docs.conan.io/en/latest/examples/go.html), build packages from sources, from binaries retrieved from elsewhere, etc.
 
 
 The story started when some users requested a solution to be able to share common python code among their package recipes. Maybe that python code could be managed separately, but being conan a package manager, they requested if they could put the common code in a conan package. So we thought, why not, we already did a proof of concept for other languages as go-lang, should be possible. And it turned out that with very little effort conan can be used as a package manager for Python too. Lets see how:

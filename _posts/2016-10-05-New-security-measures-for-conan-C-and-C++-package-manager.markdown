@@ -4,7 +4,7 @@ comments: true
 title: "New security measures for conan package manager"
 ---
 
-In a previous post [“Are C and C++ languages ready for the NPM debacle”](http://blog.conan.io/2016/03/30/are-c-and-c++-languages-ready-for-the-npm-debacle.html), we described the approach of Conan package manager to security, which stands on:
+In a previous post [“Are C and C++ languages ready for the NPM debacle”](https://blog.conan.io/2016/03/30/are-c-and-c++-languages-ready-for-the-npm-debacle.html), we described the approach of Conan package manager to security, which stands on:
 
 - Namespaces. Packages are created on user accounts namespace, so, even if they are removed by the author (like happened in NPM), they cannot be replaced by other user under the same namespace.
 - Easy fork/copy of packages. Packages can be forked or copied, just like git repos, and put under your own account namespace, so you don’t depend on others and possible changes on their packages do not affect your dependencies.
