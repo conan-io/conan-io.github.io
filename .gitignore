@@ -4,4 +4,4 @@ _site
 .project
 .idea
 .DS_Store
-
+.jekyll-cache
