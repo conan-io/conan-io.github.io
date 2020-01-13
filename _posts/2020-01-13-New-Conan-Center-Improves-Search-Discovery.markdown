@@ -42,7 +42,7 @@ From the very start of this project, we wanted to make it easy for contributors 
 
 You can contribute your packages as well, and share them with thousands of ConanCenter users across the globe.
 
-To contribute new packages, you’ll need to join the Early Access Program. To enroll in EAP, please add a comment on this GitHub issue. 
+To contribute new packages, you’ll need to join the Early Access Program. To enroll in EAP, please add [a comment on this GitHub issue](https://github.com/conan-io/conan-center-index/issues/4). 
 
 Once you’re an EAP member, you can add packages to ConanCenter through GitHub:
 
