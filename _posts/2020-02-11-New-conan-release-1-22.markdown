@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Conan 1.22: New downloads cache, Store scm data in conandata.yml, Python 2 deprecation and
+title: "Conan 1.22: New downloads cache, store scm data in conandata.yml, Python 2 deprecation and
 more."
 ---
 
