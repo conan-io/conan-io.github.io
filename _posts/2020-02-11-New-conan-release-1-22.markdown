@@ -165,7 +165,7 @@ override that file values).
 
 ## Python 2 deprecation
 
-On January 1st, **Python 2 was deprecated** by the Python maintainers so Conan will not support Python 2 anymore starting from the 1.22 version.
+On January 1st, [Python 2 was deprecated](https://www.python.org/dev/peps/pep-0373/) by the Python maintainers so Conan will not support Python 2 anymore starting from the 1.22 version.
 
 If you are still using Python 2, please update as soon as possible.
 
