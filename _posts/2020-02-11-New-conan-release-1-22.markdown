@@ -20,7 +20,7 @@ using different `CONAN_USER_HOME` folders. This cache could be shared between di
 CI jobs, so if the files were previously downloaded, they could be reused from the cache without the
 need to download them again.
 
-If you want to test this feature you have to set the appropiate configuration in the *conan.conf* file.
+If you want to test this feature you have to set the appropriate configuration in the *conan.conf* file.
 
 ```
 $ conan config set storage.download_cache="/path/to/my/cache"
@@ -36,7 +36,7 @@ $ conan config set storage.download_cache="/Users/yourusername/central_cache"
 $ time conan install boost/1.72.0@
 ...
 boost/1.72.0: LIBRARIES: ['boost_wave', 'boost_container', 'boost_contract', ...
-boost/1.72.0: Package folder: /Users/carlos/conan_home_2/.conan/data/boost/1.72.0/_/_/package/69168f775732984eb37d785004b6ef25111fe5f9
+boost/1.72.0: Package folder: /Users/carlos/conan_home_1/.conan/data/boost/1.72.0/_/_/package/69168f775732984eb37d785004b6ef25111fe5f9
 conan install boost/1.72.0@  4.70s user 3.87s system 36% cpu 23.428 total
 ...
 $ export CONAN_USER_HOME=/Users/yourusername/conan_home_2/
@@ -44,7 +44,7 @@ $ conan config set storage.download_cache="/Users/yourusername/central_cache"
 $ time conan install boost/1.72.0@
 ...
 boost/1.72.0: LIBRARIES: ['boost_wave', 'boost_container', 'boost_contract', ...
-boost/1.72.0: Package folder: /Users/carlos/conan_home_3/.conan/data/boost/1.72.0/_/_/package/69168f775732984eb37d785004b6ef25111fe5f9
+boost/1.72.0: Package folder: /Users/carlos/conan_home_2/.conan/data/boost/1.72.0/_/_/package/69168f775732984eb37d785004b6ef25111fe5f9
 conan install boost/1.72.0@  4.03s user 3.38s system 51% cpu 14.491 total
 ...
 ```
