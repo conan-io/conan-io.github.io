@@ -8,7 +8,7 @@ more."
 2020 has started with lots of new features and bugfixes in Conan 1.22. Let's check some of the most
 important ones.
 
-## New download cache
+## New downloads cache
 
 With each new Conan release, we are trying to help to speed-up the CI's step by step. The last one
 was in Conan 1.21, where we introduced the [parallel
