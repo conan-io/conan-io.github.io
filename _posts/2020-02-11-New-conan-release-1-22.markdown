@@ -1,8 +1,8 @@
 ---
 layout: post
 comments: false
-title: "Conan 1.22: New downloads cache, store scm data in conandata.yml, Python 2 deprecation and
-more."
+title: "Conan 1.22: New downloads cache, store scm data in conandata.yml, Python 2 deprecation,
+Python 3.8 support and more."
 ---
 
 2020 has started with lots of new features and bugfixes in Conan 1.22. Let's check some of the most
@@ -163,11 +163,13 @@ to the [`build`](https://docs.conan.io/en/latest/reference/build_helpers/visual_
 method that will have priority over the `conan_build.props` file (values from these files will
 override that file values).
 
-## Python 2 deprecation
+## Python 2 deprecation and support for Python 3.8
 
 On January 1st, [Python 2 was deprecated](https://www.python.org/dev/peps/pep-0373/) by the Python maintainers so Conan will not support Python 2 anymore starting from the 1.22 version.
 
 If you are still using Python 2, please update as soon as possible.
+
+It is also important to mention that starting from Conan 1.22, Python 3.8 is supported.
 
 <br>
 
