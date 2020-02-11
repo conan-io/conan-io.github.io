@@ -68,7 +68,7 @@ restore it to the original value.
 
 When using `scm` and `auto` mode, after calling to `conan create` the information in the `scm`
 dictionary is evaluated and written in the *conanfile.py* that is stored in the package. That
-can be problematic when you want to get the credentials from the environment because the environment
+can be problematic when you want to get the credentials from the environment, because the environment
 variable you are trying to get will be evaluated and stored in the packaged *conanfile.py* as well.
 Let's see an example:
 
