@@ -51,7 +51,7 @@ conan install boost/1.72.0@  4.03s user 3.38s system 51% cpu 14.491 total
 
 As you can see in the command line output, the first time, with an empty cache the download takes
 **23.428 seconds**, that is the same time that it would have taken to download if there was no cache.
-After setting the second `CONAN_USER_HOME` with the downloads cache pointing to the same folder the
+After setting the second `CONAN_USER_HOME` with the download cache pointing to the same folder the
 download time is **14.491 seconds** which is almost half of the time it would take without the
 downloads cache.
 
