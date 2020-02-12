@@ -144,7 +144,7 @@ is useful if you have variable package layouts. For example, if you define a cus
         ...
 {% endhighlight %}
 
-The files in that folder can be imported using the symbolic name `@bindirs`:
+The files in that folder can be imported from a consumer package using the symbolic name `@bindirs`:
 
 {% highlight python %}
 def imports(self):
