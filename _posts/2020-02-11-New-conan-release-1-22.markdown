@@ -20,7 +20,7 @@ using different `CONAN_USER_HOME` folders. This cache can be shared between diff
 CI jobs, so if the files were previously downloaded, they will be reused from the cache without the
 need to download them again.
 
-If you want to test this feature you have to set the appropriate configuration in the *conan.conf* file.
+To test this feature you have to set the appropriate configuration in the *conan.conf* file:
 
 ```
 $ conan config set storage.download_cache="/path/to/my/cache"
