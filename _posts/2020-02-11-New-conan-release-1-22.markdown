@@ -5,8 +5,16 @@ title: "Conan 1.22: New downloads cache, store scm data in conandata.yml, Python
 Python 3.8 support and more."
 ---
 
-2020 has started with lots of new features and bugfixes in Conan 1.22. Let's check some of the most
-important ones.
+
+2020 has started with lots of new features and bugfixes in Conan 1.22. 
+
+Also, don't forget that we are only 6 weeks away from
+[ConanDays](https://conandays.conan.io/). In this event, the community will be
+involved in defining the future of Conan and the transition from version 1 to **Conan 2.0**. Please [get
+your tickets](https://www.eventbrite.com/e/conandays-2020-gathering-the-tribes-tickets-75869891889)
+as soon as possible, space is limited, and tickets are running out fast! 
+
+Now, let’s check the most important things in Conan 1.22 release.
 
 ## New downloads cache
 
@@ -113,9 +121,9 @@ conan config set general.scm_to_conandata=True
 ```
 
 With `scm_to_conandata` enabled, after creating the package, if you inspect the local cache export
-folder you will see that the scm dictionary has not been evaluated (it is identical to the one in
-your scm repository) and that there's a *conandata.yml* next to the *conanfile.py* file. If you
-inspect that file, you will see something similar to this:
+folder you will see that the that the original *conanfile.py* is not modified and that there's a
+*conandata.yml* next to the *conanfile.py* file with all the contents of the scm dictionary but the
+`username` and `password`. If you inspect that file, you will see something similar to this:
 
 {% highlight yaml %}
 .conan:
@@ -158,14 +166,16 @@ defined.
 
 ## Add extra user-defined properties using MSBuild build helper
 
-Using the new `user_property_file_name` parameter you can pass a list of filenames with user properties
-to the [`build`](https://docs.conan.io/en/latest/reference/build_helpers/visual_studio.html#build)
-method that will have priority over the `conan_build.props` file (values from these files will
-override that file values).
+Using the new `user_property_file_name` parameter you can pass a list of filenames with user
+properties to the
+[`build`](https://docs.conan.io/en/latest/reference/build_helpers/visual_studio.html#build) method
+that will have priority over the `conan_build.props` file (values from these user defined properties
+files can override the values in `conan_build.props`).
 
 ## Python 2 deprecation and support for Python 3.8
 
-On January 1st, [Python 2 was deprecated](https://www.python.org/dev/peps/pep-0373/) by the Python maintainers so Conan will not support Python 2 anymore starting from the 1.22 version.
+On January 1st, [Python 2 was deprecated](https://www.python.org/dev/peps/pep-0373/) by the Python
+maintainers so Conan will not support Python 2 anymore starting from the 1.22 version.
 
 If you are still using Python 2, please update as soon as possible.
 
