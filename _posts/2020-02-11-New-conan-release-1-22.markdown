@@ -28,7 +28,7 @@ $ conan config set storage.download_cache="/path/to/my/cache"
 
 You could test the performance improvement of the feature by subsequently changing the
 `CONAN_USER_HOME` for different Conan calls that install a big package but setting the same
-downloads cache for all of them.
+download cache for all of them.
 
 ```
 $ export CONAN_USER_HOME=/Users/yourusername/conan_home_1/
