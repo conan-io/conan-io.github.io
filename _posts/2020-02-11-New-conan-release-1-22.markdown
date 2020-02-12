@@ -61,7 +61,7 @@ If you want to deactivate the cache, don't forget to do:
 $ conan config rm storage.download_cache
 ```
 
-An then removing the contents of the cache folder. Also, if you changed the `CONAN_USER_HOME`,
+And then remove the contents of the cache folder or the folder itself. Also, if you changed the `CONAN_USER_HOME`,
 restore it to the original value.
 
 ## Easier credential handling when using SCM
