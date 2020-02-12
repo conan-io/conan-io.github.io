@@ -16,7 +16,7 @@ uploads](https://docs.conan.io/en/latest/reference/commands/creator/upload.html?
 that can get and **increase in speed for around 400%**. 
 
 Now we are releasing a new download cache that can be concurrently used by several Conan instances
-using different `CONAN_USER_HOME` folders. This cache could be shared between different simultaneous
+using different `CONAN_USER_HOME` folders. This cache can be shared between different simultaneous
 CI jobs, so if the files were previously downloaded, they could be reused from the cache without the
 need to download them again.
 
