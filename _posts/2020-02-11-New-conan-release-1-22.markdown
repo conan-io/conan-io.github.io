@@ -17,7 +17,7 @@ that can get and **increase in speed for around 400%**.
 
 Now we are releasing a new download cache that can be concurrently used by several Conan instances
 using different `CONAN_USER_HOME` folders. This cache can be shared between different simultaneous
-CI jobs, so if the files were previously downloaded, they could be reused from the cache without the
+CI jobs, so if the files were previously downloaded, they will be reused from the cache without the
 need to download them again.
 
 If you want to test this feature you have to set the appropriate configuration in the *conan.conf* file.
