@@ -12,7 +12,7 @@ Also, don't forget that we are only 6 weeks away from
 [ConanDays](https://conandays.conan.io/). In this event, the community will be
 involved in defining the future of Conan and the transition from version 1 to **Conan 2.0**. Please [get
 your tickets](https://www.eventbrite.com/e/conandays-2020-gathering-the-tribes-tickets-75869891889)
-as soon as possible, space is limited, and tickets are running out fast! 
+as soon as possible, space is limited.
 
 Now, let’s check the most important things in Conan 1.22 release.
 
