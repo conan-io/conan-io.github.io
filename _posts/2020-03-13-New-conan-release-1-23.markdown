@@ -97,7 +97,7 @@ experimenting, please do not activate this mode in a production environment!**
  * `clean-modified` subcommand for `graph` command. When a package of a dependency graph is going
    to be re-built, using a given lockfile, it is desired to finish the build knowing which packages
    of the graph have been rebuilt as a result of the last command. This command will clean
-   all the previously existing "modified" flags before such build, so after the build the "modified"
+   all the previously existing "modified" flags before such build, so after the build, the "modified"
    are only those that have been built now.
    https://docs.conan.io/en/latest/reference/commands/misc/graph.html#conan-graph-clean-modified
  * `full_transitive_package_id` can now be activated in *conan.conf* to include transitive
