@@ -71,7 +71,7 @@ prioritized the feature over a clean output but will solve these output problems
 Use all of these features in combination or separate and please tell us if they are making your CI's
 faster.
 
-## CONAN_V2_MODE to start testing Conan v2 deprecated features
+## CONAN_V2_MODE to start testing features that will deprecate when Conan v2 is released
 
 Although we still have plenty of time and work ahead before Conan 2.0 we would like to start testing
 the deprecation of features for Conan 2.0. We have introduced the `CONAN_V2_MODE` [environment
@@ -84,6 +84,9 @@ Some of the most important default behaviours for Conan 2.0 will be:
 * No hooks activated by default.
 * SCM data will be stored into *conandata.yml*.
 * GCC >= 5 autodetected profile will use `libstdc++11`.
+
+We will be adding behaviours to this mode as we progress in the roadmap to Conan v2 so stay updated
+in the documentation.
 
 Our objective is to minimize the impact on existing recipes when Conan 2.0 is released and start
 gathering feedback about the new configuration and behavior. **Be advised that this mode is only for
