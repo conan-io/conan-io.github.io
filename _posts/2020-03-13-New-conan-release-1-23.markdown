@@ -78,7 +78,7 @@ the deprecation of features for Conan 2.0. We have introduced the `CONAN_V2_MODE
 variable](https://docs.conan.io/en/latest/reference/conan_v2_mode.html#conan-v2-mode) that activates
 some behaviors and defaults that are intended to be in the next major release.
 
-Some of the most important default behaviours for Conan 2.0 will be:
+Some of the most important default behaviors for Conan 2.0 will be:
 
 * Revisions are enabled by default (adds `revisions_enabled=1` to *conan.conf*).
 * No hooks activated by default.
