@@ -1,7 +1,7 @@
 ---
-layout: post
-comments: false
-title: "Conan 1.23: Parallel installation of binaries, to speed up populating packages in a cache, Add environment variable ‘CONAN_V2_MODE’ to enable Conan v2 behavior."
+layout: post comments: false title: "Conan 1.23: Parallel installation of binaries, to speed up
+populating packages in a cache, Add environment variable ‘CONAN_V2_MODE’ to enable Conan v2
+behavior."
 ---
 
 March bring us a new Conan release. Sadily it also brought us the notice of having to postpone
@@ -69,9 +69,20 @@ As you can see it just took around 30 seconds to download all the binaries what 
 
 If you try this feature you may experience some message overlaps in the command line output. We have prioritized the feature over a clean output but will solve these output problems in the near future.
 
+## CONAN_V2_MODE to start testing Conan v2 deprecated features
 
+Although we still have plenty of time and work ahead before Conan 2.0 we would like to start testing the deprecation of features for Conan 2.0. We have introduced the ``CONAN_V2_MODE`` environment variable that activates some behaviors and defaults that are intended to be in the next major release.
 
+Some of the most important default behaviours for Conan 2.0 will be:
 
+* Revisions are enabled by default (adds ``revisions_enabled=1`` to *conan.conf*).
+* No hooks activated by default.
+* SCM data will be stored into *conandata.yml*.
+* GCC >= 5 autodetected profile will use ``libstdc++11``.
+
+Our objective os to minimize the impact on existing recipes when Conan 2.0 is released and start
+gathering feedback about the new configuration and behavior. **Be advised that this mode is only for
+experimenting, please do not activate this mode in a production environment!** 
 
 <br>
 
