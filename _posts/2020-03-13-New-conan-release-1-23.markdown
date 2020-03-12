@@ -67,11 +67,15 @@ conan download zlib/1.2.11@ -r conan-center  4.23s user 0.96s system 16% cpu 30.
 As you can see it just took around 30 seconds to download all the binaries what means an
 **improvement of around a 600% in time**.
 
-If you try this feature you may experience some message overlaps in the command line output. We have prioritized the feature over a clean output but will solve these output problems in the near future.
+If you try this feature you may experience some message overlaps in the command line output. We have
+prioritized the feature over a clean output but will solve these output problems in the near future.
 
 ## CONAN_V2_MODE to start testing Conan v2 deprecated features
 
-Although we still have plenty of time and work ahead before Conan 2.0 we would like to start testing the deprecation of features for Conan 2.0. We have introduced the ``CONAN_V2_MODE`` environment variable that activates some behaviors and defaults that are intended to be in the next major release.
+Although we still have plenty of time and work ahead before Conan 2.0 we would like to start testing
+the deprecation of features for Conan 2.0. We have introduced the ``CONAN_V2_MODE`` [environment
+variable](https://docs.conan.io/en/latest/reference/conan_v2_mode.html#conan-v2-mode) that activates
+some behaviors and defaults that are intended to be in the next major release.
 
 Some of the most important default behaviours for Conan 2.0 will be:
 
@@ -83,6 +87,19 @@ Some of the most important default behaviours for Conan 2.0 will be:
 Our objective os to minimize the impact on existing recipes when Conan 2.0 is released and start
 gathering feedback about the new configuration and behavior. **Be advised that this mode is only for
 experimenting, please do not activate this mode in a production environment!** 
+
+## Other cool things
+
+ * ``clean-modified`` subcommand for ``graph`` command. When a package of a dependency graph is going
+   to be re-built, using a given lockfile, it is desired to finish the build knowing which packages
+   of the graph have been actually rebuilt as a result of the last command. This command will clean
+   all the previously existing "modified" flags before such build, so after the build the "modified"
+   are only those that have been built now.
+   https://docs.conan.io/en/latest/reference/commands/misc/graph.html#conan-graph-clean-modified
+ * ``full_transitive_package_id`` can now be activated in *conan.conf* to include transitive
+   dependencies even when the direct dependencies remove them, for example when depending on a
+   header-only library that depends on a static library. Read more about this
+   [here](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html#enabling-full-transitivity-in-package-id-modes).
 
 <br>
 
