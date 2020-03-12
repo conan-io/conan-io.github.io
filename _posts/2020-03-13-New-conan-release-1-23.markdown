@@ -85,7 +85,7 @@ Some of the most important default behaviours for Conan 2.0 will be:
 * SCM data will be stored into *conandata.yml*.
 * GCC >= 5 autodetected profile will use `libstdc++11`.
 
-Our objective os to minimize the impact on existing recipes when Conan 2.0 is released and start
+Our objective is to minimize the impact on existing recipes when Conan 2.0 is released and start
 gathering feedback about the new configuration and behavior. **Be advised that this mode is only for
 experimenting, please do not activate this mode in a production environment!** 
 
