@@ -14,7 +14,7 @@ In this post we will describe how to use these prebuilt Boost libraries in an An
 **Note**: This blog post assume that you followed the previous blog post and you have:
 
 - Profile created for target **armveabi-v7**, api **level 21** and **clang**: ``~/.conan/profiles/android_21_armeabi-v7_clang``
-- [Boost package](https://conan.io/center/boost/1.72.0/) uploaded to a remote server (or in our local conan cache).
+- Boost package uploaded to a remote server (or in our local conan cache).
 - The conan client installed with a remote configured to point to the server where we uploaded the package (not necessary if we are using our local conan cache).
 
 Open the Android Studio and create a new app called **MyBoostApp** including the c++ support:

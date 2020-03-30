@@ -33,12 +33,13 @@ Conan computes a different package ID for any combination of the following eleme
    
  * **Requirements**. Depending on the package ID mode configured for the Conan client or the
    one declared for a specific requirement, different components of the full Conan 
-   package reference of all its dependencies could affect the package ID of the consumer. It's highly
+   package reference of the dependencies could affect the package ID of the consumer. It's highly
    configurable, from a mode taking into account only the name of the dependencies to other
    modes including any change in the sources or even the build environment.
    
    Very important to note that transitive requirements (dependencies of my dependencies) are
-   also included, not only the direct dependencies (except for the ``semver_direct_mode``).
+   only encoded into my package ID through the package reference (Conan reference, package ID
+   and revisions) of my requirements.
    
 *Note.-* Only the dependencies declared using the ``requires`` attribute or inside the
 ``requirements()`` method will be considered, **``build_requires`` don't affect the package ID**.
@@ -123,7 +124,7 @@ recipe using the ``package_id`` method (more about this in the
 ## Conan default behavior: ``semver_direct_mode``
 
 By default, Conan uses ``semver_direct_mode`` which means that it will compute a different
-package ID whenever the _major_ component of the version of its _direct requirements_ is different.
+package ID whenever the _major_ component of the version of its requirements is different.
 This is a quite relaxed method with big assumptions: all the dependencies use properly a
 SemVer versioning schema, my application is not sensitive to new features or bug fixes, and
 it is ok to ignore changes in options or settings of my requirements.
@@ -234,7 +235,7 @@ And it doesn't change if we modify an option of the ``fmt`` package, the package
 corresponding to ``fmt`` changes but the one of the consumer recipe doesn't.
  
 With the ``semver_direct_mode``, as long as the _major_ doesn't change, we can
-modify the dependencies as much as we want: we
+modify the transitive dependencies (even add or remove them) as much as we want: we
 can modify options to activate features or switch behaviors, we can use different linking
 options,... it all depends on the library writer. There are many
 degrees of freedom under the same package ID of our library. We won't be able

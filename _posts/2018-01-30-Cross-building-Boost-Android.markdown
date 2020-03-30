@@ -5,7 +5,7 @@ title: Cross building Boost C++ libraries to Android with Conan
 # other options
 ---
 
-Today we released a Conan package [Boost/1.66.0@conan/stable](https://conan.io/center/boost/1.72.0/) on [conan-center](https://conan.io/center/).
+Today we released a Conan package [Boost/1.66.0@conan/stable](https://github.com/lasote/conan-boost) on [conan-center](https://bintray.com/conan/conan-center).
 
 This package contains binaries for **more than 150 different** configurations: Windows (different flavors of Visual Studio),
 Linux (gcc and clang compilers), OSX. In all systems, it is possible to use different architectures, build types,
@@ -14,7 +14,7 @@ or choose if we want to link statically, dynamically, or even to use boost heade
 But this package also includes large improvements for cross-building boost to different platforms, like Raspberry PI, or Android.
 This amazing work has been done thanks to many contributions from the (conan) community, thank you all!!!
 
-[Conan-center](https://conan.io/center/) only includes the most mainstream binaries, those for Windows,
+[Conan-center](https://bintray.com/conan/conan-center) only includes the most mainstream binaries, those for Windows,
 Linux and OSX, but this post explain how you can use conan to easily cross-build Boost to those platforms.
 
 
@@ -87,7 +87,7 @@ it should link against cross-built versions of zlib and bzip2 for the same confi
 
 
 It could be a huge challenge for any developer and a real impediment.
-Fortunately, [conan-center](https://conan.io/center/) repository already contains zlib and bzip2 packages with
+Fortunately, [conan-center](https://bintray.com/conan/conan-center) repository already contains zlib and bzip2 packages with
 pre-built binaries for hundreds of configurations, but most importantly:
 they also know how to cross-build themselves, using their own build systems.
 
@@ -250,7 +250,7 @@ standalone toolchain (replace *“/myfolder/arm_21_toolchain”* with your insta
 
 ### Building Boost package for Android
 
-In [conan-center](https://conan.io/center/) you can find binaries for known platforms like Windows,
+In [conan-center](https://bintray.com/conan/conan-center) you can find binaries for known platforms like Windows,
 OSX and Linux but not for Android.
 In this section we are going to build boost for Android and upload the resulting package to a repository where
 it can be consumed by other developers, not building the boost library from sources again in the process.
@@ -275,7 +275,7 @@ Check the [Uploading packages](http://docs.conan.io/en/latest/uploading_packages
 We could also share profiles, remotes and settings among the team with the [conan config install](
 http://docs.conan.io/en/latest/reference/commands/consumer/config.html) command.
 
-At this point the binary packages for Android are in my-remote (i.e: [conan-center](https://conan.io/center/))
+At this point the binary packages for Android are in my-remote (i.e: [conan-center](https://bintray.com/conan/conan-center))
 and developers using the
 above profile can reuse them without building from sources the whole boost library.
 

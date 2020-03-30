@@ -1,38 +1,85 @@
-<footer class="site-footer">
+<!-- FOOTER -->
+    <footer
+      id="siteFooter"
+      class="py-5 bg-bright-gray"
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-md-7 footer-left d-md-flex d-none align-items-center">
+            <div class="footer-menu w-100">
+              <div class="row">
+                <div class="col-sm-3">
+                  <h4 class="blue mb-1">GET</h4>
+                  <ul>
+                    <li><a href="downloads.html">
+                        Download
+                      </a></li>
+                    <li><a href="https://conan.io/center">
+                        Conan-Center
+                      </a></li>
+                    <li><a href="https://github.com/conan-io/conan">
+                        GitHub
+                      </a></li>
+                  </ul>
+                </div>
+                <div class="col-sm-3">
+                  <h4 class="blue mb-1">Resources</h4>
+                  <ul>
+                    <li><a href="https://docs.conan.io/">
+                        Docs
+                      </a></li>
+                    <li><a href="https://blog.conan.io/">
+                        Blog
+                      </a></li>
+                  </ul>
+                </div>
+                <div class="col-sm-3">
+                  <h4 class="blue mb-1">Legal</h4>
+                  <ul>
+                    <li><a href="privacy-policy.html">
+                        Privacy Policy
+                      </a></li>
+                    <li><a href="terms-conditions.html">
+                        Terms
+                      </a></li>
+                  </ul>
+                </div>
+                <div class="col-sm-3">
+                  <h4 class="blue mb-1">Social</h4>
+                  <ul>
+                    <li><a href="https://github.com/conan-io">
+                        Github
+                      </a></li>
+                    <li><a href="https://twitter.com/conan_io">
+                        Twitter
+                      </a></li>
+                    <li><a href="https://facebook.com/conan.io">
+                        Facebook
+                      </a></li>
+                    <li><a href="https://cpplang.​slack.​com/?id=conan">
+                        Slack #conan
+                      </a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
 
-  <div class="wrapper">
+          <div class="col-md-5 footer-right">
+            <div class="inner pl-0 pl-md-4">
 
-    <h2 class="footer-heading">{{ site.title }}</h2>
+              <div class="mktoFormWrapper">
+                <!-- FOOTER FORM HERE -->
+                <script src="https://leap.jfrog.com/js/forms2/js/forms2.min.js"></script>
+                <form id="mktoForm_1479"></form>
+                <script>MktoForms2.loadForm("https://leap.jfrog.com", "256-FNZ-187", 1479);</script>
+              </div>
 
-    <div class="footer-col-wrapper">
-      <div class="footer-col footer-col-1">
-        <ul class="contact-list">
-          <li>{{ site.title }}</li>
-          <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
-        </ul>
+            {% include socials.html %}
+
+            </div>
+          </div>
+        </div>
+
       </div>
-
-      <div class="footer-col footer-col-2">
-        <ul class="social-media-list">
-          {% if site.github_username %}
-          <li>
-            {% include icon-github.html username=site.github_username %}
-          </li>
-          {% endif %}
-
-          {% if site.twitter_username %}
-          <li>
-            {% include icon-twitter.html username=site.twitter_username %}
-          </li>
-          {% endif %}
-        </ul>
-      </div>
-
-      <div class="footer-col footer-col-3">
-        <p>{{ site.description }}</p>
-      </div>
-    </div>
-
-  </div>
-
-</footer>
+    </footer>
