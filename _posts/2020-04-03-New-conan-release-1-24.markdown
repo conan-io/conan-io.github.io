@@ -6,7 +6,7 @@ title: "Conan 1.24: New Cross-Build Model, Components API for Generators, New In
 
 ## Cross-Build Modeling + Context Modeling
 
-In 2017, we implemented cross-build support to Conan largely based on experience with cross-build models in build systems. We updated the settings model of `os` and `arch` with the new distinct settings of `os_build`/`arch_build` and `os_target`/`arch_target`. This new model has received a lot of use both internally and from users which resulted in very valuable feedback from a variety of use cases. Based on this feedback, it was clear that the model was insufficient and something more robust was needed.
+In 2017, we implemented cross-build support to Conan largely based on experience with cross-build models in build systems. We updated the settings model of `os` and `arch` with the new distinct settings of `os_build`/`arch_build` and `os_target`/`arch_target`. This old model has received a lot of use both internally and from users which resulted in very valuable feedback from a variety of use cases. Based on this feedback, it was clear that the model was insufficient and something more robust was needed.
 
 The <new model> adds a new command-line argument to specify a completely separate profile called a "<build_profile>" which will be used to build `build_requires` in the dependency graph. This sounds simple, but is accomplished by providing a new abstraction called "contexts".  There is one context in which `build_requirements` are built (called the "build context"), and another context in which the rest of the `requirements` are built (called the "host context"). 
 
@@ -35,4 +35,3 @@ The default behavior of SystemPackageTool has been to run system package manager
 ## Additional Features and Fixes
 
 This release actually contains too many exciting features and bugfixes for us to highlight them all. As always, you can see the complete list in the [changelog]( https://docs.conan.io/en/latest/changelog.html#mar-2020).  However, here's a list of honorable mentions:
-
