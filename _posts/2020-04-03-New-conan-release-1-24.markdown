@@ -26,7 +26,7 @@ In Conan v1.x, there were several mechanisms added to empower recipe authors to 
 
 New init() method on `conanfile.py` (intended for python_requires())
 
-At it's core, `conanfile.py` is a Python class.  All of it's existing functions have been carefully designed to model the problems of building and packaging for C/C++.  However, at scale, there is a practical need to manage and share code among recipes (such as providing a base class for Conanfiles) and `python_requires` was created to enable that. Based on feedback from users, there are still some capabilities surrounding the fundamental instantiation of the Conanfile Python object which would be valuable but are not currently possible. The new `init()` method is now the "first" conanfile function to be run if defined (it runs before config_options.)  
+At it's core, `conanfile.py` is a Python class.  All of it's existing functions have been carefully designed to model the problems of building and packaging for C/C++.  However, at scale, there is a practical need to manage and share code among recipes (such as providing a base class for Conanfiles) and `python_requires` was created to enable that. Based on feedback from users, there are still some capabilities surrounding the fundamental instantiation of the Conanfile Python object which would be valuable but are not currently possible. The new `init()` method is now the "first" conanfile function to be run if defined (it runs before config_options).  
 
 ## SystemPackageTool Default Behavior Change
 
