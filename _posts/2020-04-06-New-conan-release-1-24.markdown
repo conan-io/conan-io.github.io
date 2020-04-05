@@ -1,5 +1,7 @@
 ---
-layout: post comments: false title: "Conan 1.24: New Cross-Build Model, Components API for Generators, New Init() Method, and More"
+layout: post 
+comments: false 
+title: "Conan 1.24: New Cross-Build Model, Components API for Generators, New Init() Method, and More"
 ---
 
 Conan 1.24 comes with a substantial list of completed feature requests, both
@@ -54,11 +56,8 @@ fundamental instantiation of the Conanfile Python object which would be valuable
 but are not currently possible. The new `init()` method is now the "first"
 conanfile function to be run if defined (it runs before config_options.)  
 
----
-**NOTE** : `init()` method is intended for use with `python_requires()`. Other
-uses may lead to undesirable consequences. 
-
----
+**Note** : `init()` method is intended for use with `python_requires()`. Other
+uses may lead to undesirable consequences.
 
 ## New Markdown Generator  
 
@@ -110,7 +109,6 @@ release, enabling `CONAN_V2_MODE` will disable two of these mechanisms:
 - `PYTHONPATH` from `env_info` will no longer be appended for `python_requires`
   packages
 
-
 ## SystemPackageTool Behavior Change  
 
 The default global behavior of `SystemPackageTool` has always been to
@@ -130,13 +128,10 @@ Thus, the "new" precedence for controlling this behavior is as follows:
 2. Per-package: `default_mode` parameter (if defined)
 3. Global: `enabled` program default
 
----
-**NOTE** : The parameter is named `default_mode` because it only applies when
+**Note** : The parameter is named `default_mode` because it only applies when
 the `CONAN_SYSREQUIRES_MODE` environment variable is NOT set. If the environment
 variable is set to any value at all, the `default_mode` parameter in each recipe
 is completely ignored.
-
----
 
 ## Additional Features and Fixes  
 
@@ -152,6 +147,9 @@ here's a list of honorable mentions:
 * Add description field to output of `conan info`
 * Avoid unnecessary calls to CMake `find_package()`
 * Multiple fixes for Sun C Compiler
+
+-----------
+<br>
 
 As usual, we hope you enjoy this release, and look forward to [your
 feedback](https://github.com/conan-io/conan/issues). 
