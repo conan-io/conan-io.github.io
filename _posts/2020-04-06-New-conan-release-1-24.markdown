@@ -1,6 +1,5 @@
 ---
-layout: post comments: false title: "Conan 1.24: New Cross-Build Model,
-Components API for Generators, New Init() Method, and More"
+layout: post comments: false title: "Conan 1.24: New Cross-Build Model, Components API for Generators, New Init() Method, and More"
 ---
 
 Conan 1.24 comes with a substantial list of completed feature requests, both
@@ -8,8 +7,9 @@ major and minor.  The largest changes relate to the cross-build model and
 provide more power when working with some of the most complex packages users are
 working on today.  This includes `Protobuf` and `LLVM` to name a few. There are
 also some subtle additions which are incremental steps towards some long-term
-goals, such as supporting "components" in build systems like `CMake`, and
-providing a robust abstraction for `cppstd`. 
+goals such as supporting "components" in build systems like `CMake`, providing
+a robust abstraction for `cppstd`, helping users prepare for Conan V2.0 with
+more opt-in deprecations. 
 
 ## Cross-Build Modeling + Context Modeling  
 
@@ -18,7 +18,7 @@ In
 we implemented cross-build support to Conan largely based on experience with
 cross-build models in build systems. We updated the settings model of `os` and
 `arch` with the new distinct settings of `os_build`/`arch_build` and
-`os_target`/`arch_target`. This new model has received a lot of use both
+`os_target`/`arch_target`. That model has received a lot of use both
 internally and from users which resulted in very valuable feedback from a
 variety of use cases. Based on this feedback, it was clear that the model was
 insufficient and something more robust was needed.
@@ -68,6 +68,10 @@ has been added which produces a markdown (.md) file from the package which
 provides a summary of package information based on the Conan package. This is
 suitable to be rendered by popular web frontends to `git` repositories such as
 Github/Gitlab/Bitbucket where special rendering for `README.md` is commonplace. 
+
+<p class="centered">
+    <a href="https://docs.conan.io/en/latest/reference/generators/markdown.html"><img src="{{ site.url }}/assets/post_images/2020-04-06/conan-markdown_generator.png" align="center" alt="markdown generator sample"/></a>
+</p>
 
 ## Components API for future Generators  
 
@@ -120,6 +124,11 @@ all recipes). Based upon user request, we have now added a new way to affect
 this behavior: "per-package". Each `conanfile.py` can now specify it's own
 default behavior a `default_mode` parameter of the [`SystemPackageTool`
 constructor](https://docs.conan.io/en/latest/reference/conanfile/methods.html#systempackagetool).
+
+Thus, the "new" precedence for controlling this behavior is as follows:  
+1. Global: `CONAN_SYSREQUIRES_MODE` environment variable (if defined)
+2. Per-package: `default_mode` parameter (if defined)
+3. Global: `enabled` program default
 
 ---
 **NOTE** : The parameter is named `default_mode` because it only applies when
