@@ -141,7 +141,7 @@ highlight them all. As always, you can see the complete list in the
 here's a list of honorable mentions:
 
 * Add `tools.cppstd_flag()` to retrieve actual compiler flags for the current setting
-* Shortpaths support for `Cygwin`
+* Short paths support for `Cygwin`
 * More detailed information when binaries are missing
 * Support for mirrors in `tools.get()`
 * Add description field to output of `conan info`
