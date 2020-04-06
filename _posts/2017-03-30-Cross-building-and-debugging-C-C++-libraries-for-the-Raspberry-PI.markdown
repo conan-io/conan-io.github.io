@@ -1,6 +1,6 @@
 ---
 layout: post
-comments: true
+comments: false
 title: "Cross building and debugging C/C++ libraries for the Raspberry PI"
 ---
 

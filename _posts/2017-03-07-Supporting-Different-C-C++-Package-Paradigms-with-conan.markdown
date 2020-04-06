@@ -1,6 +1,6 @@
 ---
 layout: post
-comments: true
+comments: false
 title: "Supporting Different C/C++ Package Paradigms with conan"
 ---
 

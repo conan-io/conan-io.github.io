@@ -1,6 +1,6 @@
 ---
 layout: post
-comments: true
+comments: false
 title: "Building multi-compiler C/C++ applications with conan"
 ---
 

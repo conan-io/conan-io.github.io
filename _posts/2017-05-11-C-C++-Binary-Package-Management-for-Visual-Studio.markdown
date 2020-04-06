@@ -1,6 +1,6 @@
 ---
 layout: post
-comments: true
+comments: false
 title: "C/C++ Binary Package Management for Visual Studio"
 ---
 

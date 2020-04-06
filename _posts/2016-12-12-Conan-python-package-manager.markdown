@@ -1,6 +1,6 @@
 ---
 layout: post
-comments: true
+comments: false
 title: "Conan, a C, C++ and Python package manager"
 ---
 

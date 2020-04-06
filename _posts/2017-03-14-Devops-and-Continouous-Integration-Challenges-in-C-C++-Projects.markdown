@@ -1,6 +1,6 @@
 ---
 layout: post
-comments: true
+comments: false
 title: "DevOps and Continuous Integration challenges in C/C++ projects"
 ---
 
