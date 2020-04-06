@@ -140,7 +140,7 @@ highlight them all. As always, you can see the complete list in the
 [changelog]( https://docs.conan.io/en/latest/changelog.html#mar-2020).  However,
 here's a list of honorable mentions:
 
-* Add `tools.cppstd()` to retrieve actual compiler flags for the current setting
+* Add `tools.cppstd_flag()` to retrieve actual compiler flags for the current setting
 * Shortpaths support for `Cygwin`
 * More detailed information when binaries are missing
 * Support for mirrors in `tools.get()`
