@@ -1,6 +1,6 @@
 ---
 layout: post
-comments: true
+comments: false
 title: "New security measures for conan package manager"
 ---
 

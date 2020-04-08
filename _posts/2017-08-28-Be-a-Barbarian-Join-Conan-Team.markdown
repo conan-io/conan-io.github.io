@@ -1,6 +1,6 @@
 ---
 layout: post
-comments: true
+comments: false
 title: Be a Barbarian. Join the Conan team.
 # other options
 ---

@@ -1,6 +1,6 @@
 ---
 layout: post
-comments: true
+comments: false
 title: "Conan leaps forward and joins JFrog"
 ---
 

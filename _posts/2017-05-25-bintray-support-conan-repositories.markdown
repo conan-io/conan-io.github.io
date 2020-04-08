@@ -1,6 +1,6 @@
 ---
 layout: post
-comments: true
+comments: false
 title: JFrog Bintray Adds Support for Conan C/C++ Repositories and Introduces conan-center Managed Central Repository
 # other options
 ---
