@@ -1,7 +1,7 @@
 ---
 layout: post 
 comments: false 
-title: "Conan 1.25: New cross-build variables, automatic config install, Resumable downloads, New HTML Table"
+title: "Conan 1.25: New Cross-Build Variables, Additional Package Component Modeling, Automatic Config Install, Resumable Downloads, New HTML Table"
 ---
 
 Conan 1.25 follows up the previous release with another wave of progress related
@@ -32,6 +32,75 @@ represent the `build` context. Also, it's not uncommon for cross-building
 cases when you're in one context and need to access the `settings` from the 
 other context. For these cases, `settings_build` and `settings_target` enable 
 access to both contexts under all circumstances.
+
+## Additional Package Component Modeling
+
+In this release, we make another large stride in the journey to provide
+robust modeling of "components" within packages.  The modeling is delcared 
+within the `cpp_info` object during the `package_info()` method.  
+
+The CMake build system was the main driver for this new abstraction. Conan
+has many generators which have continually tried to feed information into 
+CMake in such a way that existing CMake files and user environments don't 
+need to change.  This has been exceptionally hard, and one of the reasons
+was CMake's unique concept of `Target::Component`.  Another reason was the 
+mismatch of naming convention. CMake targets for open-source libraries 
+typically had straighforward names (eg. `OpenSSL`), while Conan generators 
+produce targets with a `CONAN_PKG` prefix to avoid conflict 
+(eg. `CONAN_PKG::OpenSSL`).  
+
+It turns out that a collision is desirable in many scenarios in order to 
+achieve transparent integration for existing `CMakeLists.txt`.
+
+So, with Conan 1.25, Conan packages for open-source libraries can be 
+refactored to produce their targets with their well-known names, and those
+targets can be further defined with their well-known components. This will
+take place in the coming weeks. Meanwhile, we will be refactoring the existing
+CMake generators to evaluate this new `cpp_info` members and generate 
+files based on the new modeling. This should be a big step forward toward the
+goal of more transparent integration with existing `CMakeLists.txt`.
+
+Here are some example `package_info()` methods which demonstrate the new core 
+features: 
+
+**An alternate target name**
+```
+    def package_info(self):
+        self.cpp_info.name = "OpenSSL"
+```
+**A target with two named components**
+```
+    def package_info(self):
+        self.cpp_info.components["crypto"].name = "Crypto"
+        self.cpp_info.components["crypto"].defines = ["DEFINE_CRYPTO=1"]
+        self.cpp_info.components["crypto"].libs = ["libcrypto"]
+        self.cpp_info.components["ssl"].name = "SSL"
+        self.cpp_info.components["ssl"].includedirs = ["include/headers_ssl"]
+        self.cpp_info.components["ssl"].libs = ["libssl"]
+```
+**A dependency from one component to another component in the same package**
+```
+    def package_info(self):
+        self.cpp_info.components["crypto"].name = "Crypto"
+        self.cpp_info.components["ssl"].name = "SSL"
+        self.cpp_info.components["ssl"].requires = ["crypto"]
+```
+**A dependency from a component to different package**
+```
+    def package_info(self):
+        self.cpp_info.components["crypto"].name = "Crypto"
+        self.cpp_info.components["crypto"].requires = ["zlib::zlib"] 
+```
+**A dependency from a component to a single component in different package**
+```
+    def package_info(self):
+        self.cpp_info.components["crypto"].name = "Crypto"
+        self.cpp_info.components["crypto"].requires = ["zlib::single_component"] 
+```
+
+There is even more to this new model, including generator-specific attributes, 
+so please refer to the documentation if you want to understand all the new
+capabilities. 
 
 ## Automatic Config Install and Update  
 
