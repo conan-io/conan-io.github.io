@@ -8,7 +8,7 @@ Conan 1.25 follows up the previous release with another wave of progress related
 to the new cross-build modeling. There are also some brand new features we are
 excited about. Conan has learned to update it's configurations and profiles 
 automatically by enabling the ability to schedule the 
-`conan config install command`. We've also dramatically improved the output of
+`conan config install` command. We've also dramatically improved the output of
  `conan search` when the `--table` flag is passed. We've added support for 
  GCC 9.3, GCC 10, and Intel 9.1 compilers, and a substantial list of bug fixes. 
 
@@ -36,7 +36,7 @@ access to both contexts under all circumstances.
 ## Additional Package Component Modeling
 
 In this release, we make another large stride in the journey to provide
-robust modeling of "components" within packages.  The modeling is delcared 
+robust modeling of "components" within packages.  The modeling is declared
 within the `cpp_info` object during the `package_info()` method.  
 
 The CMake build system was the main driver for this new abstraction. Conan
