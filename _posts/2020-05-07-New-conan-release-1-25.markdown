@@ -12,7 +12,7 @@ automatically by enabling the ability to schedule the
  `conan search` when the `--table` flag is passed. We've added support for 
  GCC 9.3, GCC 10, and Intel 9.1 compilers, and a substantial list of bug fixes. 
 
-## Cross-Build Modeling + Context Modeling : Part 2 of N
+## Cross-Build Modeling + Context Modeling
 
 In the previous release, we introduced the new abstraction of ["contexts"](https://docs.conan.io/en/latest/devtools/build_requires.html#build-and-host-contexts)
 along with some core functionality surrounding them. However, the implementation 
@@ -134,8 +134,7 @@ of downloads of such binaries can become a blocker very easily.  This impact
 can be felt within local developer workflows as well as in CI builds.  
 
 In this release, Conan learned the ability to resume downloads which have 
-failed. Because Conan already had [logic to retry failed transfers]
-(https://docs.conan.io/en/latest/reference/config_files/conan.conf.html?highlight=retry), 
+failed. Because Conan already had [logic to retry failed transfers](https://docs.conan.io/en/latest/reference/config_files/conan.conf.html?highlight=retry), 
 this new resumption logic will engage automatically, and should work very well 
 to mitigate any impact coming from network connectivity issues.
 
@@ -159,12 +158,11 @@ configurable pagination and grouping of sub-settings under a parent column.
 ## Additional Features and Fixes  
 
 As usual, we cannot cover everything in the release in this blog post, so visit 
-the [changelog]( https://docs.conan.io/en/latest/changelog.html#may-2020) for 
+the [changelog](https://docs.conan.io/en/latest/changelog.html#may-2020) for 
 the complete list. 
 
 
 -----------
 <br>
 
-As usual, we hope you enjoy this release, and look forward to [your
-feedback](https://github.com/conan-io/conan/issues). 
+As usual, we hope you enjoy this release, and look forward to [your feedback](https://github.com/conan-io/conan/issues). 
