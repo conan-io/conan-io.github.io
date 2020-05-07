@@ -1,7 +1,7 @@
 ---
 layout: post 
 comments: false 
-title: "Conan 1.25: New Cross-Build Variables, Additional Package Component Modeling, Automatic Config Install, Resumable Downloads, New HTML Table"
+title: "Conan 1.25: New Cross-Build Variables, Additional Package Component Modeling, Automatic Config Install, Resumable Downloads, New Search Table"
 ---
 
 Conan 1.25 follows up the previous release with another wave of progress related
@@ -12,7 +12,7 @@ automatically by enabling the ability to schedule the
  `conan search` when the `--table` flag is passed. We've added support for 
  GCC 9.3, GCC 10, and Intel 9.1 compilers, and a substantial list of bug fixes. 
 
-## Cross-Build Modeling + Context Modeling  
+## Cross-Build Modeling + Context Modeling : Part 2 of N
 
 In the previous release, we introduced the new abstraction of ["contexts"](https://docs.conan.io/en/latest/devtools/build_requires.html#build-and-host-contexts)
 along with some core functionality surrounding them. However, the implementation 
@@ -32,6 +32,14 @@ represent the `build` context. Also, it's not uncommon for cross-building
 cases when you're in one context and need to access the `settings` from the 
 other context. For these cases, `settings_build` and `settings_target` enable 
 access to both contexts under all circumstances.
+
+Here is a graphic to help illustrate the variables and what their values
+would be in different contexts:
+
+<p class="centered">
+    <a href="https://docs.conan.io/en/latest/devtools/build_requires.html#build-and-host-contexts"><img src="{{ site.url }}/assets/post_images/2020-05-07/cross-build-variables.png" align="center" alt="context example diagram"/></a>
+</p>
+
 
 ## Additional Package Component Modeling
 
@@ -119,7 +127,8 @@ passed, `conan config install` will be run again automatically.
 ## Resumable Downloads 
 
 Downloading files is a frequent activity for the Conan client. For a 
-variety of reasons, downloads can fail. This can be frustrating for any user,   
+variety of reasons, downloads can fail. Previously, when a download would fail,
+it would immediately restart from scratch. This can be frustrating for any user,   
 but for those users working with very large binaries, repeated failures
 of downloads of such binaries can become a blocker very easily.  This impact
 can be felt within local developer workflows as well as in CI builds.  
@@ -130,18 +139,18 @@ failed. Because Conan already had [logic to retry failed transfers]
 this new resumption logic will engage automatically, and should work very well 
 to mitigate any impact coming from network connectivity issues.
 
-## New HTML Table
+## New Search Table
 
-Finally, Conan has received a cosmetic upgrade in the form of a new HTML table
+Finally, Conan has received a cosmetic upgrade in the form of a new search table
 output for the Conan Search command. This is part of an ongoing effort to 
 improve overall UX surrounding searching with Conan. Here is a preview of the 
 new table: 
 
 <p class="centered">
-    <img src="{{ site.url }}/assets/post_images/2020-05-04/new-conan-search-table.png" align="center" alt="New Conan Search HTML Table Output"/>
+    <img src="{{ site.url }}/assets/post_images/2020-05-07/new-conan-search-table.png" align="center" alt="New Conan Search HTML Table Output"/>
 </p>
 
-The new HTML table is a vast improvement over the previous.  It provides
+The new HTML table is a vast improvement over the previous version.  It provides
 the most common features one might expect for browsing a datatable with a
 long list of fields.  For example...  sort and filter!  It also provides 
 configurable pagination and grouping of sub-settings under a parent column.
