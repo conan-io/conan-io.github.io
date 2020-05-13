@@ -1,0 +1,20 @@
+<div class="grid" id="searchBar">
+    <div>
+        <div id="search">
+            <form role="search" method="get" action="{{ site.url }}/search" id="searchForm">
+                <!-- <input id="searchString" name="searchString" type="text" placeholder="Search"> -->
+              <div class="site-search-wrapper text-center text-lg-right">
+                <select class="site-search" id="siteSearch" name="search" multiple="multiple">
+                  {% for post in site.posts %}
+
+                  <option value="{{ site.baseurl }}{{ post.url | prepend: site.baseurl }}" > {{ post.title | truncatewords: 5 }}  </option>
+
+                  {% endfor %}
+                </select>
+              </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>

@@ -7,23 +7,8 @@
 
     {% include header.html %}
 
-    {% if page.name != "search.html" %}
-    <div class="grid" id="searchBar">
-        <div>
-            <div id="search">
-                <form role="search" method="get" action="{{ site.url }}/search">
-                    <input id="searchString" name="searchString" type="text">
-                    <input id="searchButton" name="googleSearchButton" type="submit" value="Search">
-                </form>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-
-
     <div class="page-content{% if layout.comments %} content-post{% else %} content-home{% endif %}">
-      <div class="wrapper">
+      <div class="wrapper asfasffasfasfsfas">
         {{ content }}
       </div>
     </div>
@@ -32,6 +17,11 @@
     {% include footer.html %}
 
     <script id="dsq-count-scr" src="//conanstaging.disqus.com/count.js" async></script>
+    <script src="{{ "/js/jquery.min.js" | prepend: site.baseurl }}" ></script>
+    <script src="{{ "/js/select2.min.js" | prepend: site.baseurl }}" ></script>
+    <script src="{{ "/js/scripts.js" | prepend: site.baseurl }}" ></script>
+
+
   </body>
 
 </html>

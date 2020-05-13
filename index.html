@@ -2,24 +2,78 @@
 layout: default
 ---
 
-<div class="home">
+<div class="home full-page-content">
 
-  <h1 class="page-heading">Posts</h1>
+  <div class="container">
+    <div class="row justify-content-between align-items-center pt-5 pb-3">
+      <div class="col-lg-6">
+        <div class="home-title">
+          <h1 class="font-weight-bold">
+            Talking about C, C++, Conan, Binaries and&nbsp;Devops
+          </h1>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="home-search pt-3 pt-lg-0">
 
-  <ul class="post-list">
+          {% include search-bar.html %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="posts-list row py-3">
     {% for post in site.posts %}
-       {% if post.title != "Rust Cargo And Conan Are Friends With Benefits" %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
 
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
+       {% if post.title != "Rust Cargo And Conan Are Friends With Benefits" %}
+
+<!-- {% assign isEven = forloop.index | modulo:2 %} -->
+<!-- {% if isEven==0 %}pl-lg-5{% else %}pr-lg-5{% endif %} -->
+
+       <div class="single-post-list-item-wrapper col-lg-6 pb-3 pt-0 pt-lg-4 mb-lg-3 {% cycle 'odd', 'even' %}">
+         <div class="single-post-list-item">
+           <h2 class="pb-2 pb-lg-4">
+             <a class="post-link d-block post-link-couple" id="post-{{forloop.index}}" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+           </h2>
+
+           <div class="spli-footer d-flex flex-wrap justify-content-between mt-2 mt-lg-3">
+             <div class="post-meta pr-4 d-flex align-items-center">
+               <span class="date">{{ post.date | date: "%b %-d, %Y" }}</span>
+             	 <div class="dot d-block ml-2 mr-2"></div>
+               <span class="reading-time">
+                 {% assign numberOfWords = post.content | number_of_words %}
+                 {% assign readingTime = numberOfWords | divided_by: 180 %}
+                 {% assign readingTime = readingTime | plus: 1 %}
+                 {% if readingTime < 2 %}
+                 {{ readingTime }} minute read
+                 {% else %}
+                 {{ readingTime }} minutes read
+                 {% endif %}
+               </span>
+             </div>
+             <div class="post-share d-flex">
+               <span class="d-inline-block mr-2">Share on: </span>
+               {% include socials.html %}
+             </div>
+           </div>
+
+        </div>
+       </div>
+
       {% endif %}
     {% endfor %}
-  </ul>
+  </div>
 
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+  <div class="row">
+    <div class="col-12">
+      <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+    </div>
+  </div>
+
+</div>
+
+
 
 </div>
