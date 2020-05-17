@@ -11,14 +11,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
-  <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
-
+  
   <link rel="shortcut icon" type="image/png" href="/favicon.png">
   <link rel="stylesheet" href="{{ "/css/bootstrap.min.css" | prepend: site.baseurl }}">
   <link rel="stylesheet" href="{{ "/css/select2.min.css" | prepend: site.baseurl }}">
   <link rel="stylesheet" href="{{ "/css/style.css" | prepend: site.baseurl }}">
-  <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
+  
+  {% if page.url == '/' %}
+  <link rel="canonical" href="https://blog.conan.io">
+  <link rel="alternate" hreflang="en" href="https://blog.conan.io">
+  <title>Conan Blog - All the Latest From the Conan Team </title>
+  <meta name="description" content="Read the latest blog posts from the Conan.io team - version updates, features, use-cases and more for the C/C++ community
+  If possible, please remove H tags from title of blog posts in list, if not please set them to H4 or H5 or H6.">
+  <meta name="title" content="Conan Blog - All the Latest From the Conan Team">
+  {% else %}
+  <link rel="canonical" href="{{ page.url | prepend: site.baseurl | prepend: site.url }}">
+  <link rel="alternate" hreflang="en" href="{{ page.url | prepend: site.baseurl | prepend: site.url }}">
+  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+  <meta name="title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+  {% endif %}
+
+
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}">
 </head>
