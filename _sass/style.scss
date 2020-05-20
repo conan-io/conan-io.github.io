@@ -183,6 +183,9 @@ html {
 
 header#masthead {
   border-bottom: 2px solid $bright-gray;
+  .conan-header-logo {
+    max-height: 85px;
+  }
 }
 
 p {
