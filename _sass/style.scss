@@ -483,7 +483,7 @@ form#searchForm {
     }
   }
   .single-post-list-item {
-    h2 {
+    h2, .conan-h2 {
       font-size: 19px;
       border-bottom: 1px solid $bright-gray;
       line-height: 1.35;
