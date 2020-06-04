@@ -276,6 +276,10 @@ header#masthead, footer#siteFooter {
   }
 }
 
+.wide-container {
+  max-width: 1390px;
+}
+
 .blue {
   color: $blue;
 }
@@ -345,7 +349,6 @@ a.bg-blue {
 }
 
 .full-page-content {
-  max-width: 1206px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -485,13 +488,34 @@ form#searchForm {
   .single-post-list-item {
     h2 {
       font-size: 19px;
-      border-bottom: 1px solid $bright-gray;
+      background: #F9F9F9;
       line-height: 1.35;
+      padding: 14px 19px;
+      border-top: 1px solid #D8D8D8;
+      margin-top: 18px;
       a {
         color: $almost_black;
         &:hover {
           color: $blue;
         }
+      }
+    }
+    .single-post-list-top {
+      font-size: 17px;
+      span.date {
+        color: $blue;  
+      }
+      span.reading-time {
+        color: $gray;
+      }
+      span.dot {
+        font-size: 14px;
+      }
+    }
+    .socials.d-flex {
+      img {
+        width: 21.8px;
+        height: 21.8px;
       }
     }
   }
