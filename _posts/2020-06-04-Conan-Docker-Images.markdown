@@ -32,7 +32,7 @@ Over time and the evolution of compilers, we come to the following scenario:
 
 ![Ubuntu version]({{ site.url }}/assets/ubuntu_versions.png)
 
-As can be seen, for each new version of a compiler, we will possibly have a new distribution and it will be incompatible with its previous versions due to the version of glibc.
+As can be seen, for each new version of a compiler, we will possibly have a new distribution and it will be incompatible with its previous versions due to the version of glibc. To better illustrate this situation, let's use the following example: The ``ninja/1.10.0`` is an installer package, that is, only the executable is packaged, and ``settings.compiler`` is not part of its package ID, therefore, the compiler and its version not taken into account. Consequently, if ``ninja/1.10.0`` package is built, using Ubuntu 18.04 (Bionic), with GCC 8 and glibc version 2.27, it will only be compatible with distributions with the same version of glibc or later, otherwise an error will occur at run time, due to the lack of the library in the requested version. This type of problem is known to the Conan community, and today it is one of the challenges to be solved in the Conan Center Index.
 
 ## Unique treatment
 
