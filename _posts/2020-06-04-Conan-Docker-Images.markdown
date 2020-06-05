@@ -1,7 +1,9 @@
 ---
 layout: post
 comments: false
-title: "Conan Docker Tools - A case of study"
+title: "Conan Docker Tools - A case of study - Conan.io Official Blog"
+description: This post reviews the Conan Docker Tools project, its successes, failures and future.
+tags: docker infrastructure devops
 ---
 
 For a uniform distribution of packages to be possible, Conan needs an infrastructure that allows a homogeneous environment for the construction of packages. This solution has always been thought of since the beginning of the project and has taken on a large proportion throughout its development. In this post we will cover the history, problems and solutions covered in the [Conan Docker Tools](https://github.com/conan-io/conan-docker-tools) project, the Conan appendix focused on Docker images.
@@ -28,13 +30,7 @@ Packages for installers, that is, packages that only contained executables (cmak
 
 Over time and the evolution of compilers, we come to the following scenario:
 
-| Ubuntu | 12.04 |  14.04  | 16.04 | 17.10     | 18.04 | 18.10 | 19.04 | 19.10 | 20.04 |
-|:-------|:-----:|:-------:|:-----:|:---------:|:-----:|:-----:|:-----:|:-----:|:-----:|
-| GCC    |  4.6  |4.8, 4.9 |   5   |  6, 7     |   8   |       |       |   9   |   10  |
-| Clang  |       |         |       | 3.9, 4, 5 | 6, 10 |   7   |   8   |   9   |       |
-| glibc  | 2.15  | 2.19    |  2.23 |  2.26     | 2.27  | 2.28  | 2.29  | 2.30  | 2.31  |
-
-<br/>
+![Ubuntu version]({{ site.url }}/assets/ubuntu_versions.png)
 
 As can be seen, for each new version of a compiler, we will possibly have a new distribution and it will be incompatible with its previous versions due to the version of glibc.
 
