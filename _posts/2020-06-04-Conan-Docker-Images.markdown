@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Conan Docker Tools - A case of study - Conan.io Official Blog"
+title: "Conan Docker Tools - Official docker images for creating C++ packages for ConanCenter"
 description: This post reviews the Conan Docker Tools project, its successes, failures and future.
 tags: docker infrastructure devops
 ---
