@@ -42,7 +42,173 @@ Despite following the evolution of the new versions, the maintenance cost and in
 
 The base image selected was Ubuntu Xenial (16.04), as it is LTS, still supported, and is old enough with glibc 2.23 available. The cost of opting for a single distribution version and supporting all compilers and their versions, is to build them from the sources, thus increasing the time of each work in the CI. How much time? **Around 2x more** than before. Here is a comparison of the current Conan Docker recipe for GCC 9 and the new centralized version:
 
-![Old and New Docker images]({{ site.url }}/assets/post_images/2020-06-17/docker_compare.png)
+<table>
+<tr>
+<th>
+Actual
+</th>
+<th>
+New Version
+</th>
+</tr>
+
+<tr>
+<td style="vertical-align:top">
+<pre>
+{% highlight docker %}
+FROM ubuntu:eoan
+
+...
+
+RUN dpkg --add-architecture i386 \
+    && apt-get -qq update \
+    && apt-get -qq install -y --no-install-recommends \
+       sudo \
+       binutils \
+       wget \
+       git \
+       libc6-dev-i386 \
+       libc6-dev \
+       linux-libc-dev:i386 \
+       g++-9-multilib \
+       ...
+    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 100 \
+    && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-9 100 \
+    && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 100 \
+    && update-alternatives --install /usr/bin/cc cc /usr/bin/gcc-9 100 \
+    && ln -s /usr/include/locale.h /usr/include/xlocale.h \
+    && rm -rf /var/lib/apt/lists/* \
+    && groupadd 1001 -g 1001 \
+    && groupadd 1000 -g 1000 \
+    && groupadd 2000 -g 2000 \
+    && groupadd 999 -g 999 \
+    && useradd -ms /bin/bash conan -g 1001 -G 1000,2000,999 \
+    && printf "conan:conan" | chpasswd \
+    && adduser conan sudo \
+    && printf "conan ALL= NOPASSWD: ALL\\n" >> /etc/sudoers \
+    && wget --no-check-certificate --quiet -O /tmp/pyenv-installer \
+       https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer \
+    && chmod +x /tmp/pyenv-installer \
+    && /tmp/pyenv-installer \
+    && rm /tmp/pyenv-installer \
+    && update-alternatives --install /usr/bin/pyenv pyenv /opt/pyenv/bin/pyenv 100 \
+    && PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON_VERSION} \
+    && pyenv global ${PYTHON_VERSION} \
+    && pip install -q --upgrade --no-cache-dir pip \
+    && pip install -q --no-cache-dir conan conan-package-tools cmake==${CMAKE_VERSION} \
+    && chown -R conan:1001 /opt/pyenv \
+    && find /opt/pyenv -iname __pycache__ -print0 | xargs -0 rm -rf \
+    && update-alternatives --install /usr/bin/python python /opt/pyenv/shims/python 100 \
+    && update-alternatives --install /usr/bin/python3 python3 /opt/pyenv/shims/python3 100 \
+    && update-alternatives --install /usr/bin/pip pip /opt/pyenv/shims/pip 100 \
+    && update-alternatives --install /usr/bin/pip3 pip3 /opt/pyenv/shims/pip3 100
+
+USER conan
+WORKDIR /home/conan
+
+RUN mkdir -p /home/conan/.conan \
+    && printf 'eval "$(pyenv init -)"\n' >> ~/.bashrc \
+    && printf 'eval "$(pyenv virtualenv-init -)"\n' >> ~/.bashrc
+
+{% endhighlight %}
+</pre>
+</td>
+<td style="vertical-align:top">
+<pre>
+{% highlight docker %}
+...
+
+RUN apt-get -qq update \
+    && apt-get -qq install -y --no-install-recommends \
+       sudo \
+       build-essential \
+       wget \
+       git \
+       libc6-dev \
+       gcc \
+       ...
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget --no-check-certificate --quiet -O /opt/gcc-${GCC_VERSION}.tar.gz \
+      https://github.com/gcc-mirror/gcc/archive/releases/gcc-${GCC_VERSION}.tar.gz \
+    && tar zxf /opt/gcc-${GCC_VERSION}.tar.gz -C /opt \
+    && cd /opt/gcc-releases-gcc-${GCC_VERSION} \
+    && ./configure --prefix=/usr/local \
+                   --enable-languages=c,c++ \
+                   --disable-bootstrap \
+                   --with-system-zlib \
+                   --enable-multiarch \
+                   --disable-multilib \
+                   --enable-shared \
+                   --enable-threads=posix \
+                   --build=x86_64-linux-gnu \
+                   --host=x86_64-linux-gnu \
+                   --target=x86_64-linux-gnu \
+                   --without-included-gettext \
+                   --with-tune=generic \
+                   --with-gmp=/usr/local/lib \
+                   --with-mpc=/usr/lib \
+                   --with-mpfr=/usr/lib \
+                   --disable-checking \
+    && make -j "$(nproc)" \
+    && make install-strip \
+    && cd - \
+    && rm -rf /opt/gcc* \
+    && apt-get remove -y gcc gcc-5 \
+    && update-alternatives --install /usr/bin/gcc gcc /usr/local/bin/gcc 100 \
+    && update-alternatives --install /usr/bin/cc cc /usr/local/bin/gcc 100 \
+    && update-alternatives --install /usr/bin/g++ g++ /usr/local/bin/g++ 100 \
+    && update-alternatives --install /usr/bin/c++ c++ /usr/local/bin/g++ 100 \
+    && update-alternatives --install /usr/bin/cpp cpp /usr/local/bin/g++ 100 \
+    && printf "/usr/local/lib64" > /etc/ld.so.conf.d/local-lib64.conf \
+    && ldconfig -v
+
+RUN groupadd 1001 -g 1001 \
+    && groupadd 1000 -g 1000 \
+    && groupadd 2000 -g 2000 \
+    && groupadd 999 -g 999 \
+    && useradd -ms /bin/bash conan -g 1001 -G 1000,2000,999 \
+    && printf "conan:conan" | chpasswd \
+    && adduser conan sudo \
+    && printf "conan ALL= NOPASSWD: ALL\\n" >> /etc/sudoers
+
+RUN wget --no-check-certificate --quiet -O /tmp/pyenv-installer \
+      https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer \
+    && chmod +x /tmp/pyenv-installer \
+    && /tmp/pyenv-installer \
+    && rm /tmp/pyenv-installer \
+    && update-alternatives --install /usr/bin/pyenv pyenv /opt/pyenv/bin/pyenv 100 \
+    && PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON_VERSION} \
+    && pyenv global ${PYTHON_VERSION} \
+    && pip install -q --upgrade --no-cache-dir pip
+
+RUN pip install -q --no-cache-dir conan conan-package-tools cmake==${CMAKE_VERSION} \
+    && chown -R conan:1001 /opt/pyenv \
+    # remove all __pycache__ directories created by pyenv
+    && find /opt/pyenv -iname __pycache__ -print0 | xargs -0 rm -rf \
+    && update-alternatives --install /usr/bin/python python /opt/pyenv/shims/python 100 \
+    && update-alternatives --install /usr/bin/python3 python3 /opt/pyenv/shims/python3 100 \
+    && update-alternatives --install /usr/bin/pip pip /opt/pyenv/shims/pip 100 \
+    && update-alternatives --install /usr/bin/pip3 pip3 /opt/pyenv/shims/pip3 100
+
+USER conan
+WORKDIR /home/conan
+
+RUN mkdir -p /home/conan/.conan \
+    && printf 'eval "$(pyenv init -)"\n' >> ~/.bashrc \
+    && printf 'eval "$(pyenv virtualenv-init -)"\n' >> ~/.bashrc
+
+
+FROM base as release
+
+RUN pip install -U conan conan-package-tools
+
+{% endhighlight %}
+</pre>
+</td>
+</tr>
+</table>
+
 
 The new recipe version is bigger than the current version, because it builds GCC from sources, and uses [multi-stage](https://docs.docker.com/develop/develop-images/multistage-build) builds feature. However, some points were preserved:
 - System packages (APT) are required for basic utilities (e.g. wget, git, ...) and pre-required libraries for building (e.g. libsqlite3 for python)
