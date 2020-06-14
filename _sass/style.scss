@@ -1,5 +1,63 @@
-// hamburger
+
+$gray: #8b8b8b;
+$blue: #7ba7d3;
+$bright-blue: #EEF7FF;
+$dark-blue: #2c4257;
+$green: #40be46;
+$bright-gray: #eaebee;
+$mid-gray: #AFAFAF;
+$almost_black: #2F2E2E;
+$main-font: 'Open Sans', sans-serif;
+$xl: '1399.98px';
+$lg: '1199.98px';
+$md: '991.98px';
+$sm: '767.98px';
+$xs: '575.98px';
+$xxs: '478.98px';
+
+@mixin blue-gradient-bg {
+  background: linear-gradient(254.27deg, $dark-blue 51.72%, $blue 98.82%);
+}
+
 body {
+
+  .sidebar {
+   .promotion-block {
+     width: 323px;
+     height: 314px;
+     max-width: 100%;
+     background-color: #F1F1F1;
+     background-image: url("../assets/img/promotion_banner.png");
+     background-repeat: no-repeat;
+     background-position: center center;
+     background-size: contain;
+     margin-bottom: 10px;
+   }
+   .month-archive {
+     width: 323px;
+     max-width: 100%;
+     background: #F8F8F8;
+     padding: 40px;
+     .month-title {
+      font-weight: 400; 
+     }
+     .month-list {
+      .month-item {
+        &.active {
+          a {color: $blue !important;}
+        }
+        a {
+          color: #959595;
+          line-height: 1.35;
+          &:hover {
+            color: $blue;
+          }
+        }
+      }
+     }
+   } 
+  }
+
   .hamburger--collapse .hamburger-inner {
     top: auto;
     bottom: 0;
@@ -138,24 +196,6 @@ body {
   }
 }
 
-$gray: #8b8b8b;
-$blue: #7ba7d3;
-$bright-blue: #EEF7FF;
-$dark-blue: #2c4257;
-$green: #40be46;
-$bright-gray: #eaebee;
-$mid-gray: #AFAFAF;
-$almost_black: #2F2E2E;
-$main-font: 'Open Sans', sans-serif;
-$xl: '1399.98px';
-$lg: '1199.98px';
-$md: '991.98px';
-$sm: '767.98px';
-$xs: '575.98px';
-$xxs: '478.98px';
-@mixin blue-gradient-bg {
-  background: linear-gradient(254.27deg, $dark-blue 51.72%, $blue 98.82%);
-}
 @media screen and (min-width: $lg) {
   .container,
   .container-lg,
