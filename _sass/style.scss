@@ -17,9 +17,28 @@ $xxs: '478.98px';
 
 @mixin blue-gradient-bg {
   background: linear-gradient(254.27deg, $dark-blue 51.72%, $blue 98.82%);
-}
+} 
 
 body {
+  
+  .pagination {
+    .pagination-nums {
+      position: relative;
+      top: 2px; 
+    }
+    .pagination-link {
+      color: #BCBCBC;
+      &:hover {
+        color: black;
+      }
+    }
+    .pagination-prev {
+      color: black;
+    }
+    .pagination-next {
+      color: black;
+    }
+  }
 
   .sidebar {
    .promotion-block {

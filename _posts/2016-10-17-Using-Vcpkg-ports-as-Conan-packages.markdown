@@ -1,6 +1,6 @@
 ---
 layout: post
-comments: true
+comments: false
 title: "Using Vcpkg ports as Conan packages"
 ---
 

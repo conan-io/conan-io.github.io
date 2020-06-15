@@ -1,6 +1,6 @@
 ---
 layout: post
-comments: true
+comments: false
 title: "Conan virtual environments: Manage your C and C++ tools"
 ---
 

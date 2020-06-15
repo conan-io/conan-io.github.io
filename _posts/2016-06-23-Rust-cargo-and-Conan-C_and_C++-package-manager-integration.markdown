@@ -1,6 +1,6 @@
 ---
 layout: post
-comments: true
+comments: false
 title: "Rust Cargo And Conan C/C++ Package Manager Integration"
 ---
 

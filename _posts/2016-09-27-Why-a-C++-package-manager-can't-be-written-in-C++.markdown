@@ -1,6 +1,6 @@
 ---
 layout: post
-comments: true
+comments: false
 title: "Why a C++ package manager can't be written in C++"
 ---
 

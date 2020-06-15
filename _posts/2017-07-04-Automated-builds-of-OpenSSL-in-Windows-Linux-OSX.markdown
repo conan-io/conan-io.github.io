@@ -1,6 +1,6 @@
 ---
 layout: post
-comments: true
+comments: false
 title: Automated builds of OpenSSL in Windows, Linux and OSX
 # other options
 ---

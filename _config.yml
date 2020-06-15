@@ -5,6 +5,7 @@
 # For technical reasons, this file is *NOT* reloaded automatically when you use
 # 'jekyll serve'. If you change this file, please restart the server process.
 
+plugins: [jekyll-paginate]
 
 # Site settings
 title: Conan C/C++ Package Manager
@@ -15,6 +16,10 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://blog.conan.io" # the base hostname & protocol for your site
 twitter_username: conan_io
 github_username:  conan-io
+paginate: 6
+paginate_path: /page:num/
 
 # Build settings
 markdown: kramdown
+
+#Plugins
