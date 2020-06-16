@@ -180,4 +180,4 @@ Conan Docker Tools, demonstrated that there is a higher price when choosing to u
 
 As an evolution for this use case, a new image, based on a single distribution version, will be used for all compilers and their versions, correcting the extensive variety of images and their multiple versions.
 
-If you are interested to learn about these images, please visit [CDT](https://github.com/conan-io/conan-docker-tools) repository, or if you want to make a comment about this new approach, please, comment on the issue [#205](https://github.com/conan-io/conan-docker-tools/issues/205).
+If you are interested to learn about these images, please visit [conan-docker-tools](https://github.com/conan-io/conan-docker-tools) repository, or if you want to make a comment about this new approach, please, comment on the issue [#205](https://github.com/conan-io/conan-docker-tools/issues/205).
