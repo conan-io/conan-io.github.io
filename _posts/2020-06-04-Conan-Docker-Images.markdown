@@ -16,7 +16,7 @@ So the Conan Docker Tools project was started, supporting a minimum number of Do
 
 ## Evolution
 
-The initial images varied between Ubuntu 14.04 (Trusty) and 17.10 (Artful), depending on the version of GCC and Clang available between distributions. Therefore, it was possible to obtain images for GCC 4.8 to GCC 7, in addition to Clang 3.9 and later. The Python version used was still 2.7 and a good portion of packages that are now distributed in the Conan Center Index, were obtained through the system.
+The initial images varied between Ubuntu 14.04 (Trusty) and 17.10 (Artful), depending on the version of GCC and Clang available between distributions. Therefore, it was possible to obtain images for GCC 4.8 to GCC 7, in addition to Clang 3.9 and later. The Python version used was still 2.7 and a good portion of packages that are now distributed in the [Conan Center Index](https://github.com/conan-io/conan-center-index), were obtained through the system.
 
 Over time, new images have been added, either because a new compiler version is available, or at the request of the community. Images made specifically for cross-compiling (ARM) were produced, in addition to others related to smaller versions of each compiler (up to GCC 6 only).
 
