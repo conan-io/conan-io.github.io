@@ -38,7 +38,7 @@ As can be seen, for each new version of a compiler, we will possibly have a new 
 
 Despite following the evolution of the new versions, the maintenance cost and incompatibility factor increases with each new image, reaching an unsustainable situation. Therefore, it was decided that it would be better to opt for a redesign of the images, using only a common version, old enough to support previous versions of glibc, but new enough to be covered by the distribution support (Long Term Support).
 
-The base image selected was Ubuntu Xenial (16.04), as it is LTS, still supported, and is old enough with glibc 2.23 available. The cost of opting for a single distribution version and supporting all compilers and their versions, is to build them from the sources, thus increasing the time of each work in the CI. How much time? Around 2x more than before. Let's show you a comparison between the current conan docker recipe for GCC 9 and, the new centralized version:
+The base image selected was Ubuntu Xenial (16.04), as it is LTS, still supported, and is old enough with glibc 2.23 available. The cost of opting for a single distribution version and supporting all compilers and their versions, is to build them from the sources, thus increasing the time of each work in the CI. How much time? **Around 2x more** than before. Here is a comparison of the current Conan Docker recipe for GCC 9 and the new centralized version:
 
 <table>
 <tr>
