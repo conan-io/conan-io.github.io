@@ -172,7 +172,7 @@ The new recipe version is bigger than the current version, because it builds GCC
 
 The new version uses multi-stage builds feature for caching the *base* image and reusing it for any new Conan release. That strategy can save time when building Docker images.
 
-Currently, the pull request [#204](https://github.com/conan-io/conan-docker-tools/pull/204) is implementing the new version of a base image, which should compose current and future compilers. In addition, this image should be used to generate Conan packages, in the Conan Center Index.
+Currently, the pull request [#204](https://github.com/conan-io/conan-docker-tools/pull/204) is implementing the new version of a base image, which should compose current and future compilers. In addition, this image will be used in the future to generate Conan packages in the Conan Center Index.
 
 ## Conclusion
 
