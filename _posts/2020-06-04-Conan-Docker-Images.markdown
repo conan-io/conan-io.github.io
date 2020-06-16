@@ -24,7 +24,7 @@ The size of each image was around 900MB, which contained the compiler with suppo
 
 ## Symptoms of a problem
 
-Despite efforts to accompany the release of new versions of the GCC and Clang compilers, it was not possible to use the same distribution, as the same compiler would only be available in a new version, which implied multiple distribution. However, there was a bigger problem, each distribution has a specific version of the glibc library, which is backward compatible only, creating a delicate situation among Conan packages.
+Despite efforts to accompany the release of new versions of the GCC and Clang compilers, it was not possible to use the same distribution, as the same compiler would only be available in a new version, which implied multiple distribution. However, there was a bigger problem, each distribution has a specific version of the glibc library, which is backward compatible only, creating a delicate situation among Conan packages. Such situation has been reported by the community, and it is well explained on the issue [#1321](https://github.com/conan-io/conan-center-index/issues/1321).
 
 Packages for installers, that is, packages that only contained executables (cmake, 7z, ninja, ...) do not take the compiler into account for the package ID, so, regardless of the version of the compiler used, the package should be the same for each platform. This resulted in a problem related to the version of glibc, where it was necessary to build this type of package to the oldest possible version, to avoid errors when using the package. To this end, an image was built based on CentOS 6, associated with GCC 7, where the version of glibc was old enough to be compatible with any other image available in the project.
 
