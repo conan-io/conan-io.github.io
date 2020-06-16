@@ -12,7 +12,7 @@ For a uniform distribution of packages to be possible, Conan needs an infrastruc
 
 With the initiative to establish a standardization for the construction environment used in the CI services, for the Conan Community and Bincrafters projects, the use of Docker was the option of greater acceptance due to the size of images generated and ease of maintenance.
 
-So the Conan Docker Tools project was started, supporting a minimum number of Docker images, all based on Ubuntu, with the standard compiler installed, according to the version of the distribution, in addition to some more support system packages.
+So the **Conan Docker Tools** project was started, supporting a minimum number of Docker images, all based on Ubuntu, with the standard compiler installed, according to the version of the distribution, in addition to some more support system packages.
 
 ## Evolution
 
