@@ -41,6 +41,10 @@ body {
   }
 
   .sidebar {
+   .current-month {
+     font-weight: 500;
+     color: $blue;
+   }
    .promotion-block {
      width: 323px;
      height: 314px;
