@@ -52,7 +52,7 @@ The new recipe version is bigger than the current version, because it builds GCC
 
 These images are totally new, so they will receive a new distinct name to avoid any possible conflict with the previous images. Possibly the name will take only one suffix, for example: *conan-gcc10-cci*. Thus, this will not break the older images.
 
-The new version uses multi-stage builds feature for caching the *base* image and reusing it for any new Conan release. That strategy can save time when building Docker images. The normal time to build a Docker image varies around 15 minutes. However, using the multi-stage and preserving the base layer for future builds, this time should drop to 1 minute only, when it is necessary to update only the version of Conan in the image. This should not only benefit CI job time, but also users and companies that prefer to build locally. The Docker recipe is bigger, but the build time can be dropped, according the target.
+The new version uses the multi-stage builds feature for caching the *base* image and reusing it for any new Conan release. That strategy can save time when building Docker images. The normal time to build a Docker image varies around 15 minutes. However, using the multi-stage and preserving the base layer for future builds, this time should **drop to 1 minute only** for updating the Conan version whenever there is a new release.
 
 Currently, the pull request [#204](https://github.com/conan-io/conan-docker-tools/pull/204) is implementing the new version of a base image, which should compose current and future compilers. In addition, this image will be used in the future to generate Conan packages in the Conan Center Index.
 
