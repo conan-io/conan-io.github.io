@@ -53,6 +53,16 @@ which are used in the `CMakeLists.txt` of the open-source community.  This is th
 culmination of more than a years worth of planning, so it's a very exciting
 release for that reason.  
 
+## New Sub-Command : conan config init
+
+In the past, there have been many comments and suggestions about various
+annoyances when setting up a new `CONAN_HOME` directory from scratch.  `conan
+config install` handles a vast majority of use-cases, but not all of them. There
+are many niche cases where users want to provision a new workspace with all the
+defaults values from the current conan version, and this was particularly
+awkward.  `conan config install` provides a simple and intuitive way to handle
+these cases.  
+
 ## Additional Features and Fixes  
 
 For recipe authors, we have quite a few additional new features.   We have a new
