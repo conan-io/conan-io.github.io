@@ -27,12 +27,16 @@ body {
     }
   }
   
+  .back-to-the-blog-link {
+    color: $blue;
+  }
   .back-to-the-blog-arrow {
     position: relative;
     bottom: 1px;
     display: inline-block;
     margin-right: 3px;
   }
+
 
   .pagination {
     .pagination-nums {
