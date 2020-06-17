@@ -42,19 +42,7 @@ Despite following the evolution of the new versions, the maintenance cost and in
 
 The base image selected was Ubuntu Xenial (16.04), as it is LTS, still supported, and is old enough with glibc 2.23 available. The cost of opting for a single distribution version and supporting all compilers and their versions, is to build them from the sources, thus increasing the time of each work in the CI. How much time? **Around 2x more** than before. Here is a comparison of the current Conan Docker recipe for GCC 9 and the new centralized version:
 
-<table>
-<tr>
-<th>
-Actual
-</th>
-<th>
-New Version
-</th>
-</tr>
-
-<tr>
-<td style="vertical-align:top">
-<pre>
+**Actual Version**
 {% highlight docker %}
 FROM ubuntu:eoan
 
@@ -93,10 +81,9 @@ RUN mkdir -p /home/conan/.conan \
     && printf 'eval "$(pyenv virtualenv-init -)"\n' >> ~/.bashrc
 
 {% endhighlight %}
-</pre>
-</td>
-<td style="vertical-align:top">
-<pre>
+
+
+**New Version**
 {% highlight docker %}
 FROM ubuntu:xenial
 
@@ -159,11 +146,6 @@ FROM base as release
 RUN pip install -U conan conan-package-tools
 
 {% endhighlight %}
-</pre>
-</td>
-</tr>
-</table>
-
 
 The new recipe version is bigger than the current version, because it builds GCC from sources, and uses [multi-stage](https://docs.docker.com/develop/develop-images/multistage-build) builds feature. However, some points were preserved:
 - System packages (APT) are required for basic utilities (e.g. wget, git, ...) and pre-required libraries for building (e.g. libsqlite3 for python)
