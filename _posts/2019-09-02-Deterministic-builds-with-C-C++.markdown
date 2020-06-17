@@ -589,34 +589,34 @@ Deterministic builds are a complex problem highly coupled with the operating sys
 
 ### General info
 
-- [https://www.chromium.org/developers/testing/isolated-testing/deterministic-builds]()
-- [https://reproducible-builds.org/]()
-- [https://wiki.yoctoproject.org/wiki/Reproducible_Builds]()
-- [https://stackoverflow.com/questions/1180852/deterministic-builds-under-windows]()
-- [https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#archive-library-file-format]()
-- [https://devblogs.microsoft.com/oldnewthing/20180103-00/?p=97705]()
-- [https://www.geoffchappell.com/studies/msvc/link/link/options/brepro.htm?tx=37&ts=0,267]()
+- [https://www.chromium.org/developers/testing/isolated-testing/deterministic-builds](https://www.chromium.org/developers/testing/isolated-testing/deterministic-builds)
+- [https://reproducible-builds.org/](https://reproducible-builds.org/)
+- [https://wiki.yoctoproject.org/wiki/Reproducible_Builds](https://wiki.yoctoproject.org/wiki/Reproducible_Builds)
+- [https://stackoverflow.com/questions/1180852/deterministic-builds-under-windows](https://stackoverflow.com/questions/1180852/deterministic-builds-under-windows)
+- [https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#archive-library-file-format](https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#archive-library-file-format)
+- [https://devblogs.microsoft.com/oldnewthing/20180103-00/?p=97705](https://devblogs.microsoft.com/oldnewthing/20180103-00/?p=97705)
+- [https://www.geoffchappell.com/studies/msvc/link/link/options/brepro.htm?tx=37&ts=0,267](https://www.geoffchappell.com/studies/msvc/link/link/options/brepro.htm?tx=37&ts=0,267)
 
 ### Tools
 
 #### Tools for comparing binaries
 
-- [https://diffoscope.org/]()
-- [https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fc]()
+- [https://diffoscope.org/](https://diffoscope.org/)
+- [https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fc](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fc)
 
 #### Tools for patching files
 
-- [https://salsa.debian.org/reproducible-builds/strip-nondeterminism]()
-- [https://github.com/erocarrera/pefile]()
-- [https://github.com/trailofbits/pe-parse]()
-- [https://github.com/smarttechnologies/peparser]()
-- [https://github.com/google/syzygy]()
-- [https://github.com/nh2/ar-timestamp-wiper]()
+- [https://salsa.debian.org/reproducible-builds/strip-nondeterminism](https://salsa.debian.org/reproducible-builds/strip-nondeterminism)
+- [https://github.com/erocarrera/pefile](https://github.com/erocarrera/pefile)
+- [https://github.com/trailofbits/pe-parse](https://github.com/trailofbits/pe-parse)
+- [https://github.com/smarttechnologies/peparser](https://github.com/smarttechnologies/peparser)
+- [https://github.com/google/syzygy](https://github.com/google/syzygy)
+- [https://github.com/nh2/ar-timestamp-wiper](https://github.com/nh2/ar-timestamp-wiper)
 
 #### Tools for analyzing files
 
-- [https://docs.microsoft.com/en-us/cpp/build/reference/dumpbin-reference?view=vs-2019]()
-- [https://sourceware.org/binutils/docs/binutils/readelf.html]()
-- [https://github.com/llvm-mirror/llvm/tree/master/tools]()
-- [https://github.com/lief-project/LIEF]()
+- [https://docs.microsoft.com/en-us/cpp/build/reference/dumpbin-reference?view=vs-2019](https://docs.microsoft.com/en-us/cpp/build/reference/dumpbin-reference?view=vs-2019)
+- [https://sourceware.org/binutils/docs/binutils/readelf.html](https://sourceware.org/binutils/docs/binutils/readelf.html)
+- [https://github.com/llvm-mirror/llvm/tree/master/tools](https://github.com/llvm-mirror/llvm/tree/master/tools)
+- [https://github.com/lief-project/LIEF](https://github.com/lief-project/LIEF)
 
