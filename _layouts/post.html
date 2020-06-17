@@ -5,9 +5,10 @@ comments: true
 
 <div class="container single-post-page-container py-3 py-lg-5">
   <div class="row">
-    <div class="col-12">
+    <div class="col-lg-8">
       <article class="post post-page banner-article" itemscope itemtype="http://schema.org/BlogPosting">
         <header class="post-header">
+          <a href="{{site.url}}" class="mb-3 d-block"> <span class="back-to-the-blog-arrow"> < </span> Back to the blog </a>
         	<h1 class="post-title font-weight-bold" itemprop="name headline">{{ page.title }}</h1>
         	{% if page.subtitle %}
             <h2><small>{{ page.subtitle }}</small></h2>
@@ -76,6 +77,9 @@ comments: true
         {% endif %}
 
       </article>
+    </div>
+    <div class="col-lg-4 d-flex justify-content-end sidebar-holder">
+      {% include sidebar.html %}
     </div>
   </div>
 </div>

@@ -1,7 +1,7 @@
 {% assign wantedMonth = include.monthNumber %}
 {% assign monthText = include.monthText %}
 
-<div class="home full-page-content wide-container">
+<div class="home full-page-content wide-container month-content">
 
  <div class="container wide-container">
   
@@ -42,8 +42,9 @@
         {% assign finalWantedYearInt = wantedYearInt %}
       {% endif %}
 
-      <div class="container">
-        <h2 class="mb-0 pb-0 mt-5">
+      <div class="container mt-5">
+        <a href="{{site.url}}"> <span class="back-to-the-blog-arrow"> < </span> Back to the blog </a>
+        <h2 class="mb-0 pb-0 mt-2">
           {{ monthText }} {{ finalWantedYearInt }}
         </h2>
         <div class="posts-list row py-3">
@@ -115,7 +116,6 @@
   <div class="col-md-3 sidebar-holder text-right pl-5">
     
     {% include sidebar.html %}
-    
 
   </div>
   

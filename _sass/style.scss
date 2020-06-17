@@ -21,6 +21,19 @@ $xxs: '478.98px';
 
 body {
   
+  .month-content {
+    h2 {
+      font-size: 1.6rem;
+    }
+  }
+  
+  .back-to-the-blog-arrow {
+    position: relative;
+    bottom: 1px;
+    display: inline-block;
+    margin-right: 3px;
+  }
+
   .pagination {
     .pagination-nums {
       position: relative;
@@ -40,45 +53,53 @@ body {
     }
   }
 
-  .sidebar {
-   .current-month {
-     font-weight: 500;
-     color: $blue;
-   }
-   .promotion-block {
-     width: 323px;
-     height: 314px;
-     max-width: 100%;
-     background-color: #F1F1F1;
-     background-image: url("../assets/img/promotion_banner.png");
-     background-repeat: no-repeat;
-     background-position: center center;
-     background-size: contain;
-     margin-bottom: 10px;
-   }
-   .month-archive {
-     width: 323px;
-     max-width: 100%;
-     background: #F8F8F8;
-     padding: 40px;
-     .month-title {
-      font-weight: 400; 
-     }
-     .month-list {
-      .month-item {
-        &.active {
-          a {color: $blue !important;}
-        }
-        a {
-          color: #959595;
-          line-height: 1.35;
-          &:hover {
-            color: $blue;
-          }
-        }
+  .sidebar-holder {
+    @media screen and (max-width: 480px) {
+      justify-content: center !important;
+      display: flex !important;
+      padding-left: 15px !important;
+      padding-right: 15px !important;
+    }
+    .sidebar {
+      .current-month {
+        font-weight: 500;
+        color: $blue;
       }
+      .promotion-block {
+        width: 323px;
+        height: 314px;
+        max-width: 100%;
+        background-color: #F1F1F1;
+        background-image: url("../assets/img/promotion_banner.png");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+        margin-bottom: 10px;
+      }
+      .month-archive {
+        width: 323px;
+        max-width: 100%;
+        background: #F8F8F8;
+        padding: 40px;
+        .month-title {
+         font-weight: 400; 
+        }
+        .month-list {
+         .month-item {
+           &.active {
+             a {color: $blue !important;}
+           }
+           a {
+             color: #959595;
+             line-height: 1.35;
+             &:hover {
+               color: $blue;
+             }
+           }
+         }
+        }
+      } 
      }
-   } 
   }
 
   .hamburger--collapse .hamburger-inner {
@@ -755,6 +776,9 @@ footer#siteFooter {
 
     ul.socials {
       list-style: none;
+      @media screen and (max-width: 1100px) {
+        margin-top: 20px;
+      }
     }
   }
 }
