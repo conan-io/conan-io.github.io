@@ -219,27 +219,6 @@ body {
   }
 }
 
-<<<<<<< HEAD
-=======
-$gray: #8b8b8b;
-$blue: #7ba7d3;
-$bright-blue: #EEF7FF;
-$dark-blue: #2c4257;
-$green: #40be46;
-$bright-gray: #eaebee;
-$mid-gray: #AFAFAF;
-$almost_black: #2F2E2E;
-$main-font: 'Open Sans', sans-serif;
-$xl: '1399.98px';
-$lg: '1199.98px';
-$md: '991.98px';
-$sm: '767.98px';
-$xs: '575.98px';
-$xxs: '478.98px';
-@mixin blue-gradient-bg {
-  background: linear-gradient(254.27deg, $dark-blue 51.72%, $blue 98.82%);
-}
->>>>>>> d90192dcfa50f4e46d1656ee27cc93e969291e36
 @media screen and (min-width: $lg) {
   .container,
   .container-lg,
@@ -267,12 +246,6 @@ html {
 
 header#masthead {
   border-bottom: 2px solid $bright-gray;
-<<<<<<< HEAD
-=======
-  .conan-header-logo {
-    max-height: 85px;
-  }
->>>>>>> d90192dcfa50f4e46d1656ee27cc93e969291e36
 }
 
 p {
@@ -366,13 +339,10 @@ header#masthead, footer#siteFooter {
   }
 }
 
-<<<<<<< HEAD
 .wide-container {
   max-width: 1390px;
 }
 
-=======
->>>>>>> d90192dcfa50f4e46d1656ee27cc93e969291e36
 .blue {
   color: $blue;
 }
@@ -442,10 +412,6 @@ a.bg-blue {
 }
 
 .full-page-content {
-<<<<<<< HEAD
-=======
-  max-width: 1206px;
->>>>>>> d90192dcfa50f4e46d1656ee27cc93e969291e36
   margin-left: auto;
   margin-right: auto;
 }
@@ -512,10 +478,7 @@ a.bg-blue {
       width: 341px;
     }
   }
-<<<<<<< HEAD
   ul.select2-selection__rendered {}
-=======
->>>>>>> d90192dcfa50f4e46d1656ee27cc93e969291e36
   li.select2-selection__choice {
     display: none !important;
     background: none !important;
@@ -586,7 +549,6 @@ form#searchForm {
     }
   }
   .single-post-list-item {
-<<<<<<< HEAD
     h2 {
       font-size: 19px;
       background: #F9F9F9;
@@ -594,12 +556,6 @@ form#searchForm {
       padding: 14px 19px;
       border-top: 1px solid #D8D8D8;
       margin-top: 18px;
-=======
-    h2, .conan-h2 {
-      font-size: 19px;
-      border-bottom: 1px solid $bright-gray;
-      line-height: 1.35;
->>>>>>> d90192dcfa50f4e46d1656ee27cc93e969291e36
       a {
         color: $almost_black;
         &:hover {
@@ -607,7 +563,6 @@ form#searchForm {
         }
       }
     }
-<<<<<<< HEAD
     .single-post-list-top {
       font-size: 17px;
       span.date {
@@ -626,8 +581,6 @@ form#searchForm {
         height: 21.8px;
       }
     }
-=======
->>>>>>> d90192dcfa50f4e46d1656ee27cc93e969291e36
   }
 }
 
