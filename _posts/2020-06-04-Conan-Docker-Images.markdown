@@ -50,7 +50,7 @@ The new recipe version is bigger than the current version, because it builds GCC
 - A non-root user (conan) is added and used by default. That's a security recommendation from Docker community.
 - *pyenv-installer* is used to install *pyenv*, thus, the Python version is flexible
 
-These images are totally new, so they will receive a new distinct name to avoid any possible conflict with the previous images. Possibly the name will take only one suffix, for example: *conan-gcc10-cci*. Thus, this will not break the older images.
+These images are totally new, so they will receive a new distinct name to avoid any possible conflict with the previous images. Possibly the name will take only one suffix, for example: *conan-gcc10-cci*. Thus, this will not break the older images and will help with the transition to the new ones.
 
 The new version uses the multi-stage builds feature for caching the *base* image and reusing it for any new Conan release. That strategy can save time when building Docker images. The normal time to build a Docker image varies around 15 minutes. However, using the multi-stage and preserving the base layer for future builds, this time should **drop to 1 minute only** for updating the Conan version whenever there is a new release.
 
