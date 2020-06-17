@@ -1,4 +1,5 @@
 <!-- FOOTER -->
+{% assign conanurl = "https://conan.io" %}
     <footer
       id="siteFooter"
       class="py-5 bg-bright-gray"
@@ -11,10 +12,10 @@
                 <div class="col-sm-3">
                   <h4 class="blue mb-1">GET</h4>
                   <ul>
-                    <li><a href="downloads.html">
+                    <li><a href="{{ conanurl }}/downloads.html">
                         Download
                       </a></li>
-                    <li><a href="https://conan.io/center">
+                    <li><a href="{{ conanurl }}/center">
                         Conan-Center
                       </a></li>
                     <li><a href="https://github.com/conan-io/conan">
@@ -28,7 +29,7 @@
                     <li><a href="https://docs.conan.io/">
                         Docs
                       </a></li>
-                    <li><a href="https://blog.conan.io/">
+                    <li><a href="{{ site.url }}" >
                         Blog
                       </a></li>
                   </ul>
@@ -36,10 +37,10 @@
                 <div class="col-sm-3">
                   <h4 class="blue mb-1">Legal</h4>
                   <ul>
-                    <li><a href="privacy-policy.html">
+                    <li><a href="{{ conanurl }}/privacy-policy.html">
                         Privacy Policy
                       </a></li>
-                    <li><a href="terms-conditions.html">
+                    <li><a href="{{ conanurl }}/terms-conditions.html">
                         Terms
                       </a></li>
                   </ul>
