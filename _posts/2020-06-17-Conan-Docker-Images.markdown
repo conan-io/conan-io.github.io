@@ -30,7 +30,7 @@ Packages for installers, that is, packages that only contained executables (cmak
 
 Over time and the evolution of compilers, we come to the following scenario:
 
-![Ubuntu version]({{ site.url }}/assets/ubuntu_versions.png)
+![Ubuntu version]({{ site.url }}/assets/post_images/2020-06-17/ubuntu_versions.png)
 
 As can be seen, for each new version of a compiler, we will possibly have a new distribution and it will be incompatible with its previous versions due to the version of glibc. To better illustrate this situation, let's use the following example: The ``ninja/1.10.0`` package provides just an executable, so ``settings.compiler`` is not part of its package ID, therefore, the compiler and its version not taken into account. Consequently, if ``ninja/1.10.0`` package is built, using Ubuntu 18.04 (Bionic), with GCC 8 and glibc version 2.27, it will only be compatible with distributions with the same version of glibc or later, otherwise an error will occur at run time, due to the lack of the library in the requested version.
 
@@ -42,7 +42,7 @@ Despite following the evolution of the new versions, the maintenance cost and in
 
 The base image selected was Ubuntu Xenial (16.04), as it is LTS, still supported, and is old enough with glibc 2.23 available. The cost of opting for a single distribution version and supporting all compilers and their versions, is to build them from the sources, thus increasing the time of each work in the CI. How much time? **Around 2x more** than before. Here is a comparison of the current Conan Docker recipe for GCC 9 and the new centralized version:
 
-![Old and New Docker images]({{ site.url }}/assets/docker_compare.png)
+![Old and New Docker images]({{ site.url }}/assets/post_images/2020-06-17/docker_compare.png)
 
 The new recipe version is bigger than the current version, because it builds GCC from sources, and uses [multi-stage](https://docs.docker.com/develop/develop-images/multistage-build) builds feature. However, some points were preserved:
 - System packages (APT) are required for basic utilities (e.g. wget, git, ...) and pre-required libraries for building (e.g. libsqlite3 for python)
