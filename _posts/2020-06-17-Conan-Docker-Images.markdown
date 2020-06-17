@@ -42,7 +42,110 @@ Despite following the evolution of the new versions, the maintenance cost and in
 
 The base image selected was Ubuntu Xenial (16.04), as it is LTS, still supported, and is old enough with glibc 2.23 available. The cost of opting for a single distribution version and supporting all compilers and their versions, is to build them from the sources, thus increasing the time of each work in the CI. How much time? **Around 2x more** than before. Here is a comparison of the current Conan Docker recipe for GCC 9 and the new centralized version:
 
-![Old and New Docker images]({{ site.url }}/assets/post_images/2020-06-17/docker_compare.png)
+**Actual Version**
+{% highlight docker %}
+FROM ubuntu:eoan
+
+...
+
+RUN dpkg --add-architecture i386 \
+    && apt-get -qq update \
+    && apt-get -qq install -y --no-install-recommends \
+       sudo \
+       binutils \
+       wget \
+       git \
+       libc6-dev-i386 \
+       libc6-dev \
+       linux-libc-dev:i386 \
+       g++-9-multilib \
+       ...
+    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 100 \
+    ...
+    && useradd -ms /bin/bash conan -g 1001 -G 1000,2000,999 \
+    ...
+    && wget --no-check-certificate --quiet -O /tmp/pyenv-installer \
+       https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer \
+    && chmod +x /tmp/pyenv-installer \
+    && /tmp/pyenv-installer \
+    && rm /tmp/pyenv-installer \
+    ...
+    && update-alternatives --install /usr/bin/python python /opt/pyenv/shims/python 100 \
+    ...
+
+USER conan
+WORKDIR /home/conan
+
+RUN mkdir -p /home/conan/.conan \
+    && printf 'eval "$(pyenv init -)"\n' >> ~/.bashrc \
+    && printf 'eval "$(pyenv virtualenv-init -)"\n' >> ~/.bashrc
+
+{% endhighlight %}
+
+
+**New Version**
+{% highlight docker %}
+FROM ubuntu:xenial
+
+...
+
+RUN apt-get -qq update \
+    && apt-get -qq install -y --no-install-recommends \
+       sudo \
+       build-essential \
+       wget \
+       git \
+       libc6-dev \
+       gcc \
+       ...
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget --no-check-certificate --quiet -O /opt/gcc-${GCC_VERSION}.tar.gz \
+      https://github.com/gcc-mirror/gcc/archive/releases/gcc-${GCC_VERSION}.tar.gz \
+    && tar zxf /opt/gcc-${GCC_VERSION}.tar.gz -C /opt \
+    && cd /opt/gcc-releases-gcc-${GCC_VERSION} \
+    && ./configure --prefix=/usr/local \
+                   --enable-languages=c,c++ \
+                   --disable-bootstrap \
+                   ...
+    && make -j "$(nproc)" \
+    && make install-strip \
+    && cd - \
+    && rm -rf /opt/gcc* \
+    && apt-get remove -y gcc gcc-5 \
+    && update-alternatives --install /usr/bin/gcc gcc /usr/local/bin/gcc 100 \
+    ...
+
+RUN groupadd 1001 -g 1001 \
+    ...
+    && useradd -ms /bin/bash conan -g 1001 -G 1000,2000,999 \
+    ...
+
+RUN wget --no-check-certificate --quiet -O /tmp/pyenv-installer \
+      https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer \
+    && chmod +x /tmp/pyenv-installer \
+    && /tmp/pyenv-installer \
+    ...
+
+RUN pip install -q --no-cache-dir conan conan-package-tools cmake==${CMAKE_VERSION} \
+    && chown -R conan:1001 /opt/pyenv \
+    && find /opt/pyenv -iname __pycache__ -print0 | xargs -0 rm -rf \
+    && update-alternatives --install /usr/bin/python python /opt/pyenv/shims/python 100 \
+    ...
+
+USER conan
+WORKDIR /home/conan
+
+RUN mkdir -p /home/conan/.conan \
+    && printf 'eval "$(pyenv init -)"\n' >> ~/.bashrc \
+    && printf 'eval "$(pyenv virtualenv-init -)"\n' >> ~/.bashrc
+
+
+FROM base as release
+
+RUN pip install -U conan conan-package-tools
+
+{% endhighlight %}
 
 The new recipe version is bigger than the current version, because it builds GCC from sources, and uses [multi-stage](https://docs.docker.com/develop/develop-images/multistage-build) builds feature. However, some points were preserved:
 - System packages (APT) are required for basic utilities (e.g. wget, git, ...) and pre-required libraries for building (e.g. libsqlite3 for python)
