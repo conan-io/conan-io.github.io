@@ -4,9 +4,6 @@ comments: false
 title: "Free online Conan hands-on training: Essentials, Advanced and CI/CD"
 ---
 
-**UPDATE 04-June-2020**: Due to the very high demand, we are opening new training sessions for June again. Go to [ConanDays](https://conandays.conan.io/) to reserve your seat.
-
-
 [Conan C/C++ Package Manager](https://conan.io) is a powerful tool with many features that give a lot of power to users, even for the most challenging enterprise environments. While the Conan documentation is a solid reference to get started, it takes some time to master it. Are you interested in Conan and need help to onboard your team?
 
 When we had to postpone [ConanDays](https://conandays.conan.io/) due to the Covid-19, we were disappointed. We had been  very excited to be able to meet with many Conan users and the community and that was no longer happening. Nonetheless, one of the things that made us very happy was the fact that the training sessions we offered had been sold-out long before the event, and companies not coming to ConanDays began asking for them.
