@@ -52,7 +52,6 @@ function inPagePostsMatchRowsHeight($, numberOfElementsInRow) {
       couple.push($(this));
     }
     if (postsCounter === numberOfElementsInRow) {
-      console.log(marker);
       cMatchHeight($, couple);
       couple = [];
       marker++;
