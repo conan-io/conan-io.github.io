@@ -5,7 +5,7 @@ source caching, and transparent cmake integration"
 
 Conan 1.26 has been released. Without a doubt, the most substantial feature in
 this release is the introduction of three new recipe methods!  The first and
-most significant one is the toolchain() method, so lets talk about that first.
+most significant one is the `toolchain()` method, so let's talk about that first.
 
 ## New Method: toolchain()
 
