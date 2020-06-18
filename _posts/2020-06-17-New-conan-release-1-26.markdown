@@ -56,7 +56,7 @@ release for that reason.
 ## New Sub-Command : conan config init
 
 In the past, there have been many comments and suggestions about various
-annoyances when setting up a new `CONAN_HOME` directory from scratch.  `conan
+annoyances when setting up a new conan home directory from scratch.  `conan
 config install` handles a vast majority of use-cases, but not all of them. There
 are many niche cases where users want to provision a new workspace with all the
 defaults values from the current conan version, and this was particularly
