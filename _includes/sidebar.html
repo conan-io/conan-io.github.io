@@ -21,11 +21,9 @@
       {% assign currentDate = post.date | date: "%B %Y" %}
       {% assign currentMonth = post.date | date: "%m" %}
       
-      
-      
-      
-      {% if currentDate != date and dateCounter < 12 %}
+      {% if currentDate != date and dateCounter < 13 %}
         
+        {% if dateCounter != 0 %}
         <li class="month-item" id="y{{currentDate}}">
           {% if page.url contains currentMonth and page.url contains 'month-archive' %}
             <span class="current-month">
@@ -35,6 +33,8 @@
             <a href="{{ site.baseurl }}/month-archive/month-{{ currentMonth }}.html">{{ currentDate }} </a>
           {% endif %}
         </li>
+        {% endif %}
+        
         {% assign date = currentDate %} 
         {% assign dateCounter = dateCounter | plus:1 %}
       {% endif %}
