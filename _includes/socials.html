@@ -1,0 +1,54 @@
+<ul class="socials d-flex mb-0 pl-0">
+  <!-- TWITTER -->
+  <li>
+    <a
+      class="mr-2"
+      href="https://twitter.com/intent/tweet?text={{ post.title | url_encode }} {{ site.url | url_encode }}{{ post.url | url_encode }}"
+    >
+      <img
+        class="lazy"
+        src="{{site.baseurl}}/assets/img/social/twitter.svg"
+        alt="twitter"
+      >
+    </a>
+  </li>
+  <!-- FACEBOOK -->
+  <li>
+    <a
+      class="mr-2"
+      href="https://www.facebook.com/sharer/sharer.php?u={{ 'https://blog.conan.io/' | url_encode }}{{ post.url | url_encode }}"
+    >
+      <img
+        class="lazy"
+        src="{{site.baseurl}}/assets/img/social/facebook.svg"
+        alt="facebook"
+      >
+    </a>
+  </li>
+  <!-- SLACK -->
+  <li>
+    <a
+      class="mr-2"
+      href="https://cpplang.​slack.​com/?id=conan"
+    >
+      <img
+        class="lazy"
+        src="{{site.baseurl}}/assets/img/social/slack.svg"
+        alt="slack"
+      >
+    </a>
+  </li>
+  <!-- GITHUB -->
+  <li>
+    <a
+      class="mr-2"
+      href="https://github.com/conan-io"
+    >
+      <img
+        class="lazy"
+        src="{{site.baseurl}}/assets/img/social/github.svg"
+        alt="github"
+      >
+    </a>
+  </li>
+</ul>

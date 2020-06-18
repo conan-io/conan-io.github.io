@@ -4,14 +4,77 @@
 
 <!-- End Google Tag Manager (noscript) -->
 
-<header class="site-header"  style="background-color:#508BC5;">
+<!-- HEADER -->
+    <header id="masthead">
+      <div class="container">
+        <div class="row d-flex justify-content-between">
+          <!-- LOGO -->
+          <a
+            href="https://conan.io"
+            class="col-10 col-lg-4 d-block"
+          >
+            <img
+              src="{{ site.baseurl }}/assets/logo-conan.svg"
+              class=""
+              alt="JFrog Conan"
+            />
+          </a>
+          <!-- HAMBURGER -->
+          <div class="col-2 d-flex d-lg-none align-items-center justify-content-end">
+            <button
+              class="d-block d-lg-none hamburger hamburger--collapse text-right"
+              type="button"
+            >
+              <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+              </span>
+            </button>
+          </div>
 
-  <div class="wrapper" id="conan_logo">
+          <div class="col-lg-6 text-right d-flex align-items-center justify-content-end">
+            <!-- HEADER NAV -->
+            <nav
+              class="header-nav align-items-center d-lg-flex"
+              id="headerNav"
+            >
+              <!-- CONAN CENTER -->
+              <a
+                href="https://conan.io/center/"
+                class="btn bg-blue white"
+              >
+                <img
+                  src="{{ site.url }}/assets/img/small-search.png"
+                  alt="Search"
+                /> Conan-Center
+              </a>
+              <!-- DOCS -->
+              <a
+                href="https://docs.conan.io/"
+                class="btn bg-bright-gray black"
+              >
+                Docs
+              </a>
 
-    <a href="https://conan.io" class="logo"><img src="/assets/jfrog_conan_logo.png" height="50"></a>
-  </div>
-  <div class="wrapper" id="blog_title">
-    <a class="site-title" href="{{ site.baseurl }}/">A blog about C, C++, Conan, Binaries and Devops</a>
-  </div>
-
-</header>
+              <!-- BLOG -->
+              <a
+                href="{{ site.url }}"
+                class="btn bg-bright-gray black"
+              >
+                Blog
+              </a>
+              
+              <!-- GITHUB -->
+              <a
+                href="https://github.com/conan-io/conan"
+                class="btn bg-bright-gray"
+              >
+                <img
+                  src="{{ site.url }}/assets/img/small_github.png"
+                  alt="Github"
+                />
+              </a>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>

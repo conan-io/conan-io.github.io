@@ -2,47 +2,84 @@
 layout: default
 comments: true
 ---
-<article class="post banner-article" itemscope itemtype="http://schema.org/BlogPosting">
-  <header class="post-header">
-	<h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
-	{% if page.subtitle %}
-    <h1><small>{{ page.subtitle }}</small></h1>
-    {% endif %}
-    <p class="post-meta"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %} • <span itemprop="time-to-read" itemscope itemtype="http://schema.org/Text"><span itemprop="time-to-read">{% include reading-time.html %}</span></span></p>
 
-    {% include share-buttons.html %}
-  </header>
+<div class="container single-post-page-container py-3 py-lg-5">
+  <div class="row">
+    <div class="col-lg-8">
+      <article class="post post-page banner-article" itemscope itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+          <a href="{{site.url}}" class="mb-3 d-block"> <span class="back-to-the-blog-arrow"> < </span> Back to the blog </a>
+        	<h1 class="post-title font-weight-bold" itemprop="name headline">{{ page.title }}</h1>
+        	{% if page.subtitle %}
+            <h2><small>{{ page.subtitle }}</small></h2>
+          {% endif %}
+          <div class="spli-footer d-flex flex-wrap justify-content-between mt-2 mt-lg-3">
+          <div class="post-meta pr-4 d-flex align-items-center">
+            <span class="date">{{ page.date | date: "%b %-d, %Y" }}</span>
 
-  <div class="post-content" itemprop="articleBody">
-    {{ content }}
+
+            {% if page.author %}
+            <div class="dot d-block ml-2 mr-2"></div>
+            <span class="author"> {{ page.author }} </span>
+            {% endif %}
+
+            <div class="dot d-block ml-2 mr-2"></div>
+
+            <span class="reading-time">
+              {% assign numberOfWords = page.content | number_of_words %}
+              {% assign readingTime   = numberOfWords | divided_by: 180 %}
+              {% assign readingTime   = readingTime | plus: 1 %}
+              {% if readingTime < 2 %}
+              {{ readingTime }} minute read
+              {% else %}
+              {{ readingTime }} minutes read
+              {% endif %}
+            </span>
+
+          </div>
+          <div class="post-share d-flex">
+            <span class="d-inline-block mr-2">Share on: </span>
+            {% include socials.html %}
+          </div>
+        </div>
+        </header>
+
+        <div class="post-content pt-4 pt-lg-5" itemprop="articleBody">
+          {{ content }}
+        </div>
+        {% if page.comments %}
+      	<div id="disqus_thread"></div>
+
+      	<script>
+      	    /**
+      	     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+      	     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+      	     */
+      	    /*
+      	    var disqus_config = function () {
+      		this.page.url = {{ page.url }};  // Replace PAGE_URL with your page's canonical URL variable
+      		this.page.identifier = {{ page.url }}; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+      	    };
+      	    */
+      	    (function() {  // DON'T EDIT BELOW THIS LINE
+      		var d = document, s = d.createElement('script');
+
+      		s.src = '//conancpp.disqus.com/embed.js';
+
+      		s.setAttribute('data-timestamp', +new Date());
+      		(d.head || d.body).appendChild(s);
+      	    })();
+      	</script>
+              <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+        {% endif %}
+
+      </article>
+    </div>
+    <div class="col-lg-4 d-flex justify-content-end sidebar-holder">
+      {% include sidebar.html %}
+    </div>
   </div>
-  {% if page.comments %}
-	<div id="disqus_thread"></div>
-
-	<script>
-	    /**
-	     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-	     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
-	     */
-	    /*
-	    var disqus_config = function () {
-		this.page.url = {{ page.url }};  // Replace PAGE_URL with your page's canonical URL variable
-		this.page.identifier = {{ page.url }}; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-	    };
-	    */
-	    (function() {  // DON'T EDIT BELOW THIS LINE
-		var d = document, s = d.createElement('script');
-
-		s.src = '//conancpp.disqus.com/embed.js';
-
-		s.setAttribute('data-timestamp', +new Date());
-		(d.head || d.body).appendChild(s);
-	    })();
-	</script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-
-
-
-  {% endif %}
-
-</article>
+</div>
