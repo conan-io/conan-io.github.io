@@ -1,0 +1,46 @@
+<!-- PROMOTION BANNER -->
+<div class="sidebar">
+  
+  {% if 2==3 %}
+  <a href="https://exampleurl.com" class="d-block promotion-block d-flex align-items-center justify-content-center" target="_blank">
+    <!-- PROMOTIONAL BANNER BACKGROUND, just replace /assets/img/promotion_banner.png with the desired image-->
+  </a>
+  {% endif %}
+  <!-- MONTHS ARCHIVES -->
+  <div class="month-archive text-left">
+    
+    <div class="month-title pb-4">
+      Archives
+    </div>
+    
+    <ul class="month-list list-unstyled">
+      
+      
+      {% assign dateCounter = 0 %}
+      {% for post in site.posts %}
+      {% assign currentDate = post.date | date: "%B %Y" %}
+      {% assign currentMonth = post.date | date: "%m" %}
+      
+      {% if currentDate != date and dateCounter < 13 %}
+        
+        {% if dateCounter != 0 %}
+        <li class="month-item" id="y{{currentDate}}">
+          {% if page.url contains currentMonth and page.url contains 'month-archive' %}
+            <span class="current-month">
+              {{ currentDate }}
+            </span>
+          {% else %}
+            <a href="{{ site.baseurl }}/month-archive/month-{{ currentMonth }}.html">{{ currentDate }} </a>
+          {% endif %}
+        </li>
+        {% endif %}
+        
+        {% assign date = currentDate %} 
+        {% assign dateCounter = dateCounter | plus:1 %}
+      {% endif %}
+    {% endfor %}
+
+    </ul>
+
+  </div>
+</div>
