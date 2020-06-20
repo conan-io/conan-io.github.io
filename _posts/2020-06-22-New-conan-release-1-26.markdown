@@ -71,17 +71,14 @@ feature, along with the customizable target name feature in Conan, enable all
 the targets align with existing target names, references, and interdependencies
 which are used in the `CMakeLists.txt` of the open-source community.  This is
 the culmination of more than a years worth of planning, so it's a very exciting
-release for that reason.  
-
-Below is a graphic demonstrating each of the nuanced
+release for that reason.  Here is a graphic demonstrating each of the nuanced
 dependencies which can exist among projects and components. In this graphic:
 
 * `App1` depends directly on the full target `world/0.0.1`
 * `App2` depends directly on the `World::Worldall` component of `world/0.0.1`
 * The `World::Worldall` component depends directly on `World::Helloworld` component
 * The `World::Worldall` component depends directly on `Greetings::Bye` component
-* The `World::Helloworld` component depends directly on the `Greetings::Hello`
-  component
+* The `World::Helloworld` component depends directly on the `Greetings::Hello` component
 * Nothing depends directly on the `greetings/0.0.1` target
 
 ![CMake Components]({{ site.url }}/assets/post_images/2020-06-19/cmake_components_graphic.png)
