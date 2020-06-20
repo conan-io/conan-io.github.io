@@ -92,7 +92,7 @@ these cases.
 One piece of feedback we've recieved from multiple users is that MSBuild lacks
 anything resembling the "targets" abstraction found in CMake. The variables
 produced in the current Visual Studio generators are equivalent to global
-variables in CMake. So, when importing `conanbuildinfo.prop` into a Visual
+variables in CMake. So, when importing `conanbuildinfo.props` into a Visual
 Studio project, all dependencies get used for all builds in the project. This
 can be problematic for a number of reasons.
 
