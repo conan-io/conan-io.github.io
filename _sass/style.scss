@@ -274,11 +274,15 @@ header#masthead {
 }
 
 p {
-  font-weight: 300;
+  font-weight: 300; 
 }
 
 ul {
   list-style: none;
+}
+
+.post-content ul {
+  list-style: disc;
 }
 
 img {
