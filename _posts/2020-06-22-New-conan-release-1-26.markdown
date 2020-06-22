@@ -84,7 +84,7 @@ dependencies which can exist among projects and components. In this graphic:
   component
 * Nothing depends directly on the `greetings/0.0.1` target
 
-![CMake Components]({{ site.url }}/assets/post_images/2020-06-19/cmake_components_graphic.png)
+![CMake Components]({{ site.url }}/assets/post_images/2020-06-22/cmake_components_graphic.png)
 
 Of note, there is a related CMake generator called
 [cmake_find_package_multi](https://docs.conan.io/en/latest/reference/generators/cmake_find_package_multi.html).
