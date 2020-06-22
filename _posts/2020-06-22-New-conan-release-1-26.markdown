@@ -110,16 +110,17 @@ variables in CMake. So, when importing `conanbuildinfo.props` into a Visual
 Studio project, all dependencies get used for all builds in the project. This
 can be problematic for a number of reasons.
 
-The new [MSBuild Generator](https://docs.conan.io/en/latest/reference/generators/msbuild.html)
-intends to offer a number of advantages over the current Visual Studio generators.  
-First, the name of the generator matches the name of the build system which is
-just a consistency improvement.  More importantly, it uses a completely
-different structure in the way the dependency information is produced in the
-generated .props files. This makes it possible for users to selectively import
-dependencies on a per-project basis . As we intend for this generator to become
-the new standard for MSBuild projects, we are very interested in user feedback.
-Please reach out and let us know what you think if you have the opportunity to
-try it out.
+The new [MSBuild
+Generator](https://docs.conan.io/en/latest/reference/generators/msbuild.html)
+intends to offer a number of advantages over the current Visual Studio
+generators. First, the name of the generator matches the name of the build
+system which is just a consistency improvement.  More importantly, it uses a
+completely different structure in the way the dependency information is produced
+in the generated .props files. This makes it possible for users to selectively
+import dependencies on a per-project basis . As we intend for this generator to
+become the new standard for MSBuild projects, we are very interested in user
+feedback. Please reach out and let us know what you think if you have the
+opportunity to try it out.
 
 ## Additional Features and Fixes  
 
