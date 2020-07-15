@@ -18,9 +18,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="stylesheet" href="{{ "/css/bootstrap.min.css" | prepend: site.baseurl }}">
   <link rel="stylesheet" href="{{ "/css/select2.min.css" | prepend: site.baseurl }}">
   <link rel="stylesheet" href="{{ "/css/style.css" | prepend: site.baseurl }}">
+  <meta name="title" content="{{ page.title }}">
   {% if page.ishomepage == true %}
-    <link rel="canonical" href="{{ "https://blog.conan.io" }}">
-    <meta name="description" content="Conan C/C++ Package Manager Official Blog">
+    <link rel="canonical" href="{{ page.canonical }}">
+    <meta name="description" content="{{ page.description }}">
   {% else %}
     <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">

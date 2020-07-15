@@ -7,7 +7,7 @@
                 <select class="site-search" id="siteSearch" name="search" multiple="multiple">
                   {% for post in site.posts %}
 
-                  <option value="{{ site.baseurl }}{{ post.url | prepend: site.baseurl }}" > {{ post.title | truncatewords: 5 }}  </option>
+                  <option value="{{ site.baseurl }}{{ post.url | prepend: site.baseurl }}" > {{ post.title }}  </option>
 
                   {% endfor %}
                 </select>
