@@ -549,7 +549,7 @@ a.bg-blue {
   .select2-results__option {
     padding-left: 16px;
     padding-right: 16px;
-    height: 42px;
+    height: 82px;
     display: -webkit-flex;
     display: -ms-flex;
     display: flex;
@@ -586,7 +586,7 @@ form#searchForm {
     }
   }
   .single-post-list-item {
-    h2 {
+    .h2 {
       font-size: 19px;
       background: #F9F9F9;
       line-height: 1.35;
