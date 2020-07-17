@@ -88,4 +88,4 @@ As usual, we cannot cover everything in the release in this blog post, so visit
 the [changelog](https://docs.conan.io/en/latest/changelog.html) for the
 complete list.  
 
-We are looking forward to hearing your feedback. Please upgrade and submit your questions to https://github.com/conan-io/conan/issues. Enjoy Conan 1.27!
+We are looking forward to hearing your feedback. Please upgrade and submit your questions to [Github issues](https://github.com/conan-io/conan/issues). Enjoy Conan 1.27!
