@@ -19,23 +19,23 @@ Conan provides some very popular extension mechanisms: custom settings, python-r
 
 The Conan 1.27 release introduce a new one: the possibility of customizing and providing your [own templates for some commands](https://docs.conan.io/en/latest/extending/template_system.html)
 
-``bash
+```bash
    $ conan new --template=<folder>
-``
+```
 
 This will allow using templates for all the files involved in `conan new`, not only the `conanfile.py`.
 
-``bash
+```bash
    $ conan search <pkg-ref> --table=file.html
-``
+```
 
 The HTML template used to create the final file will be the one (if existing) in `<cache>/templates/output/search_table.html`. 
 
 Likewise, the command:
 
-``bash
+```bash
    $ conan info <pkg-ref|path> --graph=file.html
-``
+```
 
 Will use the HTML template in `<cache>/templates/output/info_graph.html`. With these templates you can customize the output files, brand them with your company logo, visualize things differently, etc.
 
@@ -46,26 +46,26 @@ The templates are a powerful mechanism, and it is possible that we consider in t
 
 Conan 1.27 has added a highly requested feature: the possibility of declaring a required Conan version directly in conan.conf. This allows teams to force all their members and ensure all the machines using Conan upgrade to the desired Conan version. The feature is simple, all is necessary is to add
 
-``
+```
    required_conan_version = >=1.26
-``
+```
 
 In the conan.conf file.
 
 The `conan config install` command has also learned 2 new arguments:
 
-``bash
+```bash
    $ conan config install --list
-``
+```
 
 
 This will list all the installed configurations, the ones that will be installed again if `conan config install` without arguments is called.
 
 As sometimes some of the installed configurations might not be available anymore, or might be broken, it is also possible to remove those configurations from the stored list with:
 
-``bash
+```bash
    $ conan config install --remove=index
-``
+```
 
 
 `index` being the integer number provided by `conan config install --list`.
