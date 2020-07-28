@@ -23,7 +23,7 @@ The feedback that we have received, especially contributions, bug reports, featu
 
 The Conan 2.0 Tribe is a technical group of experienced and active Conan users and contributors, willing to provide quick and consistent feedback for defining the next major Conan 2.0 version over an extended period of time (several months). The tribe will kick off the 1st of September 2020, and first Conan 2.0-alpha releases are expected end of 2020
 
-The tribe will be always fully remote and distributed. The purpose of this tribe is to give feedback and to answer questions that will be of critical importance in the new design of Conan 2.0 (see the [Github milestone](https://github.com/conan-io/conan/milestone/59)). There are many things that there is already enough consistent feedback to take action, but there are still many open questions which would need an answer *before* starting working on them. A few examples:
+The tribe will be always fully remote and distributed. The purpose of this tribe is to give feedback and to answer questions that will be of critical importance in the new design of Conan 2.0 (see the [Github milestone](https://github.com/conan-io/conan/milestone/59)). There are many things with enough consistent feedback to take action already, but there are still many open questions that would need an answer *before* starting working on them. A few examples:
 
 - What should be the default ``package_id_mode`` in Conan 2.0?
 - Would it be ok if build-requirements were always resolved and be part of the graph?
