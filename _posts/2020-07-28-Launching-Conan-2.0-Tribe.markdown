@@ -31,7 +31,7 @@ The tribe will be always fully remote and distributed. The purpose of this tribe
 - Which is the minimum CMake version that we should support? And the minimum Python version?
 - Can multi-config (``self.cpp_info.debug`` and ``self.cpp_info.release``) packages be deprecated?
 
-These questions don’t have a "correct" answer, and the only way to do the right steps is to get good quality feedback, that is somewhat statistically representative of the Conan users base, and get it in relatively short periods of time.
+These questions don’t have a "correct" answer. The only way to do the right steps is to get statistically representative and good quality feedback from Conan users base in relatively short periods.
 
 
 ## Joining the Tribe
