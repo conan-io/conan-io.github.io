@@ -9,7 +9,7 @@ title: "Join the new Conan 2.0 Tribe"
 Conan continues to experience incredible growth and adoption. After our own conference "ConanDays - Gathering the Tribes" in Madrid was postponed, we decided to take the planned training online. We have had to repeat the sessions multiple times, even in the same week for the same training, and hold separate  sessions in both US and EMEA/APAC time zones. Every training session we’ve announced has been sold out within a few days, and we currently have a long list of outstanding requests from different companies who missed out on past sessions and to get seats in future sessions.
 
 <p class="centered">
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLScJSLSpWQhvipRLBNOazFv8CBpwtjaJ7S5gCrbMcDUzXb2amg/viewform?usp=sf_link"
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScJSLSpWQhvipRLBNOazFv8CBpwtjaJ7S5gCrbMcDUzXb2amg/viewform?usp=sf_link">
         <img src="{{ site.url }}/assets/post_images/2020-07-28/Conan2.0Tribe.png" align="center" alt="Join the Conan 2.0 Tribe"/>
     </a>
 </p>
