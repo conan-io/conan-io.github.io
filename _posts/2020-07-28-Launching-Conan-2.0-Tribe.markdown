@@ -1,12 +1,18 @@
 ---
 layout: post 
 comments: false 
-title: "Launching the Conan 2.0 Tribe"
+title: "Join the new Conan 2.0 Tribe"
 ---
 
 ## Launching the Conan 2.0 Tribe
 
-Conan continues to experience incredible growth and adoption. After our own conference "ConanDays" in Madrid was postponed, we decided to take the planned training online. We have had to repeat the sessions multiple times, even in the same week for the same training, and hold separate  sessions in both US and EMEA/APAC time zones. Every training session we’ve announced has been sold out within a few days, and we currently have a long list of outstanding requests from different companies who missed out on past sessions and to get seats in future sessions.
+Conan continues to experience incredible growth and adoption. After our own conference "ConanDays - Gathering the Tribes" in Madrid was postponed, we decided to take the planned training online. We have had to repeat the sessions multiple times, even in the same week for the same training, and hold separate  sessions in both US and EMEA/APAC time zones. Every training session we’ve announced has been sold out within a few days, and we currently have a long list of outstanding requests from different companies who missed out on past sessions and to get seats in future sessions.
+
+<p class="centered">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScJSLSpWQhvipRLBNOazFv8CBpwtjaJ7S5gCrbMcDUzXb2amg/viewform?usp=sf_link"
+        <img src="{{ site.url }}/assets/post_images/2020-07-28/Conan2.0Tribe.png" align="center" alt="Join the Conan 2.0 Tribe"/>
+    </a>
+</p>
 
 At the same time, the new ConanCenter repository [conan-center-index](https://github.com/conan-io/conan-center-index) has processed more than 1200 pull requests from contributors since it opened early this year, contributing more than 430 new packages (multiple versions per package, and hundreds of binaries per version). This is 20x faster than it was last year. Millions of packages are downloaded from ConanCenter every month. 
 
@@ -71,4 +77,4 @@ The tribe will play an important role in all alpha and beta testing, getting spe
 
 As usual, this is our initial proposal. Nothing is written in stone and surely we will learn as we move forward. The only important thing is: let's do it as always, together.
 
-Do you want to join the Conan 2.0 Tribe? Submit [your application to this form](https://docs.google.com/forms/d/e/1FAIpQLScJSLSpWQhvipRLBNOazFv8CBpwtjaJ7S5gCrbMcDUzXb2amg/viewform?usp=sf_link) and if you have any questions, write to us info@conan.io.
+Do you want to join the Conan 2.0 Tribe? Submit [your application to this form](https://docs.google.com/forms/d/e/1FAIpQLScJSLSpWQhvipRLBNOazFv8CBpwtjaJ7S5gCrbMcDUzXb2amg/viewform?usp=sf_link) and if you have any questions, write to us to [info@conan.io](mailto:info@conan.io).
