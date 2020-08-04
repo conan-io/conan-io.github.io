@@ -1,9 +1,9 @@
 ---
 layout: post 
 comments: false 
-title: "Conan 1.28: Lockfile improvements, New attributes: 
-provides, required_conan_version and recipe_folder, Improved Clang support on Windows, 
-Support components in pkg_config generator, Define generator filenames"
+title: "Conan 1.28: Lockfile improvements, Four attributes, Improved Clang
+support on Windows, Support components in pkg_config generator, Define generator
+filenames"
 ---
 
 Conan 1.28 has been released. With a long list of new features, it definitely
@@ -60,7 +60,7 @@ important, as it was recently discovered that there were several ways to
 produce completely invalid and unbuildable lockfiles in previous versions. That
 should no longer be possible moving forward.
 
-## New Attributes: provides, required_conan_version, recipe_folder
+## New Attributes: provides, required_conan_version, recipe_folder, deprecated
 
 Conanfile.py learned a few new attributes based on feature requests from users.
 
@@ -85,6 +85,11 @@ the directory where the `conanfile.py` is currently being built from. This is
 helpful a number of cases for custom generators, python requires, and other
 tricky scenarios. This feature has been requested a number of times over the
 years, so we were happy to get it done in this release.
+
+`deprecated` indicates that the recipe is outdated in some way and causes a
+warning message to be printed. If there is a replacement recipe, it can be named
+in the `deprecated` field and that string will be printed in the warning message
+to the user.
 
 ## Improved Clang Support on Windows
 
