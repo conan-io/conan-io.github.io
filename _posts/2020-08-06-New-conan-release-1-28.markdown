@@ -1,9 +1,9 @@
 ---
 layout: post 
 comments: false 
-title: "Conan 1.28: Lockfile improvements, Four attributes, Improved Clang
-support on Windows, Support components in pkg_config generator, Define generator
-filenames"
+title: "Conan 1.28: Lockfile improvements, Four new
+conanfile.py attributes, Improved Clang support on Windows, Support components
+in pkg_config generator, Define generator filenames"
 ---
 
 Conan 1.28 has been released. With a long list of new features, it definitely
@@ -12,7 +12,13 @@ start there.
 
 ## Lockfile Improvements
 
-First, the command itself has complete changed. What was previously:
+Whether you've read about lockfiles in the past or not, there are enough changes
+that it's probably worth re-reading all the lockfile documentation (for those
+who are using or planning to use lockfiles that is.)
+
+[Lockfile Documentation](https://docs.conan.io/en/latest/versioning/lockfiles.html?highlight=lockfiles)
+
+First, the command itself has completely changed. What was previously:
 
 ```bash
     conan graph lock
@@ -75,10 +81,18 @@ based on the attribute before compilation begins, saving significant time in a
 number of cases.
 
 `required_conan_version` enables users to declare what minimum version of Conan
-a recipe requires. With the rapid evolution of Conan and new features coming out
-every month, this attribute makes a lot of sense. If you are familiar with the
-`CMake` build system, you might recognize that this is similar to
-`cmake_required_version`.
+a recipe requires. You may be aware that Conan already supported the declaration
+of a `required_conan_version` prior to this release, but previously this could
+only be defined globally in `conan.conf`. That feature will continue to exist
+and be supported because it can be very useful in an enterprise setting to
+ensure all dev's and build machines are updated as needed.  The big change here
+is that it can now be specified at the recipe level. If you are familiar with
+the `CMake` build system, you might recognize that this is similar to the
+function `cmake_minimum_required()`. They both make sense for the same reasons.
+Conan and CMake are both undergoing rapid evolution, and making use of new
+features in recipe files can cause confusing errors and breakages when old
+versions try to process them. Moving forward, incompatibilities can be properly
+documented and explicit using this attribute.
 
 `recipe_folder` simply makes it easier for recipes to programatically refer to
 the directory where the `conanfile.py` is currently being built from. This is
@@ -113,12 +127,12 @@ Clang on Linux. So, the current PR adds the `runtime` subsetting for `clang`
 compiler, and makes the existing subsetting of `libcxx` optional by adding
 `None` as a valid choice.
 
-It's important to note that these new settings, while a big step forward, are
-just the first step. Providing a truly robust and first-class experience with
-`clang-cl` on windows will require an iterative approach over several releases,
-taking feedback along the way (that's how we do most things around here.)  We're
-already working hard on some of the next steps, but user feedback on this first
-set of changes would be very helpful.
+It's important to note that these new settings, while they are a big step
+forward, are just the first step. Providing a truly robust and first-class
+experience with `Clang` on windows will require an iterative approach over
+several releases, taking feedback along the way (that's how we do most things
+around here.)  We're already working hard on some of the next steps, but user
+feedback on this first set of changes would be very helpful.
 
 ## Support components in pkg-config generator
 
@@ -135,11 +149,45 @@ All generators produce the generated files using the naming convnetion of:
 the corresonding build system or platform. This was unconfigurable. Over the
 past year, this convention has been revisited for a few different reasons. The
 change for this particular release was to enable recipe authors to set the
-generated build system file name as an attribute on `cpp_info`.  
+generated build system file using `cpp_info`. The name can be set on a
+per-generator basis using the new `filenames` dictionary variable where the key
+name corresponds to the generator you want to specify the filename for.
+
+Example:
+
+```python
+    self.cpp_info.filenames["cmake"] = "conan_dependency_info.cmake"
+    self.cpp_info.filenames["visual_studio"] = "any_name_you_like.props"
+```
+
+[documentation](https://docs.conan.io/en/latest/reference/conanfile/attributes.html?highlight=filenames#cpp-info)
+
+## More conanfile.py init() method use-cases
+
+We've realized that the `init()` method released in 1.24 for use with
+`python_requires` is more generally useful for other dynamic attribute logic
+such as setting licenses/descriptions/etc from some other datafiles. We've [documented an
+example
+here](https://docs.conan.io/en/latest/reference/conanfile/methods.html#init):
+
+```python
+        # data.json
+        # {"license": "MIT", "description": "My library", "author": "Me"}
+        def init(self):
+            data = load(os.path.join(self.recipe_folder, "data.json"))
+            d = json.loads(data)
+            self.license = d["license"]
+            self.description = d["description"]
+            self.author = d["description"]
+```
 
 ## Additional Features and Fixes  
 
-Add content
+There are a number of other items which are worth mentioning. We've made several
+new steps forward with Conan V2 CLI, improved detection of `apt` package
+manager, and expanded some generator compatibilities. This includes making
+`venv` generator capable of generating powershell on non-windows platforms and
+making `msbuild` generator capable of running on Linux.
 
 As usual, we cannot cover everything in the release in this blog post, so visit
 the [changelog](https://docs.conan.io/en/latest/changelog.html#aug-2020) for the
