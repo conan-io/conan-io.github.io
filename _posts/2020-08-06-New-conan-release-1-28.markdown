@@ -69,6 +69,10 @@ should no longer be possible moving forward.
 ## New Attributes: provides, required_conan_version, recipe_folder, deprecated
 
 Conanfile.py learned a few new attributes based on feature requests from users.
+If you haven't looked at the list lately, perhaps it's worth a fresh look:
+
+[conanfile.py attribute
+documentation](https://docs.conan.io/en/latest/reference/conanfile/attributes.html)
 
 `provides` is a very important new attribute which is helpful for dealing with
 packages that are known to produce conflicts. For a simple example, we can look
