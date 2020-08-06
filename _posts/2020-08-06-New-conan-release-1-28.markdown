@@ -160,8 +160,7 @@ name corresponds to the generator you want to specify the filename for.
 Example:
 
 ```python
-    self.cpp_info.filenames["cmake"] = "conan_dependency_info.cmake"
-    self.cpp_info.filenames["visual_studio"] = "any_name_you_like.props"
+    self.cpp_info.filenames["cmake"] = "my_conan_dependency_info.cmake"
 ```
 
 [documentation](https://docs.conan.io/en/latest/reference/conanfile/attributes.html?highlight=filenames#cpp-info)
