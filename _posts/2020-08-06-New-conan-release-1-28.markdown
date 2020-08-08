@@ -181,7 +181,7 @@ here](https://docs.conan.io/en/latest/reference/conanfile/methods.html#init):
             d = json.loads(data)
             self.license = d["license"]
             self.description = d["description"]
-            self.author = d["description"]
+            self.author = d["author"]
 ```
 
 ## Additional Features and Fixes  
