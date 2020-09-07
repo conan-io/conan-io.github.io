@@ -37,7 +37,7 @@ toolchain class for the `Gnu Make` build system. Like the existing `MSBuild` and
 `CMake` toolchains which had been added previously, this new toolchain class
 generates `.mak` files for the `Gnu Make` build system which contain all the
 relevant build-related variables from Conan. To clarify, this does NOT include
-varaibles related to dependencies: this is still the domain of generators.
+variables related to dependencies: this is still the domain of generators.
 
 ## Lockfile Bug Fixes
 
