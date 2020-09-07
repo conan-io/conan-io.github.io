@@ -14,7 +14,7 @@ features.
 Some of the newer `cpp_info` properties have now been added to both the `QMake`
 and `Qbs` generators, including `cpp_info.system_libs`,
 `cpp_info.framework_paths` and `cpp_info.frameworks`. Additionally, the `json`
-generator learned how to generate the `user_info` data.
+generator learned how to generate the `user_info` data from the build context.
 
 The `cmake_find_package` and `cmake_find_package_multi` both had some bugs in
 the previous release surrounding the new `filenames` attribute of `cpp_info`.
