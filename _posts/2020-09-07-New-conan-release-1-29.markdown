@@ -45,7 +45,7 @@ We have also continued to evolve and improve the experience around Lockfiles. In
 this release, we fixed one bug where some package's were erroneously marked as
 modified, and another bug where `Package_ID_Unknown` were not being updated
 correctly.  We've also added a more helpful message when users try to compute
-the `build_order` of a graph from a "base" lockfile (which isn't possible.) Now
+the `build_order` of a graph from a "base" lockfile (which isn't possible). Now
 the output should be much more helpful.
 
 -----------
