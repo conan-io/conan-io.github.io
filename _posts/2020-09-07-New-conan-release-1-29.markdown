@@ -33,8 +33,8 @@ been offerred, but in this release we've merged a new tools function called
 ## Experimental Toolchain for Gnu Make
 
 Continuing our work on Conan's new toolchain strategy, this release contains a
-toolchain class for the `Gnu Make` build system. Like the existing `MSBuild` and
-`CMake` toolchains which had been added previously, this new toolchain class
+toolchain class for the `Gnu Make` build system. Like the existing `CMake` 
+toolchain which had been added previously, this new toolchain class
 generates `.mak` files for the `Gnu Make` build system which contain all the
 relevant build-related variables from Conan. To clarify, this does NOT include
 variables related to dependencies: this is still the domain of generators.
