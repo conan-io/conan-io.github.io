@@ -4,14 +4,16 @@ comments: false
 title: "Conan Training Series on JFrog Academy"
 ---
 
-The Conan team has recently completed the first in a new series of training 
-courses designed to help developers and devops engineers learn to use Conan more
-quickly and easily.  
+Today we are very exicted to announce a new milestone in the Conan project. We
+have now published our very own self-paced interactive training courses online,
+free to anyone who is interested in learning Conan. The courses are hosted on
+JFrog's very own learning platform: JFrog Academy, which also features a wide
+variety of courses on other related topics.  
 
 ## Learning Format
 
 The courses are adapted from the interactive training sessions we've held in the
-past at CPPCon and online over the past 2 years. They feature interactive
+past at CPPCon and online over the past two years. They feature interactive
 exercises which walk users through the running of commands, exploring and
 editing of importantC Conan-related files and directories, and quizzes to invoke
 critical thinking after each section.  Thanks to the JFrog Academy platform,
@@ -30,26 +32,25 @@ Conan as part of your daily development process.
 
 ## Conan Advanced
 
-We're now working on finishing the content for the second course in the series,
-which is called "Conan Advanced". This course is intended for users who have a
-solid grasp on the fundamentals of Conan. This includes users who have already
-gone through our "Essentials" course, and users who have been using Conan's
-basic features for real-world development. The course will take you through a
-series of exercises including advanced scenarios surrounding requirements
-management. For example, the handling of version and configuration conflicts,
-conditional requirements, and the special features of "build requirements" and
-"python requirements". It will handle advanced versioning topics such as the use
-of semantic versioning, version ranges, Conan's built-in revisioning system, and
-Conan's Lockfile feature. It will also include a deeper dive into the topics of
-Conan configuration and Package ID. By the end of the training, you will have a
-deeper understanding of how these advanced features are intended to be used, and
-how they can solve some of the more challenging real-world scenarios that emerge
-when using Conan at Scale.  
+The second course in the series is called "Conan Advanced". This course is
+intended for users who have a solid grasp on the fundamentals of Conan. This
+includes users who have already gone through our "Essentials" course, and users
+who have been using Conan's basic features for real-world development. The
+course will take you through a series of exercises including advanced scenarios
+surrounding requirements management. For example, the handling of version and
+configuration conflicts, conditional requirements, and the special features of
+"build requirements" and "python requirements". It will handle advanced
+versioning topics such as the use of semantic versioning, version ranges,
+Conan's built-in revisioning system, and Conan's Lockfile feature. It will also
+include a deeper dive into the topics of Conan configuration and Package ID. By
+the end of the training, you will have a deeper understanding of how these
+advanced features are intended to be used, and how they can solve some of the
+more challenging real-world scenarios that emerge when using Conan at Scale.  
 
 ## Conan CI/CD
 
 The third course will be next on the list and will be titled "Conan CI/CD".
-HThis course is intended for users who build automated build pipelines with
+This course is intended for users who build automated build pipelines with
 Conan on CI services in enterprise codebases. Conan is an ideal building block
 for invoking builds of C and C++ software in CI pipelines, but there are a
 number of real-world challenges which repeatedly arise for users as they try to
