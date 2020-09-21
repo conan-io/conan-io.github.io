@@ -12,7 +12,7 @@ variety of courses on other related topics.
 
 <p class="centered">
     <a href="https://academy.jfrog.com/series/conan">
-        <img src="http://localhost:4000//assets/post_images/2020-09-22/jfrog-academy-screenshot.png" align="center" width="85%" height="85%" alt="Conan Series on JFrog Academy"/>
+        <img src="{{ site.url }}/assets/post_images/2020-09-22/jfrog-academy-screenshot.png" align="center" width="85%" height="85%" alt="Conan Series on JFrog Academy"/>
     </a>
 </p>
 
@@ -39,7 +39,7 @@ available to be done on your own schedule.
 
 ## Intro to Conan
 
-<img src="http://localhost:4000//assets/post_images/2020-09-22/intro-to-conan.png"
+<img src="{{ site.url }}/assets/post_images/2020-09-22/intro-to-conan.png"
 align="center" width="20%" height="20%" alt="Intro to Conan"/>
 
 The first course is named "Intro to Conan." It is very short, and
@@ -51,7 +51,7 @@ building block for Continuous Integration workflows.
 
 ## Conan Essentials
 
-<img src="http://localhost:4000//assets/post_images/2020-09-22/conan-essentials.png"
+<img src="{{ site.url }}/assets/post_images/2020-09-22/conan-essentials.png"
 align="center" width="20%" height="20%" alt="Conan Essentials"/>
 
 The second course is named "Conan Essentials". It is intended for developers
@@ -64,7 +64,7 @@ start working with Conan as part of their daily development process.
 
 ## Conan Advanced
 
-<img src="http://localhost:4000//assets/post_images/2020-09-22/conan-advanced.png"
+<img src="{{ site.url }}/assets/post_images/2020-09-22/conan-advanced.png"
 align="center" width="20%" height="20%" alt="Conan Advanced"/>
 
 The third course is named "Conan Advanced" and is intended for users who have a
@@ -83,7 +83,7 @@ how they can solve some of the more challenging real-world scenarios that emerge
 when using Conan at Scale.  
 
 ## Conan CI/CD
-<img src="http://localhost:4000//assets/post_images/2020-09-22/conan-cicd.png"
+<img src="{{ site.url }}/assets/post_images/2020-09-22/conan-cicd.png"
 align="center" width="20%" height="20%" alt="Conan CI/CD"/>
 
 The fourth course will be titled "Conan CI/CD" and is still in production. This
