@@ -12,9 +12,16 @@ variety of courses on other related topics.
 
 <p class="centered">
     <a href="https://academy.jfrog.com/series/conan">
-        <img src="{{ site.url }}/assets/post_images/2020-09-22/jfrog-academy-screenshot.png" align="center" width="85%" height="85%" alt="Conan Series on JFrog Academy"/>
+        <img src="{{ site.url }}assets/post_images/2020-09-22/jfrog-academy-screenshot.png" align="center" width="75%" height="75%" alt="Conan Series on JFrog Academy"/>
     </a>
 </p>
+
+## Introductory Video
+
+We've created this short video providing an introduction and preview of the
+training series.
+
+{% include youtube-embed.html id="MJw7F5HeuiI" %}  
 
 ## Motivation
 
