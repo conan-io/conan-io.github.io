@@ -26,20 +26,20 @@ training series.
 ## Motivation
 
 The courses are adapted from the interactive training sessions we've held at
-CPPCon and online over the past two years. These trainings were very succesful
-with 20 sessions in 2 different timezones and 460 unique trainees total. It was
+CPPCon and online over the past two years. These trainings were very successful
+with 20 sessions in 2 different time zones and 460 unique trainees total. It was
 also highly rated with 70% of trainees rating it "excellent" and 25% rating it
 "very good". The online sessions had limited capacity and all filled up within a
 few days of being announced resulting in a waiting list. It quickly became very
 clear that creating and offering a self-paced training strategy was the right
 thing for scale, and the JFrog Academy was the perfect platform for us to create
-it on. Now, anyone can enjoy the training without restrictions on timezones or
-availabilty.
+it on. Now, anyone can enjoy the training without restrictions on time zones or
+availability.
 
 ## Learning Format
 
-The courses feature interactiveexercises which walk users through the running of
-commands, exploring and editing of important Conan-related files and
+The courses feature interactive exercises which walk users through the running
+of commands, exploring and editing of important Conan-related files and
 directories, and quizzes to invoke critical thinking after each section.  Thanks
 to the JFrog Academy platform, we've now made these courses self-paced and
 available to be done on your own schedule.
@@ -51,7 +51,7 @@ align="center" width="20%" height="20%" alt="Intro to Conan"/>
 
 The first course is named "Intro to Conan." It is very short, and
 intended for developers with no previous exposure to Conan, and provides simple
-explanations of conan’s most fundamental innovations and benefits. It shows how
+explanations of Conan’s most fundamental innovations and benefits. It shows how
 Conan abstracts away build systems, defines a “Project API” for C++ project,
 provides a repository system for multi-binary packages, and is the ideal
 building block for Continuous Integration workflows.
@@ -90,6 +90,7 @@ how they can solve some of the more challenging real-world scenarios that emerge
 when using Conan at Scale.  
 
 ## Conan CI/CD
+
 <img src="{{ site.url }}/assets/post_images/2020-09-22/conan-cicd.png"
 align="center" width="20%" height="20%" alt="Conan CI/CD"/>
 
@@ -98,7 +99,7 @@ course will be intended for users who build automated build pipelines with Conan
 on CI services in enterprise environments. The exercises in this course feature
 a collection C and C++ libraries and applications which have are being built
 automatically on a CI server, with Conan at the Center of the process. It
-features a realistic environment featuring a GIT repository, Conan Repository,
+features a realistic environment featuring a [GIT repository](https://github.com/conan-io/training), Conan Repository,
 and Jenkins CI Server instance. It also uses a common development flow using GIT
 branches, pull requests, and merges. The exercises demonstrate how each commit
 can be built and tested, and then followed by the build and test of all
@@ -117,7 +118,7 @@ Here is the link to the Conan series landing page:
 
 This page shows all the currently available Conan courses.  With that said, we
 encourage everyone to checkout the entire catalog of courses in JFrog
-artifactory.  
+Academy.  
 
 [JFrog Academy Course Catalog](https://academy.jfrog.com/series/course-catalog)
 
