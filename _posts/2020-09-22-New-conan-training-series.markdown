@@ -4,7 +4,7 @@ comments: false
 title: "Free Conan Training Series on JFrog Academy"
 ---
 
-Today we are very exicted to announce a new milestone in the Conan project. We
+Today we are very excited to announce a new milestone in the Conan project. We
 have now published our very own self-paced interactive training courses online,
 free to anyone who is interested in learning Conan. The courses are hosted on
 JFrog's very own learning platform: JFrog Academy, which also features a wide
