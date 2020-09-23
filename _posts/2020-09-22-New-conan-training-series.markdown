@@ -11,8 +11,9 @@ JFrog's very own learning platform: JFrog Academy, which also features a wide
 variety of courses on other related topics.  
 
 <p class="centered">
-    <a href="https://academy.jfrog.com/series/conan">
-        <img src="{{ site.url }}assets/post_images/2020-09-22/jfrog-academy-screenshot.png" align="center" width="75%" height="75%" alt="Conan Series on JFrog Academy"/>
+    <a href="https://academy.jfrog.com/series/jfrog-conan">
+        <img src="{{ site.baseurl }}/assets/post_images/2020-09-22/jfrog-academy-screenshot.png"
+        align="center" width="75%" height="75%" alt="Conan Series on JFrog Academy"/>
     </a>
 </p>
 
@@ -44,12 +45,17 @@ directories, and quizzes to invoke critical thinking after each section.  Thanks
 to the JFrog Academy platform, we've now made these courses self-paced and
 available to be done on your own schedule.
 
-## Intro to Conan
+## Introduction to Conan
 
-<img src="{{ site.url }}/assets/post_images/2020-09-22/intro-to-conan.png"
+<p class="centered">
+    <a href="https://academy.jfrog.com/introduction-to-conan">
+        <img src="{{ site.baseurl }}/assets/post_images/2020-09-22/intro-to-conan.png"
 align="center" width="20%" height="20%" alt="Intro to Conan"/>
+    </a>
+</p>
 
-The first course is named "Intro to Conan." It is very short, and
+The first course is named ["Introduction to
+Conan."](https://academy.jfrog.com/introduction-to-conan) It is very short, and
 intended for developers with no previous exposure to Conan, and provides simple
 explanations of Conan’s most fundamental innovations and benefits. It shows how
 Conan abstracts away build systems, defines a “Project API” for C++ project,
@@ -58,31 +64,42 @@ building block for Continuous Integration workflows.
 
 ## Conan Essentials
 
-<img src="{{ site.url }}/assets/post_images/2020-09-22/conan-essentials.png"
-align="center" width="20%" height="20%" alt="Conan Essentials"/>
+<p class="centered">
+    <a href="https://academy.jfrog.com/conan-essentials">
+        <img src="{{ site.baseurl }}/assets/post_images/2020-09-22/conan-essentials.png"
+        align="center" width="20%" height="20%" alt="Conan Essentials"/>
+    </a>
+</p>
 
-The second course is named "Conan Essentials". It is intended for developers
-with little-to-no Conan experience and will take you through a series of
-interactive exercises demonstrating Conan's most basic features. Along the way,
-we'll explain fundamental Conan concepts such as "Package ID", "generators",
-"settings", "options", and "profiles", as well as the basic anatomy of the
-"Conanfile".  By the end of the course trainees will have enough experience to
-start working with Conan as part of their daily development process.  
+The second course is named ["Conan
+Essentials"](https://academy.jfrog.com/conan-essentials). It is intended
+for developers with little-to-no Conan experience and will take you through a
+series of interactive exercises demonstrating Conan's most basic features. Along
+the way, we'll explain fundamental Conan concepts such as "Package ID",
+"generators", "settings", "options", and "profiles", as well as the basic
+anatomy of the "Conanfile".  By the end of the course trainees will have enough
+experience to start working with Conan as part of their daily development
+process.  
 
 ## Conan Advanced
 
-<img src="{{ site.url }}/assets/post_images/2020-09-22/conan-advanced.png"
+<p class="centered">
+    <a href="https://academy.jfrog.com/conan-advanced">
+        <img src="{{ site.baseurl }}/assets/post_images/2020-09-22/conan-advanced.png"
 align="center" width="20%" height="20%" alt="Conan Advanced"/>
+    </a>
+</p>
 
-The third course is named "Conan Advanced" and is intended for users who have a
-solid grasp on the fundamentals of Conan. This includes users who have already
-gone through our "Essentials" course, and users who have been using Conan's
-basic features for real-world development. The course begins with advanced
-scenarios surrounding requirements management. For example, the handling of
-version and configuration conflicts, conditional requirements, and the special
-features of "build requirements" and "python requirements". It also covers
-advanced versioning topics such as the use of semantic versioning, version
-ranges, Conan's built-in revisioning system, and Conan's Lockfile
+The third course is named ["Conan
+Advanced"](https://academy.jfrog.com/conan-advanced) and is intended for users
+who have a solid grasp on the fundamentals of Conan. This includes users who
+have already gone through our "Essentials" course, and users who have been using
+Conan's basic features for real-world development. The course begins with
+advanced scenarios surrounding requirements management. For example, the
+handling of version and configuration conflicts, conditional requirements, and
+the special features of "build requirements" and "python requirements". It also
+covers advanced versioning topics such as the use of semantic versioning,
+version ranges, Conan's built-in revisioning system, and Conan's Lockfile
 feature. Finally, it includes a deeper dive into the topics of Conan
 configuration and Package ID. By the end of the course, trainees will have a
 deeper understanding of how these advanced features are intended to be used, and
@@ -91,7 +108,7 @@ when using Conan at Scale.  
 
 ## Conan CI/CD
 
-<img src="{{ site.url }}/assets/post_images/2020-09-22/conan-cicd.png"
+<img src="{{ site.baseurl }}/assets/post_images/2020-09-22/conan-cicd.png"
 align="center" width="20%" height="20%" alt="Conan CI/CD"/>
 
 The fourth course will be titled "Conan CI/CD" and is still in production. This
@@ -99,7 +116,9 @@ course will be intended for users who build automated build pipelines with Conan
 on CI services in enterprise environments. The exercises in this course feature
 a collection C and C++ libraries and applications which have are being built
 automatically on a CI server, with Conan at the Center of the process. It
-features a realistic environment featuring a [GIT repository](https://github.com/conan-io/training), Conan Repository,
+features a realistic environment featuring a [GIT
+repository](https://github.com/conan-io/training), [Conan
+Repository](https://www.jfrog.com/confluence/display/JFROG/Conan+Repositories),
 and Jenkins CI Server instance. It also uses a common development flow using GIT
 branches, pull requests, and merges. The exercises demonstrate how each commit
 can be built and tested, and then followed by the build and test of all
@@ -114,7 +133,7 @@ ideal cornerstone of automated build pipelines for C and C++.
 
 Here is the link to the Conan series landing page:  
 
-[Conan Series in JFrog Academy](https://academy.jfrog.com/series/conan)
+[Conan Series in JFrog Academy](https://academy.jfrog.com/series/jfrog-conan)
 
 This page shows all the currently available Conan courses.  With that said, we
 encourage everyone to checkout the entire catalog of courses in JFrog
