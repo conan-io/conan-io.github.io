@@ -11,8 +11,8 @@ JFrog's very own learning platform: JFrog Academy, which also features a wide
 variety of courses on other related topics.  
 
 <p class="centered">
-    <a href="https://academy.jfrog.com/series/jfrog-conan">
-        <img src="{{ site.baseurl }}/assets/post_images/2020-09-22/jfrog-academy-screenshot.png"
+    <a href="https://academy.jfrog.com/series/conan">
+        <img src="{{ site.baseurl }}/assets/post_images/2020-09-24/jfrog-academy-screenshot.png"
         align="center" width="75%" height="75%" alt="Conan Series on JFrog Academy"/>
     </a>
 </p>
@@ -49,7 +49,7 @@ available to be done on your own schedule.
 
 <p class="centered">
     <a href="https://academy.jfrog.com/introduction-to-conan">
-        <img src="{{ site.baseurl }}/assets/post_images/2020-09-22/intro-to-conan.png"
+        <img src="{{ site.baseurl }}/assets/post_images/2020-09-24/intro-to-conan.png"
 align="center" width="20%" height="20%" alt="Intro to Conan"/>
     </a>
 </p>
@@ -66,7 +66,7 @@ building block for Continuous Integration workflows.
 
 <p class="centered">
     <a href="https://academy.jfrog.com/conan-essentials">
-        <img src="{{ site.baseurl }}/assets/post_images/2020-09-22/conan-essentials.png"
+        <img src="{{ site.baseurl }}/assets/post_images/2020-09-24/conan-essentials.png"
         align="center" width="20%" height="20%" alt="Conan Essentials"/>
     </a>
 </p>
@@ -85,7 +85,7 @@ process.
 
 <p class="centered">
     <a href="https://academy.jfrog.com/conan-advanced">
-        <img src="{{ site.baseurl }}/assets/post_images/2020-09-22/conan-advanced.png"
+        <img src="{{ site.baseurl }}/assets/post_images/2020-09-24/conan-advanced.png"
 align="center" width="20%" height="20%" alt="Conan Advanced"/>
     </a>
 </p>
@@ -108,7 +108,7 @@ when using Conan at Scale.  
 
 ## Conan CI/CD
 
-<img src="{{ site.baseurl }}/assets/post_images/2020-09-22/conan-cicd.png"
+<img src="{{ site.baseurl }}/assets/post_images/2020-09-24/conan-cicd.png"
 align="center" width="20%" height="20%" alt="Conan CI/CD"/>
 
 The fourth course will be titled "Conan CI/CD" and is still in production. This
@@ -133,7 +133,7 @@ ideal cornerstone of automated build pipelines for C and C++.
 
 Here is the link to the Conan series landing page:  
 
-[Conan Series in JFrog Academy](https://academy.jfrog.com/series/jfrog-conan)
+[Conan Series in JFrog Academy](https://academy.jfrog.com/series/conan)
 
 This page shows all the currently available Conan courses.  With that said, we
 encourage everyone to checkout the entire catalog of courses in JFrog
