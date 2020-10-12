@@ -1,6 +1,6 @@
 ---
-layout: post 
-comments: false 
+layout: post
+comments: false
 title: "Conan 1.30: improved libcxx detection for gcc, experimental tools for
 intel compiler support, experimental MSBuildToolchain, self.cpp_info.requires
 attribute, macOS 11 support"
@@ -11,14 +11,14 @@ including GCC, Intel compiler, and MSBuild. It brings some more maturity around
 components, and adds a new way to use custom generators. Also, macOS 11 (aka
 "Big Sur") has now been added to Conan's default settings.
 
-## improved libcxx detection for GCC
+## Improved libcxx detection for GCC
 
 When Conan is installed, it autodetects a number of settings based on the
 environment. Among those settings are `compiler` and `compiler.version`. When
 the `compiler` is `gcc`, it also detects `compiler.libcxx` which has had some
 challenging corner cases for a while. This release adds robustness to the
 `libcxx` detection which hopefully will result in better defaults for those
-corner cases when Conan is installed.  
+corner cases when Conan is installed.
 
 **Note:** If we enabled this behavior by default, it could be considered a breaking
 change, so we had to leave it off by default and users must set the
@@ -70,7 +70,7 @@ def package_info(self):
     self.cpp_info.components["crypto"].names["cmake_find_package"] = "Crypto"
     self.cpp_info.components["crypto"].libs = ["libcrypto"]
     self.cpp_info.components["crypto"].defines = ["DEFINE_CRYPTO=1"]
-    self.cpp_info.components["crypto"].requires = ["zlib::zlib"]  
+    self.cpp_info.components["crypto"].requires = ["zlib::zlib"]
 
     self.cpp_info.components["ssl"].names["cmake"] = "SSL"
     self.cpp_info.components["ssl"].includedirs = ["include/headers_ssl"]
@@ -107,7 +107,7 @@ cuts down on clutter and should enforce linker order properly. The `JSON` and
 Besides the items listed above, there were some minor bug fixes you may wish to
 read about.  If so, please refer to the
 [changelog](https://docs.conan.io/en/latest/changelog.html#oct-2020) for the
-complete list.  
+complete list.
 
 We hope you enjoy this release, and look forward to [your
-feedback](https://github.com/conan-io/conan/issues).  
+feedback](https://github.com/conan-io/conan/issues). 
