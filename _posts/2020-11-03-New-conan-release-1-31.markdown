@@ -11,45 +11,45 @@ strategy, coupled with a lengthy list of quality-of-life features and fixes.
 ## Upload Performance Improvements
 
 This release includes a long-overdue change, which represents an optimization
-which is so impactful that it effectively amounts to a bug fix for some
-use cases. The change is such that the Conan client will now keep the
-`conan_export.tgz` and `conan_source.tgz` in the local cache after it is done
-extracting the contents. Previously, these files were deleted once extracted.
+which is so impactful that it effectively amounts to a bug fix for some use
+cases. The change is such that the Conan client will now keep the
+`conan_export.tgz`, `conan_source.tgz`, and `conan_package.tgz` in the local
+cache after it is done extracting the contents. Previously, these files were
+deleted once extracted.
 
 How is this an optimization? Well buckle up because this is a long and sordid
 story. It turns out that its rather common for numerous workflows (including
 continuous integration) to perform the command `conan upload *` as a final step.
 When using this command in previous releases, every single package would go
-through the process of having all of it's `exports` and `sources` compressed
-prior to being uploaded. If that included packages with many sources such as
-open-source packages like `boost`, `qt`, `opencv`, `ffmpeg`, or private packages
-in large codebases, this compression time actually adds up to become a
-significant percentage of overall job time. This problem is amplified by the
-knowledge that Conan can easily verify that none of the contents have changed,
-so these compression and upload steps are known to be completely un-necessary,
-making them even more difficult to accept once you understand what's happening.
+through the process of having all of it's `exports` and `sources`, and all of
+the `package` directory files compressed prior to being uploaded. This
+compression time actually adds up to become a significant percentage of overall
+job time. This problem is amplified by the knowledge that Conan can easily
+verify that none of the contents have changed, so both the compression and
+upload steps are known to be completely un-necessary, making them even more
+difficult to accept once you understand what's happening.
 
-But wait, it was even worse than that! Many people will already know that for
-each Conan package in a repository, there is only ever one `conan_export.tgz`
-and `conan_source.tgz` at a time. That is to say, all builds of all
-configurations on all platforms use the same sources. However, it also turns out
-that the `.tgz` compression results on all operating systems are not equal. The
-compressions of identical files can (and often will) result in `.tgz` files with
-different checksums on different operating systems! Thus, orgnanizations which
-build on multiple operating systems in parallel would have the unfortunate
-situation where the `conan upload` commands from different operating systems
-would try to upload, and then see that the remote has the sources already, but
-with a different checksum than it wants to upload. So, subsequent uploads from
-different operating systems would fail. The net result of this was that
-virtually everyone in this situation added `--force` to their upload to bypass
-the errors. But then, the net result of that was that build servers would
-repeatedly take turns re-uploading the "same" `.tgz` files over and over due to
-checksum mismatch. This also means that if you had two operating systems
-uploading to a remote, which one uploads the "last" `.tgz` that remains on the
-remote after the job is effectively random . So, the next time any user or CI
-job with the other operating system(s) installs the package, the re-compression
-step before a re-upload would always result in a new checksum. So, lots of
-workflows ended up using `--force` when it should not have been necessary.
+But wait, it was even worse than that! Many people will already know that Conan
+client already compares the checksums for these `.tgz` files with a server
+before uploading them.  If the checksums match, then it will skip the upload.
+However, it also turns out that the `.tgz` compression results on all operating
+systems are not equal. The compressions of identical files can (and often will)
+result in `.tgz` files with different checksums on different operating systems!
+Thus, for `conan_source.tgz` and `conan_exports.tgz`, orgnanizations which build
+on multiple operating systems in parallel would have the unfortunate situation
+where the `conan upload` commands from different operating systems would start
+to upload these files, and then see that the remote has these files already, but
+with a different checksum than it wants to upload, causing a failure. The net
+result of this was that virtually everyone in this situation added `--force` to
+their upload scripts for their CI services to bypass the errors. But that had
+another negative side effect. Build servers would repeatedly take turns
+re-uploading the "same" `.tgz` files over and over due to checksum mismatch.
+This also means that if you had two operating systems uploading to a remote,
+which one uploads the "last" `.tgz` that remains on the remote after the job is
+effectively random. So, the next time any user or CI job with the other
+operating system(s) installs the package, the re-compression step before a
+re-upload would always result in a new checksum. So, lots of workflows ended up
+using `--force` when it should not have been necessary.
 
 The good news is that this is now largely fixed moving forward. Now that Conan
 will keep the `.tgz` files in the cache, the re-compressions and re-uploads will
@@ -69,6 +69,9 @@ will all be skipped.
 
 ## New iOS and Android Toolchains
 
+*Note:* These features are considered "draft" or "alpha" level POC. We expect
+additional feedback and changes will be required to make them work properly.
+
 Just like our past several releases, this release continues to make progress on
 our Toolchain initiative. This time, we've made two big additions with POC's
 for both iOS and Android. For both of these toolchains, we've based the POC's on
@@ -78,6 +81,12 @@ these mobile platforms is one of the major use-cases for Conan, so we believe
 this step is pretty significant in maturing the toolchain abstraction.
 
 ## New MsBuildCmd Helper
+
+*Note:* This feature summary references an old helper and a new helper. To keep
+them distinct for the purposes of explanation, the old helper will be referred
+to as `MsBuild` and the new will be referred to as `MsBuildCmd`. However, in the
+current implementation, the new `MsBuildCmd` helper has actually been given an
+alias of `MsBuild` so that it matches the old one.
 
 In the previous release, we've included a POC of the new `MsBuildToolchain`.
 This was part of the effort to restructure the way we interact with `MsBuild`.
@@ -117,10 +126,9 @@ focused on number 3 above.
 *Note:* The configuration item "Visual Studio platform toolset" has been removed
 from the toolchain in this release and will no longer be set by Conan at all.
 
-This separation of responsibilities might not seem
-that significant, but internally it allows us to address and resolve a wide
-variety of actual bugs as well as serious UX issues which have been raised over
-the past three years.  
+This separation of responsibilities might not seem that significant, but
+internally it allows us to address and resolve a wide variety of actual bugs as
+well as serious UX issues which have been raised over the past three years.  
 
 ## Filter Search Results by Profile
 
