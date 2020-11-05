@@ -106,8 +106,8 @@ cuts down on clutter and should enforce linker order properly. The `JSON` and
 
 Besides the items listed above, there were some minor bug fixes you may wish to
 read about.  If so, please refer to the
-[changelog](https://docs.conan.io/en/latest/changelog.html#oct-2020) for the
+[changelog](https://docs.conan.io/en/latest/changelog.html#id31) for the
 complete list.
 
 We hope you enjoy this release, and look forward to [your
-feedback](https://github.com/conan-io/conan/issues). 
+feedback](https://github.com/conan-io/conan/issues).
