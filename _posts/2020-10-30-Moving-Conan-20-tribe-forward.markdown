@@ -59,7 +59,7 @@ the current list of tribe members, to whom we are extremely grateful.
 | Markus Hedvall       | HiQ                            | Jared White           | WAGA                          |
 | Kevin Puetz          | John Deere                     | Martin Pausch         | Zeiss Meditec AG              |
 | Kai Wolf             | Kai Wolf \- SW Consulting      | Alexandr Timofeev     | ASD Co\. Ltd                  |
-| Zack Johnson         | Keysight Technologies          |                       |                               |
+| Zack Johnson         | Keysight Technologies          | Alex Brinkman         | Nasa-JPL                      |
 {:.table-striped}
 
 ## Recapping the Motivation
