@@ -81,10 +81,10 @@ might use Conan. We also know of cases where there are 1000+. Conan is now used
 in hundreds of these enterprise organizations, and even with conservative
 estimates, the total number of Conan users in these organizations already dwarfs
 the number of developers who use Conan for open-source development or small
-projects. Furthermore, this gap will only over time. The problem today is that
-we don’t receive an amount of feedback from these users which is proportional to
-their numbers. Many of these developers either can’t engage with the community
-due to company policy, or choose not to for other reasons.
+projects. Furthermore, this gap will only grow over time. The problem today is
+that we don’t receive an amount of feedback from these users which is
+proportional to their numbers. Many of these developers either can’t engage with
+the community due to company policy, or choose not to for other reasons.
 
 Conversely, from the open-source community, we get plenty of feedback. In the
 third quarter of 2020, the Conan repository received tremendous numbers of
