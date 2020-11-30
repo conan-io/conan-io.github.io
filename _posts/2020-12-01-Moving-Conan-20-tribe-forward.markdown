@@ -12,7 +12,7 @@ you can get engaged and follow the progress.
 
 <p class="centered">
     <a href="https://conan.io/">
-        <img src="{{ site.baseurl }}/assets/post_images/2020-11-25/conan-tribe.png"
+        <img src="{{ site.baseurl }}/assets/post_images/2020-12-01/conan-tribe.png"
         align="center" width="75%" height="75%" alt="Conan 2.0 Tribe"/>
     </a>
 </p>
