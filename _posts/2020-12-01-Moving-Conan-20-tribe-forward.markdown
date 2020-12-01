@@ -11,7 +11,7 @@ beginning to execute on that plan, and provide some additional details about how
 you can get engaged and follow the progress.
 
 <p class="centered">
-    <a href="https://conan.io/">
+    <a href="https://conan.io/tribe.html">
         <img src="{{ site.baseurl }}/assets/post_images/2020-12-01/conan-tribe.png"
         align="center" alt="Conan 2.0 Tribe"/>
     </a>
@@ -24,7 +24,8 @@ appreciation to everyone who responded to the call when we announced the Conan
 Tribe. We were amazed at how many people have volunteered to engage in the
 process. It was great to read all the descriptions from users about how and
 where they use Conan, and why they were so interested in being involved. Here is
-the current list of tribe members, to whom we are extremely grateful.
+the current list of tribe members, to whom we are extremely grateful. Check more details
+about the [tribe members in conan.io site](https://conan.io/tribe.html).
 
 {:class="table table-bordered small"}
 | Name                 | Organization                   | Name                  | Organization                  |
