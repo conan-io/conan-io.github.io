@@ -26,7 +26,7 @@ process. It was great to read all the descriptions from users about how and
 where they use Conan, and why they were so interested in being involved. Here is
 the current list of tribe members, to whom we are extremely grateful.
 
-{:class="table table-bordered"}
+{:class="table table-bordered small"}
 | Name                 | Organization                   | Name                  | Organization                  |
 |----------------------|--------------------------------|-----------------------|-------------------------------|
 | Robert Conde         | a\.i\. solutions, inc\.        | Tijmen Verhulsdonck   | Loomai Inc\.                  |
