@@ -1,6 +1,6 @@
 ---
-layout: post 
-comments: false 
+layout: post
+comments: false
 title: "Moving the Conan 2.0 Tribe Forward"
 ---
 
@@ -13,7 +13,7 @@ you can get engaged and follow the progress.
 <p class="centered">
     <a href="https://conan.io/">
         <img src="{{ site.baseurl }}/assets/post_images/2020-12-01/conan-tribe.png"
-        align="center" width="75%" height="75%" alt="Conan 2.0 Tribe"/>
+        align="center" alt="Conan 2.0 Tribe"/>
     </a>
 </p>
 
@@ -24,10 +24,10 @@ appreciation to everyone who responded to the call when we announced the Conan
 Tribe. We were amazed at how many people have volunteered to engage in the
 process. It was great to read all the descriptions from users about how and
 where they use Conan, and why they were so interested in being involved. Here is
-the current list of tribe members, to whom we are extremely grateful.  
+the current list of tribe members, to whom we are extremely grateful.
 
 {:class="table table-bordered"}
-| Name                 | Organization                   | Name                  | Company                       |
+| Name                 | Organization                   | Name                  | Organization                  |
 |----------------------|--------------------------------|-----------------------|-------------------------------|
 | Robert Conde         | a\.i\. solutions, inc\.        | Tijmen Verhulsdonck   | Loomai Inc\.                  |
 | Ayaz Salikhov        | AIM Tech                       | Dean Moldovan         | Lumicks                       |
@@ -152,7 +152,7 @@ default value of "Off", which allowed for a number of potentially-breaking
 changes and features to be added to Conan 1.x in a safe way. This has enabled
 power users and our own dev team to explore some of the features in real-world
 scenarios prior to releasing Conan 2.0. So, this new branch will also
-effectively change the default value for the `CONAN_V2_MODE` to "On".  
+effectively change the default value for the `CONAN_V2_MODE` to "On".
 
 Beginning sometime in Q1 of 2021, Conan will begin continuously publishing
 "alpha releases" as we work out final bugs and incorporate the feedback from the
