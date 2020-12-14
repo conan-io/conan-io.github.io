@@ -1,24 +1,25 @@
 ---
 layout: post 
 comments: false 
-title: "New validate() Method, First Configurable Generator (msbuild)
+title: "Conan 1.32: New validate() Method, First Configurable Generator (msbuild)
 (Experimental), Renamed Multiple Toolchains & Generators (Methods & Classes), 2
-New Meson Toolchains, Improve Lockfile Support for Private Requirements, Support
+New Meson Classes, Improve Lockfile Support for Private Requirements, Support
 for build_requires to Affect package_id (Workaround)"
 ---
 
 Conan 1.32.0 features a new strategy for defining, detecting, and handling
 invalid configurations. This includes a new method named `validate()`, and a new
 `package_id` mode named `BINARY_INVALID`.  It also includes a big refactor of
-our future toolchain and generators strategy. It also includes a new capability,
-and 2 new generators for Meson. We've also added some subcommands for dealing
-with recipes and packages which have no remote associated, and made it possible
-to deal with lockfiles which contain the same package multiple times in the
-graph (possible via private requirements).  Finally, we're excited to show a
-proven workaround which satisfies a long-standing and high-priority request,
-which is to optionally include `build_requires` into the `package_id`.  There
-are some important side-effects and caveats, to be aware of, so read on to learn
-about the details.
+our future toolchain and generators strategy, some new capabilities of
+generators in general, and 2 new classes for Meson (a Toolchain and a build
+helper class). We've also added some subcommands for dealing with recipes and
+packages which have no remote associated, and made it possible to deal with
+lockfiles which contain the same package multiple times in the graph (possible
+via private requirements).  Finally, we're excited to show a proven workaround
+which satisfies a long-standing and high-priority request, which is to
+optionally include `build_requires` into the `package_id`.  There are some
+important side-effects and caveats, to be aware of, so read on to learn about
+the details.
 
 ## New Strategy for Invalid Configurations
 
@@ -28,30 +29,56 @@ or impossible configurations. Historically, the general recommendation has been
 to handle these cases by raising `ConanInvalidConfiguration` errors during the
 `configure()` method, but in practice there are some checks which simply cannot
 be run there because of the state of the dependency graph. Also, with the
-`compatible_packages` feature, there there are cases where a recipe might not be
+`compatible_packages` feature, there are cases when a recipe might not be
 able to build, but might be configured to provide a compatible package instead.
 
 The existing workarounds for these cases were unfortunate, so we've now added
-some first-class-features around them. The first is to add a new method to
-Conanfile named `validate()` method which executes after the graph has been
-fully evaluated solving the previous problems. The second is to add a new
-`package_id` mode named `BINARY_INVALID`.  Moving forward, the `configure()`
-method should still be used for actually setting configurations, but the
-`validate()` method should take over all responsibility for raising
-`ConanInvalidConfiguration` errors. In these cases, the `BINARY_INVALID` is now
-reported as the state in the output of  `conan info` command, as opposed the
-previous behavior which was for this command to fail with return code 6 which
-was to helpful at all. This is a major improvement as some automation cases
-(such as Conan Center) use `conan info` to make decisions about what to build,
-and parsing json output is more desirable than interpreting return codes.
+some first-class-features around them. The first is to add a [new method to
+Conanfile](https://docs.conan.io/en/latest/reference/conanfile/methods.html#validate)
+named `validate()` method which executes after the graph has been fully
+evaluated solving the previous problems. The second is to add a new `package_id`
+mode named `BINARY_INVALID`.  Moving forward, the `configure()` method should
+still be used for actually setting configurations, but the `validate()` method
+should take over all responsibility for raising `ConanInvalidConfiguration`
+errors. In these cases, the `BINARY_INVALID` is now reported as the state in the
+output of `conan info` command, as opposed the previous behavior which was for
+this command to fail with return code 6. This is a major improvement as some
+automation cases (such as ConanCenter) use `conan info` to make decisions about
+what to build, and parsing `json` output is more desirable than interpreting
+return codes.
 
-## Refactoring Toolchains and Generators
+Here's an example of `validate()` and the output from it
+
+    def validate(self):
+        if self.settings.os == "Windows":
+            raise ConanInvalidConfiguration("Windows not supported")
+
+
+    $ conan create . pkg/0.1@ -s os=Windows
+    ...
+    Packages
+        pkg/0.1:INVALID - Invalid
+    ...
+    > ERROR: There are invalid packages (packages that cannot exist for this configuration):
+    > pkg/0.1: Invalid ID: Windows not supported
+
+## Refactoring Toolchains and Generators (and Namespaces)
 
 It's important to highlight that a lot of experimental classes were moved around
 into different namespaces in this release. Please refer to the changelog and
 docs for all the specifics, but here's a simple summary.
 
-We've created four new top level folders under the namespace "conan.tools":
+First, we've now exposed a new top-level namespace called `conan`. Experienced
+users will recall that previously, virtually all Conan classes and functions
+have been exposed to `conanfile.py` under the namespace `conans`. In summary,
+there's no longer a reason for the letter `s` which many people have found
+annoying. As we prepare for Conan 2.0, we plan to make all existing classes and
+functions available under `conan` namespace, and eventually deprecate `conans`.
+In this release, we've started conservatively by simply exposing a few brand new
+classes and functions under the `tools` sub-namespace. If things go well, we'll
+add aliases to existing classes and functions over time.
+
+So, under `conan.tools`, we've created four sub-namespaces:
 
 * cmake
 * gnu
@@ -67,14 +94,13 @@ functions are multi-purpose.
 We've started using these directories by putting all the respective toolchains
 classes into in them.  We've also begun moving forward on a new naming
 convention for generators, starting with the experimental `msbuild` generator.
-It has been renamed to `MsBuildDeps`, and we'll talk more about why we did this
+It has been renamed to `MSBuildDeps`, and we'll talk more about why we did this
 shortly. We've also created a new generator named `CMakeDeps` in the `cmake`
 directory, however, it's really just an alias which redirects to the
 `cmake_find_package_multi` generator. We've already been promoting that as the
 top recommendation for most use-cases of `CMake` generators, and we'll now be
 promoting that people use it from this new import and new name (`CMakeDeps`).
-Also, we've added a new toolchain called `MesonToolchain`, which includes
-supports cross-compiling.
+Also, we've added a new toolchain called `MesonToolchain`.
 
 ## How Toolchains Helped Generators Evolve
 
@@ -118,7 +144,7 @@ benefit really boils down to a super concise declarative syntax. However, this
 little bit of magic and convenience actually comes at a major cost.  There are
 fundamental internal challenges with it's implementation which cannot be fixed
 without breaking changes. In retrospect, the magic probably was not worth the
-cost.  The approach being explored now doesn't suffer any of those major
+cost. The approach being explored now doesn't suffer any of those major
 consequences, has the promise of providing "configurable generators", and might
 not even be any more verbose than what we have today.
 
@@ -155,12 +181,30 @@ same:
 They're just two sub categories of the same thing. So, at that point, it seemed
 fairly obvious to rename the still-experimental `def toolchain()` method in
 `conanfile.py` to `def generate()`. For the same reasons, we decided that the
-"primary interface method" on both Toolchains and Generators moving forward
-should just be `generate()` as well. It's simple, consistent, and descriptive.
+"primary interface method" to trigger the generation of files on both Toolchains
+and Generators moving forward should just be `generate()` as well. So, for
+toolchains, the old method `write_toolchain_files()` has been renamed to
+`generate()`.  It's simple, consistent, and descriptive. Here's an example of
+using the two together:
 
-## Including build_requires and package_id (Experimental)
+    def generate(self):
+      MSBuildDeps(self).generate()
+      MSBuildToolchain(self).generate()
 
-There has been an outstanding feature request for a LONG time which has seemed
+Furthermore, going back to the topic of deprecating of the lower-case `name`
+field/alias of generators, we realized that we did not implement an equivalent
+feature in toolchains. This was largely because it really only represented a
+layer of abstraction and redirection which was more confusing than it was
+valuable. Looking back at Generators, we felt the same way. Sometimes you want
+to de-couple `class` name from "usage name" of something, but this no longer
+feels like one of those times. But it's not only cosmetic, it created some
+awkward design questions when implementing configurable generators which just
+went away if we chose to use the `class` name. Simpler was just better in this
+case on multiple fronts.
+
+## Including build_requires in package_id (Experimental)
+
+There has been an outstanding feature request for a **long** time which has seemed
 virtually un-solvable in the current version of Conan without major breaking
 changes. That feature request is to make it possible for `build_requires` to
 affect `package_id`.  Users have been wanting this for a very long time, and the
