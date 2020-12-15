@@ -1,10 +1,9 @@
 ---
 layout: post 
 comments: false 
-title: "Conan 1.32: New validate() Method, First Configurable Generator (msbuild)
-(Experimental), Renamed Multiple Toolchains & Generators (Methods & Classes), 2
-New Meson Classes, Improve Lockfile Support for Private Requirements, Support
-for build_requires to Affect package_id (Workaround)"
+title: "Conan 1.32: New validate() Method, First configurable Generator (MSBuildDeps), 
+Renamed Multiple Toolchains & Generators, 2 New Meson Classes, Improve Lockfile
+Support for Private Requirements, Support for build_requires to Affect package_id (Workaround)"
 ---
 
 Conan 1.32.0 features a new strategy for defining, detecting, and handling
