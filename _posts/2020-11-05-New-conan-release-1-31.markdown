@@ -230,7 +230,7 @@ This release also featured several other significant features:
 
 Besides the items listed above, there was a long list of fairly impactful bug
 fixes you may wish to read about.  If so, please refer to the
-[changelog](https://docs.conan.io/en/latest/changelog.html#oct-2020) for the
+[changelog](https://docs.conan.io/en/latest/changelog.html#nov-2020) for the
 complete list.
 
 We hope you enjoy this release, and look forward to [your
