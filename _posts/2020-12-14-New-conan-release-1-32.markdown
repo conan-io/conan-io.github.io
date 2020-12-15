@@ -190,7 +190,9 @@ using the two together:
     from conan.tools.microsoft import MSBuildDeps, MSBuildToolchain
 
     class Pkg(ConanFile):
+        settings = "os", "compiler", "build_type", "arch"
         requires = "boost/1.72.0", "poco/1.9.4"
+        
         # The generate method creates files that the build can use
         def generate(self):
             # generates conan_boost.props, conan_poco.props for dependencies
