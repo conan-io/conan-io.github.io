@@ -186,9 +186,20 @@ toolchains, the old method `write_toolchain_files()` has been renamed to
 `generate()`.  It's simple, consistent, and descriptive. Here's an example of
 using the two together:
 
-    def generate(self):
-      MSBuildDeps(self).generate()
-      MSBuildToolchain(self).generate()
+    from conans import ConanFile
+    from conan.tools.microsoft import MSBuildDeps, MSBuildToolchain
+
+    class Pkg(ConanFile):
+        requires = "boost/1.72.0", "poco/1.9.4"
+        # The generate method creates files that the build can use
+        def generate(self):
+            # generates conan_boost.props, conan_poco.props for dependencies
+            # and conandeps.props that aggregates them
+            deps= MSBuildDeps(self)
+            deps.generate()
+            # generates conantoolchain.props from current settings
+            tc= MSBuildToolchain(self)
+            tc.generate()
 
 Furthermore, going back to the topic of deprecating of the lower-case `name`
 field/alias of generators, we realized that we did not implement an equivalent
