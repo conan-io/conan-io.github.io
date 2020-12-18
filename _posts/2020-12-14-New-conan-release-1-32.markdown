@@ -1,7 +1,7 @@
 ---
-layout: post 
-comments: false 
-title: "Conan 1.32: New validate() Method, First configurable Generator (MSBuildDeps), 
+layout: post
+comments: false
+title: "Conan 1.32: New validate() Method, First configurable Generator (MSBuildDeps),
 Renamed Multiple Toolchains & Generators, 2 New Meson Classes, Improve Lockfile
 Support for Private Requirements, Support for build_requires to Affect package_id (Workaround)"
 ---
@@ -94,11 +94,11 @@ We've started using these directories by putting all the respective toolchains
 classes into in them.  We've also begun moving forward on a new naming
 convention for generators, starting with the experimental `msbuild` generator.
 It has been renamed to `MSBuildDeps`, and we'll talk more about why we did this
-shortly. We've also created a new generator named `CMakeDeps` in the `cmake`
-directory, however, it's really just an alias which redirects to the
+shortly. We will also be creating in 1.33 a new generator named `CMakeDeps` in the `cmake`
+directory, that will initially be a copy of the existing
 `cmake_find_package_multi` generator. We've already been promoting that as the
-top recommendation for most use-cases of `CMake` generators, and we'll now be
-promoting that people use it from this new import and new name (`CMakeDeps`).
+top recommendation for most use-cases of `CMake` generators, and we'll be
+promoting that people use it from this new import and new name (`CMakeDeps`) when it becomes available.
 Also, we've added a new toolchain called `MesonToolchain`.
 
 ## How Toolchains Helped Generators Evolve
@@ -176,7 +176,7 @@ same:
 
 * Analyze the configuration and dependency data Conan has gathered
 * Generate files
-  
+
 They're just two sub categories of the same thing. So, at that point, it seemed
 fairly obvious to rename the still-experimental `def toolchain()` method in
 `conanfile.py` to `def generate()`. For the same reasons, we decided that the
@@ -192,7 +192,7 @@ using the two together:
     class Pkg(ConanFile):
         settings = "os", "compiler", "build_type", "arch"
         requires = "boost/1.72.0", "poco/1.9.4"
-        
+
         # The generate method creates files that the build can use
         def generate(self):
             # generates conan_boost.props, conan_poco.props for dependencies
