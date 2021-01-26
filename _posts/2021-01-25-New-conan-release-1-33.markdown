@@ -196,7 +196,7 @@ feature, please open a Github issue to request it.
 
 This release signals the start of yet another long-term migration process in
 Conan's binary modeling strategy. We've now added a new compiler named `msvc`.
-Indeed as you may have guessed, the long-term goal is therefor to eventually
+Indeed as you may have guessed, the long-term goal is therefore to eventually
 replace the compiler name of `Visual Studio` in Conan's settings.
 
 Furthermore, this setting comes along new models for `compiler.version` and
