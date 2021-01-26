@@ -19,26 +19,37 @@ been added to the related functions of `tools.unzip()` and `tools.untargz()`.
 We've now also added two new sub-settings under `macOS` : `sdk` and `subsystem`,
 the latter to support [Mac Catalyst](https://developer.apple.com/mac-catalyst/).
 
-## [conf]
+## New [conf]iguration section in profiles and conan.cfg
 
-The `[conf]` feature provides a new way for users to pass paramters to Conan
-recipes and Conan-provided tools. `[conf]` parameters and values do not affect
-`package_id`, so it is very similar to the `[env]` block of profiles. However,
-the big difference is that `[conf]` is logically dedicated for the purpose of
-declaring and specifying parameters for Conan behavior, whereas the `[env]`
-block is really designed for declaring and specifying parameters for other
-command-line tools which are invoked by Conan, such as build scripts, builds
-systems, compilers, linkers, etc.
+In this release, Conan is adding some new configuration capabilities. For
+various reasons, `conan.conf` was not a suitable place for the global
+definitions of these configurations, so we've introduced a new file in the Conan
+user home directory specifically for this purpose:
 
-You can use `[conf]` to declare arbitrary function parameters, prefixed with the
-`user` namespace. Notice that you can define one value to apply to all packages,
-and then define values on a per-package basis just like the `[env]` section.
+    [`conan.cfg`](https://docs.conan.io/en/latest/reference/config_files/conan_cfg.html)
+
+The primary purpose of this file at this time is to define global values for the
+new profile block known as `[conf]`. The `[conf]` feature provides a new way for
+users to pass paramters to Conan recipes and Conan-provided tools. By default,
+`[conf]` parameters and values do not affect `package_id`, so it is very similar
+to the `[env]` block of profiles. However, the big difference is that `[conf]`
+is logically dedicated for the purpose of declaring and specifying parameters
+for Conan behavior, whereas the `[env]` block is really designed for declaring
+and specifying parameters for other command-line tools which are invoked by
+Conan, such as build scripts, builds systems, compilers, linkers, etc.
+
+You can use `[conf]` to declare arbitrary variables and values, prefixed with
+the `user` namespace. Notice that you can define one value to apply to all
+packages, and then define values on a per-package basis just like the `[env]`
+section. Again, this can be defined in either a profile, or `conan.cfg`:
 
     [conf]
     user.mycompany.logging:print_all_env_vars=False
     mypkg:user.logging:print_all_env_vars=True
 
-And then you can use them in your recipes like this:
+Here, you can see that we've used a sub-namespace of `mycompany` which is
+recommended for all custom uses of `[conf]` to avoid potential conflicts in the
+future. You can then use these variables and values in your recipes like this:
 
     class Pkg(ConanFile):
         name = "mypkg"
@@ -69,13 +80,6 @@ behaviors of Conan under a `core` namespace.
     core:required_conan_version = "expression"
     core.package_id:msvc_visual_incompatible
 
-For these built-in `[conf]` items, we needed a configuration file to specify
-global defaults, and for various reasons, `conan.conf` was not a suitable place
-to do it. Thus, we've introduced a new file in the Conan user home directory
-specifically for this purpose:
-
-    `conan.cfg`
-
 The first question many people will ask when learning about this new feature is:
 "when should I use `[conf]` instead of `[settings]` or `[options]`?"
 
@@ -95,7 +99,8 @@ there is a lot more we hope to add to it in the upcoming releases (most
 importantly, CLI-argument support). Still, we know there are probably several
 use cases out there which we have not thought of but which `[conf]` could be
 expanded to address. If you think you have a use case which might be a good
-candidate for `conf`, please let us know by opening github [issue](https://github.com/conan-io/conan/issues).  
+candidate for `conf`, please let us know by opening github
+[issue](https://github.com/conan-io/conan/issues).  
 
 ## New strip_root parameter to tools.get()
 
@@ -154,11 +159,13 @@ For `Meson`, we already a toolchain class, but this release introduces a
             meson = Meson(self)
             meson.build()
 
-Also, we've had numerous `CMake` integrations for a long time, including
-a Toolchain, a Build Helper, and numerous Generators. With this release, we're
-adding another Generator named `CMakeDeps`. In truth, it's just the
-`cmake_find_package_multi` under a new name and namespace, and leveraging the
-new integrations model. Here it is together with the toolchain and build helper.
+Also, we've had numerous `CMake` integrations for a long time, including a
+Toolchain, a Build Helper, and numerous Generators. With this release, we're
+adding another Generator named
+[`CMakeDeps`](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake.html?highlight=cmakedeps#cmakedeps).
+In truth, it's just the `cmake_find_package_multi` under a new name and
+namespace, and leveraging the new integrations model. Here it is together with
+the toolchain and build helper.
 
     from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps
         def generate(self):
