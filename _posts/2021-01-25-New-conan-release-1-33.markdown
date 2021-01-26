@@ -176,7 +176,7 @@ new integrations model. Here it is together with the toolchain and build helper.
 
 Another integration point we're continuing to improve support for is the use of
 additional build system files such as `.cmake` files for CMake.  Organizations
-may have been using such fiels prior to Conan, or may have some special use
+may have been using such files prior to Conan, or may have some special use
 cases which make declaring variables in these external files to have some
 advantage over defining them in Conan's `cpp_info` data structure.  
 
