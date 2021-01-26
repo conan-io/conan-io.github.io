@@ -30,7 +30,7 @@ block is really designed for declaring and specifying values for other
 command-line tools which are invoked by Conan, such as build scripts, builds
 systems, compilers, linkers, etc.
 
-You can use `[conf]` to delcare arbitrary function parameters, prefixed with the
+You can use `[conf]` to declare arbitrary function parameters, prefixed with the
 `user` namespace. Notice that you can define one value to apply to all packages,
 and then define values on a per-package basis just like the `[env]` section.
 
