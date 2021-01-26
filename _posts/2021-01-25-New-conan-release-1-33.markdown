@@ -22,7 +22,7 @@ the latter to support [Mac Catalyst](https://developer.apple.com/mac-catalyst/).
 ## [conf]
 
 The `[conf]` feature provides a new way for users to pass paramters to Conan
-recipes and Conan-provided tools. `[conf]` paramters and values do not affect
+recipes and Conan-provided tools. `[conf]` parameters and values do not affect
 `package_id`, so it is very similar to the `[env]` block of profiles. However,
 the big difference is that `[conf]` is logically dedicated for the purpose of
 declaring and specifying parameters for Conan behavior, whereas the `[env]`
