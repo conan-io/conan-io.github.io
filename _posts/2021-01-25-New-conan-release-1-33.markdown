@@ -92,7 +92,7 @@ variables to implement non-binary-affecting parameters for recipes.
 
 In summary, the `[conf]` feature is still very new in it's implementation, and
 there is a lot more we hope to add to it in the upcoming releases (most
-importantly, CLI-argumetn support). Still, we know there are probably several
+importantly, CLI-argument support). Still, we know there are probably several
 use cases out there which we have not thought of but which `[conf]` could be
 expanded to address. If you think you have a use case which might be a good
 candidate for `conf`, please let us know by opening github issue.  
