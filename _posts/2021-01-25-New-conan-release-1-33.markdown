@@ -4,8 +4,8 @@ comments: false
 title: "Conan 1.33: New [conf] section in profiles, New strip_root argument for
 tools.get(), new Meson build helper, New toolchain and build helper for Qbs, New
 CMakeDeps generator, Per-generator build_modules support, New msvc compiler in
-settings, Apple Catalyst support, New os.sdk and os.subsystem sub-settings for
-macOS"
+settings, new os.subsystem for macOS for Apple Catalyst support, New os.sdk for
+all Apple os."
 ---
 
 Conan 1.33.0 is a big release! We're introducing a new section in profiles named
@@ -26,7 +26,7 @@ recipes and Conan-provided tools. `[conf]` paramters and values do not affect
 `package_id`, so it is very similar to the `[env]` block of profiles. However,
 the big difference is that `[conf]` is logically dedicated for the purpose of
 declaring and specifying parameters for Conan behavior, whereas the `[env]`
-block is really designed for declaring and specifying values for other
+block is really designed for declaring and specifying parameters for other
 command-line tools which are invoked by Conan, such as build scripts, builds
 systems, compilers, linkers, etc.
 
@@ -35,7 +35,7 @@ You can use `[conf]` to declare arbitrary function parameters, prefixed with the
 and then define values on a per-package basis just like the `[env]` section.
 
     [conf]
-    user.logging:print_all_env_vars=False
+    user.mycompany.logging:print_all_env_vars=False
     mypkg:user.logging:print_all_env_vars=True
 
 And then you can use them in your recipes like this:
@@ -44,7 +44,7 @@ And then you can use them in your recipes like this:
         name = "mypkg"
 
     def build(self):
-        if(self.conf["user.logging:print_all_env_vars"]):
+        if(self.conf["user.mycompany.logging:print_all_env_vars"]):
             for param in os.environ.keys():
                 self.output.info("%20s = %s" % (param,os.environ[param]))
                 # Will print all env vars defined at build as "key=value" pairs
@@ -80,14 +80,15 @@ The first question many people will ask when learning about this new feature is:
 "when should I use `[conf]` instead of `[settings]` or `[options]`?"
 
 The key factor is whether or not the parameter will affect the binary because
-`[conf]` does not affect `package_id`. So for example, optimization level would
-not be a good fit to expose via `[conf]`, because different values will result
-in differnet binaries. Aside from `verbosity`, other examples which would be
-good fits include the number of processors to use, whether or not to build in
-parallel, paths to generated log files, etc. Outside of the built-in usages
-we're implementing, the most common usage we suggest is to replace instances
-where people have used environments variables to implement non-binary-affecting
-parameters for recipes.
+`[conf]` does not affect `package_id` by default (note: we are looking at making
+it possible to opt-in to `[conf]` affecting `package_id` on-demand). So for
+example, optimization level would not be a good fit to expose via `[conf]`,
+because different values will result in differnet binaries. Aside from
+`verbosity`, other examples which would be good fits include the number of
+processors to use, whether or not to build in parallel, paths to generated log
+files, etc. Outside of the built-in usages we're implementing, the most common
+usage we suggest is to replace instances where people have used environments
+variables to implement non-binary-affecting parameters for recipes.
 
 In summary, the `[conf]` feature is still very new in it's implementation, and
 there is a lot more we hope to add to it in the upcoming releases (most
@@ -118,14 +119,17 @@ directory name in both the source and build method.
 un-necessary, and it will not be present after the sources are extracted.
 
 Of note, `tools.get()` relies internally on two other public `tools` functions,
-which now also support the same parameter:
+which now also support the same parameter. In summary, here are the three
+affected function signatures.
 
-- `tools.unzip()`
-- `tools.untargz()`
+- `tools.get(...., strip_root=True)`
+- `tools.unzip(...., strip_root=True)`
+- `tools.untargz(...., strip_root=True)`
 
 ## New Meson, Qbs, and CMake Integrations
 
-For the `Qbs` build system, we've added a new [`toolchain` and `build_helper`](https://docs.conan.io/en/latest/reference/conanfile/tools/qbs.html#qbs)
+For the `Qbs` build system, we've added a new [`toolchain` and
+`build_helper`](https://docs.conan.io/en/latest/reference/conanfile/tools/qbs.html#qbs)
 which leverage our new model for build system integrations.  You can use them in
 your recipes like so:
 
@@ -194,16 +198,16 @@ feature, please open a Github issue to request it.
 
 ## New `msvc` compiler in settings
 
-This release signals the start of yet another long-term migration process in
+This release signals the start of yet another major migration process in
 Conan's binary modeling strategy. We've now added a new compiler named `msvc`.
-Indeed as you may have guessed, the long-term goal is therefore to eventually
+Indeed as you may have guessed, the long-term goal is therefor to eventually
 replace the compiler name of `Visual Studio` in Conan's settings.
 
 Furthermore, this setting comes along new models for `compiler.version` and
 `compiler.runtime`.  For version, `msvc` now models the actual compiler
 executable version rather than the IDE version.  For runtime, what was
 previously `compiler.runtime` is now divided into `compiler.runtime` and
-`compiler.runtime_type`. 
+`compiler.runtime_type`.
 
 So, whereas the old syntax was:
 
@@ -218,11 +222,11 @@ The equivalent syntax for the new compiler model is:
     compiler.runtime=dynamic
     compiler.runtime_type=Debug
 
-As we said before, this is just the start of a long-term migration process. We
-don't have any firm timelines to share at this point, but we expect to take a
-lot of time testing and improving the new `msvc` model internally before
-starting any real work on a migration for Conan Center, or discussing
-deprecation of the `Visual Studio` compiler model.
+The timeline for this feature is that we would like to have it stabelized in
+version future release of Conan 1, and make it the default model for Conan 2.0.
+This includes completely removing the visual studio generator in Conan 2.0. For
+this reason, the more users who migrate to this generator ahead of time and
+provide feedback, the better it will be for Conan 2.0.
 
 ## Improved support for Apple platforms
 
@@ -237,6 +241,7 @@ a subsetting of `sdk` under each of the following Apple-related `os` settings:
     Macos:
         version: ...
         sdk: [None, "macosx"]
+        subsystem: [None, "catalyst"]
     iOS:
         version: ...
         sdk: [None, "iphoneos", "iphonesimulator"]
