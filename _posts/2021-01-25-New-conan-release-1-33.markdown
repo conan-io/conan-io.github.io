@@ -95,7 +95,7 @@ there is a lot more we hope to add to it in the upcoming releases (most
 importantly, CLI-argument support). Still, we know there are probably several
 use cases out there which we have not thought of but which `[conf]` could be
 expanded to address. If you think you have a use case which might be a good
-candidate for `conf`, please let us know by opening github issue.  
+candidate for `conf`, please let us know by opening github [issue](https://github.com/conan-io/conan/issues).  
 
 ## New strip_root parameter to tools.get()
 
