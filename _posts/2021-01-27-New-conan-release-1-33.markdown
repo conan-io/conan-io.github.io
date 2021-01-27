@@ -1,6 +1,6 @@
 ---
-layout: post 
-comments: false 
+layout: post
+comments: false
 title: "Conan 1.33: New configuration mechanism in profiles, new Qbs toolchain and
 MSVC compiler settings, and better support for Apple platforms such as Catalyst."
 ---
@@ -23,7 +23,7 @@ various reasons, `conan.conf` was not a suitable place for the global
 definitions of these configurations, so we've introduced a new file in the Conan
 user home directory specifically for this purpose:
 
-    [`conan.cfg`](https://docs.conan.io/en/latest/reference/config_files/conan_cfg.html)
+[`conan.cfg`](https://docs.conan.io/en/latest/reference/config_files/conan_cfg.html)
 
 The primary purpose of this file at this time is to define global values for the
 new profile block known as `[conf]`. The `[conf]` feature provides a new way for
@@ -51,11 +51,11 @@ future. You can then use these variables and values in your recipes like this:
     class Pkg(ConanFile):
         name = "mypkg"
 
-    def build(self):
-        if(self.conf["user.mycompany.logging:print_all_env_vars"]):
-            for param in os.environ.keys():
-                self.output.info("%20s = %s" % (param,os.environ[param]))
-                # Will print all env vars defined at build as "key=value" pairs
+        def build(self):
+            if(self.conf["user.mycompany.logging:print_all_env_vars"]):
+                for param in os.environ.keys():
+                    self.output.info("%20s = %s" % (param,os.environ[param]))
+                    # Will print all env vars defined at build as "key=value" pairs
 
 However, in addition to providing a new feature for Conan recipe authors to
 expose parameters from recipes like this, the `[conf]` feature is used to expose
@@ -72,7 +72,7 @@ the full namespace of the tool or function, in this case,
     mypkg2:tools.microsoft:msbuild_verbosity = Diagnostic
 
 Finally, we've also used it to expose some parameters relating to "core"
-behaviors of Conan under a `core` namespace.  
+behaviors of Conan under a `core` namespace.
 
     core:required_conan_version = "expression"
     core.package_id:msvc_visual_incompatible
@@ -97,7 +97,7 @@ importantly, CLI-argument support). Still, we know there are probably several
 use cases out there which we have not thought of but which `[conf]` could be
 expanded to address. If you think you have a use case which might be a good
 candidate for `conf`, please let us know by opening github
-[issue](https://github.com/conan-io/conan/issues).  
+[issue](https://github.com/conan-io/conan/issues).
 
 ## New strip_root parameter to tools.get()
 
@@ -114,7 +114,7 @@ One of the unfortunate details of many source archives is that there is often a
 directory.  So, after extraction, there's an extra folder layer with some name
 which needs to be managed in some way. No matter how it's managed, it results in
 extra lines of code in the recipe, typically having to explicitly reference the
-directory name in both the source and build method.  
+directory name in both the source and build method.
 
 `tools.get()` now gives us a better way! By passing the parameter of
 `strip_root=True`, the unzip process will understand that this root directory is
@@ -136,6 +136,9 @@ which leverage our new model for build system integrations.  You can use them in
 your recipes like so:
 
     from conan.tools.qbs import Qbs, QbsToolchain
+
+    class Pkg(ConanFile):
+
         def generate(self):
             tc = QbsToolchain(self)
             tc.generate()
@@ -148,10 +151,13 @@ For `Meson`, we already a toolchain class, but this release introduces a
 `build_helper` for it.  So, now usage looks the same as `Qbs` above.
 
     from conan.tools.cmake import Meson, MesonToolchain
+
+    class Pkg(ConanFile):
+
         def generate(self):
             tc = MesonToolchain(self)
             tc.generate()
-        
+
         def build(self):
             meson = Meson(self)
             meson.build()
@@ -165,6 +171,9 @@ namespace, and leveraging the new integrations model. Here it is together with
 the toolchain and build helper.
 
     from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps
+
+    class Pkg(ConanFile):
+
         def generate(self):
             tc = CMakeToolchain(self)
             tc.generate()
@@ -182,7 +191,7 @@ Another integration point we're continuing to improve support for is the use of
 additional build system files such as `.cmake` files for CMake.  Organizations
 may have been using such files prior to Conan, or may have some special use
 cases which make declaring variables in these external files to have some
-advantage over defining them in Conan's `cpp_info` data structure.  
+advantage over defining them in Conan's `cpp_info` data structure.
 
 In any case, for quite a while we've had an experimental implementation
 supporting only CMake.  With this release, we make it possible to support any
