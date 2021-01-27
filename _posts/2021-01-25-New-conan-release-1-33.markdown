@@ -1,11 +1,8 @@
 ---
 layout: post 
 comments: false 
-title: "Conan 1.33: New [conf] section in profiles, New strip_root argument for
-tools.get(), new Meson build helper, New toolchain and build helper for Qbs, New
-CMakeDeps generator, Per-generator build_modules support, New msvc compiler in
-settings, new os.subsystem for macOS for Apple Catalyst support, New os.sdk for
-all Apple os."
+title: "Conan 1.33: New configuration mechanism in profiles, new Qbs toolchain and
+MSVC compiler settings, and better support for Apple platforms such as Catalyst."
 ---
 
 Conan 1.33.0 is a big release! We're introducing a new section in profiles named
