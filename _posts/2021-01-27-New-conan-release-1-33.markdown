@@ -6,7 +6,7 @@ MSVC compiler settings, and better support for Apple platforms such as Catalyst.
 ---
 
 Conan 1.33.0 is a big release! We're introducing a new section in profiles named
-`[conf]`, and a corresponding configuration file named `conan.cfg` to
+`[conf]`, and a corresponding configuration file named `global.conf` to
 enable setting of related values globally. We've improved support for Qbs with a
 new toolchain and build helper, as well as a new build helper for Meson. We've
 added a new generator called CMakeDeps, and updated the "build_modules" strategy
@@ -16,14 +16,14 @@ been added to the related functions of `tools.unzip()` and `tools.untargz()`.
 We've now also added two new sub-settings under `macOS` : `sdk` and `subsystem`,
 the latter to support [Mac Catalyst](https://developer.apple.com/mac-catalyst/).
 
-## New [conf]iguration section in profiles and conan.cfg
+## New [conf]iguration section in profiles and global.conf
 
 In this release, Conan is adding some new configuration capabilities. For
 various reasons, `conan.conf` was not a suitable place for the global
 definitions of these configurations, so we've introduced a new file in the Conan
 user home directory specifically for this purpose:
 
-[`conan.cfg`](https://docs.conan.io/en/latest/reference/config_files/conan_cfg.html)
+[`global.conf`](https://docs.conan.io/en/latest/reference/config_files/global_conf.html)
 
 The primary purpose of this file at this time is to define global values for the
 new profile block known as `[conf]`. The `[conf]` feature provides a new way for
@@ -38,7 +38,7 @@ Conan, such as build scripts, builds systems, compilers, linkers, etc.
 You can use `[conf]` to declare arbitrary variables and values, prefixed with
 the `user` namespace. Notice that you can define one value to apply to all
 packages, and then define values on a per-package basis just like the `[env]`
-section. Again, this can be defined in either a profile, or `conan.cfg`:
+section. Again, this can be defined in either a profile, or `global.conf`:
 
     [conf]
     user.mycompany.logging:print_all_env_vars=False
