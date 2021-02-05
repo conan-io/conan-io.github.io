@@ -17,4 +17,4 @@ We know that this will have a major impact for some users. We understand that cl
 
 On the positive side, this will also give JFrog more capabilities to focus on our products as well as our community and open source projects, including ConanCenter, the free ArtifactoryCE, and Conan itself.
 
-If you have any questions, please feel free to write to [conancenter@jfrog.com]((mailto:conancenter@jfrog.com).
+If you have any questions, please feel free to write to [conancenter@jfrog.com](mailto:conancenter@jfrog.com).
