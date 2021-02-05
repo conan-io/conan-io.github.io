@@ -23,8 +23,7 @@ For users that were hosting their own Bintray repositories for Conan packages,
 the best alternative would be to self-host an instance of [Artifactory Community
 Edition (CE) for Conan](https://conan.io/downloads.html), which is completely
 free and doesn’t have capacity restrictions.  Alternatively, JFrog now offers
-[cloud-hosted instances of the JFrog Platform]([git checkout -b
-add_links_bintray_sunset](https://jfrog.com/artifactory/start-free/?isConan=true)),
+[cloud-hosted instances of the JFrog Platform](https://jfrog.com/artifactory/start-free/?isConan=true),
 with a free tier designed for individual with reduced usage. If your instance
 will be used for an open-source project, you can apply to [JFrog’s OpenSource
 program for sponsorship](https://jfrog.com/open-source/), which provides
