@@ -15,17 +15,15 @@ Probably you are already familiar with bindings in different languages and the d
 
 # Introduction to pybind11
 
-Pybind11 is a C++ header-only and easy to use library that provides Python binding of C++ code. While there were already libraries like ``boost.python`` that also cover this purpose, ``pybind11`` gets rid of a lot of the boilerplate binding code and leverages the features of C++11 onwards standards.
+[Pybind11](https://github.com/pybind/pybind11) is a C++ header-only and easy to use library that provides Python binding of C++ code. While there were already libraries like [boost.python](https://www.boost.org/doc/libs/1_66_0/libs/python/doc/html/index.html) that also cover this purpose, ``pybind11`` gets rid of a lot of the boilerplate binding code and leverages the features of C++11 onwards standards.
 
 As usual in this kind of libraries, it exposes C++ types in Python and the other way around. So if you are mainly developing in Python, you can benefit from the speed and low-level control of C++, and if you have an application or library in C++ you can expose it with a nice-looking Python API.
 
-**********add more intro********
+TODO: add more intro?
 
 # The Fibonacci example
 
-To showcase the performance of both programming languages, let's use a function to calculate the numbers of the Fibonacci sequence. I know this isn't a real issue as recursive operations can be optimized with the usage of caches, but just imagine any other computationally heavy operation instead of this one. We will calculate the number of the position 36 (with the result of 24157817) in pure Python, C++ and then Python with C++ module compiled with pybind11.
-
-You can find all the materials here: https://github.com/danimtb/pybind11_fibonacci
+To showcase the performance of both programming languages, let's use a function to calculate the numbers of the Fibonacci sequence. Of course this is not a realistic example, as recursive operations can be optimized with the usage of caches and so, but just imagine any other computationally heavy operation instead of this one. We will calculate the number of the position 36 (with the result of 24157817) in pure Python, C++ and then Python with C++ module compiled with pybind11.
 
 ## The Python way
 
@@ -194,12 +192,29 @@ class FibolibConan(ConanFile):
     generators = "cmake_find_package"
 ```
 
-Now let's install the library:
+Now let's install the [pybind11 package](https://conan.io/center/pybind11) from ConanCenter:
 
 ```bash
 $ conan install ..
 ...
-******************************add more output
+pybind11/2.5.0: Downloaded recipe revision 52cdba31784494b36c41d1b72999b9da
+conanfile.py: Installing package
+Requirements
+    pybind11/2.5.0 from 'conan-center' - Downloaded
+Packages
+    pybind11/2.5.0:5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9 - Download
+
+Installing (downloading, building) binaries...
+pybind11/2.5.0: Retrieving package 5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9 from remote 'conan-center'
+Downloading conanmanifest.txt completed [1.86k]
+Downloading conaninfo.txt completed [0.27k]
+Downloading conan_package.tgz completed [136.42k]
+Decompressing conan_package.tgz completed [0.00k]
+pybind11/2.5.0: Package installed 5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9
+pybind11/2.5.0: Downloaded package revision 3f9e50fcdfec4504110f1085d47c7502
+[HOOK - conan-center.py] post_package_info(): [CMAKE FILE NOT IN BUILD FOLDERS (KB-H019)] OK
+conanfile.py: Generator txt created conanbuildinfo.txt
+conanfile.py: Generator cmake_find_package created Findpybind11.cmake
 ```
 
 And include it in a CMake project to build the ``fibolib`` Python module:
@@ -235,7 +250,7 @@ This will generate the module in the *lib/* folder. In my case, the files of the
 *fibolib.exp* and *fibolib.lib*
 
 
-Now let's use this new module in a new Pythom program called *main_cpp.py*:
+Now let's use this new module in a new Python program called *main_cpp.py*:
 
 ```python
 from binding._build.lib.fibolib import fib
@@ -255,19 +270,29 @@ $ ptime python main_cpp.py
 Execution time: 0.212 s
 ```
 
-Not bad!
+The reduction in time compared with the pure Python example is quite significant. As expected, the execution takes a little bit more
+than the pure C++ implementation due to the call to the Python interpreter and the load of the modules, but it is not far from it and
+still in the same order of magnitude.
 
 # Wrap-up
 
+We have covered a small example in this post about the incredible boost that C++ can make in a simple Python application. Pybind11 offers a lot of capabilities to expose all kind of classes and functions that exploit the most modern features of the latest C++ standards. You will
+find detailed information of the library in its [complete documentation](https://pybind11.readthedocs.io/en/latest/).
+
+As general takeaways, we have seen that:
+
 - C++ is superior in performance to Python.
 - We can use pydind11 to take advantage of C++ in our Python code.
-- pybind11 produces Python compatible modules with a minimal binding code.
+- Pybind11 produces Python compatible modules with a minimal binding code.
 
 Moreover:
-- Conan can be used to easily integrate the pydind11 dependency in our project
+- Conan can be used to easily integrate the pydind11 dependency in our project.
 
 ## Bonus
 
-lru_cache
-fibonacci benchmark
-c++ constexpr
+As commented in the introduction of the example, the particular issue of recursion can be greatly improved with the usage of array caches to avoid calculating the results for every number.
+
+From Python 3.5.9, the `functools` module provides a helpful decorator [lru_cache()](https://docs.python.org/3.5/library/functools.html#functools.lru_cache)
+(Least Recently Used) that implements this functionality for us.
+
+You can find the results of the Python cached example in this [Recursive Fibonacci Benchmark](https://github.com/drujensen/fib) that includes a number programming languages like Java, Ruby or Go.
