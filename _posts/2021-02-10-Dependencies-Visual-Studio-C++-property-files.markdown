@@ -25,14 +25,27 @@ Let’s start by manually adding an external library to one existing project. Le
 
 All these tasks can be done interactively in the IDE, going to the project view, right click and open “Properties”. For defining the include directories, it is necessary to go to the C/C++ -> Preprocessor -> Additional Include Directories:
 
+<p class="centered">
+    <img src="{{ site.baseurl }}/assets/post_images/2020-02-10/vs_add_include.png"
+     align="center" alt="Visual Studio C++ Additional Header Path"/>
+</p>
+
 
 Note that all this information is defined per configuration, in this image, the Release - x64 configuration is being changed. If we add the include directories to this configuration, and then later switch to Debug in the IDE, the build will fail not finding the ZLib headers. So it is necessary to add the include directories typically to all configurations.
 
 In a similar way, the libraries that our application is linking can be defined in Linker -> Input -> Additional Dependencies.
 
-
+<p class="centered">
+    <img src="{{ site.baseurl }}/assets/post_images/2020-02-10/vs_add_lib.png"
+     align="center" alt="Visual Studio C++ Additional Dependencies"/>
+</p>
 
 And finally, the library paths are necessary, this can be specified in Linker -> General. As the above properties, it can also be defined for multiple configurations.
+
+<p class="centered">
+    <img src="{{ site.baseurl }}/assets/post_images/2020-02-10/vs_add_lib_path.png"
+     align="center" alt="Visual Studio C++ Additional Dependencies Path"/>
+</p>
 
 
 This process is very manual, but we can check how it is translated to the project files. If we check the ``.vcxproj`` file we would find something like this:
@@ -63,7 +76,7 @@ This is a great starting point if we want to automate the management of dependen
 
 # Using MSBuild property files
 
-Given that .vcxproj are XML files it is possible to directly add properties in it. However, property files give a very convenient way to do the same, but keeping the desired decoupling and separation of concerns in software engineering. Property files are also XML files with the ``.props`` extension that basically share the same syntax, but that can be imported from the ``.vcxproj`` and even other property files. Following the single responsibility principle, we will create separated property files dedicated exclusively to handle the dependencies information.
+Given that ``.vcxproj`` are XML files it is possible to directly add properties in it. However, property files give a very convenient way to do the same, but keeping the desired decoupling and separation of concerns in software engineering. Property files are also XML files with the ``.props`` extension that basically share the same syntax, but that can be imported from the ``.vcxproj`` and even other property files. Following the single responsibility principle, we will create separated property files dedicated exclusively to handle the dependencies information.
 
 For the above example, we could create a ``zlib.props`` file like:
 
@@ -83,7 +96,7 @@ For the above example, we could create a ``zlib.props`` file like:
 </Project>
 ```
 
-And then import it in the .vcxproj. This import can be added manually in the IDE as well, going to “Property Manager”->”Add Existing Property Sheet” and navigating and selecting the ``zlib.props`` file. But as we have learned a bit how the ``.vcxproj`` looks like, let’s do it directly in it:
+And then import it in the ``.vcxproj``. This import can be added manually in the IDE as well, going to “Property Manager”->”Add Existing Property Sheet” and navigating and selecting the ``zlib.props`` file. But as we have learned a bit how the ``.vcxproj`` looks like, let’s do it directly in it:
 
 ```xml
 <ImportGroup Label="Dependencies">
@@ -91,7 +104,7 @@ And then import it in the .vcxproj. This import can be added manually in the IDE
 </ImportGroup>
 ```
 
-Once we have this setup, adding a new dependency to the project is simple, adding a new xxxx.props file and importing it under the same “Dependencies” section in our .vcproj, in one single line.
+Once we have this setup, adding a new dependency to the project is simple, adding a new xxxx.props file and importing it under the same "Dependencies" section in our .vcxproj, in one single line.
 
 # Managing multi-configuration: Release, Debug
 
@@ -104,9 +117,9 @@ It is important to note that in the general case it is not possible to link libr
 1>IlmImf-2_5.lib(ImfStringAttribute.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in main.obj
 ```
 
-If we want to support and develop multiple configurations, typically, at least a different library per configuration is needed. There are different alternatives, the first one would be using different names for the library, for example *zlibd.lib* for the debug one, *zlib.lib* for the release one, and variants like *zlib64d.lib* for 64 bits ones. A second alternative is to keep the same library name, but locate it inside different folders, like Release/x64 or Debug/Win32.
+If we want to support and develop multiple configurations, typically, at least a different library per configuration is needed. There are different alternatives, the first one would be using different names for the library, for example ``zlibd.lib`` for the debug one, ``zlib.lib`` for the release one, and variants like ``zlib64d.lib`` for 64 bits ones. A second alternative is to keep the same library name, but locate it inside different folders, like Release/x64 or Debug/Win32.
 
-To let Visual Studio MSBuild use the active configuration values, we can introduce conditionals on both the “Configuration” and “Platform” IDE values our previous **zlib.props** file, something like:
+To let Visual Studio MSBuild use the active configuration values, we can introduce conditionals on both the “Configuration” and “Platform” IDE values our previous ``zlib.props`` file, something like:
 
 ```xml
 <?xml version="1.0" ?>
@@ -132,7 +145,7 @@ To let Visual Studio MSBuild use the active configuration values, we can introdu
 </Project>
 ```
 
-Depending on the scale, number of dependencies and configurations to manage, it could be interesting to go one step further and completely decouple the data from the functionality. In this case, it would mean to define a **zlib.props** file that imports a specific data file for one configuration:
+Depending on the scale, number of dependencies and configurations to manage, it could be interesting to go one step further and completely decouple the data from the functionality. In this case, it would mean to define a ``zlib.props`` file that imports a specific data file for one configuration:
 
 ```xml
 <?xml version="1.0" ?>
@@ -154,7 +167,7 @@ Depending on the scale, number of dependencies and configurations to manage, it 
 </Project>
 ```
 
-And each of the files would define the specific variables, for example **zlib_release_x64.props** would be:
+And each of the files would define the specific variables, for example ``zlib_release_x64.props`` would be:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -173,7 +186,7 @@ This approach makes more evident the important values that need to be defined, c
 
 It is very common that one library depends on another library functionality. For example, the popular Poco C++ framework, depends on ZLib (besides other libraries like expat, sqlite, etc). Most times, when a user wants to build an application using the Poco C++ framework, they don’t want to take care of all the transitive dependencies of Poco, and they just want to specify in their project their dependency on Poco, but not on other transitive dependencies as Zlib. Many times, users are not even aware of these transitive dependencies
 
-It is possible to implement this logic in our property files, and introduce in the **poco.props** file:
+It is possible to implement this logic in our property files, and introduce in the ``poco.props`` file:
 
 ```xml
  <?xml version="1.0" ?>
@@ -186,7 +199,7 @@ It is possible to implement this logic in our property files, and introduce in t
 	</PropertyGroup>
 ```
 
-Note the condition on ``zlib_props_imported``, this is a flag that we introduce to avoid importing the same file twice. How could this happen? This is what is called a “diamond” in the dependency graph. If we had another dependency, like the Boost library, that also depends on ZLib, and we want to use both Poco and Boost in our project, the **zlib.props** file would be imported twice.
+Note the condition on ``zlib_props_imported``, this is a flag that we introduce to avoid importing the same file twice. How could this happen? This is what is called a “diamond” in the dependency graph. If we had another dependency, like the Boost library, that also depends on ZLib, and we want to use both Poco and Boost in our project, the ``zlib.props`` file would be imported twice.
 
 Lets recap at this stage the files that we have so far:
 - *zlib.props*: Entry point for the zlib library. It contains conditional logic based on the Visual IDE “configuration” and “platform” to select one of the following files. It also implements “import guards” to avoid being included transitively more than once.
@@ -220,9 +233,12 @@ $ cd msvc
 $ conan install .. --generator=MSBuildDeps --install-folder=conan
 ```
 
-This command will download and install all our dependencies from [ConanCenter](https://conan.io/center) and transitive dependencies (27 of them). The dependency graph can be generated with ``$ conan info .. --graph=graph.html`` and then open the **graph.html** file:
+This command will download and install all our dependencies from [ConanCenter](https://conan.io/center) and transitive dependencies (27 of them). The dependency graph can be generated with ``$ conan info .. --graph=graph.html`` and then open the ``graph.html`` file:
 
-
+<p class="centered">
+    <img src="{{ site.baseurl }}/assets/post_images/2020-02-10/dependency_graph.png"
+     align="center" alt="ImGui Poco OpenCV dependency graph"/>
+</p>
 
 
 After the ``$ conan install`` command, go to the ``conan`` folder and check there all the generated ``.props`` files.
@@ -230,8 +246,10 @@ After the ``$ conan install`` command, go to the ``conan`` folder and check ther
 Once the dependencies are installed, and the property files have been added to the project (this needs to be done just once, the project in the Github repo already has added the property files, no need to do anything), then it is possible to build and run the project. Remember to select “Release” and “x64”, as this is the default configuration that will be installed with ``conan install``.
 
 
-
-https://raw.githubusercontent.com/czoido/imgui-opencv/master/data/screen-capture.gif
+<p class="centered">
+    <img src="{{ site.baseurl }}/assets/post_images/2020-02-10/imgui_opencv_poco_bird.gif"
+     align="center" alt="ImGui Poco OpenCV application running"/>
+</p>
 
 
 # Conclusion
