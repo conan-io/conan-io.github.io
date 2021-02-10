@@ -52,24 +52,24 @@ This process is very manual, but we can check how it is translated to the projec
 
 ```xml
 <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>ZLIB_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\TeamDeps\zlib\include;$(SolutionDir)\include;$(SolutionDir)\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\TeamDeps\zlib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
+  <ClCompile>
+    <WarningLevel>Level3</WarningLevel>
+    <FunctionLevelLinking>true</FunctionLevelLinking>
+    <IntrinsicFunctions>true</IntrinsicFunctions>
+    <SDLCheck>true</SDLCheck>
+    <PreprocessorDefinitions>ZLIB_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    <ConformanceMode>true</ConformanceMode>
+    <AdditionalIncludeDirectories>C:\TeamDeps\zlib\include;$(SolutionDir)\include;$(SolutionDir)\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+  </ClCompile>
+  <Link>
+    <SubSystem>Console</SubSystem>
+    <EnableCOMDATFolding>true</EnableCOMDATFolding>
+    <OptimizeReferences>true</OptimizeReferences>
+    <GenerateDebugInformation>true</GenerateDebugInformation>
+    <AdditionalLibraryDirectories>C:\TeamDeps\zlib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    <AdditionalDependencies>zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+  </Link>
+</ItemDefinitionGroup>
 ```
 
 This is a great starting point if we want to automate the management of dependencies in MSBuild projects. Note the cumulative ``<AdditionalDependencies>zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>`` expression. This is done to respect and keep possible existing values in AdditionalDependencies, that could come defined elsewhere.
@@ -83,16 +83,16 @@ For the above example, we could create a ``zlib.props`` file like:
 ```xml
 <?xml version="1.0" ?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<ItemDefinitionGroup>
-		<ClCompile>
-			<AdditionalIncludeDirectories>C:\TeamDeps\zlib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-			<PreprocessorDefinitions>ZLIB_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-		</ClCompile>
-		<Link>
-			<AdditionalLibraryDirectories>C:\TeamDeps\zlib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-			<AdditionalDependencies>zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-		</Link>
-	</ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\TeamDeps\zlib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ZLIB_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>C:\TeamDeps\zlib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
 </Project>
 ```
 
@@ -100,7 +100,7 @@ And then import it in the ``.vcxproj``. This import can be added manually in the
 
 ```xml
 <ImportGroup Label="Dependencies">
-    <Import Project="zlib.props" />
+  <Import Project="zlib.props" />
 </ImportGroup>
 ```
 
@@ -124,24 +124,24 @@ To let Visual Studio MSBuild use the active configuration values, we can introdu
 ```xml
 <?xml version="1.0" ?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-		<ClCompile>
-			<AdditionalIncludeDirectories>C:\TeamDeps\zlib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-		</ClCompile>
-		<Link>
-			<AdditionalLibraryDirectories>C:\TeamDeps\zlib\lib\Debug\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-			<AdditionalDependencies>zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-		</Link>
-	</ItemDefinitionGroup>
-	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-		<ClCompile>
-			<AdditionalIncludeDirectories>C:\TeamDeps\zlib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-		</ClCompile>
-		<Link>
-			<AdditionalLibraryDirectories>C:\TeamDeps\zlib\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-			<AdditionalDependencies>zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-		</Link>
-	</ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\TeamDeps\zlib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>C:\TeamDeps\zlib\lib\Debug\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\TeamDeps\zlib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>C:\TeamDeps\zlib\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
 </Project>
 ```
 
@@ -150,20 +150,20 @@ Depending on the scale, number of dependencies and configurations to manage, it 
 ```xml
 <?xml version="1.0" ?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<ImportGroup Label="Configurations">
-		<Import Condition="'$(Configuration)' == 'Release' And '$(Platform)' == 'x64'" Project="zlib_release_x64.props"/>
-		<Import Condition="'$(Configuration)' == 'Debug' And '$(Platform)' == 'Win32'" Project="zlib_debug_win32.props"/>
-	</ImportGroup>
+  <ImportGroup Label="Configurations">
+    <Import Condition="'$(Configuration)' == 'Release' And '$(Platform)' == 'x64'" Project="zlib_release_x64.props"/>
+    <Import Condition="'$(Configuration)' == 'Debug' And '$(Platform)' == 'Win32'" Project="zlib_debug_win32.props"/>
+  </ImportGroup>
 
-	<ItemDefinitionGroup>
-		<ClCompile>
-			<AdditionalIncludeDirectories>$(ZLibIncludeDirectories)%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-		</ClCompile>
-		<Link>
-			<AdditionalLibraryDirectories>$(ZLibLibraryDirectories)%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-			<AdditionalDependencies>$(ZLibLibraries)%(AdditionalDependencies)</AdditionalDependencies>
-		</Link>
-	</ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ZLibIncludeDirectories)%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(ZLibLibraryDirectories)%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(ZLibLibraries)%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
 </Project>
 ```
 
@@ -189,14 +189,16 @@ It is very common that one library depends on another library functionality. For
 It is possible to implement this logic in our property files, and introduce in the ``poco.props`` file:
 
 ```xml
- <?xml version="1.0" ?>
+<?xml version="1.0" ?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<ImportGroup Label="Dependencies">
-		<Import Condition="'$(zlib_props_imported)' != 'True'" Project="zlib.props"/>
-	</ImportGroup>
-	<PropertyGroup>
-		<poco_props_imported>True</poco_props_imported>
-	</PropertyGroup>
+  <ImportGroup Label="Dependencies">
+    <Import Condition="'$(zlib_props_imported)' != 'True'" Project="zlib.props"/>
+  </ImportGroup>
+  <PropertyGroup>
+    <poco_props_imported>True</poco_props_imported>
+  </PropertyGroup>
+  ...
+</Project>
 ```
 
 Note the condition on ``zlib_props_imported``, this is a flag that we introduce to avoid importing the same file twice. How could this happen? This is what is called a “diamond” in the dependency graph. If we had another dependency, like the Boost library, that also depends on ZLib, and we want to use both Poco and Boost in our project, the ``zlib.props`` file would be imported twice.
