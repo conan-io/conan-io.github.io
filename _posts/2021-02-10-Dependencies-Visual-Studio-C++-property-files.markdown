@@ -202,11 +202,11 @@ It is possible to implement this logic in our property files, and introduce in t
 Note the condition on ``zlib_props_imported``, this is a flag that we introduce to avoid importing the same file twice. How could this happen? This is what is called a “diamond” in the dependency graph. If we had another dependency, like the Boost library, that also depends on ZLib, and we want to use both Poco and Boost in our project, the ``zlib.props`` file would be imported twice.
 
 Lets recap at this stage the files that we have so far:
-- *zlib.props*: Entry point for the zlib library. It contains conditional logic based on the Visual IDE “configuration” and “platform” to select one of the following files. It also implements “import guards” to avoid being included transitively more than once.
-- *zlib_release_x64.props*: Contains the specific data about zlib library in its release|x64 mode, as ``ZLibLibraryDirectories``, that can change between different configurations.
-- *zlib_debug_x64.props*: Same as the previous one, but for Debug configuration. Other configuration files are also possible.
-- *poco.props*: Entre point for the poco library. This file is the one that users will include in their *.vcxproj* project files. It contains a transitive dependency to *zlib.props*.
-- *poco_release_x64.props*: Specific data for poco library for the release|x64 configuration
+- ``zlib.props``: Entry point for the zlib library. It contains conditional logic based on the Visual IDE “configuration” and “platform” to select one of the following files. It also implements “import guards” to avoid being included transitively more than once.
+- ``zlib_release_x64.props``: Contains the specific data about zlib library in its release|x64 mode, as ``ZLibLibraryDirectories``, that can change between different configurations.
+- ``zlib_debug_x64.props``: Same as the previous one, but for Debug configuration. Other configuration files are also possible.
+- ``poco.props``: Entre point for the poco library. This file is the one that users will include in their ``.vcxproj`` project files. It contains a transitive dependency to ``zlib.props``.
+- ``poco_release_x64.props``: Specific data for poco library for the release|x64 configuration
 - … other files, per each transitive dependency and per configuration.
 
 # Automating the dependencies
