@@ -26,7 +26,7 @@ Let’s start by manually adding an external library to one existing project. Le
 All these tasks can be done interactively in the IDE, going to the project view, right click and open “Properties”. For defining the include directories, it is necessary to go to the C/C++ -> Preprocessor -> Additional Include Directories:
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2020-02-10/vs_add_include.png"
+    <img src="{{ site.baseurl }}/assets/post_images/2021-02-10/vs_add_include.png"
      align="center" alt="Visual Studio C++ Additional Header Path"/>
 </p>
 
@@ -36,14 +36,14 @@ Note that all this information is defined per configuration, in this image, the 
 In a similar way, the libraries that our application is linking can be defined in Linker -> Input -> Additional Dependencies.
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2020-02-10/vs_add_lib.png"
+    <img src="{{ site.baseurl }}/assets/post_images/2021-02-10/vs_add_lib.png"
      align="center" alt="Visual Studio C++ Additional Dependencies"/>
 </p>
 
 And finally, the library paths are necessary, this can be specified in Linker -> General. As the above properties, it can also be defined for multiple configurations.
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2020-02-10/vs_add_lib_path.png"
+    <img src="{{ site.baseurl }}/assets/post_images/2021-02-10/vs_add_lib_path.png"
      align="center" alt="Visual Studio C++ Additional Dependencies Path"/>
 </p>
 
@@ -236,7 +236,7 @@ $ conan install .. --generator=MSBuildDeps --install-folder=conan
 This command will download and install all our dependencies from [ConanCenter](https://conan.io/center) and transitive dependencies (27 of them). The dependency graph can be generated with ``$ conan info .. --graph=graph.html`` and then open the ``graph.html`` file:
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2020-02-10/dependency_graph.png"
+    <img src="{{ site.baseurl }}/assets/post_images/2021-02-10/dependency_graph.png"
      align="center" alt="ImGui Poco OpenCV dependency graph"/>
 </p>
 
@@ -247,8 +247,7 @@ Once the dependencies are installed, and the property files have been added to t
 
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2020-02-10/imgui_opencv_poco_bird.gif"
-     align="center" alt="ImGui Poco OpenCV application running"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2021-02-10/imgui_opencv_poco_bird.gif" align="center" alt="ImGui Poco OpenCV application running"/>
 </p>
 
 
