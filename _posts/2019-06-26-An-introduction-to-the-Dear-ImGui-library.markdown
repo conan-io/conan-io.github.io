@@ -262,10 +262,9 @@ to download the required bindings for GLFW and OpenGL3.
 
     {% highlight text %}
     [requires]
-    imgui/1.69@bincrafters/stable
-    glfw/3.2.1@bincrafters/stable
-    glew/2.1.0@bincrafters/stable
-
+    imgui/1.74
+    glfw/3.3.2
+    glew/2.1.0
     [generators]
     cmake_find_package_multi
 
