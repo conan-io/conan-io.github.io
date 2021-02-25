@@ -72,7 +72,7 @@ example application renders a triangle using OpenGL3. We will use GLFW to manage
 window creation and events handling. As ImGui is independent of the rendering
 system and platform we have to introduce some binding for our rendering system.
 Fortunately, there are many premade bindings in Dear ImGui's repo. As we will
-use Dear ImGui v1.69 these are the ones we will need:
+use Dear ImGui v1.74 these are the ones we will need:
 
 * [imgui_impl_opengl3.cpp](https://github.com/ocornut/imgui/blob/v1.69/examples/imgui_impl_opengl3.cpp)
 * [imgui_impl_opengl3.h](https://github.com/ocornut/imgui/blob/v1.69/examples/imgui_impl_opengl3.h)
