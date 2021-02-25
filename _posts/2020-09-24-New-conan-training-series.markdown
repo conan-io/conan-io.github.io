@@ -2,6 +2,10 @@
 layout: post 
 comments: false 
 title: "Free Conan Training Series on JFrog Academy"
+last_modified_at: 2021-02-24
+meta_title: Free Conan Training Series on JFrog Academy - Blog - Conan.io
+meta_description: Happy to announce the launch of online training courses, free
+to anyone who is interested in learning Conan - the C/C++ Package Manager.
 ---
 
 Today we are very excited to announce a new milestone in the Conan project. We
