@@ -1,6 +1,6 @@
 jekyll:
     image: jekyll/jekyll:pages
-    command: jekyll serve _config.yml --watch
+    command: jekyll serve _config.yml,_config_local.yml --watch
     ports:
         - 4000:4000
     volumes:
