@@ -18,12 +18,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="stylesheet" href="{{ "/css/bootstrap.min.css" | prepend: site.baseurl }}">
   <link rel="stylesheet" href="{{ "/css/select2.min.css" | prepend: site.baseurl }}">
   <link rel="stylesheet" href="{{ "/css/style.css" | prepend: site.baseurl }}">
+  <link rel="stylesheet" href="{{ "/css/syntax.css" | prepend: site.baseurl }}">
   <meta name="title" content="{{ page.title }}">
   {% if page.ishomepage == true %}
     <link rel="canonical" href="{{ page.canonical }}">
     <meta name="description" content="{{ page.description }}">
   {% else %}
-    <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+    <meta name="title" content="{%- if page.meta_title -%}
+        {{ page.meta_title }}
+      {%- else -%}
+        {{ page.title }}
+      {% endif %}">
+    <meta name="description" content="{%- if page.meta_description -%}
+        {{ page.meta_description }}
+      {%- elsif page.excerpt -%}
+        {{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}
+      {%- else -%}
+        {{ site.description }}
+      {% endif %}">
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
   {% endif %}
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}">
