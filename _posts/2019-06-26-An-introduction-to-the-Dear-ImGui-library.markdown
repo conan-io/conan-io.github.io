@@ -74,10 +74,10 @@ system and platform we have to introduce some binding for our rendering system.
 Fortunately, there are many premade bindings in Dear ImGui's repo. As we will
 use Dear ImGui v1.74 these are the ones we will need:
 
-* [imgui_impl_opengl3.cpp](https://github.com/ocornut/imgui/blob/v1.69/examples/imgui_impl_opengl3.cpp)
-* [imgui_impl_opengl3.h](https://github.com/ocornut/imgui/blob/v1.69/examples/imgui_impl_opengl3.h)
-* [imgui_impl_glfw.cpp](https://github.com/ocornut/imgui/blob/v1.69/examples/imgui_impl_glfw.cpp)
-* [imgui_impl_glfw.h](https://github.com/ocornut/imgui/blob/v1.69/examples/imgui_impl_glfw.h)
+* [imgui_impl_opengl3.cpp](https://github.com/ocornut/imgui/blob/v1.74/examples/imgui_impl_opengl3.cpp)
+* [imgui_impl_opengl3.h](https://github.com/ocornut/imgui/blob/v1.74/examples/imgui_impl_opengl3.h)
+* [imgui_impl_glfw.cpp](https://github.com/ocornut/imgui/blob/v1.74/examples/imgui_impl_glfw.cpp)
+* [imgui_impl_glfw.h](https://github.com/ocornut/imgui/blob/v1.74/examples/imgui_impl_glfw.h)
 
 The minimal code to make this work is in ``main.cpp``. First, you initialize the
 window for rendering and then you have to initialize a Dear ImGui context and
