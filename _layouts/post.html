@@ -37,6 +37,11 @@ comments: true
             </span>
 
           </div>
+          <div class="post-meta pr-4 d-flex align-items-center">
+            {%- if page.last_modified_at -%}
+            Last updated:<span class="date">{{ page.last_modified_at | date: "%b %-d, %Y" }}</span>
+            {%- endif -%}
+          </div>
           <div class="post-share d-flex">
             <span class="d-inline-block mr-2">Share on: </span>
             {% include socials.html %}
