@@ -40,22 +40,26 @@ the `user` namespace. Notice that you can define one value to apply to all
 packages, and then define values on a per-package basis just like the `[env]`
 section. Again, this can be defined in either a profile, or `global.conf`:
 
-    [conf]
-    user.mycompany.logging:print_all_env_vars=False
-    mypkg:user.logging:print_all_env_vars=True
+```yaml
+[conf]
+user.mycompany.logging:print_all_env_vars=False
+mypkg:user.logging:print_all_env_vars=True
+```
 
 Here, you can see that we've used a sub-namespace of `mycompany` which is
 recommended for all custom uses of `[conf]` to avoid potential conflicts in the
 future. You can then use these variables and values in your recipes like this:
 
-    class Pkg(ConanFile):
-        name = "mypkg"
+```python
+class Pkg(ConanFile):
+    name = "mypkg"
 
-        def build(self):
-            if(self.conf["user.mycompany.logging:print_all_env_vars"]):
-                for param in os.environ.keys():
-                    self.output.info("%20s = %s" % (param,os.environ[param]))
-                    # Will print all env vars defined at build as "key=value" pairs
+    def build(self):
+        if(self.conf["user.mycompany.logging:print_all_env_vars"]):
+            for param in os.environ.keys():
+                self.output.info("%s=%s" % (param, os.environ[param]))
+                # Will print all env vars defined at build as "key=value" pairs
+```
 
 However, in addition to providing a new feature for Conan recipe authors to
 expose parameters from recipes like this, the `[conf]` feature is used to expose
@@ -66,16 +70,20 @@ setting. As you can see in the example below, we expose such `conf` items using
 the full namespace of the tool or function, in this case,
 `tools.microsoft.msbuild_verbosity`:
 
-    [conf]
-    tools.microsoft:msbuild_verbosity = Quiet
-    mypkg:tools.microsoft:msbuild_verbosity = Normal
-    mypkg2:tools.microsoft:msbuild_verbosity = Diagnostic
+```yaml
+[conf]
+tools.microsoft:msbuild_verbosity = Quiet
+mypkg:tools.microsoft:msbuild_verbosity = Normal
+mypkg2:tools.microsoft:msbuild_verbosity = Diagnostic
+```
 
 Finally, we've also used it to expose some parameters relating to "core"
 behaviors of Conan under a `core` namespace.
 
-    core:required_conan_version = "expression"
-    core.package_id:msvc_visual_incompatible
+```yaml
+core:required_conan_version = "expression"
+core.package_id:msvc_visual_incompatible
+```
 
 The first question many people will ask when learning about this new feature is:
 "when should I use `[conf]` instead of `[settings]` or `[options]`?"
@@ -135,32 +143,36 @@ For the `Qbs` build system, we've added a new [`toolchain` and
 which leverage our new model for build system integrations.  You can use them in
 your recipes like so:
 
-    from conan.tools.qbs import Qbs, QbsToolchain
+```python
+from conan.tools.qbs import Qbs, QbsToolchain
 
-    class Pkg(ConanFile):
+class Pkg(ConanFile):
 
-        def generate(self):
-            tc = QbsToolchain(self)
-            tc.generate()
+    def generate(self):
+        tc = QbsToolchain(self)
+        tc.generate()
 
-        def build(self):
-            qbs = Qbs(self)
-            qbs.build()
+    def build(self):
+        qbs = Qbs(self)
+        qbs.build()
+```
 
 For `Meson`, we already a toolchain class, but this release introduces a
 `build_helper` for it.  So, now usage looks the same as `Qbs` above.
 
-    from conan.tools.cmake import Meson, MesonToolchain
+```python
+from conan.tools.cmake import Meson, MesonToolchain
 
-    class Pkg(ConanFile):
+class Pkg(ConanFile):
 
-        def generate(self):
-            tc = MesonToolchain(self)
-            tc.generate()
+    def generate(self):
+        tc = MesonToolchain(self)
+        tc.generate()
 
-        def build(self):
-            meson = Meson(self)
-            meson.build()
+    def build(self):
+        meson = Meson(self)
+        meson.build()
+```
 
 Also, we've had numerous `CMake` integrations for a long time, including a
 Toolchain, a Build Helper, and numerous Generators. With this release, we're
@@ -170,20 +182,22 @@ In truth, it's just the `cmake_find_package_multi` under a new name and
 namespace, and leveraging the new integrations model. Here it is together with
 the toolchain and build helper.
 
-    from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps
+```python
+from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps
 
-    class Pkg(ConanFile):
+class Pkg(ConanFile):
 
-        def generate(self):
-            tc = CMakeToolchain(self)
-            tc.generate()
-            deps = CMakeDeps(self)
-            deps.generate()
+    def generate(self):
+        tc = CMakeToolchain(self)
+        tc.generate()
+        deps = CMakeDeps(self)
+        deps.generate()
 
-        def build(self):
-            cmake = CMake(self)
-            cmake.configure()
-            cmake.build()
+    def build(self):
+        cmake = CMake(self)
+        cmake.configure()
+        cmake.build()
+```
 
 ## Per-Generator build_modules on cpp_info
 
@@ -198,7 +212,9 @@ supporting only CMake.  With this release, we make it possible to support any
 number of build systems by changing the syntax. Here's an example of the new
 syntax:
 
+```python
     self.cpp_info.build_modules["cmake_find_package"].append("cmake/myfunctions.cmake")
+```
 
 `cpp_info.build_modules` now supports taking a dictionary where the key is the
 name of the generator that the build_module should be `include()`d into, and the
@@ -224,16 +240,20 @@ previously `compiler.runtime` is now divided into `compiler.runtime` and
 
 So, whereas the old syntax was:
 
-    compiler="Visual Studio"
-    compiler.version=16
-    compiler.runtime=MDd
+```yaml
+compiler="Visual Studio"
+compiler.version=16
+compiler.runtime=MDd
+```
 
 The equivalent syntax for the new compiler model is:
 
-    compiler=msvc
-    compiler.version=19.1
-    compiler.runtime=dynamic
-    compiler.runtime_type=Debug
+```yaml
+compiler=msvc
+compiler.version=19.1
+compiler.runtime=dynamic
+compiler.runtime_type=Debug
+```
 
 The timeline for this feature is that we would like to have it stabelized in
 version future release of Conan 1, and make it the default model for Conan 2.0.
@@ -251,6 +271,7 @@ to it. Additionally, to properly allow developers to distinguish binaries built
 for embedded Apple platforms, and those built for their simulator, we've added
 a subsetting of `sdk` under each of the following Apple-related `os` settings:
 
+```yaml
     Macos:
         version: ...
         sdk: [None, "macosx"]
@@ -264,6 +285,7 @@ a subsetting of `sdk` under each of the following Apple-related `os` settings:
     tvOS:
         version: ....
         sdk: [None, "appletvos", "appletvsimulator"]
+```
 
 -----------
 <br>
