@@ -1,1 +1,1 @@
-jekyll serve _config.yml,_config_local.yml --watch
+jekyll serve _config.yml,_config_local.yml --watch --future
