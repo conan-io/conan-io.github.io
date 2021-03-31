@@ -80,5 +80,5 @@ are advised to download all packages they need and store them in their own
 infrastructure before that date.  After that date, they will not be available,
 and cannot be restored.
 
-If you have any questions, please feel free to reach out to the Conan team
-directly by creating a [github issue](https://github.com/conan-io/conan/issues).
+If you have any questions or concerns, please share your feedback with us
+directly via email: conancenter@jfrog.com.
