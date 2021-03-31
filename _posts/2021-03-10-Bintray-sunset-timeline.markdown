@@ -12,8 +12,8 @@ Bintray](https://jfrog.com/blog/into-the-sunset-bintray-jcenter-gocenter-and-cha
 the popular binary hosting service. Many users of Conan have been using Bintray
 to host their own Conan repositories, and many Conan packages in ConanCenter are
 still hosted on Bintray.  We discussed the impact of the sunset for Conan users
-in [a previous blog post]
-({{site.baseurl}}/2021/02/05/JFrog-announces-sunset-bintray.html), and gave some
+in [a previous blog post]({{ site.baseurl
+}}/2021/02/05/JFrog-announces-sunset-bintray.html), and gave some
 recommendations for impacted users. However, this post intends to provide
 additional details about the migration plan and related timelines to help ensure
 that those affected have the best information possible.
