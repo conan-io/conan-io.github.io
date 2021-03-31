@@ -29,10 +29,10 @@ lost.
 ## Bintray Repository Migration Plan for ConanCenter
 
 All packages which are physically hosted on Bintray, and which are "included"
-(aka "linked with") ConanCenter will be migrated to a new Conan repository on
-the dedicated Artifactory server for ConanCenter. According to the timeline
-specified below, a redirection process will transparently redirect traffic away
-from Bintray, and to the new repository.
+(aka "linked with") [ConanCenter](https://conan.io/center/) will be migrated to
+a new Conan repository on the dedicated Artifactory server for ConanCenter.
+According to the timeline specified below, a redirection process will
+transparently redirect traffic away from Bintray, and to the new repository.
 
 ## Timeline Updates
 
