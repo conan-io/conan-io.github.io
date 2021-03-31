@@ -28,20 +28,18 @@ lost.
 
 ## Bintray Repository Migration Plan for ConanCenter
 
-All packages which are physically hosted on Bintray, and which are “included”
-(aka “Linked with”) ConanCenter will be migrated to a new Conan repository on
+All packages which are physically hosted on Bintray, and which are "included"
+(aka "linked with") ConanCenter will be migrated to a new Conan repository on
 the dedicated Artifactory server for ConanCenter. According to the timeline
 specified below, a redirection process will transparently redirect traffic away
-from Bintray, and to the new repository. On dates described below, the old
-Bintray URL will be frozen, disabled, and eventually the DNS record will be
-deleted.
+from Bintray, and to the new repository.
 
 ## Timeline Updates
 
 In the coming days and weeks, this post will be updated whenever time planned
-dates are changed or dates currently marked TBD become set. We will not create
-new blog posts with this information. If you are affected by the migration,
-please refer back to this post as needed.
+dates are changed. If you are a Bintray user and are planning your own
+activities related to these dates, please refer back to this blog for such
+updates.
 
 ## Key Dates
 
