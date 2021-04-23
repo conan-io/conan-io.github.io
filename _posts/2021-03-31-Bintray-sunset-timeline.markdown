@@ -7,6 +7,14 @@ meta_description: "A summary of dates and times for key milestones of the Sunset
 of JFrog Bintray which are relevant to users of Conan Package Manager"
 ---
 
+### Updates made on 2021-04-23
+
+As of 2021-04-23, we have added three new relevant dates to the timeline:
+
+* 2021-04-23 : New URL for ConanCenter remote announced
+* 2021-04-25 : New maintenance date added
+* 2021-04-26 : ConanCenter now EXCLUDED and Unaffected by Bintray Brownout
+
 On February 3rd, [JFrog officially announced the planned sunset of
 Bintray](https://jfrog.com/blog/into-the-sunset-bintray-jcenter-gocenter-and-chartcenter/),
 the popular binary hosting service. Many users of Conan have been using Bintray
@@ -60,11 +68,24 @@ We will have some short service brown-outs to remind users about the services
 that are going away on May 1st. (Specific hours will be advertised in the
 [Bintray status page](https://status.bintray.com/).)
 
+### April 23, 2021 - New ConanCenter Remote URL Announced
+
+The new URL for the ConanCenter remote has been announced. Please see [this blog
+post](https://blog.conan.io/2021/04/23/New-Conan-Center-url.html)
+
+### April 25, 2021 - Maintenance - Conan Center Affected
+
+The DNS record for conan.bintray.com will be redirected to the new Conan Center
+Artifactory repository. The specific time will be advertised on the
+[Conan Center status page](https://status.conan.io).
+
 ### April 26, 2021 - Maintenance - All Conan Repositories Affected
 
 We will have some short service brown-outs to remind users about the services
-that are going away on May 1st. (Specific hours will be advertised in the
-[Bintray status page](https://status.bintray.com/).)
+that are going away on May 1st. Specific hours will be advertised in the
+[Bintray status page](https://status.bintray.com/).
+
+Update: ConanCenter will be EXCLUDED and unaffected by this maintenance.
 
 ### May 1, 2021 - Bintray Sunset - All Conan Repositories Affected
 
