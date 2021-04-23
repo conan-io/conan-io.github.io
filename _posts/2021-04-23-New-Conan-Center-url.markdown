@@ -29,14 +29,16 @@ assist the Conan team by experimenting with such things, and providing feedback.
 ## Limitations
 
 It's important to note that this URL will not be functionally equivalent to the
-existing URL of https://conan.bintray.com. Crucially, the new URL will only
-resolve "modern packages" and will not resolve "legacy packages". Simply put,
-"modern packages" are those packages which were created from the
-ConanCenterIndex repository on Github. By contrast, "legacy packages" refers to
-everything else. For example, any packages which were included in ConanCenter
-via the old Bintray "include in ConanCenter" button. Another way to describe the
-difference is to say that, any package which has any "user/channel" in the
-package reference is a "legacy package", and will not be available at this URL. 
+existing URL of [https://conan.bintray.com](https://conan.bintray.com).
+Crucially, the new URL will only resolve "modern packages" and will not resolve
+"legacy packages". Simply put, "modern packages" are those packages which were
+created from the
+[ConanCenterIndex](https://github.com/conan-io/conan-center-index) repository on
+Github. By contrast, "legacy packages" refers to everything else. For example,
+any packages which were included in ConanCenter via the old Bintray "include in
+ConanCenter" button. Another way to describe the difference is to say that, any
+package which has any "user/channel" in the package reference is a "legacy
+package", and will not be available at this URL.
 
 ## Next Steps
 
