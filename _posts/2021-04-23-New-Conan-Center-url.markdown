@@ -13,6 +13,10 @@ ConanCenter users. The new URL is here:
 
 * [https://center.conan.io](https://center.conan.io)
 
+To start testing, you can use add a new remote with this url using the following command:
+
+    conan remote add cci-beta https://center.conan.io
+
 The URL for the ConanCenter website has **NOT** changed, it is still here:
 
 * [https://conan.io/center/](https://conan.io/center/)
