@@ -75,8 +75,7 @@ post](https://blog.conan.io/2021/04/23/New-Conan-Center-url.html)
 
 ### April 25, 2021 - Maintenance - Conan Center Affected
 
-The DNS record for conan.bintray.com will be redirected to the new Conan Center
-Artifactory repository. The specific time will be advertised on the
+A DNS change was made for ConanCenter. The specific time will be advertised on the
 [Conan Center status page](https://status.conan.io).
 
 ### April 26, 2021 - Maintenance - All Conan Repositories Affected
