@@ -9,7 +9,7 @@ of JFrog Bintray which are relevant to users of Conan Package Manager"
 
 ### Updates
 
-As of 2021-04-27, we have added three new relevant notes to the timeline:
+As of 2021-04-27, we have added one new relevant note to the timeline:
 
 * 2021-04-25 : HTTP Connections no longer supported as of this date (https only now)
 
