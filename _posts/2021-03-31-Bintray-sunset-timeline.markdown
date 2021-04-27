@@ -7,13 +7,19 @@ meta_description: "A summary of dates and times for key milestones of the Sunset
 of JFrog Bintray which are relevant to users of Conan Package Manager"
 ---
 
-### Updates made on 2021-04-23
+### Updates
+
+As of 2021-04-27, we have added three new relevant notes to the timeline:
+
+* 2021-04-25 : HTTP Connections no longer supported as of this date (https only now)
 
 As of 2021-04-23, we have added three new relevant dates to the timeline:
 
 * 2021-04-23 : New URL for ConanCenter remote announced
 * 2021-04-25 : New maintenance date added
 * 2021-04-26 : ConanCenter now EXCLUDED and Unaffected by Bintray Brownout
+
+### Original Post
 
 On February 3rd, [JFrog officially announced the planned sunset of
 Bintray](https://jfrog.com/blog/into-the-sunset-bintray-jcenter-gocenter-and-chartcenter/),
