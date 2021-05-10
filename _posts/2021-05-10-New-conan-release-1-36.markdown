@@ -2,7 +2,7 @@
 layout: post 
 comments: false 
 title: "Conan 1.36 : New cpp_info property system, Multiple CMake enhancements,
-Support build_requires testing in test_package, New –-build exclude syntax" 
+Support build_requires testing in test_package, New --build exclude syntax" 
 meta_title: "Version 1.36 of Conan C++ Package Manager is Released" 
 meta_description: "Conan 1.36 brings several significant enhancements,
 including a brand new property system for the cpp_info data structure, several
