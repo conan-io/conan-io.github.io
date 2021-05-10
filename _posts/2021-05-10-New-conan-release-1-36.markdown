@@ -1,7 +1,7 @@
 ---
 layout: post 
 comments: false 
-title: "Conan 1.36 : New cpp_info property system, Multiple CMake enhancements,
+title: "Conan 1.36 : Multiple CMake enhancements, New cpp_info property system, 
 Support build_requires testing in test_package, New --build exclude syntax" 
 meta_title: "Version 1.36 of Conan C++ Package Manager is Released" 
 meta_description: "Conan 1.36 brings several significant enhancements,
@@ -11,99 +11,31 @@ packages which are used as build_requirements, and the ability to exclude
 specific packages from Conan builds."
 ---
 
-Conan 1.36 brings several significant enhancements, including a new property
-strategy for certain values in the `cpp_info` data structure, several different
-enhancements to `CMake` integration, a first-class mechanism for testing
-packages which are used as `build_requires`, and the ability to exclude specific
-packages from Conan builds.
+Conan 1.36 brings several significant enhancements, including several different
+enhancements to `CMake` integration, a new property strategy for certain values
+in the `cpp_info` data structure, a first-class mechanism for testing packages
+which are used as `build_requires`, and the ability to exclude specific packages
+from Conan builds.
 
-## New `cpp_info` property system
-
-One of the most significant features in this release is certainly the new
-`cpp_info` property system, so let's start with that. Of note, this new property
-system does not impact the core members of `cpp_info`, such as `includedirs`,
-`libdirs`, `libs`, etc. It only affects a few values, so please refer to the
-[documentation of the `cpp_info`
-attribute](https://docs.conan.io/en/latest/reference/conanfile/attributes.html?highlight=cpp_info#cpp-info) to understand the scope of this feature.
-
-The `cpp_info` attribute of `conanfile.py` is a cornerstone of Conan, was
-originally represented as a simple 2-dimensional dictionary-like object. This
-had the nice characteristic of being declarative, and limited the complexity of
-code in the Conan generators which would traverse it. However, in time,
-as-always, it's not our programming models which determine the complexity of a
-problem domain... the domain itself does. And, the complexity of dependency
-information in C and C++ has gradually overcome the simplicty of a simple
-dictionary.
-
-In time, more complex use cases came up, where recipe authors wanted to
-customize the output filenames of the generators, and on a per-generator basis,
-so `cpp_info` added a `filenames` member which was itself a dictionary:
-
-    self.cpp_info.filenames["cmake_find_package"] = "MyFileName"
-    self.cpp_info.filenames["cmake_find_package_multi"] = "MyFileName"
-
-Also, recipes authors wanted to support the unique abstraction of `components`
-in the `CMake` build system, so Conan extended `cpp_info` to support a similar
-notation:
-
-    self.cpp_info.components["mycomponent"].names["cmake_find_package"] = "mycomponent-name"
-    self.cpp_info.components["mycomponent"].names["cmake_find_package_multi"] = "mycomponent-name"
-
-Then came requests for a member called `build_modules`, and that also had to
-support per-component definitions, resulting in this syntax:
-
-    self.cpp_info.components["mycomponent"].build_modules.append(os.path.join("lib", "mypkg_bm.cmake"))
-
-As the complexity of this datastructure grew, it started to feel like we've
-exceeded the appropriate use of the dictionary model for multiple reasons. For
-example, there are multiple generators for the `CMake` build system, and we know
-that development teams create their own as well. In most cases like the examples
-above, authors want to set a value for "all `CMake*` generators". However, with
-the dictionary model above, the key name is the generator name, so users had to
-set values once for each known `CMake` generator, and that could really never
-scale or work well with custom generators.
-
-So, here is the new way to express the same information as the examples above,
-but in a way which does not suffer the problem described above:
-
-    self.cpp_info.set_property("cmake_file_name", "MyFileName")
-    self.cpp_info.components["mycomponent"].set_property("cmake_target_name", "mycomponent-name")
-    self.cpp_info.components["mycomponent"].set_property("cmake_build_modules", [os.path.join("lib", "mypkg_bm.cmake")])
-    self.cpp_info.components["mycomponent"].set_property("custom_name", "mycomponent-name", "custom_generator")
-
-The fundamental change is that the dictionary members for components can now
-have named properties, and the generators can query those properties if/when
-they need to add support for them. So, instead of defining `build_modules` once
-for each possible `CMake` generator, we define a `cmake_build_modules` property
-and any number of `CMake` generators can choose to add support for it, or ignore
-it if appropriate.
-
-In summary, this strategy makes the recipe more generic and less coupled to
-supporting specific generators, and puts the onus on the recipe authors to
-support known properties. Some built-in properties are already defined and used
-in current generators, but this strategy also supports completely arbitrary
-properties for custom-recipe and custom-generator use-cases. For that reason, we
-think this feature will see extensive use in enterprise package environments.
-
-## CMakeToolchain Enhancements
+## New CMake Integration Enhancements
 
 There were a number of `CMake`-related features in this release, but the
 ordering of the notes in the changelog is somewhat random. So, here is a summary
 of the all improvements and additions related to CMake integration:
 
-### CMakeToolchain
-
-* New Extensibility model of "Blocks" replacing inheritance
-* Support for setting any msvc toolset with any MSVC version
-* CMake Generator now automatically deduced from Compiler settings
-* Support for choosing Ninja CMake generator
-
 ### CMakeDeps
 
 * Improved tracing by printing each declared target
 
-The new "Blocks" model for generators is probably the most significant of these
-changes, so we'll focus on that for this post.
+### CMakeToolchain
+
+* New extensibility model of "Blocks" replacing inheritance
+* Support for setting any msvc toolset with any MSVC version
+* CMake Generator now automatically deduced from Compiler settings
+* Support for choosing Ninja CMake generator
+
+The new "Blocks" extensibility model used in the `CMakeToolchain` is probably
+the most significant of these changes, so we'll focus on that for this post.
 
 Since Conan was created, there has always been a number of outstanding requests
 from users to customize the outputs of generators. There have been a number of
@@ -200,6 +132,75 @@ for more details on what each of these blocks contains.
 This "blocks" paradigm, and many many of these block names will likely be
 propagated to other generators in the near future.  
 
+## New `cpp_info` property system
+
+The second-most significant feature in this release is certainly the new
+`cpp_info` property system. Of note, this new property system does not impact
+the core members of `cpp_info`, such as `includedirs`, `libdirs`, `libs`, etc.
+It only affects a few values, so please refer to the [documentation of the
+`cpp_info`
+attribute](https://docs.conan.io/en/latest/reference/conanfile/attributes.html?highlight=cpp_info#cpp-info)
+to understand the scope of this feature.
+
+The `cpp_info` attribute of `conanfile.py` is a cornerstone of Conan, was
+originally represented as a simple 2-dimensional dictionary-like object. This
+had the nice characteristic of being declarative, and limited the complexity of
+code in the Conan generators which would traverse it. However, in time,
+as-always, it's not our programming models which determine the complexity of a
+problem domain... the domain itself does. And, the complexity of dependency
+information in C and C++ has gradually overcome the simplicty of a simple
+dictionary.
+
+In time, more complex use cases came up, where recipe authors wanted to
+customize the output filenames of the generators, and on a per-generator basis,
+so `cpp_info` added a `filenames` member which was itself a dictionary:
+
+    self.cpp_info.filenames["cmake_find_package"] = "MyFileName"
+    self.cpp_info.filenames["cmake_find_package_multi"] = "MyFileName"
+
+Also, recipes authors wanted to support the unique abstraction of `components`
+in the `CMake` build system, so Conan extended `cpp_info` to support a similar
+notation:
+
+    self.cpp_info.components["mycomponent"].names["cmake_find_package"] = "mycomponent-name"
+    self.cpp_info.components["mycomponent"].names["cmake_find_package_multi"] = "mycomponent-name"
+
+Then came requests for a member called `build_modules`, and that also had to
+support per-component definitions, resulting in this syntax:
+
+    self.cpp_info.components["mycomponent"].build_modules.append(os.path.join("lib", "mypkg_bm.cmake"))
+
+As the complexity of this datastructure grew, it started to feel like we've
+exceeded the appropriate use of the dictionary model for multiple reasons. For
+example, there are multiple generators for the `CMake` build system, and we know
+that development teams create their own as well. In most cases like the examples
+above, authors want to set a value for "all `CMake*` generators". However, with
+the dictionary model above, the key name is the generator name, so users had to
+set values once for each known `CMake` generator, and that could really never
+scale or work well with custom generators.
+
+So, here is the new way to express the same information as the examples above,
+but in a way which does not suffer the problem described above:
+
+    self.cpp_info.set_property("cmake_file_name", "MyFileName")
+    self.cpp_info.components["mycomponent"].set_property("cmake_target_name", "mycomponent-name")
+    self.cpp_info.components["mycomponent"].set_property("cmake_build_modules", [os.path.join("lib", "mypkg_bm.cmake")])
+    self.cpp_info.components["mycomponent"].set_property("custom_name", "mycomponent-name", "custom_generator")
+
+The fundamental change is that the dictionary members for components can now
+have named properties, and the generators can query those properties if/when
+they need to add support for them. So, instead of defining `build_modules` once
+for each possible `CMake` generator, we define a `cmake_build_modules` property
+and any number of `CMake` generators can choose to add support for it, or ignore
+it if appropriate.
+
+In summary, this strategy makes the recipe more generic and less coupled to
+supporting specific generators, and puts the onus on the recipe authors to
+support known properties. Some built-in properties are already defined and used
+in current generators, but this strategy also supports completely arbitrary
+properties for custom-recipe and custom-generator use-cases. For that reason, we
+think this feature will see extensive use in enterprise package environments.
+
 ## Support build_requires testing in test_package
 
 Another long-standing request in the Conan community has been the ability to
@@ -237,7 +238,7 @@ syntactic options:
 
 * `--build=all` or `--build`: all packages
 * `--build=package_name` : a single specific package by name
-* `--build=package_1,package_2` : a list of specific packages
+* `--build=package_1 --build=package_2` : a list of specific packages
 * `--build=missing` : the subset of packages which have no precompiled binaries
 * `--build=pack*` : the subset of packages which match a glob expression
 
@@ -246,15 +247,14 @@ just one situation which was still awkward. That is, specifying that you want to
 build **ALL** packages **EXCEPT** one (or a few). To do this, you had to use
 scripts outside of Conan to enumerate the entire list of packages in the graph
 and then filter out the ones you want to exclude (which is non-trivial), and
-then join the remaining list together with commas and pass that string to
-`--build`.
+then add each to the command-line as `--build=package_name`.
 
 The problem is now solved. It's now trivial to specify you want to build all
 packages except one (for example `zlib` as shown in the example below). You
 simply prefix the pattern you want to exclude with an exclamation point just as
 you would with the `exports` and `exports_sources` attributes in `conanfile.py`:
 
-* `--build=!zlib --build=all`
+* `--build=!zlib --build=*`
 
 This may seem like a small thing, but for those who wanted it, it will go a very
 long way and eliminate a LOT of really undesirable script code outside of Conan.
