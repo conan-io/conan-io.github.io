@@ -4,18 +4,18 @@ comments: false
 title: "Conan 1.36 : Multiple CMake enhancements, New cpp_info property system, 
 Support build_requires testing in test_package, New --build exclude syntax" 
 meta_title: "Version 1.36 of Conan C++ Package Manager is Released" 
-meta_description: "Conan 1.36 brings several significant enhancements,
-including a brand new property system for the cpp_info data structure, several
-different enhancements to CMake integration, a first-class mechanism for testing
-packages which are used as build_requirements, and the ability to exclude
-specific packages from Conan builds."
+meta_description: "Conan 1.36 brings several enhancements, better CMake
+integration, new property system for cpp_info, the ability to test
+build_requirements, and the ability to exclude packages from build policy."
 ---
 
 Conan 1.36 brings several significant enhancements, including several different
-enhancements to `CMake` integration, a new property strategy for certain values
-in the `cpp_info` data structure, a first-class mechanism for testing packages
-which are used as `build_requires`, and the ability to exclude specific packages
-from Conan builds.
+enhancements to
+[`CMake`](https://docs.conan.io/en/latest/integrations/build_system/cmake.html)
+integration, a new property strategy for certain values in the `cpp_info` data
+structure, a first-class mechanism for testing packages which are used as
+`build_requires`, and the ability to exclude specific packages from Conan
+builds.
 
 ## New CMake Integration Enhancements
 
@@ -42,7 +42,7 @@ from users to customize the outputs of generators. There have been a number of
 suggestions and POCs done using various strategies to provide this capability,
 but none ever made it through review until now. In this release, with the
 CMakeToolchain generator, we're debuting a model in which the generator
-internally builds it's output as a dictionary-like datastructure with named
+internally builds its output as a dictionary-like data structure with named
 "Blocks" of templated content.
 
 The first outstanding group of feature requests this addresses is the common
@@ -60,7 +60,7 @@ before the build. This approach had many unwanted consequences. Now, the
 The other major outstanding group of feature requests this approach addresses is
 the desire to write much more customized generators for existing build systems,
 while borrowing some of the valuable logic from the existing ones. With CMake
-(moreso than any other build system), the existing generators have years of
+(more so than any other build system), the existing generators have years of
 improvements and enhancements and domain knowledge from the community baked into
 them, and they will continue to improve. For example, the Conan setting of
 `compiler.libcxx` affects two different values which get sent to the compiler
@@ -106,7 +106,7 @@ generators which are VERY different than the built-in ones, however, it's very
 likely that many of them may still want to handle the `compiler.libcxx` setting.
 For those cases, we don't want anyone else to have to duplicate, maintain, test,
 and/or update the logic above. So, the new blocks strategy makes it possible for
-enteprise teams to just use the `GLibCXXBlock` class in Conan and obtain only
+enterpise teams to just use the `GLibCXXBlock` class in Conan and obtain only
 this block, without having to deal with the existing Generator at all.
 
 Here is the complete list of blocks for the `CMakeToolchain` available at the
@@ -148,8 +148,7 @@ had the nice characteristic of being declarative, and limited the complexity of
 code in the Conan generators which would traverse it. However, in time,
 as-always, it's not our programming models which determine the complexity of a
 problem domain... the domain itself does. And, the complexity of dependency
-information in C and C++ has gradually overcome the simplicty of a simple
-dictionary.
+information in C and C++ has gradually overcome the simplicity of a dictionary.
 
 In time, more complex use cases came up, where recipe authors wanted to
 customize the output filenames of the generators, and on a per-generator basis,
@@ -170,7 +169,7 @@ support per-component definitions, resulting in this syntax:
 
     self.cpp_info.components["mycomponent"].build_modules.append(os.path.join("lib", "mypkg_bm.cmake"))
 
-As the complexity of this datastructure grew, it started to feel like we've
+As the complexity of this data structure grew, it started to feel like we've
 exceeded the appropriate use of the dictionary model for multiple reasons. For
 example, there are multiple generators for the `CMake` build system, and we know
 that development teams create their own as well. In most cases like the examples
