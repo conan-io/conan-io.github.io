@@ -268,7 +268,7 @@ if __name__ == "__main__":
         print(f"Sensor name: {sensor.name}")
         print(f"Sensor temperature: {sensor.temperature}")
         print(f"Sensor humidity: {sensor.humidity}")
-    print("Sensor door: {}".format("Open" if sensor.temperature else "Closed"))
+    print("Sensor door: {}".format("Open" if sensor.door else "Closed"))
 {% endhighlight %}
 
 The script is fairly straightforward, just like the code in C++ and can be copied together with the
