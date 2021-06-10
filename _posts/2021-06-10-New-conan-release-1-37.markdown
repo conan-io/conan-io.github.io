@@ -47,7 +47,7 @@ added it to the client in the first position.
 ### Long-term deprecation: `https://conan.bintray.com`
 
 We have not yet set a date for the removal of the conan.bintray.com URL from the
-default list of remotes, nor the physical deletion of the repository and it's
+default list of remotes, nor the physical deletion of the repository and its
 packages. These events are likely to be quite far out into the future. However,
 everyone should understand that they are ultimately planned for removal some
 day.
