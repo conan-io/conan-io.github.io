@@ -31,7 +31,7 @@ repositories, and they have the following differences:
 ### `https://conan.bintray.com`
 
 This repository contains copies of all Conan packages, new and legacy (by
-"legacy" we mean packages which predate ConanCenterIndex.) Currently, copies of
+"legacy" we mean packages which predate ConanCenterIndex). Currently, copies of
 all new package builds and binaries are uploaded here. On **July 1st**, new
 packages will **STOP** being uploaded here, and the repository will effectively
 become read-only.
