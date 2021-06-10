@@ -1,19 +1,56 @@
 ---
 layout: post 
 comments: false 
-title: "Conan 1.37 : new layout() method, new Bazel integrations, new
-build_policy=never, new --build-require flag" 
+title: "Conan 1.37 : new default URL for ConanCenter, new layout() method, new
+Bazel integrations, new build_policy=never, new --build-require flag" 
 meta_title: "Version 1.37 of Conan C++ Package Manager is Released" 
-meta_description: "Conan 1.37 includes a new layout method, new integration for
-Bazel build system, new build_policy called never, and new build-require flag."
+meta_description: "Conan 1.37 : new URL for ConanCenter, new layout method, new
+integration for Bazel, new build_policy never, new build-require flag."
 ---
 
-Conan 1.37 brings several significant new features, including a major new method
-to conanfile.py called `layout()`, and an initial pair of generators for the
+Conan 1.37 brings several significant new features. At the top of the list, is a
+new URL for Conan Center added to the default remotes.txt which comes with the
+Conan client. The release also includes a major new method to conanfile.py
+called `layout()`, and some new classes for integration with the
 [Bazel](https://docs.conan.io/en/latest/integrations/build_system/bazel.html)
 build system. There is also a new `build_policy` called `never` and a new flag
 called `--build-require` which works with the `conan install` and `conan create`
 commands.
+
+## New default URL for ConanCenter
+
+With this release, the Conan client will now come installed with the following 2
+URL's in `remotes.txt` (in the following order):
+
+* `https://center.conan.io`
+* `https://conan.bintray.com`
+
+It's important to understand that these URL's point to two separate Conan
+repositories, and they have the following differences:
+
+### `https://conan.bintray.com`
+
+This repository contains copies of all Conan packages, new and legacy (by
+"legacy" we mean packages which predate ConanCenterIndex.) Currently, copies of
+all new package builds and binaries are uploaded here. On **July 1st**, new
+packages will **STOP** being uploaded here, and the repository will effectively
+become read-only.
+
+### `https://center.conan.io`
+
+This repository only contains copies of all Conan packages which have been built
+from ConanCenterIndex (no legacy packages). Currently, copies of all new package
+builds and binaries are uploaded here.  On **July 1st**, this repository will
+become the **ONLY** place where new packages are uploaded. This is why we have
+added it to the client in the first position.
+
+### Long-term deprecation: `https://conan.bintray.com`
+
+We have not yet set a date for the removal of the conan.bintray.com URL from the
+default list of remotes, nor the physical deletion of the repository and it's
+packages. These events are likely to be quite far out into the future. However,
+everyone should understand that they are ultimately planned for removal some
+day.
 
 ## New `layout()` method for `conanfile.py`
 
