@@ -164,7 +164,7 @@ There are essentially two ways to create a Conan package:
 One of Conan's marquee features is the unique ability to pass `--build` to the
 `conan install` command and have Conan re-build some or all dependencies in the
 graph from source.  Unfortunately, for any packages in the dependency graph
-which were created using `conan export-pkg` commnd, rebuilding from source is
+which were created using `conan export-pkg` command, rebuilding from source is
 impossible. This leads to awkward issues when passing `--build`.
 
 Now, recipe authors can and should add the following attribute to any recipes
