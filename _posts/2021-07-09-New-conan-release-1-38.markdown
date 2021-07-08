@@ -54,7 +54,7 @@ that dictionary will contain the specifiers of the relation between the current 
 dependency. At the moment it can tell us if the dependency is a direct requirement (through the
 `direct` property) or if it's a *build_require* (returned by the `build` property). Based on these
 values there are some helper properties to iterate all the dependencies and filter the ones we want.
-For example, if you want to list all the direct requirements for the dependency you could call to
+For example, if you want to list all the "host" requirements for the dependency you could call to
 `self.dependencies.host` and get all direct and transitive requirements that are not *build_require*.
 
 ```python
