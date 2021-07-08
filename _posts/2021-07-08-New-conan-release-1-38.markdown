@@ -1,12 +1,12 @@
 ---
-layout: post 
-comments: false 
+layout: post
+comments: false
 title: "Conan 1.38 : new self.dependencies model for access to dependencies data, support for jinja2
 syntax in conan profiles, new cmake_layout(), new [conf] cli support, new PkgConfigDeps generator."
-meta_title: "Version 1.38 of Conan C++ Package Manager is Released" 
+meta_title: "Version 1.38 of Conan C++ Package Manager is Released"
 meta_description: "Conan 1.38 : new self.dependencies model for access to dependencies data, support
 for jinja2 syntax in conan profiles, new cmake_layout(), new [conf] cli support, new PkgConfigDeps
-generator." 
+generator."
 ---
 
 Conan 1.38 is already here and comes with lots of new features and some bug fixes. As we have
@@ -20,7 +20,7 @@ work for different generators (Ninja, Xcode, Visual Studio, Unix), and is multi-
 a new `--conf` argument to provide command line support for the new
 [conf](https://docs.conan.io/en/latest/reference/config_files/global_conf.html) system. Finally, we
 have added a new `PkgConfigDeps` generator that will replace the existing `pkg_config` generator in
-Conan 2.0. 
+Conan 2.0.
 
 ## New `conanfile.dependencies` model
 
@@ -37,7 +37,7 @@ class MypkgConan(ConanFile):
 
     def generate(self):
         libwebsockets = self.dependencies["libwebsockets"]
-        self.output.info(f"{libwebsockets.ref.version}")       
+        self.output.info(f"{libwebsockets.ref.version}")
         self.output.info(f"{libwebsockets.ref.revision}")
         self.output.info(f"{libwebsockets.settings.arch}")
         self.output.info(f"{', '.join([dep.ref.name for dep in libwebsockets.dependencies.values()])}")
@@ -135,7 +135,7 @@ differs for example in where the sources are you can override the default value 
 ```python
 def layout(self):
     cmake_layout(self)
-    self.folders.source = “mysrcfolder”
+    self.folders.source = "mysrcfolder"
 ```
 
 ## Configuration `[conf]` support from the command line
@@ -146,7 +146,7 @@ argument for some commands. Taking the example from the `cmake_layout()` describ
 handy to change the CMake generator using the command line like this:
 
 ```bash
-conan create . -c tools.cmake.cmaketoolchain:generator=Xcode 
+conan create . -c tools.cmake.cmaketoolchain:generator=Xcode
 ```
 
 ## New `PkgConfigDeps` generator
@@ -163,7 +163,7 @@ information on how to use it.
 Besides the items listed above, there were some minor bug fixes you may wish to
 read about.  If so, please refer to the
 [changelog](https://docs.conan.io/en/latest/changelog.html#jun-2021) for the
-complete list.  
+complete list.
 
 We hope you enjoy this release, and look forward to [your
-feedback](https://github.com/conan-io/conan/issues).  
+feedback](https://github.com/conan-io/conan/issues). 
