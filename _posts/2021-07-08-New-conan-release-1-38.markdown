@@ -140,7 +140,7 @@ def layout(self):
 
 ## Configuration `[conf]` support from the command line
 
-Starting in Conan 1.37 you can also [set new configuration
+Starting in Conan 1.38 you can also [set new configuration
 values](https://docs.conan.io/en/latest/reference/config_files/global_conf.html) using the `-c`
 argument for some commands. Taking the example from the `cmake_layout()` described above it is very
 handy to change the CMake generator using the command line like this:
