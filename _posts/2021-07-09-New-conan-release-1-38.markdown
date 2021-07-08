@@ -112,12 +112,50 @@ Documentation](https://docs.conan.io/en/latest/reference/profiles.html#profile-t
 
 ## New `cmake_layout()` layout helper
 
+After releasing the new `layout()` method for *conanfile.py* in *1.37*, for this release we are
+adding a pre-defined layout helper for CMake. This layout will check the CMake generator and set the
+corresponding folders according to that. For example, for multi-configuration generators such as
+*Visual Studio* or *Xcode* the folders will be the same irrespective of the build type, and the build
+system will manage the different build types inside that folder. However, for single-config generators
+like *Unix Makefiles*, different folders will be set for each different configuration.
 
+Using this in a recipe is as simple as this:
+
+```python
+from conan.tools.layout import cmake_layout
+
+def layout(self):
+    cmake_layout(self)
+```
+
+You can check the implementation of this helper [in the
+documentation](https://docs.conan.io/en/latest/reference/conanfile/tools/layout.html). If your layout
+differs for example in where the sources are you can override the default value like this:
+
+```python
+def layout(self):
+    cmake_layout(self)
+    self.folders.source = “mysrcfolder”
+```
 
 ## Configuration `[conf]` support from the command line
 
+Starting in Conan 1.37 you can also [set new configuration
+values](https://docs.conan.io/en/latest/reference/config_files/global_conf.html) using the `-c`
+argument for some commands. Taking the example from the `cmake_layout()` described above it is very
+handy to change the CMake generator using the command line like this:
+
+```bash
+conan create . -c tools.cmake.cmaketoolchain:generator=Xcode 
+```
+
 ## New `PkgConfigDeps` generator
 
+Please also check the new `PkgConfigDeps` generator meant to substitute our classic pkg_config
+generator in the near future. It makes use of the new conanfile.dependencies model we talked about in
+the beginning of this post. Check the
+[docs](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu/pkgconfigdeps.html) for more
+information on how to use it.
 
 -----------
 <br>
