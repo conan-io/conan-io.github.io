@@ -1,8 +1,10 @@
 ---
 layout: post
 comments: false
-title: "Modern Docker images: How I Learned to Stop Worrying and Love the Old images"
-meta_description: "Conan Docker Tools: New Docker images which should become the official ones"
+title: "Modern Docker Images to build C/C++ projects for ConanCenter: How I Learned to Stop Worrying and Love the Old images"
+meta_description: "The New Docker images which should become the official to build all C/C++ package on Conan Center Index
+and distribute under Conan Center. They should be adopted by default for all users. Fixed glibc and libstdc++ compatibility
+problems and unified all Docker recipes using multistage-build on Jenkins"
 ---
 
 
@@ -52,7 +54,7 @@ in something better in terms of maintainability and practicality.
 
 Therefore, we decided to abandon PR #204 and start again from scratch, considering the items listed above.
 
-## A new plan
+## A new plan: Creating images with same base
 
 Before we start implementing new recipes with their proper corrections, we first need to understand what the objective
 behind it all is. We would like to understand what the expectation is for these new images 2 years from now. As we have
@@ -69,9 +71,9 @@ exist in the Conan Center and replace them, this is to ensure full compatibility
 maintenance, we believe it is necessary to rotate supported compilers over time, to avoid a large build, effort and
 maintenance load for old images and packages that are not always used by the community. Therefore, the following rule
 will be adopted:
-Clang will be supported in the 3 newest versions. Older versions will be available for download but will not receive
+* Clang will be supported in the 3 newest versions. Older versions will be available for download but will not receive
 updates.
-GCC on the other hand, is widely used for the Linux environment and only version 4.x was left out.
+* GCC on the other hand, is widely used for the Linux environment and only version 4.x was left out.
 
 One of the problems we would like to solve is the compiler used and its libraries, we always wanted to be independent
 of the Linux distribution. In the initial pull request, we built the GCC from sources, while the Clang uses
@@ -85,16 +87,23 @@ by newer compilers. The version chosen was ``libstdc++.so.6.0.28``, the same dis
 Ubuntu 16.04 Xenial LTS is still the base used, its support will be until April 2024. After that date, we will need to
 update the images to a newer version of the distribution, in addition to rebuilding all available official packages.
 
-So forward thinking is having fewer images, but better support, without the drastic breakage and incompatibility issues
+So forward thinking is having fewer images, but better support, without the drastic breakage and incompatibility issues.
+To summarize the plan:
 
-## From blueprint to prototype
+* Ubuntu 16.04 LTS as base Docker image
+* Build Clang and GCC from source
+* Use libstdc++.so.0.6.28 for all new Docker images
+* Use glibc 2.23 for all new Docker images
+* Rotate old compiler versions to keep better support in the future
+
+## From blueprint to prototype: Writing the new Docker recipes
 
 During prototyping, we realized that we could divide the process of building a Docker image into 3 phases:
-The base, where all common packages are installed to all images, such as Python, git, svn, etc, in addition to the
+* The base, where all common packages are installed to all images, such as Python, git, svn, etc, in addition to the
 non-root user configuration.
-An image where only the compiler is built. In this container can be installed packages referring to the compiler build
+* An image where only the compiler is built. In this container can be installed packages referring to the compiler build
 only, which will not be present in the final image, for example, Ninja, which is used for LLVM.
-Finally, we need to merge the base to the produced compiler into a single image, without adding extra packages, but
+* Finally, we need to merge the base to the produced compiler into a single image, without adding extra packages, but
 still reusable between each compiler version.
 
 For the case of the base image, this one is still quite modular, just changing the variables file to update the package
@@ -135,7 +144,7 @@ images, as everything was either consumed directly from the system, or installed
 
 These are the main features of the base image, which is used in all final images.
 
-## Building GCC
+## Building GCC from source
 
 Now let's look at the GCC build image, the full recipe can be found
 [here](https://github.com/conan-io/conan-docker-tools/blob/feature/single-image/modern/gcc/Dockerfile), but let's
@@ -214,7 +223,7 @@ default in the image and the libraries are listed and cached. And here's the ici
 from GCC 5 to the latest version, just modifying some arguments. The maintenance has been drastically simplified
 compared to current Conan Docker Tools.
 
-## Conan meets the Wyvern
+## Conan meets the Wyvern: Building Clang C/C++ compiler from source
 
 For the construction of Clang, we tried to make it available from version 6.0 to 12, but we had a series of obstacles
 and challenges that made us change our mind. Here we will share a little bit of this long journey of CMake files and
@@ -284,7 +293,7 @@ Similar to what was done with GCC, in Clang we also use the same base image and 
 compiler to the ``/usr/local`` directory. However, the ``libstdc++`` library was extracted from the GCC 10 image. This
 is a necessity of the possible configurations supported by Conan.
 
-## Tests and more tests
+## Tests and more tests: A CI pipeline to test Docker images
 
 To ensure that the images produced met our requirements, we needed to add new tests that cover in addition to what was
 already tested in Conan Docker Tools. Until then, a single script was used which validated a series of builds, versions
@@ -303,7 +312,7 @@ $ cd modern && pytest tests --image conanio/gcc10-ubuntu16.04 --service deploy -
 
 {% endhighlight %}
 
-## The CI service change
+## The CI service change: From Travis to Azure and the Jenkins arrival
 
 Since the beginning of the project, Conan Docker Tools has always used CI services such as Travis and Azure. However,
 this did not give us the full power to prioritize the build in the queue, or customize the host, or customize the build
