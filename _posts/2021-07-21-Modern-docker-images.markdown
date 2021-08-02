@@ -55,7 +55,7 @@ Therefore, we decided to abandon PR #204 and start again from scratch, consideri
 
 ## A new plan: Using the same base image
 
-Before we start implementing new recipes with their proper corrections, we first need to understand what the objective
+Before we start implementing new dockerfiles with their proper corrections, we first need to understand what the objective
 behind it all is. We would like to understand what the expectation is for these new images 2 years from now. As we have
 seen before, in a few years we have reached over 40 recipes. Also, one of the points discussed is whether there will be
 rotation to avoid the accumulation of old images and their restrictions in terms of maintenance.
