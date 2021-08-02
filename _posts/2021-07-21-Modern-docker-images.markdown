@@ -317,7 +317,7 @@ Since the beginning of the project, Conan Docker Tools has always used CI servic
 this did not give us the full power to prioritize the build in the queue, or customize the host, or customize the build
 lines to use Docker-in-Docker if necessary.
 
-With that in mind, we started using Jenkins from the Conan Center to also build the new Docker images. The big
+With that in mind, we started using Jenkins to also build the new Docker images. The big
 advantage in this is the use of features for cache in Docker. Previously, a single job took up to 2h if it was on other
 services, without the use of caching. Now, using Jenkins and Docker ``--cache-from``, updating a package, from base
 image to final image, takes just 4 minutes per job. The Jenkinsfile file used can be viewed
