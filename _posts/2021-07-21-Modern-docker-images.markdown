@@ -53,7 +53,7 @@ in something better in terms of maintainability and practicality.
 
 Therefore, we decided to abandon PR #204 and start again from scratch, considering the items listed above.
 
-## A new plan: Creating images with same base
+## A new plan: Using the same base image
 
 Before we start implementing new recipes with their proper corrections, we first need to understand what the objective
 behind it all is. We would like to understand what the expectation is for these new images 2 years from now. As we have
