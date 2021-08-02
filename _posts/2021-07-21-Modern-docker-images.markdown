@@ -70,12 +70,15 @@ exist in the Conan Center and replace them, this is to ensure full compatibility
 maintenance, we believe it is necessary to rotate supported compilers over time, to avoid a large build, effort and
 maintenance load for old images and packages that are not always used by the community. Therefore, the following rule
 will be adopted:
-* Clang will be supported from 10.0 to the newest version. We will update according new releases be available.
+* Clang will be supported from 10.0 to the newest version.
 * GCC on the other hand, is widely used for the Linux environment and only version 4.x was left out.
+* For both compilers we will keep updating all new compiler versions and Conan client version, according new releases.
 
 One of the problems we would like to solve is the compiler used and its libraries, we always wanted to be independent
 of the Linux distribution. In the initial pull request, we built the GCC from sources, while the Clang uses
 prebuilt. So, we chose to build both from sources in order to have more control over the compiler used.
+Also, packages generated using these images (packages in ConanCenter) should work out-of-the-box in as many as possible
+different distros.
 
 The library ``libstdc++`` is distributed along with the GCC project. We chose to use a single version of the library,
 which
