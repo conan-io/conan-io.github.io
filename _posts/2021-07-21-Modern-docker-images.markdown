@@ -256,7 +256,7 @@ LLVM ``libunwind`` to ``libllvm-unwind``.
 
 With all the advents and limitations, it became quite difficult to maintain from Clang 6 to 12. After a lot of
 discussions and advices from some of the LLVM maintainers, we decided to limit Clang support to starting from version
-9, because it is not necessary to apply as many modifications, including the configuration file. Also, in the Linux
+10, because it is not necessary to apply as many modifications, including the configuration file. Also, in the Linux
 environment, Clang is not the primary compiler, so we believe its use is always tied to newer versions.
 
 Now that the difficulties faced are clear, let's go a step further and detail the Clang deployment step.
