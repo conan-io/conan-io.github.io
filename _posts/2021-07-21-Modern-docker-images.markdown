@@ -328,7 +328,10 @@ scratch. As an example, let's use Clang 12:
 
 {% highlight bash %}
 
-$ cd modern && docker-compose build clang12
+$ cd modern 
+$ docker-compose build base
+$ docker-compose build clang12-builder
+$ docker-compose build clang12
 
 {% endhighlight %}
 
