@@ -65,7 +65,7 @@ not be introduced). Your recipes and images will remain available, as their imme
 catastrophic failure for many users. They will eventually be removed, but at a distant date and to be defined.
 
 As for the new images, these will be adopted as official and widely promoted for use by all users. The transition
-should take place in a few months after release, because it will be necessary to rebuild the packages that already
+to the new images in Conan Center should take place in a few months after release, because it will be necessary to rebuild the packages that already
 exist in the Conan Center and replace them, this is to ensure full compatibility between packages. As for rotation and
 maintenance, we believe it is necessary to rotate supported compilers over time, to avoid a large build, effort and
 maintenance load for old images and packages that are not always used by the community. Therefore, the following rule
