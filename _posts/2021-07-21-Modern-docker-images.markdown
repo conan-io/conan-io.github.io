@@ -39,8 +39,7 @@ makes it more and more complete.
 The pull request [#204](https://github.com/conan-io/conan-docker-tools/pull/204) showed us some weak points to consider:
 
 * Installing Clang via LLVM's APT repository does not guarantee full compatibility with ``libstdc++`` version used to
-build
-GCC
+build GCC.
 * APT packages that were requirements for GCC and Clang were still present, further inflating the final image
 * The packages provided through Ubuntu do not have older versions available, in case a new version comes along. This
 affects the reproducibility requirement.
