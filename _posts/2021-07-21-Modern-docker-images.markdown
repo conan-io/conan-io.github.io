@@ -70,8 +70,7 @@ exist in the Conan Center and replace them, this is to ensure full compatibility
 maintenance, we believe it is necessary to rotate supported compilers over time, to avoid a large build, effort and
 maintenance load for old images and packages that are not always used by the community. Therefore, the following rule
 will be adopted:
-* Clang will be supported in the 3 newest versions. Older versions will be available for download but will not receive
-updates.
+* Clang will be supported from 10.0 to the newest version. We will update according new releases be available.
 * GCC on the other hand, is widely used for the Linux environment and only version 4.x was left out.
 
 One of the problems we would like to solve is the compiler used and its libraries, we always wanted to be independent
@@ -81,7 +80,8 @@ prebuilt. So, we chose to build both from sources in order to have more control 
 The library ``libstdc++`` is distributed along with the GCC project. We chose to use a single version of the library,
 which
 was neither the newest, to allow older distributions to use, but also not so old, so that new features can be consumed
-by newer compilers. The version chosen was ``libstdc++.so.6.0.28``, the same distributed with GCC 9 and 10.
+by newer compilers. The version chosen was ``libstdc++.so.6.0.28``, the same distributed with GCC 9 and 10, but also
+is the default version in Ubuntu 20.04 LTS (Focal).
 
 Ubuntu 16.04 Xenial LTS is still the base used, its support will be until April 2024. After that date, we will need to
 update the images to a newer version of the distribution, in addition to rebuilding all available official packages.
@@ -93,7 +93,8 @@ To summarize the plan:
 * Build Clang and GCC from source
 * Use libstdc++.so.0.6.28 for all new Docker images
 * Use glibc 2.23 for all new Docker images
-* Rotate old compiler versions to keep better support in the future
+* Images for old compilers will be built as long as their build script is compatible with the one for the newer compilers.
+
 
 ## From blueprint to prototype: Writing the new Docker recipes
 
@@ -328,7 +329,7 @@ scratch. As an example, let's use Clang 12:
 
 {% highlight bash %}
 
-$ cd modern 
+$ cd modern
 $ docker-compose build base
 $ docker-compose build clang12-builder
 $ docker-compose build clang12
