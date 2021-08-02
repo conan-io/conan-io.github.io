@@ -15,6 +15,13 @@ solution for Conan Docker Tools. In this post we will continue the proposed impl
 highlight the problems encountered during development and the result of this long journey that
 should improve in many aspects the way we use Docker images for Conan.
 
+Also, this blog is a bit longer than usual, and contains all explanation about the decisions and mistakes
+committed, plus the technical part with Dockerfiles in details. To attend all kind of readers, we divided
+this blog post in 2 parts:
+
+* Part 1: The long journey, ideas, motivation, mistakes and challenges
+* Part 2: Under the hood of Dockerfiles and technical details
+
 ## The importance of the community
 
 Right after the presentation of the first proposal of the previous post, we had a great and
@@ -34,7 +41,13 @@ That said, it is clear how important the involvement of the entire community has
 we take into account its manifestation. We are grateful to the great tribe that surrounds Conan and
 makes it more and more complete.
 
-## Conan Docker Images: Revisited
+
+## Part 1: The long journey, ideas, motivation, mistakes and challenges
+
+On this section we will describe how we revisited the initial proposal, found problems, proposed solutions and started a
+new entire idea. If you are more interested reading only the more technical part, start from the Part 2.
+
+### Conan Docker Images: Revisited
 
 The pull request [#204](https://github.com/conan-io/conan-docker-tools/pull/204) showed us some weak points to consider:
 
@@ -53,7 +66,7 @@ in something better in terms of maintainability and practicality.
 
 Therefore, we decided to abandon PR #204 and start again from scratch, considering the items listed above.
 
-## A new plan: Using the same base image
+### A new plan: Using the same base image
 
 Before we start implementing new dockerfiles with their proper corrections, we first need to understand what the objective
 behind it all is. We would like to understand what the expectation is for these new images 2 years from now. As we have
@@ -73,6 +86,9 @@ will be adopted:
 * Clang will be supported from 10.0 to the newest version.
 * GCC on the other hand, is widely used for the Linux environment and only version 4.x was left out.
 * For both compilers we will keep updating all new compiler versions and Conan client version, according new releases.
+* The multilib support was discarded as we are only interested in producing packages with 64-bit support.
+* Fortran support has been added, thus producing ``gfortran`` together in the image. Currently the Conan package for
+``gfortran`` is totally broken and has a complex dependencies chain to fix.
 
 One of the problems we would like to solve is the compiler used and its libraries, we always wanted to be independent
 of the Linux distribution. In the initial pull request, we built the GCC from sources, while the Clang uses
@@ -99,7 +115,7 @@ To summarize the plan:
 * Images for old compilers will be built as long as their build script is compatible with the one for the newer compilers.
 
 
-## From blueprint to prototype: Writing the new Docker recipes
+### From blueprint to prototype: Writing the new Docker recipes
 
 During prototyping, we realized that we could divide the process of building a Docker image into 3 phases:
 * The base, where all common packages are installed to all images, such as Python, git, svn, etc, in addition to the
@@ -147,7 +163,12 @@ images, as everything was either consumed directly from the system, or installed
 
 These are the main features of the base image, which is used in all final images.
 
-## Building GCC from source
+## Part 2: Under the hood of Dockerfiles and technical details
+
+Here we will be more focused on the final product, Dockerfiles, tests and CI. If you are interested to read about
+our decisions, read the Part 1 first.
+
+### Building GCC from source
 
 Now let's look at the GCC build image, the full recipe can be found
 [here](https://github.com/conan-io/conan-docker-tools/blob/feature/single-image/modern/gcc/Dockerfile), but let's
@@ -162,9 +183,6 @@ RUN cd gcc-${GCC_VERSION} \
 
 No matter the version, GCC continues to use the same lines for its build.
 Some factors were configured in this version used:
-* The multilib support was discarded as we are only interested in producing packages with 64-bit support.
-* Fortran support has been added, thus producing ``gfortran`` together in the image. Currently the Conan package for
-``gfortran`` is totally broken and has a complex dependencies chain to fix.
 * Bootstrap has been disabled to reduce build time to just 20 minutes.
 
 Once GCC 10 is built, its libstdc++ generated is copied to an Artifactory instance and this is downloaded directly to
@@ -226,7 +244,7 @@ default in the image and the libraries are listed and cached. And here's the ici
 from GCC 5 to the latest version, just modifying some arguments. The maintenance has been drastically simplified
 compared to current Conan Docker Tools.
 
-## Conan meets the Wyvern: Building Clang C/C++ compiler from source
+### Conan meets the Wyvern: Building Clang C/C++ compiler from source
 
 For the construction of Clang, we tried to make it available from version 6.0 to 12, but we had a series of obstacles
 and challenges that made us change our mind. Here we will share a little bit of this long journey of CMake files and
@@ -296,7 +314,7 @@ Similar to what was done with GCC, in Clang we also use the same base image and 
 compiler to the ``/usr/local`` directory. However, the ``libstdc++`` library was extracted from the GCC 10 image. This
 is a necessity of the possible configurations supported by Conan.
 
-## Tests and more tests: A CI pipeline to test Docker images
+### Tests and more tests: A CI pipeline to test Docker images
 
 To ensure that the images produced met our requirements, we needed to add new tests that cover in addition to what was
 already tested in Conan Docker Tools. Until then, a single script was used which validated a series of builds, versions
@@ -315,7 +333,7 @@ $ cd modern && pytest tests --image conanio/gcc10-ubuntu16.04 --service deploy -
 
 {% endhighlight %}
 
-## The CI service change: From Travis to Azure and the Jenkins arrival
+### The CI service change: From Travis to Azure and the Jenkins arrival
 
 Since the beginning of the project, Conan Docker Tools has always used CI services such as Travis and Azure. However,
 this did not give us the full power to prioritize the build in the queue, or customize the host, or customize the build
