@@ -139,7 +139,7 @@ RUN printf '/usr/local/lib64\n' >> /etc/ld.so.conf.d/20local-lib.conf \
 In order to not be affected by system packages or Conan packages that invoke ``apt-get``, the compiler and its
 artifacts are installed in ``/usr/local``. However, this is not enough to prioritize the order ``libstdc++`` used, for
 that we need to update ``ldconfig`` with the local directories. Until then, this was not necessary in the previous
-images, as everything was either consumed directly from the system, or installed directly in /usr.
+images, as everything was either consumed directly from the system, or installed directly in ``/usr``.
 
 These are the main features of the base image, which is used in all final images.
 
