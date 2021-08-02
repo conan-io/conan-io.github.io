@@ -19,8 +19,8 @@ Also, this blog is a bit longer than usual, and contains all explanation about t
 committed, plus the technical part with Dockerfiles in details. To attend all kind of readers, we divided
 this blog post in 2 parts:
 
-* Part 1: The long journey, ideas, motivation, mistakes and challenges
-* Part 2: Under the hood of Dockerfiles and technical details
+* Part 1: <a href='#part1' class='pilcrow'>The long journey, ideas, motivation, mistakes and challenges</a>
+* Part 2: <a href='#part2' class='pilcrow'>Under the hood of Dockerfiles and technical details</a>
 
 ## The importance of the community
 
@@ -41,7 +41,7 @@ That said, it is clear how important the involvement of the entire community has
 we take into account its manifestation. We are grateful to the great tribe that surrounds Conan and
 makes it more and more complete.
 
-
+<p id='part1'></p>
 ## Part 1: The long journey, ideas, motivation, mistakes and challenges
 
 On this section we will describe how we revisited the initial proposal, found problems, proposed solutions and started a
@@ -163,6 +163,7 @@ images, as everything was either consumed directly from the system, or installed
 
 These are the main features of the base image, which is used in all final images.
 
+<p id='part2'></p>
 ## Part 2: Under the hood of Dockerfiles and technical details
 
 Here we will be more focused on the final product, Dockerfiles, tests and CI. If you are interested to read about
