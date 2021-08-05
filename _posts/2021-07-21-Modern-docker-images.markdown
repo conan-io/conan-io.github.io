@@ -100,7 +100,27 @@ The library ``libstdc++`` is distributed along with the GCC project. We chose to
 which
 was neither the newest, to allow older distributions to use, but also not so old, so that new features can be consumed
 by newer compilers. The version chosen was ``libstdc++.so.6.0.28``, the same distributed with GCC 9 and 10, but also
-is the default version in Ubuntu 20.04 LTS (Focal).
+is the default version in Ubuntu 20.04 LTS (Focal). Once GCC 10 is built, its ``libstdc++`` generated is copied to an
+Artifactory instance and this is downloaded directly to
+each final image. Actually, that was the original intent, but as we will see, that was not possible. While we were
+developing the new recipes, GCC 11 was released and along with it, the version was ``libstdc++`` already ``.29``, which
+made usage incompatible. In this case, we are left with the following dilemma:
+
+* Using the same libstdc++ version, except for GCC 11.
+    * Conan Center becomes homogeneous, everything can be used without compiler restriction and distribution
+    * Binaries can hardly be used outside of Conan Center because they need the newest version of libstdc++ library
+that is not yet available in official PPA. All build requirements would be broken.
+    * A possible solution would be to statically link libstdc++ in all binaries, but this solution has a number of
+risks.
+* Each image uses the corresponding version of libstdc++ provided by the compiler.
+    * Better than the current scenario, where it is dependent on PPA and we have no control over it.
+    * All images still use the same version of glibc, another advantage over the current scenario.
+    * We will need to take care of the build requirements, as they will only be compatible with later versions.
+    * Better for users, than the current scenario. The requirements related to libstdc++ are the same, but the glibc
+version is still the same version for everyone.
+
+Given the conditions and risks, we chose to go the second way: **Use the libstdc++ version available together with the
+compiler**.
 
 Ubuntu 16.04 Xenial LTS is still the base used, its support will be until April 2024. After that date, we will need to
 update the images to a newer version of the distribution, in addition to rebuilding all available official packages.
@@ -110,7 +130,7 @@ To summarize the plan:
 
 * Ubuntu 16.04 LTS as base Docker image
 * Build Clang and GCC from source
-* Use libstdc++.so.0.6.28 for all new Docker images
+* Use libstdc++ provided by the compiler
 * Use glibc 2.23 for all new Docker images
 * Images for old compilers will be built as long as their build script is compatible with the one for the newer compilers.
 
@@ -163,6 +183,44 @@ images, as everything was either consumed directly from the system, or installed
 
 These are the main features of the base image, which is used in all final images.
 
+For the construction of Clang, we tried to make it available from version 6.0 to 12, but we had a series of obstacles
+and challenges that made us change our mind. Here we will share a little bit of this long journey of CMake files and
+compilation hours. To see the full recipe, it is available
+[here](https://github.com/conan-io/conan-docker-tools/blob/feature/single-image/modern/clang/Dockerfile).
+
+
+### Training the Dragon: Clang Dockefile
+
+As we would like to use only one version of libstdc++, we chose to find a way to build the Clang without the direct
+dependency on GCC, building the Clang with another Clang already installed, thus avoiding ``libgcc_s``, ``libstdc++``
+and using ``libc++``, ``libc++-abi``, ``libunwind``, ``compiler-rt`` and ``ldd`` instead. The ``libstdc++`` would only
+be used for Conan packages, not as a Clang requirement. However, we had some situations and the need for some actions
+that will be listed here:
+
+* The LLVM project uses CMake support, which facilitates the configuration of its construction, even customization if
+necessary.
+* We chose to use Clang 10 as a builder, as it is current and still compatible with the chosen Ubuntu version. The
+compiler is pre-built and distributed by the official LLVM PPA.
+* From version to version, options are added or removed, reflecting the evolution of project features and legacy
+deprecation. With these changes, it was inevitable to study the CMake files of each version to understand which options
+do not work in subsequent versions or which option should be used to specify the preferred library.
+* Unlike GCC, LLVM has a huge range of parameters and a longer build time, around 1h depending on the host. So, for
+each attempt, a long wait was needed to get the result.
+* Until Clang 9 release, ``libc++`` was not automatically added to be linked when using Clang. As a solution, the
+project supports a configuration file, where ``libc++`` can be specified by default. However, this behavior changes
+between versions 6, 7 and 8, requiring different standards and making it difficult to use the same Docker recipe for
+all versions.
+* With the removal of the GCC dependency, it was necessary to use ``libunwind`` during the build. It is already
+internalized in LLVM, but used as a dynamic library only. So a question arises, what happens if a project uses the
+image with Clang and installs Conan's libunwind package? A big mess when linking, is the answer. Clang tries to link
+the version distributed by the Conan package, resulting in several errors. As a workaround, we renamed the original
+LLVM ``libunwind`` to ``libllvm-unwind``.
+
+With all the advents and limitations, it became quite difficult to maintain from Clang 6 to 12. After a lot of
+discussions and advices from some of the LLVM maintainers, we decided to limit Clang support to starting from version
+10, because it is not necessary to apply as many modifications, including the configuration file. Also, in the Linux
+environment, Clang is not the primary compiler, so we believe its use is always tied to newer versions.
+
 <p id='part2'></p>
 ## Part 2: Under the hood of Dockerfiles and technical details
 
@@ -185,27 +243,8 @@ RUN cd gcc-${GCC_VERSION} \
 No matter the version, GCC continues to use the same lines for its build.
 Some factors were configured in this version used:
 * Bootstrap has been disabled to reduce build time to just 20 minutes.
+* Fortran is enabled, but it barely increase the building time and final
 
-Once GCC 10 is built, its libstdc++ generated is copied to an Artifactory instance and this is downloaded directly to
-each final image. Actually, that was the original intent, but as we will see, that was not possible. While we were
-developing the new recipes, GCC 11 was released and along with it, the version was ``libstdc++`` already ``.29``, which
-made usage incompatible. In this case, we are left with the following dilemma:
-
-* Using the same libstdc++ version, except for GCC 11.
-    * Conan Center becomes homogeneous, everything can be used without compiler restriction and distribution
-    * Binaries can hardly be used outside of Conan Center because they need the newest version of libstdc++ library
-that is not yet available in official PPA. All build requirements would be broken.
-    * A possible solution would be to statically link libstdc++ in all binaries, but this solution has a number of
-risks.
-* Each image uses the corresponding version of libstdc++ provided by the compiler.
-    * Better than the current scenario, where it is dependent on PPA and we have no control over it.
-    * All images still use the same version of glibc, another advantage over the current scenario.
-    * We will need to take care of the build requirements, as they will only be compatible with later versions.
-    * Better for users, than the current scenario. The requirements related to libstdc++ are the same, but the glibc
-version is still the same version for everyone.
-
-Given the conditions and risks, we chose to go the second way: **Use the libstdc++ version available together with the
-compiler**.
 
 The last part of the image uses the concept of Docker
 [multistage-build](https://docs.docker.com/develop/develop-images/multistage-build/), a technique that avoids creating
@@ -247,42 +286,10 @@ compared to current Conan Docker Tools.
 
 ### Conan meets the Wyvern: Building Clang C/C++ compiler from source
 
-For the construction of Clang, we tried to make it available from version 6.0 to 12, but we had a series of obstacles
-and challenges that made us change our mind. Here we will share a little bit of this long journey of CMake files and
-compilation hours. To see the full recipe, it is available
+To see the full recipe, it is available
 [here](https://github.com/conan-io/conan-docker-tools/blob/feature/single-image/modern/clang/Dockerfile).
 
-As we would like to use only one version of libstdc++, we chose to find a way to build the Clang without the direct
-dependency on GCC, building the Clang with another Clang already installed, thus avoiding ``libgcc_s``, ``libstdc++``
-and using ``libc++``, ``libc++-abi``, ``libunwind``, ``compiler-rt`` and ``ldd`` instead. The ``libstdc++`` would only
-be used for Conan packages, not as a Clang requirement. However, we had some situations and the need for some actions
-that will be listed here:
-
-* The LLVM project uses CMake support, which facilitates the configuration of its construction, even customization if
-necessary.
-* We chose to use Clang 10 as a builder, as it is current and still compatible with the chosen Ubuntu version. The
-compiler is pre-built and distributed by the official LLVM PPA.
-* From version to version, options are added or removed, reflecting the evolution of project features and legacy
-deprecation. With these changes, it was inevitable to study the CMake files of each version to understand which options
-do not work in subsequent versions or which option should be used to specify the preferred library.
-* Unlike GCC, LLVM has a huge range of parameters and a longer build time, around 1h depending on the host. So, for
-each attempt, a long wait was needed to get the result.
-* Until Clang 9 release, ``libc++`` was not automatically added to be linked when using Clang. As a solution, the
-project supports a configuration file, where ``libc++`` can be specified by default. However, this behavior changes
-between versions 6, 7 and 8, requiring different standards and making it difficult to use the same Docker recipe for
-all versions.
-* With the removal of the GCC dependency, it was necessary to use ``libunwind`` during the build. It is already
-internalized in LLVM, but used as a dynamic library only. So a question arises, what happens if a project uses the
-image with Clang and installs Conan's libunwind package? A big mess when linking, is the answer. Clang tries to link
-the version distributed by the Conan package, resulting in several errors. As a workaround, we renamed the original
-LLVM ``libunwind`` to ``libllvm-unwind``.
-
-With all the advents and limitations, it became quite difficult to maintain from Clang 6 to 12. After a lot of
-discussions and advices from some of the LLVM maintainers, we decided to limit Clang support to starting from version
-10, because it is not necessary to apply as many modifications, including the configuration file. Also, in the Linux
-environment, Clang is not the primary compiler, so we believe its use is always tied to newer versions.
-
-Now that the difficulties faced are clear, let's go a step further and detail the Clang deployment step.
+Let's go a step further and detail the Clang deployment step.
 
 {% highlight docker %}
 
@@ -314,6 +321,27 @@ RUN sudo mv /tmp/gcc/lib64 /usr/local/ \
 Similar to what was done with GCC, in Clang we also use the same base image and copy the artifacts generated by the
 compiler to the ``/usr/local`` directory. However, the ``libstdc++`` library was extracted from the GCC 10 image. This
 is a necessity of the possible configurations supported by Conan.
+
+Besides that, Clang requires some interesting CMake definitions:
+* LLVM_ENABLE_PROJECTS: Only enable what we want, otherwise we will have tons of binaries and hours of build
+* LLVM_USE_LINKER: We enforce LLVM linker (lld). It's faster than GNU ld and reduces the total building time
+
+{% highlight docker %}
+
+...
+&& ninja unwind \
+&& ninja cxxabi \
+&& cp lib/libc++abi* /usr/lib/ \
+&& ninja cxx \
+&& ninja clang \
+
+{% endhighlight %}
+
+If we run `ninja` command alone, it builds more projects than we want configured as enabled, so we
+build one by one.
+Also, `libcxx` has a limitation when building using `libc++abi`, it searches on system library folder,
+not the internal folders first.
+
 
 ### Tests and more tests: A CI pipeline to test Docker images
 
@@ -358,11 +386,41 @@ $ docker-compose build clang12
 
 {% endhighlight %}
 
-The produced image will be named as ``conanio/clang12-ubuntu16.04:1.38.0``, where ``1.38.0`` is the image tag and
+The produced image will be named as ``conanio/clang12-ubuntu16.04:1.39.0``, where ``1.39.0`` is the image tag and
 version of Conan installed. But it's totally configurable by the .env file.
 
 In the case of legacy images, they will continue to be built in Azure when needed, we have no intention of moving them
 to Jenkins due to effort and maintenance.
+
+### How to build a Conan package with new Docker images
+
+After building our new images, we are ready to build our Conan packages. Let's take Boost as our example.
+
+{% highlight shell %}
+
+$ docker run --rm -ti -v ${HOME}/.conan/data:/home/conan/.conan/data conanio/gcc10-ubuntu16.04:1.39.0
+conan@148a77cfbc33:~$ conan install boost/1.76.0@ --build
+conan@148a77cfbc33:~$ exit
+
+{% endhighlight %}
+
+Here, we start a temporary Docker container with interactive support. Also, we share our Conan cache data as volume.
+After starting, we build Boost 1.76.0 and its dependencies from source. All packages will be built and installed to
+the shared volume, so we can use it after closing the container. To finish and remove the container, we just need to
+exit.
+
+{% highlight shell %}
+
+$ docker run -d -t -v ${HOME}/.conan/data:/home/conan/.conan/data --name conan_container conanio/gcc10
+$ docker exec conan_container conan install boost/1.76.0@ --build
+$ docker stop conan_container
+$ docker rm conan_container
+
+{% endhighlight %}
+
+Similar execution, same result. Instead of creating a temporary Docker container, we executed it on background.
+All container commands are passed by `conan exec` command. Also, we need to stop and remove manually after finishing.
+
 
 ## Finals words and feedback
 
