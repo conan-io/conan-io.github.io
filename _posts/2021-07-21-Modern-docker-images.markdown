@@ -103,8 +103,9 @@ by newer compilers. The version chosen was ``libstdc++.so.6.0.28``, the same dis
 is the default version in Ubuntu 20.04 LTS (Focal). Once GCC 10 was built it should be possible to copy
 this library to the rest of the images. Actually, that was the original intent, but as we will see, that was
 not possible. While we were
-developing the new recipes, GCC 11 was released and along with it, the version was ``libstdc++`` already ``.29``, which
-made usage incompatible. In this case, we are left with the following dilemma:
+developing the new recipes, GCC 11 was released and, with it, a new ``libstdc++`` version (``6.0.29``).
+It was not possible to use the previous version with this new compiler. We were left with the following
+dilemma:
 
 * Using the same libstdc++ version, except for GCC 11.
     * Conan Center becomes homogeneous (except GCC 11): all binaries will be built and linked using the same ``libstdc++`` version, which guarantees that all can run in any image.
