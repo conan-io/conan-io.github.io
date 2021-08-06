@@ -100,9 +100,9 @@ The library ``libstdc++`` is distributed along with the GCC project. The intenti
 which
 was neither the newest, to allow older distributions to use, but also not so old, so that new features can be consumed
 by newer compilers. The version chosen was ``libstdc++.so.6.0.28``, the same distributed with GCC 9 and 10, but also
-is the default version in Ubuntu 20.04 LTS (Focal). Once GCC 10 is built, its ``libstdc++`` generated is copied to an
-Artifactory instance and this is downloaded directly to
-each final image. Actually, that was the original intent, but as we will see, that was not possible. While we were
+is the default version in Ubuntu 20.04 LTS (Focal). Once GCC 10 was built it should be possible to copy
+this library to the rest of the images. Actually, that was the original intent, but as we will see, that was
+not possible. While we were
 developing the new recipes, GCC 11 was released and along with it, the version was ``libstdc++`` already ``.29``, which
 made usage incompatible. In this case, we are left with the following dilemma:
 
