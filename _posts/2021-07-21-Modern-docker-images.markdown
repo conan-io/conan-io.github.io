@@ -190,7 +190,7 @@ compilation hours. To see the full recipe, it is available
 [here](https://github.com/conan-io/conan-docker-tools/blob/feature/single-image/modern/clang/Dockerfile).
 
 
-### Training the Dragon: Clang Dockefile
+### Training the Dragon: Building Clang from sources
 
 As we would like to use only one version of libstdc++, we chose to find a way to build the Clang without the direct
 dependency on GCC, building the Clang with another Clang already installed, thus avoiding ``libgcc_s``, ``libstdc++``
