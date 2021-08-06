@@ -107,7 +107,7 @@ developing the new recipes, GCC 11 was released and along with it, the version w
 made usage incompatible. In this case, we are left with the following dilemma:
 
 * Using the same libstdc++ version, except for GCC 11.
-    * Conan Center becomes homogeneous, everything can be used without compiler restriction and distribution
+    * Conan Center becomes homogeneous (except GCC 11): all binaries will be built and linked using the same ``libstdc++`` version, which guarantees that all can run in any image.
     * Binaries can hardly be used outside of Conan Center because they need the newest version of libstdc++ library
 that is not yet available in official PPA. All build requirements would be broken.
     * A possible solution would be to statically link libstdc++ in all binaries, but this solution has a number of
