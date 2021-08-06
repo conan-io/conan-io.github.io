@@ -118,7 +118,7 @@ risks.
     * All images still use the same version of glibc, another advantage over the current scenario.
     * We will need to take care of the executables, as they will only be compatible with later versions (as they are now).
     * Better for users, than the current scenario. The requirements related to libstdc++ are the same, but the glibc
-version is still the same version for everyone.
+version is the same version for all the packages.
 
 Given the conditions and risks, we chose to go the second way: **Use the libstdc++ version available together with the
 compiler**.
