@@ -123,6 +123,10 @@ version is the same version for all the packages.
 Given the conditions and risks, we chose to go the second way: **Use the libstdc++ version available together with the
 compiler**.
 
+As Clang also supports ``libstdc++``, we choose ``libstdc++.so.6.0.28`` to be its default version. As commented before,
+that version has some advantages due its age and compatibility. To copy the library with Clang, first we need to build
+GCC 10, then we can mount its Docker container and copy the ``libstdc++.so.6.0.28`` to the Clang image.
+
 Ubuntu 16.04 Xenial LTS is still the base used, its support will be until April 2024. After that date, we will need to
 update the images to a newer version of the distribution, in addition to rebuilding all available official packages.
 
@@ -135,6 +139,43 @@ To summarize the plan:
 * Use glibc 2.23 for all new Docker images
 * Images for old compilers will be built as long as their build script is compatible with the one for the newer compilers.
 
+### Training the Dragon: Building Clang from sources
+
+As we would like to use only one version of libstdc++, we chose to find a way to build the Clang without the direct
+dependency on GCC, building the Clang with another Clang already installed, thus avoiding ``libgcc_s``, ``libstdc++``
+and using ``libc++``, ``libc++-abi``, ``libunwind``, ``compiler-rt`` and ``ldd`` instead. The ``libstdc++`` would only
+be used for Conan packages, not as a Clang requirement. However, we had some situations and the need for some actions
+that will be listed here:
+
+* The LLVM project uses CMake support, which facilitates the configuration of its construction, even customization if
+necessary.
+* We chose to use Clang 10 as a builder, as it is current and still compatible with the chosen Ubuntu version. The
+compiler is pre-built and distributed by the official LLVM PPA.
+* From version to version, options are added or removed, reflecting the evolution of project features and legacy
+deprecation. With these changes, it was inevitable to study the CMake files of each version to understand which options
+do not work in subsequent versions or which option should be used to specify the preferred library.
+* Unlike GCC, LLVM has a huge range of parameters and a longer build time, around 1h depending on the host. So, for
+each attempt, a long wait was needed to get the result.
+* Until Clang 9 release, ``libc++`` was not automatically added to be linked when using Clang. As a solution, the
+project supports a configuration file, where ``libc++`` can be specified by default. However, this behavior changes
+between versions 6, 7 and 8, requiring different standards and making it difficult to use the same Docker recipe for
+all versions.
+* With the removal of the GCC dependency, it was necessary to use ``libunwind`` during the build. It is already
+internalized in LLVM, but used as a dynamic library only. So a question arises, what happens if a project uses the
+image with Clang and installs Conan's libunwind package? A big mess when linking, is the answer. Clang tries to link
+the version distributed by the Conan package, resulting in several errors. As a workaround, we renamed the original
+LLVM ``libunwind`` to ``libllvm-unwind``.
+
+With all the advents and limitations, it became quite difficult to maintain from Clang 6 to 12. After a lot of
+discussions and advices from some of the LLVM maintainers, we decided to limit Clang support to starting from version
+10, because it is not necessary to apply as many modifications, including the configuration file. Also, in the Linux
+environment, Clang is not the primary compiler, so we believe its use is always tied to newer versions.
+
+<p id='part2'></p>
+## Part 2: Under the hood of Dockerfiles and technical details
+
+Here we will be more focused on the final product, Dockerfiles, tests and CI. If you are interested to read about
+our decisions, read the Part 1 first.
 
 ### From blueprint to prototype: Writing the new Docker recipes
 
@@ -188,45 +229,6 @@ For the construction of Clang, we tried to make it available from version 6.0 to
 and challenges that made us change our mind. Here we will share a little bit of this long journey of CMake files and
 compilation hours. To see the full recipe, it is available
 [here](https://github.com/conan-io/conan-docker-tools/blob/feature/single-image/modern/clang/Dockerfile).
-
-
-### Training the Dragon: Building Clang from sources
-
-As we would like to use only one version of libstdc++, we chose to find a way to build the Clang without the direct
-dependency on GCC, building the Clang with another Clang already installed, thus avoiding ``libgcc_s``, ``libstdc++``
-and using ``libc++``, ``libc++-abi``, ``libunwind``, ``compiler-rt`` and ``ldd`` instead. The ``libstdc++`` would only
-be used for Conan packages, not as a Clang requirement. However, we had some situations and the need for some actions
-that will be listed here:
-
-* The LLVM project uses CMake support, which facilitates the configuration of its construction, even customization if
-necessary.
-* We chose to use Clang 10 as a builder, as it is current and still compatible with the chosen Ubuntu version. The
-compiler is pre-built and distributed by the official LLVM PPA.
-* From version to version, options are added or removed, reflecting the evolution of project features and legacy
-deprecation. With these changes, it was inevitable to study the CMake files of each version to understand which options
-do not work in subsequent versions or which option should be used to specify the preferred library.
-* Unlike GCC, LLVM has a huge range of parameters and a longer build time, around 1h depending on the host. So, for
-each attempt, a long wait was needed to get the result.
-* Until Clang 9 release, ``libc++`` was not automatically added to be linked when using Clang. As a solution, the
-project supports a configuration file, where ``libc++`` can be specified by default. However, this behavior changes
-between versions 6, 7 and 8, requiring different standards and making it difficult to use the same Docker recipe for
-all versions.
-* With the removal of the GCC dependency, it was necessary to use ``libunwind`` during the build. It is already
-internalized in LLVM, but used as a dynamic library only. So a question arises, what happens if a project uses the
-image with Clang and installs Conan's libunwind package? A big mess when linking, is the answer. Clang tries to link
-the version distributed by the Conan package, resulting in several errors. As a workaround, we renamed the original
-LLVM ``libunwind`` to ``libllvm-unwind``.
-
-With all the advents and limitations, it became quite difficult to maintain from Clang 6 to 12. After a lot of
-discussions and advices from some of the LLVM maintainers, we decided to limit Clang support to starting from version
-10, because it is not necessary to apply as many modifications, including the configuration file. Also, in the Linux
-environment, Clang is not the primary compiler, so we believe its use is always tied to newer versions.
-
-<p id='part2'></p>
-## Part 2: Under the hood of Dockerfiles and technical details
-
-Here we will be more focused on the final product, Dockerfiles, tests and CI. If you are interested to read about
-our decisions, read the Part 1 first.
 
 ### Building GCC from source
 
