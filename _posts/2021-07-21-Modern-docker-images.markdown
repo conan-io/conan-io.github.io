@@ -110,7 +110,7 @@ dilemma:
 * Using the same libstdc++ version, except for GCC 11.
     * Conan Center becomes homogeneous (except GCC 11): all binaries will be built and linked using the same ``libstdc++`` version, which guarantees that all can run in any image.
     * Binaries can hardly be used outside of Conan Center because they need the newest version of libstdc++ library
-that is not yet available in official PPA. All build requirements would be broken.
+that is not yet available in the official PPA. All executables built inside ConanCenter won't work in the users' machines.
     * A possible solution would be to statically link libstdc++ in all binaries, but this solution has a number of
 risks.
 * Each image uses the corresponding version of libstdc++ provided by the compiler.
