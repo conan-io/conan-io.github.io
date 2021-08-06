@@ -116,7 +116,7 @@ risks.
 * Each image uses the corresponding version of libstdc++ provided by the compiler.
     * Better than the current scenario, where it is dependent on PPA and we have no control over it.
     * All images still use the same version of glibc, another advantage over the current scenario.
-    * We will need to take care of the build requirements, as they will only be compatible with later versions.
+    * We will need to take care of the executables, as they will only be compatible with later versions (as they are now).
     * Better for users, than the current scenario. The requirements related to libstdc++ are the same, but the glibc
 version is still the same version for everyone.
 
