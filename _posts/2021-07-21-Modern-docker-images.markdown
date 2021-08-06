@@ -96,7 +96,7 @@ prebuilt. So, we chose to build both from sources in order to have more control 
 Also, packages generated using these images (packages in ConanCenter) should work out-of-the-box in as many as possible
 different distros.
 
-The library ``libstdc++`` is distributed along with the GCC project. We chose to use a single version of the library,
+The library ``libstdc++`` is distributed along with the GCC project. The intention was to use a single version of the library,
 which
 was neither the newest, to allow older distributions to use, but also not so old, so that new features can be consumed
 by newer compilers. The version chosen was ``libstdc++.so.6.0.28``, the same distributed with GCC 9 and 10, but also
