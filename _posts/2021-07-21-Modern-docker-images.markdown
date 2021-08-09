@@ -422,7 +422,7 @@ $ docker rm conan_container
 {% endhighlight %}
 
 Similar execution, same result. Instead of creating a temporary Docker container, we executed it on background.
-All container commands are passed by `conan exec` command. Also, we need to stop and remove manually after finishing.
+All the Conan commands are passed via `docker exec` command. Also, we need to stop and remove manually after finishing.
 
 
 ## Finals words and feedback
