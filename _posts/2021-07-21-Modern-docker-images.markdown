@@ -375,7 +375,7 @@ With that in mind, we started using Jenkins to also build the new Docker images.
 advantage in this is the use of features for cache in Docker. Previously, a single job took up to 2h if it was on other
 services, without the use of caching. Now, using Jenkins and Docker ``--cache-from``, updating a package, from base
 image to final image, takes just 4 minutes per job. The Jenkinsfile file used can be viewed
-[here](https://github.com/conan-io/conan-docker-tools/blob/feature/single-image/.ci/xenial.jenkinsfile).
+[here](https://github.com/conan-io/conan-docker-tools/blob/master/.ci/xenial.jenkinsfile).
 
 Although the file looks complicated at first glance, it is still possible to use docker-compose to build an image from
 scratch. As an example, let's use Clang 12:
