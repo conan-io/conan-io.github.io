@@ -351,7 +351,7 @@ not the internal folders first.
 To ensure that the images produced met our requirements, we needed to add new tests that cover in addition to what was
 already tested in Conan Docker Tools. Until then, a single script was used which validated a series of builds, versions
 of installed binaries and user permissions. The content of the new tests can be seen
-[here](https://github.com/conan-io/conan-docker-tools/tree/feature/single-image/modern/tests).
+[here](https://github.com/conan-io/conan-docker-tools/tree/master/modern/tests).
 
 We introduced greater modularization in the tests, dividing the steps into separate scripts, to serve each compiler
 closer. With the support for Fortran, it was necessary to adapt a test that covered it. Furthermore, many applications
