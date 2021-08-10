@@ -10,104 +10,60 @@ problems and unified all Docker recipes using multistage-build on Jenkins"
 ---
 
 
-This is the continuation of the initial [post](https://blog.conan.io/2020/06/17/Conan-Docker-Images.html) about new
-Docker images for the Conan Center.
-Preferably read the first post to understand the problem, the motivation and the proposed
-solution for Conan Docker Tools. In this post we will continue the proposed implementation,
-highlight the problems encountered during development and the result of this long journey that
-should improve in many aspects the way we use Docker images for Conan.
+This is the continuation of the initial post about new [Docker images for the Conan Center](https://blog.conan.io/2020/06/17/Conan-Docker-Images.html) that will help you understand the problem, the motivation and the proposed solution for Conan Docker Tools. In this post we will continue the proposed implementation, highlight the problems encountered during development,and show how this solution improves many aspects of the way we use Docker images for Conan.
+Also, this blog is a bit longer than usual and contains explanations about the decisions made, mistakes committed, and details the technical part of working with Dockerfiles. e divided this blog post in 2 parts:
 
-Also, this blog is a bit longer than usual, and contains all explanation about the decisions and mistakes
-committed, plus the technical part with Dockerfiles in details. To attend all kind of readers, we divided
-this blog post in 2 parts:
 
 * Part 1: <a href='#part1' class='pilcrow'>The long journey, ideas, motivation, mistakes and challenges</a>
-* Part 2: <a href='#part2' class='pilcrow'>Under the hood of Dockerfiles and technical details</a>
+* Part 2: <a href='#part2' class='pilcrow'>Technical details: Under the hood of Dockerfiles and recipes</a>
 
-## The importance of the community
+## The Importance of the Community
 
-Right after the presentation of the first proposal of the previous post, we had a great and
-important feedback from the community involving Conan. This shows how important these Docker images
-are not only for the Conan Center, generating official packages for general distribution, but also
-for people who own their personal projects and use the images to validate and build their Conan
-recipes, as well as the companies they build packages through sources.
+We want to thank the community for all of the  great and important feedback  we received involving Conan and Docker images. Your feedback lets us know how important these Docker images are not only for the Conan Center by generating official packages for general distribution, but also for people who own their personal projects and use the images to validate and build their Conan recipes, as well as the companies they build packages through sources.
 
-After long feedback and new formulations, we understood that it was necessary to make changes to
-the initial concept, we realized that we could not modify the existing images for better
-maintenance, given the risk of breaking the behavior between users, so we started from scratch
-again, formulating a more balanced version between Conan Center and users. Unfortunately we can't
-keep an old version long enough to support older compilers, but we believe this is the price of
-progress, we need to sacrifice older versions for better maintenance for newer versions.
+After long feedback and new formulations we understood that it was necessary to make changes to the initial concept. We realized that we could not modify the existing images for better maintenance given the risk of breaking the behavior between users, so we started from scratch again, formulating a more balanced version between Conan Center and users. We can't keep an old version long enough to support older compilers, this is the price of progress. To keep moving forward we need to remove older versions for better maintenance for newer versions.
 
-That said, it is clear how important the involvement of the entire community has been and how much
-we take into account its manifestation. We are grateful to the great tribe that surrounds Conan and
-makes it more and more complete.
+We are grateful to the great tribe that surrounds Conan and helps make it more and more complete. We would not be where we are without your support, feedback, and trust in our ability to continue to improve Conan.
 
 <p id='part1'></p>
-## Part 1: The long journey, ideas, motivation, mistakes and challenges
+## Part 1: The Long Journey: Ideas, Motivation, Mistakes and Challenges
 
-On this section we will describe how we revisited the initial proposal, found problems, proposed solutions and started a
-new entire idea. If you are more interested reading only the more technical part, start from the Part 2.
+In this section we will describe how we revisited the initial proposal, found problems, proposed solutions and embarked on an entirely new idea. If you are more interested in the technical part of our journey please skip ahead to Part 2.
 
 ### Conan Docker Images: Revisited
 
 The pull request [#204](https://github.com/conan-io/conan-docker-tools/pull/204) showed us some weak points to consider:
 
-* Installing Clang via LLVM's APT repository does not guarantee full compatibility with ``libstdc++`` version used to
-build GCC.
+* Installing Clang via LLVM's APT repository does not guarantee full compatibility with ``libstdc++`` version used to build GCC.
 * APT packages that were requirements for GCC and Clang were still present, further inflating the final image.
-* The packages provided through Ubuntu do not have older versions available, in case a new version comes along. This
-affects the reproducibility requirement.
-* Older compilers were always an issue in terms of maintenance once they arrived in the EOL (end-of-life) state. It was
-necessary to update the PPA address and build the images again
-* The continuous integration service used, although it was considerably fast, it was not possible to customize and
-prioritize the build, if necessary.
+* The packages provided through Ubuntu do not have older versions available, in case a new version comes along. This affects the reproducibility requirement.
+* Older compilers were always an issue in terms of maintenance once they arrived in the EOL (end-of-life) state. It was necessary to update the PPA address and build the images again
+* The continuous integration service used, although it was considerably fast, it was not possible to customize and prioritize the build, if necessary.
 
-Noticing the listed issues, we took a more radical solution, even though it took more time to implement, but resulted
-in something better in terms of maintainability and practicality.
+Noticing the listed issues, we tried a radical solution.  This solution took more time to implement but resulted in something better in terms of maintainability and practicality.
 
-Therefore, we decided to abandon PR #204 and start again from scratch, considering the items listed above.
+This being the case we decided to abandon PR #204 and start again from scratch, considering the items listed above.
 
-### A new plan: Using the same base image
+### A New Plan: Using the Same Base Image
 
-Before we start implementing new dockerfiles with their proper corrections, we first need to understand what the objective
-behind it all is. We would like to understand what the expectation is for these new images 2 years from now. As we have
-seen before, in a few years with the current approach we are already maintaining over 40 different dockerfiles. Also, one of the points discussed is whether there will be
-rotation to avoid the accumulation of old images and their restrictions in terms of maintenance.
+We first need to understand the objective behind the project before we start implementing new dockerfiles with their proper corrections. We want to understand what the expectation is for these new images 2 years from now. With the current approach we are already maintaining over 40 different dockerfiles which can be problematic. We also want to address one of the  points discussed previously:  will  there be rotation to avoid the accumulation of old images and their restrictions in terms of maintenance.
 
-For current and already available images on hub.docker, these will be kept but no longer supported (new versions will
-not be introduced). Your recipes and images will remain available, as their immediate removal would result in
-catastrophic failure for many users. They will eventually be removed, but at a distant date and to be defined.
+#### The Plan
 
-As for the new images, these will be adopted as official and widely promoted for use by all users. The transition
-to the new images in Conan Center should take place in a few months after release, because it will be necessary to rebuild the packages that already
-exist in the Conan Center and replace them, this is to ensure full compatibility between packages. As for rotation and
-maintenance, we believe it is necessary to rotate supported compilers over time, to avoid a large build, effort and
-maintenance load for old images and packages that are not always used by the community. Therefore, the following rule
-will be adopted:
+For current and already available images on hub.docker these will be kept but no longer supported (new versions will not be introduced). Your recipes and images will remain available, as their immediate removal would result in catastrophic failure for many users. They will eventually be removed, but at a distant and yet to be defined date.
+
+As for the new images, these will be adopted as official and widely promoted for use by all users. The transition to the new images in Conan Center should take place in a few months after release because it will be necessary to rebuild the packages that already exist in the Conan Center and replace them to ensure full compatibility between packages. As for rotation and maintenance, we believe it is necessary to rotate supported compilers over time, to avoid a large build, effort and maintenance load for old images and packages that are not always used by the community. Therefore, the following rule will be adopted:
+
 * Clang will be supported from 10.0 to the newest version.
 * GCC on the other hand, is widely used for the Linux environment and only version 4.x was left out.
-* For both compilers we will keep updating all new compiler versions and Conan client version, according new releases.
+* For both compilers we will keep updating all new compiler versions and Conan client version, according to new releases.
 * The multilib support was discarded as we are only interested in producing packages with 64-bit support.
 * Fortran support has been added, thus producing ``gfortran`` together in the image. Currently the Conan package for
 ``gfortran`` is totally broken and has a complex dependencies chain to fix.
 
-One of the problems we would like to solve is the compiler used and its libraries, we always wanted to be independent
-of the Linux distribution. In the initial pull request, we built the GCC from sources, while the Clang uses
-prebuilt. So, we chose to build both from sources in order to have more control over the compiler used.
-Also, packages generated using these images (packages in ConanCenter) should work out-of-the-box in as many as possible
-different distros.
+We always wanted to be independent of the Linux distribution so one of the problems we would like to solve is the compiler used and its libraries . In the initial pull request, we built the GCC from sources, while the Clang uses prebuilt. To solve this problem we chose to build both from sources in order to have more control over the compiler used. Packages generated using these images (packages in ConanCenter) should work out-of-the-box in as many as possible different distros.
 
-The library ``libstdc++`` is distributed along with the GCC project. The intention was to use a single version of the library,
-which
-was neither the newest, to allow older distributions to use, but also not so old, so that new features can be consumed
-by newer compilers. The version chosen was ``libstdc++.so.6.0.28``, the same distributed with GCC 9 and 10, but also
-is the default version in Ubuntu 20.04 LTS (Focal). Once GCC 10 was built it should be possible to copy
-this library to the rest of the images. Actually, that was the original intent, but as we will see, that was
-not possible. While we were
-developing the new recipes, GCC 11 was released and, with it, a new ``libstdc++`` version (``6.0.29``).
-It was not possible to use the previous version with this new compiler. We were left with the following
-dilemma:
+The library ``libstdc++`` is distributed along with the GCC project. The intention was to use a single recent version of the library. This decision would allow older distributions to continue to use the library while also allowing new features to be consumed by newer compilers. The version chosen was ``libstdc++.so.6.0.28``, the same distributed with GCC 9 and 10, but also is the default version in Ubuntu 20.04 LTS (Focal). Once GCC 10 was built we presumed it would be possible to copy this library to the rest of the images. That was the original intent but as we soon learned it was not possible. While we were developing the new recipes GCC 11 was released and with it a new ``libstdc++`` version (``6.0.29``). It was not possible to use the previous version with this new compiler. We were left with the following dilemma:
 
 * Using the same libstdc++ version, except for GCC 11.
     * Conan Center becomes homogeneous (except GCC 11): all binaries will be built and linked using the same ``libstdc++`` version, which guarantees that all can run in any image.
@@ -122,18 +78,15 @@ risks.
     * Better for users, than the current scenario. The requirements related to libstdc++ are the same, but the glibc
 version is the same version for all the packages.
 
-Given the conditions and risks, we chose to go the second way: **Use the libstdc++ version available together with the
-compiler**.
+Given the conditions and risks, we chose to go the second way: **Use the libstdc++ version available together with the compiler**.
 
-As Clang also supports ``libstdc++``, we choose ``libstdc++.so.6.0.28`` to be its default version. As commented before,
-that version has some advantages due its age and compatibility. To copy the library with Clang, first we need to build
-GCC 10, then we can mount its Docker container and copy the ``libstdc++.so.6.0.28`` to the Clang image.
+As Clang also supports ``libstdc++`` we choose ``libstdc++.so.6.0.28`` to be its default version. As commented before, that version has some advantages due its age and compatibility. To copy the library with Clang, first we needed to build GCC 10, then we could mount its Docker container and copy the ``libstdc++.so.6.0.28`` to the Clang image.
 
-Ubuntu 16.04 Xenial LTS is still the base used, its support will be until April 2024. After that date, we will need to
-update the images to a newer version of the distribution, in addition to rebuilding all available official packages.
+Ubuntu 16.04 Xenial LTS is still the base used and it will be supported until April 2024. After that date we will need to update the images to a newer version of the distribution in addition to rebuilding all available official packages.
 
-So forward thinking is having fewer images, but better support, without the drastic breakage and incompatibility issues.
-To summarize the plan:
+To summarize: forward thinking is having fewer images, but better support without the drastic breakage and incompatibility issues.
+
+The Revised Plan:
 
 * Ubuntu 16.04 LTS as base Docker image
 * Build Clang and GCC from source
@@ -141,13 +94,11 @@ To summarize the plan:
 * Use glibc 2.23 for all new Docker images
 * Images for old compilers will be built as long as their build script is compatible with the one for the newer compilers.
 
-### Training the Dragon: Building Clang from sources
+### Training the Dragon: Building Clang from Sources
 
-As we would like to use only one version of libstdc++, we chose to find a way to build the Clang without the direct
-dependency on GCC, building the Clang with another Clang already installed, thus avoiding ``libgcc_s``, ``libstdc++``
-and using ``libc++``, ``libc++-abi``, ``libunwind``, ``compiler-rt`` and ``ldd`` instead. The ``libstdc++`` would only
-be used for Conan packages, not as a Clang requirement. However, we had some situations and the need for some actions
-that will be listed here:
+We want to use only one version of ``libstdc++`` so we found a way to build the Clang without the direct dependency on GCC. By building the Clang with another Clang already installed it avoided ``libgcc_s``, ``libstdc++`` and used ``libc++``, ``libc++-abi``, ``libunwind``, ``compiler-rt`` and ``ldd`` instead. The ``libstdc++`` will only be used for Conan packages -  not as a Clang requirement.
+
+Challenges & Action Items:
 
 * The LLVM project uses CMake support, which facilitates the configuration of its construction, even customization if
 necessary.
@@ -168,30 +119,23 @@ image with Clang and installs Conan's libunwind package? A big mess when linking
 the version distributed by the Conan package, resulting in several errors. As a workaround, we renamed the original
 LLVM ``libunwind`` to ``libllvm-unwind``.
 
-With all the advents and limitations, it became quite difficult to maintain from Clang 6 to 12. After a lot of
-discussions and advices from some of the LLVM maintainers, we decided to limit Clang support to starting from version
-10, because it is not necessary to apply as many modifications, including the configuration file. Also, in the Linux
-environment, Clang is not the primary compiler, so we believe its use is always tied to newer versions.
+It became quite difficult to maintain from Clang 6 to 12 with the discovery of these issues and limitations.After a lot of discussions and advice from some of the LLVM maintainers we decided to limit Clang support to starting from version 10 because it is not necessary to apply as many modifications including the configuration file. Also, in the Linux environment Clang is not the primary compiler so we believe its use is always tied to newer versions.
 
 <p id='part2'></p>
-## Part 2: Under the hood of Dockerfiles and technical details
+## Part 2: Under the Hood of Dockerfiles and Technical Details
 
-Here we will be more focused on the final product, Dockerfiles, tests and CI. If you are interested to read about
-our decisions, read the Part 1 first.
+Here we will be more focused on the final product, Dockerfiles, tests and CI.
 
-### From blueprint to prototype: Writing the new Docker recipes
+### From Blueprint to Prototype: Writing the New Docker Recipes
 
-During prototyping, we realized that we could divide the process of building a Docker image into 3 phases:
-* The base, where all common packages are installed to all images, such as Python, git, svn, etc, in addition to the
-non-root user configuration.
-* An image where only the compiler is built. In this container can be installed packages referring to the compiler build
-only, which will not be present in the final image, for example, Ninja, which is used for LLVM.
-* Finally, we need to merge the base to the produced compiler into a single image, without adding extra packages, but
-still reusable between each compiler version.
+During prototyping we realized that we could divide the process of building a Docker image into 3 phases:
 
-For the case of the base image, this one is still quite modular, just changing the variables file to update the package
-to be installed. The complete recipe can be obtained
-[here](https://github.com/conan-io/conan-docker-tools/blob/feature/single-image/modern/base/Dockerfile), but let's look
+* Phase 1:The base where all common packages are installed to all images such as Python, git, svn, etc, in addition to the non-root user configuration.
+* Phase 2: An image where only the compiler is built. In this container can be installed packages referring to the compiler build only, which will not be present in the final image, for example, Ninja, which is used for LLVM.
+* Phase 3: Merge the base to the produced compiler into a single image without adding extra packages but still reusable between each compiler version.
+
+For the case of the base image, this one is still quite modular, just changing the variables file to update the package to be installed. The complete recipe can be obtained
+[here](https://github.com/conan-io/conan-docker-tools/blob/master/modern/base/Dockerfile), but let's look
 at a few pieces:
 
 {% highlight docker %}
@@ -230,12 +174,12 @@ These are the main features of the base image, which is used in all final images
 For the construction of Clang, we tried to make it available from version 6.0 to 12, but we had a series of obstacles
 and challenges that made us change our mind. Here we will share a little bit of this long journey of CMake files and
 compilation hours. To see the full recipe, it is available
-[here](https://github.com/conan-io/conan-docker-tools/blob/feature/single-image/modern/clang/Dockerfile).
+[here](https://github.com/conan-io/conan-docker-tools/blob/master/modern/clang/Dockerfile).
 
-### Building GCC from source
+### Building GCC from Source
 
 Now let's look at the GCC build image, the full recipe can be found
-[here](https://github.com/conan-io/conan-docker-tools/blob/feature/single-image/modern/gcc/Dockerfile), but let's
+[here](https://github.com/conan-io/conan-docker-tools/blob/master/modern/gcc/Dockerfile), but let's
 highlight a few points:
 
 {% highlight docker %}
@@ -247,9 +191,9 @@ RUN cd gcc-${GCC_VERSION} \
 
 No matter the version, GCC continues to use the same lines for its build.
 Some factors were configured in this version used:
+
 * Bootstrap has been disabled to reduce build time to just 20 minutes.
 * Fortran is enabled, but it barely increase the building time and final
-
 
 The last part of the image uses the concept of Docker
 [multistage-build](https://docs.docker.com/develop/develop-images/multistage-build/), a technique that avoids creating
@@ -282,17 +226,12 @@ RUN sudo rm -rf /usr/lib/gcc/x86_64-linux-gnu/* \
 
 {% endhighlight %}
 
-In this section, the base image used is the same one we created before, through a caching mechanism, this drastically
-reduces the final image build time.
-Also, all artifacts generated from GCC are now copied to their respective locations. Finally, the compiler becomes the
-default in the image and the libraries are listed and cached. And here's the icing on the cake, the same recipe works
-from GCC 5 to the latest version, just modifying some arguments. The maintenance has been drastically simplified
-compared to current Conan Docker Tools.
+In this section the base image used is the same one we created before through a caching mechanism that drastically reduces the final image build time. All artifacts generated from GCC are now copied to their respective locations. Finally, the compiler becomes the default in the image and the libraries are listed and cached. And here's the icing on the cake, the same recipe works from GCC 5 to the latest version. You just need to modify some arguments. The maintenance has been drastically simplified compared to current Conan Docker Tools.
 
-### Conan meets the Wyvern: Building Clang C/C++ compiler from source
+### Conan Meets the Wyvern: Building Clang C/C++ Compiler from Source
 
 To see the full recipe, it is available
-[here](https://github.com/conan-io/conan-docker-tools/blob/feature/single-image/modern/clang/Dockerfile).
+[here](https://github.com/conan-io/conan-docker-tools/blob/master/modern/clang/Dockerfile).
 
 Let's go a step further and detail the Clang deployment step.
 
@@ -327,7 +266,7 @@ Similar to what was done with GCC, in Clang we also use the same base image and 
 compiler to the ``/usr/local`` directory. However, the ``libstdc++`` library was extracted from the GCC 10 image. This
 is a necessity of the possible configurations supported by Conan.
 
-Besides that, Clang requires some interesting CMake definitions:
+In addition Clang requires some interesting CMake definitions:
 * LLVM_ENABLE_PROJECTS: Only enable what we want, otherwise we will have tons of binaries and hours of build
 * LLVM_USE_LINKER: We enforce LLVM linker (lld). It's faster than GNU ld and reduces the total building time
 
@@ -344,20 +283,15 @@ Besides that, Clang requires some interesting CMake definitions:
 
 If we run `ninja` command alone, it builds more projects than we want configured as enabled, so we
 build one by one.
-Also, `libcxx` has a limitation when building using `libc++abi`, it searches on system library folder,
+Also, `libcxx` has a limitation when building using `libc++abi`, it searches on the system library folder,
 not the internal folders first.
 
 
 ### Tests and more tests: A CI pipeline to test Docker images
 
-To ensure that the images produced met our requirements, we needed to add new tests that cover in addition to what was
-already tested in Conan Docker Tools. Until then, a single script was used which validated a series of builds, versions
-of installed binaries and user permissions. The content of the new tests can be seen
-[here](https://github.com/conan-io/conan-docker-tools/tree/master/modern/tests).
+To ensure that the images produced met our requirements we needed to add new tests that cover in addition to what was already tested in Conan Docker Tools. Until then, a single script was used which validated a series of builds, versions of installed binaries, and user permissions. The content of the new tests can be seen [here](https://github.com/conan-io/conan-docker-tools/tree/master/modern/tests).
 
-We introduced greater modularization in the tests, dividing the steps into separate scripts, to serve each compiler
-closer. With the support for Fortran, it was necessary to adapt a test that covered it. Furthermore, many applications
-that are now bundled with Conan are no longer part of the base image and this has also been validated.
+We introduced greater modularization in the tests, dividing the steps into separate scripts to serve each compiler closer. With the support for Fortran it was necessary to adapt a test that covered it. Furthermore, many applications that are now bundled with Conan are no longer part of the base image and this has also been validated.
 
 If you want to test locally a produced Docker image, you can easily run:
 
@@ -367,20 +301,14 @@ $ cd modern && pytest tests --image conanio/gcc10-ubuntu16.04 --service deploy -
 
 {% endhighlight %}
 
-### The CI service change: From Travis to Azure and the Jenkins arrival
+### The CI Service Change: From Travis to Azure and the Jenkins Arrival
 
-Since the beginning of the project, Conan Docker Tools has always used CI services such as Travis and Azure. However,
-this did not give us the full power to prioritize the build in the queue, or customize the host, or customize the build
-lines to use Docker-in-Docker if necessary.
+Since the beginning of the project, Conan Docker Tools has always used CI services such as Travis and Azure. However, this did not give us the full power to prioritize the build in the queue, customize the host, or customize the build lines to use Docker-in-Docker if necessary.
 
-With that in mind, we started using Jenkins to also build the new Docker images. The big
-advantage in this is the use of features for cache in Docker. Previously, a single job took up to 2h if it was on other
-services, without the use of caching. Now, using Jenkins and Docker ``--cache-from``, updating a package, from base
-image to final image, takes just 4 minutes per job. The Jenkinsfile file used can be viewed
+With that in mind we started using Jenkins to also build the new Docker images. The big advantage in this is the use of features for cache in Docker. Previously a single job took up to 2 hours if it was on other services without the use of caching. Now using Jenkins and Docker ``--cache-from``, updating a package from base image to final image takes just 4 minutes per job. The Jenkinsfile file used can be viewed
 [here](https://github.com/conan-io/conan-docker-tools/blob/master/.ci/xenial.jenkinsfile).
 
-Although the file looks complicated at first glance, it is still possible to use docker-compose to build an image from
-scratch. As an example, let's use Clang 12:
+Although the file looks complicated at first glance, it is still possible to use docker-compose to build an image from scratch. As an example, let's use Clang 12:
 
 {% highlight bash %}
 
@@ -409,10 +337,7 @@ conan@148a77cfbc33:~$ exit
 
 {% endhighlight %}
 
-Here, we start a temporary Docker container with interactive support. Also, we share our Conan cache data as volume.
-After starting, we build Boost 1.76.0 and its dependencies from source. All packages will be built and installed to
-the shared volume, so we can use it after closing the container. To finish and remove the container, we just need to
-exit.
+Here, we start a temporary Docker container with interactive support. Also, we share our Conan cache data as volume. After starting, we build Boost 1.76.0 and its dependencies from source. All packages will be built and installed to the shared volume, so we can use it after closing the container. To finish and remove the container, we just need to exit.
 
 {% highlight shell %}
 
@@ -423,13 +348,9 @@ $ docker rm conan_container
 
 {% endhighlight %}
 
-Similar execution, same result. Instead of creating a temporary Docker container, we executed it on background.
-All the Conan commands are passed via `docker exec` command. Also, we need to stop and remove manually after finishing.
+Similar execution, same result. Instead of creating a temporary Docker container, we executed it in the background. All container commands are passed by ``conan exec`` command. Also, we need to stop and remove manually after finishing.
 
 
 ## Finals words and feedback
 
-We invite everyone who uses Conan Docker Tools images to use this new formulation, which should become official soon.
-These new images are the result of a long journey, where we learned from our mistakes and listened to the community to
-reach what we have today. We believe improvements should be added continuously to keep the CDT progressing, so please
-let us your feedback on issue [#205](https://github.com/conan-io/conan-docker-tools/issues/205).
+We invite everyone who uses Conan Docker Tools images to use this new formulation, which should become official soon. These new images are the result of a long journey where we learned from our mistakes and listened to the community to achieve what we have today. We believe improvements should be added continuously to keep the CDT progressing so please let us your feedback on issue [#205](https://github.com/conan-io/conan-docker-tools/issues/205).
