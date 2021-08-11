@@ -97,7 +97,7 @@ large build, effort and maintenance load for old images and packages that are no
 by the community. Therefore, the following rule will be adopted:
 
 * Clang will be supported from 10.0 to the newest version.
-* GCC on the other hand, is widely used for the Linux environment and only version 4.x was left out.
+* GCC, on the other hand, is widely used for the Linux environment and we will generate images from version 5 to the latest.
 * For both compilers we will keep updating all new compiler versions and Conan client version,
 according to new releases.
 * The multilib support was discarded as we are only interested in producing packages with
