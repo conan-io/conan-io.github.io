@@ -56,14 +56,15 @@ part of our journey please skip ahead to Part 2.
 The pull request [#204](https://github.com/conan-io/conan-docker-tools/pull/204) showed us some
 weak points to consider:
 
-* Installing Clang via LLVM's APT repository does not guarantee full compatibility with
-``libstdc++`` version used to build GCC.  * APT packages that were requirements for GCC and
-Clang were still present, further inflating the final image.  * The packages provided through
-Ubuntu do not have older versions available, in case a new version comes along. This affects
-the reproducibility requirement.  * Older compilers were always an issue in terms of maintenance
-once they arrived in the EOL (end-of-life) state. It was necessary to update the PPA address and
-build the images again * The continuous integration service used, although it was considerably
-fast, it was not possible to customize and prioritize the build, if necessary.
+ * Installing Clang via LLVM's APT repository does not guarantee full compatibility with
+   ``libstdc++`` version used to build GCC.
+ * APT packages that were requirements for GCC and Clang were still present, further inflating the final image.
+ * The packages provided through Ubuntu do not have older versions available, in case a new version 
+    comes along. This affects the reproducibility requirement.
+ * Older compilers were always an issue in terms of maintenance once they arrived in the EOL (end-of-life)
+   state. It was necessary to update the PPA address and build the images again.
+ * The continuous integration service used, although it was considerably fast, it was not possible to
+    customize and prioritize the build, if necessary.
 
 Noticing the listed issues, we tried a radical solution.  This solution took more time to
 implement but resulted in something better in terms of maintainability and practicality.
