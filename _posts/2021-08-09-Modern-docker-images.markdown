@@ -29,7 +29,7 @@ in 2 parts:
 
 We want to thank the community for all of the  great and important feedback  we received involving
 Conan and Docker images. Your feedback lets us know how important these Docker images are not
-only for the Conan Center by generating official packages for general distribution, but also
+only for Conan Center to generate official packages for general distribution, but also
 for people who own their personal projects and use the images to validate and build their Conan
 recipes, as well as the companies they build packages through sources.
 
