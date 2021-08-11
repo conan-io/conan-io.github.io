@@ -123,21 +123,22 @@ and with it a new ``libstdc++`` version (``6.0.29``). It was not possible to use
 version with this new compiler. We were left with the following dilemma:
 
 * Using the same libstdc++ version, except for GCC 11.
-* Conan Center becomes homogeneous (except GCC 11): all binaries will be built and linked
+   * Conan Center becomes homogeneous (except GCC 11): all binaries will be built and linked
 using the same ``libstdc++`` version, which guarantees that all can run in any image.
-* Binaries can hardly be used outside of Conan Center because they need the newest version
+   * Binaries can hardly be used outside of Conan Center because they need the newest version
 of libstdc++ library that is not yet available in the official PPA. All executables built inside
 ConanCenter won't work in the users' machines.
-* A possible solution would be to statically link libstdc++ in all binaries, but this
+   * A possible solution would be to statically link libstdc++ in all binaries, but this
 solution has a number of risks.
-* Each image uses the corresponding version of libstdc++ provided by the compiler.
-* Better than the current scenario, where it is dependent on PPA and we have no control
+
+* Each image uses the corresponding version of libstdc++ provided by the compiler:
+   * Better than the current scenario, where it is dependent on PPA and we have no control
 over it.
-* All images still use the same version of glibc, another advantage over the
+   * All images still use the same version of glibc, another advantage over the
 current scenario.
-* We will need to take care of the executables, as they will only be
+   * We will need to take care of the executables, as they will only be
 compatible with later versions (as they are now).
-* Better for users, than the current scenario.
+   * Better for users, than the current scenario.
 The requirements related to libstdc++ are the same, but the glibc
 version is the same version for all the packages.
 
