@@ -146,9 +146,8 @@ Given the conditions and risks, we chose to go the second way: **Use the libstdc
 available together with the compiler**.
 
 As Clang also supports ``libstdc++`` we choose ``libstdc++.so.6.0.28`` to be its default
-version. As commented before, that version has some advantages due its age and compatibility. To
-copy the library with Clang, first we needed to build GCC 10, then we could mount its Docker
-container and copy the ``libstdc++.so.6.0.28`` to the Clang image.
+version. As commented before, that version has some advantages due to its age and compatibility. It is also
+the default for the latest LTS Ubuntu version, so we really think it should satisfy most of the use-cases.
 
 Ubuntu 16.04 Xenial LTS is still the base used and it will be supported until April 2024. After
 that date we will need to update the images to a newer version of the distribution in addition
