@@ -31,7 +31,7 @@ We want to thank the community for all of the  great and important feedback  we 
 Conan and Docker images. Your feedback lets us know how important these Docker images are not
 only for Conan Center to generate official packages for general distribution, but also
 for people who own their personal projects and use the images to validate and build their Conan
-recipes, as well as the companies they build packages through sources.
+recipes, as well as the companies that build packages through sources.
 
 After long feedback and new formulations we understood that it was necessary to make changes
 to the initial concept. We realized that we could not modify the existing images for better
