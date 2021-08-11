@@ -193,7 +193,7 @@ and making it difficult to use the same Docker recipe for all versions.
 * With the removal of the GCC dependency, it was necessary to use ``libunwind`` during the build.
 It is already internalized in LLVM, but used as a dynamic library only. So a question arises, what
 happens if a project uses the image with Clang and installs Conan's libunwind package? A big mess
-when linking, is the answer. Clang tries to link the version distributed by the Conan package,
+when linking is the answer. Clang tries to link the version distributed by the Conan package,
 resulting in several errors. As a workaround, we renamed the original LLVM
 ``libunwind`` to ``libllvm-unwind``.
 
