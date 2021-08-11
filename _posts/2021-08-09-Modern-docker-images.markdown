@@ -408,7 +408,7 @@ build clang12
 {% endhighlight %}
 
 The produced image will be named as ``conanio/clang12-ubuntu16.04:1.39.0``, where ``1.39.0``
-is the image tag and version of Conan installed. But it's totally configurable by the .env file.
+is the image tag and version of Conan installed. But it's totally configurable by the ``.env`` file.
 
 In the case of legacy images, they will continue to be built in Azure when needed, we have no
 intention of moving them to Jenkins due to effort and maintenance.
