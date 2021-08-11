@@ -276,7 +276,8 @@ RUN cd gcc-${GCC_VERSION} \
 No matter the version, GCC continues to use the same lines for its build.  Some factors were
 configured in this version used:
 
-* Bootstrap has been disabled to reduce build time to just 20 minutes.  * Fortran is enabled,
+* Bootstrap has been disabled to reduce build time to just 20 minutes.
+* Fortran is enabled,
 but it barely increase the building time and final
 
 The last part of the image uses the concept of Docker
