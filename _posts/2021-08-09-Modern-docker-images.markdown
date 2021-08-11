@@ -19,7 +19,7 @@ the problem, the motivation and the proposed solution for Conan Docker Tools. In
 continue the proposed implementation, highlight the problems encountered during development,and
 show how this solution improves many aspects of the way we use Docker images for Conan.  Also,
 this blog is a bit longer than usual and contains explanations about the decisions made, mistakes
-committed, and details the technical part of working with Dockerfiles. e divided this blog post
+committed, and details the technical part of working with Dockerfiles. We divided this blog post
 in 2 parts:
 
 * Part 1: <a href='#part1' class='pilcrow'>The long journey, ideas, motivation, mistakes and challenges</a>
