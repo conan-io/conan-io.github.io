@@ -198,7 +198,7 @@ resulting in several errors. As a workaround, we renamed the original LLVM
 ``libunwind`` to ``libllvm-unwind``.
 
 It became quite difficult to maintain from Clang 6 to 12 with the discovery of these issues and
-limitations.After a lot of discussions and advice from some of the LLVM maintainers we decided
+limitations. After a lot of discussions and advice from some of the LLVM maintainers we decided
 to limit Clang support to starting from version 10 because it is not necessary to apply as
 many modifications including the configuration file. Also, in the Linux environment Clang is
 not the primary compiler so we believe its use is always tied to newer versions.
