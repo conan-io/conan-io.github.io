@@ -84,7 +84,7 @@ their restrictions in terms of maintenance.
 #### The Plan
 
 For current and already available images on hub.docker these will be kept but no longer supported
-(new versions will not be introduced). Your recipes and images will remain available, as their
+(new versions will not be introduced unless it's needed for ConanCenter). Your recipes and images will remain available, as their
 immediate removal would result in catastrophic failure for many users. They will eventually be
 removed, but at a distant and yet to be defined date.
 
