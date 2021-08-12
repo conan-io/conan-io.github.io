@@ -107,7 +107,7 @@ the image. Currently the Conan package for ``gfortran`` is totally broken and ha
 dependencies chain to fix.
 
 We always wanted to be independent of the Linux distribution so one of the problems we would like
-to solve is the compiler used and its libraries . In the initial pull request, we built the GCC
+to solve is the compiler used and its libraries. In the initial pull request, we built the GCC
 from sources, while the Clang uses prebuilt. To solve this problem we chose to build both from
 sources in order to have more control over the compiler used. Packages generated using these images
 (packages in ConanCenter) should work out-of-the-box in as many as possible different distros.
@@ -400,8 +400,10 @@ to build an image from scratch. As an example, let's use Clang 12:
 
 {% highlight bash %}
 
-$ cd modern $ docker-compose build base $ docker-compose build clang12-builder $ docker-compose
-build clang12
+$ cd modern 
+$ docker-compose build base 
+$ docker-compose build clang12-builder 
+$ docker-compose build clang12
 
 {% endhighlight %}
 
@@ -418,8 +420,8 @@ our example.
 
 {% highlight shell %}
 
-$ docker run --rm -ti -v ${HOME}/.conan/data:/home/conan/.conan/data
-conanio/gcc10-ubuntu16.04:1.39.0 conan@148a77cfbc33:~$ conan install boost/1.76.0@ --build
+$ docker run --rm -ti -v ${HOME}/.conan/data:/home/conan/.conan/data conanio/gcc10-ubuntu16.04:1.39.0
+conan@148a77cfbc33:~$ conan install boost/1.76.0@ --build
 conan@148a77cfbc33:~$ exit
 
 {% endhighlight %}
@@ -431,9 +433,10 @@ container. To finish and remove the container, we just need to exit.
 
 {% highlight shell %}
 
-$ docker run -d -t -v ${HOME}/.conan/data:/home/conan/.conan/data --name conan_container
-conanio/gcc10 $ docker exec conan_container conan install boost/1.76.0@ --build $ docker stop
-conan_container $ docker rm conan_container
+$ docker run -d -t -v ${HOME}/.conan/data:/home/conan/.conan/data --name conan_container conanio/gcc10 
+$ docker exec conan_container conan install boost/1.76.0@ --build 
+$ docker stop conan_container 
+$ docker rm conan_container
 
 {% endhighlight %}
 
