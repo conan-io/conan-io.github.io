@@ -3,7 +3,7 @@ layout: post
 comments: false
 title: "Conan 1.39 : backport of "pkg/(alias)" syntax from 2.0 to 1.39, new --require-override CLI argument, new "win_bash" management with better configuration, new conan.tools.microsoft.VCVars generator, improvements in Environment model."
 meta_title: "Version 1.39 of Conan C++ Package Manager is Released"
-meta_description: "Conan 1.39 : backport of "pkg/(alias)" syntax from 2., new --require-override CLI argument, new "win_bash" management with better configuration, new conan.tools.microsoft.VCVars generator, improvements in Environment model."
+meta_description: "Conan 1.39 : backport of "pkg/(alias)" syntax from 2.0 to 1.39, new --require-override CLI argument, new "win_bash" management with better configuration, new conan.tools.microsoft.VCVars generator, improvements in Environment model."
 ---
 
 We are pleased to announce that Conan 1.39 has been already released and that it brings some significant new features and bugfixes. One of the most important ones is the new syntax for aliases that we have ported from 2.0 to 1.39. We have added a new `-require-override` argument to define dependency overrides directly on command line. Also, for the new toolchains and generators you can set the new `win_bash` property in the ConanFile to enable running commands in a bash shell in Windows. We have a new VCVars generator that generates a `conanvcvars.bat` that will activate the Visual Studio Developer Command Prompt. Finally the Environment model comes with several improvements.
