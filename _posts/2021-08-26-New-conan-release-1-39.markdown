@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Conan 1.39 : backport of "pkg/(alias)" syntax from 2.0, new --require-override CLI argument, new "win_bash" management with better configuration, new conan.tools.microsoft.VCVars generator, improvements in Environment model."
+title: "Conan 1.39 : backport of "pkg/(alias)" syntax from 2.0 to 1.39, new --require-override CLI argument, new "win_bash" management with better configuration, new conan.tools.microsoft.VCVars generator, improvements in Environment model."
 meta_title: "Version 1.39 of Conan C++ Package Manager is Released"
 meta_description: "Conan 1.39 : backport of "pkg/(alias)" syntax from 2., new --require-override CLI argument, new "win_bash" management with better configuration, new conan.tools.microsoft.VCVars generator, improvements in Environment model."
 ---
@@ -20,13 +20,49 @@ class MyPkg(ConanFile):
     # requires = "boost/latest@mycompany/stable"
     # New experimental syntax, explicit:
     requires = "boost/(latest)@mycompany/stable"
-
 ```
 
 If you want to read the original proposal for the new syntax, please [check the pull request](https://github.com/conan-io/tribe/pull/25) in the Conan 2.0 Tribe GitHub repository.
 
 
-## 
+## New --require-override CLI argument
+
+MISSING
+
+## New self.win_bash mechanism
+
+There's a new `self.win_bash` attribute for the ConanFile that supersedes the "clasic" [self.run(..., win_bash=True)](https://docs.conan.io/en/latest/systems_cross_building/windows_subsystems.html?highlight=win_bash#self-run) to run commands inside a Windows subsystem. Setting `self.win_bash` to `True` will run all the `self.run()` commands inside a bash shell. Also, this will only happen for Windows so there's no need to check the platform in recipes for this anymore.
+
+All the new [Autotools](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu/autotools.html), [AutotoolsToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu/autotoolstoolchain.html), [AutotoolsDeps](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu/autotoolsdeps.html) and [PkgConfigDeps](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu/pkgconfigdeps.html#pkgconfigdeps) will work automatically when self.win_bash is set. 
+
+The new subsystem model is explicit and there's no more auto-detection. To set the path to *bash.exe* and the type of subsystem, please use these new configuration variables:
+
+```
+tools.microsoft.bash:subsystem: Values can be msys2, cygwin, msys and wsl.
+tools.microsoft.bash:path: Path to the bash.exe
+```
+
+## New conan.tools.microsoft.VCVars generator
+
+We have also added a new [VCVars generator](https://docs.conan.io/en/latest/reference/conanfile/tools/microsoft.html#vcvars) that generates a file called `conanvcvars.bat` that activate the Visual Studio developer command prompt according to the current settings by wrapping the [vcvarsall](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=msvc-160&viewFallbackFrom=vs-2017) Microsoft bash script.
+
+You can use it in your *conanfile.py*
+
+```python
+class MyPkg(ConanFile):
+    generators = "VCVars"
+```
+
+or *conafile.txt*
+
+```python
+[generators]
+VCVars
+```
+
+Note that by default, adding this generator will also auto-activate it running the generated script. Please [read more about this](https://docs.conan.io/en/latest/reference/conanfile/tools/env/environment.html#creating-launcher-files) in the documentation.
+
+## Several improvements in the new Environment model
 
 
 
