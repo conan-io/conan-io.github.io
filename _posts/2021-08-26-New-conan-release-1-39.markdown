@@ -12,7 +12,7 @@ We are pleased to announce that Conan 1.39 has been already released and that it
 
 We decided to make alias requirements explicit for Conan 2.0 because the impossibility to know that an alias requirement is actually an alias, until it is fully fetched and resolved has always been very problematic. To make the transition to 2.0 recipes smoother and also to help solving some alias related issues we have decided to port the new syntax to the 1.39 release.
 
-The new syntax adds ``()`` characters to indicate that we are requiring an alias (in a similar way that the ``[]`` brackets do for version ranges definition)
+The new syntax adds `()` characters to indicate that we are requiring an alias (in a similar way that the `[]` brackets do for version ranges definition)
 
 ```python
 class MyPkg(ConanFile):
@@ -24,10 +24,21 @@ class MyPkg(ConanFile):
 
 If you want to read the original proposal for the new syntax, please [check the pull request](https://github.com/conan-io/tribe/pull/25) in the Conan 2.0 Tribe GitHub repository.
 
-
 ## New --require-override CLI argument
 
-MISSING
+The `conan install` command has a new `--require-override` argument. Setting this argument is equivalent to declaring `overrides=True` [when adding a require](https://docs.conan.io/en/latest/reference/conanfile/methods.html#requirements) but it is recommended to use it just for developement, for production it is better to actually update the conanfiles to explicitly reflect in code which specific versions upstream are being used. 
+
+You can use it like:
+
+```python
+self.requires("zlib/1.2.11", override=True)
+```
+
+That is equivalent to declare this in the conanfile.py:
+
+```bash
+conan install mypkg/1.0@ --require-override=zlib/1.2.11
+```
 
 ## New self.win_bash mechanism
 
@@ -64,7 +75,7 @@ Note that by default, adding this generator will also auto-activate it running t
 
 ## Several improvements in the new Environment model
 
-
+Now `Environment` objects implement `remove` and `items` methods. Also, a unique environment launcher named `conanenv.bat/sh` is now generated to aggregate all the environment generators (*VirtualRunEnv*, *VirtualBuildEnv*, *AutotoolsToolchain* and *AutotoolsDeps*) so you can easily activate all of them with just one command.
 
 -----------
 <br>
