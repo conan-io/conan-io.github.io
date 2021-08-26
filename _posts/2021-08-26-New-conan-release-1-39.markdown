@@ -104,10 +104,10 @@ or *conafile.txt*
 VCVars
 ```
 
-Note that by default, adding this generator will also auto-activate it running the generated script.
-Please [read more about
-this](https://docs.conan.io/en/latest/reference/conanfile/tools/env/environment.html#creating-launcher-files)
-in the documentation.
+Note that this generator runs the *conanvcvars.bat* script by default. This can be controlled setting the
+`auto_activate` argument in the `generate` method. Please [read more about
+this](https://docs.conan.io/en/latest/reference/conanfile/tools/microsoft.html#generate) in the
+documentation.
 
 ## Several improvements in the new Environment model
 
