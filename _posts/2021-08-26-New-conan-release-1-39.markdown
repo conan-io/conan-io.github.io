@@ -8,7 +8,7 @@ meta_description: "The new version features include backporting alias 2.0 syntax
 
 We are pleased to announce that Conan 1.39 has been released and brings some
 significant new features and bug fixes. One of the most important features is the new syntax for aliases
-that we have backported from *2.0* to *1.39*. We have added a new `-require-override` argument to define
+that we have backported from *2.0* to *1.39*. We have added a new `--require-override` argument to define
 dependency overrides directly on the command line. Also, for the new toolchains and generators, you can
 set the new `win_bash` property in the ConanFile to enable running commands in a bash shell in
 Windows. We have a new *VCVars* generator that creates a batch script that will activate the
