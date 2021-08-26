@@ -11,23 +11,25 @@ significant new features and bug fixes. One of the most important features is th
 that we have ported from *2.0* to *1.39*. We have added a new `-require-override` argument to define
 dependency overrides directly on the command line. Also, for the new toolchains and generators, you can
 set the new `win_bash` property in the ConanFile to enable running commands in a bash shell in
-Windows. We have a new VCVars generator that generates a `conanvcvars.bat` that will activate the
-Visual Studio Developer Command Prompt. Finally, the Environment model comes with several
+Windows. We have a new *VCVars* generator that creates a batch script that will activate the
+Visual Studio Developer Command Prompt. Finally, the new `Environment` model comes with several
 improvements.
 
 ## Aliases syntax from 2.0 ported to 1.39
 
 Current alias syntax is problematic as they are impossible to distinguish from any other requirement.
-Because of this is we have introduced a new explicit syntax for Conan 2.0 that we are now porting to
-1.39. Porting this syntax to the current Conan version will make the transition of recipes smoother.
+Because of this, we have introduced a new explicit syntax for Conan 2.0 that we are now porting to
+1.39. Porting this syntax to the current Conan version will also make the transition of recipes smoother.
+
 The new syntax adds `()` characters (in a similar way that the `[]` brackets do for version ranges
 definition) to indicate that we are requiring an alias:
 
 ```python
 class MyPkg(ConanFile):
-    # Previous syntax, implicit, nothing in the reference tells it is an alias
+    # With the previous syntax youn can't know if it's an alias upfront:
     # requires = "boost/latest@mycompany/stable"
-    # New experimental syntax, explicit:
+
+    # New experimental syntax is explicit:
     requires = "boost/(latest)@mycompany/stable"
 ```
 
@@ -38,29 +40,31 @@ request](https://github.com/conan-io/tribe/pull/25) in the Conan 2.0 Tribe GitHu
 
 The `conan install` command has a new `--require-override` argument. Setting this argument is
 equivalent to declaring `overrides=True` [when adding a
-require](https://docs.conan.io/en/latest/reference/conanfile/methods.html#requirements) but it is
-recommended to use it just for development, for production it is better to update the
-conanfiles to explicitly reflect in code which specific versions upstream are being used. 
+require](https://docs.conan.io/en/latest/reference/conanfile/methods.html#requirements). This can be
+very convenient to test things during development, but for production it is better to update the
+conanfiles to explicitly reflect in code which specific versions upstream are used. 
 
 You can use it like:
+
+```bash
+conan install mypkg/1.0@ --require-override=zlib/1.2.11
+
+```
+
+That is equivalent to declare this in the conanfile.py:
 
 ```python
 self.requires("zlib/1.2.11", override=True)
 ```
 
-That is equivalent to declare this in the conanfile.py:
-
-```bash
-conan install mypkg/1.0@ --require-override=zlib/1.2.11
-```
-
 ## New self.win_bash mechanism
 
-There's a new `self.win_bash` attribute for the ConanFile that supersedes the "classic" [self.run(...,
-win_bash=True)](https://docs.conan.io/en/latest/systems_cross_building/windows_subsystems.html?highlight=win_bash#self-run)
+There's a new `self.win_bash` attribute for the ConanFile that supersedes the "classic"
+[self.run(...,
+win_bash=True)](https://docs.conan.io/en/latest/systems_cross_building/windows_subsystems.html#self-run)
 to run commands inside a Windows subsystem. Setting `self.win_bash` to `True` will run all the
-`self.run()` commands inside a bash shell. Also, this will only happen for Windows so there's no need
-to check the platform in recipes for this anymore.
+`self.run()` commands in the ConanFile inside a bash shell. Also, this will only happen for Windows
+so there's no need to check the platform in recipes.
 
 All the new
 [Autotools](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu/autotools.html),
@@ -73,7 +77,7 @@ The new subsystem model is explicit and there's no more auto-detection. To set t
 and the type of subsystem, please use these new configuration variables:
 
 ```txt
-tools.microsoft.bash:subsystem: Values can be msys2, cygwin, msys and wsl.
+tools.microsoft.bash:subsystem: msys2, cygwin, msys or wsl.
 tools.microsoft.bash:path: Path to the bash.exe
 ```
 
@@ -81,7 +85,7 @@ tools.microsoft.bash:path: Path to the bash.exe
 
 We have also added a new [VCVars
 generator](https://docs.conan.io/en/latest/reference/conanfile/tools/microsoft.html#vcvars) that
-generates a file called `conanvcvars.bat` that activates the Visual Studio developer command prompt
+generates a file called *conanvcvars.bat* that activates the Visual Studio developer command prompt
 according to the current settings by wrapping the
 [vcvarsall](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=msvc-160&viewFallbackFrom=vs-2017)
 Microsoft bash script.
@@ -107,7 +111,10 @@ in the documentation.
 
 ## Several improvements in the new Environment model
 
-Now `Environment` objects implement `remove` and `items` methods. Also, a unique environment launcher
+Now `Environment` objects implement `remove` and `items`
+[methods](https://docs.conan.io/en/latest/reference/conanfile/tools/env/environment.html#variable-declaration).
+Also, a [unique environment
+launcher](https://docs.conan.io/en/latest/reference/conanfile/tools/env/environment.html#creating-launcher-files)
 named *conanenv.bat/sh* is now generated to aggregate all the environment generators
 (*VirtualRunEnv*, *VirtualBuildEnv*, *AutotoolsToolchain*, and *AutotoolsDeps*) so you can easily
 activate all of them with just one command.
