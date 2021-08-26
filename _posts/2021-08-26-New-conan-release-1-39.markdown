@@ -3,7 +3,7 @@ layout: post
 comments: false
 title: "Conan 1.39 : backporting alias 2.0 syntax to 1.39, new --require-override CLI argument, new win_bash attribute in conanfiles to better manage Windows subsystems, new VCVars generator, several improvements in the new Environment model."
 meta_title: "Version 1.39 of Conan C++ Package Manager is Released"
-meta_description: "Conan 1.39 : backporting alias 2.0 syntax to 1.39, new --require-override CLI argument, new win_bash attribute in conanfiles to better manage Windows subsystems, new VCVars generator, several improvements in the new Environment model."
+meta_description: "The new version features include backporting alias 2.0 syntax to 1.39, new --require-override CLI argument, new win_bash attribute in conanfiles and more..."
 ---
 
 We are pleased to announce that Conan 1.39 has been released and brings some
