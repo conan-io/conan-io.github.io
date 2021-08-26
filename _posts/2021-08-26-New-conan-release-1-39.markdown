@@ -78,7 +78,7 @@ and the type of subsystem, please use these new configuration variables:
 
 ```txt
 tools.microsoft.bash:subsystem: msys2, cygwin, msys or wsl.
-tools.microsoft.bash:path: Path to the bash.exe
+tools.microsoft.bash:path: C:/Path/To/Bash.exe
 ```
 
 ## New conan.tools.microsoft.VCVars generator
