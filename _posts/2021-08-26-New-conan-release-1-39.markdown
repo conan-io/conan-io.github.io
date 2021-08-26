@@ -1,24 +1,24 @@
 ---
 layout: post
 comments: false
-title: "Conan 1.39 : porting alias 2.0 syntax to 1.39, new --require-override CLI argument, new win_bash attribute in conanfiles to better manage Windows subsystems, new VCVars generator, several improvements in the new Environment model."
+title: "Conan 1.39 : backporting alias 2.0 syntax to 1.39, new --require-override CLI argument, new win_bash attribute in conanfiles to better manage Windows subsystems, new VCVars generator, several improvements in the new Environment model."
 meta_title: "Version 1.39 of Conan C++ Package Manager is Released"
-meta_description: "Conan 1.39 : porting alias 2.0 syntax to 1.39, new --require-override CLI argument, new win_bash attribute in conanfiles to better manage Windows subsystems, new VCVars generator, several improvements in the new Environment model."
+meta_description: "Conan 1.39 : backporting alias 2.0 syntax to 1.39, new --require-override CLI argument, new win_bash attribute in conanfiles to better manage Windows subsystems, new VCVars generator, several improvements in the new Environment model."
 ---
 
 We are pleased to announce that Conan 1.39 has been released and brings some
 significant new features and bug fixes. One of the most important features is the new syntax for aliases
-that we have ported from *2.0* to *1.39*. We have added a new `-require-override` argument to define
+that we have backported from *2.0* to *1.39*. We have added a new `-require-override` argument to define
 dependency overrides directly on the command line. Also, for the new toolchains and generators, you can
 set the new `win_bash` property in the ConanFile to enable running commands in a bash shell in
 Windows. We have a new *VCVars* generator that creates a batch script that will activate the
 Visual Studio Developer Command Prompt. Finally, the new `Environment` model comes with several
 improvements.
 
-## Aliases syntax from 2.0 ported to 1.39
+## Aliases syntax from 2.0 backported to 1.39
 
 Current alias syntax is problematic as they are impossible to distinguish from any other requirement.
-Because of this, we have introduced a new explicit syntax for Conan 2.0 that we are now porting to
+Because of this, we have introduced a new explicit syntax for Conan 2.0 that we are now backporting to
 1.39. Porting this syntax to the current Conan version will also make the transition of recipes smoother.
 
 The new syntax adds `()` characters (in a similar way that the `[]` brackets do for version ranges
