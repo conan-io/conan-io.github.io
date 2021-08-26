@@ -24,7 +24,7 @@ meta_description: "The new version features include backporting alias 2.0 syntax
     }
 },
  "datePublished": "2021-09-05",
- "description": "Porting alias 2.0 syntax to 1.39, new --require-override CLI argument, new win_bash attribute in conanfiles to better manage Windows subsystems, new VCVars generator, several improvements in the new Environment model.",
+ "description": "Backporting alias 2.0 syntax to 1.39, new --require-override CLI argument, new win_bash attribute in conanfiles to better manage Windows subsystems, new VCVars generator, several improvements in the new Environment model.",
  }
 </script>
 
