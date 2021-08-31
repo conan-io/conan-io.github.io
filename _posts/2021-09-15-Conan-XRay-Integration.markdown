@@ -38,33 +38,33 @@ The next thing is adding a **watch**. **Watches** connect the **resources** (suc
 
 ## Testing with the Conan client
 
-Now that we have added a our **policy** with the notify e-mail **rule** and that we have connected the Conan repository to that **policy** adding a **watch** we are going to test that uploading a Conan package that's affected by some vulnerability to the repo to check that everything is working fine. Let's try for example with *openssl/1.1.1h* that should be affected by [CVE-2020-1971](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-1971).
+Now that we added the **policy** and connected the Conan repository to that **policy** with a **watch**, it is time to test it with the Conan client. We upload a Conan package that's affected by some vulnerability to the *test-repo* repository, and we should receive an email warning us about that vulnerability. Let's try, for example, with [openssl/1.1.1h](https://conan.io/center/openssl?version=1.1.1h) that should be affected by [CVE-2020-1971](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-1971).
 
 ```
 conan install openssl/1.1.1h@ -r conancenter
 conan upload openssl/1.1.1h --all -c -r test-repo
 ```
 
-Just right after this package was uploaded you should have received an e-mail warning about the policy violation:
+Just right after this package is uploaded, you should receive an e-mail warning about the policy violation.
 
 <p class="centered">
     <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/xray_warning_email.png" align="center" alt="XRay policy break warning email"/>
 </p>
 
-Clicking in the link of the email and selecting the *XRay Data* tab will take you to all the details about the vulnerabilities present in the package.
+Clicking on the link will take you to your Artifactory instance. Selecting the *XRay Data* tab will show all the details about the vulnerabilities present in the package.
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/xray_openssl_report.png" align="center" alt="XRay policy break warning email"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/xray_openssl_report.png" align="center" alt="Vulnerabilities report"/>
 </p>
 
-Now we will modify the rule we previously added and also check the Block Download option. Now if we try to install any binary that's affected by security issues XRay should block the download.
+Warning about vulnerabilities in uploaded packages is helpful, but you also probably want to prevent anyone from downloading those packages. We will modify the rule we previously added and also check the *Block Download* option. If we try to install any binary affected by security issues, XRay should block the download.
 
 <p class="centered">
     <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/xray_blocking_downloads.gif" align="center" alt="XRay blocking downloads of insecure artifacts"/>
 </p>
 
-This is just a simple example of what you can do to make your C/C++ builds more secure using Conan together with Artifactory and XRay, but you can experiment with other options such as using the [conan_build_info v2](https://docs.conan.io/en/latest/reference/commands/misc/conan_build_info.html#conan-build-info-v2) to scan all the packages of a build with XRay. Also, you could experiment setting a webhook in the rules to make more complex actions such as automatically creating a JIRA ticket or sending alerts to a slack channel.
+We showed just a simple example of what you can do to make your C/C++ builds more secure using Conan together with Artifactory and XRay. You could also experiment with other options like using the [conan_build_info v2](https://docs.conan.io/en/latest/reference/commands/misc/conan_build_info.html#conan-build-info-v2) to scan all the packages belonging to one build. Also, you could try setting a webhook in the *rules* to make more complex actions such as automatically creating a JIRA ticket or sending alerts to a Slack channel.
 
 ## Conclusions
 
-You can integrate XRay with Conan easily if you want to make your builds more secure in just a couple of minutes. You can configure the rules that fit to your company security policies and trigger complex actions using features such as the webhooks. If you want to give run your own cloud hosted Artifactory instance with XRay support you can [create a new Artifactory free-tier account](https://jfrog.com/start-free/).
+Making your C/C++ builds more secure with XRay and Artifactory is just a matter of minutes. You can configure the rules that fit your company's security policies and trigger complex actions using features such as webhooks. If you want to try and run a cloud-hosted Artifactory instance with XRay support, you can [create a new Artifactory free-tier account](https://jfrog.com/start-free/).
