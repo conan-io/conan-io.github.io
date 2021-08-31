@@ -48,10 +48,10 @@ in the free-tier or just going to *Administration > Xray > Watches & Policies* a
 We will create a security **policy** named *mycompany-policy* and add one rule to it. Click in *New
 Rule* and set *low-severity-warning* as the rule name. This rule will adjust the minimal severity to
 low (severity score under 4.0/10.0). You can set the severity warning based on predefined ranges
-(low, medium, high or critical) or set up a custom CVSS Score range. Please, [read more about
-this](https://www.jfrog.com/confluence/display/JFROG/CVSS+Scoring+in+Xray) in XRay docs. Multiple
-actions can be triggered when the rule conditions are satisfied. We will add the *Notify Email*
-action for this rule and check what happens when uploading a package with known security issues.
+(low, medium, high or critical) or [set up a custom CVSS Score
+range](https://www.jfrog.com/confluence/display/JFROG/CVSS+Scoring+in+Xray). Multiple actions can be
+triggered when the rule conditions are satisfied. We will add the *Notify Email* action for this rule
+and check what happens when uploading a package with known security issues.
 
 <p class="centered">
     <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/xray_rules_options.png" align="center" width="50%" alt="Creating a new XRay rule"/>
