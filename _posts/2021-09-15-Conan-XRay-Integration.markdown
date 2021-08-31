@@ -40,7 +40,7 @@ The next thing is adding a **watch**. **Watches** connect the **resources** (suc
 
 Now that we added the **policy** and connected the Conan repository to that **policy** with a **watch**, it is time to test it with the Conan client. We upload a Conan package that's affected by some vulnerability to the *test-repo* repository, and we should receive an email warning us about that vulnerability. Let's try, for example, with [openssl/1.1.1h](https://conan.io/center/openssl?version=1.1.1h) that should be affected by [CVE-2020-1971](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-1971).
 
-```
+```bash
 conan install openssl/1.1.1h@ -r conancenter
 conan upload openssl/1.1.1h --all -c -r test-repo
 ```
@@ -58,6 +58,11 @@ Clicking on the link will take you to your Artifactory instance. Selecting the *
 </p>
 
 Warning about vulnerabilities in uploaded packages is helpful, but you also probably want to prevent anyone from downloading those packages. We will modify the rule we previously added and also check the *Block Download* option. If we try to install any binary affected by security issues, XRay should block the download.
+
+```bash
+conan remove openssl/1.1.1h -f # to force downloading from the server
+conan install openssl/1.1.1h@ -r test-repo
+```
 
 <p class="centered">
     <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/xray_blocking_downloads.gif" align="center" alt="XRay blocking downloads of insecure artifacts"/>
