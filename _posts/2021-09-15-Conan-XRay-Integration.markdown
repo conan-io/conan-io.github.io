@@ -80,8 +80,8 @@ that vulnerability. Let's try, for example, with
 [CVE-2020-1971](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-1971).
 
 ```bash
-conan install openssl/1.1.1h@ -r conancenter
-conan upload openssl/1.1.1h --all -c -r test-repo
+$ conan install openssl/1.1.1h@ -r conancenter
+$ conan upload openssl/1.1.1h --all -c -r test-repo
 ```
 
 Just right after this package is uploaded, you should receive an e-mail warning about the policy
@@ -104,13 +104,26 @@ the *Block Download* option. If we try to install any binary affected by securit
 block the download.
 
 ```bash
-conan remove openssl/1.1.1h -f # to force downloading from the server
-conan install openssl/1.1.1h@ -r test-repo
-```
+$ conan remove openssl/1.1.1h -f # to force downloading from the server
+$ conan install openssl/1.1.1h@ -r test-repo
+Configuration:
+[settings]
+arch=x86_64
+arch_build=x86_64
+build_type=Release
+compiler=apple-clang
+compiler.libcxx=libc++
+compiler.version=12.0
+os=Macos
+os_build=Macos
+[options]
+[build_requires]
+[env]
 
-<p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/xray_blocking_downloads.gif" align="center" alt="Xray blocking downloads of insecure artifacts"/>
-</p>
+openssl/1.1.1h: Retrieving from server 'test-repo' 
+openssl/1.1.1h: Trying with 'test-repo'...
+ERROR: Permission denied for user: 'test-user@jfrog.com'. [Remote: test-repo]
+```
 
 We showed just a simple example of what you can do to make your C/C++ builds more secure using Conan
 together with Artifactory and Xray. You could also experiment with other options like using the
