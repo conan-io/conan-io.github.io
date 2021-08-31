@@ -1,9 +1,9 @@
 ---
 layout: post 
 comments: false 
-title: "Safer C/C++ builds using Conan's XRay integration in Artifactory"
-meta_title: "Safer C/C++ builds using Conan's XRay integration in Artifactory"
-meta_description: "Using Conan's XRay integration in Artifactory you can make your C and C++ builds more secure"
+title: "Safer C/C++ builds using Conan's Xray integration in Artifactory"
+meta_title: "Safer C/C++ builds using Conan's Xray integration in Artifactory"
+meta_description: "Using Conan's Xray integration in Artifactory you can make your C and C++ builds more secure"
 ---
 
 Xray is a DevSecOps tool that works together with Artifactory to check potential security issues
@@ -33,16 +33,16 @@ new repository, we will add it to the Conan local client using *conan remote add
 commands (you will find detailed instructions in the free-tier getting started guide and in
 [Artifactory documentation](https://www.jfrog.com/confluence/display/JFROG/Conan+Repositories)).
 
-## Setting up XRay: adding policies, rules and watches
+## Setting up Xray: adding policies, rules and watches
 
-The first thing we have to define to start working with XRay is a **policy**. A **policy** is just a
+The first thing we have to define to start working with Xray is a **policy**. A **policy** is just a
 set of **rules**, and each of these **rules** defines a license/security criteria that will trigger a
 corresponding set of actions when met. We can create a new policy using the *Getting Started* button
 in the free-tier or just going to *Administration > Xray > Watches & Policies* and creating a new
 **policy**.
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/create_new_xray_policy.gif" align="center" alt="Creating a new XRay policy"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/create_new_xray_policy.gif" align="center" alt="Creating a new Xray policy"/>
 </p>
 
 We will create a security **policy** named *mycompany-policy* and add one rule to it. Click in *New
@@ -54,7 +54,7 @@ triggered when the rule conditions are satisfied. We will add the *Notify Email*
 and check what happens when uploading a package with known security issues.
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/xray_rules_options.png" align="center" width="50%" alt="Creating a new XRay rule"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/xray_rules_options.png" align="center" width="50%" alt="Creating a new Xray rule"/>
 </p>
 
 The next thing is adding a **watch**. **Watches** connect the **resources** (such as repositories or
@@ -65,7 +65,7 @@ repository inclusion or add all the repositories to the watch). Then click on *M
 connect the *mycompany-policy* **policy** to the *test-repo* **resource**.
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/create_new_xray_watch.png" align="center" alt="Creating a new XRay watch"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/create_new_xray_watch.png" align="center" alt="Creating a new Xray watch"/>
 </p>
 
 ## Testing with the Conan client
@@ -86,10 +86,10 @@ Just right after this package is uploaded, you should receive an e-mail warning 
 violation.
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/xray_warning_email.png" align="center" alt="XRay policy break warning email"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/xray_warning_email.png" align="center" alt="Xray policy break warning email"/>
 </p>
 
-Clicking on the link will take you to your Artifactory instance. Selecting the *XRay Data* tab will
+Clicking on the link will take you to your Artifactory instance. Selecting the *Xray Data* tab will
 show all the details about the vulnerabilities present in the package.
 
 <p class="centered">
@@ -98,7 +98,7 @@ show all the details about the vulnerabilities present in the package.
 
 Warning about vulnerabilities in uploaded packages is helpful, but you also probably want to prevent
 anyone from downloading those packages. We will modify the rule we previously added and also check
-the *Block Download* option. If we try to install any binary affected by security issues, XRay should
+the *Block Download* option. If we try to install any binary affected by security issues, Xray should
 block the download.
 
 ```bash
@@ -107,11 +107,11 @@ conan install openssl/1.1.1h@ -r test-repo
 ```
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/xray_blocking_downloads.gif" align="center" alt="XRay blocking downloads of insecure artifacts"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/xray_blocking_downloads.gif" align="center" alt="Xray blocking downloads of insecure artifacts"/>
 </p>
 
 We showed just a simple example of what you can do to make your C/C++ builds more secure using Conan
-together with Artifactory and XRay. You could also experiment with other options like using the
+together with Artifactory and Xray. You could also experiment with other options like using the
 [conan_build_info
 v2](https://docs.conan.io/en/latest/reference/commands/misc/conan_build_info.html#conan-build-info-v2)
 to scan all the packages belonging to one build. Also, you could try setting a webhook in the *rules*
@@ -120,7 +120,7 @@ Slack channel.
 
 ## Conclusions
 
-Making your C/C++ builds more secure with XRay and Artifactory is just a matter of minutes. You can
+Making your C/C++ builds more secure with Xray and Artifactory is just a matter of minutes. You can
 configure the rules that fit your company's security policies and trigger complex actions using
-features such as webhooks. If you want to try and run a cloud-hosted Artifactory instance with XRay
+features such as webhooks. If you want to try and run a cloud-hosted Artifactory instance with Xray
 support, you can [create a new Artifactory free-tier account](https://jfrog.com/start-free/).
