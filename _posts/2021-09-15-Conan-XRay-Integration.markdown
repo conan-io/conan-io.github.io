@@ -29,17 +29,19 @@ account](https://jfrog.com/start-free/).
 After logging in to the free-tier instance, the first thing is creating a new Conan repository in
 Artifactory. There's a getting started button in the free-tier that guides through the process of
 doing it. For this post, we have created a local repository called *test-repo*. Once we configure our
-new repository, we will add it to the Conan local client using *conan remote add* and *conan user*
-commands (you will find detailed instructions in the free-tier getting started guide and in
-[Artifactory documentation](https://www.jfrog.com/confluence/display/JFROG/Conan+Repositories)).
+new repository, we will add it to the Conan local client using [conan remote
+add](https://docs.conan.io/en/latest/reference/commands/misc/remote.html) and [conan
+user](https://docs.conan.io/en/latest/reference/commands/misc/user.html) commands (you will find
+detailed instructions in the free-tier getting started guide and in [Artifactory
+documentation](https://www.jfrog.com/confluence/display/JFROG/Conan+Repositories)).
 
 ## Setting up Xray: adding policies, rules and watches
 
 The first thing we have to define to start working with Xray is a **policy**. A **policy** is just a
-set of **rules**, and each of these **rules** defines a license/security criteria that will trigger a
-corresponding set of actions when met. We can create a new policy using the *Getting Started* button
-in the free-tier or just going to *Administration > Xray > Watches & Policies* and creating a new
-**policy**.
+set of **rules**, and each of these **rules** defines a security/license criteria (the licenses
+option is not available with the free-tier) that will trigger a corresponding set of actions when
+met. We can create a new policy using the *Getting Started* button in the free-tier or just going to
+*Administration > Xray > Watches & Policies* and creating a new **policy**.
 
 <p class="centered">
     <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/create_new_xray_policy.gif" align="center" alt="Creating a new Xray policy"/>
