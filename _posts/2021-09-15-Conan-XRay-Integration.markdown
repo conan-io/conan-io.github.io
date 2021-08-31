@@ -8,34 +8,29 @@ meta_description: "Safer C/C++ builds using Conan's XRay integration in Artifact
 
 Xray is a DevSecOps tool that works together with Artifactory to check potential vulnerabilities between the application dependencies. It has support for [multiple package types and different technologies](https://www.jfrog.com/confluence/display/JFROG/JFrog+Xray) (such as Docker images, npm, or PyPI), and since [version 3.21.2](https://www.jfrog.com/confluence/display/JFROG/Xray+Release+Notes) it also supports Conan packages.
 
-In this post, we explain how to make your C/C++ builds secure using Xray with Artifactory. We will go through the setup process using a JFrog free-tier instance that comes with cloud-hosted instances of Artifactory and Xray ready for use with Conan. If you still don't know the JFrog free-tier you can [open an account](https://jfrog.com/start-free/) (it's completely free) to follow the steps in this post. The Artifactory instance has some limitations like a limit of 10GB of transfer a month and 2GB storage but will be more than enough for personal use or get an idea of how the experience with the JFrog platform is.
+In this post, we explain how to make your C/C++ builds secure using Xray with Artifactory. We will go through the setup process using a JFrog free-tier instance that comes with cloud-hosted Artifactory and Xray instances ready for use with Conan. If you still don't know the JFrog free-tier, you can [open an account](https://jfrog.com/start-free/) (it's completely free) to follow the steps in this post. The Artifactory instance has some limitations like a limit of 10GB of transfer a month and 2GB storage but will be more than enough for personal use or get an idea of how the experience with the JFrog platform is.
 
-If you want to create a free-tier instance please [click here to create a new account](https://jfrog.com/start-free/).
+If you want to create a free-tier instance, please [click here to create a new account](https://jfrog.com/start-free/).
 
 ## Setting up Artifactory: creating a Conan repository
 
-After loging in the free-tier instance, first thing is creating a new Conan repository in Artifactory. There's a getting started button in the free-tier that guides through the process of creating it. For this post we have created a local repository called *test-repo*. Once we create our new repo we have to configure it in the Conan local client, that's just a matter of executing *conan remote add* and *conan user* commands (you will find detailed instructions in the free-tier getting started guide and in [Artifactory documentation](https://www.jfrog.com/confluence/display/JFROG/Conan+Repositories)).
+After logging in to the free-tier instance, the first thing is creating a new Conan repository in Artifactory. There's a getting started button in the free-tier that guides through the process of doing it. For this post, we have created a local repository called *test-repo*. Once we configure our new repository, we will add it to the Conan local client using *conan remote add* and *conan user* commands (you will find detailed instructions in the free-tier getting started guide and in [Artifactory documentation](https://www.jfrog.com/confluence/display/JFROG/Conan+Repositories)).
 
-## Setting up XRay: adding watches, policies and rules
+## Setting up XRay: adding policies, rules and watches
 
-The first thing we have to define to start working with XRay is a **policy**. A **policy** is just a set of **rules**, and each of these **rules** defines a license/security criteria that will trigger a corresponding set of actions when met. 
-
-We can create a new policy using the *Getting Started* button in the free-tier or just going to *Administration > Xray > Watches & Policies* and creating a new **policy**.
+The first thing we have to define to start working with XRay is a **policy**. A **policy** is just a set of **rules**, and each of these **rules** defines a license/security criteria that will trigger a corresponding set of actions when met. We can create a new policy using the *Getting Started* button in the free-tier or just going to *Administration > Xray > Watches & Policies* and creating a new **policy**.
 
 <p class="centered">
     <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/create_new_xray_policy.gif" align="center" alt="Creating a new XRay policy"/>
 </p>
 
-We will create a security **policy** named *mycompany-policy* and add one rule to it.
-
-First we can create a rule called *low-severity-warning* that will set the minimal severity rule in low (severity score under 4.0/10.0) and that will send a notify email to warn us about that. For this, you just have to click on *New Rule* and setting the Minimal Severity. You can set the severity warning based on pre-defined ranges (low, medium, high or critical) or set a custom CVSS Score range. Please [read more about this](https://www.jfrog.com/confluence/display/JFROG/CVSS+Scoring+in+Xray) in XRay docs. As you can see there are multiple actions that can be triggered when the rule conditions are met. This time we will only set the *Notify Email* field and see what happens when we upload a package that has kwown security issues.
+We will create a security **policy** named *mycompany-policy* and add one rule to it. Click in *New Rule* and set *low-severity-warning* as the rule name. This rule will adjust the minimal severity to low (severity score under 4.0/10.0). You can set the severity warning based on predefined ranges (low, medium, high or critical) or set up a custom CVSS Score range. Please, [read more about this](https://www.jfrog.com/confluence/display/JFROG/CVSS+Scoring+in+Xray) in XRay docs. Multiple actions can be triggered when the rule conditions are satisfied. We will add the *Notify Email* action for this rule and check what happens when uploading a package with known security issues.
 
 <p class="centered">
     <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/xray_rules_options.png" align="center" width="50%" alt="Creating a new XRay rule"/>
 </p>
 
-Now that we have created our policy that has just one rule we will add a **watch**. A **watch** is the piece that connects the **resources** to be scanned with the **policies**. To create the **watch** you could use the *Getting Started* button or going to *Administration > Xray > Watches & Policies* and selecting the *Watches* tab.
-We will create a *test-watch* that will add our *test-repo* as resource (you could also use patterns for repository inclusion or add all the repositories to the watch). Then click on *Manage Policies* to connect the *mycompany-policy* repo to the *test-repo* resource. 
+The next thing is adding a **watch**. **Watches** connect the **resources** (such as repositories or builds) with the **policies**. To create the watch, you could use the *Getting Started* button or go to *Administration > Xray > Watches & Policies* and selecting the *Watches* tab. We will create a watch named *test-watch* that will add our *test-repo* as a resource (you could also use patterns for repository inclusion or add all the repositories to the watch). Then click on *Manage Policies* to connect the *mycompany-policy* **policy** to the *test-repo* **resource**. 
 
 <p class="centered">
     <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/create_new_xray_watch.png" align="center" alt="Creating a new XRay watch"/>
