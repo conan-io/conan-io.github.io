@@ -7,8 +7,9 @@ meta_description: "Using Conan's Xray integration in Artifactory you can make yo
 ---
 
 [Xray](https://www.jfrog.com/confluence/display/JFROG/JFrog+Xray) is a DevSecOps tool that works
-together with Artifactory to check potential security issues between the application dependencies. It
-has support for [multiple package types and different
+together with Artifactory to check potential security issues between the application dependencies. It's connected to private and public vulnerability data providers including
+[NVD](https://nvd.nist.gov/) and [VulnDB](https://vulndb.cyberriskanalytics.com/) databases. It has
+support for [multiple package types and different
 technologies](https://www.jfrog.com/confluence/display/JFROG/JFrog+Xray) (such as Docker images, npm,
 or PyPI), and since [version
 3.21.2](https://www.jfrog.com/confluence/display/JFROG/Xray+Release+Notes) it also supports Conan
@@ -80,7 +81,7 @@ Now that we added the **policy** and connected the Conan repository to that **po
 some vulnerability to the *test-repo* repository, and we should receive an email warning us about
 that vulnerability. Let's try, for example, with
 [openssl/1.1.1h](https://conan.io/center/openssl?version=1.1.1h) that should be affected by
-[CVE-2020-1971](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-1971).
+[CVE-2020-1971](https://nvd.nist.gov/vuln/detail/CVE-2020-1971).
 
 ```bash
 $ conan install openssl/1.1.1h@ -r conancenter
