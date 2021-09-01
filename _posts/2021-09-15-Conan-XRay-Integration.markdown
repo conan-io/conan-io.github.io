@@ -6,8 +6,9 @@ meta_title: "Safer C/C++ builds using Conan's Xray integration in Artifactory"
 meta_description: "Using Conan's Xray integration in Artifactory you can make your C and C++ builds more secure"
 ---
 
-Xray is a DevSecOps tool that works together with Artifactory to check potential security issues
-between the application dependencies. It has support for [multiple package types and different
+[Xray](https://www.jfrog.com/confluence/display/JFROG/JFrog+Xray) is a DevSecOps tool that works
+together with Artifactory to check potential security issues between the application dependencies. It
+has support for [multiple package types and different
 technologies](https://www.jfrog.com/confluence/display/JFROG/JFrog+Xray) (such as Docker images, npm,
 or PyPI), and since [version
 3.21.2](https://www.jfrog.com/confluence/display/JFROG/Xray+Release+Notes) it also supports Conan
@@ -20,9 +21,6 @@ and Xray instances ready for use with Conan. If you still don't know the JFrog f
 post. The Artifactory instance has some limitations like a limit of 10GB of transfer a month and 2GB
 storage but will be more than enough for personal use or get an idea of how the experience with the
 JFrog platform is.
-
-If you want to create a free-tier instance, please [click here to create a new
-account](https://jfrog.com/start-free/).
 
 ## Setting up Artifactory: creating a Conan repository
 
@@ -70,6 +68,11 @@ connect the *mycompany-policy* **policy** to the *test-repo* **resource**.
     <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/create_new_xray_watch.png" align="center" alt="Creating a new Xray watch"/>
 </p>
 
+Please check the Xray documentation about [policies,
+rules](https://www.jfrog.com/confluence/display/JFROG/Creating+Xray+Policies+and+Rules) [and
+watches](https://www.jfrog.com/confluence/display/JFROG/Configuring+Xray+Watches) for more
+information.
+
 ## Testing with the Conan client
 
 Now that we added the **policy** and connected the Conan repository to that **policy** with a
@@ -81,7 +84,7 @@ that vulnerability. Let's try, for example, with
 
 ```bash
 $ conan install openssl/1.1.1h@ -r conancenter
-$ conan upload openssl/1.1.1h --all -c -r test-repo
+$ conan upload openssl/1.1.1h@ --all -c -r test-repo
 ```
 
 Just right after this package is uploaded, you should receive an e-mail warning about the policy
@@ -104,7 +107,7 @@ the *Block Download* option. If we try to install any binary affected by securit
 block the download.
 
 ```bash
-$ conan remove openssl/1.1.1h -f # to force downloading from the server
+$ conan remove openssl/1.1.1h@ -f # to force downloading from the server
 $ conan install openssl/1.1.1h@ -r test-repo
 Configuration:
 [settings]
