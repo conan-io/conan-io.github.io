@@ -32,7 +32,7 @@ In September (v1.40), the Conan client will not include the old remote as defaul
 only `https://center.conan.io` will come configured by default. If you want to keep using the old 
 one, you will need to add it explicitly.
 
-## CallToAction - Stop using legacy remote
+## Call To Action - Stop using legacy remote
 
 Things are moving forward and this blogpost is one more explicit reminder: old remote is frozen 
 and new packages are only available via the _new_ `https://center.conan.io` URL. Please, check 
