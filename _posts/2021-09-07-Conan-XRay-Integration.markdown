@@ -43,7 +43,7 @@ met. We can create a new policy using the *Getting Started* button in the free-t
 *Administration > Xray > Watches & Policies* and creating a new **policy**.
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/create_new_xray_policy.gif" align="center" alt="Creating a new Xray policy"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2021-09-07/create_new_xray_policy.gif" align="center" alt="Creating a new Xray policy"/>
 </p>
 
 We will create a security **policy** named *mycompany-policy* and add one rule to it. Click in *New
@@ -55,7 +55,7 @@ triggered when the rule conditions are satisfied. We will add the *Notify Email*
 and check what happens when uploading a package with known security issues.
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/xray_rules_options.png" align="center" width="50%" alt="Creating a new Xray rule"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2021-09-07/xray_rules_options.png" align="center" width="50%" alt="Creating a new Xray rule"/>
 </p>
 
 The next thing is adding a **watch**. **Watches** connect the **resources** (such as repositories or
@@ -66,7 +66,7 @@ repository inclusion or add all the repositories to the watch). Then click on *M
 connect the *mycompany-policy* **policy** to the *test-repo* **resource**.
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/create_new_xray_watch.png" align="center" alt="Creating a new Xray watch"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2021-09-07/create_new_xray_watch.png" align="center" alt="Creating a new Xray watch"/>
 </p>
 
 Please check the Xray documentation about [policies,
@@ -92,14 +92,14 @@ Just right after this package is uploaded, you should receive an e-mail warning 
 violation.
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/xray_warning_email.png" align="center" alt="Xray policy break warning email"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2021-09-07/xray_warning_email.png" align="center" alt="Xray policy break warning email"/>
 </p>
 
 Clicking on the link will take you to your Artifactory instance. Selecting the *Xray Data* tab will
 show all the details about the vulnerabilities present in the package.
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2021-09-15/xray_openssl_report.png" align="center" alt="Vulnerabilities report"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2021-09-07/xray_openssl_report.png" align="center" alt="Vulnerabilities report"/>
 </p>
 
 Warning about vulnerabilities in uploaded packages is helpful, but you also probably want to prevent
