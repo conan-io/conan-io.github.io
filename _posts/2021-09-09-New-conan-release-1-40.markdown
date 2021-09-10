@@ -76,9 +76,9 @@ target_link_libraries(example MyChat::hello)
 ```
 
 * `cmake_find_mode`: Use it to make *CMakeDeps* generate *FindXXX.cmake* module files, config CMake
-  scripts, both of them or none. The *none* option can be convenient if you want to make a package
-  that wraps system libraries, and the consumers should find the config files in the CMake config
-  path.
+  scripts, both of them or none. It can take the values: `module`, `config`, `both` and `none`. The
+  *none* option can be convenient if you want to make a package that wraps system libraries, and the
+  consumers should find the config files in the CMake config path.
 
 * `cmake_module_file_name`, `cmake_module_target_name`, `cmake_module_target_namespace`: These
   properties are equivalent to `cmake_file_name`, `cmake_target_name` and `cmake_target_namespace`
