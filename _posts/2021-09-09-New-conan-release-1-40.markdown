@@ -104,7 +104,7 @@ considered **experimental**, so it may change when the official versions are rel
 
 Now you can set a default profile for the profile build that Conan uses for several commands. Also, a
 host profile can be set as default as well. Using this is as easy as setting
-`core:default_build_profile` and `core:core:default_profile `in the
+`core:default_build_profile` and `core:default_profile` in the
 [global.conf](https://docs.conan.io/en/latest/reference/config_files/global_conf.html#global-conf)
 configuration file. Imagine that we want to always compile for a Linux arm device in our MacOs
 development environment:
