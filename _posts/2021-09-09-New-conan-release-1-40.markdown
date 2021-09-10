@@ -82,7 +82,7 @@ target_link_libraries(example MyChat::hello)
 
 * `cmake_module_file_name`, `cmake_module_target_name`, `cmake_module_target_namespace`: These
   properties are equivalent to `cmake_file_name`, `cmake_target_name` and `cmake_target_namespace`
-  but will be used for *FindXXX.cmake* module files when `cmake_find_mode` is `module` or `none`.
+  but will be used for *FindXXX.cmake* module files when `cmake_find_mode` is `module` or `both`.
 
 ## Setting conancenter (center.conan.io) as the only predefined Conan remote
 
