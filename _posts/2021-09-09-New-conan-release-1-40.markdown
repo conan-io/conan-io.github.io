@@ -28,6 +28,7 @@ meta_description: "The new version features include lots of improvements in CMak
  }
 </script>
 
+
 Conan 1.40 brings several significant new features. We have improved
 [CMakeDeps](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmakedeps.html) and
 [CMakeToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmaketoolchain.html)
@@ -38,6 +39,29 @@ support for Clang 13 and Visual Studio 2022. Also, now setting `default_build_pr
 you can define the profile that Conan uses by default in the [build
 context](https://docs.conan.io/en/latest/reference/profiles.html#build-profiles-and-host-profiles).
 
+
+## Conan 1.40 marks an important milestone: Starting transition to new features
+
+Before going through the new features in Conan 1.40, we would like to mention how important this new
+Conan version is. We consider some new **experimental features** like the [two profiles
+approach](https://docs.conan.io/en/latest/systems_cross_building/cross_building.html) or the new
+[conan.tools](https://docs.conan.io/en/latest/reference/conanfile/tools.html) stable enough to be
+used in [Conan Center Index](https://github.com/conan-io/conan-center-index). As soon as the Conan
+Center Index infrastructure is updated, the migration to these new features will begin. Also, we have
+already updated the ["Creating Packages: Getting
+Started"](https://docs.conan.io/en/latest/creating_packages/getting_started.html) section of the
+documentation to use these new tools.
+
+It is a huge step forward in the transition to Conan 2.0. We remind you that all these toolchains and
+helpers related to different build systems, the
+[environment](https://docs.conan.io/en/latest/reference/conanfile/tools/env.html), and the
+[layout](https://docs.conan.io/en/latest/reference/conanfile/tools/layout.html) of the packages will
+be the only ones remaining for the 2.0 version. If you want a smooth transition to the new major
+version, we advise you to start testing them with the 1.X versions.
+
+Soon, we will give more details on the transition in Conan Center. Also, if you want to stay updated
+on the new developments and proposals for Conan 2.0, please check the [Conan 2.0 tribe
+repository](https://github.com/conan-io/tribe).
 
 ## Improvements in CMakeDeps and CMakeToolchain helpers
 
