@@ -3,7 +3,7 @@ layout: post
 comments: false
 title: "Conan 1.40 : lots of improvements in CMakeDeps and CMakeToolchain, new Conan Center remote as the only predefined remote, added Clang 13 and Visual Studio 2022 integration and new [conf] default_build_profile item."
 meta_title: "Version 1.40 of Conan C++ Package Manager is Released"
-meta_description: "lots of improvements in CMakeDeps and CMakeToolchain, new Conan Center remote as the only predefined remote, added Clang 13 and Visual Studio 2022 integration, new [conf] default_build_profile item and much more..."
+meta_description: "The new version features include lots of improvements in CMakeDeps and CMakeToolchain, new Conan Center remote as the only predefined remote, added Clang 13 and Visual Studio 2022 integration, new [conf] default_build_profile item and much more..."
 ---
 
 <script type="application/ld+json">
@@ -87,7 +87,7 @@ target_link_libraries(example MyChat::hello)
 ## Setting conancenter (center.conan.io) as the only predefined Conan remote
 
 As you probably know, we released a new remote for ConanCenter in May with a more resilient and
-scalable architecture. It's the default since Conan 1.37, and now in the 1.40 version, we have
+scalable architecture. It's been the default since Conan 1.37, and now in the 1.40 version, we have
 removed the old bintray remote and left `https://center.conan.io` as the only predefined remote for
 Conan. If you are using an older Conan version, remember that the old remote is frozen and that new
 packages are only available via the new `https://center.conan.io`.  For more information about this,
