@@ -114,6 +114,12 @@ core:default_build_profile=macos_profile
 core:default_profile=linux_armv8_profile
 ```
 
+Please, note that Conan 2.0 will always use these defaults, so defining them while using 1.X will
+help transition to the 2.0 version. If you want to read more about this change for 2.0, please check
+the [accepted
+proposal](https://github.com/conan-io/tribe/blob/main/design/023-use_always_build_profile.md) in the
+[Conan 2.0 tribe repository](https://github.com/conan-io/tribe). 
+
 ---
 
 <br>
