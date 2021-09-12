@@ -25,7 +25,7 @@ $ cat ~/.conan/profiles/m1
 [settings]
 os=Macos
 arch=armv8
-...
+...```
 
 Conan will generate the binaries for this new architecture and you can safely upload them to your own
  [Artifactory](https://jfrog.com/artifactory/), Conan will compute a different
