@@ -15,7 +15,23 @@ We were asked several times to provide some ARM binaries for ConanCenter, and fi
  based on the ARMv8 architecture. Apple has started its transition from Intel x86-64 to ARM, and new desktop computers
   (MacBook Air, MacBook Pro, Mac Mini, and iMac) are already available shipping with M1 onboard. We expect the popularity and need for
   software ported to ARM will grow significantly as the transition goes forward.
+In order to start creating your packages for M1, you don't need anything special. Conan already provides
+ build-helpers and tools that adapted for this new architecture. You only need to provide proper inputs
+ to creation commands, basically a host profile with the following settings:
 
+bash
+$ cat ~/.conan/profiles/m1
+
+[settings]
+os=Macos
+arch=armv8
+...
+
+Conan will generate the binaries for this new architecture and you can safely upload them to your own
+ Artifactory, Conan will compute a different packageID because of the new settings value.
+
+Of course, your building machine need to provide the tooling required for this build, but any
+ updated Macos should do work.
 ### confusion about the architecture naming
 
 The confusion about the architecture naming around arm64/aarch64/armv8 is already [well-known](https://lkml.org/lkml/2012/7/15/133)
