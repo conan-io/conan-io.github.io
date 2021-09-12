@@ -19,7 +19,7 @@ In order to start creating your packages for M1, you don't need anything special
  build-helpers and tools that adapted for this new architecture. You only need to provide proper inputs
  to creation commands, basically a host profile with the following settings:
 
-bash
+```bash
 $ cat ~/.conan/profiles/m1
 
 [settings]
