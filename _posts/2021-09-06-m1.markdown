@@ -49,7 +49,11 @@ In conan, we refer to these binaries as `armv8` (meaning binaries for the `Aarch
  so consumers will have to specify `arch=armv8` in their profiles or command lines:
 
 ```bash
-$ conan install -s arch=armv8
+cat ~/.conan/profiles/m1
+[settings]
+os=Macos
+arch=armv8
+...
 ```
 
 ## Apple M1 binaries in ConanCenter
