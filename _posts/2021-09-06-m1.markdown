@@ -32,7 +32,7 @@ Conan will generate the binaries for this new architecture and you can safely up
  [package ID](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html) (because of the new settings value.
 
 Of course, your building machine need to provide the tooling required for this build, but any
- updated Macos should do a work.
+ updated macOS should do a work.
 
 ### confusion about the architecture naming
 
