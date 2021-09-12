@@ -64,7 +64,7 @@ Starting on [24-May-2021 - 15:59 CEST](https://github.com/conan-io/conan-center-
   are currently using Conan to manage their dependencies.
 
 As said before, generating binaries for Apple M1 using Conan is really straightforward, we
- just need to use a profile for Macos-armv8 and build our packages.
+ just need to use a profile for macOS/ARMv8 and build our packages.
 
 ## Cross-building
 
