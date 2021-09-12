@@ -50,7 +50,34 @@ In conan, we refer to these binaries as `armv8` (meaning binaries for the `Aarch
 $ conan install -s arch=armv8
 ```
 
+## Apple M1 binaries in ConanCenter
+
+Starting on [24-May-2021 - 15:59 CEST](https://github.com/conan-io/conan-center-index/blob/master/docs/changelog.md#24-may-2021---1559-cest)
+ we are building Apple M1 binaries in ConanCenter. We want to help the community
+ of developers that want to target their applications to this new architecture and
+  are currently using Conan to manage their dependencies.
+
+As said before, generating binaries for Apple M1 using Conan is really straightforward, we
+ just need to use a profile for Macos-armv8 and build our packages.
+
 ## Cross-building
+
+Some packages declare their build-requires and they need to be executed while
+ building the libraries. We could have connected to the CI system an M1 machine,
+ it would have been easier, but we decided to cross-build these package using the
+ existing Macos machines we were already using.
+
+We knew it would be harder, because it was the first configuration of ConanCenter
+ that we would be generated using the cross-compilation, but at the same time
+ the effort would pay off because the quality of recipes will increase and support
+ for other cross-building scenarios would be easier (iOS, Android, Emscripten, Raspberry Pi, etc).
+
+These are some of the most common adaptations we needed to do the recipes:
+
+Take into account that ConanCenter uses at the time of writing Conan v1.38,
+ new build-helpers were not mature enough to be used in recipes. Some of the
+ following fixes will no longer apply with the new integrations and we really
+ expect to be able to simplify the recipes once they are available
 
 M1 is the very first case we support the actual cross-building in ConanCenter. Many recipes (or libraries themselves, especially old)
  might not be prepared for that, so recipe authors may decide to skip M1 support for a while:
