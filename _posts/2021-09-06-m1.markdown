@@ -31,7 +31,8 @@ Conan will generate the binaries for this new architecture and you can safely up
  Artifactory, Conan will compute a different packageID because of the new settings value.
 
 Of course, your building machine need to provide the tooling required for this build, but any
- updated Macos should do work.
+ updated Macos should do a work.
+
 ### confusion about the architecture naming
 
 The confusion about the architecture naming around arm64/aarch64/armv8 is already [well-known](https://lkml.org/lkml/2012/7/15/133)
