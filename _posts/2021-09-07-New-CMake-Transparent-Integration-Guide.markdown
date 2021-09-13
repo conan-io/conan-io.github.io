@@ -194,11 +194,23 @@ to know all the customization.
 
 ### Customizing the "CMakeDeps"
 
-- At the `generate()` method it is unlikely you need to adjust anything, so you can use
-  the simplified declaration: `generators = "CMakeDeps"`. You can check the 
-  [full CMakeDeps reference](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmakedeps.html)
-  in case you need to adjust the generated configuration or things related to the build requires.
-- At the `package_info()` object, on the other hand, there are several 
+- At the `generate()` method there are some new things you can now adjust, like adding new configurations:
+
+{% highlight python %}
+
+    def generate(self):
+        cmake = CMakeDeps(self)
+        cmake.configurations.append("ReleaseShared")
+        if self.options["hello"].shared:
+            cmake.configuration = "ReleaseShared"
+        cmake.generate()
+
+{% endhighlight %}
+
+Check the [full CMakeDeps reference](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmakedeps.html)
+In case you need to adjust anything, so you can use the simplified declaration: `generators = "CMakeDeps"`. 
+
+- At the `package_info()` method, there are several 
   [properties](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmakedeps.html#properties) you can 
   configure to indicate to the generator how to behave when a consumer uses it (having a requirement to your package).
   
@@ -237,7 +249,9 @@ To leverage the new `CMakeToolchain` and `CMakeDeps` you have to import the new
 This build helper does almost nothing, only calls `cmake` passing the `-DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake`.
 
 As this build helper has no internal state anymore, there is an anti-pattern to avoid, keeping an instance 
-of the build helper to use it in the `build()` method and later in the `package()` method:
+of the build helper to use it in the `build()` method and later in the `package()` method. This is considered
+an anti-pattern because keeping the state between the methods of the recipe might fail in the conan local methods like
+``conan build`` + ``conan export-pkg`` where the execution is isolated:
 
 From
 
@@ -299,7 +313,6 @@ class HelloConan(ConanFile):
 
     def package(self):
         cmake = CMake()
-        cmake.configure()
         cmake.install()
 
 {% endhighlight %}
@@ -410,8 +423,8 @@ class HelloConan(ConanFile):
 {% endhighlight %}
 
 In the previous example, we are using a predefined layout, the `cmake_layout`. You can 
-[check here](https://docs.conan.io/en/latest/reference/conanfile/tools/layout.html#predefined-layouts) what and why it is 
-doing. You can adjust any value after calling it to match your package structure.
+[check here](https://docs.conan.io/en/latest/reference/conanfile/tools/layout.html#predefined-layouts) what is it doing and why. 
+You can adjust any value after calling it to match your package structure.
 
 Also the new tool 
 [apply_conandata_patches](https://docs.conan.io/en/latest/reference/conanfile/tools/files.html#conan-tools-files-apply-conandata-patches) 
