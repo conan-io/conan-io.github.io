@@ -46,7 +46,7 @@ The confusion about the architecture naming around arm64/aarch64/armv8 is alread
 * `ARM64` unofficial (e.g. not used in official ARM documents) but extremely popular name synonymous to the `AArch64`. Apple software (e.g. [Xcode](https://developer.apple.com/xcode/) and other developer tools) use this naming. Also, used by many Linux distros.
 
 In conan, we refer to these binaries as `armv8` (meaning binaries for the `Aarch64` instruction set),
- so consumers will have to specify `arch=armv8` in their profiles or command lines:
+ so consumers will have to specify `arch=armv8` in their profiles or command lines.
 
 
 ## Apple M1 binaries in ConanCenter
