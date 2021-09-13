@@ -127,7 +127,7 @@ or short form:
 $ conan install . -pr:b default -pr:h m1
 
 
-with the extremely simple `m1` profille:
+with the extremely simple `m1` profile:
 ```bash
 $ cat ~/.conan/profiles/m1
 
