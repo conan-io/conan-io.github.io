@@ -147,7 +147,11 @@ For the recipes using the two profiles approach, it's no longer recommended to u
 If it's needed to check the `os` or `arch` of the build context, the following code can be used:
 
 ```python
-if self.settings_build.os == "Windows":
+@property
+def _settings_build(self):
+    return self.settings_build if hasattr(self, "settings_build") else self.settings
+
+if self._settings_build.os == "Windows":
 	# build context: os is Windows
 ```
 
