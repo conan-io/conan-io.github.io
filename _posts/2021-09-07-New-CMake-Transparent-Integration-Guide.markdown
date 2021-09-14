@@ -208,7 +208,7 @@ to know all the customization.
 {% endhighlight %}
 
 Check the [full CMakeDeps reference](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmakedeps.html)
-In case you need to adjust anything, so you can use the simplified declaration: `generators = "CMakeDeps"`. 
+In case you don't need to adjust anything you can use the simplified declaration: `generators = "CMakeDeps"`. 
 
 - At the `package_info()` method, there are several 
   [properties](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmakedeps.html#properties) you can 
