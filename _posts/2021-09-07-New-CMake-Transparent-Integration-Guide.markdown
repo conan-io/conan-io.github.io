@@ -244,7 +244,7 @@ def package_info(self):
 
 To leverage the new `CMakeToolchain` and `CMakeDeps` you have to import the new 
 [CMake](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmake.html) build helper from the new
-"conan" namespace.
+"conan.tools.cmake" namespace.
 
 This build helper does almost nothing, only calls `cmake` passing the `-DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake`.
 
