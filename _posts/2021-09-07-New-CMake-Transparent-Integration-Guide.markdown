@@ -194,7 +194,9 @@ to know all the customization.
 
 ### Customizing the "CMakeDeps"
 
-- At the `generate()` method there are some new things you can now adjust, like adding new configurations:
+- At the `generate()` method there are some new things you can now adjust, like adding new custom user CMake configurations 
+  besides the standard ones (Release, Debug, etc)  with ``cmake.configurations`` and selecting the current configuration 
+  with ``cmake.configuration``:
 
 {% highlight python %}
 
