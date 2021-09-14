@@ -235,7 +235,7 @@ def package_info(self):
     # note: it will make useless the previous adjustements.
     # self.cpp_info.set_property("cmake_find_mode", "none")
 
-    # Generate both MyFileNameConfig.cmake and FindMyFileName.cmake
+    # Generate both MyFileName-config.cmake and FindMyFileName.cmake
     self.cpp_info.set_property("cmake_find_mode", "both")
 
 {% endhighlight %}
