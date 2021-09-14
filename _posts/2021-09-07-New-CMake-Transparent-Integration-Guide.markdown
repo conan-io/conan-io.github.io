@@ -207,8 +207,7 @@ to know all the customization.
 
 {% endhighlight %}
 
-Check the [full CMakeDeps reference](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmakedeps.html)
-In case you need to adjust anything, so you can use the simplified declaration: `generators = "CMakeDeps"`. 
+Check the [full CMakeDeps reference](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmakedeps.html).
 
 - At the `package_info()` method, there are several 
   [properties](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmakedeps.html#properties) you can 
@@ -266,9 +265,8 @@ class HelloConan(ConanFile):
     _cmake = None
 
     ...
- 
-    @property
-    def cmake(self):
+
+    def _configure_cmake(self):
         if not hasattr(self, "_cmake"):
             self._cmake = CMake(self)
             self._cmake.definitions["tests"] = False
@@ -276,10 +274,12 @@ class HelloConan(ConanFile):
         return self._cmake
 
     def build(self):
-        self.cmake.build()
+        cmake = self._configure_cmake()
+        cmake.build()
 
     def package(self):
-        self.cmake.install()
+        cmake = self._configure_cmake()
+        cmake.install()
 
     ...
 
