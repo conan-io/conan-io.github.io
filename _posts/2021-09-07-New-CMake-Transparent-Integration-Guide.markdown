@@ -254,7 +254,7 @@ of the build helper to use it in the `build()` method and later in the `package(
 an anti-pattern because keeping the state between the methods of the recipe might fail in the conan local methods like
 ``conan build`` + ``conan export-pkg`` where the execution is isolated:
 
-From
+From:
 
 {% highlight python %}
 
@@ -288,7 +288,7 @@ class HelloConan(ConanFile):
 {% endhighlight %}
 
 
-TO:
+To:
 
 **conanfile.py**
 
@@ -330,7 +330,7 @@ local directory, the recipe development becomes easier, even working with editab
 
 A couple of classic patterns you can avoid using the `layout()` method are the following:
 
-FROM:
+From:
 
 **conandata.yml**
 
@@ -439,7 +439,10 @@ Check the [layout()](https://docs.conan.io/en/latest/developing_packages/package
 
 Sometimes, in a recipe, you need to access the dependencies to check something, typically the version and the root package folder.
 Previously this could be done by accessing the _deps_cpp_info_ object in almost any method of the recipe. With the new model, 
-the access to the dependencies should be done at the ``generate()`` method, and using the new ``self.dependencies`` object:
+the access to the dependencies should be done at the ``generate()`` and the ``validate()`` methods, using the 
+new ``self.dependencies`` object. 
+
+In the ``generate(self)``:
 
 From:
 
@@ -488,6 +491,28 @@ class HelloConan(ConanFile):
         # version = ref.version
 
         toolchain.generate()
+
+{% endhighlight %}
+
+In the ``validate(self)`` method:
+
+{% highlight python %}
+
+from conans import ConanFile
+
+class HelloConan(ConanFile):
+    name = "hello"
+    version = "0.1"
+    settings = "os", "compiler", "build_type", "arch"
+    requires = "foo/1.0"
+
+    def validate(self):
+        if self.dependencies["foo"].ref.version == "1.2":
+            raise ConanInvalidConfiguration("Foo 1.2 not supported")
+        
+        if self.dependencies["foo"].options.shared:
+            raise ConanInvalidConfiguration("Foo shared not supported")
+
 
 {% endhighlight %}
 
