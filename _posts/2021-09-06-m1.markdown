@@ -157,7 +157,7 @@ Another important thing is that ConanCenter CI runs build in two phases:
 * compute all the possible package IDs, excluding duplicates and invalids
 * run the actual builds
 
-and the first phase usually runs on the Linux machine, thus, package ID computation for macOS M1 profile is done on Linux x86 build machine.
+And the first phase usually runs on the Linux machine, thus, package ID computation for macOS M1 profile is done on Linux x86 build machine.
 While it's absolutely legal, it may have some important consequences for the recipes which may use conditional logic to detect the build platform.
 In general, it's strongly discouraged to use
  [tools.OSInfo](https://docs.conan.io/en/latest/reference/tools.html#tools-osinfo-and-tools-systempackagetool),
