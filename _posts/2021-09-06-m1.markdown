@@ -84,8 +84,8 @@ Take into account that ConanCenter uses at the time of writing [Conan v1.38](htt
  following fixes will no longer apply with the new integrations and we really
  expect to be able to simplify the recipes once they are available.
 
-M1 is the very first case we support the actual cross-building in ConanCenter. Many recipes (or libraries themselves, especially old)
- might not be prepared for that, so recipe authors may decide to skip M1 support for a while:
+This is the very first time we support actual cross-building in ConanCenter, so many recipes or
+ libraries might not be prepared for that. If you need it, you can skip M1 support for a while:
 
 ```python
 from conans.errors import ConanInvalidConfiguration
