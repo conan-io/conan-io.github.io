@@ -20,7 +20,7 @@ In order to start creating your packages for M1, you don't need anything special
  to creation commands, basically a host profile with the following settings:
 
 ```bash
-$ cat ~/.conan/profiles/m1
+$ conan profile show m1
 
 [settings]
 os=Macos
