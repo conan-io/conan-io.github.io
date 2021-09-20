@@ -160,9 +160,9 @@ Another important thing is that ConanCenter CI runs build in two phases:
 And the first phase usually runs on the Linux machine, thus, package ID computation for macOS M1 profile is done on Linux x86 build machine.
 While it's absolutely legal, it may have some important consequences for the recipes which may use conditional logic to detect the build platform.
 In general, it's strongly discouraged to use
- [tools.OSInfo](https://docs.conan.io/en/latest/reference/tools.html#tools-osinfo-and-tools-systempackagetool),
-  [platform.system](https://docs.python.org/3/library/platform.html),
-  [os.name](https://docs.python.org/3/library/os.html) or similar facilities to detect the build platform.
+* [tools.OSInfo](https://docs.conan.io/en/latest/reference/tools.html#tools-osinfo-and-tools-systempackagetool),
+* [platform.system](https://docs.python.org/3/library/platform.html),
+* [os.name](https://docs.python.org/3/library/os.html) or similar facilities to detect the build platform.
 Instead, it's recommended to rely on the `settings_build` attribute:
 
 ```python
