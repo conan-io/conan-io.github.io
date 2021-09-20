@@ -52,7 +52,7 @@ In conan, we refer to these binaries as `armv8` (meaning binaries for the `Aarch
 
 ## Apple M1 binaries in ConanCenter
 
-Starting on [24-May-2021 - 15:59 CEST](https://github.com/conan-io/conan-center-index/blob/master/docs/changelog.md#24-may-2021---1559-cest)
+Starting on [24 May 2021](https://github.com/conan-io/conan-center-index/blob/master/docs/changelog.md#24-may-2021---1559-cest),
  we are building Apple M1 binaries in ConanCenter. We want to help the community
  of developers that want to target their applications to this new architecture and
   are currently using Conan to manage their dependencies.
