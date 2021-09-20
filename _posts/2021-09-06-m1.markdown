@@ -72,8 +72,8 @@ Some packages declare their build-requires and they need to be executed while
  it would have been easier, but we decided to cross-build these package using the
  existing macOS machines we were already using.
 
-We knew it would be harder, because it was the first configuration of ConanCenter
- that we would be generated using the cross-compilation, but at the same time
+We knew it would be harder, because it is the first configuration of ConanCenter
+ that will be generating cross-compiled binaries, but at the same time
  the effort would pay off because the quality of recipes will increase and
  adding new cross-building scenarios in the future will be easier (iOS, Android, Emscripten, Raspberry Pi, etc).
 
