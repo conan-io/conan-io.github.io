@@ -45,7 +45,7 @@ Of course, your building machine need to provide the tooling required for this b
 The confusion about the architecture naming around arm64/aarch64/armv8 is already [well-known](https://lkml.org/lkml/2012/7/15/133)
  in the development community. Let's try to clarify a bit:
 
-* `ARMv8` - refers to the new version of the ARM architecture. It includes two execution states, `AArch32` and `AArch64`, and corresponding instruction sets for them.
+* `ARMv8` - refers to the new version of the ARM architecture. It includes two execution states, `AArch32` and `AArch64`, and the corresponding instruction set for each of them.
 * `ARMv8-A` - refers to the *A* (Application) profile of the ARM architecture, specifically. Other profiles are *R* (Real-time) and *M* (Microcontroller). Or, `ARMv8-R` and `ARMv8-M`, respectively.
 * `AArch64` - 64-bit execution state of the `ARMv8` architecture.
 * `A64` - refers to the instruction set for the `AArch64` execution state. The name is rarely used outside of the ARM documentation.
