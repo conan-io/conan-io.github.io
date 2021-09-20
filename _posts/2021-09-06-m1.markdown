@@ -137,7 +137,7 @@ There are several important side-effects to the recipes because of the movement 
 ### os_build and arch_build shouldn't be used
 
 For the recipes using the two profiles approach, it's no longer recommended to use `os_build` and `arch_build` settings any longer.
-If it's needed to check the `os` or `arch` of the build context, the following code can be used:
+If it's needed to check the `os` or `arch` of the [build context](https://docs.conan.io/en/latest/systems_cross_building/cross_building.html#conan-v1-24-and-newer), the following code can be used:
 
 ```python
 @property
