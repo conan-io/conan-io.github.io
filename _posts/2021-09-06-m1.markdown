@@ -50,7 +50,7 @@ In conan, we refer to these binaries as `armv8` (meaning binaries for the `Aarch
  so consumers will have to specify `arch=armv8` in their profiles or command lines.
 
 
-## Apple M1 binaries in ConanCenter
+## How do we create Apple M1 binaries in ConanCenter using cross-building
 
 Starting on [24 May 2021](https://github.com/conan-io/conan-center-index/blob/master/docs/changelog.md#24-may-2021---1559-cest),
  we are building Apple M1 binaries in ConanCenter. We want to help the community
