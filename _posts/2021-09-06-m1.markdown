@@ -18,7 +18,7 @@ The article describes the following aspects:
 
 [Apple M1](https://www.apple.com/in/business/mac/pdf/Apple-at-Work-M1-Overview.pdf) is a new ARM-based SoC developed by Apple and
  based on the ARMv8 architecture. Apple has started its transition from Intel x86-64 to ARM, and new desktop computers
-  (MacBook Air, MacBook Pro, Mac Mini, and iMac) are already available shipping with M1 onboard. We expect the popularity and need for
+  (MacBook Air, MacBook Pro, Mac Mini, and iMac) are already available with M1 processors. We expect the popularity and need for
   software ported to ARM will grow significantly as the transition goes forward.
 In order to start creating your packages for M1, you don't need anything special. Conan already provides
  build-helpers and tools that adapted for this new architecture. You only need to provide proper inputs
