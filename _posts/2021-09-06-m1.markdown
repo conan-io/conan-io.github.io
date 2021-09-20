@@ -79,8 +79,8 @@ We knew it would be harder, because it was the first configuration of ConanCente
 
 These are some of the most common adaptations we needed to do the recipes:
 
-Take into account that ConanCenter uses at the time of writing [Conan v1.38](https://docs.conan.io/en/latest/changelog.html#jun-2021),
- new [build-helpers](https://docs.conan.io/en/latest/reference/build_helpers.html) were not mature enough to be used in recipes. Some of the
+Take into account that the Conan version used in ConanCenter at the time of adding the M1 support was [1.38](https://docs.conan.io/en/latest/changelog.html#jun-2021),
+ and the new [build-helpers](https://docs.conan.io/en/latest/reference/build_helpers.html) were not mature enough to be used in production recipes. Some of the
  following fixes will no longer apply with the new integrations and we really
  expect to be able to simplify the recipes once they are available.
 
