@@ -113,7 +113,7 @@ Since Intel Mac machines we currently use on CI won't be able to execute the ARM
 
 ## 2 Profiles
 
-M1 is also the very first case we adopted [two profiles](https://docs.conan.io/en/latest/devtools/build_requires.html?build-and-host-contexts)
+This is also the very first time we use the [two profiles model](https://docs.conan.io/en/latest/devtools/build_requires.html?build-and-host-contexts)
  model in ConanCenter. The long-term plan is to move all the configurations to use two profiles,
   as this is going to be a default mode in [Conan 2.0](https://docs.conan.io/en/latest/conan_v2.html).
 
