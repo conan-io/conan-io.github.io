@@ -143,7 +143,7 @@ build_type=Release
 [env]
 ```
 
-There are several important side-effects to the recipes because of the movement to the two profiles approach:
+There are several important side-effects to the recipes because of the switch to the two profiles approach:
 
 ### os_build and arch_build shouldn't be used
 
