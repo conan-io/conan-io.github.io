@@ -101,7 +101,7 @@ Of couse, we encourage contributors to provide support for additional platforms,
 
 ### checking for the cross-building in test_package
 
-Since Intel Mac machines we currently use on CI won't be able to execute the ARM code, the following extra check is now required for the
+Since the Intel Mac machines we currently use on CI won't be able to execute the ARM code, the following extra check is now required for the
  [test_package](https://docs.conan.io/en/latest/reference/conanfile/methods.html#test):
 
 ```python
