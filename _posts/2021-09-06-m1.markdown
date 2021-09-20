@@ -122,7 +122,7 @@ $ conan install . -pr:b default -pr:h m1
 
 with the extremely simple `m1` profile:
 ```bash
-$ cat ~/.conan/profiles/m1
+$ conan profile show m1
 
 include(default)
 [settings]
