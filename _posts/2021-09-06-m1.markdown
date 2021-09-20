@@ -44,7 +44,7 @@ The confusion about the architecture naming around arm64/aarch64/armv8 is alread
 * `ARMv8-A` - refers to the *A* (Application) profile of the ARM architecture, specifically. Other profiles are *R* (Real-time) and *M* (Microcontroller). Or, `ARMv8-R` and `ARMv8-M`, respectively.
 * `AArch64` - 64-bit execution state of the `ARMv8` architecture.
 * `A64` - refers to the instruction set for the `AArch64` execution state. The name is rarely used outside of the ARM documentation.
-* `ARM64` unofficial (e.g. not used in official ARM documents) but extremely popular name synonymous to the `AArch64`. Apple software (e.g. [Xcode](https://developer.apple.com/xcode/) and other developer tools) use this naming. Also, used by many Linux distros.
+* `ARM64` - an unofficial (e.g. not used in the official ARM documents) but extremely popular name synonymous to the `AArch64`. Apple software (e.g. [Xcode](https://developer.apple.com/xcode/) and other developer tools) use this naming. Also, used by many Linux distros.
 
 In conan, we refer to these binaries as `armv8` (meaning binaries for the `Aarch64` instruction set),
  so consumers will have to specify `arch=armv8` in their profiles or command lines.
