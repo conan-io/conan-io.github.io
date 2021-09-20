@@ -41,7 +41,7 @@ The confusion about the architecture naming around arm64/aarch64/armv8 is alread
  in the development community. Let's try to clarify a bit:
 
 * `ARMv8` - refers to the new version of the ARM architecture. It includes two execution states, `AArch32` and `AArch64`, and corresponding instruction sets for them.
-* `ARMv8-A` - refers to the *A* (Application) profile of the ARM architecture, specifically. Other profiles are *R* (Real-time) and *M* (Microcontroller).
+* `ARMv8-A` - refers to the *A* (Application) profile of the ARM architecture, specifically. Other profiles are *R* (Real-time) and *M* (Microcontroller). Or, `ARMv8-R` and `ARMv8-M`, respectively.
 * `AArch64` - 64-bit execution state of the `ARMv8` architecture.
 * `A64` - refers to the instruction set for the `AArch64` execution state.
 * `ARM64` unofficial (e.g. not used in official ARM documents) but extremely popular name synonymous to the `AArch64`. Apple software (e.g. [Xcode](https://developer.apple.com/xcode/) and other developer tools) use this naming. Also, used by many Linux distros.
