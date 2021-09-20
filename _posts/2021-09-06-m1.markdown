@@ -30,7 +30,7 @@ arch=armv8
 
 Conan will generate the binaries for this new architecture and you can safely upload them to your own
  [Artifactory](https://jfrog.com/artifactory/), Conan will compute a different
- [package ID](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html) (because of the new settings value.
+ [package ID](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html) (because of the new settings value).
 
 Of course, your building machine need to provide the tooling required for this build, but any
  updated macOS should do the job.
