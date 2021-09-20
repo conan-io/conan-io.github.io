@@ -149,7 +149,7 @@ if self._settings_build.os == "Windows":
 ```
 
 We strongly encourage authors to remove `os_build` and `arch_build` from their recipes.
-We also strongly encourage all the consumers to migrate their cross-building scenarios to the two profiles approach whenever possible.
+We also strongly encourage all the consumers to migrate their cross-building scenarios to the two profiles approach whenever possible. The reason is because build context allows better compatibility using build requirements, avoiding separated packages for installer and tooling.
 
 ### tools.OSInfo, platform.system(), os.name shouldn't be used
 
