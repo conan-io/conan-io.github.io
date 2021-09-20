@@ -65,7 +65,7 @@ As said before, generating binaries for Apple M1 using Conan is really straightf
 Some packages declare their build-requires and they need to be executed while
  building the libraries. We could have connected to the CI system an M1 machine,
  it would have been easier, but we decided to cross-build these package using the
- existing Macos machines we were already using.
+ existing macOS machines we were already using.
 
 We knew it would be harder, because it was the first configuration of ConanCenter
  that we would be generated using the cross-compilation, but at the same time
