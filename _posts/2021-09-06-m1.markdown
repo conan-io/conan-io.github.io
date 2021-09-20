@@ -74,8 +74,8 @@ Some packages declare their build-requires and they need to be executed while
 
 We knew it would be harder, because it was the first configuration of ConanCenter
  that we would be generated using the cross-compilation, but at the same time
- the effort would pay off because the quality of recipes will increase and support
- for other cross-building scenarios would be easier (iOS, Android, Emscripten, Raspberry Pi, etc).
+ the effort would pay off because the quality of recipes will increase and
+ adding new cross-building scenarios in the future will be easier (iOS, Android, Emscripten, Raspberry Pi, etc).
 
 These are some of the most common adaptations we needed to do the recipes:
 
