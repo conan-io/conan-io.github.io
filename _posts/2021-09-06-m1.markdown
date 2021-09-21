@@ -2,7 +2,7 @@
 layout: post
 comments: false
 title: "Apple M1 support added to ConanCenter"
-meta_title: "ConanCenter: Apple M1 binaries are generated"
+meta_title: "Apple M1 support added to ConanCenter"
 description: "general information about Apple M1 and its implications on ConanCenter"
 meta_description: "general information about Apple M1 and its implications on ConanCenter"
 ---
