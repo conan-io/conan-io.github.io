@@ -1,0 +1,235 @@
+---
+layout: post
+comments: false
+title: "Apple M1 support added to ConanCenter"
+meta_title: "Apple M1 support added to ConanCenter"
+description: "general information about Apple M1 and its implications on ConanCenter"
+meta_description: "general information about Apple M1 and its implications on ConanCenter"
+---
+
+We were asked several times to provide some macOS ARM binaries for ConanCenter, and finally, they are there.
+The article describes the following aspects:
+* general information about Apple M1
+* how Apple M1 binaries are created in ConanCenter
+* how to adapt existing recipes to support cross-building to Apple M1
+  
+
+## About Apple M1
+
+[Apple M1](https://www.apple.com/in/business/mac/pdf/Apple-at-Work-M1-Overview.pdf) is a new ARM-based SoC developed by Apple and
+ based on the ARMv8 architecture. Apple has started its transition from Intel x86-64 to ARM, and new desktop computers
+  (MacBook Air, MacBook Pro, Mac Mini, and iMac) are already available with M1 processors. We expect the popularity and need for
+  software ported to ARM will grow significantly as the transition goes forward.
+In order to start creating your packages for M1, you don't need anything special. Conan already provides
+ build-helpers and tools adapted for this new architecture. You only need to provide proper inputs
+ to creation commands, basically a host profile with the following settings:
+
+```bash
+$ conan profile show m1
+
+[settings]
+os=Macos
+arch=armv8
+...
+```
+
+Conan will generate the binaries for this new architecture and you can safely upload them to your own
+ [Artifactory](https://jfrog.com/artifactory/), Conan will compute a different
+ [package ID](https://docs.conan.io/en/latest/creating_packages/define_abi_compatibility.html) because of the new settings value.
+
+Of course, your building machine need to provide the tooling required for this build, but any
+ updated macOS should do the job.
+
+### Confusion about the architecture naming
+
+The confusion about the architecture naming around arm64/aarch64/armv8 is already [well-known](https://lkml.org/lkml/2012/7/15/133)
+ in the development community. Let's try to clarify a bit:
+
+* `ARMv8` - refers to the new version of the ARM architecture. It includes two execution states, `AArch32` and `AArch64`, and the corresponding instruction set for each of them.
+* `ARMv8-A` - refers to the *A* (Application) profile of the ARM architecture, specifically. Other profiles are *R* (Real-time) and *M* (Microcontroller). Or, `ARMv8-R` and `ARMv8-M`, respectively.
+* `AArch64` - 64-bit execution state of the `ARMv8` architecture.
+* `A64` - refers to the instruction set for the `AArch64` execution state. The name is rarely used outside of the ARM documentation.
+* `ARM64` - an unofficial (e.g. not used in the official ARM documents) but extremely popular name synonymous to the `AArch64`. Apple software (e.g. [Xcode](https://developer.apple.com/xcode/) and other developer tools) use this naming. Also, used by many Linux distros.
+
+In conan, we refer to these binaries as `armv8` (meaning binaries for the `Aarch64` instruction set),
+ so consumers will have to specify `arch=armv8` in their profiles or command lines.
+
+
+## How do we create Apple M1 binaries in ConanCenter using cross-building
+
+Starting on [24 May 2021](https://github.com/conan-io/conan-center-index/blob/master/docs/changelog.md#24-may-2021---1559-cest),
+ we are building Apple M1 binaries in ConanCenter. We want to help the community
+ of developers that want to target their applications to this new architecture and
+  are currently using Conan to manage their dependencies.
+
+As said before, generating binaries for Apple M1 using Conan is really straightforward, we
+ just need to use a profile for macOS/ARMv8 and build our packages.
+
+## Adapting existing recipes in ConanCenter for cross-building
+
+Some packages declare their build-requires and they need to be executed while
+ building the libraries. It would have been easier for us to connect the CI system to a M1
+ machine, but we decided to cross-build these package using the
+ existing macOS machines we were already using.
+
+We knew it would be harder, because it is the first configuration of ConanCenter
+ that will be generating cross-compiled binaries, but at the same time
+ the effort would pay off because the quality of recipes will increase and
+ adding new cross-building scenarios in the future will be easier (iOS, Android, Emscripten, Raspberry Pi, etc).
+
+These are some of the most common adaptations we needed to do the recipes:
+
+Take into account that the Conan version used in ConanCenter at the time of adding the M1 support was [1.38](https://docs.conan.io/en/latest/changelog.html#jun-2021),
+ and the new [build-helpers](https://docs.conan.io/en/latest/reference/build_helpers.html) were not mature enough to be used in production recipes. Some of the
+ following fixes will no longer apply with the new integrations and we really
+ expect to be able to simplify the recipes once they are available.
+
+This is the very first time we support actual cross-building in ConanCenter, so many recipes or
+ libraries might not be prepared for that. If you need it, you can skip M1 support for a while:
+
+```python
+from conans.errors import ConanInvalidConfiguration
+
+...
+
+def validate(self):
+    if self.settings.os == "Macos" and self.settings.arch == "armv8":
+        raise ConanInvalidConfiguration("sorry, M1 builds are not currently supported, give up!")
+```
+
+Of couse, we encourage contributors to provide support for additional platforms, but it may require upstream support first.
+
+### checking for the cross-building in test_package
+
+Since the Intel Mac machines we currently use on CI won't be able to execute the ARM code, the following extra check is now required for the
+ [test_package](https://docs.conan.io/en/latest/reference/conanfile/methods.html#test):
+
+```python
+    def test(self):
+        if not tools.cross_building(self):
+            bin_path = os.path.join("bin", "test_package")
+            self.run(bin_path, run_environment=True)
+```
+
+## 2 Profiles
+
+This is also the very first time we use the [two profiles model](https://docs.conan.io/en/latest/devtools/build_requires.html?build-and-host-contexts)
+ model in ConanCenter. The long-term plan is to move all the configurations to use two profiles,
+  as this is going to be a default mode in [Conan 2.0](https://github.com/conan-io/tribe/blob/main/design/023-use_always_build_profile.md).
+
+To cross-compile M1 binaries with conan, the following command line could be used:
+```bash
+$ conan install . --profile:build default --profile:host m1
+```
+or short form:
+```bash
+$ conan install . -pr:b default -pr:h m1
+
+
+with the extremely simple `m1` profile:
+```bash
+$ conan profile show m1
+
+include(default)
+[settings]
+arch=armv8
+os=Macos
+compiler=apple-clang
+compiler.version=12.0
+compiler.libcxx=libc++
+build_type=Release
+[options]
+[build_requires]
+[env]
+```
+
+There are several important side-effects to the recipes because of the switch to the two profiles approach:
+
+### os_build and arch_build shouldn't be used
+
+For the recipes using the two profiles approach, it's no longer recommended to use `os_build` and `arch_build` settings any longer.
+If it's needed to check the `os` or `arch` of the [build context](https://docs.conan.io/en/latest/systems_cross_building/cross_building.html#conan-v1-24-and-newer), the following code can be used:
+
+```python
+@property
+def _settings_build(self):
+    return self.settings_build if hasattr(self, "settings_build") else self.settings
+
+if self._settings_build.os == "Windows":
+	# build context: os is Windows
+```
+
+We strongly encourage authors to remove `os_build` and `arch_build` from their recipes.
+We also strongly encourage all the consumers to migrate their cross-building scenarios to the two profiles approach whenever possible. The reason is because build context allows better compatibility using build requirements, avoiding separated packages for installer and tooling.
+
+### tools.OSInfo, platform.system(), os.name shouldn't be used
+
+Another important thing is that ConanCenter CI runs build in two phases:
+* compute all the possible package IDs, excluding duplicates and invalids
+* run the actual builds
+
+And the first phase usually runs on the Linux machine, thus, package ID computation for macOS M1 profile is done on Linux x86-64 build machine.
+While it's absolutely legal, it may have some important consequences for the recipes which may use conditional logic to detect the build platform.
+In general, it's strongly discouraged to use
+* [tools.OSInfo](https://docs.conan.io/en/latest/reference/tools.html#tools-osinfo-and-tools-systempackagetool),
+* [platform.system](https://docs.python.org/3/library/platform.html),
+* [os.name](https://docs.python.org/3/library/os.html) or similar facilities to detect the build platform.
+Instead, it's recommended to rely on the `settings_build` attribute:
+
+```python
+
+# BAD: if tools.OSInto().is_windows:
+# BAD: if platform.system() == "Windows":
+# BAD: if os.name == 'nt':
+if self.settings_build.os == "Windows": # good!
+    # build context: os is Windows
+    raise ConanInvalidConfiguration("the recipe cannot be built on Windows")
+```
+
+### CMake build helper and CMAKE_SYSTEM_PROCESSOR
+
+The old [CMake build helper](https://docs.conan.io/en/latest/reference/build_helpers/cmake.html)
+ doesn't always set [CMAKE_SYSTEM_PROCESSOR](https://cmake.org/cmake/help/latest/variable/CMAKE_SYSTEM_PROCESSOR.html) variable correctly.
+While we strongly encourage authors to migrate to new
+ [CMake Toolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmaketoolchain.html) solution,
+ the following code might be needed in some recipes to properly cross-compile to M1:
+
+```python
+    def _configure_cmake(self):
+        cmake = CMake(self)
+        ...
+        if self.settings.os == "Macos" and self.settings.arch == "armv8":
+            cmake.definitions["CMAKE_SYSTEM_PROCESSOR"] = "aarch64"
+
+```
+
+*NOTE*: there is no standard for the `CMAKE_SYSTEM_PROCESSOR`, unfortunately. Therefore, depends on checks the library might have,
+ the value of the variable could be `aarch64`, `arm64`, `armv8` or `armv8-a`.
+
+### GNU autotools: config.sub and config.guess
+
+Many libraries (especially old) ship with old
+ [config.sub](https://linux.die.net/man/1/config.sub)
+ and [config.guess](https://linux.die.net/man/1/config.guess) scripts. Since M1 was introduced in late 2020,
+ these libraries are not aware of the new architecture
+ and need to update the scripts.
+Unfortunately, some libraries are already abandoned or discontinued, in such cases, the following workaround could be needed:
+
+```python
+    def build_requirements(self):
+        self.build_requires("gnu-config/cci.20201022")  # require the recent enough GNU config
+
+    # helper to support both single profile and dual profile models
+    @property
+    def _user_info_build(self):
+        return getattr(self, "user_info_build", None) or self.deps_user_info
+
+     def build(self):
+        # copy the updated files to the library sources
+        shutil.copy(self._user_info_build["gnu-config"].CONFIG_SUB,
+                    os.path.join(self._source_subfolder, "config.sub"))
+        shutil.copy(self._user_info_build["gnu-config"].CONFIG_GUESS,
+                    os.path.join(self._source_subfolder, "config.guess"))
+```
+
+This way, `configure` script should at least recognize `aarch64-apple-darwin` triplet, allowing to cross-compile to or from M1.
