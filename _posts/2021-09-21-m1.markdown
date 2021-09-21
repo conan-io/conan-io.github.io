@@ -7,7 +7,7 @@ description: "general information about Apple M1 and its implications on ConanCe
 meta_description: "general information about Apple M1 and its implications on ConanCenter"
 ---
 
-We were asked several times to provide some macOS ARM binaries for ConanCenter, and finally, they are there.
+We were asked several times to provide some macOS ARM binaries for ConanCenter, and they are finally here!
 The article describes the following aspects:
 * general information about Apple M1
 * how Apple M1 binaries are created in ConanCenter
