@@ -118,15 +118,19 @@ This is also the very first time we use the [two profiles model](https://docs.co
   as this is going to be a default mode in [Conan 2.0](https://github.com/conan-io/tribe/blob/main/design/023-use_always_build_profile.md).
 
 To cross-compile M1 binaries with conan, the following command line could be used:
+
 ```bash
 $ conan install . --profile:build default --profile:host m1
 ```
+
 or short form:
+
 ```bash
 $ conan install . -pr:b default -pr:h m1
-
+```
 
 with the extremely simple `m1` profile:
+
 ```bash
 $ conan profile show m1
 
