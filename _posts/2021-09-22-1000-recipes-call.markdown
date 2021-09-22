@@ -1,0 +1,53 @@
+---
+layout: post
+comments: false
+title: "Achievement Unlocked: Conan Center Hits 1,000 Recipes (and Counting)"
+meta_title: "Achievement Unlocked: Conan Center Hits 1,000 Recipes (and Counting)"
+description: "Call for the Conan Center 1,000 recipes celebration event"
+meta_description: "Call for the Conan Center 1,000 recipes celebration event"
+---
+
+<p class="centered">
+    <img src="{{ site.baseurl }}/assets/post_images/2021-09-22/1000_recipes.jpg" align="center" alt="Thank you!"/>
+</p>
+
+On August 27, 2019, the conan-center-index repository was created, and Lasote
+[uploaded the first recipe](https://github.com/conan-io/conan-center-index/commit/b39b3889147fd84643e1b65a433934343eb70ff4):
+zlib.
+
+Almost exactly two years later, SpaceIM (who else)
+[uploaded libsamplerate](https://github.com/tapia/conan-center-index/commit/9bc281eac017bd33a5cf221e289a0a10ad0ffdfb),
+and Conan Center officially reached **the astounding number of 1.000 recipes**.
+
+Since its inception, Conan Center has grown a lot. Almost 400 contributors, 10,000 commits, 5,500
+pull requests, and, most of all, an incredible community helping us every day to make it even bigger
+and better.
+
+Of course, that’s something we want to celebrate. And we’d like you to join us!
+
+So on Thursday, September 30 we’re going to host an online event for all Conan Center contributors
+and users. We will talk about how big Conan Center has become, and what can we expect from it in the
+future.
+
+### Event Activities
+
+* Meet the Team behind Conan Center
+* Short Presentation - Conan Center: Much More Than Recipes
+* Big raffle for attending contributors: Nintendo Switch or Oculus VR headset
+* Panel with community contributors and reviewers - Full Attendee Participation
+
+The event will last about an hour.
+
+### Event Details:
+
+Date: September 30, 2021
+
+Time: 17:00 UTC / 13 EST
+
+Duration: about 60-90 minutes
+
+Event Link: [https://www.youtube.com/watch?v=PjiJ-3sxKbs](https://www.youtube.com/watch?v=PjiJ-3sxKbs)
+
+### CODE OF CONDUCT
+To make sure this event is a safe space for everyone, all attendees, speakers,and organizers are
+required to conform to the [Code of Conduct](https://github.com/conan-io/code-of-conduct/blob/main/1000-recipes.md)
