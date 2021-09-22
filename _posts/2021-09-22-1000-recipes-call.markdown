@@ -15,7 +15,7 @@ On August 27, 2019, the conan-center-index repository was created, and Lasote
 [uploaded the first recipe](https://github.com/conan-io/conan-center-index/commit/b39b3889147fd84643e1b65a433934343eb70ff4):
 zlib.
 
-Almost exactly two years later, SpaceIM (who else)
+Almost exactly two years later, SpaceIM
 [uploaded libsamplerate](https://github.com/conan-io/conan-center-index/commit/9bc281eac017bd33a5cf221e289a0a10ad0ffdfb),
 and Conan Center officially reached **the astounding number of 1.000 recipes**.
 
