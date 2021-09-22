@@ -31,7 +31,7 @@ future.
 
 ### Event Activities
 
-* Meet the Team behind Conan Center
+* Welcome and Introduction
 * Short Presentation - Conan Center: Much More Than Recipes
 * Big raffle for attending contributors: Nintendo Switch or Oculus VR headset
 * Panel with community contributors and reviewers - Full Attendee Participation
