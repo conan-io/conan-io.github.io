@@ -49,5 +49,5 @@ Duration: about 60-90 minutes
 Event Link: [https://www.youtube.com/watch?v=PjiJ-3sxKbs](https://www.youtube.com/watch?v=PjiJ-3sxKbs)
 
 ### CODE OF CONDUCT
-To make sure this event is a safe space for everyone, all attendees, speakers,and organizers are
+To make sure this event is a safe space for everyone, all attendees, speakers, and organizers are
 required to conform to the [Code of Conduct](https://github.com/conan-io/code-of-conduct/blob/main/1000-recipes.md)
