@@ -33,12 +33,14 @@ future.
 
 * Welcome and Introduction
 * Short Presentation - Conan Center: Much More Than Recipes
-* Big raffle for attending contributors: Nintendo Switch or Oculus VR headset
 * Panel with community contributors and reviewers - Full Attendee Participation
+
+ConanCenter contributors will have a chance to **win a Nintendo Switch**. Make sure you are signed
+in our [Slack channel](https://cpplang.slack.com/?id=conan) during the event!
 
 The event will last about an hour.
 
-### Event Details:
+### Event Details
 
 Date: September 30, 2021
 
@@ -47,6 +49,9 @@ Time: 17:00 UTC / 13 EST
 Duration: about 60-90 minutes
 
 Event Link: [https://www.youtube.com/watch?v=PjiJ-3sxKbs](https://www.youtube.com/watch?v=PjiJ-3sxKbs)
+
+Please join our [Slack channel](https://cpplang.slack.com/?id=conan) to take part in the event, ask
+questions to the panelists, etc.
 
 ### CODE OF CONDUCT
 To make sure this event is a safe space for everyone, all attendees, speakers,and organizers are
