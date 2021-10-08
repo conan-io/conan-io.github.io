@@ -58,7 +58,83 @@ Packages that are in editable mode make it possible for Conan to find dependenci
 folder instead in the Conan Cache, that allows faster workflows without the need of doing a ``conan create`` 
 for each change in the sources of the package being developed.
 
+Imagine you are developing a package called `say` using CMake and you have this project structure:
 
+```
+.
+├── conanfile.py
+└── say_sources
+    ├── CMakeLists.txt
+    ├── cpp
+    │   └── say.cpp
+    └── hpp
+        └── say.h
+```
+
+Using the `layout()` feature we can describe the package contents so other projects consuming this
+package can find it no matter if it's in the Conan cache or if the package is in editable mode and we
+want to consume the libraries generated in the local work folder. Let's see how we set the values in
+the conanfile's `layout()` method so that we can use this package. The conanfile of this package
+could look something similar to this:
+
+```python
+from conans import ConanFile
+import os
+
+class SayConan(ConanFile):
+    name = "say"
+    version = "0.1"
+    exports_sources = "say_sources/CMakeLists.txt", "say_sources/*"
+    ...
+    def layout(self):
+        self.folders.source = "./say_sources"
+        build_type = str(self.settings.build_type).lower()
+        self.folders.build = "cmake-build-{}".format(build_type)
+        self.folders.generators = os.path.join(self.folders.build, "conan")
+
+        self.cpp.package.libs = ["say"]
+        self.cpp.package.includedirs = ["include"] # includedirs is already set to this value by 
+                                                   # default, but declared for completion
+
+        # self.cpp.source and self.cpp.build are used for editable mode
+        self.cpp.source.includedirs = ["hpp"]
+        self.cpp.build.libdirs = ["."]
+        self.cpp.build.bindirs = ["."]
+
+    def build(self):
+        ...
+```
+
+As we have our sources in the *say_sources* folder the `self.folders.source` is set to
+`"./say_sources"`. Also, as we are using CMake for building we want to set the build folder to
+`cmake-build-release` or `cmake-build-debug` depending on the `build_type`. The
+`self.folders.generators` folder is where all Conan generated files will be stored so they don't
+pollute the other folders.
+
+Declaring `self.cpp.package.libs` inside the layout() method is equivalent to the typical
+`self.cpp_info.libs` declaration. Also, as you may know `self.cpp.package.includedirs` is set to
+`["include"]` by default, there's no need in declaring it but we are leaving it for completion.
+Setting that includedirs to `["include"]` means that consumers will try to find the `say.h` file in a
+folder in the  cache that corresponds to
+`/location/of/cache/data/say/0.1/_/_/package/<package_id>/include` but we don't have that structure
+in our local folder so we need a way to tell the `say` package consumers where to find the include
+file when it's in editable mode. The way of setting that information are the `self.cpp.source` and
+`self.cpp.build` attributes (that are [cpp_info
+objects](https://docs.conan.io/en/latest/reference/conanfile/attributes.html#cpp-info)):
+
+- `self.cpp.source`: to set folders where the source files are (like include files) **relative to the `self.folders.source`**.
+  That means that you don't have to set this to `say_sources/hpp`. The
+  `self.folders.source` information will be automatically prepended to that path for consumers.
+- `self.cpp.build`:  to set folders where the built files are (like libraries or binary files) **relative to the `self.folders.build`**. 
+  As before, you don't have to prepend the build folder
+  (`cmake-build-release` or `cmake-build-debug`).
+
+The information set in `self.cpp.source` and `self.cpp.build` will be merged with the information set
+in `self.cpp.package` so that  we don't have to declare again something like `self.cpp.build.libs = ["say"]` 
+that is the same for the consumers independently of if the package is in editable mode or not.
+
+With those declared, we could put the package in editable mode, build it and other package that
+requires `say` would consume it in a completely transparent way.
 
 ## Multi-config support for environment generators
 
