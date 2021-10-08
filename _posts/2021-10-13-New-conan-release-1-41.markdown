@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Conan 1.41: better support for layout() local flows and editables, IntelOneAPI support, environment multi-config support, new cpp_info.objects model (and CMakeDeps support), support multiple toolchains in one recipe."
+title: "Conan 1.41: Better support for layout() local flows and editables, IntelOneAPI support, environment multi-config support, new cpp_info.objects model (and CMakeDeps support), support multiple toolchains in one recipe."
 meta_title: "Version 1.41 of Conan C++ Package Manager is Released"
 meta_description: "The new version features includes better support for layout() local flows and editables, IntelOneAPI support, environment multi-config support, cpp_info.objects model (and CMakeDeps support), support multiple toolchains in one recipe and much more..."
 ---
@@ -93,6 +93,7 @@ class SayConan(ConanFile):
                                                    # default, but declared for completion
 
         # self.cpp.source and self.cpp.build are used for editable mode
+        # this information is relative to the source and build folders
         self.cpp.source.includedirs = ["hpp"]
         self.cpp.build.libdirs = ["."]
         self.cpp.build.bindirs = ["."]
@@ -249,6 +250,7 @@ like this in the recipes if necessary:
           bazel.generate()
           cmake = CMakeToolchain(self, namespace='cmake')
           cmake.generate()
+
       def build(self):
           autotools = Autotools(self, namespace='autotools')
           autotools.configure()
