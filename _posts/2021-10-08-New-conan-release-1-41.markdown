@@ -43,23 +43,6 @@ and
 [CMakeToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmaketoolchain.html)
 in the same recipe.
 
-## Intel oneAPI support in Conan 1.41
-
-Starting in this version you cant set the compiler setting to the `intel-cc` value to use the Intel
-compilers from the Intel oneAPI toolkits. This setting has a mode sub-setting to define the actual
-compiler you want to use from the [Base or HPC
-Toolkits](https://software.intel.com/content/www/us/en/develop/tools/oneapi/all-toolkits.html#gs.d9m4rs).
-It can take the following values:
-
-- `icx`: Intel oneAPI C++ Compiler (icx/icpx)
-- `dpcpp`: Intel oneAPI DPC++ Compiler (dpcpp)
-- `classic`: Intel C++ Compiler Classic (icc/icpc for Linux/macOS and icl for Windows)
-
-Check [the documentation](https://docs.conan.io/en/latest/howtos/intel_compiler.html#intel-cc) for
-more information about those values and a complete explanation on how to use these tools with Conan.
-Also, `IntelCC` has been added as generator for Conan. Please check more about this feature in the
-[Conan documentation](https://docs.conan.io/en/latest/reference/conanfile/tools/intel.html).
-
 ## Easier local flows and editable handling using layout()
 
 For this release we have fixed some issues regarding the new
@@ -151,6 +134,23 @@ requires `say` would consume it in a completely transparent way.
 
 Please, for a complete example on how to use editable packages and layout, check the [Conan
 Examples](https://github.com/conan-io/examples/tree/master/features/editable/cmake) repository.
+
+## Intel oneAPI support in Conan 1.41
+
+Starting in this version you cant set the compiler setting to the `intel-cc` value to use the Intel
+compilers from the Intel oneAPI toolkits. This setting has a mode sub-setting to define the actual
+compiler you want to use from the [Base or HPC
+Toolkits](https://software.intel.com/content/www/us/en/develop/tools/oneapi/all-toolkits.html#gs.d9m4rs).
+It can take the following values:
+
+- `icx`: Intel oneAPI C++ Compiler (icx/icpx)
+- `dpcpp`: Intel oneAPI DPC++ Compiler (dpcpp)
+- `classic`: Intel C++ Compiler Classic (icc/icpc for Linux/macOS and icl for Windows)
+
+Check [the documentation](https://docs.conan.io/en/latest/howtos/intel_compiler.html#intel-cc) for
+more information about those values and a complete explanation on how to use these tools with Conan.
+Also, `IntelCC` has been added as generator for Conan. Please check more about this feature in the
+[Conan documentation](https://docs.conan.io/en/latest/reference/conanfile/tools/intel.html).
 
 ## Multi-config support for environment generators
 
