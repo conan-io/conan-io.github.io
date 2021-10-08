@@ -31,28 +31,28 @@ meta_description: "The new version features includes better support for layout()
 We are pleased to announce that Conan 1.41 is out and comes with some significant new features and
 bug fixes. Local flows and editables are now easier using
 [layout()](https://docs.conan.io/en/latest/reference/conanfile/tools/layout.html). Also, we
-introduced support for [Intel oneAPI](https://www.oneapi.io/) tools with a new `intel-cc` compiler
+introduced support for [Intel's oneAPI Toolkits](https://www.oneapi.io/) with a new `intel-cc` compiler
 setting. Also, lThe new environment supports now multi-configuration generators. We have added a new
 `objects` attribute for the conanfile's
 [cpp_info](https://docs.conan.io/en/latest/reference/conanfile/attributes.html#cpp-info) to support
-object (_.obj_ and _.o_) files. Finally, from  this version it's possible to use multiple different
+object (_.obj_ and _.o_) files. Finally, from  this version, it's possible to use multiple different
 toolchains like
 [AutotoolsToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu/autotoolstoolchain.html),
-[BazelToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/google.html#bazeltoolchain)
+[BazelToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/google.html#bazeltoolchain), 
 and
 [CMakeToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmaketoolchain.html)
 in the same recipe.
 
 ## Easier local flows and editable handling using layout()
 
-For this release we have fixed some issues regarding the new
+For this release, we have fixed some issues regarding the new
 [layout()](https://blog.conan.io/2021/06/10/New-conan-release-1-37.html) feature introduced in Conan
 1.37. This feature makes it easier to work with packages in [editable
 mode](https://docs.conan.io/en/latest/developing_packages/editable_packages.html) and also using the
-[local developement flow](https://docs.conan.io/en/latest/developing_packages/package_dev_flow.html).
+[local development flow](https://docs.conan.io/en/latest/developing_packages/package_dev_flow.html).
 Packages that are in editable mode make it possible for Conan to find dependencies in the local work
-folder instead in the Conan Cache, that allows faster workflows without the need of doing a ``conan create`` 
-for each change in the sources of the package being developed.
+folder instead of in the Conan Cache, which allows faster workflows without the need of doing a ``conan create`` 
+for each change in the sources of the package under development.
 
 Imagine you are developing a package called `say` using CMake and you have this project structure:
 
@@ -71,7 +71,7 @@ Using the `layout()` feature we can describe the package contents so other proje
 package can find it no matter if it's in the Conan cache or if the package is in editable mode and we
 want to consume the libraries generated in the local work folder. Let's see how we set the values in
 the conanfile's `layout()` method so that we can use this package. The conanfile of this package
-could look something similar to this:
+could look like this:
 
 ```python
 from conans import ConanFile
@@ -108,16 +108,15 @@ As we have our sources in the *say_sources* folder the `self.folders.source` is 
 `self.folders.generators` folder is where all Conan generated files will be stored so they don't
 pollute the other folders.
 
-Declaring `self.cpp.package.libs` inside the layout() method is equivalent to the typical
-`self.cpp_info.libs` declaration. Also, as you may know `self.cpp.package.includedirs` is set to
+Declaring `self.cpp.package.libs` inside the layout() method is equivalent to the classic
+`self.cpp_info.libs` declaration in the `package_info()` method. Also, as you may know `self.cpp.package.includedirs` is set to
 `["include"]` by default, there's no need in declaring it but we are leaving it for completion.
 Setting that includedirs to `["include"]` means that consumers will try to find the `say.h` file in a
 folder in the  cache that corresponds to
-`/location/of/cache/data/say/0.1/_/_/package/<package_id>/include` but we don't have that structure
-in our local folder so we need a way to tell the `say` package consumers where to find the include
+`/location/of/cache/data/say/0.1/_/_/package/<package_id>/include` when the package is not in editable mode 
+but we don't have that structure in our local folder so we need a way to tell the `say` package consumers where to find the include
 file when it's in editable mode. The way of setting that information are the `self.cpp.source` and
-`self.cpp.build` attributes (that are [cpp_info
-objects](https://docs.conan.io/en/latest/reference/conanfile/attributes.html#cpp-info)):
+`self.cpp.build` attributes (that are [cpp_info objects](https://docs.conan.io/en/latest/reference/conanfile/attributes.html#cpp-info)):
 
 - `self.cpp.source`: to set folders where the source files are (like include files) **relative to the `self.folders.source`**.
   That means that you don't have to set this to `say_sources/hpp`. The
