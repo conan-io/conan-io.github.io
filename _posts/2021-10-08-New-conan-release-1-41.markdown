@@ -1,9 +1,9 @@
 ---
 layout: post
 comments: false
-title: "Conan 1.41: IntelOneAPI support, better support for layout() local flows and editables, environment multi-config support, new cpp_info.objects model (and CMakeDeps support), support multiple toolchains in one recipe."
+title: "Conan 1.41: better support for layout() local flows and editables, IntelOneAPI support, environment multi-config support, new cpp_info.objects model (and CMakeDeps support), support multiple toolchains in one recipe."
 meta_title: "Version 1.41 of Conan C++ Package Manager is Released"
-meta_description: "The new version features include IntelOneAPI support, better support for layout() local flows and editables, environment multi-config support, cpp_info.objects model (and CMakeDeps support), support multiple toolchains in one recipe and much more..."
+meta_description: "The new version features includes better support for layout() local flows and editables, IntelOneAPI support, environment multi-config support, cpp_info.objects model (and CMakeDeps support), support multiple toolchains in one recipe and much more..."
 ---
 
 <script type="application/ld+json">
@@ -24,16 +24,16 @@ meta_description: "The new version features include IntelOneAPI support, better 
     }
 },
  "datePublished": "2021-10-08",
- "description": "IntelOneAPI support, better support for layout() local flows and editables, environment multi-config support, cpp_info.objects model (and CMakeDeps support), support multiple toolchains in one recipe.",
+ "description": "Better support for layout() local flows and editables, IntelOneAPI support, environment multi-config support, cpp_info.objects model (and CMakeDeps support), support multiple toolchains in one recipe.",
  }
 </script>
 
 We are pleased to announce that Conan 1.41 is out and comes with some significant new features and
-bug fixes. We introduced support for [Intel oneAPI](https://www.oneapi.io/) tools with a new
-`intel-cc` compiler setting. Also, local flows and editables are now easier using
-[layout()](https://docs.conan.io/en/latest/reference/conanfile/tools/layout.html). The new
-environment supports now multi-configuration generators. We have added a new `objects` attribute for
-the conanfile's
+bug fixes. Local flows and editables are now easier using
+[layout()](https://docs.conan.io/en/latest/reference/conanfile/tools/layout.html). Also, we
+introduced support for [Intel oneAPI](https://www.oneapi.io/) tools with a new `intel-cc` compiler
+setting. Also, lThe new environment supports now multi-configuration generators. We have added a new
+`objects` attribute for the conanfile's
 [cpp_info](https://docs.conan.io/en/latest/reference/conanfile/attributes.html#cpp-info) to support
 object (_.obj_ and _.o_) files. Finally, from  this version it's possible to use multiple different
 toolchains like
@@ -45,7 +45,20 @@ in the same recipe.
 
 ## Intel oneAPI support in Conan 1.41
 
+Starting in this version you cant set the compiler setting to the `intel-cc` value to use the Intel
+compilers from the Intel oneAPI toolkits. This setting has a mode sub-setting to define the actual
+compiler you want to use from the [Base or HPC
+Toolkits](https://software.intel.com/content/www/us/en/develop/tools/oneapi/all-toolkits.html#gs.d9m4rs).
+It can take the following values:
 
+- `icx`: Intel oneAPI C++ Compiler (icx/icpx)
+- `dpcpp`: Intel oneAPI DPC++ Compiler (dpcpp)
+- `classic`: Intel C++ Compiler Classic (icc/icpc for Linux/macOS and icl for Windows)
+
+Check [the documentation](https://docs.conan.io/en/latest/howtos/intel_compiler.html#intel-cc) for
+more information about those values and a complete explanation on how to use these tools with Conan.
+Also, `IntelCC` has been added as generator for Conan. Please check more about this feature in the
+[Conan documentation](https://docs.conan.io/en/latest/reference/conanfile/tools/intel.html).
 
 ## Easier local flows and editable handling using layout()
 
@@ -135,6 +148,9 @@ that is the same for the consumers independently of if the package is in editabl
 
 With those declared, we could put the package in editable mode, build it and other package that
 requires `say` would consume it in a completely transparent way.
+
+Please, for a complete example on how to use editable packages and layout, check the [Conan
+Examples](https://github.com/conan-io/examples/tree/master/features/editable/cmake) repository.
 
 ## Multi-config support for environment generators
 
@@ -244,7 +260,6 @@ like this in the recipes if necessary:
           cmake.configure()
           cmake.build()
   ```
-
 
 ---
 
