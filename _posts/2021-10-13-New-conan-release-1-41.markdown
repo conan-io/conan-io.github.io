@@ -23,7 +23,7 @@ meta_description: "The new version features includes better support for layout()
       "url": "https://media.jfrog.com/wp-content/uploads/2017/07/20134853/conan-logo-text.svg"
     }
 },
- "datePublished": "2021-10-08",
+ "datePublished": "2021-10-13",
  "description": "Better support for layout() local flows and editables, IntelOneAPI support, environment multi-config support, cpp_info.objects model (and CMakeDeps support), support multiple toolchains in one recipe.",
  }
 </script>
