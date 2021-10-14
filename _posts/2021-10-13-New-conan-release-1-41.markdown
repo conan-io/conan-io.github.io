@@ -85,7 +85,7 @@ class SayConan(ConanFile):
     exports_sources = "say_sources/*"
     ...
     def layout(self):
-        self.folders.source = "./say_sources"
+        self.folders.source = "say_sources"
         build_type = str(self.settings.build_type).lower()
         self.folders.build = "cmake-build-{}".format(build_type)
         self.folders.generators = os.path.join(self.folders.build, "conan")
