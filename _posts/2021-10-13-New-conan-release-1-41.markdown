@@ -252,6 +252,7 @@ like this in the recipes if necessary:
   from conan.tools.gnu import AutotoolsToolchain, Autotools
   from conan.tools.google import BazelToolchain, Bazel
   from conan.tools.cmake import CMakeToolchain, CMake
+  
   class Conan(ConanFile):
       settings = "os", "arch", "compiler", "build_type"
       def generate(self):
