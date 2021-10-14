@@ -246,7 +246,7 @@ will be added to the target so the consumers can link against that _myobject.obj
 
 New toolchains create a file named __conanbuild.conf__ to pass certain information to the build
 helpers. The filename was the same for all the toolchains causing a collision problem when a recipe
-used different build systems. Conan 1.41 provides a new argument _namespace_ to the tools helpers for
+used different build systems. Conan 1.41 provides a new argument _namespace_ to the build helpers for
 [CMake](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmake.html),
 [Bazel](https://docs.conan.io/en/latest/reference/conanfile/tools/google.html), and
 [Autotools](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu.html). This argument makes
