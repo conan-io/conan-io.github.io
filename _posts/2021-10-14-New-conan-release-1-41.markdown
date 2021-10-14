@@ -156,7 +156,7 @@ Examples](https://github.com/conan-io/examples/tree/master/features/editable/cma
 
 ## Intel oneAPI support in Conan 1.41
 
-Starting in this version you cant set the compiler setting to the `intel-cc` value to use the Intel
+Starting in this version you can set the compiler setting to the `intel-cc` value to use the Intel
 compilers from the Intel oneAPI toolkits. This setting has a mode sub-setting to define the actual
 compiler you want to use from the [Base or HPC
 Toolkits](https://software.intel.com/content/www/us/en/develop/tools/oneapi/all-toolkits.html#gs.d9m4rs).
