@@ -57,7 +57,7 @@ Conan local cache. That way, you can rebuild your package locally so the package
 package will link with the updated package without needing a ``conan create`` command for each change
 in the sources.
 
-Imagine you are developing a package called `say` using CMake and you have this project structure:
+Let's suppose you are developing a package called `say` using CMake and you have this project structure:
 
 ```
 .
@@ -118,7 +118,7 @@ a complete layout that supports both single-config and multi-config please check
 [cmake_layout()](https://docs.conan.io/en/latest/reference/conanfile/tools/layout.html#predefined-layouts)
 in the Conan documentation.
 
-Also, we can set the information about the package that the consumers need to use it setting
+Also, we can set the information about the package that the consumers need to use by setting
 the conanfile's
 [cpp.package](https://docs.conan.io/en/latest/developing_packages/package_layout.html#self-cpp)
 attributes values:
@@ -126,18 +126,18 @@ attributes values:
     `self.cpp_info.libs` declaration in the `package_info()` method. 
   - Also, as you may know, `self.cpp.package.includedirs` is set to `["include"]` [by
     default](https://docs.conan.io/en/latest/reference/conanfile/attributes.html?highlight=includedirs#cpp-info),
-    so there's no need in declaring it but we are leaving it here for completion.
+    so there's no need in declaring it but we are leaving it here for completeness.
 
-So far, setting the `self.cpp.package.includedirs` to `["include"]` means that consumers will try to
-find the `say.h` file when the package is not in editable mode in a folder in the cache that
-corresponds to something similar to this:
+Setting `self.cpp.package.includedirs` to `["include"]` means that, when the package is not in
+editable mode, consumers will try to find the `say.h` file in a folder in the cache that corresponds
+to something similar to this:
 
 ```
 /location/of/cache/data/say/0.1/_/_/package/<package_id>/include
 ```
 
 As you can see, we don't have that structure in our local folder so we need a way to tell the `say` package consumers where to find the include file there when it's in editable mode. We can set that information using the conanfile's `cpp.source` and
-`cpp.build` attributes (that are [cpp_info objects](https://docs.conan.io/en/latest/reference/conanfile/attributes.html#cpp-info)):
+`cpp.build` attributes (which are [cpp_info objects](https://docs.conan.io/en/latest/reference/conanfile/attributes.html#cpp-info)):
 
   - `self.cpp.source`: to set folders where the source files are (like include files) **relative to the `self.folders.source`**.
   In this example we are setting `self.cpp.source.includedirs = ["hpp"]`. The `self.folders.source` information will be automatically prepended to that path for consumers so Conan will try to get the include files from the `./say_sources/hpp` folder.
@@ -174,15 +174,15 @@ documentation](https://docs.conan.io/en/latest/reference/conanfile/tools/intel.h
 
 Since [Conan 1.35](https://docs.conan.io/en/latest/reference/conanfile/tools/env.html), [new
 tools](https://docs.conan.io/en/latest/reference/conanfile/tools/env.html) are available for managing
-the environment. Now, the generated files for
+environments. Now, the generated files for
 [VirtualRunEnv](https://docs.conan.io/en/latest/reference/conanfile/tools/env/virtualbuildenv.html)
 and
 [VirtualBuildEnv](https://docs.conan.io/en/latest/reference/conanfile/tools/env/virtualrunenv.html)
 take the ``build_type`` and ``arch`` settings into account for the names of the launcher files to
-improve the integration with multi-configuration generators. Then, calling to ``conan install
-cmake/3.20.0@ -g VirtualBuildEnv --build-require -s build_type=Release`` for example will create a
-file called ``conanbuildenv-release-x86_64.sh`` and will not be overwritten for other ``build_type``
-values.
+improve the integration with multi-configuration generators. So, for example, calling to ``conan
+install cmake/3.20.0@ -g VirtualBuildEnv --build-require -s build_type=Release`` for example will
+create a file called ``conanbuildenv-release-x86_64.sh`` and will not be overwritten for other
+``build_type`` values.
 
 Also, now it is possible to group the generated environment variables launcher scripts under
 different names. By default, they are all aggregated to the group ``build`` for
@@ -222,10 +222,10 @@ attribute. This attribute is only compatible with the
 for the moment. It will add the declared objects to the generated CMake target so those objects can
 be later consumed by packages that declare the dependency.
 
-Imagine we create a Linux package `pkg/1.0` that builds and packages one _myobject.obj_ file. The same way
+Let's suppose we create a Linux package `pkg/1.0` that builds and packages one _myobject.obj_ file. The same way
 you would declare the libraries that must be consumed by packages that depend on `pkg/1.0` setting
 the `cpp_info.libs` attribute, you can declare that this library packages some object files that the
-consumers need to add. This can be done setting that information in the [package_info()](https://docs.conan.io/en/latest/reference/conanfile/methods.html#method-package-info) method of the
+consumers need to add. This can be done by setting that information in the [package_info()](https://docs.conan.io/en/latest/reference/conanfile/methods.html#method-package-info) method of the
 conanfile:
 
 ```python
@@ -239,7 +239,7 @@ class Pkg(ConanFile):
 ```
 
 Then, when this package is consumed by other packages using the `CMakeDeps` generator, the path of that object
-will added to the target so that the consumer can link against that _myobject.obj_ file.
+will be added to the target so the consumers can link against that _myobject.obj_ file.
 
 
 ## Use different toolchains in the same recipe
