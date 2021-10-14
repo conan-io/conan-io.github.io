@@ -252,7 +252,7 @@ used different build systems. Conan 1.41 provides a new argument _namespace_ to 
 [Autotools](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu.html). This argument makes
 it possible to use more than one toolchain in the same recipe, for example, when parts of the same
 package build with different build systems. Set this value to append the namespace to the filename
-(like __conanbuild_namespace.conf__), generating as unique name for each tool. A conanfile using this
+(like __conanbuild_namespace.conf__), generating a unique name for each tool. A conanfile using this
 argument for the tools could look like this:
 
 ```python
