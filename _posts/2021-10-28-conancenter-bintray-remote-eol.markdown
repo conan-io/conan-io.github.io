@@ -42,5 +42,39 @@ With the shutdown of the old Bintray remote, we finish the transition since the 
 remote for ConanCenter is `https://center.conan.io`, configured as `conancenter` by default in the Conan client. Note that this
 remote will continue to work without issue during the dates specified above.
 
+## Migration steps (if needed)
+
 Anyone affected by this shutdown process should migrate to the official remote `https://center.conan.io` to continue to
 install packages from ConanCenter.
+
+If you are run Conan 1.40.0 or later or you are already using the new remote, it should appear at the top of
+your remote list:
+
+```bash
+$ conan remote list
+conancenter: https://center.conan.io [Verify SSL: True]
+```
+
+Make sure `conan-center: https://conan.bintray.com` is **not listed** in the above output.
+
+However, if are running a Conan version older than 1.40.0, you can upgrade your Conan version or migrate to the new remote with these steps:
+
+- Remove the old remote:
+
+  ```bash
+  $ conan remote remove conan-center
+  ```
+
+- Add the new remote to your Conan configuration as default remote:
+
+  ```bash
+  $ conan remote add conancenter https://center.conan.io --insert 0
+  ```
+
+- Check `conan-center` (https://conan.bintray.com) was removed and that new `conancenter` (https://center.conan.io) is listed
+  as first remote:
+
+  ```bash
+  $ conan remote list
+  conancenter: https://center.conan.io [Verify SSL: True]
+  ```
