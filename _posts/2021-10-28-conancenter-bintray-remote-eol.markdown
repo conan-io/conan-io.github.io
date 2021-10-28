@@ -42,7 +42,7 @@ With the shutdown of the old Bintray remote, we finish the transition since the 
 remote for ConanCenter is `https://center.conan.io`, configured as `conancenter` by default in the Conan client. Note that this
 remote will continue working without issue during the dates specified above.
 
-This also means that **we will be no longer serving packages with `@<user>/<channel>`** from ConanCenter. Packages **without user and channel** are identified as open source packages contributed by the ConanCenter community to [conan-center-index](https://github.com/conan-io/conan-center-index).
+This also means that **we will no longer be serving packages with `@<user>/<channel>`** from ConanCenter. Packages **without user and channel** are identified as open source packages contributed by the ConanCenter community to [conan-center-index](https://github.com/conan-io/conan-center-index).
 
 ## Migration steps (if needed)
 
