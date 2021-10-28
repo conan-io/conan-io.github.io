@@ -40,7 +40,7 @@ about its EOL to anyone still using it. During those brownouts, the service will
 
 With the shutdown of the old Bintray remote, we finish the transition since the Bintray sunset and the unique and official
 remote for ConanCenter is `https://center.conan.io`, configured as `conancenter` by default in the Conan client. Note that this
-remote will continue to work without issue during the dates specified above.
+remote will continue working without issue during the dates specified above.
 
 ## Migration steps (if needed)
 
