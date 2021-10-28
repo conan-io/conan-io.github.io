@@ -13,7 +13,7 @@ Back on September 3rd, we announced the [deprecation of the old Bintray remote](
 and today it is time to announce that its end of life has been set for the 30th of November of 2021.
 
 We have been monitoring the data transfer of the old Bintray remote (`https://conan.bintray.com`) and we can say
-that its usage has been significantly decreased. Since the removal of the remote as a default in Conan 1.40.0 (September 6th 2021), the trend on data transfer ramped down and today we are serving less than 10% transfer compared to the default remote (`https://center.conan.io`).
+that its usage has been significantly decreased. Since the removal of the remote as default in Conan 1.40.0 (September 6th, 2021), the trend on data transfer ramped down and today it is marginal compared to the current default remote (`https://center.conan.io`).
 
 <p class="centered">
     <img src="{{ site.url }}/assets/post_images/2021-10-28/conancenter-data-transfer.png" align="center" alt="ConanCenter remotes data transfer"/>
