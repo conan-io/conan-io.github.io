@@ -10,10 +10,10 @@ you are only using the new remote https://center.conan.io"
 ---
 
 Back on September 3rd, we announced the [deprecation of the old Bintray remote](https://blog.conan.io/2021/09/03/conancenter-declare-bintray-obsolete.html)
-and today it is time to announce that it's end of life has been set for then 30th of November of 2021.
+and today it is time to announce that its end of life has been set for the 30th of November of 2021.
 
 We have been monitoring the data transfer of the old Bintray remote (`https://conan.bintray.com`) and we can say
-that its usage has been significantly decreased. Since the removal of the remote as a default in Conan 1.40.0 (September 6th 2021), the trend on data transfer ramped down and today we are serving less than 10% transfer compared to the default remote (`https://center.conan.io`).
+that its usage has been significantly decreased. Since the removal of the remote as default in Conan 1.40.0 (September 6th, 2021), the trend on data transfer ramped down and today it is marginal compared to the current default remote (`https://center.conan.io`).
 
 <p class="centered">
     <img src="{{ site.url }}/assets/post_images/2021-10-28/conancenter-data-transfer.png" align="center" alt="ConanCenter remotes data transfer"/>
@@ -40,7 +40,7 @@ about its EOL to anyone still using it. During those brownouts, the service will
 
 With the shutdown of the old Bintray remote, we finish the transition since the Bintray sunset and the one and only official
 remote for ConanCenter is `https://center.conan.io`, configured as `conancenter` by default in the Conan client. Note that this
-remote will continue to work without issue during the dates specified above.
+remote will continue working without issue during the dates specified above.
 
 This also means that **we will be no longer serving packages with `@<user>/<channel>`** from ConanCenter. Packages **without user and channel** are identified as open source packages contributed by the ConanCenter community to [conan-center-index](https://github.com/conan-io/conan-center-index).
 
@@ -49,7 +49,7 @@ This also means that **we will be no longer serving packages with `@<user>/<chan
 Anyone affected by this shutdown process should migrate to the official remote `https://center.conan.io` to continue to
 install packages from ConanCenter.
 
-If you are run Conan 1.40.0 or later or you are already using the new remote, it should appear at the top of
+If you are running Conan 1.40.0 or later or you are already using the new remote, it should appear at the top of
 your remote list:
 
 ```bash
