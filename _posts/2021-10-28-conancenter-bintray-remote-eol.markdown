@@ -47,7 +47,7 @@ remote will continue to work without issue during the dates specified above.
 Anyone affected by this shutdown process should migrate to the official remote `https://center.conan.io` to continue to
 install packages from ConanCenter.
 
-If you are run Conan 1.40.0 or later or you are already using the new remote, it should appear at the top of
+If you are running Conan 1.40.0 or later or you are already using the new remote, it should appear at the top of
 your remote list:
 
 ```bash
