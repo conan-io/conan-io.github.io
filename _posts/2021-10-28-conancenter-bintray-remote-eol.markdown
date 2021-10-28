@@ -36,11 +36,13 @@ about its EOL to anyone still using it. During those brownouts, the service will
 
   At 14:00 UTC / 15:00 CET.
 
-## center.conan.io as the unique remote
+## center.conan.io as the only official remote
 
-With the shutdown of the old Bintray remote, we finish the transition since the Bintray sunset and the unique and official
+With the shutdown of the old Bintray remote, we finish the transition since the Bintray sunset and the one and only official
 remote for ConanCenter is `https://center.conan.io`, configured as `conancenter` by default in the Conan client. Note that this
 remote will continue to work without issue during the dates specified above.
+
+This also means that **we will be no longer serving packages with `@<user>/<channel>`** from ConanCenter. Packages **without user and channel** are identified as open source packages contributed by the ConanCenter community to [conan-center-index](https://github.com/conan-io/conan-center-index).
 
 ## Migration steps (if needed)
 
