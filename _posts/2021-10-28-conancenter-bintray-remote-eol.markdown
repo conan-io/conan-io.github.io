@@ -28,9 +28,9 @@ about its EOL to anyone still using it. During those brownouts, the service will
 
   From 14:00 UTC / 15:00 CET to 20:00 UTC / 21:00 CET (6 hours).
 
-- #### 2nd brownout: November 23rd
+- #### 2nd brownout: November 23rd and 24th
 
-  From 14:00 UTC / 15:00 CET to 20:00 UTC / 21:00 CET (6 hours).
+  From November 23rd 14:00 UTC / 15:00 CET to November 24th 14:00 UTC / 15:00 CET (24 hours).
 
 - #### Shutdown: November 30th
 
