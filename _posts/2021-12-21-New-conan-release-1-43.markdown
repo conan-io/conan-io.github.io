@@ -1,9 +1,9 @@
 ---
 layout: post
 comments: false
-title: "Conan 1.43: New cpp_info properties proposal to move forward new generators without breaking Conan Center, modern tools.gnu.PkgConfig to supersede legacy tools.PkgConfig, baremetal os setting to represent bare metal platforms without operating system."
+title: "Conan 1.43: Start preparing your recipes for Conan 2.0, modern tools.gnu.PkgConfig to supersede legacy tools.PkgConfig, baremetal os setting to represent bare metal platforms without operating system."
 meta_title: "Version 1.43 of Conan C++ Package Manager is Released"
-meta_description: "The new version features includes new cpp_info properties proposal to move forward new generators without breaking Conan Center, modern tools.gnu.PkgConfig to supersede legacy tools.PkgConfig, baremetal os setting to represent bare metal platforms without operating system and much more..."
+meta_description: "The new version features to help preparing your recipes for Conan 2.0, modern tools.gnu.PkgConfig to supersede legacy tools.PkgConfig, baremetal os setting to represent bare metal platforms without operating system and much more..."
 ---
 
 <script type="application/ld+json">
@@ -24,20 +24,36 @@ meta_description: "The new version features includes new cpp_info properties pro
     }
 },
  "datePublished": "2021-12-21",
- "description": "New cpp_info properties proposal, modern tools.gnu.PkgConfig, new baremetal os setting.",
+ "description": "Start preparing your recipes for Conan 2.0, modern tools.gnu.PkgConfig, new baremetal os setting.",
  }
 </script>
 
 We are pleased to announce that [Conan 1.43 is
 out](https://github.com/conan-io/conan/releases/tag/1.43.0) and comes with some
-significant new features and bug fixes. We have changed the `cpp_info` properties
-model to push the migration of recipes in Conan Center, reducing the risk of breaking
-consumers that use the current `cmake_find_package/multi` generators. Also, there's a new
-`tools.gnu.PkgConfig` that replaces `tools.PkgConfig`. Finally, we have a new `os` setting
-to represent Hardware platforms without an operating system.
+significant new features and bug fixes. We are putting lots of efforts in providing the
+tools to help users to prepare their recipes for Conan 2.0. For example, we have changed
+the `cpp_info` properties model to push the migration of recipes in Conan Center, reducing
+the risk of breaking consumers that use the current `cmake_find_package/multi` generators.
+Also to help preparing recipes for 2.0, we have added a new `test_requires()` method to
+help migrating the `force_host_context` arguments in `build_requires()` method. You can
+also import ConanFile in recipes from the conan namespace (the only one existing for 2.0)
+instead of the conans one. Besides that, there's a new `tools.gnu.PkgConfig` that replaces
+`tools.PkgConfig`. Finally, we have a new `os` setting to represent Hardware platforms
+without an operating system.
 
+## Prepare your recipes for Conan 2.0
 
-## Changes in cpp_info properties model
+[Conan 2.0-alpha2](https://github.com/conan-io/conan/releases/tag/2.0.0-alpha2) has
+already been released this past month. We have a [new section in the
+documentation](https://docs.conan.io/en/latest/conan_v2.html) to help users preparing
+their recipes in 1.X to be compatible with the Conan 2.0 syntax. If you want give Conan
+2.0 a try, you can install it using pip:
+
+```bash
+$ pip install conan==2.0.0-alpha2
+```
+
+### Changes in cpp_info properties model
 
 Starting in Conan 1.43, we have decided that the properties model is used only by the new
 generators like
@@ -103,6 +119,28 @@ Please, [check the
 docs](https://docs.conan.io/en/latest/migrating_to_2.0/properties.html#properties-migration)
 for a detailed guide on how set the properties in your recipes to prepare them for Conan
 2.0.
+
+### Use test_requires instead of force_host_context
+
+We have added a `self.test_requires()` method to recipes meant to substitute the
+`force_host_context` argument from the `self.build_requires()` method. This is the way
+that build requirements in the
+[host_context](https://docs.conan.io/en/latest/devtools/build_requires.html#build-requirements)
+are set for Conan 2.0. Please update your recipes to the new syntax:
+
+```python
+from conan import ConanFile
+
+class App(ConanFile):
+    name = "app"
+    version = "1.0"
+    def build_requirements(self):
+        self.test_requires("gtest/1.11.0")
+
+```
+
+Please, **note another syntax change** in the recipe above. Now you can do import ConanFile `from conan import ConanFile` 
+import instead of the legacy `from conans ...` (note the plural).
 
 ## New tools.gnu.PkgConfig
 
