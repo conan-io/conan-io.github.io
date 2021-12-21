@@ -30,7 +30,7 @@ meta_description: "The new version features to help preparing your recipes for C
 
 We are pleased to announce that [Conan 1.43 is
 out](https://github.com/conan-io/conan/releases/tag/1.43.0) and comes with some
-significant new features and bug fixes. We are putting lots of efforts in providing the
+significant new features and bug fixes. We are putting lots of effort into providing the
 tools to help users to prepare their recipes for Conan 2.0. For example, we have changed
 the `cpp_info` properties model to push the migration of recipes in Conan Center, reducing
 the risk of breaking consumers that use the current `cmake_find_package/multi` generators.
@@ -43,11 +43,11 @@ without an operating system.
 
 ## Prepare your recipes for Conan 2.0
 
-[Conan 2.0-alpha2](https://github.com/conan-io/conan/releases/tag/2.0.0-alpha2) has
-already been released this past month. We have a [new section in the
-documentation](https://docs.conan.io/en/latest/conan_v2.html) to help users preparing
-their recipes in 1.X to be compatible with the Conan 2.0 syntax. If you want give Conan
-2.0 a try, you can install it using pip:
+[Conan 2.0-alpha2](https://github.com/conan-io/conan/releases/tag/2.0.0-alpha2) was
+released this past month. We have a [new section in the
+documentation](https://docs.conan.io/en/latest/conan_v2.html) to help users prepare their
+recipes in 1.X to be compatible with the Conan 2.0 syntax. If you want to give Conan 2.0 a
+try, you can install it using pip:
 
 ```bash
 $ pip install conan==2.0.0-alpha2
