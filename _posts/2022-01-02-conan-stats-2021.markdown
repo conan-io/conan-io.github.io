@@ -79,10 +79,12 @@ First things first, our contributors, the fuel of Conan Center. There are more t
 contributors, who commited an average of 50 commits each week during 2021. Here are our most
 active contributors, to whom we are most grateful:
 
+Contributors ordered by number of commits
+
 | Contributor                                           | Number of Commits |
 |-------------------------------------------------------|-------------------|
-| [SpaceIM](https://github.com/SpaceIm)                 | 1346              |
-| [madebr](https://github.com/madebr)                   | 1010              |
+| [SpaceIM](https://github.com/SpaceIm)                 | 1.346             |
+| [madebr](https://github.com/madebr)                   | 1.010             |
 | [ericLemanissier](https://github.com/ericLemanissier) | 699               |
 | [uilianries](https://github.com/uilianries)           | 501               |
 | [prince-chrismc](https://github.com/prince-chrismc)   | 353               |
@@ -92,10 +94,38 @@ active contributors, to whom we are most grateful:
 | [theirix](https://github.com/theirix)                 | 211               |
 | [gocarlos](https://github.com/gocarlos)               | 157               |
 
-To show how active these contributors are, here is the evolution of PRs created:
+Commits and PR are not the only thing to be considered. Reviewing and debating how to improve
+recipes is also extremely important. Here are our most active contributors ordered by number 
+of comments:
 
-CHART <PR evolution over time>
-CHART <merged, rejected and open PRs over time>
+| Contributor                                           | Number of Comments |
+|-------------------------------------------------------|--------------------|
+| [madebr](https://github.com/madebr)                   | 1.511              |
+| [uilianries](https://github.com/uilianries)           | 1.372              |
+| [SpaceIM](https://github.com/SpaceIm)                 | 1.353              |
+| [prince-chrismc](https://github.com/prince-chrismc)   | 1.216              |
+| [ericLemanissier](https://github.com/ericLemanissier) | 844                |
+| [jgsogo](https://github.com/jgsogo)                   | 809                |
+| [SSE4](https://github.com/SSE4)                       | 809                |
+| [Croydon](https://github.com/Croydon)                 | 576                |
+| [danimtb](https://github.com/danimtb)                 | 543                |
+| [mathbunnyru](https://github.com/mathbunnyru)         | 213                |
+
+And here is the evolution of PRs created:
+
+<figure>
+    <figcaption>Number of PRs and Unique Contributors</figcaption>
+    <img src="../assets/post_images/2022-01-02/pr-timeline.png">
+</figure>
+<figure>
+    <figcaption>Merged, rejected and open PRs over time</figcaption>
+    <img src="../assets/post_images/2022-01-02/pr-by-state.png">
+</figure>
+<figure>
+    <figcaption>Hours before a new PR is merged</figcaption>
+    <img src="../assets/post_images/2022-01-02/time-until-closed-pr.png">
+</figure>
+
 
 But Conan Center is not only a recipe repository. We also build and store binaries for the most
 common configurations so our users don't have to build their dependencies, which can take A LOT
@@ -108,7 +138,14 @@ of time. Those packages are stored in an Artifactory repository. Here are some n
 Of course, having all this in place would be pointless if anybody was using it. So let's take a
 look at how much data traffic is going through our remotes:
 
-CHART <Timeline of data transfer>
+<figure>
+    <figcaption>Daily Data Transfer (GB)</figcaption>
+    <img src="../assets/post_images/2022-01-02/data-transfer-1.png">
+</figure>
+<figure>
+    <figcaption>Monthly Data Transfer (GB)</figcaption>
+    <img src="../assets/post_images/2022-01-02/data-transfer-2.png">
+</figure>
 
 And the number of individual requests:
 
