@@ -28,8 +28,8 @@ Conan is the **most used C/C++ package manager**.
 So Conan is the most used, but *how much*? There are
 [a lot of ways](https://conan.io/downloads.html) to install Conan, and we don't have data on
 installs coming from mirrors. The most popular source, though, is PyPI, the Python package index.
-There, we are currently having around **500.000 monthly downloads**. 511.158 in November, to be
-precise.
+In there, we are currently having around **500.000 monthly downloads**.
+[Almost 520.000 in December](https://pypistats.org/packages/conan).
 
 But the true indicator of how healthy an Open Source project is, is its GitHub activity. Here are
 the number of Pull Requests over the last few years:
@@ -38,7 +38,11 @@ the number of Pull Requests over the last few years:
 |-----|-------|--------------|
 |2019 | 758   | 397          |   
 |2020 | 735   | 2607         |  
-|2021 | 775   | ~3600        | 
+|2021 | 784   | 3493         | 
+
+<figure>
+    <img src="../assets/post_images/2022-01-02/conan-cc-pr.png">
+</figure>
 
 
 ### Conan.io
@@ -55,11 +59,19 @@ measure to see how the usage of Conan evolves:
 
 CHART <Users evolution>
 
+The [https://docs.conan.io](documentation) is the most visited section of the website, followed 
+by [the blog](https://blog.conan.io/).
+
 
 ### Slack
 
 Our channel in the [CppLang slack server](https://cpplang.slack.com/), #conan, is the 2nd most
 used channel by members posting and the 4th most active by published messages.
+
+<figure>
+    <figcaption>Ranking of CppLang Slack Server Channels</figcaption>
+    <img src="../assets/post_images/2022-01-02/slack.png">
+</figure>
 
 
 ## Conan Center
