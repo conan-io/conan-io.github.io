@@ -41,7 +41,7 @@ the number of Pull Requests over the last few years:
 |2021 | 784   | 3493         | 
 
 <figure>
-    <img src="../assets/post_images/2022-01-02/conan-cc-pr.png">
+    <img src="../assets/post_images/2022-01-04/conan-cc-pr.png">
 </figure>
 
 
@@ -59,7 +59,7 @@ measure to see how the usage of Conan evolves:
 
 <figure>
     <figcaption>Monthly users</figcaption>
-    <img src="../assets/post_images/2022-01-02/web-users.png">
+    <img src="../assets/post_images/2022-01-04/web-users.png">
 </figure>
 
 The most visited part of our site are the following:
@@ -74,7 +74,7 @@ The most visited part of our site are the following:
 It's also worth noting that most of our visits are organic, coming from search engines:
 
 <figure>
-    <img src="../assets/post_images/2022-01-02/web-channels.png">
+    <img src="../assets/post_images/2022-01-04/web-channels.png">
 </figure>
 
 
@@ -85,7 +85,7 @@ used channel by members posting and the 4th most active by published messages.
 
 <figure>
     <figcaption>Ranking of CppLang Slack Server Channels</figcaption>
-    <img src="../assets/post_images/2022-01-02/slack.png">
+    <img src="../assets/post_images/2022-01-04/slack.png">
 </figure>
 
 
@@ -142,15 +142,15 @@ And here is the evolution of PRs created:
 
 <figure>
     <figcaption>Number of PRs and Unique Contributors</figcaption>
-    <img src="../assets/post_images/2022-01-02/pr-timeline.png">
+    <img src="../assets/post_images/2022-01-04/pr-timeline.png">
 </figure>
 <figure>
     <figcaption>Merged, rejected and open PRs over time</figcaption>
-    <img src="../assets/post_images/2022-01-02/pr-by-state.png">
+    <img src="../assets/post_images/2022-01-04/pr-by-state.png">
 </figure>
 <figure>
     <figcaption>Hours before a new PR is merged</figcaption>
-    <img src="../assets/post_images/2022-01-02/time-until-closed-pr.png">
+    <img src="../assets/post_images/2022-01-04/time-until-closed-pr.png">
 </figure>
 
 
@@ -167,18 +167,18 @@ look at how much data traffic is going through our remotes:
 
 <figure>
     <figcaption>Daily Data Transfer (GB)</figcaption>
-    <img src="../assets/post_images/2022-01-02/data-transfer-1.png">
+    <img src="../assets/post_images/2022-01-04/data-transfer-1.png">
 </figure>
 <figure>
     <figcaption>Monthly Data Transfer (GB)</figcaption>
-    <img src="../assets/post_images/2022-01-02/data-transfer-2.png">
+    <img src="../assets/post_images/2022-01-04/data-transfer-2.png">
 </figure>
 
 And the number of individual requests:
 
 <figure>
     <figcaption>Requests to the Conan Center repository</figcaption>
-    <img src="../assets/post_images/2022-01-02/conan-center-requests.png">
+    <img src="../assets/post_images/2022-01-04/conan-center-requests.png">
 </figure>
 
 ## The future
