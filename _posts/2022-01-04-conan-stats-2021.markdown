@@ -34,6 +34,7 @@ In there, we are currently having around **500.000 monthly downloads**.
 But the true indicator of how healthy an Open Source project is, is its GitHub activity. Here are
 the number of Pull Requests over the last few years:
 
+{:class="table table-bordered small"}
 |     | Conan | Conan Center |
 |-----|-------|--------------|
 |2019 | 758   | 397          |   
@@ -51,7 +52,7 @@ the number of Pull Requests over the last few years:
 The [Conan website](https://conan.io/) is the main source of information about Conan, and a good
 measure to see how the usage of Conan evolves:
 
-
+{:class="table table-bordered small"}
 |     | Page Views | Unique Users |
 |-----|------------|--------------|
 |2019 | 1.1M       | 184K         |   
@@ -59,12 +60,13 @@ measure to see how the usage of Conan evolves:
 |2021 | 2.8M       | 490K         | 
 
 <figure>
-    <figcaption>Monthly users</figcaption>
+    <figcaption>Monthly users:</figcaption>
     <img src="{{ site.url }}/assets/post_images/2022-01-04/web-users.png">
 </figure>
 
 The most visited part of our site are the following:
 
+{:class="table table-bordered small"}
 | Section                                           | Avg visit time (minutes) |
 |---------------------------------------------------|--------------------------|
 | [Main site](https://conan.io)                     | 1:16                     | 
@@ -85,7 +87,7 @@ Our channel in the [CppLang slack server](https://cpplang.slack.com/), #conan, i
 used channel by members posting and the 4th most active by published messages.
 
 <figure>
-    <figcaption>Ranking of CppLang Slack Server Channels</figcaption>
+    <figcaption>Ranking of CppLang Slack Server Channels:</figcaption>
     <img src="{{ site.url }}/assets/post_images/2022-01-04/slack.png">
 </figure>
 
@@ -109,6 +111,7 @@ active contributors, to whom we are most grateful:
 
 Contributors ordered by number of commits
 
+{:class="table table-bordered small"}
 | Contributor                                           | Number of Commits |
 |-------------------------------------------------------|-------------------|
 | [SpaceIM](https://github.com/SpaceIm)                 | 1.346             |
@@ -126,6 +129,7 @@ Commits and PR are not the only thing to be considered. Reviewing and debating h
 recipes is also extremely important. Here are our most active contributors ordered by number 
 of comments:
 
+{:class="table table-bordered small"}
 | Contributor                                           | Number of Comments |
 |-------------------------------------------------------|--------------------|
 | [madebr](https://github.com/madebr)                   | 1.511              |
@@ -142,15 +146,15 @@ of comments:
 And here is the evolution of PRs created:
 
 <figure>
-    <figcaption>Number of PRs and Unique Contributors</figcaption>
+    <figcaption>Number of PRs and Unique Contributors:</figcaption>
     <img src="{{ site.url }}/assets/post_images/2022-01-04/pr-timeline.png">
 </figure>
 <figure>
-    <figcaption>Merged, rejected and open PRs over time</figcaption>
+    <figcaption>Merged, rejected and open PRs over time:</figcaption>
     <img src="{{ site.url }}/assets/post_images/2022-01-04/pr-by-state.png">
 </figure>
 <figure>
-    <figcaption>Hours before a new PR is merged</figcaption>
+    <figcaption>Hours before a new PR is merged:</figcaption>
     <img src="{{ site.url }}/assets/post_images/2022-01-04/time-until-closed-pr.png">
 </figure>
 
@@ -159,6 +163,7 @@ But Conan Center is not only a recipe repository. We also build and store binari
 common configurations so our users don't have to build their dependencies, which can take A LOT
 of time. Those packages are stored in an Artifactory repository. Here are some numbers around it:
 
+{:class="table table-bordered small"}
 | **Total number of binaries** | **11.050.000** |
 |------------------------------|----------------|
 | **Total size of binaries**   | **11.28TB**    |
@@ -167,18 +172,18 @@ Of course, having all this in place would be pointless if anybody was using it. 
 look at how much data traffic is going through our remotes:
 
 <figure>
-    <figcaption>Daily Data Transfer (GB)</figcaption>
+    <figcaption>Daily Data Transfer (GB):</figcaption>
     <img src="{{ site.url }}/assets/post_images/2022-01-04/data-transfer-1.png">
 </figure>
 <figure>
-    <figcaption>Monthly Data Transfer (GB)</figcaption>
+    <figcaption>Monthly Data Transfer (GB):</figcaption>
     <img src="{{ site.url }}/assets/post_images/2022-01-04/data-transfer-2.png">
 </figure>
 
 And the number of individual requests:
 
 <figure>
-    <figcaption>Requests to the Conan Center repository</figcaption>
+    <figcaption>Requests to the Conan Center repository:</figcaption>
     <img src="{{ site.url }}/assets/post_images/2022-01-04/conan-center-requests.png">
 </figure>
 
