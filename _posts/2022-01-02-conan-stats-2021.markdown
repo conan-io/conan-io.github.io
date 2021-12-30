@@ -55,12 +55,27 @@ measure to see how the usage of Conan evolves:
 |-----|------------|--------------|
 |2019 | 1.1M       | 184K         |   
 |2020 | 2.0M       | 310K         |  
-|2021 | 2.5M       | 450K         | 
+|2021 | 2.8M       | 490K         | 
 
-CHART <Users evolution>
+<figure>
+    <figcaption>Monthly users</figcaption>
+    <img src="../assets/post_images/2022-01-02/web-users.png">
+</figure>
 
-The [https://docs.conan.io](documentation) is the most visited section of the website, followed 
-by [the blog](https://blog.conan.io/).
+The most visited part of our site are the following:
+
+| Section                                           | Avg visit time (minutes) |
+|---------------------------------------------------|--------------------------|
+| [Main site](https://conan.io)                     | 1:16                     | 
+| [Main Conan Center site](https://conan.io/center) | 3:52                     |
+| [Documentation](https://docs.conan.io)            | 3:15                     |
+| [Blog](https://blog.conan.io/)                    | 7:09                     |
+
+It's also worth noting that most of our visits are organic, coming from search engines:
+
+<figure>
+    <img src="../assets/post_images/2022-01-02/web-channels.png">
+</figure>
 
 
 ### Slack
