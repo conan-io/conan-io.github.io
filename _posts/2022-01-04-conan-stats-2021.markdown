@@ -31,7 +31,7 @@ installs coming from mirrors. The most popular source, though, is PyPI, the Pyth
 In there, we are currently having around **500.000 monthly downloads**.
 [Almost 520.000 in December](https://pypistats.org/packages/conan).
 
-But the true indicator of how healthy an Open Source project is, is its GitHub activity. Here are
+But the true indicator of how healthy an Open Source project is in its GitHub activity. Here are
 the number of Pull Requests over the last few years:
 
 {:class="table table-bordered small"}
