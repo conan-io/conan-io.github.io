@@ -161,7 +161,10 @@ look at how much data traffic is going through our remotes:
 
 And the number of individual requests:
 
-CHART <Timeline of requests>
+<figure>
+    <figcaption>Requests to the Conan Center repository</figcaption>
+    <img src="../assets/post_images/2022-01-02/conan-center-requests.png">
+</figure>
 
 ## The future
 
