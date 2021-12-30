@@ -23,7 +23,7 @@ numbers to see how much we have grown.
 ## Conan
 
 According to the [ISO C++ 2021 survey](https://isocpp.org/files/papers/CppDevSurvey-2021-04-summary.pdf),
-Conan is the **most used C/C++ package manager**.
+Conan is the **most used C and C++ language specific package manager**.
 
 So Conan is the most used, but *how much*? There are
 [a lot of ways](https://conan.io/downloads.html) to install Conan, and we don't have data on
