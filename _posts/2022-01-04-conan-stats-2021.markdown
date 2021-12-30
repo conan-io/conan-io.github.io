@@ -190,6 +190,23 @@ And the number of individual requests:
     <img src="{{ site.url }}/assets/post_images/2022-01-04/conan-center-requests.png">
 </figure>
 
+
+## Conan in production
+
+Conan Center is our public repository of Open Source packages. But the main userbase for Conan
+comes  from companies using it on their own products, and there are no public statistics about
+those teams. A good indicator, though, is the number of Artifactory instances hosting Conan
+repositories:
+
+<figure>
+    <img src="{{ site.url }}/assets/post_images/2022-01-04/artifactory.png">
+</figure>
+
+This, of course, is only partial data to get an idea of how many teams are currently using Conan.
+There are a lot of binary repositories we cannot get statistics from, like Artifactory instances
+behind proxies, GitLab servers, Nexus servers, etc.  
+
+
 ## The future
 
 The main milestone for 2022 will be, of course, the release of Conan 2.0. And it's an enormous 
