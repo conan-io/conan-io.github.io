@@ -13,7 +13,7 @@ years after 1.0 was released. And, of course, the 1.X series is still very activ
 versions released during the year.
 
 And Conan Center has not lagged behind. In 2021, only two years after its inception, we
-celebrated with our community a great milestone: on August, Conan Center
+celebrated with our community a great milestone: in August, Conan Center
 [reached 1,000 recipes](https://www.youtube.com/watch?v=PjiJ-3sxKbs).
 
 So Conan and Conan Center have come a long way over the last few years. Let's take a look at some
