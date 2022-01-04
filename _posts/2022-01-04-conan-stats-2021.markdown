@@ -94,9 +94,9 @@ used channel by members posting and the 4th most active by published messages.
 
 ## Conan Center
 
-When we created Conan Center in August 2019 we were trying to fill a void in our ecosystem: back 
+When we created Conan Center in August 2019, we were trying to fill a void in our ecosystem: back 
 then, the latest version of the Conan client was 1.18, so it was completely production-ready, but
-we didn't have our own package repository to handle dependencies in a straightforward way. We 
+we didn't have our own package repository to handle dependencies straightforwardly. We 
 wanted for our users to be able to install open source libraries and tools by just adding a couple
 of lines to their ConanFiles.
 
