@@ -13,7 +13,7 @@ years after 1.0 was released. And, of course, the 1.X series is still very activ
 versions released during the year.
 
 And Conan Center has not lagged behind. In 2021, only two years after its inception, we
-celebrated with our community a great milestone: on August, Conan Center
+celebrated with our community a great milestone: in August, Conan Center
 [reached 1,000 recipes](https://www.youtube.com/watch?v=PjiJ-3sxKbs).
 
 So Conan and Conan Center have come a long way over the last few years. Let's take a look at some
@@ -34,7 +34,7 @@ In there, we are currently having around **500.000 monthly downloads**.
 The PyPI installs number must be taken just as an estimation. Their stats are kind of noisy
 because of mirrors and other reasons.
 
-But the true indicator of how healthy an Open Source project is, is its GitHub activity. Here are
+But the true indicator of how healthy an Open Source project is in its GitHub activity. Here are
 the number of Pull Requests over the last few years:
 
 {:class="table table-bordered small"}
@@ -97,9 +97,9 @@ used channel by members posting and the 4th most active by published messages.
 
 ## Conan Center
 
-When we created Conan Center in August 2019 we were trying to fill a void in our ecosystem: back 
+When we created Conan Center in August 2019, we were trying to fill a void in our ecosystem: back 
 then, the latest version of the Conan client was 1.18, so it was completely production-ready, but
-we didn't have our own package repository to handle dependencies in a straightforward way. We 
+we didn't have our own package repository to handle dependencies straightforwardly. We 
 wanted for our users to be able to install open source libraries and tools by just adding a couple
 of lines to their ConanFiles.
 
