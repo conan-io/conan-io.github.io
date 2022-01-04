@@ -12,7 +12,7 @@ meta_description: "Numbers and charts showing the state of Conan and Conan Cente
 years after 1.0 was released. And, of course, the 1.X series is still very active, with 10
 versions released during the year.
 
-And Conan Center has not lagged behind. In 2021, only two years after its inception, we
+Conan Center has not lagged behind. In 2021, only two years after its inception, we
 celebrated with our community a great milestone: in August, Conan Center
 [reached 1,000 recipes](https://www.youtube.com/watch?v=PjiJ-3sxKbs).
 
@@ -40,9 +40,9 @@ the number of Pull Requests over the last few years:
 {:class="table table-bordered small"}
 |     | Conan | Conan Center |
 |-----|-------|--------------|
-|2019 | 758   | 397          |   
-|2020 | 735   | 2607         |  
-|2021 | 784   | 3493         | 
+|2019 | 758   | 397          |
+|2020 | 735   | 2607         |
+|2021 | 784   | 3493         |
 
 
 <figure>
@@ -58,26 +58,27 @@ measure to see how the usage of Conan evolves:
 {:class="table table-bordered small"}
 |     | Page Views | Unique Users |
 |-----|------------|--------------|
-|2019 | 1.1M       | 184K         |   
-|2020 | 2.0M       | 310K         |  
-|2021 | 2.8M       | 490K         | 
+|2019 | 1.1M       | 184K         |
+|2020 | 2.0M       | 310K         |
+|2021 | 2.8M       | 490K         |
 
 <figure>
-    <figcaption>Monthly users:</figcaption>
+    <figcaption>Page Views and Users:</figcaption>
     <img src="{{ site.url }}/assets/post_images/2022-01-04/web-users.png">
 </figure>
 
-The most visited part of our site are the following:
+The most visited part of our site, by far, is the documentation, accounting for 70% of all web traffic,
+with bounce rate below 50% and average visit times:
 
 {:class="table table-bordered small"}
 | Section                                           | Avg visit time (minutes) |
 |---------------------------------------------------|--------------------------|
-| [Main site](https://conan.io)                     | 1:16                     | 
+| [Main site](https://conan.io)                     | 1:16                     |
 | [Main Conan Center site](https://conan.io/center) | 3:52                     |
 | [Documentation](https://docs.conan.io)            | 3:15                     |
 | [Blog](https://blog.conan.io/)                    | 7:09                     |
 
-It's also worth noting that most of our visits are organic, coming from search engines:
+It's also worth noting that Conan has never used any ads, so most of our visits are organic, coming from search engines, but also the direct and referral traffic is very relevant:
 
 <figure>
     <img src="{{ site.url }}/assets/post_images/2022-01-04/web-channels.png">
@@ -97,9 +98,9 @@ used channel by members posting and the 4th most active by published messages.
 
 ## Conan Center
 
-When we created Conan Center in August 2019, we were trying to fill a void in our ecosystem: back 
+When we created Conan Center in August 2019, we were trying to fill a void in our ecosystem: back
 then, the latest version of the Conan client was 1.18, so it was completely production-ready, but
-we didn't have our own package repository to handle dependencies straightforwardly. We 
+we didn't have our own package repository to handle dependencies straightforwardly. We
 wanted for our users to be able to install open source libraries and tools by just adding a couple
 of lines to their ConanFiles.
 
@@ -129,7 +130,7 @@ Contributors ordered by number of commits
 | [gocarlos](https://github.com/gocarlos)               | 157               |
 
 Commits and PR are not the only thing to be considered. Reviewing and debating how to improve
-recipes is also extremely important. Here are our most active contributors ordered by number 
+recipes is also extremely important. Here are our most active contributors ordered by number
 of comments:
 
 {:class="table table-bordered small"}
@@ -204,15 +205,14 @@ repositories:
 
 This, of course, is only partial data to get an idea of how many teams are currently using Conan.
 There are a lot of binary repositories we cannot get statistics from, like Artifactory instances
-behind proxies, GitLab servers, Nexus servers, etc.  
+behind proxies, GitLab servers, Nexus servers, etc.
 
 
 ## The future
 
-The main milestone for 2022 will be, of course, the release of Conan 2.0. And it's an enormous 
-milestone: we are writing a completely updated documentation, working on updating all the Conan
-Center recipes to be compatible with the new version, as well as the whole Conan Center
-infrastructure (building bots, CI pipelines, validation hooks, etc.).
+The main milestone for 2022 will be, of course, the release of Conan 2.0. And it's an enormous
+milestone, not affecting only the client: we are also writing a completely updated documentation,
+working on updating all the Conan Center recipes to be compatible with the new version, as well as
+the whole Conan Center infrastructure (building bots, CI pipelines, validation hooks, etc.).
 
-So [stay tuned](https://twitter.com/conan_io) to get the last news about Conan and Conan Center.
-See you next year!
+So [stay tuned](https://twitter.com/conan_io) to get the last news about Conan and Conan Center!
