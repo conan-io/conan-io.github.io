@@ -64,7 +64,10 @@ There are [several new
 functions](https://docs.conan.io/en/latest/reference/conanfile/tools/files/symlinks.html)
 under `conan.tools.files.symlinks` to manage symlinks. With these tools, you can transform
 absolute to relative symlinks, remove broken symlinks, remove external symlinks and get
-the symlinks in a folder. Let's have a look at them:
+the symlinks in a folder. These tools will help migrate to Conan 2.0 where the package
+files won't be automatically cleaned from broken absolute symlinks or external symlinks.
+
+Let's have a look at them:
 
 - **Convert the symlinks with absolute paths into relative ones**. It will only consider
   those inside the ‘base_folder’. 
@@ -85,9 +88,6 @@ def remove_external_symlinks(conanfile, base_folder):
 ```python
 def remove_broken_symlinks(conanfile, base_folder):
 ```
-
-These tools will help migrate to Conan 2.0 where the package files won't be automatically
-cleaned from broken absolute symlinks or external symlinks.
 
 ## Apply multiple user toolchains with CMakeToolchain
 
