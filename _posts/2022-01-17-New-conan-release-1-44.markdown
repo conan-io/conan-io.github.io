@@ -144,7 +144,7 @@ include("/otherpath/to/mytoolchain.cmake")
 
 As a way of getting closer to the typical variables declared by [CMake official find
 modules](https://cmake.org/cmake/help/latest/manual/cmake-modules.7.html#find-modules) we
-have added these variables so they are available when using
+added these variables so they are available when using
 [CMakeDeps](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmakedeps.html)
 Conan generator:
 
