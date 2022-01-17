@@ -30,7 +30,7 @@ meta_description: "The new version features include Introduced tool_requires att
 
 
 We are pleased to announce that Conan 1.44 has been released and brings some significant
-new features and bug fixes. We have added a
+new features and bug fixes. We added a
 [tool_requires](https://docs.conan.io/en/latest/reference/conanfile/attributes.html#tool-requires)
 attribute to provide a compatible way to migrate to Conan 2.0. Also, this version comes
 with several functions under `conan.tools.files.symlinks` to help manage symlinks. We have also
