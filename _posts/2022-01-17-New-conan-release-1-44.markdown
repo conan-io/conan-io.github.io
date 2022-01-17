@@ -43,7 +43,7 @@ adds several variables to match upstream CMake modules as much as possible.
 
 ## New tool_requires attribute
 
-Starting in Conan 1.44, we have renamed “build requirement” to "tool requirement”. The
+Starting in Conan 1.44, we renamed “build requirement” to "tool requirement”. The
 intention of this is to highlight that the usage of this kind of requirement must be for
 “tools” exclusively, not being valid for libraries to express a “private” requirement or other
 meanings. Now recipes will look like this:
