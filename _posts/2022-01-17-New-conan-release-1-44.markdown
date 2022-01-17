@@ -64,8 +64,9 @@ There are [several new
 functions](https://docs.conan.io/en/latest/reference/conanfile/tools/files/symlinks.html)
 under `conan.tools.files.symlinks` to manage symlinks. With these tools, you can transform
 absolute to relative symlinks, remove broken symlinks, remove external symlinks and get
-the symlinks in a folder. These tools will help migrate to Conan 2.0 where the package
-files won't be automatically cleaned from broken absolute symlinks or external symlinks.
+the symlinks in a folder. Bear in mind that Conan 2.0 will not handle packages symlinks
+automatically. These tools are handy to migrate recipes and make them work as expected in
+2.0.
 
 Let's have a look at them:
 
