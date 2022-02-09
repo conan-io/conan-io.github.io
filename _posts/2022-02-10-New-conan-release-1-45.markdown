@@ -87,9 +87,22 @@ If we were running this in Ubuntu Linux, Conan would execute only the `Apt.insta
 
 The signatures of these classes are very similar between them and there are three methods you can call to invoke these wrappers:
 
-* 
+* `install(self, packages, update=False, check=False)`: install the list of packages passed as a parameter. 
+* `update()`: update the system package manager database.
+* `check(packages)`: check if the list of packages passed as parameter are already installed.
 
+Conan, by default, will never try to install any package using these wrappers unless you
+set the configuration `tools.system.package_manager:mode` to value `install`. If that is
+not set, it will work in `tools.system.package_manager:mode=check`, meaning that `update`
+and `install` operations will never be performed. Nevertheless, in case you are calling to
+an `install()` in mode `check`, if the `check` argument of the `install()` method is set
+to `True`, Conan will check if there's any package missing and in case they are all
+installed it will continue without errors.
 
+There are some slight differences between the constructors and methods between package
+managers, please [check the
+documentation](https://docs.conan.io/en/latest/reference/conanfile/tools/system/package_manager.html#conan-tools-system-package-manager)
+for more details.
 
 ## Updated markdown generator
 
