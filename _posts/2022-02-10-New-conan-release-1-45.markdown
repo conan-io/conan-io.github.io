@@ -73,9 +73,9 @@ distribution](https://docs.conan.io/en/latest/reference/conanfile/tools/system/p
 For example, if we are have recipe with a `system_requirements()` method like this:
 
 ```python
-...
 from conan.tools.system.package_manager import Apt, Yum, PacMan, Zypper
 
+...
 def system_requirements(self):
     Apt(self).install(["libgl-dev"])
     Yum(self).install(["libglvnd-devel"])
@@ -99,28 +99,49 @@ an `install()` in mode `check`, if the `check` argument of the `install()` metho
 to `True`, Conan will check if there's any package missing and in case they are all
 installed it will continue without errors.
 
-There are some slight differences between the constructors and methods between package
-managers, please [check the
+There are some slight differences between the constructors and methods between these
+tools, please [check the
 documentation](https://docs.conan.io/en/latest/reference/conanfile/tools/system/package_manager.html#conan-tools-system-package-manager)
 for more details.
 
 ## Updated markdown generator
 
+The markdown generator was introduced in Conan 1.24 to produce a markdown `(.md)` file from
+the package providing a summary of package information based on the Conan package. It has
+now been updated to generate this information for the new tools for
+[CMake](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake.html), [Visual
+Studio](https://docs.conan.io/en/latest/reference/conanfile/tools/microsoft.html),
+[Autotools and
+Pkg-config](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu.html). Using it
+is as simple as adding it as an argument to the `conan install` command.
+
+```bash
+conan install fmt/8.1.1@ --generator mar
+```
+
+Then, you can check the generated `fmt.md` file and see, for example, which target names
+you have to use to consume this library using `CMake` in your projects:
+
+<p class="centered">
+    <img src="{{ site.baseurl }}/assets/post_images/2022-02-10/conan-1-45-md-generator.png" align="center" width="100%" alt="markdown for fmt"/>
+</p>
+
+
 ## New meson templates for conan new
+
+The conan new command is very handy when it comes to create a template for a C++ project
+using Conan. Until Conan 1.45 there were two built-in templates in Conan for CMake
+projects: `cmake_lib` and `cmake_exe`. Starting in this version you can also use two new
+templates to scaffold a project using Meson: `meson_lib` and `meson_exe`.
+
+----
+----
+
+If you would like to see more built-in templates in Conan, please do not hesitate to contribute them in the repo. Also, remember that you can always use your own defined templates. Please check the documentation for more information.
 
 ## New --source-folder and --output-folder arguments for conan editable and conan install
 
-```python
-...
-class AlembicConan(ConanFile):
-    name = "alembic"
-    ...
-    def package_info(self):
-        self.cpp_info.names["cmake_find_package"] = "Alembic"
-        self.cpp_info.names["cmake_find_package_multi"] = "Alembic"
-        ...
 
-```
 
 
 ---
