@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Conan 1.45: New system.package_manager tools, markdown generator content updated, modern meson_lib and meson_exe templates for conan new, improvements in several build system tools."
+title: "Conan 1.45: New system.package_manager tools, markdown generator content updated, modern meson_lib and meson_exe templates for conan new and improvements in several build system tools."
 meta_title: "Version 1.45 of Conan C++ Package Manager is Released"
 meta_description: "The new version includes new system.package_manager tools, markdown generator content updated, modern meson_lib and meson_exe templates for conan new and much more."
 ---
@@ -24,7 +24,7 @@ meta_description: "The new version includes new system.package_manager tools, ma
     }
 },
  "datePublished": "2022-02-10",
- "description": "Conan 1.45: New system.package_manager tools, markdown generator content updated, modern meson_lib and meson_exe templates for conan new, improvements in Meson, PkgConfig, CMake, Bazel and MSVC tools.",
+ "description": "Conan 1.45: New system.package_manager tools, markdown generator content updated, modern meson_lib and meson_exe templates for conan new and improvements in Meson, PkgConfig, CMake, Bazel and MSVC tools.",
  }
 </script>
 
