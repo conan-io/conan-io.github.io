@@ -23,7 +23,7 @@ meta_description: "The new version features include new XcodeToolchain and Xcode
       "url": "https://media.jfrog.com/wp-content/uploads/2017/07/20134853/conan-logo-text.svg"
     }
 },
- "datePublished": "2022-03-16",
+ "datePublished": "2022-03-17",
  "description": "New XcodeToolchain and XcodeBuild tools, improved conf system, new helpers for Git.",
  }
 </script>
