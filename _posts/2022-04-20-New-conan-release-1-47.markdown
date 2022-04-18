@@ -28,14 +28,6 @@ meta_description: "The new version includes new [conf] to inject arbitrary C++ f
  }
 </script>
 
-Conan 1.47 is out!
-- New [conf] to inject arbitrary C++ flags to packages
-- Meson Improvements , including Android cross-build
-- Preliminar support for CMakePresets.json
-- New Bazel templates
-- Support for latest Xcode, iOS, etc
-- New MSBuild templates
-
 We are pleased to announce that [Conan 1.47 is
 out](https://github.com/conan-io/conan/releases/tag/1.47.0) and comes with some
 significant new features and bug fixes. We added new [conf] values to inject C/C++ flags
@@ -50,6 +42,46 @@ worth noting significant improvements in Meson support, including Android cross-
 
 
 ## New [conf] to inject arbitrary C++ flags to packages
+
+We added some new [conf] values to inject extra C/C++ flags and preprocessor definitions to the
+build system (currently supported by
+[CMakeToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmaketoolchain.html),
+[AutotoolsToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu/autotoolstoolchain.html),
+[MesonToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/meson/mesontoolchain.html),
+and
+[XCodeToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/apple.html#xcodetoolchain)).
+The values you can set are:
+
+ * `tools.build:cxxflags`: List of extra CXX flags.
+ * `tools.build:cflags`: List of extra C flags.
+ * `tools.build:defines`: List of extra preprocessor definitions.
+ * `tools.build:sharedlinkflags`: List of flags that will be used by the linker when creating a shared library.
+ * `tools.build:exelinkflags`: List of flags that will be used by the linker when creating an executable.
+
+As other
+[configuration](https://docs.conan.io/en/latest/reference/config_files/global_conf.html)
+items, their values can be set in the
+[global.conf](https://docs.conan.io/en/latest/reference/config_files/global_conf.html#global-conf)
+file, in
+[recipes](https://docs.conan.io/en/latest/reference/config_files/global_conf.html#configuration-in-your-recipes),
+in your
+[profiles](https://docs.conan.io/en/latest/reference/config_files/global_conf.html#configuration-in-your-profiles)
+or using the `--conf` argument in the command line. In this case, the injection of values
+composing profiles could be very interesting. Imagine you create a **"secure" profile** that
+adds certain flags that improve the security of your builds like this:
+
+```ini
+include(default)
+[conf]
+tools.build:cflags=["-fstack-protector-strong"]
+```
+
+Then invoking Conan commands with that profile would inject the `-fstack-protector-strong` flags in every build:
+
+
+```bash
+conan create . -pr=./secure
+```
 
 
 ## Preliminar support for CMakePresets.json
