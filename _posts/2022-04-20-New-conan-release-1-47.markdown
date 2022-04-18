@@ -67,8 +67,8 @@ file, in
 in your
 [profiles](https://docs.conan.io/en/latest/reference/config_files/global_conf.html#configuration-in-your-profiles)
 or using the `--conf` argument in the command line. In this case, the injection of values
-composing profiles could be very interesting. Imagine you create a **"secure" profile** that
-adds certain flags that improve the security of your builds like this:
+composing profiles could be an interesting example. Imagine you create a **"secure"
+profile** that adds certain flags that improve the security of your builds like this:
 
 ```ini
 include(default)
