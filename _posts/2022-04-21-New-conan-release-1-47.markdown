@@ -96,6 +96,13 @@ the CMake build helper calls the `configure()` method, it will read this informa
  * The path to the `conan_toolchain.cmake toolchain` toolchain file.
  * Some cache variables corresponding to the specified settings cannot work if specified in the toolchain.
 
+It's also important to note that some IDEs like [Visual Studio and Visual Studio
+Code](https://devblogs.microsoft.com/cppblog/cmake-presets-integration-in-visual-studio-and-visual-studio-code/)
+and [CLion](https://www.jetbrains.com/help/clion/cmake-presets.html) have built-in support
+for this file, so putting it next to your *CMakeList.txt* they will read it automatically
+and know what generator and toolchain to use for building.
+
+
 ## New Bazel and MSBuild templates for conan new
 
 The `conan new` command is practical to [create a
