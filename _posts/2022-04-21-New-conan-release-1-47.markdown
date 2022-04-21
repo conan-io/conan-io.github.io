@@ -23,7 +23,7 @@ meta_description: "The new version includes new [conf] to inject arbitrary C++ f
       "url": "https://media.jfrog.com/wp-content/uploads/2017/07/20134853/conan-logo-text.svg"
     }
 },
- "datePublished": "2022-04-20",
+ "datePublished": "2022-04-21",
  "description": "Conan 1.47: New [conf] to inject arbitrary C++ flags to packages, preliminary support for CMakePresets.json, new templates for MSBuild and Bazel, improvements in Meson support.",
  }
 </script>
