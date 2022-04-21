@@ -34,7 +34,7 @@ significant new features and bug fixes. We added new [conf] values to inject C/C
 and preprocessor definitions to packages. There is also preliminary support added for
 **CMakePresets.json** in
 [CMakeToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmaketoolchain.html)
-and [CMake build
+to generate necessary information for the [CMake build
 helper](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmake.html). We
 added new templates for the command `conan new`, to generate examples of an application
 and a library, one for the **Bazel** build system and another for **MSBuild**. It's also
@@ -67,54 +67,54 @@ file, in
 in your
 [profiles](https://docs.conan.io/en/latest/reference/config_files/global_conf.html#configuration-in-your-profiles)
 or using the `--conf` argument in the command line. In this case, the injection of values
-composing profiles could be an interesting example. Imagine you create a **"secure"
-profile** that adds certain flags that improve the security of your builds like this:
+composing profiles could be an interesting example. Imagine you create a **"sanitized"
+profile** that adds some sanitizer flags to the builds to track the execution at runtime and report execution errors. That profile could look like this:
 
 ```ini
 include(default)
 [conf]
-tools.build:cflags=["-fstack-protector-strong"]
+tools.build:cxxflags=["-fsanitize=address", "-fno-omit-frame-pointer"]
 ```
 
-Then invoking Conan commands with that profile would inject the `-fstack-protector-strong` flags in every build:
-
+Then invoking Conan commands with that profile would inject these flags in every build:
 
 ```bash
 conan create . -pr=./secure
 ```
 
-
 ## Preliminar support for CMakePresets.json
 
+Now Conan uses a
+[CMakePresets.json](https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html) file
+to pass certain information from the
+[CMakeToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmaketoolchain.html)
+to the [CMake build
+helper](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmake.html). When
+the CMake build helper calls to configure() it will this information from that file:
+
+ * The generator, to append ``-G="xxx"``.
+ * The path to the toolchain and append ``-DCMAKE_TOOLCHAIN_FILE=/path/conan_toolchain.cmake``
+ * The declared ``cache variables`` and append ``-Dxxx``
 
 ## New Bazel and MSBuild templates for conan new
 
-The `conan new` command is practical to create a template for a C++ project using Conan.
-Until Conan 1.47 there were two built-in templates in Conan for CMake projects:
-`cmake_lib` and `cmake_exe`. From this version, you can also use two new templates
-to scaffold a project using [the Meson build system](https://mesonbuild.com/): `meson_lib`
-and `meson_exe`.
+The `conan new` command is practical to [create a
+template](https://docs.conan.io/en/latest/extending/template_system/command_new.html) for
+a C++ project using Conan. Until Conan 1.47 there were templates for **CMake** and **Meson**. Now,
+you can also also use new templates to scaffold projects using [the Microsoft Build
+Engile](https://docs.microsoft.com/es-es/visualstudio/msbuild/msbuild?view=vs-2022) and
+[Bazel](https://bazel.build).
 
-If you have meson installed in your system, you can test it by running:
-
-```bash
-conan new hello/1.0 -m=meson_lib    
-```
-
-That will create a project with the following structure:
+You can give them a try using:
 
 ```bash
-.
-├── conanfile.py
-├── meson.build
-├── src
-│   ├── hello.cpp
-│   └── hello.h
-└── test_package
-    ├── conanfile.py
-    ├── meson.build
-    └── src
-        └── example.cpp 
+# MSBuild
+conan new hello/1.0 -m=msbuild_lib 
+conan new app/1.0 -m=msbuild_lib 
+
+# Bazel
+conan new hello/1.0 -m=bazel_lib 
+conan new app/1.0 -m=bazel_lib 
 ```
 
 To build the project, just run:
@@ -132,22 +132,18 @@ for more information.
 
 ## Improvements in Meson support
 
-Finally, there are a few improvements and fixes worth mentioning, like:
+There are a few significant improvements in *Meson* integration. The most important one
+is adding support for cross-compilation for *Android* in the
+[MesonToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/meson/mesontoolchain.html). 
 
-* Improve the
-  [MesonToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/meson/mesontoolchain.html)
-  formatting of generated files and include some cross-building functionality.
-* Document the
-  [PkgConfigDeps](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu/pkgconfigdeps.html)
-  behaviour in the case that a component and the root `cpp_info` have the same name, the
-  component `*.pc` will take preference and be generated instead of the root `cpp_info`
-  one.
-* Add `is_msvc_static_runtime()` method to `conan.tools.microsoft.visual` to identify when
-  using *msvc* with static runtime and `is_msvc()` to validate if `settings.compiler` is
-  *Visual Studio* with *msvc* compiler.
-* Several bug fixes for the
-  [Bazel](https://docs.conan.io/en/latest/reference/conanfile/tools/google.html)
-  generator.
+Please note that you should provide the location for your Android NDK path using the
+`tools.android:ndk_path` configuration option. This path will be used by the
+*MesonToolchain* to point to the correct compiler and linker executables inside the
+*Android NDK*. Conan will define the following variables for *Meson*:
+
+ * `c`, `cpp`, `ar`: The Android NDK compiler executables under the `[binaries]` section.
+ * `system`, `cpu_family`, `cpu`, `endian`: to define the host and build systems under the
+   `[build_machine]` and `[host_machine]` sections.
 
 ---
 
