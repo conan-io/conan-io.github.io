@@ -24,13 +24,13 @@ meta_description: "The new version features include Improvements in CMakePresets
     }
 },
  "datePublished": "2022-05-17",
- "description": "Improvements in CMakePresets integration, new "conan new" autotools templates, CMakeToolchain configuration support for bitcode, arc and visibility flags in Apple, support to generate env ps1 instead of bat in Windows.",
+ "description": "Improvements in CMakePresets integration, new "conan new" Autotools templates, CMakeToolchain configuration support for bitcode, arc and visibility flags in Apple, support to generate env ps1 instead of bat in Windows.",
  }
 </script>
 
 We are pleased to announce that Conan 1.48 has been released and brings some significant
-new features and bug fixes. We have improved the CMakePresets integration. Also we have
-added new "conan new" autotools templates. We added CMakeToolchain configuration for
+new features and bug fixes. We have improved the CMakePresets integration. Also, we have
+added new "conan new" Autotools templates. We added CMakeToolchain configuration for
 bitcode, arc and visibility flags in Apple. This release also adds support to generate env
 **.ps1** instead of **.bat** in Windows.
 
@@ -60,8 +60,8 @@ Starting with a simple consumer project with this structure that uses the Zlib l
     └── main.cpp
 ```
 
-Where the **conanfile.txt** is just requiring *zlib/1.2.11* and adding the **CMakeDeps**
-and **CMakeToolchain** generators:
+Where the **conanfile.txt** requires *zlib/1.2.11* and adds the **CMakeDeps** and
+**CMakeToolchain** generators:
 
 ```txt
 [requires]
@@ -84,7 +84,7 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME} ZLIB::ZLIB)
 ```
 
-The **main.cpp** code will just show wether we are using Debug or Release configuration
+The **main.cpp** code will just show whether we are using Debug or Release configuration
 and the version of zlib.
 
 ```cpp
@@ -103,7 +103,7 @@ int main(void) {
 }
 ```
 
-Run the `conan install` command to install the *Zlib* dependency for both **Release** and
+Run the `conan install` command to install the *Zlib* dependency for **Release** and
 **Debug** configurations:
 
 ```bash
@@ -128,7 +128,7 @@ And run the build:
 Now it's easy to change between presets to launch different build configurations.
 
 
-## New "conan new" autotools templates
+## New "conan new" Autotools templates
 
 As you know, the `conan new` command is a practical way to [create a
 template](https://docs.conan.io/en/latest/extending/template_system/command_new.html) for
@@ -167,28 +167,28 @@ properties:
 - ``tools.build:tools.apple:enable_bitcode`` boolean value to enable/disable Bitcode
   Apple. This will set the `CMAKE_XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE` and
   `CMAKE_XCODE_ATTRIBUTE_ENABLE_BITCODE` CMake variables when using the CMake Xcode
-  generator. If other generator is used, it will add the ``-fembed-bitcode`` flag to
+  generator. If other generator is used, it adds the ``-fembed-bitcode`` flag to
   ``CMAKE_CXX_FLAGS`` and ``CMAKE_C_FLAGS``.
 
 - ``tools.build:tools.apple:enable_arc`` boolean value to enable/disable ARC Apple Clang
   flags. This will set the `CMAKE_XCODE_ATTRIBUTE_CLANG_ENABLE_OBJC_ARC` CMake variable
-  when using the CMake Xcode generator. If other generator is used, it will add the
+  when using the CMake Xcode generator. If other generator is used, it adds the
   ``-fobjc-arc`` or ``-fno-objc-arc`` flag to ``CMAKE_CXX_FLAGS`` and ``CMAKE_C_FLAGS``
 .
 
 - ``tools.build:tools.apple:enable_visibility`` This will set the
   `CMAKE_XCODE_ATTRIBUTE_GCC_SYMBOLS_PRIVATE_EXTERN` CMake variable when using the CMake
-  Xcode generator. If other generator is used, it will add the ``-fvisibility`` flag to
+  Xcode generator. If other generator is used, it adds the ``-fvisibility`` flag to
   ``CMAKE_CXX_FLAGS`` and ``CMAKE_C_FLAGS``.
 
 
-## Configuration to choose between bat or powershell scripts in Windows
+## Configuration to choose between bat or PowerShell scripts in Windows
 
-This version brings a new configuration option to choose between bat or powershell scripts
-generation. As you know, Conan
+This version brings a new configuration option to choose between bat or PowerShell script
+generation. As you know, the Conan
 [Environment](https://docs.conan.io/en/latest/reference/conanfile/tools/env/environment.html)
 class saves the information in a bat file by default in Windows. Now, setting the
-`tools.env.virtualenv:powershell` to `True`, you can generate powershell scripts instead.
+`tools.env.virtualenv:powershell` to `True`, you can generate PowerShell scripts instead.
 This will also apply to the
 [VirtualBuildEnv](https://docs.conan.io/en/latest/reference/conanfile/tools/env/virtualbuildenv.html)
 and
@@ -206,5 +206,5 @@ please refer to the
 [changelog](https://docs.conan.io/en/latest/changelog.html#may-2022) for the
 complete list.
 
-We hope you enjoy this release, and look forward to [your
+We hope you enjoy this release and look forward to [your
 feedback](https://github.com/conan-io/conan/issues).
