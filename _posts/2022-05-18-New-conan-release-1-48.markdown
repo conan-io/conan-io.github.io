@@ -140,7 +140,7 @@ You try it using:
 
 ```bash
 conan new hello/1.0 -m=autotools_lib 
-conan new app/1.0 -m=autotools_lib 
+conan new app/1.0 -m=autotools_exe
 ```
 
 To build the project, just run:
