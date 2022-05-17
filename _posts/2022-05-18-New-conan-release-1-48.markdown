@@ -1,9 +1,9 @@
 ---
 layout: post
 comments: false
-title: "Conan 1.48: Improvements in CMakePresets integration, new "conan new" autotools templates, CMakeToolchain configuration support for bitcode, arc and visibility flags in Apple, support to generate env ps1 instead of bat in Windows."
+title: "Conan 1.48: Improvements in CMakePresets integration, new Autotools templates, CMakeToolchain configuration support for bitcode, arc and visibility flags in Apple, support to generate env ps1 instead of bat in Windows."
 meta_title: "Version 1.48 of Conan C++ Package Manager is Released" 
-meta_description: "The new version features include Improvements in CMakePresets integration, new "conan new" autotools templates and much more..."
+meta_description: "The new version features include Improvements in CMakePresets integration, new Autotools templates and much more..."
 ---
 
 <script type="application/ld+json">
@@ -32,7 +32,8 @@ We are pleased to announce that Conan 1.48 has been released and brings some sig
 new features and bug fixes. We have improved the CMakePresets integration. Also we have
 added new "conan new" autotools templates. We added CMakeToolchain configuration for
 bitcode, arc and visibility flags in Apple. This release also adds support to generate env
-ps1 instead of bat in Windows.
+**.ps1** instead of **.bat** in Windows.
+
 
 ## Improvements in CMakePresets integration
 
@@ -62,7 +63,7 @@ Starting with a simple consumer project with this structure that uses the Zlib l
 Where the **conanfile.txt** is just requiring *zlib/1.2.11* and adding the **CMakeDeps**
 and **CMakeToolchain** generators:
 
-```ini
+```txt
 [requires]
 zlib/1.2.12
 
@@ -126,6 +127,7 @@ And run the build:
 
 Now it's easy to change between presets to launch different build configurations.
 
+
 ## New "conan new" autotools templates
 
 As you know, the `conan new` command is a practical way to [create a
@@ -153,6 +155,7 @@ remember that you can always use your own defined templates. Please [check the
 documentation](https://docs.conan.io/en/latest/extending/template_system/command_new.html)
 for more information.
 
+
 ## CMakeToolchain configuration support for bitcode, arc and visibility flags in Apple
 
 This version adds support in
@@ -177,6 +180,7 @@ properties:
   `CMAKE_XCODE_ATTRIBUTE_GCC_SYMBOLS_PRIVATE_EXTERN` CMake variable when using the CMake
   Xcode generator. If other generator is used, it will add the ``-fvisibility`` flag to
   ``CMAKE_CXX_FLAGS`` and ``CMAKE_C_FLAGS``.
+
 
 ## Configuration to choose between bat or powershell scripts in Windows
 
