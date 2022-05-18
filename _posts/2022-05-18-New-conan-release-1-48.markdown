@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Conan 1.48: Improvements in CMakePresets integration, new Autotools templates, CMakeToolchain configuration support for bitcode, arc and visibility flags in Apple, support to generate env ps1 instead of bat in Windows."
+title: "Conan 1.48: Improvements in CMakePresets integration, new Autotools templates, CMakeToolchain configuration support for bitcode, arc and visibility flags on Apple platforms, support to generate env ps1 instead of bat in Windows."
 meta_title: "Version 1.48 of Conan C++ Package Manager is Released" 
 meta_description: "The new version features include Improvements in CMakePresets integration, new Autotools templates and much more..."
 ---
@@ -24,14 +24,14 @@ meta_description: "The new version features include Improvements in CMakePresets
     }
 },
  "datePublished": "2022-05-17",
- "description": "Improvements in CMakePresets integration, new "conan new" Autotools templates, CMakeToolchain configuration support for bitcode, arc and visibility flags in Apple, support to generate env ps1 instead of bat in Windows.",
+ "description": "Improvements in CMakePresets integration, new "conan new" Autotools templates, CMakeToolchain configuration support for bitcode, arc and visibility flags on Apple platforms, support to generate env ps1 instead of bat in Windows.",
  }
 </script>
 
 We are pleased to announce that Conan 1.48 has been released and brings some significant
 new features and bug fixes. We have improved the CMakePresets integration. Also, we have
 added new "conan new" Autotools templates. We added CMakeToolchain configuration for
-bitcode, arc and visibility flags in Apple. This release also adds support to generate env
+bitcode, arc and visibility flags on Apple platforms. This release also adds support to generate env
 **.ps1** instead of **.bat** in Windows.
 
 
@@ -156,7 +156,7 @@ documentation](https://docs.conan.io/en/latest/extending/template_system/command
 for more information.
 
 
-## CMakeToolchain configuration support for bitcode, arc and visibility flags in Apple
+## CMakeToolchain configuration support for bitcode, arc and visibility flags on Apple platforms
 
 This version adds support in
 [CMakeToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmaketoolchain.html)
