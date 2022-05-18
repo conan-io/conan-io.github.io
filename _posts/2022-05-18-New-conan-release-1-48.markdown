@@ -128,7 +128,7 @@ And run the build:
 Now it's easy to change between presets to launch different build configurations.
 
 
-## New "conan new" Autotools templates
+## New Autotools templates for the conan new command
 
 As you know, the `conan new` command is a practical way to [create a
 template](https://docs.conan.io/en/latest/extending/template_system/command_new.html) for
