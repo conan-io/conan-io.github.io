@@ -182,13 +182,13 @@ properties:
   ``CMAKE_CXX_FLAGS`` and ``CMAKE_C_FLAGS``.
 
 
-## Configuration to choose between bat or PowerShell scripts in Windows
+## Configuration to choose between Batch or PowerShell scripts in Windows
 
-This version brings a new configuration option to choose between bat or PowerShell script
+This version brings a new configuration option to choose between Batch or PowerShell script
 generation. As you know, the Conan
 [Environment](https://docs.conan.io/en/latest/reference/conanfile/tools/env/environment.html)
-class saves the information in a bat file by default in Windows. Now, setting the
-`tools.env.virtualenv:powershell` to `True`, you can generate PowerShell scripts instead.
+class saves the information in a `.bat` Batch file by default in Windows. Now, setting the
+`tools.env.virtualenv:powershell` to `True`, you can generate `.ps1` PowerShell scripts instead.
 This will also apply to the
 [VirtualBuildEnv](https://docs.conan.io/en/latest/reference/conanfile/tools/env/virtualbuildenv.html)
 and
