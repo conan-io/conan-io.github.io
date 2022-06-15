@@ -165,7 +165,7 @@ Let's to do a `conan install` and pass the `tools.cmake.cmake_layout:build_folde
 configuration as an argument:
 
 ```bash
-conan install . -c tools.cmake.cmake_layout:build_folder_vars='["settings.arch", "settings.build_type"]'
+conan install . -c tools.cmake.cmake_layout:build_folder_vars='["settings.arch"]'
 ```
 
 Now, if you list the available presets, you will see a new preset including the
@@ -176,13 +176,13 @@ the used archicture and build type in the name.
 $ cmake --list-presets
 Available configure presets:
 
-  "x86_64-release-release" - 'x86_64-release-release' config
-  "release"                - 'release' config
+  "Release"        - 'Release' config
+  "Release-x86_64" - 'Release-x86_64' config
 
-$ cmake --preset x86_64-release-release
+$ cmake --preset Release-x86_64
 ...
 
-$ cmake --build --preset x86_64-release-release
+$ cmake --build --preset Release-x86_64
 ...
 ```
 
