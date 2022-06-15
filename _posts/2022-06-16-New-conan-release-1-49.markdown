@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Conan 1.49: Removed Python2 support, improved CMakePresets, new [layout] section in conanfile.txt, new tools.apple.fix_apple_shared_install_name tool, new "can_run()", "check_min_vs" helpers."
+title: "Conan 1.49: Removed Python2 support, improved CMakePresets, new [layout] section in conanfile.txt, new tools.apple.fix_apple_shared_install_name tool, new can_run() and check_min_vs helpers."
 meta_title: "Version 1.49 of Conan C++ Package Manager is Released" 
 meta_description: "The new version features include removal of Python2 support, improved CMakePresets, new [layout] section in conanfile.txt and much more..."
 ---
@@ -36,8 +36,8 @@ support and now the layout can be parameterized by different settings and option
 XcodeDeps generator now has components support. Now you can use layouts in the
 conanfile.txt adding the [layout] section. We also added a new
 tools.apple.fix_apple_shared_install_name tool, to fix packages that do not set the
-correct ``LC_ID_DYLIB`` field for shared libraries. Finally, there are two new helpers
-that can be used in recipes: ``can_run()`` and ``check_min_vs``.
+correct `LC_ID_DYLIB` field for shared libraries. Finally, there are two new helpers
+that can be used in recipes: `can_run()` and `check_min_vs`.
 
 ## Removed Python2 support
 
@@ -63,7 +63,7 @@ one of the following pre-defined layouts:
 - [vs_layout](https://docs.conan.io/en/latest/reference/conanfile/tools/layout.html#predefined-layouts)
 - [bazel_layout](https://docs.conan.io/en/latest/reference/conanfile/tools/layout.html#predefined-layouts)
 
-In the case of the ``cmake_layout``, this features enables that consumers that use
+In the case of the `cmake_layout`, this features enables that consumers that use
 *conanfile.txt* can take advantage of the CMakePresets integration. Let's see an example
 for a simple consumer project that builds a *compressor* application with the following
 structure:
@@ -91,7 +91,7 @@ CMakeToolchain
 cmake_layout
 ```
 
-If you do a ``conan install .``, you can see that the files are generated according the
+If you do a `conan install .`, you can see that the files are generated according the
 default cmake_layout and the *CMakeUserPresets.json* is created in the base folder,
 besides the *CMakeLists.txt*.
 
@@ -117,7 +117,7 @@ cmake --build --preset release
 ```
 
 The results of the build will end in the same folder as if we were using a *conanfile.py*
-with the ``cmake_layout`` defined in the ``layout()`` method:
+with the `cmake_layout` defined in the `layout()` method:
 
 ```txt
 .
@@ -140,24 +140,24 @@ with the ``cmake_layout`` defined in the ``layout()`` method:
     └── compressor.c
 ```
 
-You can check that the *compressor* application was built in the ``/build/Release`` folder as
+You can check that the *compressor* application was built in the `/build/Release` folder as
 expected.
 
 ## Improved CMakePresets with parameterized layout
 
 Conan has incrementally improved the support for CMakePresets during the last releases.
-Since Conan 1.49 you can use the new ``tools.cmake.cmake_layout:build_folder_vars``
+Since Conan 1.49 you can use the new `tools.cmake.cmake_layout:build_folder_vars`
 configuration to modify the
 [cmake_layout](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmake_layout.html#cmake-layout)
-default values for the ``conanfile.folders.build`` and ``conanfile.folders.generators``
+default values for the `conanfile.folders.build` and `conanfile.folders.generators`
 attributes and also the default presets names for CMakePresets. Let's begin from the
-previous ``[layout]`` example to see how this works.
+previous `[layout]` example to see how this works.
 
 As you know, by default the name of the presets and output folders are named after the
-``build_type`` setting, so they are ``Release`` or ``Debug`` by default. Let's change that
+`build_type` setting, so they are `Release` or `Debug` by default. Let's change that
 default so that those folders and names for the presets take other settings into account,
-like for example the ``arch`` setting. Do a conan install setting the
-``tools.cmake.cmake_layout:build_folder_vars`` configuration.
+like for example the `arch` setting. Do a conan install setting the
+`tools.cmake.cmake_layout:build_folder_vars` configuration.
 
 
 ```txt
@@ -182,7 +182,7 @@ $ cmake --build --preset x86_64-release-release
 
 ## New tools.apple.fix_apple_shared_install_name tool 
 
-We have added the new tool ``tools.apple.fix_apple_shared_install_name`` to help users
+We have added the new tool `tools.apple.fix_apple_shared_install_name` to help users
 address problems that can occur when using Apple's shared libraries. As we explained in
 the [Conan
 documentation](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu/autotools.html#a-note-about-relocatable-shared-libraries-in-macos-built-the-autotools-build-helper)
@@ -194,7 +194,7 @@ filesystem, and this will make the library load fail when it's loaded in a diffe
 system without the library in that location. 
 
 The best solution to avoid this problem is to pass the appropiate flags for the linker so
-that the absolute folder is substituted with the ``@rpath`` value. The `@rpath` special
+that the absolute folder is substituted with the `@rpath` value. The `@rpath` special
 keyword will tell the loader to search a list of paths to find the library. These paths
 can be defined by the consumer of that library by defining the `LC_RPATH` field, embedded
 in the binary. But this is something that not all libraries do, so if you happen to need
@@ -202,7 +202,7 @@ packaging a library whose binaries are not relocatable, you have only two option
 patching the libraries build scripts to make them relocatable, or fixing the binaries
 after the build. 
 
-The ``tools.apple.fix_apple_shared_install_name`` tool can help with the second option.
+The `tools.apple.fix_apple_shared_install_name` tool can help with the second option.
 You would normally invoke this tool in the package() method of the recipe, right after
 moving the binaries to the package folder.Let's see how to use it with an example of a
 library that uses Autotools as the build system:
@@ -222,7 +222,7 @@ class HelloConan(ConanFile):
 
 This tool will search for all the shared libraries in the package folder and fix the
 values for LC_ID_DYLIB and LC_LOAD_DYLIB so that they point to libraries using the
-`@rpatg` keyword instead of absolute folders. This way you can install this package in
+`@rpath` keyword instead of absolute folders. This way you can install this package in
 different systems with different locations and be sure the the library will load.
 
 ## New "can_run()" and "check_min_vs" helpers.
