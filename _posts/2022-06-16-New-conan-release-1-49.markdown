@@ -33,8 +33,8 @@ out](https://github.com/conan-io/conan/releases/tag/1.49.0) and comes with some
 significant new features and bug fixes. First, it's worth mentioning that we finally
 removed support for Python2 in Conan. Also, we made some improvements to the CMakePresets
 support to allow parameterizing the output folders using the value of the recipe settings
-and options. Now you can use layouts feature in the *conanfile.txt* adding the [layout]
-section. We also added a new tools.apple.fix_apple_shared_install_name tool, to fix shared
+and options. Now you can use layouts feature in the *conanfile.txt* adding the `[layout]`
+section. We also added a new `tools.apple.fix_apple_shared_install_name` tool, to fix shared
 libraries that do not set the correct `LC_ID_DYLIB` and `LC_LOAD_DYLIB` fields. Finally,
 we added two new helpers: `conan.tools.build.can_run()` and
 `conan.tools.microsoft.check_min_vs`.
