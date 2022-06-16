@@ -148,7 +148,7 @@ defined in the `cmake_layout`.
 
 ## Improved CMakePresets with parameterized layout
 
-Conan has incrementally improved the support for CMakePresets during the last releases.
+Conan has incrementally improved the support for CMakePresets in the most recent releases.
 Since Conan 1.49 you can use the new `tools.cmake.cmake_layout:build_folder_vars`
 configuration to modify the
 [cmake_layout](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmake_layout.html#cmake-layout)
