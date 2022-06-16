@@ -194,7 +194,7 @@ to help users address problems that can occur when shared libraries in Apple pla
 
 As we explained in the [Conan documentation](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu/autotools.html#a-note-about-relocatable-shared-libraries-in-macos-built-the-autotools-build-helper)
 making shared libraries relocatable in Apple platforms requires an extra effort because
-when these kinds of libraries are built, two sections called `LC_ID_DYLIB` and
+when shared libraries are built, two fields called `LC_ID_DYLIB` and
 `LC_LOAD_DYLIB` are added to the information embedded in the library usually pointing to
 an absolute shared library location in the filesystem. This absolute location will make
 the library load fail when it's loaded in a different system without the library in that
