@@ -58,7 +58,7 @@ continue supporting Python2 moving forward.
 ## New [layout] section in conanfile.txt
 
 Until Conan 1.49 you could only use the layouts
-[feature](https://docs.conan.io/en/latest/reference/conanfile/tools/layout.html) defining
+[feature](https://docs.conan.io/en/latest/reference/conanfile/tools/layout.html) by defining
 the method in a *conanfile.py*. Conan 1.49 comes with support for layouts in the
 *conanfile.txt* as well. You can now add a new [layout] section in your conanfile to add
 one of the following pre-defined layouts:
