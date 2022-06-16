@@ -50,7 +50,7 @@ finally remove Python 2 suport.
 Python 2 was officially declared End Of Life two years and a half ago, and [Conan
 1.22](https://docs.conan.io/en/latest/changelog.html#id1006) already declared Python 2 as
 not supported. Extra blockers have been added in previous Conan releases to make everyone
-aware. Now the security vulnerabilities that are out of our scope, makes impossible to
+aware. With the security vulnerabilities that fall outside of our scope, it has become impossible to
 move forward support for Python 2. 
 
 **Please upgrade to Python>=3.6 to continue using Conan>=1.49.** 
