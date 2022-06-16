@@ -42,7 +42,7 @@ we have added two new helpers: `conan.tools.build.can_run()` and
 
 ## Removed Python2 support
 
-From version 1.49, Conan will not work with Python 2. This is because [security
+Starting with version 1.49, Conan will no longer work with Python 2. This is because [security
 vulnerabilities of Conan dependencies](https://github.com/advisories/GHSA-ffqj-6fqr-9h24)
 that haven't been addressed in Python 2, so the only alternative moving forward is to
 finally remove Python 2 suport.
