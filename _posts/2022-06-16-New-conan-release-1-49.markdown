@@ -204,7 +204,9 @@ The best solution to avoid this problem is to pass the appropriate flags for the
 that the absolute folder is substituted with the `@rpath` value. The `@rpath` special
 keyword will tell the loader to search a list of paths to find the library. These paths
 can be defined by the consumer of that library by defining the `LC_RPATH` field through
-linker options. 
+linker options. It's worth noting that, for example, CMake will do this by default,
+searching the libraries your are linking against and adding the `LC_RPATH` entries
+pointing at those.
 
 Not all libraries are prepared to provide relocatable shared libraries, so if you make a
 package for a library whose binaries are not relocatable, you have only two options,
