@@ -36,7 +36,7 @@ support to allow parameterizing the output folders using the value of the recipe
 and options. Now you can use layouts feature in the *conanfile.txt* adding the `[layout]`
 section. We also added a new `tools.apple.fix_apple_shared_install_name` tool, to fix shared
 libraries that do not set the correct `LC_ID_DYLIB` and `LC_LOAD_DYLIB` fields. Finally,
-we added two new helpers: `conan.tools.build.can_run()` and
+we have added two new helpers: `conan.tools.build.can_run()` and
 `conan.tools.microsoft.check_min_vs`.
 
 
