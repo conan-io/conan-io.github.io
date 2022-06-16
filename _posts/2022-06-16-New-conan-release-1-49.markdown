@@ -211,7 +211,7 @@ package for a library whose binaries are not relocatable, you have only two opti
 either patching the libraries' build scripts to make them relocatable or fixing the
 binaries after the build. 
 
-The `tools.apple.fix_apple_shared_install_name` tool can help to fix the binaries after
+The `tools.apple.fix_apple_shared_install_name` tool can help fix the binaries after
 the build step. You would normally invoke this tool in the `package()` method of the recipe,
 after moving the binaries to the package folder. Let's see how to use it with an example
 of a library that uses Autotools as the build system:
