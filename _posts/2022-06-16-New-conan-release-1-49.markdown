@@ -37,7 +37,7 @@ and options. Now you can use layouts feature in the *conanfile.txt* adding the `
 section. A new `tools.apple.fix_apple_shared_install_name` tool has been introduced, to fix shared
 libraries that do not set the correct `LC_ID_DYLIB` and `LC_LOAD_DYLIB` fields. Finally,
 we have added two new helpers: `conan.tools.build.can_run()` and
-`conan.tools.microsoft.check_min_vs`.
+`conan.tools.microsoft.check_min_vs()`.
 
 
 ## Removed Python2 support
