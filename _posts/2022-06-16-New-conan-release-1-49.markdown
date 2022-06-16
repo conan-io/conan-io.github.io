@@ -47,7 +47,7 @@ vulnerabilities of Conan dependencies](https://github.com/advisories/GHSA-ffqj-6
 that haven't been addressed in Python 2, so the only alternative moving forward is to
 finally remove Python 2 suport.
 
-Python 2 was officially declared End Of Life 2 years and a half now, and [Conan
+Python 2 was officially declared End Of Life two years and a half ago, and [Conan
 1.22](https://docs.conan.io/en/latest/changelog.html#id1006) already declared Python 2 as
 not supported. Extra blockers have been added in previous Conan releases to make everyone
 aware. Now the security vulnerabilities that are out of our scope, makes impossible to
