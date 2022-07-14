@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Conan 1.50: New CMakeToolchain.cache_variables, improving XCodeDeps support for components, fixes in CMake, MSBuild, XCode, many backports, minor changes, new tools, towards providing a 2.0 compatible recipe syntax."
+title: "Conan 1.50: New Conan 2.0 beta docs, new CMakeToolchain.cache_variables, improving XCodeDeps support for components, fixes in CMake, MSBuild, XCode, many backports, minor changes, new tools, towards providing a 2.0 compatible recipe syntax."
 meta_title: "Version 1.50 of Conan C++ Package Manager is Released" 
 meta_description: "The new version features include new CMakeToolchain.cache_variables, improving XCodeDeps support for components, several fixes and much more"
 ---
@@ -24,7 +24,7 @@ meta_description: "The new version features include new CMakeToolchain.cache_var
     }
 },
  "datePublished": "2022-07-14",
- "description": "New CMakeToolchain.cache_variables, improving XCodeDeps support for components, fixes in CMake, MSBuild, XCode, many backports, minor changes, new tools, towards providing a 2.0 compatible recipe syntax.",
+ "description": "New Conan 2.0 beta docs, new CMakeToolchain.cache_variables, improving XCodeDeps support for components, fixes in CMake, MSBuild, XCode, many backports, minor changes, new tools, towards providing a 2.0 compatible recipe syntax.",
  }
 </script>
 
