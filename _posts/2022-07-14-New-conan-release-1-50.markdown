@@ -146,7 +146,7 @@ class MylibConan(ConanFile):
         cmake.build()
 ```
 
-When cmake.configure() is invoked, it will pass the following arguments to CMake:
+When ``cmake.configure()`` is invoked, it will pass the following arguments to CMake:
 
 ```bash
 cmake -G ... -DCMAKE_TOOLCHAIN_FILE="/pathto/conan_toolchain.cmake" ... -Dfoo="ON" -Dfoo2="OFF" -Dvar="23" ...
