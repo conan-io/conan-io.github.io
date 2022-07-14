@@ -119,11 +119,91 @@ to clean the Conan cache and uses some methods of this API.
 
 ## New CMakeToolchain.cache_variables
 
+Since this version, the [CMakeToolchain
+generator](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmaketoolchain.html#cmaketoolchain)
+provides an attribute to define CMake cache-variables. This variables will be stored in
+the *CMakePresets.json* file (at the *cacheVariables* in the *configurePreset*) and will
+be applied with ``-D`` arguments when calling ``cmake.configure`` using the Conan [CMake
+build
+helper](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmake.html#conan-cmake-build-helper).
+Let's see an example:
 
-## Improvements in XCodeDeps components support
+```python
+...
+class MylibConan(ConanFile):
+    ...
+    def generate(self):
+        tc = CMakeToolchain(self)
+        tc.cache_variables["foo"] = True
+        tc.cache_variables["foo2"] = False
+        tc.cache_variables["var"] = "23"
+        tc.generate()
 
+    def build(self):
+        cmake = CMake(self)
+        cmake.configure()
+        cmake.build()
+```
+
+When cmake.configure() is invoked, it will pass the following arguments to cmake:
+
+```bash
+cmake -G ... -DCMAKE_TOOLCHAIN_FILE="/pathto/conan_toolchain.cmake" ... -Dfoo="ON" -Dfoo2="OFF" -Dvar="23" ...
+```
+
+As you can see, the booleans in the recipe are automatically translated to ``ON`` and
+``OFF`` valuess in CMake. 
+
+## Improvements in XCodeDeps
+
+Since we introduced XcodeDeps in [Conan
+1.42](http://localhost:4000/2021/11/10/New-conan-release-1-42.html), we have been
+gradually improving this generator. Since Conan 1.49 this generator creates separate
+*.xcconfig* files for packages that have components, now this release adds some internal
+optimizations that make it more efficient to consume this type of packages. The components
+support makes it possible to select just specific components instead adding the whole
+package. For example if you are depending directly on a package that has components such
+as [boost](https://conan.io/center/boost) but you just want to use the boost filesystem
+and chrono components, you can easily do this in your recipe in the ``generate()`` method,
+. Let's see an example:
+
+
+```python
+import textwrap
+from conan import ConanFile
+from conan.tools.apple import XcodeDeps
+from conan.tools.files import save
+
+
+class MyappConan(ConanFile):
+    name = "myapp"
+    version = "1.0"
+
+    ...
+    
+    def generate(self):
+        deps = XcodeDeps(self)
+        deps.generate()
+        # overwrite the generated conandeps.xcconfig with just the components
+        # we want to use instead the whole package
+        component_deps = textwrap.dedent("""
+            #include "conan_boost_filesystem.xcconfig"
+            #include "conan_boost_chrono.xcconfig"
+            """)
+        save(self, "conandeps.xcconfig", component_deps)
+```
 
 ## Advances in providing a 2.0 compatible recipe syntax
+
+For this release we continue to improve the syntax compatibility with Conan 2.0, some
+relevant changes are:
+
+- Create ``self.info.clear()`` as an alias of ``self.info.header_only()`` that will disappear in Conan 2.0.
+- Allow options having ``["ANY"]`` as a list
+- Ported all C++ standard related tools from 2.0 to 1.50
+
+For more detailed information on how to migrate your recipes to be compatible with Conan
+2.0, please check the [migration guide](https://docs.conan.io/en/latest/conan_v2.html).
 
 ---
 
