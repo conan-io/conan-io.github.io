@@ -37,19 +37,19 @@ to get files from the local file system. Also, now the
 generator has support for components. We have made some improvements to the `CMakePresets`
 support. We added a new
 [MesonDeps](https://docs.conan.io/en/latest/reference/conanfile/tools/meson/mesondeps.html)
-generator. Finally, we continue to work in the transition to Conan 2.0 and this release
-brings lots of fixes to make the migration easier.
+generator. Finally, we continue to work on the transition to Conan 2.0. This release
+brings several fixes to make the migration easier.
 
 
 Support for files in the local file system in conan.tools.files.download
 ------------------------------------------------------------------------
 
-Starting in Conan 1.51 the
+Starting in Conan 1.51, the
 [download](https://docs.conan.io/en/latest/reference/conanfile/tools/files/downloads.html#conan-tools-files-download)
-tool can reference files located in the local file system. That means that
+tool can reference files from the local file system. That means that
 [conan.tools.files.get()](https://docs.conan.io/en/latest/reference/conanfile/tools/files/downloads.html#conan-tools-files-get)
-will also work with local files. To use it in your recipes reference the file you
-want to get or download using the ``file:///<location>`` syntax like this:
+will also work with local files. To use it in your recipes, reference the file you want to
+get or download using the ``file:///<location>`` syntax like this:
 
 ```python
 from conan import ConanFile
@@ -76,11 +76,11 @@ Components support in MSBuildDeps
 This release brings component support for the
 [MSBuildDeps](https://docs.conan.io/en/latest/reference/conanfile/tools/microsoft.html?highlight=msbuilddeps#msbuilddeps)
 generator. Now, for Conan packages that use components, this generator will create
-separate proerty files for each component. That means that you can customize those
-property files to just include what you really need. For example, if you are depending
-directly on a package that has components such as [boost](https://conan.io/center/boost)
-but you just want to use the **boost** **filesystem** and **chrono** components, you can
-easily do this in your recipe in the ``generate()`` method. Let's see an example:
+separate property files for each component. That means that you can customize those
+property files to just include what you need. For example, if you are depending directly
+on a package that has components such as [boost](https://conan.io/center/boost) but you
+just want to use the **boost** **filesystem** and **chrono** components, you can easily
+customize the property file in the ``generate()`` method. Let's see an example:
 
 
 ```python
@@ -123,7 +123,7 @@ Improvements in CMakePresets integration
 
 We continue to improve the CMakePresets support in Conan. This release adds a couple of features:
 
-- The ``CMakePresets.json`` addds ``toolset`` and ``architecture`` items when using Ninja
+- The ``CMakePresets.json`` adds ``toolset`` and ``architecture`` items when using Ninja
   generator or the msvc compiler. This will make that Visual Studio can set the correct
   compiler automatically
 
@@ -132,7 +132,7 @@ We continue to improve the CMakePresets support in Conan. This release adds a co
   named
   [tools.cmake.cmaketoolchain.presets:max_schema_version](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmaketoolchain.html#cmaketoolchain)
   to define which schema version is used for the files *CMakePresets.json* and
-  *CMakeUserPresets.json*. By default the version schema of the generated
+  *CMakeUserPresets.json*. By default, the version schema of the generated
   *CMakeUserPresets.json* is **4** and the schema for the *CMakePresets.json* is **3**, so
   be aware that they require CMake >= 3.23.
 
@@ -144,14 +144,13 @@ documentation](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/c
 New MesonDeps generator
 -----------------------
 
-In most of the cases, when creating packages that use Meson as the build system you use
-the
+In most cases, when creating packages that use Meson as the build system, you use the 
 [MesonToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/meson/mesontoolchain.html)
-and
+along with the
 [PkgConfigDeps](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu/pkgconfigdeps.html)
-generators and then Meson will find the requirements using *pkg-config*. There are some
-cases like, for example, the build script bellow that the Meson build uses the
-``find_library()`` method directly.
+generator and then Meson will find the requirements using *pkg-config*. There are some
+cases, like the example below, where the build script uses the ``find_library()`` method
+directly:
 
 
 ```python
@@ -161,23 +160,25 @@ mylib = cxx.find_library('mylib', required: true)
 executable('app', 'main.cpp', dependencies: mylib)
 ```
 
-In this case Meson won't use already known detection mechanisms like: *pkg-config*,
-*cmake*, *config-tool* and you must inject the correct flags to the compiler in order to
-find those libraries. This is the use case of
+In this case, Meson won't use already known detection mechanisms like *pkg-config*,
+*cmake* or *config-tool* and you must inject the correct flags to the compiler to find
+those libraries. This is the use case of
 [MesonDeps](https://docs.conan.io/en/latest/reference/conanfile/tools/meson/mesondeps.html)
-that will define the correct args and link_args to link with those libraries. 
+that will define the appropiate *args* and *link_args* variables to link with those
+libraries. 
 
 
 Ease Conan 2.0 migration
 ------------------------
 
 The migration process to Conan 2.0 compatible recipes has started in [Conan Center
-Index](https://github.com/conan-io/conan-center-index) and the Conan team is making a
-great effort to help in the process of writting Conan 2.0 compatible recipes. For that, we
-have released several patch Conan versions up to Conan 1.51.3 and also backported a few
-fixes to Conan 1.50.2 that is the Conan version used currently in Conan Center Index. If
-you want to get ready for Conan 2.0, please do not forget to check the [Conan migration
-guide](https://docs.conan.io/en/latest/conan_v2.html) to 2.0 in the Conan documentation.
+Index](https://github.com/conan-io/conan-center-index), and the Conan team is making a
+great effort to help in the migration process to Conan 2.0 compatible recipes. With that
+in mind, we have released several patch Conan versions up to Conan 1.51.3 and backported a
+few fixes to Conan 1.50.2 which is the Conan version used in Conan Center Index by this
+date. If you want to get ready for Conan 2.0, please do not forget to check the [Conan
+migration guide](https://docs.conan.io/en/latest/conan_v2.html) to 2.0 in the Conan
+documentation.
 
 ---
 
