@@ -28,14 +28,6 @@ meta_description: "The new version features includes improved download tool, sup
  }
 </script>
 
-- Improved download tool to support getting files from the local file system
-- Support for components in MSBuildDeps
-- new MesonDeps generator
-- improved CMakePresets integration
-- lots of fixes to ease Conan 2.0 migration.
-
-
-
 We are pleased to announce that [Conan 1.51 is
 out](https://github.com/conan-io/conan/releases/tag/1.51.0) and comes with some
 significant new features and bug fixes. For example, we added [support in
@@ -52,11 +44,11 @@ brings lots of fixes to make the migration easier.
 Support for files in the local file system in conan.tools.files.download
 ------------------------------------------------------------------------
 
-From Conan 1.51 the
+Starting in Conan 1.51 the
 [download](https://docs.conan.io/en/latest/reference/conanfile/tools/files/downloads.html#conan-tools-files-download)
-tool has support for referencing files located in the local file system. That means that
+tool can reference files located in the local file system. That means that
 [conan.tools.files.get()](https://docs.conan.io/en/latest/reference/conanfile/tools/files/downloads.html#conan-tools-files-get)
-will also work with local files. To use it in your recipes just reference the file you
+will also work with local files. To use it in your recipes reference the file you
 want to get or download using the ``file:///<location>`` syntax like this:
 
 ```python
@@ -81,13 +73,14 @@ documentation](https://docs.conan.io/en/latest/reference/conanfile/tools/files/d
 Components support in MSBuildDeps
 ---------------------------------
 
-This release brings component support for the MSBuildDeps generator. Now, for Conan
-packages that use components, this generator will create separate proerty files for each
-component. That means that you can customize those property files to just include what you
-really need. For example, if you are depending directly on a package that has components
-such as [boost](https://conan.io/center/boost) but you just want to use the **boost**
-**filesystem** and **chrono** components, you can easily do this in your recipe in the
-``generate()`` method. Let's see an example:
+This release brings component support for the
+[MSBuildDeps](https://docs.conan.io/en/latest/reference/conanfile/tools/microsoft.html?highlight=msbuilddeps#msbuilddeps)
+generator. Now, for Conan packages that use components, this generator will create
+separate proerty files for each component. That means that you can customize those
+property files to just include what you really need. For example, if you are depending
+directly on a package that has components such as [boost](https://conan.io/center/boost)
+but you just want to use the **boost** **filesystem** and **chrono** components, you can
+easily do this in your recipe in the ``generate()`` method. Let's see an example:
 
 
 ```python
@@ -108,7 +101,7 @@ class MyappConan(ConanFile):
         deps.generate()
         # overwrite the generated conan_boost.props
         # with just the components
-        # we want to use instead the whole package
+        # we want to use instead of all of them
         component_deps = textwrap.dedent(r"""
           <?xml version="1.0" ?>
           <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
@@ -128,25 +121,63 @@ class MyappConan(ConanFile):
 Improvements in CMakePresets integration
 ----------------------------------------
 
+We continue to improve the CMakePresets support in Conan. This release adds a couple of features:
 
+- The ``CMakePresets.json`` addds ``toolset`` and ``architecture`` items when using Ninja
+  generator or the msvc compiler. This will make that Visual Studio can set the correct
+  compiler automatically
+
+- There is a new
+  [conf](https://docs.conan.io/en/latest/reference/config_files/global_conf.html) item
+  named
+  [tools.cmake.cmaketoolchain.presets:max_schema_version](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmaketoolchain.html#cmaketoolchain)
+  to define which schema version is used for the files *CMakePresets.json* and
+  *CMakeUserPresets.json*. By default the version schema of the generated
+  *CMakeUserPresets.json* is **4** and the schema for the *CMakePresets.json* is **3**, so
+  be aware that they require CMake >= 3.23.
+
+
+Read more about the CMakePresets integration in the [Conan
+documentation](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmaketoolchain.html).
 
 
 New MesonDeps generator
 -----------------------
 
+In most of the cases, when creating packages that use Meson as the build system you use
+the
+[MesonToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/meson/mesontoolchain.html)
+and
+[PkgConfigDeps](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu/pkgconfigdeps.html)
+generators and then Meson will find the requirements using *pkg-config*. There are some
+cases like, for example, the build script bellow that the Meson build uses the
+``find_library()`` method directly.
+
+
+```python
+project('mesonpackage', 'cpp')
+cxx = meson.get_compiler('cpp')
+mylib = cxx.find_library('mylib', required: true)
+executable('app', 'main.cpp', dependencies: mylib)
+```
+
+In this case Meson won't use already known detection mechanisms like: *pkg-config*,
+*cmake*, *config-tool* and you must inject the correct flags to the compiler in order to
+find those libraries. This is the use case of
+[MesonDeps](https://docs.conan.io/en/latest/reference/conanfile/tools/meson/mesondeps.html)
+that will define the correct args and link_args to link with those libraries. 
 
 
 Ease Conan 2.0 migration
 ------------------------
 
-
-
-
-
-
-
-
-
+The migration process to Conan 2.0 compatible recipes has started in [Conan Center
+Index](https://github.com/conan-io/conan-center-index) and the Conan team is making a
+great effort to help in the process of writting Conan 2.0 compatible recipes. For that, we
+have released several patch Conan versions up to Conan 1.51.3 and also backported a few
+fixes to Conan 1.50.2 that is the Conan version used currently in Conan Center Index. If
+you want to get ready for Conan 2.0, please do not forget to check the [Conan migration
+guide](https://docs.conan.io/en/latest/conan_v2.html) to 2.0 in the Conan documentation.
 
 ---
 
