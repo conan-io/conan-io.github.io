@@ -124,7 +124,7 @@ Improvements in CMakePresets integration
 We continue to improve the CMakePresets support in Conan. This release adds a couple of features:
 
 - The ``CMakePresets.json`` adds ``toolset`` and ``architecture`` items when using Ninja
-  generator or the msvc compiler. This will make that Visual Studio can set the correct
+  generator and the msvc compiler. This will make that Visual Studio can set the correct
   compiler automatically
 
 - There is a new
