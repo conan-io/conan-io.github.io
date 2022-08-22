@@ -62,7 +62,7 @@ class MylibConan(ConanFile):
     def source(self):
         get(self, "file:///path_to_folder/source.zip")
         # or if you want to use download...
-        downloadt(self, "file:///path_to_folder/main.cpp")
+        download(self, "file:///path_to_folder/main.cpp")
 
 ```
 
