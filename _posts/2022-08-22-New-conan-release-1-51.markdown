@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Conan 1.51: Improved download tool to support getting files from the local file system, support for components in MSBuildDeps, improved CMakePresets integration, new MesonDeps generator, and lots of fixes to ease Conan 2.0 migration."
+title: "Conan 1.51: Improved download tool to support getting files from the local file system, support for components in MSBuildDeps, improved CMakePresets integration, new MesonDeps generator and lots of fixes to ease Conan 2.0 migration."
 meta_title: "Version 1.51 of Conan C++ Package Manager is Released" 
 meta_description: "The new version features includes improved download tool, support for components in MSBuildDeps, new MesonDeps generator, improved CMakePresets integration and much more..."
 ---
@@ -172,7 +172,7 @@ Ease Conan 2.0 migration
 ------------------------
 
 The migration process to Conan 2.0 compatible recipes has started in [Conan Center
-Index](https://github.com/conan-io/conan-center-index), and the Conan team is making a
+Index](https://github.com/conan-io/conan-center-index) and the Conan team is making a
 great effort to help in the migration process to Conan 2.0 compatible recipes. With that
 in mind, we have released several patch Conan versions up to Conan 1.51.3 and backported a
 few fixes to Conan 1.50.2 which is the Conan version used in Conan Center Index by this
