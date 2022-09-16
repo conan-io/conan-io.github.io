@@ -32,11 +32,14 @@ By Christopher McArthur, Conan Developer Advocate; inspired by Eric Lemanissier,
 
 Conan 2.0 is coming and the community is pushing ahead. There’s been over 100 pull requests merged and you might see breaking changes!
 
-
+<p class="centered">
+    <img src="{{ site.url }}/assets/post_images/2022-09-01/conancenter-2-migration.png" align="center" alt="ConanCenter Pull Request Activity"/>
+</p>
 
 This graph shows the wave of new Pull Requests in the last two weeks. The community knocked out a new record for weekly Pull Requests. There were a staggering 314 open at one time, usually it’s ~140 for reference.
 
-Why are things changing?
+## Why are things changing?
+
 ConanCenter has always maintained recipes consumers need to have an up to date client for the best experience. The reason is there are constantly improvements and fixes being made, sometimes those require new Conan features to be possible. There are usually waves of new features, patches and fixes that allow for even better quality recipes.
 
 The Conan 2.0 beta is out and we, The Conan team and the Community, are making sure all the new features work - transparently - by testing it on the 1300+ recipes of open source projects that are available through ConanCenter. Details are in the 2.0 Road Map.
@@ -52,14 +55,16 @@ You might see missing imports, sometimes contributions do not set the required v
 Components that no longer exist. For instance, in CMake you might call ``find_package(Boost REQUIRED COMPONENTS filesystem regex)`` and see a new error message that filesystem and regex are not found. These need to be declared in the recipe and the names correct set for each generator which may not be caught in code review. 
 
 Missing environment variables, this is more rare but some recipes expose tools or paths needed to function. These also need to be migrated and they might be missing when you update your project.
-What can I do to avoid this surprise?
+
+
+## What can I do to avoid this surprise?
 This has always been a concern from ConanCenter consumers. Take a look at the ConanCenter Consumer Recipes guide for more details.
 
 Conan is very flexible; you can add your own remote or modify your client’s configuration for more granularity. We see the majority of Conan users hosting their own remote, and only consuming packages from there. For production this is the recommended way to add some infrastructure to ensure stability. This is generally a good practice when relying on package managers - not just Conan.
 
- Here are a few choices
-Running your own Conan Server - great for local ad-hoc setups
-Cache recipes in your own ArtifactoryCE - recommended for production environments
+Here are a few choices:
+- Running your own Conan Server - great for local ad-hoc setups
+- Cache recipes in your own ArtifactoryCE - recommended for production environments
 
 Using your own ArtifactoryCE instance is easy. You can deploy it on-premise or use a cloud provided solution for free. Your project should use only this remote and new recipe revisions are only pushed to your Artifactory after they have been validated in your project.
 
@@ -67,8 +72,7 @@ The minimum solution, if still choosing to rely on ConanCenter directly, involve
 recipe revision (RREV) can be added to each requirement. Instead of ``fmt/9.1.0`` you can add a pound (or hashtag) to the end followed by the revision ``fmt/9.1.0#c93359fba9fd21359d8db6f875d8a233``. This feature needs to be enabled in Conan 1.x, see the Activation Instructions for details.
 Lockfiles can be created with the ``conan lock create`` and read with by adding `` --lockfile=conan.lock`` to ``conan install`` or ``conan create`` commands. See the lockfile introduction for more information.
 Please, be aware there are some known bugs related to lockfiles that are not being fixed in Conan v1.x - we are really excited for the 2.0 improvements to be widely used.
+
 Both of these give you better control and will allow you to choose when to upgrade your Conan client and the recipes you are using. 
 Where is the best place to ask for help?
 GitHub Issues are for “official” answers, most often you’ll get responses from the Conan team. For “community” support Cpplang’s Conan Slack Channel is a quick way to help. We know issues might crop up so we are making sure to smooth the process.
-
-
