@@ -46,7 +46,8 @@ The Conan 2.0 beta is out and we, The Conan team and the Community, are making s
 
 If you want to get your project ready check the Conan 2.0 Migration Guide for more information.
 Looking to get involved in open source? You can help with ConanCenter’s migration by reading the ConanCenter Migration specific documentation.
-What signs should you look for?
+
+## What signs should you look for?
 
 The one you are most likely to see is “Current Conan version (1.42.0) does not satisfy the defined one (1.50.2)”. The migration uses new features and recent bug fixes only available in recent client versions.
 
@@ -56,8 +57,8 @@ Components that no longer exist. For instance, in CMake you might call ``find_pa
 
 Missing environment variables, this is more rare but some recipes expose tools or paths needed to function. These also need to be migrated and they might be missing when you update your project.
 
-
 ## What can I do to avoid this surprise?
+
 This has always been a concern from ConanCenter consumers. Take a look at the ConanCenter Consumer Recipes guide for more details.
 
 Conan is very flexible; you can add your own remote or modify your client’s configuration for more granularity. We see the majority of Conan users hosting their own remote, and only consuming packages from there. For production this is the recommended way to add some infrastructure to ensure stability. This is generally a good practice when relying on package managers - not just Conan.
