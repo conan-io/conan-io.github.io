@@ -12,7 +12,7 @@ meta_description: "Learn how to safely consumer recipes using your very own Arti
  "headline": "ConanCenter is rolling out Conan 2.0 recipes - Are you ready?d",
  "alternativeHeadline": "Learn how to setup your enviroment to consumer recipes from ConanCenter",
  "image": "https://docs.conan.io/en/latest/_images/frogarian.png",
- "author": "Conan Team", 
+ "author": "Christopher McArthur, Conan Developer Advocate", 
  "genre": "C/C++", 
  "keywords": "c c++ package manager conan release", 
  "publisher": {
@@ -28,7 +28,7 @@ meta_description: "Learn how to safely consumer recipes using your very own Arti
  }
 </script>
 
-By Christopher McArthur, Conan Developer Advocate; inspired by Eric Lemanissier, ConanCenter contributor.
+_This post was inspired by Eric Lemanissier a ConanCenter contributor as well as a few Conan users._
 
 Conan 2.0 is coming and the community is pushing ahead. There’s been over 100 pull requests merged and you might see breaking changes!
 
