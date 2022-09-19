@@ -24,7 +24,7 @@ meta_description: "Learn how to safely consume public recipes using your very ow
     }
 },
  "datePublished": "2022-09-01",
- "description": "Improved download tool to support getting files from the local file system, support for components in MSBuildDeps, new MesonDeps generator, improved CMakePresets integration and lots of fixes to ease Conan 2.0 migration.",
+ "description": "Learn how to safely consume recipes from ConanCenter using your very own ArtifactoryCE.",
  }
 </script>
 
