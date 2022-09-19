@@ -3,7 +3,7 @@ layout: post
 comments: false
 title: "ConanCenter is rolling out Conan 2.0 recipes - Are you ready?"
 meta_title: "ConanCenter is rolling out Conan 2.0 recipes - Are you ready?" 
-meta_description: "Learn how to safely consumer recipes using your very own ArtifactoryCE"
+meta_description: "Learn how to safely consume public recipes using your very own ArtifactoryCE"
 ---
 
 <script type="application/ld+json">
