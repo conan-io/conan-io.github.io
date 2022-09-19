@@ -23,7 +23,7 @@ meta_description: "Learn how to safely consume public recipes using your very ow
       "url": "https://media.jfrog.com/wp-content/uploads/2017/07/20134853/conan-logo-text.svg"
     }
 },
- "datePublished": "2022-08-21",
+ "datePublished": "2022-09-01",
  "description": "Improved download tool to support getting files from the local file system, support for components in MSBuildDeps, new MesonDeps generator, improved CMakePresets integration and lots of fixes to ease Conan 2.0 migration.",
  }
 </script>
