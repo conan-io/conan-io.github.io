@@ -9,7 +9,7 @@ meta_description: "Learn how to safely consume public recipes using your very ow
 <script type="application/ld+json">
 { "@context": "https://schema.org", 
  "@type": "TechArticle",
- "headline": "ConanCenter is rolling out Conan 2.0 recipes - Are you ready?d",
+ "headline": "ConanCenter is rolling out Conan 2.0 recipes - Are you ready?",
  "alternativeHeadline": "Learn how to setup your environment to consume recipes from ConanCenter",
  "image": "https://docs.conan.io/en/latest/_images/frogarian.png",
  "author": "Christopher McArthur, Conan Developer Advocate", 
