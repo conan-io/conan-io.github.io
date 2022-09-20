@@ -23,7 +23,7 @@ meta_description: "Conan 1.52: Build system improvements: MSBuild, CMakeToolchai
       "url": "https://media.jfrog.com/wp-content/uploads/2017/07/20134853/conan-logo-text.svg"
     }
 },
- "datePublished": "2022-07-14",
+ "datePublished": "2022-09-21",
  "description": "Build system improvements: MSBuild, CMakeToolchain, continue working in easing migration to 2.0, new export_conandata_patches tool, new build folder argument for cmake_layout.",
  }
 </script>
