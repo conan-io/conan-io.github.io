@@ -46,18 +46,7 @@ to define the build folder.
 
 Also, it's worth noting that [Conan
 2.0-beta3](https://github.com/conan-io/conan/releases/tag/2.0.0-beta3) was released this
-month and it also bring several significant new features.
-
-- Build system improvements: PkgConfigDeps, MSBuild, CMakeToolchain
-- Many 2.0 migrate tools: is_msvc, remotes.json, traits in self.requires(), git.clone(args), to_apple_arch
-- New export_conandata_patches, cmake_layout(build_folder)
-Feature: Add BUILD_TESTING=OFF to CMakeToolchain presets if tools.build:skip_test. #11935 . Docs here
-Feature: Allow traits in self.requires() for 2.0 compatibility. #11934 . Docs here
-Feature: Make the version of the Conan client available under conan and make it a Version object so it can be compared. #11928 . Docs here
-Feature: Implement cmake_layout(..., build_folder="build) build folder argument. #11889 . Docs here
-Feature: Defines the PACKAGE_ROOT_<package> variable in XcodeDeps generated files. #11818 . Docs here
-Feature: Added clang 16 to settings. #11780
-Beta3 -> 12 de septiembre --> talk about 1 feature like the custom commands? Link the graph model video?
+month and it also brings several new features and fixes.
 
 
 ## Improvements in MSBuild and CMakeToolchain
