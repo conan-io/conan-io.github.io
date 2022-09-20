@@ -23,7 +23,7 @@ meta_description: "Learn how to safely consume public recipes using your very ow
       "url": "https://media.jfrog.com/wp-content/uploads/2017/07/20134853/conan-logo-text.svg"
     }
 },
- "datePublished": "2022-09-21",
+ "datePublished": "2022-09-20",
  "description": "Learn how to safely consume recipes from ConanCenter using your very own ArtifactoryCE.",
  }
 </script>
@@ -33,7 +33,7 @@ _This post was inspired by Eric Lemanissier a ConanCenter contributor as well as
 Conan 2.0 is coming and the community is pushing ahead. There’s been over 100 pull requests merged and you might see breaking changes!
 
 <p class="centered">
-    <img src="{{ site.url }}/assets/post_images/2022-09-21/conancenter-2-migration.png" align="center" alt="ConanCenter Pull Request Activity"/>
+    <img src="{{ site.url }}/assets/post_images/2022-09-20/conancenter-2-migration.png" align="center" alt="ConanCenter Pull Request Activity"/>
 </p>
 
 This graph shows the wave of new Pull Requests in the last two weeks. The community knocked out a new record for weekly Pull Requests. There were a staggering 314 open at one time, usually it’s ~140 for reference.
