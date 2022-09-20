@@ -104,33 +104,80 @@ features to Conan 1.52 like:
   tool. This tool is useful to convert between Conan-style arch setting and the format
   understood by the Apple build tools (*x86* to *i386*, *armv8* to *arm64*, etc.).
 
--  Add ability to pass additional arguments to conan.tools.scm.Git.clone()
+-  Added ability to pass additional arguments to
+   [conan.tools.scm.Git.clone()](https://docs.conan.io/en/latest/reference/conanfile/tools/scm/git.html#clone).
+   Using that argument you can add extra arguments as a list to the ``git clone`` call:
 
+```python
+from conan import ConanFile
+from conan.tools.scm import Git
+
+class App(ConanFile):
+    version = "1.2.3"
+
+    def source(self):
+        git = Git(self)
+        clone_args = ['--depth', '1', '--branch', self.version]
+        git.clone(url="https://path/to/repo.git", args=clone_args)
+```
 
 Please, do not forget to check our [migration to Conan 2.0
 guide](https://docs.conan.io/en/latest/conan_v2.html) in the Conan documentation.
 
 
-##  new export_conandata_patches tool
+##  New export_conandata_patches tool
+
+Very similar to the
+[apply_conandata_patches()](https://docs.conan.io/en/latest/reference/conanfile/tools/files/patches.html#conan-tools-files-apply-conandata-patches)
+tool, we added a [new
+export_conandata_patches](https://docs.conan.io/en/latest/reference/conanfile/tools/files/patches.html#conan-tools-files-export-conandata-patches)
+tool to exports patches stored in the *conandata.yml* file. Use it like:
+
+```python
+from conan import ConanFile
+from conan.tools.files import export_conandata_patches
+
+class MyLibrary(ConanFile):
+  ...
+  def export_sources(self):
+      export_conandata_patches(self)
+```
+
+It will copy all the patches defined in the ``conanfile.conan_data`` from the
+``conanfile.recipe_folder`` to the ``conanfile.exports_sources_folder``.
 
 
-## new build folder argument for cmake_layout
+## New build folder argument for cmake_layout
 
+When declaring the ``cmake_layout`` in recipes, it will set the value for
+``conanfile.folders.build`` to *build* if the cmake generator is multi-configuration or
+*build/Debug* or *build/Release* if the cmake generator is single-configuration, depending
+on the build_type. Now, using the ``build_folder`` argument you can redefine the value of
+the *build* string:
+
+```python
+from conan import ConanFile
+from conan.tools.cmake import cmake_layout
+
+class MyLibrary(ConanFile):
+  ...
+  def layout(self):
+      cmake_layout(self, build_folder="mybuildfolder")
+```
+
+That will result setting the ``conanfile.folders.build`` to *mybuildfolder* for
+multi-configuration and *mybuildfolder/Debug* or *mybuildfolder/Release* for
+single-configuration.
 
 ## Conan 2.0-beta3 released
 
-We would like to talk a bit about Conan 2.0. As you may know, the first Conan 2.0 beta is
-already out. You can install it using *pip*:
+Conan 2.0 beta3 is already out. You can install it using *pip*:
 
 ```bash
 $ pip install conan --pre
 ```
 
-We have done an effort lately to complete the [documentation for the new Conan major
-version](https://docs.conan.io/en/2.0/). Although the documentation for 2.0 is still in
-"draft" state, some sections are practically complete. There are some differences in how
-the Conan 1.X and Conan 2.0 documentation is structured. Let's see the most relevant
-sections of the documentation for Conan 2.0:
+Don't forget to check the [documentation for Conan 2.0](https://docs.conan.io/en/2.0/).
 
 ---
 
