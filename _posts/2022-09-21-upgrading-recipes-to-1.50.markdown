@@ -70,5 +70,5 @@ It is worth knowing, some compilers are not passed in (yet), for `gcc` if you se
 
 Conan has distinguished the host and build contexts for a while, but the features that will be carried into 2.0 require you to be more explicit. You’ll probably run into messages asking for you to specify the build context, my “general default” advice:
 
-- `-pr:h` (or `-pr` since 99% of the time you are changing the configuration of the binary you ware generating) is the settings for the binary + configuration of your tools (e.g. `CMaketoolchain` use Ninja, build type set to Debug, or switch environment variables for a different compiler). 
+- `-pr:h` (or `-pr` since 99% of the time you are changing the configuration of the binary you are generating) is the settings for the binary + configuration of your tools (e.g. `CMakeToolchain` use Ninja, build type set to Debug, or switch environment variables for a different compiler). 
 - `-pr:b` can be `default`. Your build machine environment should be detected with the default Conan profile. This is the change in Conan 2.0 from `None` to `default_profile`. If you need to compile tools from source you’ll want to set the information in this profile.
