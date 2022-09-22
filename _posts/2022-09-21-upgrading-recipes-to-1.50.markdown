@@ -1,16 +1,16 @@
 ---
 layout: post
 comments: false
-title: "Getting up to speed with the latest Conan 1.50 features"
-meta_title: "Getting up to speed with the latest Conan 1.50 features" 
+title: "Getting up to speed with the latest Conan features"
+meta_title: "Getting up to speed with the latest Conan features" 
 meta_description: "Learn about the most significant changes to your recipes upgrading from 1.30s to 1.50s. Getting Ready for Conan 2.0 starts with using the new Conan 1.x generators"
 ---
 
 <script type="application/ld+json">
 { "@context": "https://schema.org", 
  "@type": "TechArticle",
- "headline": "Getting up to speed with the latest Conan 1.50 features",
- "alternativeHeadline": "Learn about the important Conan 1.50 build system integrations",
+ "headline": "Getting up to speed with the latest Conan features",
+ "alternativeHeadline": "Learn about the important Conan build system integrations",
  "image": "https://docs.conan.io/en/latest/_images/frogarian.png",
  "author": "Christopher McArthur, Conan Developer Advocate", 
  "genre": "C/C++", 
