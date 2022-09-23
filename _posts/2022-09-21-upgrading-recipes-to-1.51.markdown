@@ -60,7 +60,7 @@ Layouts are a huge improvement. Previously you needed two distinct workflows, on
 
 ### Presets
 
-CMake Presets are a delight. I never knew these existed until Conan pooped out some files in my build directory. Conan 2.0 will bump the requirement to CMake 3.15 but I’d recommend using 3.23+ for local development to take full advantage of what 1.x provides.
+CMake Presets are a delight. I never knew these existed until Conan made some files in my build directory. Conan 2.0 will bump the requirement to CMake 3.15 but I’d recommend using 3.23+ for local development to take full advantage of what 1.x provides.
 
 When configuring CMake, you no longer need to specify the compilation architecture to match your profile. Conan will pre-populate all that information and CMake will automatically detect and load it. `cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release` can now be replaced with `cmake --preset release`.
 
