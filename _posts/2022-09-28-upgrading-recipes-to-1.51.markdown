@@ -23,7 +23,7 @@ meta_description: "Learn about the most significant changes to your recipes upgr
       "url": "https://media.jfrog.com/wp-content/uploads/2017/07/20134853/conan-logo-text.svg"
     }
 },
- "datePublished": "2022-09-21",
+ "datePublished": "2022-09-28",
  "description": "Learn about the most significant changes to your recipes upgrading from 1.30s to 1.50s. Getting Ready for Conan 2.0",
  }
 </script>
