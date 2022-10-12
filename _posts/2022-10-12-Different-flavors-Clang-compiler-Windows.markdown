@@ -213,82 +213,16 @@ The runtime libraries used are not the only difference between the different Cla
 
 Here is a table summarizing some different preprocessor definitions (details on how to reproduce this table are explained below):
 
+Architecture | Compiler | Std | Subsystem | Notes |
+-------------|----------|-----|-----------|-------|
+msvc | _M_X64 _MSC_VER=1933 _MSVC_LANG=201402 | __cplusplus=199711 | | The standard __cplusplus is not correct by default, need extra /Zc flag
+**LLVM/Clang** | _M_X64 __x86_64__  _MSC_VER=1933 __clang_major__=13 _MSVC_LANG=201402 | __cplusplus=201402 | | The _MSC_VER by default is 19.3/v143 from VS 17 2022, but can be changed using other version environment
+Visual Studio ClangCL | _M_X64 __x86_64__ _MSC_VER=1933 __clang_major__=14 _MSVC_LANG=201402 | __cplusplus=201402 | | Same flags as **LLVM/Clang**
+Msys2 Clang | _M_X64 __x86_64__  __GNUC__=4 __GNUC_MINOR__=2 __clang_major__=14 | __cplusplus=201402 | __MINGW32__=1 __MINGW64__=1 |The MSVC related flags are replaced with GNU and standard ones. MinGW Makefiles are used to build
+Msys2 MinGW Clang | _M_X64         __x86_64__      __GNUC__=4               __GNUC_MINOR__=2          __clang_major__=14  | __cplusplus=201402 _GLIBCXX_USE_CXX11_ABI=1 | __MINGW32__=1            __MINGW64__=1   | Definition of _GLIBCXX_USE_CXX11_ABI evidence the libstdc++/libstdc++11 stdlib
+Cygwin Clang (obsolete) |__x86_64__  __GNUC__=4 __GNUC_MINOR__=2 __clang_major__=8 | __cplusplus=201402 | __CYGWIN__=1 | The bundled clang is 8.0, which is an old release.
 
-
-Architecture
-Compiler
-Std
-Subsystem
-Notes
-msvc
-_M_X64 
-
-
-_MSC_VER=1933
-_MSVC_LANG=201402
-__cplusplus=199711
-
-
-The standard __cplusplus is not correct by default, need extra /Zc flag
-**LLVM/Clang**
-_M_X64
-__x86_64__ 
-_MSC_VER=1933
-__clang_major__=13
-_MSVC_LANG=201402
-__cplusplus=201402
-
-
-The _MSC_VER by default is 19.3/v143 from VS 17 2022, but can be changed using other version environment
-Visual Studio ClangCL
-_M_X64
-__x86_64__
-_MSC_VER=1933
-__clang_major__=14
-_MSVC_LANG=201402
-__cplusplus=201402
-
-
-Same flags as **LLVM/Clang**
-Msys2 Clang
-_M_X64
- __x86_64__ 
-
-
-__GNUC__=4
-__GNUC_MINOR__=2
-__clang_major__=14
-__cplusplus=201402
-__MINGW32__=1
-__MINGW64__=1
-The MSVC related flags are replaced with GNU and standard ones. MinGW Makefiles are used to build
-Msys2 MinGW Clang
- _M_X64         
-__x86_64__    
-      
-__GNUC__=4               
-__GNUC_MINOR__=2         
-__clang_major__=14 
-__cplusplus=201402
-_GLIBCXX_USE_CXX11_ABI=1
-__MINGW32__=1            
-__MINGW64__=1   
-Definition of _GLIBCXX_USE_CXX11_ABI evidence the libstdc++/libstdc++11 stdlib
-Cygwin Clang (obsolete)
-__x86_64__ 
-
-
-__GNUC__=4
-__GNUC_MINOR__=2
-__clang_major__=8
-
-
-__cplusplus=201402
-__CYGWIN__=1
-The bundled clang is 8.0, which is an old release.
-
-
-On the architecture side, all Clang versions, except the obsolete Cygwin one will declare both the MSVC specific  _M_X64 and the GNU and Clang __x86_64__ one.
+On the architecture side, all Clang versions, except the obsolete Cygwin one will declare both the MSVC specific ``_M_X64`` and the GNU and Clang ``__x86_64__`` one.
 
 The compiler version varies between the 2 major families. The VS based ones will define _MSC_VER=1933, (that belongs to v143 or 19.3 compiler version, the default one in Visual Studio 17 2022), together with the ``__clang_major__=13`` one for the Clang compiler. Note how the VS/Clang and the **LLVM/Clang** versions are different, in this case, we are using the **LLVM/Clang** 13.0 version so we can manually check our build used the correct compiler (the VS/ClangCL bundled one is version 14)
 
@@ -650,11 +584,3 @@ To decide between the MSVC based Clang flavors (**LLVM/Clang** and VS/Clang) and
 Between Msys2 Clang and Msys2MinGW Clang, the decision should be made similarly. If there are other dependencies of the project that rely on ``libstdc++`` runtime that have to play together, Msys2MinGW Clang is probably the way to go, but otherwise, it seems that Msys2 Clang with ``libc++`` could be the way to go.
 
 In MSVC-based Clang, between **LLVM/Clang** and VS/Clang, the final decision is probably the IDE. If a lot of development happens on Windows and developers want to use Visual Studio IDE, then the VS/Clang will be better. If on the contrary most development happens in Linux, and Windows devs are happy with VS Code editor and using Ninja (which many developers love because of it being very fast), then **LLVM/Clang** could be a better choice.
-
-
-
-
-
-
-
-
