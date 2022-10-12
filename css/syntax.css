@@ -79,3 +79,9 @@
 .highlight .ss {
   color: #859900;
 }
+
+/* I am using INI for conan profiles since it's close enough but we need to ignore the "errors" */
+.language-ini .highlight .err {
+  color: #93a1a1;
+  background-color: #EEF7FF;
+}

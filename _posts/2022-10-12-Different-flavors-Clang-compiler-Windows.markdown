@@ -226,13 +226,13 @@ On the architecture side, all Clang versions, except the obsolete Cygwin one wil
 
 The compiler version varies between the 2 major families. The VS based ones will define _MSC_VER=1933, (that belongs to v143 or 19.3 compiler version, the default one in Visual Studio 17 2022), together with the ``__clang_major__=13`` one for the Clang compiler. Note how the VS/Clang and the **LLVM/Clang** versions are different, in this case, we are using the **LLVM/Clang** 13.0 version so we can manually check our build used the correct compiler (the VS/ClangCL bundled one is version 14)
 
-It is completely possible to use a different VS version when using **LLVM/Clang**. By default it will use the latest v143 runtime, but by activating the environment (via ``vcvars`` or running in another VS version prompt) it is possible to use that version instead. We will see it later in the tests, but in essence it is evidenced by a preprocessor definition like _MSC_VER=192X. It is also possible to alter the default MSVC compatibility behavior with the compiler option ``-fms-compatibility-version``, which makes clang behave like other MSVC version, or ``-fmsc-version`` to just override the _MSC_VER value.
+It is completely possible to use a different VS version when using **LLVM/Clang**. By default it will use the latest v143 runtime, but by activating the environment (via ``vcvars`` or running in another VS version prompt) it is possible to use that version instead. We will see it later in the tests, but in essence it is evidenced by a preprocessor definition like ``_MSC_VER=192X``. It is also possible to alter the default MSVC compatibility behavior with the compiler option ``-fms-compatibility-version``, which makes clang behave like other MSVC version, or ``-fmsc-version`` to just override the ``_MSC_VER`` value.
 
 On the other hand, the Msys2 based Clang compilers will define ``__GNUC__`` flags instead, while still using the ``__clang_major__=13`` definitions. These definitions can be controlled with the ``-fgnuc-version`` compiler option, but note that it doesn’t really activate or deactivate the GNU extensions in Clang, just change the values of the preprocessor definitions.
 
-Something similar happens with the C++ standard. The VS based Clang compilers will define both the VS specific ``_MSVC_LANG=201402`` (C++14 standard), and the C++ standard ``__cplusplus=201402``. Note however, how the Msys2 MinGW Clang  might also define the _GLIBCXX_USE_CXX11_ABI to instruct to use the ``libstdc++`` or the ``libstdc++11`` C++ standard library. 
+Something similar happens with the C++ standard. The VS based Clang compilers will define both the VS specific ``_MSVC_LANG=201402`` (C++14 standard), and the C++ standard ``__cplusplus=201402``. Note however, how the Msys2 MinGW Clang  might also define the ``_GLIBCXX_USE_CXX11_ABI`` to instruct to use the ``libstdc++`` or the ``libstdc++11`` C++ standard library.
 
-Note how the vanilla msvc will report ``__cplusplus199711``, even if the ``_MSVC_LANG=201402`` is correct to represent C++14. You would need to explicitly define /Zc:__cplusplus to have ``__cplusplus`` correctly defined.
+Note how the vanilla msvc will report ``__cplusplus199711``, even if the ``_MSVC_LANG=201402`` is correct to represent C++14. You would need to explicitly define ``/Zc:__cplusplus`` to have ``__cplusplus`` correctly defined.
 
 ## Configuring and testing different setups with CMake and Conan
 
@@ -243,7 +243,7 @@ It requires having CMake>=3.23 and Conan>=1.53 installed in the system. Every in
 Let's start with a simple C++ "hello" world project, that can be created with the predefined template:
 
 ```bash
-$ conan new hello/0.1 -m=cmake_lib
+conan new hello/0.1 -m=cmake_lib
 ```
 
 Note that this is a CMake based project, that contains something very similar to the code posted above, and such a project is agnostic of Conan, its CMakeLists.txt does not contain anything Conan related. The ``conanfile.py`` recipe will allow us to build the project easily with different configurations (in this case different Clang variants).
@@ -252,7 +252,7 @@ Let's start with the "vanilla" msvc build, and there learn about the necessary c
 
 msvc.profile
 
-```
+```ini
 [settings]
 os=Windows
 arch=x86_64
@@ -268,7 +268,7 @@ Where ``compiler.version=193`` is the default compiler version (19.3, toolset v1
 
 This profile can be passed in the command line:
 
-```
+```sh
 $ conan create . -pr=msvc.profile
 ...
 
@@ -287,7 +287,7 @@ To build and test this project we will use the following profile (explained belo
 
 llvm_clang.profile
 
-```
+```ini
 [settings]
 os=Windows
 arch=x86_64
@@ -305,12 +305,11 @@ PATH+=(path)C:/ws/msys64/mingw64/bin
  
 [conf]
 tools.env.virtualenv:auto_use=True
-
 ```
 
 And apply it with
 
-```
+```sh
 $ conan create . -pr=llvm_clang.profile
 
 ...
@@ -331,8 +330,10 @@ Lets explain some interesting details of the profile.  The architecture, compile
 - ``compiler.runtime_version=v143``. As commented above, ``**LLVM/Clang**`` will use the latest Visual Studio 17 runtime from v143. We will change it later and see the effect.
 
 As the ``[buildenv]`` section is showing, it is necessary to add a couple of things to the system ``PATH``:
+
 - The path to the Clang compiler itself, the location where the executables are. Note that this is using the ``PATH=+(path)`` syntax, which means **prepend** to the PATH. As Visual Studio might have a Clang compiler installed, and the Visual Studio environment might be activated, it would be possible to accidentally use the Visual Studio bundled ClangCL toolset instead of our own installed one.
 - The path to MinGW. To build this CMake project, we can use the ``MinGW Makefiles``, ``Ninja`` or ``NMake Makefiles`` CMake generators. If we try to use a ``Visual Studio`` CMake generator, it will assume that it will use the Visual Studio bundled Clang, and not our own. In theory it is possible to define to MSBuild a custom location with
+
 ```xml
 <Project>
   <PropertyGroup>
@@ -341,40 +342,36 @@ As the ``[buildenv]`` section is showing, it is necessary to add a couple of thi
   </PropertyGroup>
 </Project> 
 ```
+
 But up to our knowledge this is not possible using just CMake. This addition to the PATH will make the ``mingw32-make`` available to the build, as it is necessary, and we don’t have it installed at the system level either, because this could also interact in other ways, like bringing its own compilers. So this value is appended to the PATH, instead of prepended.
 
 The good thing of defining such PATH env-vars in a profile, is that they are not permanently defined, and only applied for the command using such a profile.
 
 Finally, the conf ``tools.env.virtualenv:auto_use=True`` helps to emulate the Conan 2.0 behavior, in which it is not necessary to explicitly define in recipes the Environment generators. It will be equivalent to adding ``generators = "VirtualBuildEnv", "VirtualRunEnv"`` to the conanfiles.
 
-#### LLVM/Clang with different generators and runtimes: 
+#### LLVM/Clang with different generators and runtimes:
 
 Changing the CMake generator can be done passing the appropriate ``conf``, either in command line or in the profile:
 
+```sh
+conan create . -pr=llvm_clang.profile -c tools.cmake.cmaketoolchain:generator=Ninja
 ```
-$ conan create . -pr=llvm_clang.profile -c tools.cmake.cmaketoolchain:generator=Ninja
- ```
 
 The result should be exactly the same as the above one, which by default was using ``MinGW Makefiles``. It is also possible to define ``-c tools.cmake.cmaketoolchain:generator="NMake Makefiles"`` with identical results.
 
 If we wanted to link the runtime statically, we can do:
 
-```
-$ conan create . -pr=llvm_clang.profile -s compiler.runtime=static
+```sh
+conan create . -pr=llvm_clang.profile -s compiler.runtime=static
 ```
 
 The program output would be still the same, but if we inspect the resulting ``\test_package\build\Release\example.exe`` executable with ``dumpbin``, we will realize that now it only depends on KERNEL32.dll, and none of the other runtime dynamic libraries.
 
-
 Finally, if we wanted to use the same compiler, but using the Visual Studio 16 2019 runtime (the v142 toolset), we could do:
-
-```
-$ conan create . -pr=llvm_clang.profile -s compiler.runtime_version=v142
-```
-
 And now the program output would be:
 
-```
+```sh
+$ conan create . -pr=llvm_clang.profile -s compiler.runtime_version=v142
 hello/0.1: Hello World Release!
   …
   hello/0.1: _MSC_VER1929
@@ -383,16 +380,15 @@ hello/0.1: Hello World Release!
 
 Note how the MSVC version is the desired 19.2 now instead of the above with the default 19.3
 
-
-
 ### VS/ClangCL: Visual Studio with bundled ClangCL
+
 The way to install the CLang compiler inside Visual Studio is to use their own VS Installer application, and select the "Clang" compiler there. Read https://learn.microsoft.com/en-us/cpp/build/clang-support-msbuild?view=msvc-170#install for more details. It will use it via the ``clang-cl.exe`` compiler driver that is compatible with the MSVC compiler command line arguments. The compiler is still the same internally (the same as **LLVM/Clang**), just it will accept Visual Studio arguments compatible with msvc ``cl.exe`` compiler.
 
 The profile that we are going to use in this case carries over a lot of the same settings and configurations as we saw previously:
 
 vs_clang.profile
 
-```
+```ini
 [settings]
 os=Windows
 arch=x86_64
@@ -415,11 +411,10 @@ The way to define it is going to use the Visual Studio ClangCL is to specify it 
 
 Note the ``[settings]`` are identical to the previous **LLVM/Clang** profile, and indeed they result in the same final ``package_id``, because the final binary is supposed to be the same (not necessarily bit by bit, check about non-deterministic builds https://blog.conan.io/2019/09/02/Deterministic-builds-with-C-C++.html). The settings compiler.runtime=dynamic, compiler.runtime_type=Release, compiler.runtime_version=v143, regarding the runtime are still necessary, and should match the CMake ``Visual Studio`` generator being used. Even if it is not fully necessary from the toolchain perspective, it is still necessary to identify the binary and obtain that same ``package_id``.
 
-
 With:
 
-```
-$ conan create . -pr=vs_clang.profile
+```sh
+conan create . -pr=vs_clang.profile
 ```
 
 We will obtain the same output as the above with the **LLVM/Clang** tooling.
@@ -431,7 +426,7 @@ The first step to use this compiler is to install Msys2, it can be done followin
 This would be the profile to use for this case:
 msys2_clang.profile
 
-```
+```ini
 [settings]
 os=Windows
 arch=x86_64
@@ -458,7 +453,7 @@ Besides the ``[buildenv]`` PATH pointing to the location of the Clang compiler i
 
 When executing the ``conan create`` we should see:
 
-```
+```sh
 $ conan create . -pr=msys2_clang.profile
 hello/0.1: Hello World Release!
   hello/0.1: _M_X64 defined
@@ -475,11 +470,11 @@ hello/0.1: Hello World Release!
 
 This compiler is installed with ``pacman -S mingw-w64-x86_64-clang`` inside the Msys2 Mingw64 terminal. Note the command is not exactly the same as the above (that uses the ``mingw-w64-clang-x86_64-toolchain``) package.
 
-
 The profile used for this configuration is:
 
 msys2_mingw_clang.profile
-```
+
+```ini
 [settings]
 os=Windows
 arch=x86_64
@@ -505,9 +500,8 @@ The main differences with the above Msys2 Clang are:
 
 And running ``conan create`` with that profile, will result in:
 
-```
+```sh
 $ conan create . -pr=msys2_mingw_clang.profile
-
 hello/0.1: Hello World Release!
   hello/0.1: _M_X64 defined
   hello/0.1: __x86_64__ defined
@@ -530,7 +524,7 @@ The profile used in this case is also similar:
 
 cygwin_clang.profile
 
-```
+```ini
 [settings]
 os=Windows
 arch=x86_64
@@ -560,7 +554,7 @@ But with some minor changes:
 
 The result of creating this package shows:
 
-```
+```sh
 $ conan create . -pr=cygwin_clang.profile
 hello/0.1: Hello World Debug!
   hello/0.1: __x86_64__ defined
@@ -573,7 +567,6 @@ hello/0.1: Hello World Debug!
 ```
 
 It can be seen how the message prints ``hello/0.1: Hello World Debug!``, instead of ``Release`` like the other flavors, this is because the common ``NDEBUG``preprocessor definition is not defined in this environment (but it is in all the others).
-
 
 ## Conclusions
 
