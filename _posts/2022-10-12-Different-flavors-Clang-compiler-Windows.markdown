@@ -119,52 +119,79 @@ set "VSCMD_START_DIR=%CD%" && call "C:/Program Files/Microsoft Visual Studio/202
 
 This is the summary of the runtime dependencies of such executable for the different flavors (including the msvc compiler as a reference):
 
+***
 
+<div style="
+    overflow-y: scroll;">
+<div style="
+    width: 150%;" >
+<table>
+  <colgroup>
+    <col width="15%" />
+    <col width="10%" />
+    <col width="30%" />
+    <col width="45%" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>compiler</th>
+      <th>C++ stdlib</th>
+      <th>Runtime</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>msvc</td>
+      <td>???</td>
+      <td>MSVCP140(D).dll VCRUNTIME140(D).dll VCRUNTIME140_1(D).dll ucrtbased.dll (only debug) api-ms-win-crt-*.dll</td>
+      <td>The base reference Visual Studio cl.exe compiler. The api-ms-win-crt-*.dll is the modern one, default in Windows 10, but not by default in older Windows versions</td>
+    </tr>
+    <tr>
+      <td>LLVM/Clang</td>
+      <td>???</td>
+      <td>MSVCP140(D).dll VCRUNTIME(D).dll ucrtbased.dll (only debug) api-ms-win-crt-*.dll</td>
+      <td>Identical runtime than msvc, aims to be binary compatible</td>
+    </tr>
+    <tr>
+      <td>Visual Studio ClangCL</td>
+      <td>???</td>
+      <td>MSVCP140(D).dll VCRUNTIME(D).dll ucrtbased.dll (only debug) api-ms-win-crt-*.dll</td>
+      <td> <span markdown="span">Identical runtime than msvc, aims to be binary compatible (same compiler as **LLVM/Clang** </span></td>
+    </tr>
+    <tr>
+      <td>Msys2 Clang</td>
+      <td>???</td>
+      <td>libc++.dll libunwind.dll api-ms-win-crt-*.dll</td>
+      <td>Depends on the libc++ specific Msys2 Clang library, binary incompatible with msvc one</td>
+    </tr>
+    <tr>
+      <td>Msys2  MinGW Clang</td>
+      <td>???</td>
+      <td>libstdc++6.dll msvcrt.dll</td>
+      <td>Depends on the same stdlib as MinGW gcc compiler, can actually use libstdc++ and libstdc++11 variants. It uses the older msvcrt.dll, which comes in older WindowsAlso binary incompatible with msvc.</td>
+    </tr>
+    <tr>
+      <td>Cygwin Clang (obsolete)</td>
+      <td>???</td>
+      <td>cygstdc++-6.dll cygwin1.dll</td>
+      <td>Specific stdlib from cygwin, binary incompatible with both msvc, and msys2 different runtimes.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
 
-|  compiler   | C++ stdlib      | Runtime  | Notes |
-|-------------|-----------------|----------|-------|
-| msvc        | MSVCP140(D).dll |  runtime | mynotes |
+***
 
-
-```
-| msvc | MSVCP140(D).dll VCRUNTIME140(D).dll VCRUNTIME140_1(D).dll | ucrtbased.dll (only debug) api-ms-win-crt-*.dll | The base reference Visual Studio cl.exe compiler. The api-ms-win-crt-*.dll is the modern one, default in Windows 10, but not by default in older Windows versions |
-```
-
-**LLVM/Clang**
-MSVCP140(D).dll
-VCRUNTIME(D).dll
-ucrtbased.dll (only debug)
-api-ms-win-crt-*.dll 
-
-
-Identical runtime than msvc, aims to be binary compatible
-Visual Studio ClangCL
-MSVCP140(D).dll
-VCRUNTIME(D).dll
-ucrtbased.dll (only debug)
-api-ms-win-crt-*.dll
-
-
-Identical runtime than msvc, aims to be binary compatible (same compiler as **LLVM/Clang**)
-Msys2 Clang
-libc++.dll
-libunwind.dll
-api-ms-win-crt-*.dll
-Depends on the libc++ specific Msys2 Clang library, binary incompatible with msvc one
-Msys2  MinGW Clang
-libstdc++6.dll
-
-
-
-msvcrt.dll
-Depends on the same stdlib as MinGW gcc compiler, can actually use libstdc++ and libstdc++11 variants. It uses the older msvcrt.dll, which comes in older WindowsAlso binary incompatible with msvc.
-Cygwin Clang (obsolete)
-cygstdc++-6.dll
-
-
-cygwin1.dll
-Specific stdlib from cygwin, binary incompatible with both msvc, and msys2 different runtimes.
-
+|  compiler          | C++ stdlib      | Runtime  | Notes |
+|--------------------|-----------------|----------|-------|
+| msvc | ??? | MSVCP140(D).dll VCRUNTIME140(D).dll VCRUNTIME140_1(D).dll ucrtbased.dll (only debug) api-ms-win-crt-\*.dll | The base reference Visual Studio cl.exe compiler. The api-ms-win-crt-\*.dll is the modern one, default in Windows 10, but not by default in older Windows versions |
+LLVM/Clang | ??? | MSVCP140(D).dll VCRUNTIME(D).dll ucrtbased.dll (only debug) api-ms-win-crt-\*.dll | Identical runtime than msvc, aims to be binary compatible
+Visual Studio ClangCL | ??? | MSVCP140(D).dll VCRUNTIME(D).dll ucrtbased.dll (only debug) api-ms-win-crt-\*.dll | Identical runtime than msvc, aims to be binary compatible (same compiler as **LLVM/Clang**)
+Msys2 Clang | ??? | libc++.dll libunwind.dll api-ms-win-crt-\*.dll | Depends on the libc++ specific Msys2 Clang library, binary incompatible with msvc one
+Msys2  MinGW Clang | ??? | libstdc++6.dll msvcrt.dll | Depends on the same stdlib as MinGW gcc compiler, can actually use libstdc++ and libstdc++11 variants. It uses the older msvcrt.dll, which comes in older WindowsAlso binary incompatible with msvc.
+Cygwin Clang (obsolete) | ??? | cygstdc++-6.dll cygwin1.dll | Specific stdlib from cygwin, binary incompatible with both msvc, and msys2 different runtimes.
 
 Note: the KERNEL32.dll is always a system runtime dependency, in all cases, it has been omitted in the table.
 
