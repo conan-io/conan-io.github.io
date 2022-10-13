@@ -1,8 +1,8 @@
-jekyll:
-    image: jekyll/jekyll:pages
-    command: /bin/sh -c /srv/jekyll/serve.sh
-    ports:
-        - 4000:4000
-    volumes:
-        - .:/srv/jekyll
-
+services:
+    jekyll:
+        image: jekyll/jekyll:3.5
+        command: /bin/sh -c /srv/jekyll/serve.sh
+        ports:
+            - 4000:4000
+        volumes:
+            - .:/srv/jekyll

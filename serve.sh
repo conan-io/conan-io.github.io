@@ -1,1 +1,1 @@
-jekyll serve _config.yml,_config_local.yml --watch --future
+jekyll serve --future --incremental
