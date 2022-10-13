@@ -228,48 +228,48 @@ Here is a table summarizing some different preprocessor definitions (details on 
   <tbody>
     <tr>
       <td>msvc</td>
-      <td>_M_X64 </td>
+      <td>_M_X64</td>
       <td>_MSC_VER=1933</td>
-      <td>_MSVC_LANG=201402 __cplusplus=199711</td>
+      <td>_MSVC_LANG=201402<br> __cplusplus=199711</td>
       <td></td>
       <td>The standard __cplusplus is not correct by default, need extra /Zc flag</td>
     </tr>
     <tr>
       <td>LLVM/ Clang</td>
-      <td>_M_X64 __x86_64__ </td>
-      <td>_MSC_VER=1933 __clang_major__=13</td>
-      <td>_MSVC_LANG=201402 __cplusplus=201402</td>
+      <td>_M_X64<br> __x86_64__ </td>
+      <td>_MSC_VER=1933<br> __clang_major__=13</td>
+      <td>_MSVC_LANG=201402<br> __cplusplus=201402</td>
       <td></td>
       <td>The _MSC_VER by default is 19.3/v143 from VS 17 2022, but can be changed using other version </td>
     </tr>
     <tr>
       <td>Visual Studio ClangCL</td>
-      <td>_M_X64 __x86_64__ </td>
-      <td>_MSC_VER=1933 __clang_major__=14</td>
-      <td>_MSVC_LANG=201402 __cplusplus=201402</td>
+      <td>_M_X64<br> __x86_64__ </td>
+      <td>_MSC_VER=1933<br> __clang_major__=14</td>
+      <td>_MSVC_LANG=201402<br> __cplusplus=201402</td>
       <td></td>
       <td>Same flags as LLVM/CLang</td>
     </tr>
     <tr>
       <td>Msys2 Clang</td>
-      <td>_M_X64 __x86_64__ </td>
-      <td>__GNUC__=4 __GNUC_MINOR__=2 __clang_major__=14</td>
+      <td>_M_X64<br> __x86_64__</td>
+      <td>__GNUC__=4<br> __GNUC_MINOR__=2<br> __clang_major__=14</td>
       <td>__cplusplus=201402</td>
-      <td>__MINGW32__=1 __MINGW64__=1</td>
+      <td>__MINGW32__=1<br> __MINGW64__=1</td>
       <td>The MSVC related flags are replaced with GNU and standard ones. MinGW Makefiles are used to build</td>
     </tr>
     <tr>
       <td>Msys2 MinGW Clang</td>
-      <td>_M_X64 __x86_64__ </td>
-      <td>__GNUC__=4 __GNUC_MINOR__=2 __clang_major__=14</td>
-      <td>__cplusplus=201402 _GLIBCXX_USE_CXX11_ABI=1</td>
-      <td>__MINGW32__=1 __MINGW64__=1</td>
+      <td>_M_X64<br> __x86_64__</td>
+      <td>__GNUC__=4<br> __GNUC_MINOR__=2<br> __clang_major__=14</td>
+      <td>__cplusplus=201402<br> _GLIBCXX_USE_CXX11_ABI=1</td>
+      <td>__MINGW32__=1<br> __MINGW64__=1</td>
       <td>Definition of _GLIBCXX_USE_CXX11_ABI evidence the libstdc++/libstdc++11 stdlib</td>
     </tr>
     <tr>
       <td>Cygwin Clang (obsolete)</td>
-      <td>__x86_64__ </td>
-      <td>__GNUC__=4 __GNUC_MINOR__=2 __clang_major__=14</td>
+      <td>__x86_64__</td>
+      <td>__GNUC__=4<br> __GNUC_MINOR__=2<br> __clang_major__=8</td>
       <td>__cplusplus=201402</td>
       <td>__CYGWIN__=1</td>
       <td>The bundled clang is 8.0, which is an old release.</td>
