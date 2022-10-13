@@ -287,7 +287,7 @@ It is completely possible to use a different VS version when using **LLVM/Clang*
 
 On the other hand, the Msys2 based Clang compilers will define ``__GNUC__`` flags instead, while still using the ``__clang_major__=13`` definitions. These definitions can be controlled with the ``-fgnuc-version`` compiler option, but note that it doesn’t really activate or deactivate the GNU extensions in Clang, just change the values of the preprocessor definitions.
 
-Something similar happens with the C++ standard. The VS based Clang compilers will define both the VS specific ``_MSVC_LANG=201402`` (C++14 standard), and the C++ standard ``__cplusplus=201402``. Note however, how the Msys2 MinGW Clang  might also define the ``_GLIBCXX_USE_CXX11_ABI`` to instruct to use the ``libstdc++`` or the ``libstdc++11`` C++ standard library.
+Something similar happens with the C++ standard. The VS based Clang compilers will define both the VS specific ``_MSVC_LANG=201402`` (C++14 standard), and the C++ standard ``__cplusplus=201402``. Note however, how the Msys2 MinGW Clang might also define the ``_GLIBCXX_USE_CXX11_ABI`` to instruct to use the ``libstdc++`` or the ``libstdc++11`` C++ standard library.
 
 Note how the vanilla **msvc** will report ``__cplusplus199711``, even if the ``_MSVC_LANG=201402`` is correct to represent C++14. You would need to explicitly define ``/Zc:__cplusplus`` to have ``__cplusplus`` correctly defined.
 
