@@ -279,7 +279,7 @@ Here is a table summarizing some different preprocessor definitions (details on 
 
 ***
 
-On the architecture side, all Clang versions, except the obsolete Cygwin one will declare both the MSVC specific ``_M_X64`` and the GNU and Clang ``__x86_64__`` one.
+On the architecture side, all Clang versions, except the obsolete Cygwin one, will declare both the MSVC specific ``_M_X64`` and the GNU and Clang ``__x86_64__`` one.
 
 The compiler version varies between the 2 major families. The VS based ones will define ``_MSC_VER=1933``, (that belongs to v143 or 19.3 compiler version, the default one in Visual Studio 17 2022), together with the ``__clang_major__=13`` one for the Clang compiler. Note how the **Visual Studio ClangCL** and the **LLVM/Clang** versions are different, in this case, we are using the **LLVM/Clang** 13.0 version so we can manually check our build used the correct compiler (the **Visual Studio ClangCL** bundled one is version 14)
 
