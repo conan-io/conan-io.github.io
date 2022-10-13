@@ -1,1 +1,1 @@
-jekyll serve --future
+jekyll serve --future --incremental
