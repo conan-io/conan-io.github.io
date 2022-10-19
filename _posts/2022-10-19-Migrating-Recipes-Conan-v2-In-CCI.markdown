@@ -45,7 +45,7 @@ All of the 2.0 methods are in the ``conan`` namespace… Notice the “s” is n
 
 There’s a [cheat sheet](https://github.com/conan-io/conan-center-index/blob/master/docs/v2_linter.md#import-conanfile-from-conan) for more of the file IO and common imports in ConanCenterIndex. Most of the tools imports are now grouped ``conans.tools.Version`` is made available from ``conan.tools.scm``
 
-My recommendation is to look for ``tools.`` and add in the new imports for each then just replace it with an empty string then add back the ``self``` as the first argument. This will work for all but the rare case where a name was changed. You should be able to very quickly find the tool category in the [2.0 Reference](https://docs.conan.io/en/2.0/reference/tools.html) documentation.
+My recommendation is to look for ``tools.`` and add in the new imports for each then just replace it with an empty string then add back the ``self`` as the first argument. This will work for all but the rare case where a name was changed. You should be able to very quickly find the tool category in the [2.0 Reference](https://docs.conan.io/en/2.0/reference/tools.html) documentation.
 
 For those who wonder, why not add the category of the tools where they are being used, this is to follow the recommendations in [tools import guidelines](https://docs.conan.io/en/latest/reference/conanfile/tools.html?highlight=main%20guidelines) where the higher namespace is considered private and **should not be used**.
 
