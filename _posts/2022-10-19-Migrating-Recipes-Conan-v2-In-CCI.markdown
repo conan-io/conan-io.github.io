@@ -37,7 +37,7 @@ I want to upgrade my personal project, and the community has done an amazing job
 
 OpenSSL and Boost are missing but those are too involved for a blog, so the last one was [RESTinio](https://github.com/conan-io/conan-center-index/blob/1c3556ccd1cb04a6023d0170ba04552649eb45f3/recipes/restinio/all/conanfile.py), which I will try to break down every change that’s needed to upgrade so you can upgrade your own recipes.
 
-This is a Header only, but unlike most (usually they are just ``copy`` files), it's a CMake based project so it’s relatively easy and comes with a few extra quirks. The only thing I will not cover (since it was already done) is the ``package_info`` “property names” for the new CMakeDeps generator. You can read about the [New ``cpp_info.set_property`` model](https://github.com/conan-io/conan-center-index/blob/master/docs/v2_migration.md#new-cpp_info-set_property-model) in the ConanCenter docs.
+This is a Header only, but unlike most (usually they are just ``copy`` files), it's a CMake based project so it’s relatively easy and comes with a few extra quirks. The only thing I will not cover (since it was already done) is the ``package_info`` “property names” for the new [CMakeDeps](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmakedeps.html) generator. You can read about the [New ``cpp_info.set_property`` model](https://github.com/conan-io/conan-center-index/blob/master/docs/v2_migration.md#new-cpp_info-set_property-model) in the ConanCenter docs.
 
 ## Updating the imports
 
