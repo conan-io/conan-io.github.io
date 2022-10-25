@@ -23,7 +23,7 @@ meta_description: "This article will break down all the changes we are making in
       "url": "https://media.jfrog.com/wp-content/uploads/2017/07/20134853/conan-logo-text.svg"
     }
 },
- "datePublished": "2022-10-25",
+ "datePublished": "2022-10-26",
  "description": "This article will break down all the changes we are making in ConanCenterIndex for you slightly more complicated header-only recipe which uses CMake to install files instead of a simply copy. This makes it a great reference for more CMake based projects.",
  }
 </script>
