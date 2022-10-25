@@ -109,7 +109,7 @@ Thankfully we don’t need to think about this too much as the Community has alr
 
 ![diff validate mthod](https://lh4.googleusercontent.com/M-8F-pfrnSKSDGuz2FqUMq_I7eZDI4RanbKXbrKdNZrijyF__su5OrKtihbeh0Q0ZBV6zm9h7HR_Y3uzR_0SrtqmgKG_uCnvhobcGrFQb3ymWJwwU_FutQr6JDLeYriV4TsxcSsvvmrwdqE7rVS525F_TL3V1w_Gnq7lQ1GqtA_ZZsQMMdCYnUPjRQ)
 
-There’s a few noteworthy changes Conan 2.0 changes:
+There’s a few noteworthy Conan 2.0 changes:
 
 - ``self.settings.compiler`` became ``self.info.settings.compiler``
   - This is actually a migration pain point we are seeing in ConanCenterIndex, there are some trade-offs.
