@@ -47,7 +47,7 @@ month with several new features and fixes.
 
 ## New ConanFile.win_bash_run attribute and tools.microsoft.bash:active
 
-Since Conan 1.55 you can configure how Conan interacts with [Windows
+Since Conan 1.55 you can configure better how Conan interacts with [Windows
 Subsystems](https://docs.conan.io/en/latest/systems_cross_building/windows_subsystems.html#windows-subsystems)
 in a more precise way:
 
