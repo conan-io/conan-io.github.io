@@ -98,6 +98,12 @@ Uploaded conan recipe 'android-ndk/r25' to 'myremote': https://...
 
 ```
 
+This policy works together with the ``build_policy = "missing"``, if binaries are not
+being uploaded, it is likely that we want those binaries to be automatically "built"
+(though they are typically not built from source, just download a large archive with
+pre-compiled binaries), and not require an explicit ``--build`` in the command line.
+
+
 ## New Git.included_files() method
 
 This [new Git tool
