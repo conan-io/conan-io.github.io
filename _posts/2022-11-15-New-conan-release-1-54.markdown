@@ -47,7 +47,7 @@ month with several new features and fixes.
 
 ## New ConanFile.win_bash_run attribute and tools.microsoft.bash:active
 
-Since Conan 1.55 you can configure how Conan interacts with [Windows
+Since Conan 1.55 you can configure better how Conan interacts with [Windows
 Subsystems](https://docs.conan.io/en/latest/systems_cross_building/windows_subsystems.html#windows-subsystems)
 in a more precise way:
 
@@ -61,7 +61,7 @@ will run inside the bash shell.
 you can define if Conan is already running inside a subsystem (Msys2) terminal. Then, any
 command that runs with ``self.run`` (also depending on the value of ``win_bash_run`` and
 ``win_bash``) will run that command explicitly in the bash if
-``tools.microsoft.bash:active`` is set to ``False``.
+``tools.microsoft.bash:active`` is not defined or ``False``.
 
 
 ## New ConanFile.upload_policy
