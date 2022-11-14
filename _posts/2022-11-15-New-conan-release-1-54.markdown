@@ -156,7 +156,7 @@ We have just released Conan 2.0 beta5. You can install it using *pip*:
 $ pip install conan --pre
 ```
 
-This new beta comes with some new features and fixes. Some of new features are:
+This new beta comes with several new features and fixes. Some of those features are:
 
 - Improvements in the remotes management and API.
 - Simplifying compress and uncompress of *.tgz* files and also preserving timestamps for
