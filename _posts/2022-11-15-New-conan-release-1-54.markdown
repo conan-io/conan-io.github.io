@@ -61,7 +61,7 @@ will run inside the bash shell.
 you can define if Conan is already running inside a subsystem (Msys2) terminal. Then, any
 command that runs with ``self.run`` (also depending on the value of ``win_bash_run`` and
 ``win_bash``) will run that command explicitly in the bash if
-``tools.microsoft.bash:active`` is set to ``False``.
+``tools.microsoft.bash:active`` is not defined or ``False``.
 
 
 ## New ConanFile.upload_policy
