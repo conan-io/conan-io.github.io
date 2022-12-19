@@ -3,7 +3,7 @@ layout: post
 comments: false
 title: "Conan 1.55: CMakeDeps can now customize its dependencies target names, files and types, new tools.build:compiler_executables conf, new NMakeDeps and NMakeToolchain integration, env-vars and conf enabled for editables"
 meta_title: "Version 1.55 of Conan C++ Package Manager is Released" 
-meta_description: "The new version features include removal of Python2 support, improved CMakePresets, new [layout] section in conanfile.txt and much more..."
+meta_description: "The new version features includes CMakeDeps can now customize its dependencies target names, files and types, new tools.build:compiler_executables conf and much more..."
 ---
 
 We are pleased to announce that [Conan 1.55 is
