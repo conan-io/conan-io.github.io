@@ -30,7 +30,8 @@ replacing the legacy `cpp_info` attributes like `cpp_info.names` and `cpp_info.f
 [here](https://docs.conan.io/en/latest/migrating_to_2.0/properties.html)). Before 1.55, it
 was impossible to override the values set by the dependencies. For example, if a recipe
 sets the `cmake_find_mode` to `both`, Conan would generate both config and module files
-for every consumer of the recipe.
+for every consumer of the recipe, but that maybe not what the consumer of the recipe
+wants.
 
 Starting in 1.55, Conan enables overwritting from the consumer side the following
 properties for CMakeDeps: `cmake_file_name`, `cmake_target_name`, `cmake_find_mode`,
