@@ -106,13 +106,13 @@ This configuration will work for
 and
 [MesonToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/meson/mesontoolchain.html):
 
-- CMakeToolchain: defines the corresponding `CMAKE_<LANG>_COMPILER` variable for CMake.
+- ``CMakeToolchain``: defines the corresponding `CMAKE_<LANG>_COMPILER` variable for CMake.
   Check the list of accepted keys [in the
   docs](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmaketoolchain.html#conf)
-- AutotoolsToolchain: defines the corresponding `CMAKE_<LANG>_COMPILER` variable for
+- ``AutotoolsToolchain``: defines the corresponding `CMAKE_<LANG>_COMPILER` variable for
   CMake. Check the list of accepted keys [in the
   docs](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu/autotoolstoolchain.html#conf)
-- MesonToolchain: defines the corresponding environment variables (like `CC` or `CXX`
+- ``MesonToolchain``: defines the corresponding environment variables (like `CC` or `CXX`
   Check the list of accepted keys [in the
   docs](https://docs.conan.io/en/latest/reference/conanfile/tools/gnu/autotoolstoolchain.html#conf)
 
