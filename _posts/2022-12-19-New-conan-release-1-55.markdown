@@ -41,7 +41,7 @@ that has
 as a dependency.
 
 If you check, for example, the zlib recipe in Conan Center, it defines several properties
-for CMakeDeps in the `package_info()` method:
+for ``CMakeDeps`` in the `package_info()` method:
 
 ```python
 ...
