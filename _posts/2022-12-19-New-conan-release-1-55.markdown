@@ -8,7 +8,7 @@ meta_description: "The new version features includes CMakeDeps can now customize
 
 We are pleased to announce that [Conan 1.55 is
 out](https://github.com/conan-io/conan/releases/tag/1.55.0) and comes with some
-significant new features and bug fixes. First, CMakeDeps provides the ability to set the
+significant new features and bug fixes. First, ``CMakeDeps`` provides the ability to set the
 properties on the consumer side. Also, we added the new `tools.build:compiler_executables`
 configuration to define the compiler's executable location in ``CMakeToolchain``,
 ``MesonToolchain``, and ``AutotoolsToolchain``. We improved integration with
@@ -37,10 +37,10 @@ Starting in 1.55, Conan enables overwritting from the consumer side the followin
 properties for CMakeDeps: `cmake_file_name`, `cmake_target_name`, `cmake_find_mode`,
 `cmake_module_file_name` and `cmake_module_target_name`. Let's see an example of a recipe
 that has
-[zlib](https://github.com/conan-io/conan-center-index/blob/master/recipes/zlib/all/conanfile.py)
+[Zlib](https://github.com/conan-io/conan-center-index/blob/master/recipes/zlib/all/conanfile.py)
 as a dependency.
 
-If you check, for example, the zlib recipe in Conan Center, it defines several properties
+If you check, for example, the `Zlib` recipe in Conan Center, it defines several properties
 for ``CMakeDeps`` in the `package_info()` method:
 
 ```python
@@ -54,10 +54,10 @@ def package_info(self):
 
 ```
 
-Imagine you have an application that consumes zlib, and you want to change these
+Imagine you have an application that consumes `Zlib`, and you want to change these
 properties because you want to generate only *config files* and also you are using a
-different target name for zlib in your CMakeLists.txt. Then you could use
-`CMakeDeps.set_property` in the `generate()` method to override the values set in the zlib
+different target name for `Zlib` in your CMakeLists.txt. Then you could use
+`CMakeDeps.set_property` in the `generate()` method to override the values set in the ``Zlib``
 recipe:
 
 
@@ -81,7 +81,16 @@ class ConsumerRecipe(ConanFile):
     ...
 ```
 
-You can read more about the CMakeDeps set_property method in the [Conan
+Some notes about the example:
+
+- We explicitly set the ``cmake_target_name`` to `zlib`
+- We used the value ``None`` to set the ``cmake_find_mode`` property. If you set a
+  property to ``None``, Conan will invalidate the property set in the recipe and use the
+  default value for that property that in this case is ``config``. In this case
+  ``deps.set_property("zlib", "cmake_find_mode", None)`` is equivalent to
+  ``deps.set_property("zlib", "cmake_find_mode", "config")`` 
+
+You can read more about the ``CMakeDeps`` set_property method in the [Conan
 documentation](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmakedeps.html#set-property).
 
 
