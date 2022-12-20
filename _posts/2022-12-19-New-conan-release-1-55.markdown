@@ -99,6 +99,7 @@ arch=x86_64
 
 [conf]
 tools.build:compiler_executables={"cpp": "path_to_my_c++_compiler", "c": "path_to_my_c_compiler"}
+```
 
 This configuration will work for
 [CMakeToolchain](https://docs.conan.io/en/latest/reference/conanfile/tools/cmake/cmaketoolchain.html),
