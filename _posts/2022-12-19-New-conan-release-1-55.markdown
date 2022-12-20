@@ -9,7 +9,7 @@ meta_description: "The new version features includes CMakeDeps can now customize
 We are pleased to announce that [Conan 1.55 is
 out](https://github.com/conan-io/conan/releases/tag/1.55.0) and comes with some
 significant new features and bug fixes. First, CMakeDeps provides the ability to set the
-properties on the consumer side. Also, we added the new *tools.build:compiler_executables*
+properties on the consumer side. Also, we added the new `tools.build:compiler_executables`
 configuration to define the compiler's executable location in CMakeToolchain,
 MesonToolchain, and AutoToolsToolchain. We improved integration with
 [NMAKE](https://learn.microsoft.com/en-us/cpp/build/reference/nmake-reference) using the
