@@ -166,11 +166,11 @@ class SayConan(ConanFile):
     ...
     def layout(self):
         # The final path will be relative to the self.source_folder
-        self.layouts.source.buildenv_info.define_path("MYDATA_PATH", "my/source/data/path")
+        self.layouts.source.buildenv_info.define_path("MYDATA_PATH", "my/data/path")
         # The final path will be relative to the self.build_folder
-        self.layouts.build.buildenv_info.define_path("MYDATA_PATH2", "my/build/data/path")
+        self.layouts.build.buildenv_info.define_path("MYDATA_PATH", "my/data/path")
         # The final path will be relative to the self.build_folder
-        self.layouts.build.conf_info.define_path("MYCONF", "my_conf_folder")
+        self.layouts.build.conf_info.define_path("MYCONF", "my/conf/folder")
 ```
 
 ---
