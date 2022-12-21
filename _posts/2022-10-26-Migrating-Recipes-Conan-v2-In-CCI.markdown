@@ -7,7 +7,8 @@ meta_description: "This article will break down all the changes we are making in
 ---
 
 <script type="application/ld+json">
-{ "@context": "https://schema.org", 
+{
+ "@context": "https://schema.org", 
  "@type": "TechArticle",
  "headline": "Conan 2.0 Recipe Migrations in ConanCenterIndex",
  "alternativeHeadline": "Here's a taste of all the pretty easy changes we are making in ConanCenterIndex getting ready for the Conan 2.0 launch",
@@ -22,9 +23,9 @@ meta_description: "This article will break down all the changes we are making in
       "@type": "ImageObject",
       "url": "https://media.jfrog.com/wp-content/uploads/2017/07/20134853/conan-logo-text.svg"
     }
-},
+ },
  "datePublished": "2022-10-26",
- "description": "This article will break down all the changes we are making in ConanCenterIndex for you slightly more complicated header-only recipe which uses CMake to install files instead of a simply copy. This makes it a great reference for more CMake based projects.",
+ "description": "This article will break down all the changes we are making in ConanCenterIndex for you slightly more complicated header-only recipe which uses CMake to install files instead of a simply copy. This makes it a great reference for more CMake based projects."
  }
 </script>
 
