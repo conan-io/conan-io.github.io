@@ -3,8 +3,11 @@ $gray: #8b8b8b;
 $blue: #7ba7d3;
 $bright-blue: #EEF7FF;
 $dark-blue: #2c4257;
+$darker-blue: #2F6799;
 $green: #40be46;
 $bright-gray: #eaebee;
+$conan-light-blue: #21AFFF;
+$conan-dark-blue: #0086FD;
 $mid-gray: #AFAFAF;
 $almost_black: #2F2E2E;
 $main-font: 'Open Sans', sans-serif;
@@ -362,9 +365,68 @@ a.big-btn {
   max-width: 100%;
 }
 
+.conan-blue-border {
+  border: 2px solid $conan-light-blue;
+  border-radius: 50px;
+}
+
+.conan-center-icon {
+  // Witchery to get this to show up as $conan-dark-blue
+  filter: invert(37%) sepia(52%) saturate(5711%) hue-rotate(195deg) brightness(106%) contrast(105%);
+}
+
 header#masthead, footer#siteFooter {
   .container {
     max-width: 1390px;
+  }
+
+  .btn {
+    // padding: 8px 10px;
+    min-width: 97px;
+    text-align: center;
+    line-height: 22px;
+    min-height: 2rem;
+    /* 36/18 */
+    font-size: 1.05rem;
+    /* 19/18 */
+    transition: all 0.32s ease;
+    border-radius: 50px;
+    box-sizing: border-box;
+    height: 51px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    &.bg-blue {
+      &:hover {
+        color: #fff;
+        background-color: $darker-blue;
+      }
+    }
+    &.bg-dark-blue {
+      background-color: $darker-blue;
+      font-size: 20px;
+      color: #fff;
+      transition: all 0.32s ease;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+    &.bg-bright-gray {
+      &:hover {
+        background-color: #DEE7F9;
+      }
+    }
+
+    &.conan-blue-gradient-bg,
+    &.artifactory-green-gradient-bg {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: white;
+      text-align: center;
+    }
   }
 }
 
