@@ -2,89 +2,70 @@
 {% assign conanurl = "https://conan.io" %}
     <footer
       id="siteFooter"
-      class="py-5 bg-bright-gray"
+      class="pt-5 pb-3 bg-black"
     >
-      <div class="container">
-        <div class="row">
-          <div class="col-md-7 footer-left d-md-flex d-none align-items-center">
-            <div class="footer-menu w-100">
-              <div class="row">
-                <div class="col-sm-3">
-                  <h4 class="blue mb-1">GET</h4>
-                  <ul>
-                    <li><a href="{{ conanurl }}/downloads.html">
-                        Download
-                      </a></li>
-                    <li><a href="{{ conanurl }}/center">
-                        Conan-Center
-                      </a></li>
-                    <li><a href="https://github.com/conan-io/conan">
-                        GitHub
-                      </a></li>
-                  </ul>
-                </div>
-                <div class="col-sm-3">
-                  <h4 class="blue mb-1">Resources</h4>
-                  <ul>
-                    <li><a href="https://docs.conan.io/">
-                        Docs
-                      </a></li>
-                    <li><a href="{{ site.url }}" >
-                        Blog
-                      </a></li>
-                  </ul>
-                </div>
-                <div class="col-sm-3">
-                  <h4 class="blue mb-1">Legal</h4>
-                  <ul>
-                    <li><a href="{{ conanurl }}/privacy-policy.html">
-                        Privacy Policy
-                      </a></li>
-                    <li>
-                      <a href="{{ conanurl }}/terms-conditions.html">
-                        Terms
-                      </a></li>
-                    <li>
-                      <a href="#" class="ot-sdk-show-settings"></a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="col-sm-3">
-                  <h4 class="blue mb-1">Social</h4>
-                  <ul>
-                    <li><a href="https://github.com/conan-io">
-                        Github
-                      </a></li>
-                    <li><a href="https://twitter.com/conan_io">
-                        Twitter
-                      </a></li>
-                    <li><a href="https://facebook.com/conan.io">
-                        Facebook
-                      </a></li>
-                    <li><a href="https://cpplang.​slack.​com/?id=conan">
-                        Slack #conan
-                      </a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-5 footer-right">
-            <div class="inner pl-0 pl-md-4">
-
-              <div class="mktoFormWrapper">
-                <!-- FOOTER FORM HERE -->
+    <div class="container white d-flex justify-content-center">
+      <div class="row">
+        <div class="col-12">
+          <!-- SIGN UP -->
+          <section id="signUp" class="sign-up white text-center">
+            <div class="h2 white d-flex justify-content-center" id="signUpTitle"><span>Subscribe for release updates</span></div>
+              <div class="mktoFormWrappermktoFormWrappermktoFormWrapper">
                 <script src="https://leap.jfrog.com/js/forms2/js/forms2.min.js"></script>
-                <form id="mktoForm_1479"></form>
+                <div class="d-flex justify-content-center pt-3">
+                  <form id="mktoForm_1479" class="text-center" style="width: 100%"></form>
+                </div>
                 <script>MktoForms2.loadForm("https://leap.jfrog.com", "256-FNZ-187", 1479);</script>
               </div>
-
-            {% include socials.html %}
-
-            </div>
+          </section>
           </div>
         </div>
-
+      </div>
+      <div class="container">
+        <div class="row d-flex justify-content-center px-0 px-md-3" style="border-top: 1px solid #404040;text-align: center">
+          <div class="col-md-10 px-md-0 pl-3 pt-2">
+            <ul class="d-md-flex justify-content-start pt-2 mt-1 list-unstyled footer-links">
+              <li>
+              <a href="https://conan.io/downloads.html" id="downloads_btn_footer">Download</a>
+              </li>
+              <li>
+              <a href="https://conan.io/center/" id="conancenter_btn_footer">ConanCenter</a>
+              </li>
+              <li>
+              <a href="https://github.com/conan-io/conan" id="github_btn_footer">GitHub</a>
+              </li>
+              <li>
+              <a href="https://docs.conan.io/" id="docs_btn_footer">Docs</a>
+              </li>
+              <li>
+              <a href="https://blog.conan.io/" id="blog_btn_footer">Blog</a>
+              </li>
+              <li>
+              <a href="https://conan.io/faq.html" id="faq_btn_footer">FAQ</a>
+              </li>
+              <li>
+              <a href="https://conan.io/privacy-policy.html" id="privacypolicy_btn_footer">Privacy Policy</a>
+              </li>
+              <li>
+              <a href="https://conan.io/terms-conditions.html" id="terms_btn_footer">Terms</a>
+              </li>
+              <li>
+              <a href="#" class="ot-sdk-show-settings" id="cookies_btn_footer">Cookies Settings</a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-2 pr-0">
+            <ul class="socials d-flex mt-1 mb-0 pt-2 pl-0 justify-content-center list-unstyled">
+              <li><a class="mr-2" href="https://twitter.com/conan_io"><img alt="twitter" class="lazy"
+                    src="{{site.baseurl}}/assets/img/social/twitter.svg"></a></li>
+              <li><a class="mr-2" href="https://facebook.com/conan.io"><img alt="facebook" class="lazy"
+                    src="{{site.baseurl}}/assets/img/social/facebook.svg"></a></li>
+              <li><a class="mr-2" href="https://cpplang.​slack.​com/?id=conan"><img alt="slack" class="lazy"
+                    src="{{site.baseurl}}/assets/img/social/slack.svg"></a></li>
+              <li><a class="mr-2" href="https://github.com/conan-io"><img alt="github" class="lazy"
+                    src="{{site.baseurl}}/assets/img/social/github.svg" style="filter:invert(100%)"></a></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </footer>
