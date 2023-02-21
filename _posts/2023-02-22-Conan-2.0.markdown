@@ -137,8 +137,9 @@ So we decided that Conan 2.0 would also **implement a framework for C and C++ pa
 
 Likewise, a new set of extension capabilities have been added to 2.0 to overcome some limitations that we heard about in Conan 1.0. For example, binary compatibility is very challenging, and cannot be defined globally for all cases. A new ``compatibility.py`` plugin that allows users to define their own binary compatibility for their projects has been added. Also, as the industry focus on security keeps increasing, Conan 2.0 has added a new package signing plugin that allows packages to be signed, and a reference implementation with Sigstore will be published after the release.
 
-"Already with Conan 1.x, we were amazed by how well it covers our (sometimes quite special) use cases with just the right mixture of a robust framework and lots of flexibility. As embedded system developers, Conan 2.0 brings us an even better control of our build processes by adding new generators and more fine grained package environments. We’re also looking forward to the new public Python APIs and extension system which will boost our capabilities in C++ build automation."
-**Maxime Bergantz, Senior Software Engineer at Bosch**
+> "Already with Conan 1.x, we were amazed by how well it covers our (sometimes quite special) use cases with just the right mixture of a robust framework and lots of flexibility. As embedded system developers, Conan 2.0 brings us an even better control of our build processes by adding new generators and more fine grained package environments. We’re also looking forward to the new public Python APIs and extension system which will boost our capabilities in C++ build automation."
+>
+> **Maxime Bergantz, Senior Software Engineer at Bosch**
 
 
 ### Lesson #3: C++ DevOps at Scale
@@ -149,16 +150,17 @@ However, this important tool was complicated to manage, and implementing CI and 
 
 So we are finally very excited to launch 2.0, with new simpler and **more powerful lockfiles, and new improved CI oriented tools**, like a better computation of the build-order of packages in a graph, and a better optimization of what has to be built in a dependency graph when something changes in such graph. With these new tools, it will finally be possible to unlock the full potential of modern devops processes for C and C++ projects.
 
-"I am really excited for Conan 2.0. By starting the Conan tribe in 2020, the Conan team has made sure to incorporate user feedback into this upcoming release.
+> "I am really excited for Conan 2.0. By starting the Conan tribe in 2020, the Conan team has made sure to incorporate user feedback into this upcoming release.
 I'm really looking forward to the improved lockfile handling which Conan 2.0 will bring. Together with the new Python API, this will greatly simplify our CI workflows."
-**Kerstin Keller, Software Developer, Continental**
+>
+> **Kerstin Keller, Software Developer, Continental**
 
 
 ## A thank you to the community
 
 It should go without saying that none of this would be possible without the support of the Conan community. We have always prided ourselves on listening to the user base, and it’s one of the most challenging aspects of developing a tool like this. Sometimes what’s best for the vast majority has an undesired taste for a few individuals. We sometimes need to make tough decisions about which features to prioritize or which auxiliary projects to support - but through it all we have always tried our best to keep even the smallest voices in mind.
 
-To our enterprise class users from the Conan tribe to the individuals who ask questions on GitHub issues, who’ve helped inspire the changes and new features we’ve brought in Conan 2.0, thank you.
+To our enterprise class users from the Conan Tribe to the individuals who ask questions on GitHub issues, who’ve helped inspire the changes and new features we’ve brought in Conan 2.0, thank you.
 
 To the heroes contributing and maintaining the ~1500 recipes that are now in ConanCenter - we raise a toast. Conan Center enables newcomers to try Conan out more easily, all the while being a showcase for how to use Conan at scale in enterprise environments. We hope you join us in the celebration of this launch.
 
