@@ -2,8 +2,8 @@
 layout: post
 comments: false
 title: "Introducing Conan 2.0"
-meta_title: "" 
-meta_description: ""
+meta_title: "Conan C/C++ Package Manager new major version 2.0 is released, with major new features and improvements" 
+meta_description: "Conan C/C++ Package Manager major version 2.0 summarizes years of effort building on the feedback of many thousands of users, with major improvements over previous 1.X releases in major aspects as the dependency graph model, or lockfiles for continuous integration, and including multitude of new features like custom commands, a public Python API, binary compatibility extensions, package signing and many more."
 ---
 
 
@@ -11,62 +11,65 @@ Managing C++ dependencies has traditionally been a challenging problem. Since Co
 
 We have continued to listen to the feedback of this great community, and today we are proud to announce the release of Conan 2.0.
 
-IMAGE
+<figure>
+    <img src="{{ site.url }}/assets/post_images/2023-02-22/conan2.0.png">
+</figure>
+
 
 ## Conan 2.0, the new version of the open-source C and C++ package manager, is out now!
 
 Conan 2.0 has been re-architected from the ground up to better serve the needs of the community. Some notable features:
 
-- New and improved graph model to better represent transitive usage requirements
+- **New and improved graph model to better represent transitive usage requirements**
   - [Requirement traits](https://docs.conan.io/2.0/reference/conanfile/methods/requirements.html#requirement-traits)
   - [Package types](https://docs.conan.io/2.0/reference/conanfile/attributes.html#package-type)
   - Improved modeling of build-time only dependencies
   - Improved support for [cross-building workflows](https://docs.conan.io/2.0/tutorial/consuming_packages/cross_building_with_conan.html)
-- New documentation, written from scratch
+- **New documentation, written from scratch**
   - [Hands-on tutorial](https://docs.conan.io/2.0/tutorial.html) covering the most common use cases
   - Comprehensive and better organized [API reference](https://docs.conan.io/2.0/reference/extensions/python_api.html)
   - Newly structured [examples section](https://docs.conan.io/2.0/examples.html)
   - Documented way to [deploy Conan without Python](https://docs.conan.io/2.0/installation.html#use-a-system-installer-or-create-a-self-contained-executable) in the developers computers
-- [Revisions for package immutability](https://docs.conan.io/2.0/tutorial/versioning/revisions.html)
+- **[Revisions for package immutability](https://docs.conan.io/2.0/tutorial/versioning/revisions.html)**
   - Previously an opt-in in Conan 1.x, revisions are enabled by default in Conan 2.0
   - Improved processes for downloading, installing and updating dependencies with a focus on guaranteeing immutability
   - More efficient upload and download operations
-- Re-Architected and improved [build system integrations](https://docs.conan.io/2.0/reference/tools.html)
+- **Re-Architected and improved [build system integrations](https://docs.conan.io/2.0/reference/tools.html)**
   - Fully transparent integration with existing CMake projects
   - Support for CMake presets to simplify CMake command invocation in local workflows
   - Same model across all integrations: Autotools, Xcode, MSBuild and better segregation of logic with the generate() method
-- New [Command Line interface](https://docs.conan.io/2.0/reference/commands.html)
+- **New [Command Line interface](https://docs.conan.io/2.0/reference/commands.html)**
   - Uniform interface across the multiple Conan	 commands
   - Allow multiple output formats and terminal redirection. Cleaner output.
   - Improved, structured machine-readable output (json) to better support CI workflows
-- New [public Python API](https://docs.conan.io/2.0/reference/extensions/python_api.html) (currently in preview)
+- **New [public Python API](https://docs.conan.io/2.0/reference/extensions/python_api.html)**
   - The same API used by Conan’s built-in commands is now available to use in more advanced integrations
-- [Custom commands](https://docs.conan.io/2.0/reference/extensions/custom_commands.html)
+- **[Custom commands](https://docs.conan.io/2.0/reference/extensions/custom_commands.html)**
   - Ability for user provided Conan sub-commands, to extend the built-in functionality
   - Custom commands can be shared with the well-known `conan config install` mechanism
   - Can use the new public Python API to implement additional functionality
-- Improved package_id logic:
+- **Improved package_id logic**
   - Taking into account package types and traits to more efficiently determine when a package needs to be rebuilt based on changes in its dependencies
-- Global [package_id compatibility extension](https://docs.conan.io/2.0/reference/extensions/binary_compatibility.html)
+- **Global [package_id compatibility extension](https://docs.conan.io/2.0/reference/extensions/binary_compatibility.html)**
   - Ability to define binary compatibility at a global level rather than at the recipe level
   - Can be used to exploit known heuristics, for example, that binaries for a given compiler version are compatible and can be linked with binaries built with earlier versions of the same compiler
-- [Lockfiles](https://docs.conan.io/2.0/tutorial/versioning/lockfiles.html): simplified and improved
+- **[Lockfiles](https://docs.conan.io/2.0/tutorial/versioning/lockfiles.html): simplified and improved**
   - Lockfiles are now modeled as list of sorted references, which allow a single lockfile to be used for multiple configurations
   - Improved workflows for merging lockfiles, user-defined constraints, and much more
-- [New configuration](https://docs.conan.io/2.0/reference/config_files.html) system
+- **[New configuration](https://docs.conan.io/2.0/reference/config_files.html) system**
   - Uniform ability to configure and control Conan behavior via profiles and command line via the `[conf]` mechanism
   - Better structured and flexible than the legacy mix of environment variables. 
-- Multi-revision local Conan cache
+- **Multi-revision local Conan cache**
   - Completely redesigned cache to allow storing more than one recipe and package revision at a time. 
   - Shortened paths, removing the need to workaround path length limitations on Windows
-- [New deployers](https://docs.conan.io/2.0/reference/extensions/deployers.html)
+- **[New deployers](https://docs.conan.io/2.0/reference/extensions/deployers.html)**
   - New ability for user-provided deployment strategies to perform copy operations from the Conan cache to arbitrary user folders.
   - Can be used to generate self-consistent prefixes with all dependencies requirements of an application, or to package up dependencies for distribution outside of Conan packages
-- New extensibility capabilities
-  - New ability to [customize available settings](https://docs.conan.io/2.0/examples/config_files/settings/settings_user.html) in settings_user.json without modifying the global settings.yml
+- **New extensibility capabilities**
+  - New ability to [customize available settings](https://docs.conan.io/2.0/examples/config_files/settings/settings_user.html) in ``settings_user.yml`` without modifying the global ``settings.yml``
   - [Command wrapper](https://docs.conan.io/2.0/reference/extensions/command_wrapper.html): intercept calls to self.run(), useful for external integrations (distributed compilation, etc…) 
   - Profiles and configuration now support jinja templates for additional flexibility
-- [Package signing](https://docs.conan.io/2.0/reference/extensions/package_signing.html)
+- **[Package signing](https://docs.conan.io/2.0/reference/extensions/package_signing.html)**
   - New extension to implement signatures and verification of packages
 
 Continue reading to learn more about Conan 2.0 and what it means for your C++ projects.
@@ -81,7 +84,7 @@ Thousands of teams are using Conan in their C and C++ workflows, ranging from st
 Years of feedback and experience from the community have led to this new milestone, for example:
 
 - In 2022 more than 5000 pull requests were processed in ConanCenter
-- +750k downloads/month from PyPI, being designated a PyPI critical project
+- +750K downloads/month from PyPI, being designated a PyPI critical project
 - Conan 2.0 has closed more than 1000 tickets in Github
 - Conan channel in #CppLang with more than 2400 subscribers is consistently ranked among top most active channels
 
@@ -109,17 +112,20 @@ During the past 5 years, we have tried to respond to these needs with incrementa
 
 ### Lesson #1: C and C++ are challenging
 
-Conan 1.0 had a relatively simple dependency model inspired by other language package managers like Python or NPM. Packages could "require" other packages, and as a useful innovation we introduced the concept of a "tool_require" to express dependencies on packages for build tools. But if C and C++ are challenging in themselves, building C and C++ projects is even more challenging, and not surprisingly, we learned that doing package management for C and C++ was also challenging. The simple "require" model was not enough to represent many different scenarios, for example:
-How usage requirements (compiler and linker flags) need to propagate for 2 libraries depending on if they are shared libraries, static libraries, header-only libraries, or a combination of them.
-Whether the visibility of the headers has to be propagated or not to downstream dependents.
-The possibility of the same dependency graph containing multiple versions of the same library - for example, 2 different versions of the same library built as static libraries,  but embedded and hidden into 2 different shared libraries.
+Conan 1.0 had a relatively simple dependency model inspired by other language package managers like Python or NPM. Packages could "require" other packages, and as a useful innovation we introduced the concept of a "tool_require" to express dependencies on packages for build tools. But if C and C++ are challenging in themselves, building C and C++ projects is even more challenging, and not surprisingly, we learned that doing package management for C and C++ was also challenging. **The simple "require" model was not enough to represent many different scenarios**, for example:
+- How usage requirements (compiler and linker flags) need to propagate for 2 libraries depending on if they are shared libraries, static libraries, header-only libraries, or a combination of them.
+- Whether the visibility of the headers has to be propagated or not to downstream dependents.
+- The possibility of the same dependency graph containing multiple versions of the same library - for example, 2 different versions of the same library built as static libraries,  but embedded and hidden into 2 different shared libraries.
 
 Creating different new types of "requires", like "tool_requires" didn’t seem like an idea that could scale, so inspired by how build systems model transitive usage requirements, we created a model in which "requires" can be qualified with several different "traits", that define how packages are required and how their information is propagated down the dependency graph to other packages depending on them. In this way, one package can define that it requires other package with ``headers=True, libs=False, transitive_headers=True``, which means it is using only the header files of the library, and it is using them in its own headers, so they will be visible for downstream consumers.
 
 This information can be leveraged in very useful ways, and Conan 2.0 will be way more efficient, fetching only the binaries that it needs to build and run (thanks to a better "package_id" computation model), but being able to skip the download of large parts of the graphs binaries in many cases, accelerating install and build time. We are excited about the potential of the new graph model, the requirements traits and the new package_type recipe attribute, and how this will enable better modeling and management of dependencies.
 
-> With every single release we have seen great improvement to our development chain - we are looking forward to the major leap bringing us to the next level!
-> Maikel van den Hurk, Staff Software Engineer, TomTom
+
+> "With every single release we have seen great improvement to our development chain - we are looking forward to the major leap bringing us to the next level!"
+>
+> **Maikel van den Hurk, Staff Software Engineer, TomTom**
+
 
 ### Lesson #2. C and C++ are the high performance languages trusted by enterprises worldwide
 
@@ -127,12 +133,12 @@ C and C++ are the backbone of the world’s Software industry. C and C++ are als
 
 Thus, it is impossible that one tool completely fits such a wide spectrum of use cases, and the extension capabilities are a fundamental part of it. Conan 1.X had limited extensibility, there was a Python API, but it only minimally mimicked the CLI commands, was generally not very useful in practice, and as it was not really designed to be open, as it was never public or documented. But we became painfully aware of this need, because despite the fact that it was undocumented and private, many users have reported hooking into Conan internals.
 
-So we decided that Conan 2.0 would also implement a framework for C and C++ package management, including the possibility of creating your own custom commands, that can be shared and distributed (to developer teams, CI machines, etc), a new more detailed full python API to build those commands, and a new scalable configuration system that allows types (lists, dicts), and high level operations like append/prepend/unset.
+So we decided that Conan 2.0 would also **implement a framework for C and C++ package management**, including the possibility of creating your own custom commands, that can be shared and distributed (to developer teams, CI machines, etc), a new more detailed full python API to build those commands, and a new scalable configuration system that allows types (lists, dicts), and high level operations like append/prepend/unset.
 
 Likewise, a new set of extension capabilities have been added to 2.0 to overcome some limitations that we heard about in Conan 1.0. For example, binary compatibility is very challenging, and cannot be defined globally for all cases. A new ``compatibility.py`` plugin that allows users to define their own binary compatibility for their projects has been added. Also, as the industry focus on security keeps increasing, Conan 2.0 has added a new package signing plugin that allows packages to be signed, and a reference implementation with Sigstore will be published after the release.
 
 "Already with Conan 1.x, we were amazed by how well it covers our (sometimes quite special) use cases with just the right mixture of a robust framework and lots of flexibility. As embedded system developers, Conan 2.0 brings us an even better control of our build processes by adding new generators and more fine grained package environments. We’re also looking forward to the new public Python APIs and extension system which will boost our capabilities in C++ build automation."
-Maxime Bergantz, Senior Software Engineer at Bosch
+**Maxime Bergantz, Senior Software Engineer at Bosch**
 
 
 ### Lesson #3: C++ DevOps at Scale
@@ -141,11 +147,11 @@ Since 2016, as Conan usage increased, the size of the problems also started to i
 
 However, this important tool was complicated to manage, and implementing CI and DevOps at scale was quite challenging, becoming a bottleneck for many companies to be able to accelerate more in their delivery. Unfortunately, we also painfully realized that it was not possible to fix that bottleneck in Conan 1.X scope without breaking. 
 
-So we are finally very excited to launch 2.0, with new simpler and more powerful lockfiles, and new improved CI oriented tools, like a better computation of the build-order of packages in a graph, and a better optimization of what has to be built in a dependency graph when something changes in such graph. With these new tools, it will finally be possible to unlock the full potential of modern devops processes for C and C++ projects.
+So we are finally very excited to launch 2.0, with new simpler and **more powerful lockfiles, and new improved CI oriented tools**, like a better computation of the build-order of packages in a graph, and a better optimization of what has to be built in a dependency graph when something changes in such graph. With these new tools, it will finally be possible to unlock the full potential of modern devops processes for C and C++ projects.
 
 "I am really excited for Conan 2.0. By starting the Conan tribe in 2020, the Conan team has made sure to incorporate user feedback into this upcoming release.
 I'm really looking forward to the improved lockfile handling which Conan 2.0 will bring. Together with the new Python API, this will greatly simplify our CI workflows."
-Kerstin Keller, Software Developer, Continental
+**Kerstin Keller, Software Developer, Continental**
 
 
 ## A thank you to the community
@@ -162,12 +168,13 @@ To the C++ ecosystem that has welcomed us to conferences and meetups, including 
 
 None of this would be possible without the support of JFrog. Open-Source projects might be free for users but the development and support take a lot of resources. Thank you for helping make C++ package management a reality.
 
+
 ## Get started with Conan 2.0 today
 
-Conan 2.0 is now available for download. To get started, head to our [downloads section](https//conan.io/downloads) and get started with the [Conan 2.0 documentation](https://docs.conan.io).
+Conan 2.0 is now available for download. To get started, head to our [downloads section](https://conan.io/downloads) and get started with the [Conan 2.0 documentation](https://docs.conan.io).
 
 
-### Note about ConanCenter
+#### Note about ConanCenter
 
 In the months leading up to today’s launch, community contributors and the Conan team have made great efforts to upgrade many of the ConanCenter recipes to be compatible with Conan 2.0, as well as retaining compatibility with Conan 1.X. At launch time, the top 100 most downloaded recipes have been validated to be compatible with Conan 2.0. 
 
