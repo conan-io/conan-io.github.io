@@ -393,6 +393,14 @@ body .month-content h2 {
  .container.single-post-page-container article {
 	 max-width: 835px;
 }
+
+ .container.single-post-page-container article .post-content blockquote {
+	 background: #f2f2f2;
+	 border-left: 10px solid #aaaaaa;
+	 margin: 1em;
+	 padding: 0.5em 1em;
+ }
+
  .container.single-post-page-container article h2 {
 	 margin-top: 0.5em;
 	 font-size: 1.263rem;
