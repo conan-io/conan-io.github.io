@@ -18,55 +18,55 @@ IMAGE
 Conan 2.0 has been re-architected from the ground up to better serve the needs of the community. Some notable features:
 
 - New and improved graph model to better represent transitive usage requirements
-  - Requirement traits
-  - Package types
+  - [Requirement traits](https://docs.conan.io/2.0/reference/conanfile/methods/requirements.html#requirement-traits)
+  - [Package types](https://docs.conan.io/2.0/reference/conanfile/attributes.html#package-type)
   - Improved modeling of build-time only dependencies
-  - Improved support for cross-building workflows
+  - Improved support for [cross-building workflows](https://docs.conan.io/2.0/tutorial/consuming_packages/cross_building_with_conan.html)
 - New documentation, written from scratch
-  - Hands-on tutorial covering the most common use cases
-  - Comprehensive and better organized API reference
-  - Newly structured examples section
-  - Documented way to deploy Conan without Python in the developers computers
-- Revisions for package immutability
+  - [Hands-on tutorial](https://docs.conan.io/2.0/tutorial.html) covering the most common use cases
+  - Comprehensive and better organized [API reference](https://docs.conan.io/2.0/reference/extensions/python_api.html)
+  - Newly structured [examples section](https://docs.conan.io/2.0/examples.html)
+  - Documented way to [deploy Conan without Python](https://docs.conan.io/2.0/installation.html#use-a-system-installer-or-create-a-self-contained-executable) in the developers computers
+- [Revisions for package immutability](https://docs.conan.io/2.0/tutorial/versioning/revisions.html)
   - Previously an opt-in in Conan 1.x, revisions are enabled by default in Conan 2.0
   - Improved processes for downloading, installing and updating dependencies with a focus on guaranteeing immutability
   - More efficient upload and download operations
-- Re-Architected and improved build system integrations
+- Re-Architected and improved [build system integrations](https://docs.conan.io/2.0/reference/tools.html)
   - Fully transparent integration with existing CMake projects
   - Support for CMake presets to simplify CMake command invocation in local workflows
   - Same model across all integrations: Autotools, Xcode, MSBuild and better segregation of logic with the generate() method
-- New Command Line interface
+- New [Command Line interface](https://docs.conan.io/2.0/reference/commands.html)
   - Uniform interface across the multiple Conan	 commands
   - Allow multiple output formats and terminal redirection. Cleaner output.
   - Improved, structured machine-readable output (json) to better support CI workflows
-- New public Python API (currently in preview)
+- New [public Python API](https://docs.conan.io/2.0/reference/extensions/python_api.html) (currently in preview)
   - The same API used by Conan’s built-in commands is now available to use in more advanced integrations
-- Custom commands
+- [Custom commands](https://docs.conan.io/2.0/reference/extensions/custom_commands.html)
   - Ability for user provided Conan sub-commands, to extend the built-in functionality
   - Custom commands can be shared with the well-known `conan config install` mechanism
   - Can use the new public Python API to implement additional functionality
 - Improved package_id logic:
   - Taking into account package types and traits to more efficiently determine when a package needs to be rebuilt based on changes in its dependencies
-- Global package_id compatibility extension
+- Global [package_id compatibility extension](https://docs.conan.io/2.0/reference/extensions/binary_compatibility.html)
   - Ability to define binary compatibility at a global level rather than at the recipe level
   - Can be used to exploit known heuristics, for example, that binaries for a given compiler version are compatible and can be linked with binaries built with earlier versions of the same compiler
-- Lockfiles: simplified and improved
+- [Lockfiles](https://docs.conan.io/2.0/tutorial/versioning/lockfiles.html): simplified and improved
   - Lockfiles are now modeled as list of sorted references, which allow a single lockfile to be used for multiple configurations
   - Improved workflows for merging lockfiles, user-defined constraints, and much more
-- New configuration system
+- [New configuration](https://docs.conan.io/2.0/reference/config_files.html) system
   - Uniform ability to configure and control Conan behavior via profiles and command line via the `[conf]` mechanism
   - Better structured and flexible than the legacy mix of environment variables. 
 - Multi-revision local Conan cache
   - Completely redesigned cache to allow storing more than one recipe and package revision at a time. 
   - Shortened paths, removing the need to workaround path length limitations on Windows
-- New deployers
+- [New deployers](https://docs.conan.io/2.0/reference/extensions/deployers.html)
   - New ability for user-provided deployment strategies to perform copy operations from the Conan cache to arbitrary user folders.
   - Can be used to generate self-consistent prefixes with all dependencies requirements of an application, or to package up dependencies for distribution outside of Conan packages
 - New extensibility capabilities
-  - New ability to customize available settings in settings_user.json without modifying the global settings.yml
-  - Command wrapper: intercept calls to self.run(), useful for external integrations (distributed compilation, etc…) 
+  - New ability to [customize available settings](https://docs.conan.io/2.0/examples/config_files/settings/settings_user.html) in settings_user.json without modifying the global settings.yml
+  - [Command wrapper](https://docs.conan.io/2.0/reference/extensions/command_wrapper.html): intercept calls to self.run(), useful for external integrations (distributed compilation, etc…) 
   - Profiles and configuration now support jinja templates for additional flexibility
-- Package signing
+- [Package signing](https://docs.conan.io/2.0/reference/extensions/package_signing.html)
   - New extension to implement signatures and verification of packages
 
 Continue reading to learn more about Conan 2.0 and what it means for your C++ projects.
