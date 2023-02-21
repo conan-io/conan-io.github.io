@@ -3,8 +3,11 @@ $gray: #8b8b8b;
 $blue: #7ba7d3;
 $bright-blue: #EEF7FF;
 $dark-blue: #2c4257;
+$darker-blue: #2F6799;
 $green: #40be46;
 $bright-gray: #eaebee;
+$conan-light-blue: #21AFFF;
+$conan-dark-blue: #0086FD;
 $mid-gray: #AFAFAF;
 $almost_black: #2F2E2E;
 $main-font: 'Open Sans', sans-serif;
@@ -17,16 +20,20 @@ $xxs: '478.98px';
 
 @mixin blue-gradient-bg {
   background: linear-gradient(254.27deg, $dark-blue 51.72%, $blue 98.82%);
-} 
+}
+
+@mixin conan-gradient-bg {
+  background: linear-gradient(92.17deg, $conan-dark-blue 6.81%, $conan-light-blue 83.22%);
+}
 
 body {
-  
+
   .month-content {
     h2 {
       font-size: 1.6rem;
     }
   }
-  
+
   .back-to-the-blog-link {
     color: $blue;
   }
@@ -41,7 +48,7 @@ body {
   .pagination {
     .pagination-nums {
       position: relative;
-      top: 2px; 
+      top: 2px;
     }
     .pagination-link {
       color: #BCBCBC;
@@ -86,7 +93,7 @@ body {
         background: #F8F8F8;
         padding: 40px;
         .month-title {
-         font-weight: 400; 
+         font-weight: 400;
         }
         .month-list {
          .month-item {
@@ -102,7 +109,7 @@ body {
            }
          }
         }
-      } 
+      }
      }
   }
 
@@ -274,7 +281,7 @@ header#masthead {
 }
 
 p {
-  font-weight: 300; 
+  font-weight: 300;
 }
 
 ul {
@@ -362,9 +369,68 @@ a.big-btn {
   max-width: 100%;
 }
 
+.conan-blue-border {
+  border: 2px solid $conan-light-blue;
+  border-radius: 50px;
+}
+
+.conan-center-icon {
+  // Witchery to get this to show up as $conan-dark-blue
+  filter: invert(37%) sepia(52%) saturate(5711%) hue-rotate(195deg) brightness(106%) contrast(105%);
+}
+
 header#masthead, footer#siteFooter {
   .container {
     max-width: 1390px;
+  }
+
+  .btn {
+    // padding: 8px 10px;
+    min-width: 97px;
+    text-align: center;
+    line-height: 22px;
+    min-height: 2rem;
+    /* 36/18 */
+    font-size: 1.05rem;
+    /* 19/18 */
+    transition: all 0.32s ease;
+    border-radius: 50px;
+    box-sizing: border-box;
+    height: 51px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    &.bg-blue {
+      &:hover {
+        color: #fff;
+        background-color: $darker-blue;
+      }
+    }
+    &.bg-dark-blue {
+      background-color: $darker-blue;
+      font-size: 20px;
+      color: #fff;
+      transition: all 0.32s ease;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+    &.bg-bright-gray {
+      &:hover {
+        background-color: #DEE7F9;
+      }
+    }
+
+    &.conan-blue-gradient-bg,
+    &.artifactory-green-gradient-bg {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: white;
+      text-align: center;
+    }
   }
 }
 
@@ -440,6 +506,11 @@ a.bg-blue {
   @include blue-gradient-bg;
 }
 
+.conan-blue-gradient-bg {
+  @include conan-gradient-bg;
+  border-radius: 50px;
+}
+
 .full-page-content {
   margin-left: auto;
   margin-right: auto;
@@ -450,7 +521,7 @@ a.bg-blue {
   max-width: 1206px;
   margin-left: auto;
   margin-right: auto;
-  
+
   overflow-wrap: break-word;
   word-wrap: break-word;
   -ms-word-break: break-all;
@@ -603,7 +674,7 @@ form#searchForm {
     .single-post-list-top {
       font-size: 17px;
       span.date {
-        color: $blue;  
+        color: $blue;
       }
       span.reading-time {
         color: $gray;
@@ -643,29 +714,35 @@ form#searchForm {
 
 
 footer#siteFooter {
-  background-image: url('../assets/img/footer-bg.png');
-  background-position: bottom right;
-  background-repeat: no-repeat;
+  background-color: #0C0C0C;
   background-size: 24vw;
   @media screen and (max-width: 991px) {
     background-image: none;
   }
+
   .footer-left {
-    border-right: 1px solid #000;
+    border-top: 1px solid rgba($gray, .5);
+    padding-top: 30px;
+    margin-top: 20px;
+
     .footer-menu {
-      font-size: 16px;
+      font-size: 15px;
+
       h4 {
         font-size: 16px;
       }
+
       ul {
         list-style: none;
         padding: 0;
         margin-bottom: 0;
+
         li {
           a {
             color: #000;
             transition: all 0.32s ease;
             font-weight: 400;
+
             &:hover {
               color: $dark-blue;
             }
@@ -674,126 +751,11 @@ footer#siteFooter {
       }
     }
   }
-  .footer-right {
-
-    form#mktoForm_1479 {
-      padding: 0;
-      max-width: 100%;
-      display: -webkit-flex;
-      display: -ms-flex;
-      display: flex;
-      flex-wrap: wrap;
-
-      .mktoFormRow:nth-child(2) { //email
-        order: -1;
-        label[for="Email"], .mktoOffset, .mktoClear, .mktoGutter.mktoHasWidth {
-          display: none;
-        }
-        input {
-          width: 100%;
-          border-right: 2px;
-          border: 1px solid $gray;
-          height: 48px;
-          padding-left: 15px;
-          padding-right: 15px;
-          font-size: 18px;
-        }
-        input#Email {
-          max-width: 260px;
-        }
-      }
-      .mktoButtonRow {
-        order: -1;
-        span.mktoButtonWrap.mktoNative {
-          margin-left: 10px !important;
-          button.mktoButton {
-            height: 48px;
-            border: 0;
-            background: $green;
-            color: #fff;
-            font-size: 19px;
-            padding-left: 17px;
-            padding-right: 17px;
-          }
-        }
-      }
-      .mktoFormRow:nth-child(3) {
-        .mktoAsterix, .mktoGutter.mktoHasWidth, .mktoLogicalField.mktoCheckboxList.mktoHasWidth.mktoRequired.mktoValid label {
-          display: none;
-        }
-        .mktoFieldDescriptor.mktoFormCol {
-          .mktoOffset {display: none;}
-          .mktoFieldWrap.mktoRequiredField {
-            display: -webkit-flex;
-            display: -ms-flex;
-            display: flex;
-            flex-direction: row-reverse;
-            padding-top: 5px;
-
-            label.mktoLabel.mktoHasWidth {
-              a {
-                color: $blue !important;
-                font-weight: 400 !important;
-              }
-              font-weight: 300 !important;
-            }
-            .mktoLogicalField.mktoCheckboxList.mktoHasWidth.mktoRequired {
-              width: 25px !important;
-              padding-left: 0;
-              padding-top: 2.9px;
-
-
-              [type='checkbox'] {
-                opacity: 0;
-              }
-
-
-              [type='checkbox'] + label {
-                display: block !important;
-                box-sizing: border-box;
-                border-radius: 2px;
-                width: 18px;
-                height: 19px;
-                background: #fff;
-                border: 1px solid $gray;
-                margin: 0 !important;
-                padding: 0 !important;
-              }
-
-              [type='checkbox']:checked + label:before {
-                content: '\2714';
-                position: absolute;
-                top: 9px;
-                left: 4px;
-                z-index: 2;
-                font-size: 14px;
-                color: $green;
-              }
-            }
-          }
-        }
-        @media screen and (max-width: 768px) {
-          margin-top: 10px;
-          margin-bottom: 10px;
-        }
-      }
-
-
-      @media screen and (max-width: 1100px) {
-        flex-direction: column;
-        .mktoButtonRow {
-          order: 0;
-          span.mktoButtonWrap.mktoNative {
-            margin-left: 0 !important;
-          }
-        }
-      }
-    }
-
-    ul.socials {
-      list-style: none;
-      @media screen and (max-width: 1100px) {
-        margin-top: 20px;
+  ul.socials {
+    a {
+      transition: all 0.32s ease;
+      &:hover {
+        opacity: 0.5;
       }
     }
   }
@@ -854,4 +816,252 @@ footer#siteFooter {
   /* Firefox 18- */
   color: $mid-gray;
   font-family: $main-font;
+}
+
+section.sign-up {
+  @media screen and (max-width: 768px) {
+    img.letter {display: none !important;}
+  }
+  img.letter {
+    max-width: 200px;
+    bottom: -10px;
+    left: -130px;
+    @media screen and (max-width: 480px) {
+      bottom: 50px;
+      left: -80px;
+    }
+  }
+
+  form#mktoForm_1479 {
+    padding: 0;
+    max-width: 100%;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    flex-wrap: wrap;
+
+
+    @media screen and (max-width: 480px) {
+      justify-content: center;
+    }
+
+    @media  screen and (min-width: 768px) {
+      width: 535px !important;
+    }
+
+    h2 {
+      font-weight: 200;
+    }
+
+    .mktoFormRow:nth-child(2) { //email
+      order: -1;
+      .mktoError {
+        right: unset !important;
+        bottom: -69px !important;
+      }
+      label[for="Email"], .mktoOffset, .mktoClear, .mktoGutter.mktoHasWidth {
+        display: none;
+      }
+      input {
+        width: 100%;
+        border-right: 2px;
+        border: 1px solid $gray;
+        height: 48px;
+        padding-left: 15px;
+        padding-right: 15px;
+        font-size: 18px;
+      }
+      input#Email {
+        max-width: 100%;
+        width: 332px !important;
+      }
+    }
+    .mktoButtonRow {
+      order: -1;
+      span.mktoButtonWrap.mktoNative {
+        margin-left: 10px !important;
+        button.mktoButton {
+          height: 48px;
+          border: 0;
+          @include conan-gradient-bg;
+          width: 190px;
+          color: #fff;
+          font-size: 19px;
+          padding-left: 17px;
+          padding-right: 17px;
+          transition: all 0.32s ease;
+          border-radius: 50px;
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+    .mktoFormRow:nth-child(3) {
+      width: 525px;
+      max-width: 100%;
+      margin-top: 10px;
+      display: -webkit-flex;
+      display: -ms-flex;
+      display: flex;
+      justify-content: center;
+      .mktoAsterix, .mktoGutter.mktoHasWidth, .mktoLogicalField.mktoCheckboxList.mktoHasWidth.mktoRequired.mktoValid label {
+        display: none;
+      }
+      .mktoFieldDescriptor.mktoFormCol {
+        .mktoOffset {display: none;}
+        .mktoFieldWrap.mktoRequiredField {
+          display: -webkit-flex;
+          display: -ms-flex;
+          display: flex;
+          flex-direction: row-reverse;
+          padding-top: 5px;
+          justify-content: center;
+
+          label.mktoLabel.mktoHasWidth {
+            color: #fff;
+            text-align: center;
+            a {
+              font-weight: 600 !important;
+              color: #fff !important;
+              text-decoration: underline;
+            }
+            font-weight: 300 !important;
+          }
+          .mktoLogicalField.mktoCheckboxList.mktoHasWidth.mktoRequired {
+            width: 25px !important;
+            padding-left: 0;
+            padding-top: 2.9px;
+
+
+            [type='checkbox'] {
+              opacity: 0;
+            }
+
+
+            [type='checkbox'] + label {
+              display: block !important;
+              box-sizing: border-box;
+              border-radius: 2px;
+              width: 18px;
+              height: 19px;
+              background: #fff;
+              border: 1px solid $gray;
+              margin: 0 !important;
+              padding: 0 !important;
+            }
+
+            [type='checkbox']:checked + label:before {
+              content: '\2714';
+              position: absolute;
+              top: 9px;
+              left: 4px;
+              z-index: 2;
+              font-size: 14px;
+              color: $green;
+            }
+          }
+        }
+      }
+    }
+
+
+    @media screen and (max-width: 600px) {
+      .mktoFormRow:nth-child(3) {
+        width: 100%;
+        justify-content: center;
+      }
+      .mktoFormRow:nth-child(2) input#Email {
+        width: 210px !important;
+        font-size: 15px;
+      }
+      .mktoButtonRow span.mktoButtonWrap.mktoNative button.mktoButton {
+        width: 110px !important;
+        font-size: 15px;
+      }
+    }
+  }
+
+  form.footer-form {
+    h3 {
+      font-size: 20px;
+    }
+
+    label {
+      display: none;
+
+      &.show-label {
+        display: inline-block;
+      }
+    }
+
+    input:not([type='checkbox']) {
+      height: 48px;
+      border-radius: 2px;
+
+      &#footerEmail {
+        width: 261px;
+        border: 1px solid gray;
+        background: white;
+        padding-left: 15px;
+      }
+
+      &[type='submit'] {
+        padding: 10px 15px;
+      }
+    }
+
+    .form-checkbox {
+      position: relative;
+      // left: -14px;
+      abbr {
+        display: none;
+      }
+
+      input {
+        opacity: 0;
+        position: relative;
+        left: 3px;
+        bottom: -7px;
+        z-index: 3;
+      }
+
+      span {
+        height: 19px;
+        width: 18px;
+        border: 1px solid black;
+        display: inline-block;
+        position: relative;
+        top: 3px;
+        left: -13px;
+        transition: all 0.12s ease;
+      }
+
+      [type='checkbox']:checked + span {
+        background: $green;
+        border: 1px solid $green;
+      }
+
+      [type='checkbox']:checked + span:before {
+        content: '\2714';
+        position: absolute;
+        top: -3px;
+        left: 2px;
+        z-index: 2;
+        font-size: 14px;
+        color: #fff;
+      }
+    }
+  }
+}
+
+
+.footer-links {
+  a {
+    color: white;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  gap: 15px;
 }
