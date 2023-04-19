@@ -13,8 +13,9 @@ obtain the joint locations in each image. The output of our application will loo
 something like this:
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-04-18/pose-detection-tensorflow.gif" style="display: block; margin-left: auto; margin-right: auto;" alt="Pose estimation"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-04-24/pose-detection-tensorflow.gif" style="display: block; margin-left: auto; margin-right: auto;" alt="Pose estimation"/>
 </p>
+
 
 ### A short introduction
 
@@ -69,7 +70,7 @@ detect human keypoints, providing us with the positions of various body joints. 
 application follows this diagram:
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-04-18/blocks.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Application structure"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-04-24/blocks.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Application structure"/>
 </p>
 
 #### Loading the neural network model
@@ -186,7 +187,7 @@ memcpy(interpreter->typed_input_tensor<unsigned char>(0),
 This diagram summarizes the whole size conversion pipeline for the video frames.
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-04-18/input-output-tensor-size.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Tensor sizes"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-04-24/input-output-tensor-size.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Tensor sizes"/>
 </p>
 
 #### Running inference
@@ -223,7 +224,7 @@ this information:
   ankle, right ankle]).
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-04-18/output-tensor.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Output tensor keypoints"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-04-24/output-tensor.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Output tensor keypoints"/>
 </p>
 
 - The third channel of the last dimension represents the prediction confidence scores of
