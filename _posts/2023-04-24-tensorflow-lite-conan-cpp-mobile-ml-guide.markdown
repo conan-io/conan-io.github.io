@@ -281,7 +281,8 @@ void draw_keypoints(cv::Mat &resized_image, float *output)
             int img_x2 = static_cast<int>(x2 * square_dim);
             int img_y2 = static_cast<int>(y2 * square_dim);
             cv::line(resized_image, cv::Point(img_x1, img_y1), 
-                     cv::Point(img_x2, img_y2), cv::Scalar(200, 200, 200), 1);
+                     cv::Point(img_x2, img_y2), cv::Scalar(200, 200, 200), 
+                     1);
         }
     }
 }
