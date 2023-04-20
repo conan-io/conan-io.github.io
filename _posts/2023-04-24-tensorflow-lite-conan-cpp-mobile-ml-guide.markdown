@@ -117,15 +117,15 @@ tflite::PrintInterpreterState(interpreter.get());
 #### Read and transform the input data
 
 Now we have our interpreter ready to feed it with some data and run the inference, but
-first we have to adapt our data to the input accepted by the model. In this case, if we
+first, we have to adapt our data to the input accepted by the model. In this case, if we
 check the
 [documentation](https://tfhub.dev/google/lite-model/movenet/singlepose/lightning/tflite/float16/4)
-for this specific model we can see that the input must be in the form of "an uint8 tensor
-of shape: 192x192x3. Channels order: RGB with values in [0, 255]". 
+for this specific model, we can see that the input must be in the form of "an uint8 tensor
+of shape: 192x192x3. Channels order: RGB with values in [0, 255]".
 
 Although not necessary, we could access the input tensor from the interpreter to confirm
-the tensor input size that in this case is `[1,192,192,3]`. The first element is the batch
-size, that is 1 as we are only using one image as the input of the model.
+the tensor input size, which in this case is `[1,192,192,3]`. The first element is the
+batch size, which is 1 as we are only using one image as the input of the model.
 
 {% highlight cpp %}
 auto input = interpreter->inputs()[0];
@@ -142,10 +142,10 @@ std::cout << "The input tensor has the following dimensions: ["
           << input_channels << "]" << std::endl;
 {% endhighlight %}
 
-We want to perform the pose detection in a video which has dimensions of 640x360 pixels,
-so we have to crop and resize the video frames to 192x192 pixels before inputing them to
-the model (we have omitted the frame capture code for simplicity but you can find the code
-in the repository). To do so, we use the
+We want to perform pose detection on a video with dimensions of 640x360 pixels, so we have
+to crop and resize the video frames to 192x192 pixels before inputting them into the model
+(we have omitted the frame capture code for simplicity, but you can find the code in the
+repository). To do so, we use the
 [resize()](https://docs.opencv.org/4.5.5/da/d54/group__imgproc__transform.html#ga47a974309e9102f5f08231edc7e7529d)
 function from the OpenCV library.
 
@@ -172,7 +172,7 @@ cv::resize(frame(cv::Rect(delta_width,
 {% endhighlight %}
 
 The final step is to copy the data from the resized video frame to the input of the
-interpreter. We can get a pointer to the input tensor getting `typed_input_tensor` from
+interpreter. We can get a pointer to the input tensor by calling `typed_input_tensor` from
 the interpreter.
 
 {% highlight cpp %}
@@ -189,10 +189,10 @@ This diagram summarizes the whole size conversion pipeline for the video frames.
 
 #### Running inference
 
-After preparing and copying the input data to the input tensor we can finally run the
-inference which can be done by calling to the `Invoke()` method of the interpreter. If the
-inference runs succesfully we can recover the output tensor from the model getting
-`typed_output_tensor` from the interpreter. 
+After preparing and copying the input data to the input tensor, we can finally run the
+inference. This can be done by calling the `Invoke()` method of the interpreter. If the
+inference runs successfully, we can recover the output tensor from the model by getting
+`typed_output_tensor` from the interpreter.
 
 {% highlight cpp %}
 
@@ -209,13 +209,13 @@ float *results = interpreter->typed_output_tensor<float>(0);
 #### Interpreting output
 
 Each model outputs the tensor data from the inference in a certain format that we have to
-interpret. In this case the
+interpret. In this case, the
 [documentation](https://tfhub.dev/google/lite-model/movenet/singlepose/lightning/tflite/float16/4)
 for the model states that the output is a float32 tensor of shape [1, 1, 17, 3], storing
 this information:
 
-- The first two channels of the last dimension represents the yx coordinates (normalized
-  to image frame, i.e. range in [0.0, 1.0]) of the 17 keypoints (in the order of: [nose,
+- The first two channels of the last dimension represent the yx coordinates (normalized to
+  image frame, i.e., range in [0.0, 1.0]) of the 17 keypoints (in the order of: [nose,
   left eye, right eye, left ear, right ear, left shoulder, right shoulder, left elbow,
   right elbow, left wrist, right wrist, left hip, right hip, left knee, right knee, left
   ankle, right ankle]).
@@ -227,10 +227,10 @@ this information:
 - The third channel of the last dimension represents the prediction confidence scores of
   each keypoint, also in the range [0.0, 1.0].
 
-We created a `draw_keypoints()` helper function that takes the output tensor and orders
+We created a `draw_keypoints()` helper function that takes the output tensor and organizes
 the different output coordinates to draw the pose skeleton over the video frame. We also
-have take the confidence of the output into account filtering those results that have a
-confidence under the 0.2 threshold.
+take the confidence of the output into account, filtering those results that have a
+confidence below the 0.2 threshold.
 
 {% highlight cpp %}
 
@@ -284,7 +284,7 @@ void draw_keypoints(cv::Mat &resized_image, float *output)
 ### Using Conan to manage Tensorflow Lite and OpenCV dependencies
 
 Consuming the Tensorflow Lite and OpenCV libraries using Conan is quite straightforward.
-If you have a look at the CMakeLists.txt of the project if has nothing particular about
+If you have a look at the CMakeLists.txt of the project, it has nothing particular about
 Conan.
 
 {% highlight cmake %}
@@ -301,7 +301,8 @@ target_link_libraries(pose-estimation PRIVATE
                       opencv::opencv)
 {% endhighlight %}
 
-On the Conan side we just need to create a conanfile.py declaring the dependencies for the
+To make Conan install the libraries and generate the files needed to build the project
+with CMake, we simply need to create a conanfile.py that declares the dependencies for the
 project.
 
 {% highlight python %}
@@ -323,13 +324,13 @@ class PoseEstimationRecipe(ConanFile):
         cmake_layout(self)
 {% endhighlight %}
 
-As you can see we just declare the dependencies in the `requirements()` method of the
-ConanFile. We also are declaring the layout() for the project as cmake_layout as we are
+As you can see, we just declare the dependencies in the `requirements()` method of the
+ConanFile. We are also declaring the layout() for the project as cmake_layout, as we are
 using CMake for building. You can check the [consuming packages tutorial
 section](https://docs.conan.io/2/tutorial/consuming_packages) of the Conan documentation
 for more information.
 
-Now let’s build the project and run the application.
+Now let's build the project and run the application.
 
 {% highlight bash %}
 conan install . -o opencv/*:with_ffmpeg=False -o opencv/*:with_gtk=False -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
