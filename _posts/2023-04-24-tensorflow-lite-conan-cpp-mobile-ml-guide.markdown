@@ -6,11 +6,7 @@ meta_title: "Real-Time Object Detection with TensorFlow Lite and Conan in C++ - 
 meta_description: "Discover how to leverage TensorFlow Lite and Conan package manager for seamless integration in C++ to create cutting-edge real-time pose detection applications."
 ---
 
-In this post, we will explore how to use Tensorflow Lite in C++ for real-time human pose
-estimation through a neural network from Tensorflow Hub trained for this purpose. We will
-develop an example that uses OpenCV to load a video that we will process frame by frame to
-obtain the joint locations in each image. The output of our application will look
-something like this:
+In this post, we will explore how to use TensorFlow Lite in C++ for real-time human pose estimation through a neural network from TensorFlow Hub trained for this purpose. We will develop an example that uses OpenCV to load a video, which we will process frame by frame to obtain the joint locations in each image. The output of our application will look something like this:
 
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2023-04-24/pose-detection-tensorflow.gif" style="display: block; margin-left: auto; margin-right: auto;" alt="Pose estimation"/>
@@ -20,15 +16,16 @@ something like this:
 ### A short introduction
 
 TensorFlow Lite is a library specially designed for deploying deep learning models on
-mobile, microcontrollers and other edge devices. The main difference between TensorFlow
+mobile, microcontrollers, and other edge devices. The main difference between TensorFlow
 and TensorFlow Lite is that TensorFlow is used for creating and training machine learning
 models, while TensorFlow Lite is a simpler version designed for running those models on
 devices like mobile phones.
 
-Tensorflow Hub is a repository where we can find lots of trained machine learning models,
-ready to be used in our applications. For the case of our example we will use the
+TensorFlow Hub is a repository where we can find lots of trained machine learning models,
+ready to be used in our applications. For the case of our example, we will use the
 [MoveNet.SinglePose.Lightning](https://tfhub.dev/google/lite-model/movenet/singlepose/lightning/tflite/float16/4)
-model but there are other many models compatible with Tensorflow Lite in the Tensorflow Hub. Some examples include:
+model, but there are many other models compatible with TensorFlow Lite in the TensorFlow
+Hub. Some examples include:
 
 - [Image style
   transfer](https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/2)
@@ -36,11 +33,11 @@ model but there are other many models compatible with Tensorflow Lite in the Ten
   images](https://tfhub.dev/intel/midas/v2_1_small/1)
 - Different types of applications of image classification like for
   [crop-dissease](https://tfhub.dev/agripredict/disease-classification/1), [insect
-  identification](https://tfhub.dev/google/aiy/vision/classifier/insects_V1/1) or [food
+  identification](https://tfhub.dev/google/aiy/vision/classifier/insects_V1/1), or [food
   classification](https://tfhub.dev/google/aiy/vision/classifier/food_V1/1).
 - [Image superresolution](https://tfhub.dev/captain-pool/esrgan-tf2/1)
 
-### Using Tensorflow Lite in your application
+### Using TensorFlow Lite in your application
 
 All the source code for this example is available in the [Conan 2.0 examples
 repo](https://github.com/conan-io/examples2), you can check out the sources:
