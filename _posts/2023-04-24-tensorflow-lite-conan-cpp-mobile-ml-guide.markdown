@@ -6,7 +6,11 @@ meta_title: "Real-Time Object Detection with TensorFlow Lite and Conan in C++ - 
 meta_description: "Discover how to leverage TensorFlow Lite and Conan package manager for seamless integration in C++ to create cutting-edge real-time pose detection applications."
 ---
 
-In this post, we will explore how to use TensorFlow Lite in C++ for real-time human pose estimation through a neural network from TensorFlow Hub trained for this purpose. We will develop an example that uses OpenCV to load a video, which we will process frame by frame to obtain the joint locations in each image. The output of our application will look something like this:
+In this post, we will explore how to use TensorFlow Lite in C++ for real-time human pose
+estimation using a neural network from TensorFlow Hub trained for this purpose. We will
+develop an example that uses OpenCV to load a video, processing it frame by frame to
+obtain the joint locations in each image. The output of our application will look like
+this[^1]:
 
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2023-04-24/pose-detection-tensorflow.gif" style="display: block; margin-left: auto; margin-right: auto;" alt="Pose estimation"/>
@@ -341,5 +345,12 @@ build/Release/pose-estimation
 
 ### Conclusions
 
-- Lo fácil que es usar tensorflow-lite con Conan, lo complicado que sería manejar todas esas dependencias manualmente
-- Ahora tienes las bases, prueba a hacer tus propias aplicaciones!
+Now that you know the basics of how to use TensorFlow lite in your applications, you try
+other models. Also, now that you have experienced how easy it can be to install and use
+libraries like TensorFlow lite and OpenCV you can start making more complex applications
+incorporating other libraries. To search for the libraries available in Conan Center Index
+you can use the ``conan search`` command.
+
+---
+
+[^1]: <small>Video by Olia Danilevich from https://www.pexels.com/</small>
