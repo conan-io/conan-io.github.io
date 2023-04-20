@@ -374,7 +374,8 @@ cmake --build .
 # is your VS version and that it matches 
 # your default profile
 cmake . -G "Visual Studio 17 2022" -DCMAKE_TOOLCHAIN_FILE=./build/generators/conan_toolchain.cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW'
-
+cmake --build . --config Release
+pose-estimation.exe
 
 {% endhighlight %}
 
