@@ -343,7 +343,8 @@ dependencies.
 
 {% highlight bash %}
 conan install . --build=missing -o opencv/*:with_ffmpeg=False -o opencv/*:with_gtk=False
--c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
+-c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True -s
+compiler.cppstd=17 --build=missing
 {% endhighlight %}
 
 Now let's build the project and run the application. If you have CMake>=3.23 installed,
@@ -366,14 +367,18 @@ Otherwise, you can add the necessary arguments for CMake:
 
 {% highlight bash %}
 # Linux, macOS
-cmake . -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Release
+cmake . -G "Unix Makefiles"
+-DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake
+-DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Release
 cmake --build .
 ./pose-estimation
 
 # Windows. Assuming Visual Studio 17 2022 
 # is your VS version and that it matches 
 # your default profile
-cmake . -G "Visual Studio 17 2022" -DCMAKE_TOOLCHAIN_FILE=./build/generators/conan_toolchain.cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW'
+cmake . -G "Visual Studio 17 2022"
+-DCMAKE_TOOLCHAIN_FILE=./build/generators/conan_toolchain.cmake
+-DCMAKE_POLICY_DEFAULT_CMP0091=NEW'
 cmake --build . --config Release
 pose-estimation.exe
 
