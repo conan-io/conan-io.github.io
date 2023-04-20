@@ -259,7 +259,8 @@ void draw_keypoints(cv::Mat &resized_image, float *output)
         if (conf > confidence_threshold) {
             int img_x = static_cast<int>(x * square_dim);
             int img_y = static_cast<int>(y * square_dim);
-            cv::circle(resized_image, cv::Point(img_x, img_y), 2, cv::Scalar(255, 200, 200), 1);
+            cv::circle(resized_image, cv::Point(img_x, img_y),
+                       2, cv::Scalar(255, 200, 200), 1);
         }
     }
 
@@ -334,13 +335,30 @@ using CMake for building. You can check the [consuming packages tutorial
 section](https://docs.conan.io/2/tutorial/consuming_packages) of the Conan documentation
 for more information.
 
-Now let's build the project and run the application.
+Now we can use Conan to install the libraries. It will not only install
+*tensorflow-lite/2.10.0* and *opencv/4.5.5*, but also all the necessary transitive
+dependencies.
 
 {% highlight bash %}
-conan install . -o opencv/*:with_ffmpeg=False -o opencv/*:with_gtk=False -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
+conan install . --build=missing -o opencv/*:with_ffmpeg=False -o opencv/*:with_gtk=False
+-c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
+{% endhighlight %}
+
+Now let's build the project and run the application. If you have CMake>=3.23 installed,
+you can use CMake presets:
+
+{% highlight bash %}
 cmake --preset conan-release
 cmake --build --preset conan-release
 build/Release/pose-estimation
+{% endhighlight %}
+
+Otherwise, you can add the necessary arguments for CMake:
+
+{% highlight bash %}
+cmake . -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Release
+cmake --build .
+./pose-estimation
 {% endhighlight %}
 
 ### Conclusions
