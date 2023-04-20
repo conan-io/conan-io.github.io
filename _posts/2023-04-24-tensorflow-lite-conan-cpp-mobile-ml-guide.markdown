@@ -285,9 +285,9 @@ void draw_keypoints(cv::Mat &resized_image, float *output)
 }
 {% endhighlight %}
 
-### Using Conan to manage Tensorflow Lite and OpenCV dependencies
+### Using Conan to manage TensorFlow Lite and OpenCV dependencies
 
-Consuming the Tensorflow Lite and OpenCV libraries using Conan is quite straightforward.
+Consuming the TensorFlow Lite and OpenCV libraries using Conan is quite straightforward.
 If you have a look at the CMakeLists.txt of the project, it has nothing particular about
 Conan.
 
@@ -345,11 +345,11 @@ build/Release/pose-estimation
 
 ### Conclusions
 
-Now that you know the basics of how to use TensorFlow lite in your applications, you try
-other models. Also, now that you have experienced how easy it can be to install and use
-libraries like TensorFlow lite and OpenCV you can start making more complex applications
-incorporating other libraries. To search for the libraries available in Conan Center Index
-you can use the ``conan search`` command.
+Now that you're familiar with the basics of using TensorFlow Lite in your applications,
+you can explore other models. Also, having experienced the ease of installing and using
+libraries like TensorFlow Lite and OpenCV, you're now well-equipped to create more complex
+applications incorporating additional libraries. To search for libraries available in the
+Conan Center Index, you can use the conan search command.
 
 ---
 
