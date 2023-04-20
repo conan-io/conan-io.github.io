@@ -350,17 +350,32 @@ Now let's build the project and run the application. If you have CMake>=3.23 ins
 you can use CMake presets:
 
 {% highlight bash %}
+
+# Linux, macOS
 cmake --preset conan-release
 cmake --build --preset conan-release
 build/Release/pose-estimation
+
+# Windows
+cmake --preset conan-default
+cmake --build --preset conan-release
+build\Release\pose-estimation.exe
 {% endhighlight %}
 
 Otherwise, you can add the necessary arguments for CMake:
 
 {% highlight bash %}
+# Linux, macOS
 cmake . -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Release
 cmake --build .
 ./pose-estimation
+
+# Windows. Assuming Visual Studio 17 2022 
+# is your VS version and that it matches 
+# your default profile
+cmake . -G "Visual Studio 17 2022" -DCMAKE_TOOLCHAIN_FILE=./build/generators/conan_toolchain.cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW'
+
+
 {% endhighlight %}
 
 ### Conclusions
