@@ -40,14 +40,14 @@ Hub. Some examples include:
 ### Using TensorFlow Lite in your application
 
 All the source code for this example is available in the [Conan 2.0 examples
-repo](https://github.com/conan-io/examples2), you can check out the sources:
+repo](https://github.com/conan-io/examples2):
 
 {% highlight bash %}
 git clone https://github.com/conan-io/examples2.git
 cd cd examples2/examples/libraries/tensorflow-lite/pose-estimation/
 {% endhighlight %}
 
-There, you will find the project, let's have a look to the relevant files:
+There, you will find the project. Let's have a look at the relevant files:
 
 {% highlight txt %}
 .
@@ -60,11 +60,11 @@ There, you will find the project, let's have a look to the relevant files:
     └── main.cpp
 {% endhighlight %}
 
-You can see the source code and *CMakeLists.txt* for our application, the video we are going
-to process, and the model for the neural network we will load into TensorFlow Lite. Our
-application runs the inference on the model (make predictions based on input data) to
-detect human keypoints, providing us with the positions of various body joints. The
-application follows this diagram:
+You can see the source code and *CMakeLists.txt* for our application, the video we are
+going to process, and the model for the neural network we will load into TensorFlow Lite.
+Our application runs the inference on the model (making predictions based on input data)
+to detect human keypoints, providing us with the positions of various body joints. The app
+is organized according to this schematic:
 
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2023-04-24/blocks.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Application structure"/>
@@ -72,12 +72,12 @@ application follows this diagram:
 
 #### Loading the neural network model
 
-As we previously mentioned we will use the
+As we previously mentioned, we will use the
 [MoveNet.SinglePose.Lightning](https://tfhub.dev/google/lite-model/movenet/singlepose/lightning/tflite/float16/4)
-model in our example. This model in is in the form of a `.tflite` file. The first step is
+model in our example. This model is in the form of a `.tflite` file. The first step is
 loading the `.tflite` model into memory. This file contains the model's execution graph.
-This model is stored in the `FlatBufferModel` class and you can create an instance of it
-using the `BuildFromFile` method with the model file name as input argument.
+This model is stored in the `FlatBufferModel` class, and you can create an instance of it
+using the `BuildFromFile` method with the model file name as the input argument.
 
 {% highlight cpp %}
 
@@ -89,14 +89,14 @@ if (!model) {
 
 {% endhighlight %}
 
-Then, we build an `Interpreter` that is the class that will take the model and define
-execute the operations it defines on input data, also providing access to the output. To
-do so, we use the `InterpreterBuilder`, that will allocate memory for the `Interpreter`
-and manage the set up so that the `Interpreter` can read the provided model. Note that
-before running the inference we tell the interpreter to allocate memory for the model's
-tensors calling the`AllocateTensors()` method.
-In the last line of this block we also call `PrintInterpreterState` that is a debugging
-utility useful to inspect the state of the interpreter nodes and tensors.
+Next, we build an `Interpreter`—the class that will take the model and execute the
+operations it defines on input data while also providing access to the output. To do so,
+we use the `InterpreterBuilder`, which will allocate memory for the `Interpreter` and
+manage the setup so that the `Interpreter` can read the provided model. Note that before
+running the inference, we tell the interpreter to allocate memory for the model's tensors
+by calling the `AllocateTensors()` method. In the last line of this block, we also call
+`PrintInterpreterState`, a debugging utility useful for inspecting the state of the
+interpreter nodes and tensors.
 
 {% highlight cpp %}
 
