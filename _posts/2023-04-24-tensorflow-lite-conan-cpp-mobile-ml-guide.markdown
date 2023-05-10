@@ -288,7 +288,7 @@ void draw_keypoints(cv::Mat &resized_image, float *output)
 }
 {% endhighlight %}
 
-### Using Conan to manage TensorFlow Lite and OpenCV dependencies
+### Installing TensorFlow Lite and OpenCV dependencies and building the project
 
 Consuming the TensorFlow Lite and OpenCV libraries using Conan is quite straightforward.
 If you have a look at the *CMakeLists.txt* of the project, it has nothing particular about
