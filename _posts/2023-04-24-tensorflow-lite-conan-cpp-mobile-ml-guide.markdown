@@ -337,7 +337,14 @@ for more information.
 
 Now we can use Conan to install the libraries. It will not only install
 *tensorflow-lite/2.10.0* and *opencv/4.5.5*, but also all the necessary transitive
-dependencies. Conan will attempt to install those packages from the default
+dependencies. For example, for a machine running macOS Ventura the whole dependency graph
+would look similar to this:
+
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-04-24/all-deps.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Pose estimation"/>
+</p>
+
+Conan will attempt to install those packages from the default
 [ConanCenter](https://conan.io/center) remote, which is the main official repository for
 open-source Conan packages. If the pre-compiled binaries are not available for your
 configuration, you can also build from sources.
