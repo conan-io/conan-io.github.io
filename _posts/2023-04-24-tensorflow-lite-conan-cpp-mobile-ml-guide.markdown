@@ -291,7 +291,7 @@ void draw_keypoints(cv::Mat &resized_image, float *output)
 ### Using Conan to manage TensorFlow Lite and OpenCV dependencies
 
 Consuming the TensorFlow Lite and OpenCV libraries using Conan is quite straightforward.
-If you have a look at the CMakeLists.txt of the project, it has nothing particular about
+If you have a look at the *CMakeLists.txt* of the project, it has nothing particular about
 Conan.
 
 {% highlight cmake %}
@@ -309,7 +309,7 @@ target_link_libraries(pose-estimation PRIVATE
 {% endhighlight %}
 
 To make Conan install the libraries and generate the files needed to build the project
-with CMake, we simply need to create a conanfile.py that declares the dependencies for the
+with CMake, we simply need to create a *conanfile.py* that declares the dependencies for the
 project.
 
 {% highlight python %}
@@ -332,20 +332,32 @@ class PoseEstimationRecipe(ConanFile):
 {% endhighlight %}
 
 As you can see, we just declare the dependencies in the `requirements()` method of the
-ConanFile. We are also declaring the layout() for the project as cmake_layout, as we are
-using CMake for building. You can check the [consuming packages tutorial
+ConanFile. We are also declaring the `layout()` for the project as `cmake_layout`, as we
+are using CMake for building. You can check the [consuming packages tutorial
 section](https://docs.conan.io/2/tutorial/consuming_packages) of the Conan documentation
 for more information.
 
 Now we can use Conan to install the libraries. It will not only install
 *tensorflow-lite/2.10.0* and *opencv/4.5.5*, but also all the necessary transitive
-dependencies.
+dependencies. Conan will attempt to install those packages from the default
+[ConanCenter](https://conan.io/center) remote, which is the main official repository for
+open-source Conan packages. If the pre-compiled binaries are not available for your
+configuration, you can also build from sources.
 
 {% highlight bash %}
-conan install . --build=missing -o opencv/*:with_ffmpeg=False -o opencv/*:with_gtk=False
--c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True -s
-compiler.cppstd=17 --build=missing
+conan install . -s compiler.cppstd=17 --build=missing
 {% endhighlight %}
+
+Please note a couple of things:
+
+- We are passing a value for the C++ standard, as the *tensorflow-lite* library only works
+  with a standard higher than 17.
+- We are passing the `--build=missing` argument in case some binaries are not available
+  from the remote.
+- If you are running Linux and some necessary missing system libraries are missing on your
+  system, you may have to add the `-c tools.system.package_manager:mode=install` or `-c
+  tools.system.package_manager:sudo=True` arguments to the command line ([docs
+  reference](https://docs.conan.io/2/reference/tools/system/package_manager.html)).
 
 Now let's build the project and run the application. If you have CMake>=3.23 installed,
 you can use CMake presets:
@@ -387,10 +399,10 @@ pose-estimation.exe
 ### Conclusions
 
 Now that you're familiar with the basics of using TensorFlow Lite in your applications,
-you can explore other models. Also, having experienced the ease of installing and using
-libraries like TensorFlow Lite and OpenCV, you're now well-equipped to create more complex
-applications incorporating additional libraries. To search for libraries available in the
-Conan Center Index, you can use the conan search command.
+you can explore other models. Additionally, having experienced the ease of installing and
+using libraries like TensorFlow Lite and OpenCV, you're now well-equipped to create more
+complex applications incorporating additional libraries. To search for all libraries
+available in ConanCenter, you can use the `conan search '*' -r=conancenter` command.
 
 ---
 
