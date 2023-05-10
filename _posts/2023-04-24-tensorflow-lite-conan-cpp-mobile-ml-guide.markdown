@@ -41,6 +41,25 @@ Hub. Some examples include:
   classification](https://tfhub.dev/google/aiy/vision/classifier/food_V1/1).
 - [Image superresolution](https://tfhub.dev/captain-pool/esrgan-tf2/1)
 
+### Some essential concepts
+
+Before diving into the example, let's briefly explain some essential concepts:
+
+- **Model**: A machine learning model is a mathematical representation of a real-world
+  process, learned from data. It is used to make predictions or decisions without being
+  explicitly programmed to perform the task.
+- **Inference:** Inference is the process of using a trained machine learning model to
+  make predictions or decisions based on new input data. It allows the model to apply its
+  learned knowledge to new, unseen data.
+- **Tensor**: A multi-dimensional array used to represent data in deep learning models.
+  Tensors are the primary data structure used in TensorFlow to represent and manipulate
+  data.
+- **Shape**: The dimensions of a tensor, describing the number of elements in each
+  dimension. For example, a matrix with 3 rows and 4 columns has a shape of (3, 4).
+- **Channel**: In the context of image processing, channels refer to the separate color
+  components of an image. For example, a typical color image has three channels: red,
+  green, and blue (RGB).
+
 ### Using TensorFlow Lite in your application
 
 All the source code for this example is available in the [Conan 2.0 examples
@@ -341,7 +360,7 @@ dependencies. For example, for a machine running macOS Ventura the whole depende
 would look similar to this:
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-04-24/all-deps.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Pose estimation"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-04-24/all-deps.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Whole dependency graph"/>
 </p>
 
 Conan will attempt to install those packages from the default
