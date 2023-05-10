@@ -140,8 +140,16 @@ tflite::PrintInterpreterState(interpreter.get());
 #### Read and transform the input data
 
 Now we have our interpreter ready to feed it with some data and run the inference, but
-first, we have to adapt our data to the input accepted by the model. In this case, if we
-check the
+first, we have to adapt our data to the input accepted by the model. 
+
+Here's the outline of the process we'll follow in this section:
+
+- Read the input video (in our case it's a video of dimensions 640×360 pixels)
+- Crop the input video image to an square image (this would be 360x360 pixels)
+- Resize the image to the input accepted by the model (we'll see that it's 192x192) and
+  copy to the input of the model.
+
+In this case, if we check the
 [documentation](https://tfhub.dev/google/lite-model/movenet/singlepose/lightning/tflite/float16/4)
 for this specific model, we can see that the input must be in the form of "an uint8 tensor
 of shape: 192x192x3. Channels order: RGB with values in [0, 255]".
