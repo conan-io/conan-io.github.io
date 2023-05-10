@@ -13,7 +13,7 @@ obtain the joint locations in each image. The final result of our application sh
 this[^1]:
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-04-24/pose-detection-tensorflow.gif" style="display: block; margin-left: auto; margin-right: auto;" alt="Pose estimation"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-05-11/pose-detection-tensorflow.gif" style="display: block; margin-left: auto; margin-right: auto;" alt="Pose estimation"/>
 </p>
 
 
@@ -90,7 +90,7 @@ to detect human keypoints, providing us with the positions of various body joint
 is organized according to this schematic:
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-04-24/blocks.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Application structure"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-05-11/blocks.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Application structure"/>
 </p>
 
 #### Loading the neural network model
@@ -215,7 +215,7 @@ memcpy(interpreter->typed_input_tensor<unsigned char>(0),
 This diagram summarizes the whole size conversion pipeline for the video frames.
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-04-24/input-output-tensor-size.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Tensor sizes"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-05-11/input-output-tensor-size.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Tensor sizes"/>
 </p>
 
 #### Running inference
@@ -252,7 +252,7 @@ this information:
   ankle, right ankle]).
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-04-24/output-tensor.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Output tensor keypoints"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-05-11/output-tensor.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Output tensor keypoints"/>
 </p>
 
 - The third channel of the last dimension represents the prediction confidence scores of
@@ -368,7 +368,7 @@ dependencies. For example, for a machine running macOS Ventura the whole depende
 would look similar to this:
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-04-24/all-deps.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Whole dependency graph"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-05-11/all-deps.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Whole dependency graph"/>
 </p>
 
 Conan will attempt to install those packages from the default
