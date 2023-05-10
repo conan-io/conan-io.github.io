@@ -9,7 +9,7 @@ meta_description: "Discover how to leverage TensorFlow Lite and Conan package ma
 In this post, we will explore how to use TensorFlow Lite in C++ for real-time human pose
 estimation using a neural network from TensorFlow Hub trained for this purpose. We will
 develop an example that uses OpenCV to load a video, processing it frame by frame to
-obtain the joint locations in each image. The output of our application will look like
+obtain the joint locations in each image. The final result of our application should look similar to
 this[^1]:
 
 <p class="centered">
