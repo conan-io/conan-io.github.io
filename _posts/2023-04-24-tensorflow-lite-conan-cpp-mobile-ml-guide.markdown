@@ -348,7 +348,7 @@ configuration, you can also build from sources.
 conan install . -s compiler.cppstd=17 --build=missing
 {% endhighlight %}
 
-Please note a couple of things:
+A couple of things to take into account:
 
 - We are passing a value for the C++ standard, as the *tensorflow-lite* library only works
   with a standard higher than 17.
