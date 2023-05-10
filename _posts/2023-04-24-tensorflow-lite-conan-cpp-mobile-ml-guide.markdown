@@ -1,9 +1,9 @@
 ---
 layout: post
 comments: false
-title: "Real-Time Pose Detection with TensorFlow Lite and Conan in C++"
-meta_title: "Real-Time Object Detection with TensorFlow Lite and Conan in C++ - Conan Blog" 
-meta_description: "Discover how to leverage TensorFlow Lite and Conan package manager for seamless integration in C++ to create cutting-edge real-time pose detection applications."
+title: "Real-Time Pose Detection in C++ using Machine Learning with TensorFlow Lite"
+meta_title: "Real-Time Pose Detection with TensorFlow Lite in C++ using Image Processing and Neural Networks - Conan Blog"
+meta_description: "Discover how to leverage TensorFlow Lite and Conan package manager for seamless integration in C++ to create cutting-edge real-time pose detection applications using machine learning techniques."
 ---
 
 In this post, we will explore how to use TensorFlow Lite in C++ for real-time human pose
