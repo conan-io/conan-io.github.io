@@ -6,16 +6,15 @@ meta_title: "Real-Time Pose Detection with TensorFlow Lite in C++ using Image Pr
 meta_description: "Discover how to leverage TensorFlow Lite and Conan package manager for seamless integration in C++ to create cutting-edge real-time pose detection applications using machine learning techniques."
 ---
 
-In this post, we will explore how to use TensorFlow Lite in C++ for real-time human pose
-estimation using a neural network from TensorFlow Hub trained for this purpose. We will
-develop an example that uses OpenCV to load a video, processing it frame by frame to
-obtain the joint locations in each image. The final result of our application should look similar to
-this[^1]:
+In this post, we're going to dive into using TensorFlow Lite in C++ for real-time human
+pose estimation with the help of a model downloaded from TensorFlow Hub, specifically
+trained for this purpose. We'll put together an example that uses OpenCV to load a video
+and then processes it frame by frame to figure out the joint locations of a human body in
+each image. When we're done, our application should look something like this[^1]:
 
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2023-05-11/pose-detection-tensorflow.gif" style="display: block; margin-left: auto; margin-right: auto;" alt="Pose estimation"/>
 </p>
-
 
 ### A short introduction
 
