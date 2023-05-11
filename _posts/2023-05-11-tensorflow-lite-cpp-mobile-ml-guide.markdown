@@ -66,7 +66,7 @@ repo](https://github.com/conan-io/examples2):
 
 {% highlight bash %}
 git clone https://github.com/conan-io/examples2.git
-cd cd examples2/examples/libraries/tensorflow-lite/pose-estimation/
+cd examples2/examples/libraries/tensorflow-lite/pose-estimation/
 {% endhighlight %}
 
 There, you will find the project. Let's have a look at the relevant files:
