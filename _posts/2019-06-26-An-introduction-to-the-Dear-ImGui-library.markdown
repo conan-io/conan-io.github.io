@@ -246,7 +246,7 @@ packages tutorial section](https://docs.conan.io/2/tutorial/consuming_packages) 
 Conan documentation for more information.
 
 
-{% highlight text %}
+{% highlight python %}
 import os
 
 from conan import ConanFile
