@@ -188,7 +188,7 @@ repo:
 
 {% highlight bash %}
 git clone https://github.com/conan-io/examples2.git
-cd examples/libraries/imgui/introduction/
+cd examples2/examples/libraries/imgui/introduction/
 {% endhighlight %}
 
 First, let's inspect the CMake project. It has the bindings for GLFW and OpenGL3
