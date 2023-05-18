@@ -238,7 +238,7 @@ To make Conan install the libraries and generate the files needed to build the p
 with CMake, we create a *conanfile.py* that declares the dependencies for the project.
 Besides from the GLFW library we already talked about we need the GLEW library to handle
 OpenGL functions loading. We will use ``CMakeDeps`` to generate the configuration files
-for CMake and ``CMakeToolchain`` to generate all the information that the build-system
+for CMake, and ``CMakeToolchain`` to generate all the information that the build-system
 needs. We are also copying the required bindings for GLFW and OpenGL3 in the
 ``generate()`` method. Also, note the we declare the ``layout()`` for the project as
 ``cmake_layout``, as we are using CMake for building. You can check the [consuming
