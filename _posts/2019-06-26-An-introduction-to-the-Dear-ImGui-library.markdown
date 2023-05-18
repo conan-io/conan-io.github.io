@@ -77,62 +77,62 @@ window for rendering and then you have to initialize a Dear ImGui context and
 the helper platform and Renderer bindings. You can change the rendering style if
 you want as well.
 
-    {% highlight cpp %}
-    // Setup Dear ImGui context
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO();
-    // Setup Platform/Renderer bindings
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init(glsl_version);
-    // Setup Dear ImGui style
-    ImGui::StyleColorsDark();
-    {% endhighlight %}
+{% highlight cpp %}
+// Setup Dear ImGui context
+IMGUI_CHECKVERSION();
+ImGui::CreateContext();
+ImGuiIO &io = ImGui::GetIO();
+// Setup Platform/Renderer bindings
+ImGui_ImplGlfw_InitForOpenGL(window, true);
+ImGui_ImplOpenGL3_Init(glsl_version);
+// Setup Dear ImGui style
+ImGui::StyleColorsDark();
+{% endhighlight %}
 
 Then you enter the main application loop where you can clearly see the
 difference with the classical retained mode GUI's.
 
-    {% highlight cpp %}
-    while (!glfwWindowShouldClose(window))
-    {
-        glfwPollEvents();
-        glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
-        glClear(GL_COLOR_BUFFER_BIT);
+{% highlight cpp %}
+while (!glfwWindowShouldClose(window))
+{
+    glfwPollEvents();
+    glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
+    glClear(GL_COLOR_BUFFER_BIT);
 
-        // feed inputs to dear imgui, start new frame
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
+    // feed inputs to dear imgui, start new frame
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
 
-        // rendering our geometries
-        triangle_shader.use();
-        glBindVertexArray(vao);
-        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
-        glBindVertexArray(0);
+    // rendering our geometries
+    triangle_shader.use();
+    glBindVertexArray(vao);
+    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
 
-        // render your GUI
-        ImGui::Begin("Demo window");
-        ImGui::Button("Hello!");
-        ImGui::End();
+    // render your GUI
+    ImGui::Begin("Demo window");
+    ImGui::Button("Hello!");
+    ImGui::End();
 
-        // Render dear imgui into screen
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    // Render dear imgui into screen
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        int display_w, display_h;
-        glfwGetFramebufferSize(window, &display_w, &display_h);
-        glViewport(0, 0, display_w, display_h);
-        glfwSwapBuffers(window);
-    }
-    {% endhighlight %}
+    int display_w, display_h;
+    glfwGetFramebufferSize(window, &display_w, &display_h);
+    glViewport(0, 0, display_w, display_h);
+    glfwSwapBuffers(window);
+}
+{% endhighlight %}
 
 And, we must do some cleanup when the loop ends.
 
-    {% highlight cpp %}
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
-    {% endhighlight %}
+{% highlight cpp %}
+ImGui_ImplOpenGL3_Shutdown();
+ImGui_ImplGlfw_Shutdown();
+ImGui::DestroyContext();
+{% endhighlight %}
 
 So, this is what we get:
 
@@ -144,22 +144,22 @@ Let's say, for example, that we want to change the triangle's
 position/orientation and colour. That would be as simple as calling some sliders
 and a colour picker and passing the data to the triangle via shader uniforms:
 
-    {% highlight cpp %}
-    // render your GUI
-    ImGui::Begin("Triangle Position/Color");
-    static float rotation = 0.0;
-    ImGui::SliderFloat("rotation", &rotation, 0, 2 * PI);
-    static float translation[] = {0.0, 0.0};
-    ImGui::SliderFloat2("position", translation, -1.0, 1.0);
-    static float color[4] = { 1.0f,1.0f,1.0f,1.0f };
-    // pass the parameters to the shader
-    triangle_shader.setUniform("rotation", rotation);
-    triangle_shader.setUniform("translation", translation[0], translation[1]);
-    // color picker
-    ImGui::ColorEdit3("color", color);
-    // multiply triangle's color with this color
-    triangle_shader.setUniform("color", color[0], color[1], color[2]);
-    {% endhighlight %}
+{% highlight cpp %}
+// render your GUI
+ImGui::Begin("Triangle Position/Color");
+static float rotation = 0.0;
+ImGui::SliderFloat("rotation", &rotation, 0, 2 * PI);
+static float translation[] = {0.0, 0.0};
+ImGui::SliderFloat2("position", translation, -1.0, 1.0);
+static float color[4] = { 1.0f,1.0f,1.0f,1.0f };
+// pass the parameters to the shader
+triangle_shader.setUniform("rotation", rotation);
+triangle_shader.setUniform("translation", translation[0], translation[1]);
+// color picker
+ImGui::ColorEdit3("color", color);
+// multiply triangle's color with this color
+triangle_shader.setUniform("color", color[0], color[1], color[2]);
+{% endhighlight %}
 
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2019-06-26/conan-imgui-triangle-rotate-color.gif" align="center" alt="Change triangle's color"/>
@@ -186,47 +186,47 @@ Linux](https://github.com/conan-io/examples/blob/master/libraries/dear-imgui/bas
 If you want to give a try tou can download all the files from the Conan examples
 repo:
 
-    {% highlight bash %}
-    git clone https://github.com/conan-io/examples2.git
-    cd examples/libraries/imgui/introduction/
-    {% endhighlight %}
+{% highlight bash %}
+git clone https://github.com/conan-io/examples2.git
+cd examples/libraries/imgui/introduction/
+{% endhighlight %}
 
 First, let's inspect the CMake project. It has the bindings for GLFW and OpenGL3
 and two more files to handle OpenGL shaders and file reading. It will also copy
 the shaders that render the triangle to the working directory each time the
 application is recompiled.
 
-    {% highlight cmake %}
-    cmake_minimum_required(VERSION 3.15)
-    project(dear-imgui-conan CXX)
+{% highlight cmake %}
+cmake_minimum_required(VERSION 3.15)
+project(dear-imgui-conan CXX)
 
-    find_package(imgui REQUIRED)
-    find_package(glfw3 REQUIRED)
-    find_package(glew REQUIRED)
+find_package(imgui REQUIRED)
+find_package(glfw3 REQUIRED)
+find_package(glew REQUIRED)
 
-    add_executable( dear-imgui-conan
-                    main.cpp
-                    opengl_shader.cpp
-                    file_manager.cpp
-                    opengl_shader.h
-                    file_manager.h
-                    bindings/imgui_impl_glfw.cpp
-                    bindings/imgui_impl_glfw.h
-                    bindings/imgui_impl_opengl3.cpp
-                    bindings/imgui_impl_opengl3.h
-                    bindings/imgui_impl_opengl3_loader.h
-                    assets/simple-shader.vs
-                    assets/simple-shader.fs )
+add_executable( dear-imgui-conan
+                main.cpp
+                opengl_shader.cpp
+                file_manager.cpp
+                opengl_shader.h
+                file_manager.h
+                bindings/imgui_impl_glfw.cpp
+                bindings/imgui_impl_glfw.h
+                bindings/imgui_impl_opengl3.cpp
+                bindings/imgui_impl_opengl3.h
+                bindings/imgui_impl_opengl3_loader.h
+                assets/simple-shader.vs
+                assets/simple-shader.fs )
 
-    add_custom_command(TARGET dear-imgui-conan
-        POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/assets/simple-shader.vs ${PROJECT_BINARY_DIR}
-        COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/assets/simple-shader.fs ${PROJECT_BINARY_DIR}
-    )
+add_custom_command(TARGET dear-imgui-conan
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/assets/simple-shader.vs ${PROJECT_BINARY_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/assets/simple-shader.fs ${PROJECT_BINARY_DIR}
+)
 
-    target_compile_definitions(dear-imgui-conan PUBLIC IMGUI_IMPL_OPENGL_LOADER_GLEW)
-    target_link_libraries(dear-imgui-conan imgui::imgui GLEW::GLEW glfw)
-    {% endhighlight %}
+target_compile_definitions(dear-imgui-conan PUBLIC IMGUI_IMPL_OPENGL_LOADER_GLEW)
+target_link_libraries(dear-imgui-conan imgui::imgui GLEW::GLEW glfw)
+{% endhighlight %}
 
 We will also need the *conanfile* to declare the libraries it depends on.
 Besides from the GLFW library we already talked about we need the GLEW library
@@ -246,32 +246,32 @@ packages tutorial section](https://docs.conan.io/2/tutorial/consuming_packages) 
 Conan documentation for more information.
 
 
-    {% highlight text %}
-    import os
+{% highlight text %}
+import os
 
-    from conan import ConanFile
-    from conan.tools.cmake import cmake_layout
-    from conan.tools.files import copy
+from conan import ConanFile
+from conan.tools.cmake import cmake_layout
+from conan.tools.files import copy
 
 
-    class ImGuiExample(ConanFile):
-        settings = "os", "compiler", "build_type", "arch"
-        generators = "CMakeDeps", "CMakeToolchain"
+class ImGuiExample(ConanFile):
+    settings = "os", "compiler", "build_type", "arch"
+    generators = "CMakeDeps", "CMakeToolchain"
 
-        def requirements(self):
-            self.requires("imgui/1.89.4")
-            self.requires("glfw/3.3.8")
-            self.requires("glew/2.2.0")
+    def requirements(self):
+        self.requires("imgui/1.89.4")
+        self.requires("glfw/3.3.8")
+        self.requires("glew/2.2.0")
 
-        def generate(self):
-            copy(self, "*glfw*", os.path.join(self.dependencies["imgui"].package_folder,
-                "res", "bindings"), os.path.join(self.source_folder, "bindings"))
-            copy(self, "*opengl3*", os.path.join(self.dependencies["imgui"].package_folder,
-                "res", "bindings"), os.path.join(self.source_folder, "bindings"))
+    def generate(self):
+        copy(self, "*glfw*", os.path.join(self.dependencies["imgui"].package_folder,
+            "res", "bindings"), os.path.join(self.source_folder, "bindings"))
+        copy(self, "*opengl3*", os.path.join(self.dependencies["imgui"].package_folder,
+            "res", "bindings"), os.path.join(self.source_folder, "bindings"))
 
-        def layout(self):
-            cmake_layout(self)
-    {% endhighlight %}
+    def layout(self):
+        cmake_layout(self)
+{% endhighlight %}
 
 Now we can use Conan to install the libraries. It will not only install *imgui*, *glfw*
 and *glew*, but also all the necessary transitive dependencies. Conan fetches these
@@ -279,9 +279,9 @@ packages from the default [ConanCenter](https://conan.io/center/) remote - the o
 repository for open-source Conan packages. If binaries are not available for your
 configuration, building from sources is also an option.
 
-    {% highlight bash %}
-    conan install . --build=missing
-    {% endhighlight %}
+{% highlight bash %}
+conan install . --build=missing
+{% endhighlight %}
 
 With the ``conan install`` command we install all the necessary packages locally and also
 generate the necessary files to build our application. Please note that we used the
@@ -294,37 +294,37 @@ reference](https://docs.conan.io/2/reference/tools/system/package_manager.html))
 Now let's build the project and run the application. If you have CMake>=3.23 installed,
 you can use CMake presets:
 
-    {% highlight bash %}
-    # Linux, macOS
-    cmake --preset conan-release
-    cmake --build --preset conan-release
-    cd build/Release
-    ./dear-imgui-conan 
+{% highlight bash %}
+# Linux, macOS
+cmake --preset conan-release
+cmake --build --preset conan-release
+cd build/Release
+./dear-imgui-conan 
 
-    # Windows
-    cmake --preset conan-default
-    cmake --build --preset conan-release
-    cd build\Release
-    dear-imgui-conan.exe 
-    {% endhighlight %}
+# Windows
+cmake --preset conan-default
+cmake --build --preset conan-release
+cd build\Release
+dear-imgui-conan.exe 
+{% endhighlight %}
 
 Otherwise, you can add the necessary arguments for CMake:
 
-    {% highlight bash %}
-    # Linux, macOS
-    cmake . -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Release
-    cmake --build .
-    ./dear-imgui-conan
+{% highlight bash %}
+# Linux, macOS
+cmake . -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Release
+cmake --build .
+./dear-imgui-conan
 
-    # Windows. Assuming Visual Studio 17 2022 
-    # is your VS version and that it matches 
-    # your default profile
-    cmake . -G "Visual Studio 17 2022"
-    -DCMAKE_TOOLCHAIN_FILE=./build/generators/conan_toolchain.cmake
-    -DCMAKE_POLICY_DEFAULT_CMP0091=NEW'
-    cmake --build . --config Release
-    dear-imgui-conan.exe
-    {% endhighlight %}
+# Windows. Assuming Visual Studio 17 2022 
+# is your VS version and that it matches 
+# your default profile
+cmake . -G "Visual Studio 17 2022"
+-DCMAKE_TOOLCHAIN_FILE=./build/generators/conan_toolchain.cmake
+-DCMAKE_POLICY_DEFAULT_CMP0091=NEW'
+cmake --build . --config Release
+dear-imgui-conan.exe
+{% endhighlight %}
 
 ### Conclusions
 
