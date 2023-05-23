@@ -15,7 +15,7 @@ This new feature allows to install Conan dependencies artifacts directly into yo
 The following figure illustrates the normal usage of Conan to install and consume dependencies:
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-05-25/Using_packages_from_cache.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Using Conan packages from the cache"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-05-23/Using_packages_from_cache.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Using Conan packages from the cache"/>
 </p>
 
 When Conan installs the dependencies, they are installed in the "Conan cache", a folder that by default lives in the user home (Conan doesn't need to install anything at the system level), so they can be easily used by all the projects that use those dependencies.
@@ -92,7 +92,7 @@ This will create the following folders:
 ```
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-05-25/Conan_independent_dependencies_deploy.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Conan-agnostic deploy of dependencies for developers"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-05-23/Conan_independent_dependencies_deploy.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Conan-agnostic deploy of dependencies for developers"/>
 </p>
 
 The project is fully self-contained. It contains both the necessary tools (like ``cmake`` executable), the headers and compiled libraries of ``zlib`` and the necessary files like ``ZLibConfig.cmake`` in the ``build/generators`` folder, that point to the binaries inside ``full_deploy`` with a relative path. 
