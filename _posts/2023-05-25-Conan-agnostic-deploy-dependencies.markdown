@@ -23,7 +23,7 @@ When Conan installs the dependencies, they are installed in the "Conan cache", a
 
 The Conan generated files, like the ``conan_toolchain.cmake`` or the ``xxx-config.cmake`` CMake files used to correctly locate dependencies inside the Conan cache, will contain absolute paths to the location of the headers, libraries and binaries inside the Conan cache.
 
-The development flow is typically ``conan install .`` to install the dependencies, then call ``cmake`` with either generated presets or generated toolchain to build the project.
+The development flow is typically ``conan install .`` to install the dependencies, then a call to ``cmake`` with either generated presets or generated toolchain to build the project.
 
 
 ## Creating a Conan-agnostic deploy of dependencies
