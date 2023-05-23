@@ -97,7 +97,7 @@ This will create the following folders:
 
 The project is fully self-contained. It contains both the necessary tools (like ``cmake`` executable), the headers and compiled libraries of ``zlib`` and the necessary files like ``ZLibConfig.cmake`` in the ``build/generators`` folder, that point to the binaries inside ``full_deploy`` with a relative path. 
 
-The Conan cache can be removed, and even Conan uninstalled, then the folder could be moved elsewhere in the computer or copied to another computer, assuming it has the same configuration of OS, compiler, etc.
+The Conan cache can be removed, and even Conan completely uninstalled, then the folder could be moved elsewhere in the computer or copied to another computer, assuming it has the same configuration of OS, compiler, etc.
 
 ```bash
   $ cd ..
