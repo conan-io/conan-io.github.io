@@ -105,7 +105,7 @@ The Conan cache can be removed, and even Conan uninstalled, then the folder coul
   $ cd /some/other/place
 ```
 
-And the files could be used by developers:
+And the deployed files can be used by developers:
 
 ```bash
   # Commands for WINDOWS
@@ -115,12 +115,14 @@ And the files could be used by developers:
   $ cmake --version
   cmake version 3.25.3
   # Configure, should match the settings used at install
-  # If CMake>=3.23 you can use ``cmake --preset conan-default``
+  # If CMake>=3.23 you can also use ``cmake --preset conan-default``
   $ cmake .. -G \"Visual Studio 17 2022\" -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake
   $ cmake --build . --config Release
   $ Release\compressor.exe
   ZLIB VERSION: 1.2.13
 ```
+
+### Relocating environment shell files in Linux and OSX
 
 The environment scripts in Linux and OSX are not relocatable, because they contain absolute paths and the ``sh`` shell does not have any way to provide access to the [current script directory for sourced files](https://stackoverflow.com/questions/29832037/how-to-get-script-directory-in-posix-sh/29835459#29835459).
 
