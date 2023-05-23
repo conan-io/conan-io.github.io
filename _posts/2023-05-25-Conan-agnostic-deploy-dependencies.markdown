@@ -28,7 +28,7 @@ The development flow is typically ``conan install .`` to install the dependencie
 
 ## Creating a Conan-agnostic deploy of dependencies
 
-With the Conan 2.0 new ``full_deploy`` deployer it is possible to create a Conan-agnostic copy of dependencies that can be used by developers without even having Conan installed in their computers.
+With the Conan 2.0 new ``full_deploy`` deployer it is possible to create a Conan-agnostic copy of dependencies that can be used by developers even without having Conan installed in their computers.
 
 Let's see it with an example. All the source code is in the
 [examples2.0 Github repository](https://github.com/conan-io/examples2)
