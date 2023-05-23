@@ -15,7 +15,6 @@ This new feature allows to install Conan dependencies artifacts directly into yo
 The following figure illustrates the normal usage of Conan to install and consume dependencies:
 
 <p class="centered">
-    Normal installation and usage of Conan packages
     <img  src="{{ site.baseurl }}/assets/post_images/2023-05-25/Using_packages_from_cache.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Using Conan packages from the cache"/>
 </p>
 
@@ -93,7 +92,6 @@ This will create the following folders:
 ```
 
 <p class="centered">
-    Conan-agnostic deploy of dependencies
     <img  src="{{ site.baseurl }}/assets/post_images/2023-05-25/Conan_independent_dependencies_deploy.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Conan-agnostic deploy of dependencies for developers"/>
 </p>
 
@@ -157,4 +155,4 @@ The presented approach can be very easily customized for your own needs, because
 - If the ``--deployer=full_deploy`` doesn't implement your final desired output layout or you need to customize anything in it, it is possible to [create your own deployers](https://docs.conan.io/2/reference/extensions/deployers.html#custom-deployers)
 - For even further custom automation capabilities, check the [custom commands new framework](https://docs.conan.io/2/reference/extensions/custom_commands.html)
 
-This is a new feature, and at the moment it only implements support for ``CMake``. Feedback is very welcome, please create a [Github issue for any question, comment or suggestion](https://github.com/conan-io/conan) about it.
+This is a new feature and while the ``--deploy=full_deploy`` functionality works for every build system, at the moment only the ``CMake`` generated files with ``CMakeToolchain`` and ``CMakeDeps`` and the Windows environment scripts genererated with ``VirtualBuildEnv`` and ``VirtualRunEnv`` are relocatable. For other build systems, it works fine if you don't move the ``full_deploy`` folder, otherwise you might need to use the ``sed`` strategy, or consider requesting it as a new feature. Feedback is very welcome, please create a [Github issue for any question, comment or suggestion](https://github.com/conan-io/conan) about it.
