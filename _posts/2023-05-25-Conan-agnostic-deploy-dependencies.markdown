@@ -56,7 +56,7 @@ In that folder we can find the following ``conanfile.txt``:
 ```
 
 The folder also contains a standard ``CMakeLists.txt`` and a ``main.cpp`` source file that can create
-an executable that links with ``zlib`` library.
+an executable that links with the ``zlib`` library.
 
 We can install the Debug and Release dependencies, and deploy a local copy of the packages with:
 
