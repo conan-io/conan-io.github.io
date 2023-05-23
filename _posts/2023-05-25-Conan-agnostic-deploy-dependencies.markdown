@@ -8,7 +8,7 @@ meta_description: "Discover how to create a Conan-independent copy of the depend
 
 Upgrading to a major version like 2.0 can take some effort, we know it, and we ourselves are also investing many resources to continue upgrading the packages in the ConanCenter central repository. But Conan 2.0's new architecture and design will allow to iterate better and faster on top of it, and this is the first of many additions to Conan 2.0 to come. 
 
-This new feature allows to install Conan dependencies artifacts directly into your project folder, and achieve a fully Conan-independent project, that can be built and run without even Conan installed in the system. This has been a long time demanded feature for some cases where the normal Conan development flows are not possible.
+This new feature allows to install Conan dependencies artifacts directly into your project folder, and achieve a fully Conan-independent project, that can be built and run even without Conan installed in the system. This has been a long time demanded feature for some cases where the normal Conan development flows are not possible.
 
 ## Normal installation and usage of Conan packages
 
