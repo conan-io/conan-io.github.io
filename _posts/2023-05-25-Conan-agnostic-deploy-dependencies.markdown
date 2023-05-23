@@ -19,7 +19,7 @@ The following figure illustrates the normal usage of Conan to install and consum
     <img  src="{{ site.baseurl }}/assets/post_images/2023-05-25/Using_packages_from_cache.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Using Conan packages from the cache"/>
 </p>
 
-When Conan install the dependencies, they are installed in the "Conan cache", a folder that by default lives in the user home (Conan doesn't need to install anything at the system level), so they can be easily used by all the projects that use those dependencies.
+When Conan installs the dependencies, they are installed in the "Conan cache", a folder that by default lives in the user home (Conan doesn't need to install anything at the system level), so they can be easily used by all the projects that use those dependencies.
 
 The Conan generated files, like the ``conan_toolchain.cmake`` or the ``xxx-config.cmake`` CMake files used to correctly locate dependencies inside the Conan cache, will contain absolute paths to the location of the headers, libraries and binaries inside the Conan cache.
 
