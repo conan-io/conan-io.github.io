@@ -4,7 +4,7 @@ comments: false
 title: "Serialiazing your data with Protobuf"
 ---
 
-> ⚠️ This blog has been updated and is working with Conan 2.x. Plus, the protobuf syntax has been updated to version 3.
+> ⚠️ (May 24, 2023) This blog has been updated and is working with Conan 2.x. Plus, the protobuf syntax has been updated to version 3.
 
 You probably already had to develop a project where you needed to exchange information between
 processes or even across different machines with different processor architectures. One
