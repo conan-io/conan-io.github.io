@@ -4,17 +4,18 @@ comments: false
 title: "Serialiazing your data with Protobuf"
 ---
 
-> ⚠️ (May 24, 2023) This blog has been updated and is working with Conan 2.x. Plus, the protobuf syntax has been updated to version 3.
+In this blog post, we will discuss the [Protobuf](https://developers.google.com/protocol-buffers)
+(Protocol Buffers), a project that can extend more than a simple library for serialization. The
+entire example presented here is available on [Github](https://github.com/conan-io/examples2/tree/main/examples/libraries/protobuf/serialization).
+
+> ⚠ (May 24, 2023) This blog has been updated and is working with Conan 2.x. Plus, the protobuf syntax has been updated to version 3.
+> The older post with Conan 1.x and protobuf version is [archived here](https://github.com/conan-io/conan-io.github.io/blob/854d02be08477fdf7de57197d651105faf4cfddf/_posts/2019-03-06-Serializing-your-data-with-Protobuf.markdown)
 
 You probably already had to develop a project where you needed to exchange information between
 processes or even across different machines with different processor architectures. One
 well-known technique in this scenario is [serialization](https://en.wikipedia.org/wiki/
 Serialization), which is summarized in the translation of data structures or object state into a
 format that can be stored and retrieved by the both sides.
-
-In this blog post, we will discuss the [Protobuf](https://developers.google.com/protocol-buffers)
-(Protocol Buffers), a project that can extend more than a simple library for serialization. The
-entire example presented here is available on [Github](https://github.com/conan-io/examples2/tree/main/examples/libraries/protobuf/serialization).
 
 ## What is Protobuf?
 
