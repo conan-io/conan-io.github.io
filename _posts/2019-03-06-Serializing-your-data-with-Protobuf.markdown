@@ -213,9 +213,9 @@ CMakeDeps
 cmake_layout
 {% endhighlight %}
 
-Since Protobuf can be divided into two parts, the protoc executable, and the libraries, there are two
-separate packages. Thus, it will be possible to install ``protoc`` for the same host architecture,
-and libraries for a target architecture. As we are using CMake for this project, we need to declare
+Since Protobuf can be divided into two parts, `the protoc executable`, and the libraries, we will add the same package as `requires` and `tool_requires`, so
+it will be possible to install `protoc` for the same host architecture, as a build requirement, and libraries for a target architecture (aarch64) as a regular requirement.
+As we are using CMake for this project, we need to declare
 the CMake generators [CMakeDeps](https://docs.conan.io/2/reference/tools/cmake/cmakedeps.html) and [CMakeToolchain](https://docs.conan.io/2/reference/tools/cmake/cmaketoolchain.html). The `CMakeDeps` generator will be responsible for generating the `FindProtobuf.cmake` file, and the `CMakeToolchain` generator will be responsible for generating the `conan_toolchain.cmake` file, which will be used by CMake to configure the project.
 Plus, we declared the layout [cmake_layout](https://docs.conan.io/2/reference/tools/cmake/cmake_layout.html) that will be responsible for organizing the files in the build directory.
 
