@@ -4,6 +4,8 @@ comments: false
 title: "Serialiazing your data with Protobuf"
 ---
 
+> ⚠️ (May 24, 2023) This blog has been updated and is working with Conan 2.x. Plus, the protobuf syntax has been updated to version 3.
+
 You probably already had to develop a project where you needed to exchange information between
 processes or even across different machines with different processor architectures. One
 well-known technique in this scenario is [serialization](https://en.wikipedia.org/wiki/
@@ -29,9 +31,10 @@ The neutral language used by Protobuf allows you to model messages in a structur
 through **.proto** files:
 
 {% highlight proto %}
+syntax = "proto3";
 message Person {
-  required string name = 1;
-  required int32 age = 2;
+  string name = 1;
+  int32 age = 2;
   optional string email = 3;
 }
 {% endhighlight %}
@@ -70,28 +73,28 @@ For our example, we will use a message that has the reading of several sensors. 
 **sensor.proto**, which will represent the message, is described below:
 
 {% highlight proto %}
-syntax = "proto2";
+syntax = "proto3";
 message Sensor {
-  required string name = 1;
-  required double temperature = 2;
-  required int32 humidity = 3;
+  string name = 1;
+  double temperature = 2;
+  int32 humidity = 3;
 
   enum SwitchLevel {
     CLOSED = 0;
     OPEN = 1;
   }
-  required SwitchLevel door = 5;
+  SwitchLevel door = 5;
 }
 {% endhighlight %}
 
 The variable _syntax_ refers to the version of the Protobuf used, which can be _proto2_ or _proto3_.
-Versions 2 and 3 have important differences, but we will only address version 2 in this post. For
-more information about version 3, see the
-[official documentation](https://developers.google.com/protocol-buffers/docs/proto3).
+Versions 2 and 3 have important differences, but we will only address version 3 in this post. For
+more information about version 2, see the
+[official documentation](https://developers.google.com/protocol-buffers/docs/proto).
 In addition to the declared attributes, and previously highlighted there is the enumerator
 _SwitchLevel_, which represents the state of a port. We could still include new messages, or even
 lists for multiple ports, for example. For a complete description of the syntax used in proto
-version 2, see the [language guide](https://developers.google.com/protocol-buffers/docs/proto).
+version 3, see the [language guide](https://developers.google.com/protocol-buffers/docs/proto3).
 
 The Protobuf serialization mechanism is given through the ``protoc`` application, this compiler
 will parse the ``.proto`` file and will generate as output, source files according to the
@@ -161,24 +164,25 @@ protocol-buffers/docs/reference/cpp/google.protobuf.message#Message.SerializeToO
 For the next step, we will describe the actions for constructing the project by [CMake](https://cmake.org/):
 
 {% highlight cmake %}
-cmake_minimum_required(VERSION 3.1.2)
+cmake_minimum_required(VERSION 3.15)
 project(sensor CXX)
 
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup(TARGETS)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
-find_package(Protobuf REQUIRED)
+find_package(Protobuf REQUIRED CONFIG)
 
 protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS sensor.proto)
+
 add_executable(${PROJECT_NAME} main.cc ${PROTO_SRCS} ${PROTO_HDRS})
-target_link_libraries(${PROJECT_NAME} PUBLIC CONAN_PKG::protobuf)
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_BINARY_DIR})
+target_link_libraries(${PROJECT_NAME} PUBLIC protobuf::protobuf)
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR})
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
 {% endhighlight %}
 
 This recipe searches for the modules, libraries, and macros provided by the Protobuf project when
 calling [find_package](https://cmake.org/cmake/help/v3.1/command/find_package.html). Once found and
 loaded correctly, ``protobuf_generate`` macros will be available for use. The
-[protobuf_generate_cpp](https://cmake.org/cmake/help/v3.1/module/
+[protobuf_generate_cpp](https://cmake.org/cmake/help/v3.15/module/
 FindProtobuf.html#command:protobuf_generate_cpp) function is responsible for executing the
 ``protoc`` and populating the ``PROTO_SRCS`` and ``PROTO_HDRS`` variables with their generated
 files. Without this functionality, you would need to manually add the ``protoc`` command and the
@@ -188,56 +192,60 @@ generated files will be in the build directory, you need to include it by
 target_include_directories.html) so that ``main.cc`` can resolve ``proto.pb.h``.
 
 It is also possible to observe that we are using [Conan](https://conan.io) to solve Protobuf as a
-dependency. The [conan_basic_setup](https://docs.conan.io/en/latest/reference/generators/cmake.html#conan-basic-setup)
-function will be in charge of configuring all the necessary variables, besides generating the
-target ``CONAN_PKG::protobuf``.
+dependency. The [CMakeDeps](https://docs.conan.io/2/reference/tools/cmake/cmakedeps.html)
+function will be in charge of generating the file `FindProtobuf.cmake`, that contains all the necessary variables,
+besides providing the target ``protobuf::protobuf``.
 
 In addition, you must also declare the
-[conanfile.txt](https://docs.conan.io/en/latest/reference/conanfile_txt.html) file with the
+[conanfile.txt](https://docs.conan.io/2/reference/conanfile_txt.html) file with the
 following dependencies:
 
 {% highlight text %}
-[build_requires]
-protoc_installer/3.6.1@bincrafters/stable
-
 [requires]
-protobuf/3.6.1@bincrafters/stable
+protobuf/3.21.9
+
+[tool_requires]
+protobuf/3.21.9
 
 [generators]
-cmake
+CMakeToolchain
+CMakeDeps
+
+[layout]
+cmake_layout
 {% endhighlight %}
 
-Since Protobuf can be divided into two parts, the protoc installer, and the libraries, there are two
-separate packages. Thus, it will be possible to install ``protoc`` for the same host architecture,
-and libraries for a target architecture. As we are using CMake for this project, we need to declare
-the CMake [generator](https://docs.conan.io/en/latest/integrations/cmake/cmake_generator.html).
+Since Protobuf can be divided into two parts, `the protoc executable`, and the libraries, we will add the same package as `requires` and `tool_requires`, so
+it will be possible to install `protoc` for the same host architecture, as a build requirement, and libraries for a target architecture (aarch64) as a regular requirement.
+To obtain more information about using the same package as `requires` and `tool_requires`, please refer to the [using protobuf example](https://docs.conan.io/2/examples/graph/tool_requires/using_protobuf.html).
+As we are using CMake for this project, we need to declare
+the CMake generators [CMakeDeps](https://docs.conan.io/2/reference/tools/cmake/cmakedeps.html) and [CMakeToolchain](https://docs.conan.io/2/reference/tools/cmake/cmaketoolchain.html). The `CMakeDeps` generator will be responsible for generating the `FindProtobuf.cmake` file, and the `CMakeToolchain` generator will be responsible for generating the `conan_toolchain.cmake` file, which will be used by CMake to configure the project.
+Plus, we declared the layout [cmake_layout](https://docs.conan.io/2/reference/tools/cmake/cmake_layout.html) that will be responsible for organizing the files in the build directory.
 
-Now just run the commands to build the project:
+Now just run the commands to build the project, in case you are using Linux or MacOS:
 
 {% highlight bash %}
 mkdir build
-cd build
-conan install ..
-cmake .. -DCMAKE_BUILD_TYPE=Release
+cd build/
+conan install .. --build=missing
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=Release/generators/conan_toolchain.cmake
 cmake --build .
-bin/sensor
+./sensor
 {% endhighlight %}
 
 So far so good, but how is it done in case of cross compilation? In this case, it will be necessary
 to inform the compiler and the target platform:
 
 {% highlight bash %}
-conan install .. -s arch=armv7hf
-cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++
+conan install .. -pr:b=default -pr:h=aarch64 --build=missing
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=Release/generators/conan_toolchain.cmake -DCMAKE_CXX_COMPILER=/usr/bin/aarch-linux-gnueabihf-g++
 cmake --build .
 {% endhighlight %}
 
-In the above commands, we have installed only the prebuilt Protobuf libraries for _armv7hf_. The
-``protoc`` will only hold for _amd64_ because it ignores arch, making use of only the host
-architecture by [arch_build](https://docs.conan.io/en/latest/systems_cross_building/
-cross_building.html#conan-settings) in your profile. CMake needs to be informed which compiler will be used, so we
-define it through ``CMAKE_CXX_COMPILER``. Once ready, we can copy our application directly to the
-target platform.
+In the above commands, Conan has installed Protobuf for the host architecture, and also for the build architecture.
+Both [build and host profiles](https://docs.conan.io/2/tutorial/consuming_packages/cross_building_with_conan.html#conan-two-profiles-model-build-and-host-profiles)
+are needed to perform cross compilation. The `build` profile will be used to install Protobuf for _amd64_, the machine architecture that is being used to build the project, and the `host` profile will be used to install Protobuf for _armv8_, the target architecture. The `CMAKE_CXX_COMPILER` variable will be used to inform the compiler that will be used to compile the project, in this case, the compiler for _armv8_.
+
 
 ## Parsing with Python
 
