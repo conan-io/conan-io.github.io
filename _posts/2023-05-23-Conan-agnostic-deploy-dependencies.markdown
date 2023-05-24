@@ -3,7 +3,8 @@ layout: post
 comments: false
 title: "Conan 2.0 implements Conan-agnostic deployment of dependencies for developers"
 meta_title: "Conan 2.0 deployers can be used to create Conan-independent copy of the dependencies for developers - Conan Blog"
-meta_description: "Discover how to create a Conan-independent copy of the dependencies that can be used for developers without Conan, includig both library dependencies and tools"
+description: "Discover how to create a Conan-independent copy of the dependencies that can be used for developers without Conan, including both library dependencies and tools"
+keywords: "conan, conan2, independent, no python, copy dependencies, local development"
 ---
 
 Upgrading to a major version like 2.0 can take some effort, we know it, and we ourselves are also investing many resources to continue upgrading the packages in the ConanCenter central repository. But Conan 2.0's new architecture and design will allow to iterate better and faster on top of it, and this is the first of many additions to Conan 2.0 to come. 
@@ -157,4 +158,4 @@ The presented approach can be very easily customized for your own needs, because
 - If the ``--deployer=full_deploy`` doesn't implement your final desired output layout or you need to customize anything in it, it is possible to [create your own deployers](https://docs.conan.io/2/reference/extensions/deployers.html#custom-deployers)
 - For even further custom automation capabilities, check the [custom commands new framework](https://docs.conan.io/2/reference/extensions/custom_commands.html)
 
-This is a new feature and while the ``--deploy=full_deploy`` functionality works for every build system, at the moment only the ``CMake`` generated files with ``CMakeToolchain`` and ``CMakeDeps`` and the Windows environment scripts genererated with ``VirtualBuildEnv`` and ``VirtualRunEnv`` are relocatable. For other build systems, it works fine if you don't move the ``full_deploy`` folder, otherwise you might need to use the ``sed`` strategy, or consider requesting it as a new feature. Feedback is very welcome, please create a [Github issue for any question, comment or suggestion](https://github.com/conan-io/conan) about it.
+This is a new feature and while the ``--deploy=full_deploy`` functionality works for every build system, at the moment only the ``CMake`` generated files with ``CMakeToolchain`` and ``CMakeDeps`` and the Windows environment scripts generated with ``VirtualBuildEnv`` and ``VirtualRunEnv`` are relocatable. For other build systems, it works fine if you don't move the ``full_deploy`` folder, otherwise you might need to use the ``sed`` strategy, or consider requesting it as a new feature. Feedback is very welcome, please create a [Github issue for any question, comment or suggestion](https://github.com/conan-io/conan) about it.

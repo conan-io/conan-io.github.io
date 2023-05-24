@@ -12,33 +12,43 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
-  
+  <title>{{ page.title }}</title>
   <link rel="shortcut icon" type="image/png" href="/favicon.png">
-  <link rel="stylesheet" href="{{ "/css/bootstrap.min.css" | prepend: site.baseurl }}">
-  <link rel="stylesheet" href="{{ "/css/select2.min.css" | prepend: site.baseurl }}">
-  <link rel="stylesheet" href="{{ "/css/style.css" | prepend: site.baseurl }}">
-  <link rel="stylesheet" href="{{ "/css/syntax.css" | prepend: site.baseurl }}">
-  {% if page.ishomepage == true %}
+  <link rel="stylesheet" href="{{ "/css/bootstrap.min.css" | prepend: site.baseurl | prepend: site.url }}">
+  <link rel="stylesheet" href="{{ "/css/select2.min.css" | prepend: site.baseurl | prepend: site.url }}">
+  <link rel="stylesheet" href="{{ "/css/style.css" | prepend: site.baseurl | prepend: site.url }}">
+  <link rel="stylesheet" href="{{ "/css/syntax.css" | prepend: site.baseurl | prepend: site.url }}">
+
+  <!-- Enabled with RSS, using with Cpp Alliance Slack -->
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed for {{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}">
+
+  <!-- SEO -->
+  <!-- 
+    This tells google this is a preferred page if a duplicate name were to exist
+    https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls
+  -->
+  <link rel="canonical" href="{{ page.url | prepend: site.baseurl | prepend: site.url }}">
+
+  <!-- 
+    This allows the blog to have a visual title (in search results and post UI)
+    while hiding a more SEO enabled (i.e longer and more verbose) title for search engines
+  -->
+  {%- if page.meta_title -%}
+    <meta name="title" content="{{ page.meta_title }}">
+  {%- else -%}
     <meta name="title" content="{{ page.title }}">
-    <link rel="canonical" href="{{ page.canonical }}">
-    <meta name="description" content="{{ page.description }}">
-  {% else %}
-    <meta name="title" content="{%- if page.meta_title -%}
-        {{ page.meta_title }}
-      {%- else -%}
-        {{ page.title }}
-      {% endif %}">
-    <meta name="description" content="{%- if page.meta_description -%}
-        {{ page.meta_description }}
-      {%- elsif page.excerpt -%}
-        {{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}
-      {%- else -%}
-        {{ site.description }}
-      {% endif %}">
-    <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
   {% endif %}
-  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}">
+
+  {%- if page.meta_description -%}
+    <meta name="description" content="{{ page.meta_description }}"> <!-- TODO: This is no used any where it could just be description-->
+  {%- elsif page.description -%}
+    <meta name="description" content="{{ page.description }}">
+  {%- elsif page.excerpt -%}
+    <meta name="description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}">
+  {%- else -%}
+    <meta name="description" content="{{ site.description }}">
+  {% endif %}
+
   {% if page.url contains "month-archive" %}
      <meta name="robots" content="noindex" />
   {% endif %}
