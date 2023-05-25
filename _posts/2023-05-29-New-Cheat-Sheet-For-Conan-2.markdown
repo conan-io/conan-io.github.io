@@ -47,7 +47,7 @@ This is where you are most likely to run into the changes.
 
 | Conan 1.x                                                | Conan 2.0                             |
 | -------------------------------------------------------- | ------------------------------------- |
-| conan install &lt;package_reference> (e.g. zlib/1.2.13@) | conan install -–requires= zlib/1.2.13 |
+| conan install &lt;package_reference> (e.g. zlib/1.2.13@) | conan install -–requires=zlib/1.2.13 |
 
 If the ``--requires`` jumped at you, that’s perfect. Notice the ``@`` is missing? This is the change between 1.x and 2.0. How Conan distinguished between passing the CLI a reference or a path is much more explicit.  
 References lose the ``@`` suffix and are explicitly called out by a dedicated argument ``--requires`` this is true for all commands not just the ``install`` command. This should alleviate misfortune cases where a reference has the same names as the path to its conanfile leads to erroneous user inputs.
@@ -58,7 +58,7 @@ References lose the ``@`` suffix and are explicitly called out by a dedicated ar
 | ------------------------------------ | ------------------------------------- |
 | conan install &lt;path_to_conanfile> | conan install . # path to a conanfile |
 
-Next is ``conan install &lt;path>``, for example ``./conanfile.py`` if it’s in your current directory, this is unchanged. There are other considerations, such as layouts, where if you previously used ``--install-folder`` you may need to add this within the recipe.
+Next is ``conan install <path>``, for example ``./conanfile.py`` if it’s in your current directory, this is unchanged. There are other considerations, such as layouts, where if you previously used ``--install-folder`` you may need to adapt this within the recipe.
 
 ### [Conanfile.txt](https://docs.conan.io/2/reference/conanfile_txt.html) with build system
 
@@ -66,6 +66,8 @@ This is where we are going to see the most change, there are two big ones:
 
 - We are using different generators
 - There is now a layout section
+
+<!-- The white spaces in the table are important formatting -->
 
 <table>
   <thead>
@@ -75,16 +77,12 @@ This is where we are going to see the most change, there are two big ones:
     <tr>
 <td>
 <div class="language-ini highlighter-rouge" style="width: 85%;margin-left: auto;margin-right: auto;">
-<div class="highlight"> <pre class="highlight" style="padding: 0.5rem;margin: 0.5rem 0;">
-<code>
-<span class="nn">[requires]</span>
+<div class="highlight"> <pre class="highlight" style="padding: 0.5rem;margin: 0.5rem 0;"><code><span class="nn">[requires]</span>
 <span class="err">zlib/1.2.13</span>
+
 <span class="nn">[generators]</span>
 <span class="err">cmake_find_package</span>
 </code></pre></div></div></td>
-      
-      
-      
 <td>
       <div class="language-ini highlighter-rouge" style="width: 85%;margin-left: auto;margin-right: auto;"><div class="highlight">
       <pre class="highlight" style="padding: 0.5rem; margin: 0.5rem 0;"><code><span class="nn">[requires]</span>
@@ -101,7 +99,7 @@ This is where we are going to see the most change, there are two big ones:
   </tbody>
 </table>
 
-> Note: Instead of listing different generators, the example is more focused on CMake
+> Note: Instead of listing different generators in the Conan 1.x column the example is more focused on CMake
 
 This takes advantage of the features added in Conan 1.33. We used new [Generators](https://docs.conan.io/2/reference/tools.html?highlight=Toolchain) [CMakeToolchain](https://docs.conan.io/2/reference/tools/cmake/cmaketoolchain.html) and [CMakeDeps](https://docs.conan.io/2/reference/tools/cmake/cmakedeps.html) and lastly leveraged [layouts](https://docs.conan.io/2/reference/tools/layout.html).
 
@@ -121,7 +119,7 @@ All of this has a butterfly effect. Now that we no longer have to change directo
 | --------------------------- | ---------------------------------------------------------------- |
 | cmake .. && cmake --build . | cmake --preset conan-releasecmake --build --preset conan-release |
 
-> Note: Instead of listing different generators, the example is more focused on CMake
+> Note: Instead of listing different generators in the Conan 1.x column the example is more focused on CMake
 
 If you have not heard or tried [CMake Presets](https://docs.conan.io/2/examples/tools/cmake/cmake_toolchain/build_project_cmake_presets.html) yet, you are missing out. This makes setting up a project way easier. This example requires CMake 3.23 or newer but that’s not required you can explicitly pass in with CMake as old as 3.15 the toolchain file ``-DCMAKE_TOOLCHAIN_FILE=build/generators/conan_toolchain.cmake``. (the exact path varies depending on the CMake generator, platform, and settings so read the CLI output which will give you the correct one).
 
