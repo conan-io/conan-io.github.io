@@ -15,7 +15,15 @@ comments: true
           {% endif %}
           <div class="spli-footer d-flex flex-wrap justify-content-between mt-2 mt-lg-3">
           <div class="post-meta pr-4 d-flex align-items-center">
+            <!-- 
+              We want Google to show the most recent date so this post looks more relevant in search results
+              https://developers.google.com/search/docs/appearance/publication-dates
+            -->
+            {% if page.last_modified_at %}
+            <span class="date">{{ page.last_modified_at | date: "%b %-d, %Y" }}</span>
+            {% else %}
             <span class="date">{{ page.date | date: "%b %-d, %Y" }}</span>
+            {% endif %}
 
 
             {% if page.author %}
@@ -38,8 +46,11 @@ comments: true
 
           </div>
           <div class="post-meta pr-4 d-flex align-items-center">
+            <!-- Show the original date since we SEO'd it away -->
             {%- if page.last_modified_at -%}
-            Last updated:<span class="date">{{ page.last_modified_at | date: "%b %-d, %Y" }}</span>
+            Originally Published:&nbsp;<span class="date">{{ page.date | date: "%b %-d, %Y" }}</span>
+            {%- else -%}
+            Last updated:&nbsp;<span class="date"> {{ page.last_modified_at | date: "%b %-d, %Y" }}</span>
             {%- endif -%}
           </div>
           <div class="post-share d-flex">
