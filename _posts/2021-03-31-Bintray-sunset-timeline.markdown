@@ -2,8 +2,7 @@
 layout: post
 comments: false
 title: "Bintray Sunset - Timeline for Conan Users"
-meta_title: "Bintray Sunset Timeline Summary for Conan Users"
-meta_description: "A summary of dates and times for key milestones of the Sunset
+description: "A summary of dates and times for key milestones of the Sunset
 of JFrog Bintray which are relevant to users of Conan Package Manager"
 ---
 

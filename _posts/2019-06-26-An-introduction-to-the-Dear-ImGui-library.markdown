@@ -2,7 +2,7 @@
 layout: post
 comments: false
 title: "An introduction to the Dear ImGui library"
-meta_description: "An introduction, tutorial and example showing how to use ImGui, the Immediate Mode Graphics library with C++, CMake, and Conan"
+description: "An introduction, tutorial and example showing how to use ImGui, the Immediate Mode Graphics library with C++, CMake, and Conan"
 last_modified_at: "2023-05-18"
 ---
 

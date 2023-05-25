@@ -2,8 +2,7 @@
 layout: post
 comments: false
 title: "Getting up to speed with the latest Conan features"
-meta_title: "Getting up to speed with the latest Conan features" 
-meta_description: "Learn about the most significant changes to your recipes upgrading from 1.30s to 1.50s. Getting Ready for Conan 2.0 starts with using the new Conan 1.x generators"
+description: "Learn about the most significant changes to your recipes upgrading from 1.30s to 1.50s. Getting Ready for Conan 2.0 starts with using the new Conan 1.x generators"
 ---
 
 <script type="application/ld+json">
@@ -24,7 +23,7 @@ meta_description: "Learn about the most significant changes to your recipes upgr
     }
 },
  "datePublished": "2022-09-28",
- "description": "Learn about the most significant changes to your recipes upgrading from 1.30s to 1.50s. Getting Ready for Conan 2.0",
+ "description": "Learn about the most significant changes to your recipes upgrading from 1.30s to 1.50s. Getting Ready for Conan 2.0"
  }
 </script>
 

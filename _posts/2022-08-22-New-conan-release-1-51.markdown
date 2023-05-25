@@ -2,8 +2,7 @@
 layout: post
 comments: false
 title: "Conan 1.51: Improved download tool to support getting files from the local file system, support for components in MSBuildDeps, improved CMakePresets integration, new MesonDeps generator and lots of fixes to ease Conan 2.0 migration."
-meta_title: "Version 1.51 of Conan C++ Package Manager is Released" 
-meta_description: "The new version features includes improved download tool, support for components in MSBuildDeps, new MesonDeps generator, improved CMakePresets integration and much more..."
+description: "The new version features includes improved download tool, support for components in MSBuildDeps, new MesonDeps generator, improved CMakePresets integration and much more..."
 ---
 
 <script type="application/ld+json">
@@ -24,7 +23,7 @@ meta_description: "The new version features includes improved download tool, sup
     }
 },
  "datePublished": "2022-08-21",
- "description": "Improved download tool to support getting files from the local file system, support for components in MSBuildDeps, new MesonDeps generator, improved CMakePresets integration and lots of fixes to ease Conan 2.0 migration.",
+ "description": "Improved download tool to support getting files from the local file system, support for components in MSBuildDeps, new MesonDeps generator, improved CMakePresets integration and lots of fixes to ease Conan 2.0 migration."
  }
 </script>
 

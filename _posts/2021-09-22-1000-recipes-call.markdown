@@ -2,9 +2,7 @@
 layout: post
 comments: false
 title: "Achievement Unlocked: Conan Center Hits 1,000 Recipes (and Counting)"
-meta_title: "Achievement Unlocked: Conan Center Hits 1,000 Recipes (and Counting)"
 description: "Call for the Conan Center 1,000 recipes celebration event"
-meta_description: "Call for the Conan Center 1,000 recipes celebration event"
 ---
 
 <p class="centered">

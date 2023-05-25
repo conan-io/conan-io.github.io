@@ -2,11 +2,8 @@
 layout: post
 comments: false
 title: "Conan 1.54: New conanfile.win_bash_run and tools.microsoft.bash:active config, new upload_policy='skip' to avoid uploading binaries, new Git().included_files() tool to get files not in .gitignore, added distro package to global.conf Jinja rendering."
-meta_title: "Version 1.54 of Conan C++ Package Manager is Released" 
-meta_description: "Conan 1.54: New conanfile.win_bash_run and tools.microsoft.bash:active config, new upload_policy='skip' to avoid uploading binaries and much more"
+description: "Conan 1.54: New conanfile.win_bash_run and tools.microsoft.bash:active config, new upload_policy='skip' to avoid uploading binaries and much more"
 ---
-
-
 
 <script type="application/ld+json">
 { "@context": "https://schema.org", 
@@ -26,7 +23,7 @@ meta_description: "Conan 1.54: New conanfile.win_bash_run and tools.microsoft.ba
     }
 },
  "datePublished": "2022-09-22",
- "description": "New conanfile.win_bash_run and tools.microsoft.bash:active config for better Windows bash management, new upload_policy='skip' to avoid uploading binaries, new Git().included_files() tool to get files not in .gitignore, added distro to global.conf Jinja rendering.",
+ "description": "New conanfile.win_bash_run and tools.microsoft.bash:active config for better Windows bash management, new upload_policy='skip' to avoid uploading binaries, new Git().included_files() tool to get files not in .gitignore, added distro to global.conf Jinja rendering."
  }
 </script>
 

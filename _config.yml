@@ -8,10 +8,9 @@
 plugins: [jekyll-paginate]
 
 # Site settings
-title: Conan C/C++ Package Manager
+title: Conan C/C++ Package Manager Blog
 email: info@conan.io
-description: > # this means to ignore newlines until "baseurl:"
-   Full Open Source, MIT, C/C++ Package Manager.
+description: Blog for the team behind the Fully Open Source, MIT licensed, C/C++ Package Manager.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://blog.conan.io" # the base hostname & protocol for your site
 twitter_username: conan_io
@@ -30,4 +29,3 @@ kramdown:
 
 sass:
   sass_dir: _sass
-#Plugins

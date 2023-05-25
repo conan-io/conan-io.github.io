@@ -2,10 +2,7 @@
 layout: post
 comments: false
 title: "ConanCenter: Old Bintray remote EOL set for November 30th"
-meta_title: "ConanCenter: Old Bintray remote EOL set for November 30th"
 description: "Old Bintray remote for ConanCenter will be shutdown on November 30th, make sure
-you are only using the new remote https://center.conan.io"
-meta_description: "Old Bintray remote for ConanCenter will be shutdown on November 30th, make sure
 you are only using the new remote https://center.conan.io"
 ---
 

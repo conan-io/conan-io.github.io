@@ -2,9 +2,7 @@
 layout: post
 comments: false
 title: "Apple M1 support added to ConanCenter"
-meta_title: "Apple M1 support added to ConanCenter"
-description: "general information about Apple M1 and its implications on ConanCenter"
-meta_description: "general information about Apple M1 and its implications on ConanCenter"
+description: "General information about Apple M1 and its implications on ConanCenter"
 ---
 
 We were asked several times to provide some macOS ARM binaries for ConanCenter, and they are finally here!

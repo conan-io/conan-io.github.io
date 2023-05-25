@@ -3,7 +3,7 @@ layout: post
 comments: false
 title: "Real-Time Pose Detection in C++ using Machine Learning with TensorFlow Lite"
 meta_title: "Real-Time Pose Detection with TensorFlow Lite in C++ using Image Processing and Neural Networks - Conan Blog"
-meta_description: "Discover how to leverage TensorFlow Lite and Conan package manager for seamless integration in C++ to create cutting-edge real-time pose detection applications using machine learning techniques."
+description: "Discover how to leverage TensorFlow Lite and Conan package manager for seamless integration in C++ to create cutting-edge real-time pose detection applications using machine learning techniques."
 ---
 
 In this post, we're going to dive into using TensorFlow Lite in C++ for real-time human
@@ -85,7 +85,7 @@ There, you will find the project. Let's have a look at the relevant files:
 You can see the source code and *CMakeLists.txt* for our application, the video we are
 going to process, and the model for the neural network we will load into TensorFlow Lite.
 Our application runs the inference on the model (making predictions based on input data)
-to detect human keypoints, providing us with the positions of various body joints. The app
+to detect human key points, providing us with the positions of various body joints. The app
 is organized according to this schematic:
 
 <p class="centered">
@@ -245,7 +245,7 @@ for the model states that the output is a float32 tensor of shape [1, 1, 17, 3],
 this information:
 
 - The first two channels of the last dimension represent the yx coordinates (normalized to
-  image frame, i.e., range in [0.0, 1.0]) of the 17 keypoints (in the order of: [nose,
+  image frame, i.e., range in [0.0, 1.0]) of the 17 key points (in the order of: [nose,
   left eye, right eye, left ear, right ear, left shoulder, right shoulder, left elbow,
   right elbow, left wrist, right wrist, left hip, right hip, left knee, right knee, left
   ankle, right ankle]).

@@ -30,8 +30,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="canonical" href="{{ page.url | prepend: site.baseurl | prepend: site.url }}">
 
   <!-- 
-    This allows the blog to have a visual title (in search results and post UI)
-    while hiding a more SEO enabled (i.e longer and more verbose) title for search engines
+    This allows the blog to have a visual title (in post UI) while hiding
+    a more SEO enabled (i.e longer and more verbose) title for search engines
   -->
   {%- if page.meta_title -%}
     <meta name="title" content="{{ page.meta_title }}">
@@ -39,16 +39,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta name="title" content="{{ page.title }}">
   {% endif %}
 
-  {%- if page.meta_description -%}
-    <meta name="description" content="{{ page.meta_description }}"> <!-- TODO: This is no used any where it could just be description-->
-  {%- elsif page.description -%}
+  {%- if page.description -%}
     <meta name="description" content="{{ page.description }}">
   {%- elsif page.excerpt -%}
-    <meta name="description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}">
+    <!-- 
+      Not all of the oldest blogs have a description so we give the the first paragraph.
+      This is shortened because Google Results only shows a certain amount 
+      https://seopressor.com/blog/google-title-meta-descriptions-length/
+    -->
+    <meta name="description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}"> 
   {%- else -%}
     <meta name="description" content="{{ site.description }}">
   {% endif %}
 
+   <!-- These pages are for human navigation and are already index from the pagination -->
   {% if page.url contains "month-archive" %}
      <meta name="robots" content="noindex" />
   {% endif %}

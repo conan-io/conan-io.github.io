@@ -3,8 +3,7 @@ layout: post
 comments: false
 title: "Conan 1.42 : New Conan XcodeDeps multi-config generator for Xcode, added new OSX version 12.0
 (Monterey), easier aggregated environment deactivation." 
-meta_title: "Version 1.42 of Conan C++ Package Manager is Released" 
-meta_description: "The new version features include New Conan XcodeDeps multi-config generator for
+description: "The new version features include New Conan XcodeDeps multi-config generator for
 Xcode, added new OSX Monterey version, easier aggregated environment deactivation and much more..."
 ---
 
@@ -26,7 +25,7 @@ Xcode, added new OSX Monterey version, easier aggregated environment deactivatio
     }
 },
  "datePublished": "2021-09-09",
- "description": "New Conan XcodeDeps multi-config generator for Xcode, added new OSX version 12.0 (Monterey), easier aggregated environment handling.",
+ "description": "New Conan XcodeDeps multi-config generator for Xcode, added new OSX version 12.0 (Monterey), easier aggregated environment handling."
  }
 </script>
 

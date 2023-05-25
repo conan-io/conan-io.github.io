@@ -2,8 +2,7 @@
 layout: post
 comments: false
 title: "Conan 1.46: New XcodeToolchain and XcodeBuild tools, improved conf system, new helpers for Git."
-meta_title: "Version 1.46 of Conan C++ Package Manager is Released" 
-meta_description: "The new version features include new XcodeToolchain and XcodeBuild, improved conf system, new helpers for Git and much more..."
+description: "The new version features include new XcodeToolchain and XcodeBuild, improved conf system, new helpers for Git and much more..."
 ---
 
 <script type="application/ld+json">
@@ -24,7 +23,7 @@ meta_description: "The new version features include new XcodeToolchain and Xcode
     }
 },
  "datePublished": "2022-03-17",
- "description": "New XcodeToolchain and XcodeBuild tools, improved conf system, new helpers for Git.",
+ "description": "New XcodeToolchain and XcodeBuild tools, improved conf system, new helpers for Git."
  }
 </script>
 

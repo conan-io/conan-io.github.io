@@ -2,8 +2,7 @@
 layout: post
 comments: false
 title: "Understanding the different flavors of Clang C and C++ compilers in Windows"
-meta_title: "Understanding the different flavors of Clang C and C++ compilers in Windows" 
-meta_description: "This article will explain the different flavors of Clang C and C++ compiler you might encounter in Windows, and give you some suggestions about which ones might be right for you, together with detailed instructions on how to use them with CMake and Conan."
+description: "This article will explain the different flavors of Clang C and C++ compiler you might encounter in Windows, and give you some suggestions about which ones might be right for you, together with detailed instructions on how to use them with CMake and Conan."
 ---
 
 <script type="application/ld+json">
@@ -24,7 +23,7 @@ meta_description: "This article will explain the different flavors of Clang C an
     }
 },
  "datePublished": "2022-10-13",
- "description": "This article will explain the different flavors of Clang C and C++ compiler you might encounter in Windows, and give you some suggestions about which ones might be right for you, together with detailed instructions on how to use them with CMake and Conan.",
+ "description": "This article will explain the different flavors of Clang C and C++ compiler you might encounter in Windows, and give you some suggestions about which ones might be right for you, together with detailed instructions on how to use them with CMake and Conan."
  }
 </script>
 
