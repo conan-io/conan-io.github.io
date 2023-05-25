@@ -177,7 +177,7 @@ find_package(Protobuf REQUIRED CONFIG)
 protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS sensor.proto)
 
 add_executable(${PROJECT_NAME} main.cc ${PROTO_SRCS} ${PROTO_HDRS})
-target_link_libraries(${PROJECT_NAME} PUBLIC protobuf::protobuf)
+target_link_libraries(${PROJECT_NAME} PUBLIC protobuf::libprotobuf)
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
 {% endhighlight %}
