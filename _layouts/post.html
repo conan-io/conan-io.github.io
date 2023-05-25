@@ -49,8 +49,6 @@ comments: true
             <!-- Show the original date since we SEO'd it away -->
             {%- if page.last_modified_at -%}
             Originally Published:&nbsp;<span class="date">{{ page.date | date: "%b %-d, %Y" }}</span>
-            {%- else -%}
-            Last updated:&nbsp;<span class="date"> {{ page.last_modified_at | date: "%b %-d, %Y" }}</span>
             {%- endif -%}
           </div>
           <div class="post-share d-flex">

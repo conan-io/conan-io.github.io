@@ -12,7 +12,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  {% if page.title %}
   <title>{{ page.title }}</title>
+  {% else %}
+  <title>{{ site.title }}</title>
+  {% endif %}
+
   <link rel="shortcut icon" type="image/png" href="/favicon.png">
   <link rel="stylesheet" href="{{ "/css/bootstrap.min.css" | prepend: site.baseurl | prepend: site.url }}">
   <link rel="stylesheet" href="{{ "/css/select2.min.css" | prepend: site.baseurl | prepend: site.url }}">
@@ -24,32 +29,43 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <!-- SEO -->
   <!-- 
-    This tells google this is a preferred page if a duplicate name were to exist
+    This tells google this is a preferred page if a duplicate title were to exist
     https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls
+
+    These duplicates exists for the navigation pages which may or may not be no index so this is likely needed
   -->
   <link rel="canonical" href="{{ page.url | prepend: site.baseurl | prepend: site.url }}">
 
   <!-- 
     This allows the blog to have a visual title (in post UI) while hiding
     a more SEO enabled (i.e longer and more verbose) title for search engines
+
+    It's unclear if Google supports this https://developers.google.com/search/docs/crawling-indexing/special-tags
   -->
-  {%- if page.meta_title -%}
-    <meta name="title" content="{{ page.meta_title }}">
-  {%- else -%}
-    <meta name="title" content="{{ page.title }}">
+  {% if page.meta_title %}
+  <meta name="title" content="{{ page.meta_title }}">
+  {% elsif page.title %}
+  <meta name="title" content="{{ page.title }}">
+  {% else %}
+  <meta name="title" content="{{ site.title }}"> <!-- Some of the navigation pages (e.g. archives) do not have titles so we give the the default site wide one-->
   {% endif %}
 
-  {%- if page.description -%}
+  {% if page.description %}
     <meta name="description" content="{{ page.description }}">
-  {%- elsif page.excerpt -%}
+  {% elsif page.excerpt %}
     <!-- 
       Not all of the oldest blogs have a description so we give the the first paragraph.
       This is shortened because Google Results only shows a certain amount 
       https://seopressor.com/blog/google-title-meta-descriptions-length/
     -->
     <meta name="description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}"> 
-  {%- else -%}
+  {% else %}
     <meta name="description" content="{{ site.description }}">
+  {% endif %}
+
+   <!-- It's unclear if Google supports this https://developers.google.com/search/docs/crawling-indexing/special-tags -->
+  {% if page.keywords %}
+    <meta name="keywords" content="{{ page.keywords }}">
   {% endif %}
 
    <!-- These pages are for human navigation and are already index from the pagination -->
