@@ -15,6 +15,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   {% if page.title %}
   <title>{{ page.title }}</title>
   {% else %}
+  <!-- Some of the navigation pages (e.g. archives) do not have titles so we give the the default site wide one-->
   <title>{{ site.title }}</title>
   {% endif %}
 
@@ -29,10 +30,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <!-- SEO -->
   <!-- 
-    This tells google this is a preferred page if a duplicate title were to exist
+    This tells google this is a preferred page if a duplicate were to exist
     https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls
 
     These duplicates exists for the navigation pages which may or may not be no index so this is likely needed
+    since they are share the same title, they need to say they have unique URLs
   -->
   <link rel="canonical" href="{{ page.url | prepend: site.baseurl | prepend: site.url }}">
 

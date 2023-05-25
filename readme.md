@@ -34,4 +34,6 @@ keywords: "(optional) comma, separated, values, for seo optimization"
 ---
 ```
 
-> **Note**: SEO Structured Data - This is was attempted but is currently undefined.
+> **Note**: SEO Structured Data - This is was attempted but is currently undefined. It was previously done with
+[TechArticle](https://schema.org/TechArticle) however that probably is not list by
+[Google's supported list](https://developers.google.com/search/docs/appearance/structured-data/article)
