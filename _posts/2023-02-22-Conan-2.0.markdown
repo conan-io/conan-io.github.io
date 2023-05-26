@@ -3,7 +3,7 @@ layout: post
 comments: false
 title: "Introducing Conan 2.0"
 meta_title: "Conan C/C++ Package Manager new major version 2.0 is released, with major new features and improvements" 
-meta_description: "Conan C/C++ Package Manager major version 2.0 summarizes years of effort building on the feedback of many thousands of users, with major improvements over previous 1.X releases in major aspects as the dependency graph model, or lockfiles for continuous integration, and including multitude of new features like custom commands, a public Python API, binary compatibility extensions, package signing and many more."
+description: "Conan C/C++ Package Manager major version 2.0 summarizes years of effort building on the feedback of many thousands of users, with major improvements over previous 1.X releases in major aspects as the dependency graph model, or lockfiles for continuous integration, and including multitude of new features like custom commands, a public Python API, binary compatibility extensions, package signing and many more."
 ---
 
 

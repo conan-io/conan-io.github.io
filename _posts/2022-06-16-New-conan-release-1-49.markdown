@@ -2,8 +2,7 @@
 layout: post
 comments: false
 title: "Conan 1.49: Removed Python2 support, improved CMakePresets, new [layout] section in conanfile.txt, new tools.apple.fix_apple_shared_install_name tool, new can_run() and check_min_vs helpers."
-meta_title: "Version 1.49 of Conan C++ Package Manager is Released" 
-meta_description: "The new version features include removal of Python2 support, improved CMakePresets, new [layout] section in conanfile.txt and much more..."
+description: "The new version features include removal of Python2 support, improved CMakePresets, new [layout] section in conanfile.txt and much more..."
 ---
 
 <script type="application/ld+json">
@@ -24,7 +23,7 @@ meta_description: "The new version features include removal of Python2 support, 
     }
 },
  "datePublished": "2022-06-16",
- "description": "Removed Python2 support, improved CMakePresets, new [layout] section in conanfile.txt, new tools.apple.fix_apple_shared_install_name tool, new "can_run()", "check_min_vs" helpers.",
+ "description": "Removed Python2 support, improved CMakePresets, new [layout] section in conanfile.txt, new tools.apple.fix_apple_shared_install_name tool, new "can_run()", "check_min_vs" helpers."
  }
 </script>
 

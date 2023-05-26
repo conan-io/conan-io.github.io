@@ -2,30 +2,30 @@
 layout: post
 comments: false
 title: "Conan 1.39 : backporting alias 2.0 syntax to 1.39, new --require-override CLI argument, new win_bash attribute in conanfiles to better manage Windows subsystems, new VCVars generator, several improvements in the new Environment model."
-meta_title: "Version 1.39 of Conan C++ Package Manager is Released"
-meta_description: "The new version features include backporting alias 2.0 syntax to 1.39, new --require-override CLI argument, new win_bash attribute in conanfiles and more..."
+description: "The new version features include backporting alias 2.0 syntax to 1.39, new --require-override CLI argument, new win_bash attribute in conanfiles and more..."
 ---
 
 <script type="application/ld+json">
-{ "@context": "https://schema.org", 
+{
+ "@context": "https://schema.org",
  "@type": "TechArticle",
  "headline": "Version 1.39 of Conan C++ Package Manager is Released",
  "alternativeHeadline": "Learn all about the new 1.39 Conan C/C++ package manager version",
  "image": "https://docs.conan.io/en/latest/_images/frogarian.png",
- "author": "Conan Team", 
- "genre": "C/C++", 
- "keywords": "c c++ package manager conan release", 
+ "author": "Conan Team",
+ "genre": "C/C++",
+ "keywords": "c c++ package manager conan release",
  "publisher": {
-    "@type": "Organization",
-    "name": "Conan.io",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://media.jfrog.com/wp-content/uploads/2017/07/20134853/conan-logo-text.svg"
-    }
-},
+  "@type": "Organization",
+  "name": "Conan.io",
+  "logo": {
+   "@type": "ImageObject",
+   "url": "https://media.jfrog.com/wp-content/uploads/2017/07/20134853/conan-logo-text.svg"
+  }
+ },
  "datePublished": "2021-09-05",
- "description": "Backporting alias 2.0 syntax to 1.39, new --require-override CLI argument, new win_bash attribute in conanfiles to better manage Windows subsystems, new VCVars generator, several improvements in the new Environment model.",
- }
+ "description": "Backporting alias 2.0 syntax to 1.39, new --require-override CLI argument, new win_bash attribute in conanfiles to better manage Windows subsystems, new VCVars generator, several improvements in the new Environment model."
+}
 </script>
 
 We are pleased to announce that Conan 1.39 has been released and brings some

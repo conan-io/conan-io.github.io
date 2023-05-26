@@ -2,8 +2,7 @@
 layout: post
 comments: false
 title: "Conan 1.43: Start preparing your recipes for Conan 2.0, modern tools.gnu.PkgConfig to supersede legacy tools.PkgConfig, baremetal os setting to represent bare metal platforms without operating system."
-meta_title: "Version 1.43 of Conan C++ Package Manager is Released"
-meta_description: "The new version features to help preparing your recipes for Conan 2.0, modern tools.gnu.PkgConfig to supersede legacy tools.PkgConfig, baremetal os setting to represent bare metal platforms without operating system and much more..."
+description: "The new version features to help preparing your recipes for Conan 2.0, modern tools.gnu.PkgConfig to supersede legacy tools.PkgConfig, baremetal os setting to represent bare metal platforms without operating system and much more..."
 ---
 
 <script type="application/ld+json">

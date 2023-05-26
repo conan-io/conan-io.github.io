@@ -2,8 +2,7 @@
 layout: post 
 comments: false 
 title: "Safer C/C++ builds using Conan's Xray integration in Artifactory"
-meta_title: "Safer C/C++ builds using Conan's Xray integration in Artifactory"
-meta_description: "Using Conan's Xray integration in Artifactory you can make your C and C++ builds more secure"
+description: "Using Conan's Xray integration in Artifactory you can make your C and C++ builds more secure"
 ---
 
 [Xray](https://www.jfrog.com/confluence/display/JFROG/JFrog+Xray) is a DevSecOps tool that works
