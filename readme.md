@@ -20,7 +20,7 @@ jekyll serve _config.yml --watch --future
 
 ## Post Front Matter
 
-Each post needs a few felids and there are optional fields as well for SEO optimization
+Each post needs a few fields and there are optional fields as well for SEO optimization
 
 ```yaml
 ---
