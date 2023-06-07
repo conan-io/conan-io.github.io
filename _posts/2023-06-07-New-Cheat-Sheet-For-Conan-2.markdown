@@ -35,7 +35,7 @@ Let’s dive into the changes.
 
 | Conan 1.x                        | Conan 2.0                           |
 | -------------------------------- | ----------------------------------- |
-| conan search zlib -r conancenter | conan search "zlib/*" -r conancenter |
+| `conan search zlib -r conancenter` | `conan search "zlib/*" -r conancenter` |
 
 It’s going to take a keen eye to notice the only change between these. If you spotted the ``/*``, that’s the evidence of the [unified references](https://docs.conan.io/1/migrating_to_2.0/commands.html#unified-patterns-in-command-arguments). This allows more granularity when specifying names, versions, users or channels. This change is also carried into recipes to access dependencies. See [profile patterns](https://docs.conan.io/2/reference/config_files/profiles.html#profile-patterns) for more details.
 
@@ -47,7 +47,7 @@ This is where you are most likely to run into the changes.
 
 | Conan 1.x                                                | Conan 2.0                             |
 | -------------------------------------------------------- | ------------------------------------- |
-| conan install &lt;package_reference> (e.g. zlib/1.2.13@) | conan install -–requires=zlib/1.2.13 |
+| `conan install <package_reference>` (e.g. zlib/1.2.13@) | `conan install -–requires=zlib/1.2.13` |
 
 If the ``--requires`` jumped at you, that’s perfect. Notice the ``@`` is missing? This is the change between 1.x and 2.0. How Conan distinguished between passing the CLI a reference or a path is much more explicit.  
 References lose the ``@`` suffix and are explicitly called out by a dedicated argument ``--requires``. This is true for all commands, not just the ``install`` command. This should alleviate misfortune cases where a reference has the same names as the path to its conanfile which leads to erroneous user inputs.
@@ -56,7 +56,7 @@ References lose the ``@`` suffix and are explicitly called out by a dedicated ar
 
 | Conan 1.x                            | Conan 2.0                             |
 | ------------------------------------ | ------------------------------------- |
-| conan install &lt;path_to_conanfile> | conan install . # path to a conanfile |
+| `conan install <path_to_conanfile>` | `conan install .` path to a conanfile |
 
 Next is ``conan install <path>``, for example ``./conanfile.py`` if it’s in your current directory, this is unchanged. There are other considerations, such as layouts, where if you previously used ``--install-folder`` you may need to adapt this within the recipe.
 
@@ -109,7 +109,7 @@ The layout is just as important as the updated Generators. Its role is to tell C
 
 | Conan 1.x                                | Conan 2.0       |
 | ---------------------------------------- | --------------- |
-| mkdir build && cd build conan install .. | conan install . |
+| `mkdir build && cd build conan install ..` | `conan install .` |
 
 With this in mind, if we look at the next command in the 1.x example, we used to do a ``mkdir build && cd build``. We no longer need this because of the ``cmake_layout`` we declared in the 2.0 ``conanfile.txt``.
 
@@ -117,7 +117,7 @@ All of this has a butterfly effect. Now that we no longer have to change directo
 
 | Conan 1.x                   | Conan 2.0                                                        |
 | --------------------------- | ---------------------------------------------------------------- |
-| cmake .. && cmake --build . | cmake --preset conan-releasecmake --build --preset conan-release |
+| `cmake .. && cmake --build .` | `cmake --preset conan-releasecmake --build --preset conan-release` |
 
 > Note: Instead of listing different generators in the Conan 1.x column the example is more focused on CMake
 
@@ -137,39 +137,39 @@ In order to make the comparison easier, I’ve reorganized the commands (from th
 |                        Conan 1.x                       | Conan 2.0                                                   |
 | ------------------------------------------------------ | ----------------------------------------------------------- |
 |                **Client Configurations**               |                                                             |
-|                                                        | conan profile detect                                        |
-|                                                        | conan config list                                           |
-| conan config get                                       |                                                             |
-| conan profile show default                             | conan profile show -pr default                              |
-| conan config install &lt;url_or_path>                  | conan config install &lt;url_or_path>                       |
-|       conan config set general.revision_enabled=1      |                                                             |
+|                                                        | `conan profile detect`                                        |
+|                                                        | `conan config list`                                           |
+| `conan config get`                                       |                                                             |
+| `conan profile show default`                             | `conan profile show -pr default`                              |
+| `conan config install <url_or_path>`                  | `conan config install <url_or_path>`                       |
+|       `conan config set general.revision_enabled=1`      |                                                             |
 |            **Remote Repository Management**            |                                                             |
-|                    conan remote list                   | conan remote list                                           |
-|           conan remote add my_remote &lt;url>          | conan remote add my_remote &lt;url>                         |
-| conan user -p &lt;password> -r my_remote &lt;username> | conan remote login my_remote &lt;username> -p &lt;password> |
+|                    `conan remote list`                   | `conan remote list`                                           |
+|           `conan remote add my_remote <url>`          | `conan remote add my_remote <url>`                         |
+| `conan user -p <password> -r my_remote <username>` | `conan remote login my_remote <username> -p <password>` |
 
-To start with, we have a command that's highlighted for 2.0 cheat sheet but was not present for 1.x originally. This is one of the more requested features, opt-in default profiles. [Managing profiles](https://docs.conan.io/2/reference/commands/profile.html?highlight=best%20practices) is one of the critical decisions for using Conan in CI/CD for DevOps. We have witnessed bad habits around relying on ``conan profile detect`` which limited the ability to improve the client. With Conan 2.0, there is [no stability guaranteed for the detected configuration](https://docs.conan.io/2/reference/commands/profile.html?highlight=not%20stable), this is something you should reconsider if you were doing ``conan config set`` which is also removed for the same reason. Alternative solutions are custom commands or managed profiles. 
+To start with, we have a command that's highlighted for 2.0 cheat sheet but was not present for 1.x originally. This is one of the more requested features, opt-in default profiles. [Managing profiles](https://docs.conan.io/2/reference/commands/profile.html?highlight=best%20practices) is one of the critical decisions for using Conan in CI/CD for DevOps. We have witnessed bad habits around relying on ``conan profile detect`` which limited the ability to improve the client. With Conan 2.0, there is [no stability guaranteed for the detected configuration](https://docs.conan.io/2/reference/commands/profile.html?highlight=not%20stable), this is something you should reconsider if you were doing ``conan config set`` which is also removed for the same reason. Alternative solutions are custom commands or managed profiles.
 
 ``conan config list``, this is a very simple command that [shows all the available configurations](https://docs.conan.io/2/reference/commands/config.html#conan-config-list) one could possibly change. To display the value, ``conan config get`` was replaced by [``conan config show``](https://docs.conan.io/2/reference/commands/config.html#conan-config-show) which takes a _pattern_ which is the same as the values. For example ``tools.build.cmake.*`` to list all the CMake specific configurations current values defined in [``global.conf``](https://docs.conan.io/2/reference/config_files/global_conf.html).
 
 [``conan config install``](https://docs.conan.io/2/reference/commands/config.html#conan-config-install) is unchanged and the [recommended way of managing profiles](https://docs.conan.io/2/knowledge/guidelines.html#good-practices), settings in 1.x and custom commands or extensions with 2.0.
 
-``conan profile show default`` gets the same ``-pr`` as ``conan install`` unified command line syntax at its best. ``conan profile show`` also works in 2.0 which should be a simplification for punch keys into a terminal.
+``conan profile show default`` gets the same ``-pr`` as ``conan install`` unified command line syntax at its best. ``conan profile show`` also works in 2.0 which should be a simplification while punching keys into a terminal.
 
 Some straight forward commands to review:
 
-- Conan remote list – unchanged
-- Conan remote add – unchanged
+- `conan remote list` – unchanged
+- `conan remote add` – unchanged
 - ``conan user`` was replaced with [``conan remote login``](https://docs.conan.io/2/reference/commands/remote.html#conan-remote-login).
 
 ## Display Information
 
 | Conan 1.x                                 | Conan 2.0                               |
 | ----------------------------------------- | --------------------------------------- |
-| conan inspect &lt;path> -a &lt;attribute> | conan inspect .                         |
-| conan get &lt;reference>                  |                                         |
-| conan info &lt;path_or_reference>         | conan graph info –requires zlib/1.2.13  |
-|                                           | conan graph info . -f html > graph.html |
+| `conan inspect <path> -a <attribute>` | `conan inspect .`                         |
+| `conan get <reference>`                  |                                         |
+| `conan info <path_or_reference>`         | `conan graph info –requires zlib/1.2.13`  |
+|                                           | `conan graph info . -f html > graph.html` |
 
 ``conan inspect`` is mostly unchanged, it’s still focused on local recipes. For migration, it dropped the ``-a attribute``, this is replaced with structured output. You can add ``-f json`` for a more machine readable format to work with.
 
@@ -183,9 +183,9 @@ Last but not least.
 
 | Conan 1.x                                 | Conan 2.0                                               |
 | ----------------------------------------- | ------------------------------------------------------- |
-| conan new &lt;reference> -m &lt;template> | conan new cmake_lib --define name=hello -d version=0.1  |
-| conan export &lt;path_to_conanfile>       |                                                         |
-| conan create . -pr &lt;profile>           | conan create . # path to conanfile                      |
+| `conan new <reference> -m <template>` | `conan new cmake_lib --define name=hello -d version=0.1`  |
+| `conan export <path_to_conanfile>`       |                                                         |
+| `conan create . -pr <profile>`           | `conan create .`  path to conanfile                      |
 
 New has an updated syntax, along with update templates. This change was motivated to enable passing in more different inputs, for example some templates can be created with requirements, adding ``-d requires=pkg/0.1`` to this example would achieve this.
 
@@ -199,7 +199,7 @@ Conan create is unchanged in this example however, the “filling in the referen
 
 | Conan 1.x                          | Conan 2.0                           |
 | ---------------------------------- | ----------------------------------- |
-| conan upload zlib* -r remote –all | conan upload “zlib/*” -r my_remote |
+| `conan upload zlib* -r remote –all` | `conan upload “zlib/*” -r my_remote` |
 
 There are a few subtle changes here, the reference used in the example previously matched any recipe starting with zlib, include zlib-ng which was not the intention, so now with the unified reference syntax it’s explicit matching only on the version since the ``/`` is present.  
 Our example remote was renamed, style points, but not indicative of anything functional.
@@ -210,7 +210,7 @@ Lastly ``--all`` is no longer present, this is now the default in 2.0 and there 
 
 | Conan 1.x                            | Conan 2.0                                                            |
 | ------------------------------------ | -------------------------------------------------------------------- |
-| conan install zlib/1.2.11@ -g deploy | conan install –requires=zlib/1.2.13 –deploy full_deploy -g CMakeDeps |
+| `conan install zlib/1.2.11@ -g deploy` | `conan install –requires=zlib/1.2.13 –deploy full_deploy -g CMakeDeps` |
 
 There are 2 new features in the one snippet.
 
