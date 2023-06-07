@@ -3,7 +3,7 @@ layout: post
 comments: false
 title: "New Cheat Sheet for Conan 2.0 is finally here!"
 description: "One of the best assets for Conan users was the original cheat sheet, updating this for Conan 2.0 gave was a very good visual to begin explaining the changes, and from migration tip and tricks for users looking to update. This will be a helpful tool to pick up the basics, setting you on the right track for your Conan adventure. This now focuses on installing packages with Conan 2.0, the C and C++ package manager, for consuming dependencies, creating local private packages, changing the Conan client configuration, using conan search to find package and much more."
-keywords: "conan search, conan generators, conan install, conan profile, conanfile, conan create, conan generator, conan show location, conan command, conan attributes, conan pdf, conan show change"
+keywords: "conan search, conan generators, conan install, conan profile, conanfile, conan create, conan generator, conan show location, conan command, conan attributes, conan pdf, conan show change, conan cmake presets, conan profile, conan profile detect"
 ---
 
 <style>
@@ -24,7 +24,7 @@ One of the biggest changes is to the command line and this happens to shine with
 
 <div class="centered" style="display: table; margin-bottom: 1rem;">
     <img  src="https://docs.conan.io/1/_images/conan-cheatsheet.png" style="display: inline; width: 50%;" alt="Conan 1.x Cheat Sheet"/>
-    <img  src="https://docs.conan.io/2/_images/conan2-cheatsheet-v5.png" style="display: inline; width: 50%;" alt="Conan 1.x Cheat Sheet"/>
+    <img  src="https://docs.conan.io/2/_images/conan2-cheatsheet-v5.png" style="display: inline; width: 50%;" alt="Conan 2.0 Cheat Sheet with conan install, conan search, conan list, conan profile, conan profile detect, conan create, conan inspect, conan graph info"/>
 </div>
 
 Obvious changes, new design and 1<sup>st</sup> and 2<sup>nd</sup> column switched places but that should not matter, we’ll refer to them by the opening section header.
