@@ -35,7 +35,7 @@ Let’s dive into the changes.
 
 | Conan 1.x                        | Conan 2.0                           |
 | -------------------------------- | ----------------------------------- |
-| conan search zlib -r conancenter | conan search zlib/* -r conancenter |
+| conan search zlib -r conancenter | conan search "zlib/*" -r conancenter |
 
 It’s going to take a keen eye to notice the only change between these. If you spotted the ``/*``, that’s the evidence of the [unified references](https://docs.conan.io/1/migrating_to_2.0/commands.html#unified-patterns-in-command-arguments). This allows more granularity when specifying names, versions, users or channels. This change is also carried into recipes to access dependencies. See [profile patterns](https://docs.conan.io/2/reference/config_files/profiles.html#profile-patterns) for more details.
 
