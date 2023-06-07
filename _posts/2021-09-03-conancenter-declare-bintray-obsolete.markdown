@@ -2,10 +2,7 @@
 layout: post
 comments: false
 title: "ConanCenter: Old Bintray remote is over. Check you are using the right one!"
-meta_title: "ConanCenter: Old Bintray remote is over. Check you are using the right one!"
 description: "Old Bintray remote for ConanCenter will be deprecated on November, make sure
-you are only using the new remote https://center.conan.io"
-meta_description: "Old Bintray remote for ConanCenter will be deprecated on November, make sure
 you are only using the new remote https://center.conan.io"
 ---
 

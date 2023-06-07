@@ -3,8 +3,7 @@ layout: post
 comments: false
 title: "Conan 1.38 : new self.dependencies model for access to dependencies data, support for jinja2
 syntax in conan profiles, new cmake_layout(), new [conf] cli support, new PkgConfigDeps generator."
-meta_title: "Version 1.38 of Conan C++ Package Manager is Released"
-meta_description: "Conan 1.38 : new self.dependencies model for access to dependencies data, support
+description: "Conan 1.38 : new self.dependencies model for access to dependencies data, support
 for jinja2 syntax in conan profiles, new cmake_layout(), new [conf] cli support, new PkgConfigDeps
 generator."
 ---

@@ -2,8 +2,7 @@
 layout: post
 comments: false
 title: "Conan 1.44: Introduced tool_requires attribute to replace generic build_requires, new tools to explicitly handle symlinks, CMakeToolchain can now apply several user toolchains, added vars to CMakeDeps for better upstream match."
-meta_title: "Version 1.44 of Conan C++ Package Manager is Released" 
-meta_description: "The new version features include Introduced tool_requires attribute to replace generic build_requires, new tools to explicitly handle symlinks and much more..."
+description: "The new version features include Introduced tool_requires attribute to replace generic build_requires, new tools to explicitly handle symlinks and much more..."
 ---
 
 <script type="application/ld+json">
@@ -24,7 +23,7 @@ meta_description: "The new version features include Introduced tool_requires att
     }
 },
  "datePublished": "2022-01-17",
- "description": "New tool_requires attribute, explicitly handle symlinks, several user toolchains in CMakeToolchain, added vars to CMakeDeps.",
+ "description": "New tool_requires attribute, explicitly handle symlinks, several user toolchains in CMakeToolchain, added vars to CMakeDeps."
  }
 </script>
 

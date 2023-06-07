@@ -2,8 +2,7 @@
 layout: post
 comments: false
 title: "Conan 1.52: Build system improvements: MSBuild, CMakeToolchain, continue working in easing migration to 2.0, new export_conandata_patches tool, new build folder argument for cmake_layout."
-meta_title: "Version 1.52 of Conan C++ Package Manager is Released" 
-meta_description: "Conan 1.52: Build system improvements: MSBuild, CMakeToolchain, continue working in easing migration to 2.0, new export_conandata_patches tool and much more"
+description: "Conan 1.52: Build system improvements: MSBuild, CMakeToolchain, continue working in easing migration to 2.0, new export_conandata_patches tool and much more"
 ---
 
 <script type="application/ld+json">
@@ -24,7 +23,7 @@ meta_description: "Conan 1.52: Build system improvements: MSBuild, CMakeToolchai
     }
 },
  "datePublished": "2022-09-22",
- "description": "Build system improvements: MSBuild, CMakeToolchain, continue working in easing migration to 2.0, new export_conandata_patches tool, new build folder argument for cmake_layout.",
+ "description": "Build system improvements: MSBuild, CMakeToolchain, continue working in easing migration to 2.0, new export_conandata_patches tool, new build folder argument for cmake_layout."
  }
 </script>
 

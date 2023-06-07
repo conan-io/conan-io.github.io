@@ -2,8 +2,7 @@
 layout: post
 comments: false
 title: "Conan 1.41: Better support for layout() local flows and editables, IntelOneAPI support, environment multi-config support, new cpp_info.objects model (and CMakeDeps support), support multiple toolchains in one recipe."
-meta_title: "Version 1.41 of Conan C++ Package Manager is Released"
-meta_description: "The new version features includes better support for layout() local flows and editables, IntelOneAPI support, environment multi-config support, cpp_info.objects model (and CMakeDeps support), support multiple toolchains in one recipe and much more..."
+description: "The new version features includes better support for layout() local flows and editables, IntelOneAPI support, environment multi-config support, cpp_info.objects model (and CMakeDeps support), support multiple toolchains in one recipe and much more..."
 ---
 
 <script type="application/ld+json">

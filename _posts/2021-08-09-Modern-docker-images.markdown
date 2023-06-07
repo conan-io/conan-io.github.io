@@ -2,10 +2,7 @@
 layout: post
 comments: false
 title: "Modern Docker Images to build C/C++ projects for ConanCenter: How I Learned to Stop Worrying and Love the Old images"
-meta_title: "Modern Docker Images to build C/C++ projects for ConanCenter"
-description: "The New Docker images should become the default while building all C/C++ package on Conan Center Index. Fixed glibc and libstdc++
-compatibility problems and unified all Docker recipes using multistage-build on Jenkins"
-meta_description: "The New Docker images which should become the official to build all C/C++
+description: "The New Docker images which should become the official to build all C/C++
 package on Conan Center Index and distribute under Conan Center. They should be adopted by
 default for all users. Fixed glibc and libstdc++ compatibility problems and unified all Docker
 recipes using multistage-build on Jenkins"

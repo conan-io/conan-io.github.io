@@ -3,7 +3,7 @@ layout: post
 comments: false
 title: "Conan 2.0: Recipe Hacking with Chris McArthur aka @prince-chrismc"
 meta_title: "ConanCenter 2.0 migration live stream event announcement introducing new 'cooking with conan' web series"
-meta_description: "In this event, I’ll be live streaming my attempt to update the recipes on this list. We will supply you with a list of recipes for you to try out yourself while you follow along. I will be explaining some of the details and answering questions live."
+description: "In this event, I’ll be live streaming my attempt to update the recipes on this list. We will supply you with a list of recipes for you to try out yourself while you follow along. I will be explaining some of the details and answering questions live."
 ---
 
 <script type="application/ld+json">
@@ -24,7 +24,7 @@ meta_description: "In this event, I’ll be live streaming my attempt to update 
     }
 },
  "datePublished": "2022-10-12",
- "description": "In this event, I’ll be live streaming my attempt to update the recipes on this list. We will supply you with a list of recipes for you to try out yourself while you follow along. I will be explaining some of the details and answering questions live.",
+ "description": "In this event, I’ll be live streaming my attempt to update the recipes on this list. We will supply you with a list of recipes for you to try out yourself while you follow along. I will be explaining some of the details and answering questions live."
  }
 </script>
 

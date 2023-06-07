@@ -2,8 +2,7 @@
 layout: post
 comments: false
 title: "Conan 1.48: Improvements in CMakePresets integration, new Autotools templates, CMakeToolchain configuration support for bitcode, arc and visibility flags on Apple platforms, support to generate env ps1 instead of bat in Windows."
-meta_title: "Version 1.48 of Conan C++ Package Manager is Released" 
-meta_description: "The new version features include Improvements in CMakePresets integration, new Autotools templates and much more..."
+description: "The new version features include Improvements in CMakePresets integration, new Autotools templates and much more..."
 ---
 
 <script type="application/ld+json">
@@ -24,7 +23,7 @@ meta_description: "The new version features include Improvements in CMakePresets
     }
 },
  "datePublished": "2022-05-17",
- "description": "Improvements in CMakePresets integration, new "conan new" Autotools templates, CMakeToolchain configuration support for bitcode, arc and visibility flags on Apple platforms, support to generate env ps1 instead of bat in Windows.",
+ "description": "Improvements in CMakePresets integration, new `conan new` Autotools templates, CMakeToolchain configuration support for bitcode, arc and visibility flags on Apple platforms, support to generate env ps1 instead of bat in Windows."
  }
 </script>
 

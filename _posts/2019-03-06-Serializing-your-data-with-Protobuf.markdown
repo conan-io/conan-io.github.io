@@ -1,7 +1,9 @@
 ---
 layout: post
 comments: false
-title: "Serialiazing your data with Protobuf"
+title: "Serializing your data with Protobuf"
+meta_title: "How to easily add Protobuf to your CMake project with Conan 2.0 to serialize data with working example"
+last_modified_at: "2023-05-24"
 ---
 
 In this blog post, we will discuss the [Protobuf](https://developers.google.com/protocol-buffers)
@@ -9,7 +11,7 @@ In this blog post, we will discuss the [Protobuf](https://developers.google.com/
 entire example presented here is available on [Github](https://github.com/conan-io/examples2/tree/main/examples/libraries/protobuf/serialization).
 
 > ⚠ (May 24, 2023) This blog has been updated and is working with Conan 2.x. Plus, the protobuf syntax has been updated to version 3.
-> The older post with Conan 1.x and protobuf version is [archived here](https://github.com/conan-io/conan-io.github.io/blob/854d02be08477fdf7de57197d651105faf4cfddf/_posts/2019-03-06-Serializing-your-data-with-Protobuf.markdown)
+> The older post with Conan 1.x and protobuf version is [archived here](https://github.com/conan-io/conan-io.github.io/blob/854d02be08477fdf7de57197d651105faf4cfddf/_posts/2019-03-06-Serializing-your-data-with-Protobuf.markdown).
 
 You probably already had to develop a project where you needed to exchange information between
 processes or even across different machines with different processor architectures. One
@@ -58,7 +60,7 @@ nested messages, reading XML starts to get difficult for human eyes.
 Another advantage is the size, as the Protobuf format is simplified, the files can reach 10 times
 smaller compared to XML. But the great benefit is its speed, which can reach 100 times faster than
 the standard XML serialization, all due to its optimized mechanism. In addition to size and speed,
-Protobuf has a compiler capable of processing a .proto file to generate multiple supported
+Protobuf has a compiler capable of processing a ``.proto`` file to generate multiple supported
 languages, unlike the traditional method where it is necessary to arrange the same structure in
 multiple source files.
 

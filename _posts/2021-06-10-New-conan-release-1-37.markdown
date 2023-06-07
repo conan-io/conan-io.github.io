@@ -3,8 +3,7 @@ layout: post
 comments: false 
 title: "Conan 1.37 : new default URL for ConanCenter, new layout() method, new
 Bazel integrations, new build_policy=never, new --build-require flag" 
-meta_title: "Version 1.37 of Conan C++ Package Manager is Released" 
-meta_description: "Conan 1.37 : new URL for ConanCenter, new layout method, new
+description: "Conan 1.37 : new URL for ConanCenter, new layout method, new
 integration for Bazel, new build_policy never, new build-require flag."
 ---
 

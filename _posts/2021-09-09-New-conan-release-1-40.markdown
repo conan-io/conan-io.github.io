@@ -2,8 +2,7 @@
 layout: post
 comments: false
 title: "Conan 1.40 : lots of improvements in CMakeDeps and CMakeToolchain, new Conan Center remote as the only predefined remote, added Clang 13 and Visual Studio 2022 integration and new [conf] default_build_profile item."
-meta_title: "Version 1.40 of Conan C++ Package Manager is Released"
-meta_description: "The new version features include lots of improvements in CMakeDeps and CMakeToolchain, new Conan Center remote as the only predefined remote, added Clang 13 and Visual Studio 2022 integration, new [conf] default_build_profile item and much more..."
+description: "The new version features include lots of improvements in CMakeDeps and CMakeToolchain, new Conan Center remote as the only predefined remote, added Clang 13 and Visual Studio 2022 integration, new [conf] default_build_profile item and much more..."
 ---
 
 <script type="application/ld+json">
@@ -24,7 +23,7 @@ meta_description: "The new version features include lots of improvements in CMak
     }
 },
  "datePublished": "2021-09-09",
- "description": "Lots of improvements in CMakeDeps and CMakeToolchain, new Conan Center remote as the only predefined remote, added Clang 13 and Visual Studio 2022 integration and new [conf] default_build_profile item.",
+ "description": "Lots of improvements in CMakeDeps and CMakeToolchain, new Conan Center remote as the only predefined remote, added Clang 13 and Visual Studio 2022 integration and new [conf] default_build_profile item."
  }
 </script>
 

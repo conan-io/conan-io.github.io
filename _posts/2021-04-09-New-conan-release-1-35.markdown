@@ -4,8 +4,7 @@ comments: false
 title: "Conan 1.35 : New [conf] items, new model
 for dependency traversal, new model for environment variables, new Autotools
 generators." 
-meta_title: "Version 1.35 of Conan C++ Package Manager is Released"
-meta_description: "Conan 1.35 brings a long list of experimental new features
+description: "Conan 1.35 brings a long list of experimental new features
 being created and tested in as part of the Conan 2.0 roadmap. This includes new
 configurable items, major remodeling of dependency traversal and environment
 variable abstractions, and the addition and refactor of generators based on

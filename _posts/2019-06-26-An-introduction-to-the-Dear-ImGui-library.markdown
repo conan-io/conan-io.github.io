@@ -2,10 +2,8 @@
 layout: post
 comments: false
 title: "An introduction to the Dear ImGui library"
-meta_title: "An introduction to the Dear ImGui library - Blog - Conan.io"
-meta_description: "In introduction, and screencast showing how to use ImGui, the
- Immediate Mode Graphics library with Conan, the package manager for C++."
-last_modified_at: "2021-02-24"
+description: "An introduction, tutorial and example showing how to use ImGui, the Immediate Mode Graphics library with C++, CMake, and Conan"
+last_modified_at: "2023-05-18"
 ---
 
 As developers, many of us have faced the pain of introducing graphical
@@ -20,16 +18,16 @@ easily. The entire
 [example](https://github.com/conan-io/examples2/tree/new_imgui_example/examples/libraries/imgui/introduction)
 presented here is available on Github.
 
-### Update 2023-05-18 : Update post for Conan 2.0
+### Update 2023-05-18: Update post for Conan 2.0
 
-We have updated the code and explanations in this blogpost to work with Conan 2.0. Please
+We have updated the code and explanations in this blog post to work with Conan 2.0. Please
 check the [docs for Conan 2.0](https://docs.conan.io) or the [migration
 guide](https://docs.conan.io/1/conan_v2.html) if you have not updated yet from 1.X.
 
 ### Dear ImGui?
 
 [Dear ImGui](https://github.com/ocornut/imgui) is an amazing C++ GUI library
-mainly used in game developement. The project is open-source software, licensed
+mainly used in game development. The project is open-source software, licensed
 under MIT license. Dear ImGui focuses on simplicity and productivity using what
 is called [Immediate Mode GUI paradigm](https://caseymuratori.com/blog_0001).
 
@@ -63,7 +61,7 @@ add a GUI. Let's see how easy it is to integrate ImGui in our application. Our
 example application renders a triangle using OpenGL3. We will use GLFW to manage
 window creation and events handling. As ImGui is independent of the rendering
 system and platform we have to introduce some binding for our rendering system.
-Fortunately, there are many premade bindings in Dear ImGui's repo. As we will
+Fortunately, there are many pre-made bindings in Dear ImGui's repo. As we will
 use Dear ImGui v1.89 these are the ones we will need:
 
 * [imgui_impl_opengl3.cpp](https://github.com/ocornut/imgui/blob/v1.89.4/backends/imgui_impl_opengl3.cpp)

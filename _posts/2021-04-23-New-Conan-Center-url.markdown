@@ -2,8 +2,7 @@
 layout: post 
 comments: false 
 title: "New ConanCenter Remote URL - Online for BETA Testing" 
-meta_title: "New ConanCenter Remote URL - Online for BETA Testing"
-meta_description: "ConanCenter has now received a new URL which is now available
+description: "ConanCenter has now received a new URL which is now available
 for beta testing from ConanCenter users."
 ---
 

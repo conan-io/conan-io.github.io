@@ -2,9 +2,7 @@
 layout: post
 comments: false
 title: "Conan and Conan Center: 2021 in numbers"
-meta_title: "Conan and Conan Center: 2021 in numbers"
 description: "Numbers and charts showing the state of Conan and Conan Center in 2021"
-meta_description: "Numbers and charts showing the state of Conan and Conan Center in 2021"
 ---
 
 
