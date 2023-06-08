@@ -61,8 +61,8 @@ an executable that links with the ``zlib`` library.
 We can install the Debug and Release dependencies, and deploy a local copy of the packages with:
 
 ```bash
-  $ conan install . --deploy=full_deploy --build=missing
-  $ conan install . --deploy=full_deploy -s build_type=Debug --build=missing
+  $ conan install . --deployer=full_deploy --build=missing
+  $ conan install . --deployer=full_deploy -s build_type=Debug --build=missing
 ```
 
 This will create the following folders:
@@ -158,4 +158,4 @@ The presented approach can be very easily customized for your own needs, because
 - If the ``--deployer=full_deploy`` doesn't implement your final desired output layout or you need to customize anything in it, it is possible to [create your own deployers](https://docs.conan.io/2/reference/extensions/deployers.html#custom-deployers)
 - For even further custom automation capabilities, check the [custom commands new framework](https://docs.conan.io/2/reference/extensions/custom_commands.html)
 
-This is a new feature and while the ``--deploy=full_deploy`` functionality works for every build system, at the moment only the ``CMake`` generated files with ``CMakeToolchain`` and ``CMakeDeps`` and the Windows environment scripts generated with ``VirtualBuildEnv`` and ``VirtualRunEnv`` are relocatable. For other build systems, it works fine if you don't move the ``full_deploy`` folder, otherwise you might need to use the ``sed`` strategy, or consider requesting it as a new feature. Feedback is very welcome, please create a [Github issue for any question, comment or suggestion](https://github.com/conan-io/conan) about it.
+This is a new feature and while the ``--deployer=full_deploy`` functionality works for every build system, at the moment only the ``CMake`` generated files with ``CMakeToolchain`` and ``CMakeDeps`` and the Windows environment scripts generated with ``VirtualBuildEnv`` and ``VirtualRunEnv`` are relocatable. For other build systems, it works fine if you don't move the ``full_deploy`` folder, otherwise you might need to use the ``sed`` strategy, or consider requesting it as a new feature. Feedback is very welcome, please create a [Github issue for any question, comment or suggestion](https://github.com/conan-io/conan) about it.
