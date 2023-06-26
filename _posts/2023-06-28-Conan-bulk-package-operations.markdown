@@ -8,7 +8,7 @@ keywords: "conan, conan2, packages lists, continuous integration, bulk operation
 ---
 
 
-In Conan 1.X, when users wanted to upload the packages that were built from source in the last ``conan install --build=missing`` command, it was not a straightforward task.
+In Conan 1.X, uploading the packages that were built from source in the last ``conan install --build=missing`` command was not a straightforward task.
 It was necessary to have some script that will get the output of the command, and then execute ``conan upload <ref>``, one reference at a time.
 
 Conan 2.0 superior design and architecture is allowing the quick implementation of better interfaces and UX tools and flows. We are happy to launch the "package lists" feature, that makes that functionality built-in.
