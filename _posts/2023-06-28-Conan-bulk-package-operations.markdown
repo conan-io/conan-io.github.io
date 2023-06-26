@@ -74,8 +74,7 @@ $ conan download --list=pkglist.json -r=conancenter
 Of course this was a relatively trivial example, but let's move to a more useful one:
 
 
-Downloading from one remote and uploading to a different remote
----------------------------------------------------------------
+## Downloading from one remote and uploading to a different remote
 
 This is something that can be useful to populate or to **promote** packages in an air-gapped environment, where there are 2 servers.
 One server is the public one containing some packages that we want to introduce in the isolated environment (with a due diligence). This is fairly common in enterprise environments.
