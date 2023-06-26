@@ -78,8 +78,9 @@ Downloading from one remote and uploading to a different remote
 ---------------------------------------------------------------
 
 This is something that can be useful to populate or to **promote** packages in an air-gapped environment, where there are 2 servers.
-One server is the public one containing some packages that we want to introduce in the isolated environment (with a due diligence).
-For example we want to download some packages from ConanCenter, disconnect from the internet, check the packages locally, 
+One server is the public one containing some packages that we want to introduce in the isolated environment (with a due diligence). This is fairly common in enterprise environments.
+
+For example, let's say we want to download some packages from ConanCenter, disconnect from the internet, check the packages locally, 
 and finally upload them to our own private internal server. (Note: This is an example, for ConanCenter packages a better approach when 
 security, reproducibility and robustness are very important would be building the packages from source, from a conan-center-index fork)
 
