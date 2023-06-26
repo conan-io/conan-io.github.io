@@ -85,7 +85,7 @@ security, reproducibility and robustness are very important would be building th
 
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-06-28/promote_air_gap.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Promote packages in air-gapped environment with download+upload"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-06-28/promote_air_gap.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Conan 2.0 graphic demonstrating Promoting packages in air-gapped environments or where network access is limited/forbidden with download upload and upload commands"/>
 </p>
 
 
