@@ -191,7 +191,7 @@ $ conan upload --list=pkglist.json -r=myremote -c
 
 ## Conclusions
 
-The Conan 2.0 better architecture and design has allowed to implement "packages lists". This feature is a new powerful addition to the Conan CLI, allowing to do bulk operations over sets of packages that
+The better Conan 2.0 architecture and design have allowed to implement "packages lists". This feature is a new powerful addition to the Conan CLI, allowing to do bulk operations over sets of packages that
 previously required user custom automation (script files or Continuous Integration jobs), and now are conveniently provided as built-in. 
 
 Feedback is very welcome, please create a [Github issue for any question, comment or suggestion](https://github.com/conan-io/conan) about it.
