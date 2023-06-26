@@ -97,7 +97,7 @@ $ conan download --list=pkglist.json -r=conancenter --format=json > downloaded.j
 # And stores the result in "downloaded.json"
 ```
 It really doesn't matter if the input to ``conan download`` is already a list or a pattern. The resulting ``downloaded.json`` 
-will be almost the same as the ``pkglist.json`` file, but in this case, the "origin" of those packages is the ``"Local Cache"`` 
+will be almost the same as the ``pkglist.json`` file seen before, however the "origin" of the downloaded packages is always ``"Local Cache"`` 
 (as the downloaded packages will be in the cache):
 
 
