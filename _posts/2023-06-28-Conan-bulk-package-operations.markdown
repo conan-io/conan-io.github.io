@@ -102,12 +102,15 @@ will be almost the same as the ``pkglist.json`` file, but in this case, the "ori
 
 
 ```json
-"Local Cache": {
+{
+   "Local Cache": {
         "zlib/1.2.12": {
             "revisions": {
+               // Should there not be something here is we did the download?
             }
         }
     }
+ }
 ```
 
 That means that we can now upload this same set of recipes and binaries to a different remote:
