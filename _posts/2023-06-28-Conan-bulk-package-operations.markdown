@@ -126,7 +126,7 @@ One of the important points is that this works irrespective of the cache content
 contains other artifacts from other commands. The packages uploaded to the server will be only the ones listed in the ``downloaded.json``.
 
 Note that this would be a **slow** mechanism to run promotions between different server repositories. Servers like
-Artifactory provide ways to directly copy packages from one repository to another without using a client, 
+Some servers provide ways to directly copy packages from one repository to another without using a client, 
 that are orders of magnitude faster because of file deduplication, so that would be the recommended approach if the 2
 repositories can directly talk to each other.
 
@@ -197,4 +197,4 @@ $ conan upload --list=pkglist.json -r=myremote -c
 The better Conan 2.0 architecture and design have allowed to implement "packages lists". This feature is a new powerful addition to the Conan CLI, allowing to do bulk operations over sets of packages that
 previously required user custom automation (script files or Continuous Integration jobs), and now are conveniently provided as built-in. 
 
-Feedback is very welcome, please create a [Github issue for any question, comment or suggestion](https://github.com/conan-io/conan) about it.
+Feedback is very welcome, please create a [Github issue for any question, comment or suggestion](https://github.com/conan-io/conan/issues) about it.
