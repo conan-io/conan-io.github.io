@@ -32,28 +32,30 @@ The output of the command is sent in ``json`` format to the file ``pkglist.json`
 
 
 ```json
-"conancenter": {
-    "zlib/1.2.12": {
-        "revisions": {
-            "b1fd071d8a2234a488b3ff74a3526f81": {
-                "timestamp": 1667396813.987,
-                "packages": {
-                    "ae9eaf478e918e6470fe64a4d8d4d9552b0b3606": {
-                        "revisions": {
-                            "19808a47de859c2408ffcf8e5df1fdaf": {
-                            }
-                        },
-                        "info": {
-                            "settings": {
-                                "arch": "x86_64",
-                                "os": "Windows"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-    "zlib/1.2.13": {
+{
+  "conancenter": {
+      "zlib/1.2.12": {
+          "revisions": {
+              "b1fd071d8a2234a488b3ff74a3526f81": {
+                  "timestamp": 1667396813.987,
+                  "packages": {
+                      "ae9eaf478e918e6470fe64a4d8d4d9552b0b3606": {
+                          "revisions": {
+                              "19808a47de859c2408ffcf8e5df1fdaf": {
+                              }
+                          },
+                          "info": {
+                              "settings": {
+                                  "arch": "x86_64",
+                                  "os": "Windows"
+                              }
+                          }
+                      }
+                  }
+              }
+          },
+      "zlib/1.2.13": {
+      }
     }
   }
 }
