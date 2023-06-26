@@ -9,7 +9,7 @@ description: "Learn how Conan 2.0 packages lists can be used to do bulk upload, 
 In Conan 1.X, uploading the exact set of packages that were built from source in the last ``conan install --build=missing`` command was not a straightforward task.
 It was necessary to have some script that would get the output of the command, and then execute ``conan upload <ref>``, one reference at a time.
 
-Conan 2.0 superior design and architecture is allowing the quick implementation of better interfaces and UX tools and flows. We are happy to launch the "package lists" feature, that makes that functionality built-in.
+We are happy to launch the "package lists" feature, that makes this highly requested functionality built-in. 👏 
 
 Conan 2.0.7 introduces a new json file format that is able to list a set of Conan recipes and packages, the "package list". This file can be used to perform bulk remove, download and upload operations.
 
