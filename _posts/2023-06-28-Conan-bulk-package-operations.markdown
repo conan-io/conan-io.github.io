@@ -137,7 +137,7 @@ the built binaries, but not all others transitive dependencies, or other package
 our local cache.
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-06-28/build_and_upload.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Build from source and upload built packages"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-06-28/build_and_upload.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Build from source and upload newly built packages with Conan 2.0 using conan create or conan install build missing and the new graph binary and package list JSON formats supported with 2.0.7"/>
 </p>
 
 It is possible to compute a package list from the output of a ``conan install``, ``conan create`` and ``conan graph info``
