@@ -152,7 +152,7 @@ $ conan new cmake_lib -d name=mypkg -d version=0.1
 $ conan create . --format=json > create.json
 ```
 
-This will create a json representation of the graph, with information of what packages have been built ``"binary": "Build"``,
+This will create a json representation of the graph, with information of what packages have been built (that is, they contain ``"binary": "Build"``),
 the ``create.json`` will look like (simplfied):
 
 ```json
