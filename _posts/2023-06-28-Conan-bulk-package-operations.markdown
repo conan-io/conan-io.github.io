@@ -2,9 +2,7 @@
 layout: post
 comments: false
 title: "Conan 2.0 launches bulk upload, download and remove operations with 'packages lists'"
-meta_title: "Conan 2.0 packages-lists can be used to do bulk operations over lists of packages like upload, download or remove - Conan Blog"
 description: "Learn how Conan 2.0 packages lists can be used to do bulk upload, download and remove operations, very useful in Continuous Integration flows"
-keywords: "conan, conan2, packages lists, continuous integration, bulk operations"
 ---
 
 
