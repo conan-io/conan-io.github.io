@@ -170,7 +170,7 @@ the ``build.json`` will look like (simplified):
             "dependencies": { "1": {"ref": "spdlog/1.11.0"} }
         },
         "1": {
-            "ref": "mypkg/0.1#f57cc9a1824f47af2f52df0dbdd440f6",
+            "ref": "spdlog/1.11.0#d0fdbaa523550b89156084bf42b41c90",
             "binary": "Build",
             "dependencies": { "2": {"ref": "fmt/9.1.0"}}
         },
@@ -188,6 +188,7 @@ We can compute a package list from this file, and then upload those artifacts to
 ```bash
 $ conan list --graph=build.json --graph-binaries=build --format=json > pkglist.json
 ```
+
 The resulting ``pkglist.json`` will contain both ``spdlog`` and ``fmt`` recipes and built binaries, and
 we can now use this list to upload these exact packages (and not other existing ones in the cache, or other things that 
 were not built from sources in my ``install`` command) to my own server:
