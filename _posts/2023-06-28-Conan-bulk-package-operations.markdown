@@ -148,7 +148,7 @@ our local cache.
     <img  src="{{ site.baseurl }}/assets/post_images/2023-06-28/build_and_upload.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Build from source and upload newly built packages with Conan 2.0 using conan create or conan install build missing and the new graph binary and package list JSON formats supported with 2.0.7"/>
 </p>
 
-It is possible to compute a package list from the output of a ``conan install``, ``conan create`` and ``conan graph info``
+It is possible to use the graph from any of the commands ``conan install``, ``conan create`` and ``conan graph info`` to compute a package list which can then be used with upload
 commands. Then, that package list can be used for the upload. 
 
 For example we can build from source the latest version of ``spdlog`` and its transitive dependencies (this includes ``fmt``) with:
