@@ -7,7 +7,7 @@ description: "Learn how Conan 2.0 packages lists can be used to do bulk upload, 
 
 
 In Conan 1.X, uploading the exact set of packages that were built from source in the last ``conan install --build=missing`` command was not a straightforward task.
-It was necessary to have some script that would get the output of the command, and then iterate the resul, executing ``conan upload <ref>`` one reference at a time.
+It was necessary to have some script that would get the output of the command, and then iterate the result, executing ``conan upload <ref>`` one reference at a time.
 
 We are happy to launch the "packages lists" feature in Conan 2.0.7, which makes this highly requested functionality built-in.
 
