@@ -26,32 +26,31 @@ $ conan list "*:*" --format=json > pkglist.json
 
 will generate a ``pkglists.json`` file that looks like this (simplified, not complete):
 
-```json
+```javascript
 {
-    "Local Cache": {
-        "zlib/1.2.12": {
-            "revisions": {
-                "b1fd071d8a2234a488b3ff74a3526f81": {
-                    "timestamp": 1667396813.987,
-                    "packages": {
-                        "ae9eaf478e918e6470fe64a4d8d4d9552b0b3606": {
-                            "revisions": {
-                                "19808a47de859c2408ffcf8e5df1fdaf": {}
-                            },
-                            "info": {
-                                "settings": {
-                                    "arch": "x86_64",
-                                    "os": "Windows"
-                                }
-                            }
-                        }
-                    }
+  "conancenter": {
+    "zlib/1.2.12": {
+      "revisions": {
+        "b1fd071d8a2234a488b3ff74a3526f81": {
+          "timestamp": 1667396813.987,
+          "packages": {
+            "ae9eaf478e918e6470fe64a4d8d4d9552b0b3606": {
+              "revisions": {
+                "19808a47de859c2408ffcf8e5df1fdaf": {}
+              },
+              "info": {
+                "settings": {
+                  "arch": "x86_64",
+                  "os": "Windows"
                 }
+              }
             }
-        },
-        "zlib/1.2.13": {
+          }
         }
-    }
+      }
+    },
+    "zlib/1.2.13": {}
+  }
 }
 ```
 
@@ -102,7 +101,7 @@ $ conan download zlib/1.2.12:* -p "os=Windows" -r=conancenter --format=json > do
 The resulting ``downloaded.json`` file will look like:
 
 
-```json
+```javascript
 {
    "Local Cache": {
         "zlib/1.2.12": {
@@ -161,7 +160,7 @@ $ conan install --requires="spdlog/[*]" --build="*" --format=json > build.json
 This will create a json representation of the graph, with information of what packages have been built (that is, they contain ``"binary": "Build"``),
 the ``build.json`` will look like (simplified):
 
-```json
+```javascript
 {
   "graph": {
     "nodes": {
