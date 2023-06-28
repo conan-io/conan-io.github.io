@@ -59,7 +59,7 @@ The first level in the ``pkglist.json`` is the "location", it can be a remote or
 packages in the cache, so the origin is "Local Cache".
 
 The ``conan remove``, ``conan upload`` and ``conan download`` can also generate "packages lists" with the ``--format=json``
-formatter. For example ``conan upload ... -r=myremote --format=json`` will generate a packages lists for the "myremote" location
+formatter. For example ``conan upload ... -r=myremote --format=json`` will generate a packages list for the "myremote" location
 as the first level in the resulting json file.
 
 Furthermore, it is also possible to generate a packages list from the result of a ``conan create``, ``conan install`` and ``conan graph info``
