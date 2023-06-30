@@ -226,12 +226,6 @@ target_compile_definitions(dear-imgui-conan PUBLIC IMGUI_IMPL_OPENGL_LOADER_GLEW
 target_link_libraries(dear-imgui-conan imgui::imgui GLEW::GLEW glfw)
 {% endhighlight %}
 
-We will also need the *conanfile* to declare the libraries it depends on.
-Besides from the GLFW library we already talked about we need the GLEW library
-to handle OpenGL functions loading. We will use ``cmake_multi`` to generate
-projects for Debug and Release configurations. An imports section was also added
-to download the required bindings for GLFW and OpenGL3.
-
 To make Conan install the libraries and generate the files needed to build the project
 with CMake, we create a *conanfile.py* that declares the dependencies for the project.
 Besides from the GLFW library we already talked about, we need the GLEW library to handle
