@@ -3,7 +3,7 @@ layout: post
 comments: false
 title: "An introduction to the Dear ImGui library"
 description: "An introduction, tutorial and example showing how to use ImGui, the Immediate Mode Graphics library with C++, CMake, and Conan"
-last_modified_at: "2023-05-18"
+last_modified_at: "2023-07-01"
 ---
 
 As developers, many of us have faced the pain of introducing graphical
@@ -24,7 +24,7 @@ We have updated the code and explanations in this blog post to work with Conan 2
 check the [docs for Conan 2.0](https://docs.conan.io) or the [migration
 guide](https://docs.conan.io/1/conan_v2.html) if you have not updated yet from 1.X.
 
-### Dear ImGui?
+## Dear ImGui?
 
 [Dear ImGui](https://github.com/ocornut/imgui) is an amazing C++ GUI library
 mainly used in game development. The project is open-source software, licensed
