@@ -232,7 +232,7 @@ Besides from the GLFW library we already talked about, we need the GLEW library 
 OpenGL functions loading. We will use ``CMakeDeps`` to generate the configuration files
 for CMake, and ``CMakeToolchain`` to generate all the information that the build-system
 needs. We are also copying the required bindings for GLFW and OpenGL3 in the
-``generate()`` method. Also, note the we declare the ``layout()`` for the project as
+``generate()`` method. Also, note that we declare the ``layout()`` for the project as
 ``cmake_layout``, as we are using CMake for building. You can check the [consuming
 packages tutorial section](https://docs.conan.io/2/tutorial/consuming_packages) of the
 Conan documentation for more information.
