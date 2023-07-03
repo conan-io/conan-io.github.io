@@ -3,7 +3,7 @@ layout: post
 comments: false
 title: "An introduction to the Dear ImGui library"
 description: "An introduction, tutorial and example showing how to use ImGui, the Immediate Mode Graphics library with C++, CMake, and Conan"
-last_modified_at: "2023-05-18"
+last_modified_at: "2023-07-01"
 ---
 
 As developers, many of us have faced the pain of introducing graphical
@@ -24,7 +24,7 @@ We have updated the code and explanations in this blog post to work with Conan 2
 check the [docs for Conan 2.0](https://docs.conan.io) or the [migration
 guide](https://docs.conan.io/1/conan_v2.html) if you have not updated yet from 1.X.
 
-### Dear ImGui?
+## Dear ImGui?
 
 [Dear ImGui](https://github.com/ocornut/imgui) is an amazing C++ GUI library
 mainly used in game development. The project is open-source software, licensed
@@ -226,19 +226,13 @@ target_compile_definitions(dear-imgui-conan PUBLIC IMGUI_IMPL_OPENGL_LOADER_GLEW
 target_link_libraries(dear-imgui-conan imgui::imgui GLEW::GLEW glfw)
 {% endhighlight %}
 
-We will also need the *conanfile* to declare the libraries it depends on.
-Besides from the GLFW library we already talked about we need the GLEW library
-to handle OpenGL functions loading. We will use ``cmake_multi`` to generate
-projects for Debug and Release configurations. An imports section was also added
-to download the required bindings for GLFW and OpenGL3.
-
 To make Conan install the libraries and generate the files needed to build the project
 with CMake, we create a *conanfile.py* that declares the dependencies for the project.
 Besides from the GLFW library we already talked about, we need the GLEW library to handle
 OpenGL functions loading. We will use ``CMakeDeps`` to generate the configuration files
 for CMake, and ``CMakeToolchain`` to generate all the information that the build-system
 needs. We are also copying the required bindings for GLFW and OpenGL3 in the
-``generate()`` method. Also, note the we declare the ``layout()`` for the project as
+``generate()`` method. Also, note that we declare the ``layout()`` for the project as
 ``cmake_layout``, as we are using CMake for building. You can check the [consuming
 packages tutorial section](https://docs.conan.io/2/tutorial/consuming_packages) of the
 Conan documentation for more information.
