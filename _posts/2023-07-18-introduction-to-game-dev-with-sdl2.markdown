@@ -424,6 +424,8 @@ To install the SDL libraries needed we can create a conanfile.txt that declares 
     cmake_layout
 ```
 
+The first section `[requires]` list the 3 SDL libraries we are using sdl, image, and ttf. For these we are using [version ranges](https://docs.conan.io/2/tutorial/versioning/version_ranges.html) to let Conan pick the best patch version that is available (that's what the `~` denotes). This is an effective way to handle [dependencies diamond problem](https://en.wikipedia.org/wiki/Dependency_hell) which does exist in the graph when using SDL. As an example `sdl/[~2.0]` means that any version of SDL bettween `2.0.0` and `2.0.x` but not `2.1.0` would be acceptable.
+
 We will use `CMakeDeps` to generate the configuration files for CMake’s `find_package` used in the `CMakeLists.txt`. In addition, there’s `CMakeToolchain` to generate all the information that the build-system needs. Also, note that we declared a `[layout]` for the project as cmake_layout, which will help keep our project folder organized as we build. You can check the [consuming packages tutorial section](https://docs.conan.io/2/tutorial/consuming_packages) of the Conan documentation for more information.
 
 ```sh
