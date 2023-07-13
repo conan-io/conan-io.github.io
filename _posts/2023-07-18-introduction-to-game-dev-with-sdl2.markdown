@@ -13,14 +13,6 @@ SDL2, or [Simple DirectMedia Layer 2.0](https://wiki.libsdl.org/SDL2/FrontPage),
 
 This how-to will walk you through setting up a basic app with keyboard controls, images, and text. That's a solid starting point to making a Snake or Pac-Man style game. For more advanced games, I'll leave some excellent references for you to continue with once you're set up!
 
-### Bonus Material
-
-- <https://github.com/MikeShah/SDL2_Tutorials/tree/main>
-- <https://www.geeksforgeeks.org/sdl-library-in-c-c-with-examples/>
-- <https://thenumb.at/cpp-course/index.html> <https://thenumb.at/cpp-course/sdl2/01/01.html>
-- <https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl>
-- <https://stackoverflow.com/questions/29064904/how-to-render-fonts-and-text-with-sdl2-efficiently>
-
 ## Making our first game
 
 SDL2 is very approachable. The basics are initializing, creating a render loop, and cleaning up. The example we are going to build in this blog can be found on GitHub [conan-examples2](https://github.com/conan-io/conan-examples2/tree/main/examples/libraries/sdl2/introduction) repository.
@@ -481,3 +473,11 @@ sdl-example.exe
 
 SDL2 is a powerful library with an easy to use API which allows C++ developers of all skill levels access to quickly making graphical interfaces.
 So, what are you waiting for? Dive in, play around with SDL2, and see how it jives with your own project!
+
+### Bonus Material
+
+- <https://github.com/MikeShah/SDL2_Tutorials/tree/main>
+- <https://www.geeksforgeeks.org/sdl-library-in-c-c-with-examples/>
+- <https://thenumb.at/cpp-course/index.html> <https://thenumb.at/cpp-course/sdl2/01/01.html>
+- <https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl>
+- <https://stackoverflow.com/questions/29064904/how-to-render-fonts-and-text-with-sdl2-efficiently>
