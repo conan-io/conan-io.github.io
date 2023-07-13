@@ -411,17 +411,17 @@ The reason to reach for Conan is because while it's possible to build SDL locall
 To install the SDL libraries needed we can create a conanfile.txt that declares the dependencies for the project.
 
 ```ini
-    [requires]
-    sdl_image/[~2.0]
-    sdl_ttf/[~2.0]
-    sdl/[~2.26] 
+[requires]
+sdl_image/[~2.0]
+sdl_ttf/[~2.0]
+sdl/[~2.26] 
 
-    [generators]
-    CMakeToolchain
-    CMakeDeps
+[generators]
+CMakeToolchain
+CMakeDeps
 
-    [layout]
-    cmake_layout
+[layout]
+cmake_layout
 ```
 
 The first section `[requires]` list the 3 SDL libraries we are using sdl, image, and ttf. For these we are using [version ranges](https://docs.conan.io/2/tutorial/versioning/version_ranges.html) to let Conan pick the best patch version that is available (that's what the `~` denotes). This is an effective way to handle [dependencies diamond problem](https://en.wikipedia.org/wiki/Dependency_hell) which does exist in the graph when using SDL. As an example `sdl/[~2.0]` means that any version of SDL bettween `2.0.0` and `2.0.x` but not `2.1.0` would be acceptable.
