@@ -473,7 +473,12 @@ sdl-example.exe
 
 ## Conclusions
 
-SDL2 is a powerful library with an easy to use API which allows C++ developers of all skill levels access to quickly making graphical interfaces.
+SDL2 is a powerful library with an easy to use API which allows C and C++ developers of all skill levels access to quickly making graphical interfaces.
+
+With this we covered, install SDL, setting up our project, and running our very first game! That game is a great starting point with a basic window, image, game controls and render loop, and event text. This gave us a simple "game" where we can move our Conan 2.0 cube around the window.
+
+If you want to continue, adding more object and detecting the intersection would be a great addition.
+
 So, what are you waiting for? Dive in, play around with SDL2, and see how it jives with your own project!
 
 ### Bonus Material
