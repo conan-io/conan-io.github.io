@@ -2,7 +2,7 @@
 layout: post
 comments: false
 title: "Getting started to the SDL2 library for Game Development"
-description: "Making your first game in C and C++ can seem daunting at first. Thankfully SDL, Simple DirectMedia Layer 2.0, is a really easy way to get started. In this blog we'll introduce what SDL is, when you should consider it as your starting point and go into the code with a hands on example which you can follow along as we build a C application complete with image loading, text rendering and game controls."
+description: "Making your first game in C and C++ can seem daunting at first. Thankfully SDL, Simple DirectMedia Layer 2.0, is a really easy way to get started. In this blog we'll introduce what SDL is, when you should consider it as your starting point, and go into the code with a hands on example which you can follow along as we build a C application complete with image loading, text rendering and game controls."
 ---
 
 The best part of programming is creating something that others can enjoy. Which is probably why we all want to at least try and make a game, but learning a full-blown engine can be pretty daunting.
@@ -11,7 +11,7 @@ There are a few low-level choices that make developing a graphical application m
 
 SDL2, or [Simple DirectMedia Layer 2.0](https://wiki.libsdl.org/SDL2/FrontPage), is a library designed to provide low-level access to audio, keyboard, mouse, joystick, and graphics hardware. It's cross-platform and mobile-friendly, so there are a lot of options and opportunities to dive deeper into different aspects of developing a game in C++.
 
-This how-to will walk you through setting up a basic app with keyboard controls, images, and text. That's a solid starting point to making a Snake or Pac-Man style game. For more advanced games, I'll leave some excellent references for you to continue with once you're set up!.
+This how-to will walk you through setting up a basic app with keyboard controls, images, and text. That's a solid starting point to making a Snake or Pac-Man style game. For more advanced games, I'll leave some excellent references for you to continue with once you're set up!
 
 ### Bonus Material
 
@@ -287,7 +287,7 @@ Let's add the header `#include <SDL2/SDL_ttf.h>` to the top of our main code fil
 
 Text is actually complicated! Each letter is a glyph, and each one needs to be rasterized into a texture so that we can add it to our render loop. We are going to make a helper function for this.
 
-SDL_ttf does a log of this and gives us both `RenderText` and `CreateTexture`, which, if you recall, is what we ultimately displayed with our cube.
+SDL_ttf does a lot of this and gives us both `RenderText` and `CreateTexture`, which, if you recall, is what we ultimately displayed with our cube.
 
 You can add the following helper above the `main` function:
 
@@ -316,7 +316,7 @@ void render_text(
 }
 ```
 
-Next up we need to load the font we want to use, for this demo I picked Robot, this will go outside of our game loop and this only needs to be called once.
+Next up we need to load the font we want to use, for this demo I picked Roboto, this will go outside of our game loop and this only needs to be called once.
 
 ```cpp
     ///
@@ -357,7 +357,7 @@ Now to call it during our game loop
         // for multiple rendering
 ```
 
-Just a note here, the helper function we wrong recreates the same texture on each interaction of the loop. This won't affect our example but if your game got complicated this could be quite inefficient.
+Just a note here, the helper function we wrote recreates the same texture on each iteration of the loop. This won't affect our example but if your game got complicated this could be quite inefficient.
 
 ![simple game windows from SDL with a cube that moves and text render from a texture using SDL_ttf and TTF](https://lh6.googleusercontent.com/nVXX3IaNu8kWxS4BF376QvikVQEjAAim6JJkCCFgXeaKL3mVBALylrBiyxCoUZ1opppG9AS2GDHWFXMO9-Xakbqnp3UBYu5DkjYmjm-b2HdN5s6S4fnHoaej3EoBnjzocS5U5X82pG8P2cTIpBxQIa8)
 
@@ -412,7 +412,7 @@ The first step is to set up CMake to build our project. Following the [SDL CMake
 
 Now, we can use Conan, a C and C++ package manager, to install the libraries. It will not only install _SDL2_, but also all the necessary transitive dependencies. Conan fetches these packages from the default [ConanCenter](https://conan.io/center/) remote, which is the official repository for open-source Conan packages.
 
-The reason to reach for Conan is because to build SDL locally but there’s a LOT of dependencies. Freetype, libjpeg, libwebp and libdeflate just to name a few. Different platforms and different options also need different dependencies, this is the HTML graph view for Windows MSVC 19.3, which using the conanfile.txt below, you can make with `conan graph info . --format=html > graph.html` to see what it looks like for any project!
+The reason to reach for Conan is because while it's possible to build SDL locally, there’re a LOT of dependencies. Freetype, libjpeg, libwebp and libdeflate just to name a few. Different platforms and different options also need different dependencies, this is the HTML graph view for Windows MSVC 19.3, which using the conanfile.txt below, you can make with `conan graph info . --format=html > graph.html` to see what it looks like for any project!
 
 ![conan graph info HTML formatted view of the SDL2 dependencies](/assets/post_images/2023-07-18/conan-graph-info-for-sdl-on-windows.png)
 
