@@ -7,7 +7,7 @@ description: "Making your first game in C and C++ can seem daunting at first. Th
 
 The best part of programming is creating something that others can enjoy. Which is probably why we all want to at least try and make a game, but learning a full-blown engine can be pretty daunting.
 
-There are a few low-level choices that make developing a graphical application more approachable, especially for C and C++ specifically. There's OpenGL and SDL. These are staples of places to start. However, this can be overwhelming because building these libraries from scratch can be a challenge in and of itself.
+There are a choices that can make developing a graphical application more approachable, especially for C and C++ specifically. There's OpenGL and SDL, these will abstract the hardware but give us more freedom to write application code. These are staples for "Introduction to Game Dev Course". However, this can quickly become overwhelming as building these libraries from scratch can be a challenge in and of itself.
 
 SDL2, or [Simple DirectMedia Layer 2.0](https://wiki.libsdl.org/SDL2/FrontPage), is a library designed to provide low-level access to audio, keyboard, mouse, joystick, and graphics hardware. It's cross-platform and mobile-friendly, so there are a lot of options and opportunities to dive deeper into different aspects of developing a game in C++.
 
