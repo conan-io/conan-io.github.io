@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Getting started to the SDL2 library for Game Development"
+title: "Getting started with the SDL2 library for Game Development"
 description: "Making your first game in C and C++ can seem daunting at first. Thankfully SDL, Simple DirectMedia Layer 2.0, is a really easy way to get started. In this blog we'll introduce what SDL is, when you should consider it as your starting point, and go into the code with a hands on example which you can follow along as we build a C application complete with image loading, text rendering and game controls."
 ---
 
