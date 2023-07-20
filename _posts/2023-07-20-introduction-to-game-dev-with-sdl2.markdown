@@ -271,7 +271,7 @@ We should have the basis for our game!
 
 Try moving the cube around and watch it step around!
 
-<iframe src="/assets/post_images/2023-07-21/conan-blog-sdl-intro-conan-2-cube-logo-moving-around.webm" width="775" height="480" allow="autoplay"></iframe>
+<iframe src="/assets/post_images/2023-07-20/conan-blog-sdl-intro-conan-2-cube-logo-moving-around.webm" width="775" height="480" allow="autoplay"></iframe>
 
 ## 4: Adding SDL_ttf and a font to display text in out game
 
@@ -406,7 +406,7 @@ Now, we can use Conan, a C and C++ package manager, to install the libraries. It
 
 The reason to reach for Conan is because while it's possible to build SDL locally, there’re a LOT of dependencies. Freetype, libjpeg, libwebp and libdeflate just to name a few. Different platforms and different options also need different dependencies, this is the HTML graph view for Windows MSVC 19.3, which using the conanfile.txt below, you can make with `conan graph info . --format=html > graph.html` to see what it looks like for any project!
 
-![conan graph info HTML formatted view of the SDL2 dependencies](/assets/post_images/2023-07-21/conan-graph-info-for-sdl-on-windows.png)
+![conan graph info HTML formatted view of the SDL2 dependencies](/assets/post_images/2023-07-20/conan-graph-info-for-sdl-on-windows.png)
 
 To install the SDL libraries needed we can create a conanfile.txt that declares the dependencies for the project.
 
