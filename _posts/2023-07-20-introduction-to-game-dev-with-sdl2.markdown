@@ -15,13 +15,13 @@ This how-to will walk you through setting up a basic app with keyboard controls,
 
 ## Making our first game
 
-SDL2 is very approachable. The basics are initializing, creating a render loop, and cleaning up. The example we are going to build in this blog can be found on GitHub [conan-examples2](https://github.com/conan-io/conan-examples2/tree/main/examples/libraries/sdl2/introduction) repository.
+SDL2 is very approachable. The basics are initializing, creating a render loop, and cleaning up. The example we are going to build in this blog can be found on GitHub [conan-examples2](https://github.com/conan-io/examples2/tree/main/examples/libraries/sdl2/introduction) repository.
 
 You can follow this section by cloning the examples and running the install command yourself!
 
 ```sh
 git clone https://github.com/conan-io/examples2.git
-cd examples/libraries/sdl2/introduction
+cd examples2/examples/libraries/sdl2/introduction
 ```
 
 ### 1: Creating a window and Render
