@@ -96,8 +96,8 @@ explain them later in detail.
 ## Using the plugin
 
 Now that we have our plugin configured and ready, let's explore its usage with an example.
-For this, we will use [libcurl](https://curl.se/libcurl/) to download an imagen from the
-Internet and then [stb](https://github.com/nothings/stb) to load it and some basic code to
+For this, we will use [libcurl](https://curl.se/libcurl/) to download an image from the
+Internet, then [stb](https://github.com/nothings/stb) to load it, and some basic code to
 print it in the console as ASCII characters.
 
 We will not delve into the specific details of the code, as it is beyond the scope of this
@@ -199,37 +199,36 @@ int main(int argc, char** argv) {
 }
 ```
 
-Basically, this application receives one url of an image as an argument (or if not
-provided, defaults to one), and downloads it using *libcurl* with the ``download_image()``
-function, then it reads the RGB values with *stb* and converts the luminance values to ASCII
-characters with the ``image_to_ascii()`` function.
+Essentially, this application accepts an image URL as an argument (or defaults to a
+specific one if not provided), and downloads it using *libcurl* with the
+``download_image()`` function. Subsequently, it reads the RGB values with *stb* and
+converts the luminance values to ASCII characters using the ``image_to_ascii()`` function.
 
-So far, trying to build this code will result in an error as we don't have the libraries
-available yet. Go to the libraries list and search for *libcurl*. You will see some
-information on how to use add it to CMake and a "Use in project" button. Select the
-version you'd like to use and click on the button. 
+Currently, attempting to build this code will result in an error because we don't have the
+required libraries yet. Navigate to the library list and search for *libcurl*. Some
+information on how to add it to CMake will be displayed, along with a "Use in project"
+button. Select the version you want to use and click the button.
 
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2023-08-22/clion-use-libcurl.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Select library and use"/>
 </p>
 
-Repeat, the same operation for *stb*.
+Perform the same operation for *stb*.
 
-Now, if you click on the 👁️ (inspect) we mentioned above, you will see all the libraries
-we added to the project, with some basic targets information for CMake and the necessary
-code to add to CMake to use them. 
+Now, if you click on the 👁️ (inspect) icon mentioned earlier, you will see all the
+libraries we added to the project. This includes basic target information for CMake and
+the necessary code snippets to add to CMake to use them.
 
-Conan holds the information about the used packages in a *conandata.yml* file that should
-be in the folder holding your project. That file is read by a *conanfile.py* that was also
-created. You can customize these files if you want to make a more advanced used of the
-plugin but please read the information on the corresponding files about how to properly do
-it. **(Maybe this is too much information???)**
+Conan stores information about the used packages in a *conandata.yml* file located in your
+project folder. This file is read by a *conanfile.py*, also created during this process.
+These files can be customized for advanced usage of the plugin, but please read the
+information in the corresponding files on how to do this properly. **(Maybe this is too much information???)**
 
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2023-08-22/clion-inspect.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Inspect libraries"/>
 </p>
 
-Modify your CMakeLists.txt according to the instructions, and should result into something
+Modify your *CMakeLists.txt* according to the instructions, which should result in something
 like this:
 
 ```cmake
@@ -246,9 +245,9 @@ add_executable(ascii_image main.cpp)
 target_link_libraries(ascii_image CURL::libcurl stb::stb)
 ```
 
-Now, reload the CMake project, and you should see in the CMake output tab how Conan
-installs the libraries. After the configuration process has finished, you can build the
-project and run it.
+After reloading the CMake project, you should see Conan installing the libraries in the
+CMake output tab. Once the configuration process is complete, you can build and run the
+project:
 
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2023-08-22/clion-output-cat.png" style="display: block; margin-left: auto; margin-right: auto;" alt="ASCII cat"/>
@@ -256,8 +255,8 @@ project and run it.
 
 ## Conclusions
 
-The new Conan CLion plugin, compatible with 2.X versions, is designed to bring more
-seamless integration between the Conan package manager and CLion IDE. The plugin provides
-a more intuitive interface, making it easier to handle your dependencies directly within
-CLion. We hope this tool improves your development experience, and we look forward to
-seeing what you will build with it!
+The new Conan CLion plugin, compatible with 2.X versions, is designed to provide seamless
+integration between the Conan package manager and the CLion IDE. The plugin offers a more
+intuitive interface, making it easier to manage your dependencies directly within CLion.
+We hope this tool enhances your development experience, and we eagerly await to see what
+you will build with it!
