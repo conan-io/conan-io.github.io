@@ -15,7 +15,7 @@ an image from the Internet, load it, and print it as ASCII art in the console.
 
 ## How the plugin works
 
-Before explaining how to install, configure and use the plugin, let's briefly discuss how
+Before explaining how to install, configure, and use the plugin, let's briefly discuss how
 it integrates Conan with CMake to create a seamless experience. This plugin utilizes
 [cmake-conan](https://github.com/conan-io/cmake-conan/tree/develop2), a [CMake dependency
 provider](https://cmake.org/cmake/help/latest/guide/using-dependencies/index.html#dependency-providers)
@@ -24,13 +24,13 @@ for the Conan C and C++ package manager. It injects ``conan_provider.cmake`` usi
 the CMake configuration to Conan. For instance, if you select a *Debug* profile in CLion,
 Conan will install and use the packages for *Debug*. 
 
-Bear in mind that *cmake-conan* activates the Conan integration everytime CMake calls to
-``find_package()``, that means that no library will be installed until the CMake configure
-step runs, and at that point Conan will try to install the required libraries and build
-them if it is nedeed.
+Bear in mind that *cmake-conan* activates the Conan integration every time CMake calls to
+``find_package()``, meaning that no library will be installed until the CMake configure
+step runs. At that point, Conan will try to install the required libraries and build them
+if needed.
 
-Also, note that as dependency providers are a relatively new feature in CMake, you will need
-CMake version >= 3.24 and Conan >= 2.0.5.
+Also, note that as dependency providers are a relatively new feature in CMake, you will
+need CMake version >= 3.24 and Conan >= 2.0.5.
 
 **Missing schematic of translating CLion profiles to CMake settings and then to Conan?**
 
@@ -51,12 +51,12 @@ First, create a new CMake project in CLion, as usual.
     <img  src="{{ site.baseurl }}/assets/post_images/2023-08-22/clion-new-project.png" style="display: block; margin-left: auto; margin-right: auto;" alt="CLion new CMake project"/>
 </p>
 
-Then select the project location and the language standard you want to use and click on
+Then select the project location and the language standard you want to use, and click on
 "Create".
 
 ## Configuring the plugin
 
-Go to the “Conan” tool tab in the bottom of the IDE. You will see that the only enabled
+Go to the “Conan” tool tab at the bottom of the IDE. You will see that the only enabled
 action in the toolbar of the plugin is the one with the 🔧 (wrench) symbol, click on it. 
 
 <p class="centered">
@@ -64,30 +64,30 @@ action in the toolbar of the plugin is the one with the 🔧 (wrench) symbol, cl
 </p>
 
 The first thing you should do there is configuring the Conan client executable that's
-going to be used. You can point to one specific installed in an arbitrary location on your
-system or you can select *"Use Conan installed in the system"* to use the one installed at
-system level.
+going to be used. You can point to one specifically installed in an arbitrary location on
+your system or you can select *"Use Conan installed in the system"* to use the one
+installed at the system level.
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-08-22/clion-configuration-2.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Click wrench symbol"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-08-22/clion-configuration-2.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Configure Conan path"/>
 </p>
 
 You will find there some options marked as default. Let's go through all of them.
 
-- First, you will see checkboxes to mark in which configurations should Conan manage the
+- First, you will see checkboxes to mark in which configurations Conan should manage the
   dependencies. In our case, as we only have the Debug configuration, it's the only one
   checked. Also, below that "Automatically add Conan support for all configurations" is
-  marked by default. That means that if you don't have to worry about adding Conan support
-  to new build configurations because the plugin will automatically add Conan support by
+  marked by default. That means that you don't have to worry about adding Conan support to
+  new build configurations because the plugin will automatically add Conan support by
   default.
 
 - You can also see that there's a checkbox to let Conan change the default CLion settings
-  and run CMake sequentially instead of running it on parallel. This is needed as the
-  Conan cache is not still concurrent up to Conan 2.0.9 version.
+  and run CMake sequentially instead of running it in parallel. This is needed as the
+  Conan cache is not yet concurrent up to Conan 2.0.9 version.
 
-Normally, if you are using the Conan plugin, you don't want to unmark them. So leave them
-and let's create our project and add the libraries to it. So, click on the OK button and
-the plugin should be ready to use.
+Normally, if you are using the Conan plugin, you wouldn't want to unmark them. So leave
+them and let's create our project and add the libraries to it. So, click on the OK button
+and the plugin should be ready to use.
 
 After doing the initial configuration, you will notice that the list of libraries is now
 enabled and that the 🔄 (update) and 👁️ (inspect) symbols are also enabled. We will
@@ -95,7 +95,164 @@ explain them later in detail.
 
 ## Using the plugin
 
-Let's explore the plugin's usage with an example. 
+Now that we have our plugin configured and ready, let's explore its usage with an example.
+For this, we will use [libcurl](https://curl.se/libcurl/) to download an imagen from the
+Internet and then [stb](https://github.com/nothings/stb) to load it and some basic code to
+print it in the console as ASCII characters.
+
+We will not delve into the specific details of the code, as it is beyond the scope of this
+tutorial. However, all the source code for this example is available in the [Conan 2.0
+examples repo](https://github.com/conan-io/examples2):
+
+```bash
+git clone https://github.com/conan-io/examples2.git cd
+examples2/examples/libraries/libcurl/download_image
+```
+
+### Adding the code
+
+First, open the main.cpp file and replace the example code with the one you can find in the repository:
+
+```cpp
+#include <iostream>
+#include <curl/curl.h>
+#include <vector>
+#include <string>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+
+// Size of ASCII art
+static const int new_width = 100;
+
+// Ascii gradient
+static const std::string ASCII_CHARS = " .:-=+#%@@"; // Inverted colors
+
+// Function to scale the luminance into an ASCII character
+char map_luminance_to_ascii(float luminance) {
+    size_t position = luminance * (ASCII_CHARS.size() - 1);
+    return ASCII_CHARS[position];
+}
+
+// Function to download image
+static size_t write_data(void* ptr, size_t size, size_t nmemb, void* stream) {
+    ((std::string*)stream)->append((char*)ptr, size * nmemb);
+    return size * nmemb;
+}
+
+std::string download_image(const std::string& url) {
+    CURL* curl = curl_easy_init();
+    std::string response_string;
+
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
+    curl_easy_perform(curl);
+    curl_easy_cleanup(curl);
+
+    return response_string;
+}
+
+// Function to convert image to ASCII
+std::string image_to_ascii(const std::string& image_data) {
+    int width, height, channels;
+    unsigned char* data = stbi_load_from_memory(
+            reinterpret_cast<const stbi_uc*>(image_data.data()),
+            image_data.size(),
+            &width,
+            &height,
+            &channels,
+            0
+    );
+
+    int new_height = static_cast<int>(static_cast<double>(height) / width * new_width * 0.45);
+
+    std::string ascii_image;
+    for (int i = 0; i < new_height; ++i) {
+        for (int j = 0; j < new_width; ++j) {
+            int old_i = i * height / new_height;
+            int old_j = j * width / new_width;
+
+            float r = data[(old_i * width + old_j) * channels + 0] / 255.0f;
+            float g = data[(old_i * width + old_j) * channels + 1] / 255.0f;
+            float b = data[(old_i * width + old_j) * channels + 2] / 255.0f;
+            float luminance = (0.2126f * r + 0.7152f * g + 0.0722f * b); // Subtract the luminance from 1 to invert
+
+            ascii_image += map_luminance_to_ascii(luminance);
+        }
+        ascii_image += '\n';
+    }
+
+    stbi_image_free(data);
+    return ascii_image;
+}
+
+int main(int argc, char** argv) {
+    std::string url = "https://missing_link_to_asset_in_examples2_repo";
+    
+    if (argc > 1) {
+        url = argv[1];
+    }
+    
+    std::string image_data = download_image(url);
+    std::cout << image_to_ascii(image_data);
+}
+```
+
+Basically, this application receives one url of an image as an argument (or if not
+provided, defaults to one), and downloads it using *libcurl* with the ``download_image()``
+function, then it reads the RGB values with *stb* and converts the luminance values to ASCII
+characters with the ``image_to_ascii()`` function.
+
+So far, trying to build this code will result in an error as we don't have the libraries
+available yet. Go to the libraries list and search for *libcurl*. You will see some
+information on how to use add it to CMake and a "Use in project" button. Select the
+version you'd like to use and click on the button. 
+
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-08-22/clion-use-libcurl.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Select library and use"/>
+</p>
+
+Repeat, the same operation for *stb*.
+
+Now, if you click on the 👁️ (inspect) we mentioned above, you will see all the libraries
+we added to the project, with some basic targets information for CMake and the necessary
+code to add to CMake to use them. 
+
+Conan holds the information about the used packages in a *conandata.yml* file that should
+be in the folder holding your project. That file is read by a *conanfile.py* that was also
+created. You can customize these files if you want to make a more advanced used of the
+plugin but please read the information on the corresponding files about how to properly do
+it. **(Maybe this is too much information???)**
+
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-08-22/clion-inspect.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Inspect libraries"/>
+</p>
+
+Modify your CMakeLists.txt according to the instructions, and should result into something
+like this:
+
+```cmake
+cmake_minimum_required(VERSION 3.25)
+project(ascii_image)
+
+set(CMAKE_CXX_STANDARD 17)
+
+find_package(CURL)
+find_package(stb)
+
+add_executable(ascii_image main.cpp)
+
+target_link_libraries(ascii_image CURL::libcurl stb::stb)
+```
+
+Now, reload the CMake project, and you should see in the CMake output tab how Conan
+installs the libraries. After the configuration process has finished, you can build the
+project and run it.
+
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-08-22/clion-output-cat.png" style="display: block; margin-left: auto; margin-right: auto;" alt="ASCII cat"/>
+</p>
 
 ## Conclusions
 
@@ -104,5 +261,3 @@ seamless integration between the Conan package manager and CLion IDE. The plugin
 a more intuitive interface, making it easier to handle your dependencies directly within
 CLion. We hope this tool improves your development experience, and we look forward to
 seeing what you will build with it!
-
-
