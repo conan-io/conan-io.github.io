@@ -41,8 +41,6 @@ go to *Settings > Plugins*, then select the *Marketplace* tab. Search for the Co
 and click on the Install button. After restarting CLion, a new “Conan” tool tab will
 appear at the bottom of the IDE.
 
-**Missing screen capture here!**
-
 ## Creating a new CMake project
 
 First, create a new CMake project in CLion, as usual. 
