@@ -8,10 +8,11 @@ description: "Discover how the new Conan CLion plugin 2.X enhances C++ developme
 
 In this post, we are thrilled to announce the launch of the new version of the Conan CLion
 Plugin, now compatible with the 2.X versions of Conan. The new plugin is designed to bring
-more ease and control to developers using CLion and Conan for C++ projects. We will walk
-you through the process of using this plugin with a practical example that uses
-[libcurl](https://curl.se/libcurl/) and [stb](https://github.com/nothings/stb) to download
-an image from the Internet, load it, and print it as ASCII art in the console.
+more ease and control to developers using CLion (with version higher than 2022.2) and
+Conan for C++ projects. We will walk you through the process of using this plugin with a
+practical example that uses [libcurl](https://curl.se/libcurl/) and
+[stb](https://github.com/nothings/stb) to download an image from the Internet, load it,
+and print it as ASCII art in the console.
 
 ## How the plugin works
 
