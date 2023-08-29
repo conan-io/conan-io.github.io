@@ -222,7 +222,7 @@ the necessary code snippets to add to CMake to use them.
 Conan stores information about the used packages in a *conandata.yml* file located in your
 project folder. This file is read by a *conanfile.py*, also created during this process.
 These files can be customized for advanced usage of the plugin, but please read the
-information in the corresponding files on how to do this properly. **(Maybe this is too much information???)**
+information in the corresponding files on how to do this properly.
 
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2023-08-31/clion-inspect.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Inspect libraries"/>
