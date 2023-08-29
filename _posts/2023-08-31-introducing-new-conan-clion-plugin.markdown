@@ -100,15 +100,13 @@ print it in the console as ASCII characters.
 
 We will not delve into the specific details of the code, as it is beyond the scope of this
 tutorial. However, all the source code for this example is available in the [Conan 2.0
-examples repo](https://github.com/conan-io/examples2):
+examples repo](https://github.com/conan-io/examples2/tree/main/examples/libraries/libcurl/download_image):
 
-```bash
-git clone https://github.com/conan-io/examples2.git 
-cd examples2/examples/libraries/libcurl/download_image
 
 ### Adding the code
 
-First, open the main.cpp file and replace the example code with the one you can find in the repository:
+First, open the *main.cpp* file that CLion generated and replace the example code with the code below (you can also copy it from the
+[repository](https://github.com/conan-io/examples2/tree/main/examples/libraries/libcurl/download_image/main.cpp)):
 
 ```cpp
 #include <iostream>
