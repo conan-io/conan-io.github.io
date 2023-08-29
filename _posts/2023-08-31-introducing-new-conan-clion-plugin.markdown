@@ -4,6 +4,7 @@ comments: false
 title: "Introducing the new Conan CLion Plugin compatible with 2.X"
 meta_title: "Unveiling the new Conan CLion Plugin for seamless C++ package management - Conan Blog"
 description: "Discover how the new Conan CLion plugin 2.X enhances C++ development, with a practical example using libcurl for loading images from the internet."
+permalink: /introducing-new-conan-clion-plugin/
 ---
 
 In this post, we are thrilled to announce the launch of the new version of the Conan CLion
