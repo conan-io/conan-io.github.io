@@ -34,8 +34,6 @@ if needed.
 Also, note that as dependency providers are a relatively new feature in CMake, you will
 need CMake version >= 3.24 and Conan >= 2.0.5.
 
-**Missing schematic of translating CLion profiles to CMake settings and then to Conan?**
-
 ## Installing the plugin
 
 To install the new Conan CLion plugin, navigate to the JetBrains marketplace. Open CLion,
