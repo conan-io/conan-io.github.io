@@ -190,12 +190,13 @@ std::string image_to_ascii(const std::string& image_data) {
 }
 
 int main(int argc, char** argv) {
-    std::string url = "https://missing_link_to_asset_in_examples2_repo";
-    
+    // Picture by Katarzyna Modrzejewska from pexels.com
+    std::string url = "https://images.pexels.com/photos/1314550/pexels-photo-1314550.jpeg";
+
     if (argc > 1) {
         url = argv[1];
     }
-    
+
     std::string image_data = download_image(url);
     std::cout << image_to_ascii(image_data);
 }
