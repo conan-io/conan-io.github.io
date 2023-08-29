@@ -103,9 +103,8 @@ tutorial. However, all the source code for this example is available in the [Con
 examples repo](https://github.com/conan-io/examples2):
 
 ```bash
-git clone https://github.com/conan-io/examples2.git cd
-examples2/examples/libraries/libcurl/download_image
-```
+git clone https://github.com/conan-io/examples2.git 
+cd examples2/examples/libraries/libcurl/download_image
 
 ### Adding the code
 
