@@ -46,7 +46,7 @@ appear at the bottom of the IDE.
 First, create a new CMake project in CLion, as usual. 
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-08-31/clion-new-project.png" style="display: block; margin-left: auto; margin-right: auto;" alt="CLion new CMake project"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-08-30/clion-new-project.png" style="display: block; margin-left: auto; margin-right: auto;" alt="CLion new CMake project"/>
 </p>
 
 Then select the project location and the language standard you want to use, and click on
@@ -58,7 +58,7 @@ Go to the “Conan” tool tab at the bottom of the IDE. You will see that the o
 action in the toolbar of the plugin is the one with the 🔧 (wrench) symbol, click on it. 
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-08-31/clion-configuration-1.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Click wrench symbol"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-08-30/clion-configuration-1.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Click wrench symbol"/>
 </p>
 
 The first thing you should do there is configuring the Conan client executable that's
@@ -67,7 +67,7 @@ your system or you can select *"Use Conan installed in the system"* to use the o
 installed at the system level.
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-08-31/clion-configuration-2.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Configure Conan path"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-08-30/clion-configuration-2.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Configure Conan path"/>
 </p>
 
 You will find there some options marked as default. Let's go through all of them.
@@ -212,7 +212,7 @@ information on how to add it to CMake will be displayed, along with a "Use in pr
 button. Select the version you want to use and click the button.
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-08-31/clion-use-libcurl.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Select library and use"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-08-30/clion-use-libcurl.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Select library and use"/>
 </p>
 
 Perform the same operation for *stb*.
@@ -227,7 +227,7 @@ These files can be customized for advanced usage of the plugin, but please read 
 information in the corresponding files on how to do this properly.
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-08-31/clion-inspect.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Inspect libraries"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-08-30/clion-inspect.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Inspect libraries"/>
 </p>
 
 Modify your *CMakeLists.txt* according to the instructions, which should result in something
@@ -252,7 +252,7 @@ CMake output tab. Once the configuration process is complete, you can build and 
 project:
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-08-31/clion-output-cat.png" style="display: block; margin-left: auto; margin-right: auto;" alt="ASCII cat"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-08-30/clion-output-cat.png" style="display: block; margin-left: auto; margin-right: auto;" alt="ASCII cat"/>
 </p>
 
 ## Conclusions
