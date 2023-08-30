@@ -87,6 +87,12 @@ Normally, if you are using the Conan plugin, you wouldn't want to unmark them. S
 them and let's create our project and add the libraries to it. So, click on the OK button
 and the plugin should be ready to use.
 
+**Note:** At this point, CLion will run the configure step for CMake automatically. Since
+the plugin sets up the *conan.cmake* dependency provider, a warning will appear in the
+CMake output indicating that we have not added a `find_package()` to our *CMakeLists.txt*
+yet. This warning will disappear after we add the necessary `find_package()` calls to the
+*CMakeLists.txt* file.
+
 After doing the initial configuration, you will notice that the list of libraries is now
 enabled and that the 🔄 (update) and 👁️ (inspect) symbols are also enabled. We will
 explain them later in detail.
