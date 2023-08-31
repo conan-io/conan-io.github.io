@@ -55,7 +55,7 @@ Then select the project location and the language standard you want to use, and 
 ## Configuring the plugin
 
 Go to the “Conan” tool tab at the bottom of the IDE. You will see that the only enabled
-action in the toolbar of the plugin is the one with the 🔧 (wrench) symbol, click on it. 
+action in the toolbar of the plugin is the one with the ⚙️ (wheel) symbol, click on it. 
 
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2023-08-30/clion-configuration-1.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Click wrench symbol"/>
