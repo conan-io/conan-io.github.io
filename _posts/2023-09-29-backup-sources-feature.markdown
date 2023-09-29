@@ -56,8 +56,7 @@ the Conan client:
 
 ```ini
 # global.conf
-core.sources:download_urls=["origin",
-"https://url/for/my-backup-sources-download-server/"] 
+core.sources:download_urls=["origin", "https://url/for/my-backup-sources-download-server/"] 
 ```
 
 As you can see, it's a list where different file servers can be provided to which Conan
@@ -110,7 +109,7 @@ URL that starts with the listed ones in the configuration will be skipped:
 
 ```ini
 # global.conf
-core.sources:exclude_urls=['https://url/mycompanystorage/', 'https://url/mycompanystorage2/'] 
+core.sources:exclude_urls=["https://url/mycompanystorage/", "https://url/mycompanystorage2/"] 
 ```
 
 To delve deeper into the backup sources feature, you can check the [complete
