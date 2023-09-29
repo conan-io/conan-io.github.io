@@ -74,7 +74,7 @@ source origins:
 
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-09-29/conan-center-server.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Configure Conan path"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-10-03/conan-center-server.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Configure Conan path"/>
 </p>
 
 Bear in mind, if server credentials are needed, they should be configured with the
