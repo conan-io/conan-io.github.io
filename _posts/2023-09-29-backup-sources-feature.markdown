@@ -89,7 +89,7 @@ enough information to benefit from this feature for downloading sources. Now, we
 into the configuration needed on the client to facilitate the upload of those sources to
 the server.
 
-# Configuring the Source Upload
+# Configuring the source upload
 
 The source upload is typically executed from the CI server. In Conan Center, for example,
 the backup of sources is uploaded every time a PR for a new version passes all checks
