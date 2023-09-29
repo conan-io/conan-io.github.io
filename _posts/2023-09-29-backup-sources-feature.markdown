@@ -6,8 +6,6 @@ meta_title: "Introduction to the Conan's Source Backup feature"
 description: "Explore the benefits and implementation details of Conan's Source Backup feature to improve the reproducibility and security of your builds"
 ---
 
-# Ensuring Build Reproducibility with Conan's Source Backup Feature
-
 ## Introduction
 
 In the fast-paced world of software development, reproducibility and traceability are
@@ -93,9 +91,10 @@ the server.
 
 # Configuring the Source Upload
 
-The source upload is typically done from the CI server. This upload is executed
-transparently during a `conan upload` if the following configuration is defined in the
-`global.conf` file.
+The source upload is typically executed from the CI server. In Conan Center, for example,
+the backup of sources is uploaded every time a PR for a new version passes all checks
+(turns green). This upload is performed transparently during a `conan upload` if the
+following configuration is defined in the `global.conf` file.
 
 ```ini
 # global.conf
