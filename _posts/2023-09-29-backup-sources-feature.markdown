@@ -23,7 +23,7 @@ Some of the advantages of using this feature are:
 
 - **Reproducibility**: Ensures long-term reproducibility in your builds.
 - **Traceability**: Keeps a record of the origin of downloaded files.
-- **Security**: Stores the sources in your own infrastructure, reducing reliance on
+- **Robustness**: Stores the sources in your own infrastructure, reducing reliance on
   third-party services.
 - **Improved Speed**: Hosting source files internally can yield faster download speeds
   compared to fetching from external servers.
