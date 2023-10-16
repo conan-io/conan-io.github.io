@@ -156,7 +156,7 @@ So far, CMake 3.28 (still a Release Candidate at time of writing) is the only bu
 
 ## What's next
 
-We're currently working on updating the `cpp_info` attribute to acommodate information pertaining to C++ modules, so that the Conan generators can include this information for build systems that support them. In the case described here, this means CMake 3.28 initially. Hopefully this is useful to our users who are currently eager to try out C++ modules, as more libraries start supporting them (see [here](https://github.com/jcar87/cxx-module-packaging/tree/main#c-libraries-with-module-support) for a list). This should only help and drive adoption!
+We're currently working on updating the `cpp_info` attribute to acommodate information pertaining to C++ modules, so that the Conan generators can include this information for build systems that support them. In the case described here, this means CMake 3.28 initially. In the future, C++ module information will need to be expanded to inform the consumer which build flags or macro definitions should be used when producing the BMI. But today, hopefully this is useful to our users who are currently eager to try out C++ modules, as more libraries start supporting them (see [here](https://github.com/jcar87/cxx-module-packaging/tree/main#c-libraries-with-module-support) for a list). This should only help and drive adoption!
 
 ## Resources
 
