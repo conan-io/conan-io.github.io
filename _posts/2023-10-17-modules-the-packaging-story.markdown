@@ -92,9 +92,9 @@ elif self.settings.compiler == "clang":
 While the package contents are roughly like this (for Clang on Linux):
 ```
 |-- bmi
-|   `-- fmt.pcm
-`-- lib
-    `-- libfmt.a
+|   └-- fmt.pcm
+└-- lib
+    └-- libfmt.a
 ```
 
 For this to work - we would need to use Conan in a way that enforces strict compatibility. A package like the above would _only_ be compatible with that specific compiler and version. Rougly, this means ensuring that for Conan, a package compiled with GCC 13.1 is different and _not compatible_ with one compiled with GCC 13.2, and that a package built with C++20 is different and _not compatible_ with one built with C++ 23. In order to do this, we would have to:
@@ -118,17 +118,17 @@ From the above experiment, it is clear that we would need to package the module 
 We would go from this:
 ```
 |-- include/foo
-|   `-- foo.hpp          ---> this is a header file
-`-- lib
-    `-- libfoo.a
+|   └-- foo.hpp          ---> this is a header file
+└-- lib
+    └-- libfoo.a
 ```
 
 to the following:
 ```
-`-- lib
+└-- lib
     |-- cxx
-    |   `-- foo.cppm     ---> this is a module interface (does `export module foo`)
-    `-- libfoo.a
+    |   └-- foo.cppm     ---> this is a module interface (does `export module foo`)
+    └-- libfoo.a
 ```
 
 However, this changes everything on the consumer side. If we have a project that imports modules from external libraries, we now need full cooperation from our build system: it needs to be aware of the module interfaces, and the compiler needs to be invoked at the right time in order to produce the BMIs before the importers require them.
