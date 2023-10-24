@@ -148,7 +148,7 @@ $ conan list --graph=graph.json --format=json > pkglist.json
 $ conan download --list=pkglist.json --metadata="*" -r=myremote
 ```
 
-Note that the "package-list" will only contain associated to the "myremote" origin the packages that were downloaded. If they were previously in the cache, then, they will not be listed under the "myremote" origin and the metadata will not be downloaded. If you want to collect the dependencies metadata, recall to download it when the package is installed from the server.
+Note that the "package-list" will only contain the packages associated to the "myremote" origin that were downloaded. If they were previously in the cache, then they will not be listed under the "myremote" origin and the metadata will not be downloaded. If you want to collect the dependencies metadata, recall to download it when the package is installed from the server.
 There are other possibilities, like a custom command that can automatically collect and download dependencies metadata from the servers.
 
 
