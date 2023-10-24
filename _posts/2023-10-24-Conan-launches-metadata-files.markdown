@@ -7,7 +7,7 @@ description: "Conan 2.0 new feature metadata-files allows creating, storing, add
 ---
 
 
-A C or C++ package is typically composed of several C and C++ artifacts, headers, compiled libraries and executables. But there are other files that might not be necessary for the normal consumption of such a package, but which could be very important for compliance, technical or business reasons, for example:
+A C or C++ package is typically composed of several C and C++ artifacts, headers, compiled libraries and executables. But there are other files that might not be necessary for the normal consumption of such a package, but that could be very important for technical or business reasons, like regulations, compliance, security, reproducibility and traceability. Some examples would be:
 
 - Full build logs
 - The tests executables
@@ -16,8 +16,6 @@ A C or C++ package is typically composed of several C and C++ artifacts, headers
 - Coverage, sanitizers, or other source or binary analysis tools results
 - Context and metadata about the build, exact machine, environment, author, CI data
 - Other compliance and security related files
-
-There are several important reasons to store and track these files like regulations, compliance, security, reproducibility and traceability.
 
 The problem with these files is that they can be large/heavy, if we store them inside the package (just copying the artifacts in the ``package()`` method), this will make the packages much larger, and it will affect the speed of downloading, unzipping and using packages in general. And this typically happens a lot of times, both in developer machines but also in CI, and it can have an impact on the developer experience and infrastructure costs. Furthermore, packages are immutable, that is, once a package has been created, it shouldn't be modified. This might be a problem if we want to add extra metadata files after the package has been created, or even after the package has been uploaded.
 
