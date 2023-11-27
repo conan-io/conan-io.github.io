@@ -29,18 +29,19 @@ transfer packages between different Conan caches. It is ideal for scenarios like
 #### How It Works
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2023-11-28/ci-flow-cache-save-restore.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Conan cache save/restore"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2023-11-28/ci-flow-cache-save-restore.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Conan cache save/restore"/>
 </p>
 
-For example, imagine that we are building our application in CI for three different
-platforms. The main job in our CI would trigger the three different builds in different
-agents. After each build you could save a selection of packages from the cache in a
-``tgz`` for each platform using the conan ``cache save``. As an argument for the command
-you can pass a reference pattern (like in the [conan
+For example, imagine we are building our application in CI for three different platforms.
+The main job in our CI would trigger the three different builds on different agents. After
+each build, you could save a selection of packages from the cache in a `tgz` for each
+platform using the conan `cache save` command. As an argument for the command, you can
+pass a reference pattern (like in the [conan
 list](https://docs.conan.io/2/reference/commands/list.html) command) or a [package-list
 json
 file](https://docs.conan.io/2/examples/commands/pkglists.html#examples-commands-pkglists).
-For example, let's save the latest revision of all packages in the Conan cache:
+Let's save the latest revision of all packages in the Conan cache:
+
 
 ```bash
     # save the last revision of all packages in the cache
@@ -58,9 +59,9 @@ For example, let's save the latest revision of all packages in the Conan cache:
 
 The saved .tgz file encompasses recipe folders, package metadata, and other essential
 contents, excluding temporary folders like "build" or "download". You save the packages
-for each paralell job and in the and of each job stash it to later recover it in the main
-job where you can restore all the saved packages in the Conan cache by using ``conan cache
-restore``:
+for each parallel job and at the end of each job, stash them to later recover in the main
+job where you can restore all the saved packages in the Conan cache by using `conan cache
+restore`:
 
 ```bash
     $ conan cache restore conan_cache_save.tgz 
@@ -74,28 +75,27 @@ restore``:
     ...
 ```
 
-For more details on how to use this feature, please refere to the [conan
+For more details on how to use this feature, please refer to the [Conan
 documentation](https://docs.conan.io/2/devops/save_restore.html).
 
 ### LRU: Removing Unused Packages from the Cache
 
 Conan now supports an LRU (Least Recently Used) policy to efficiently manage cache size.
 This feature is important for maintaining an optimized package cache as the Conan cache
-does not implement any automatic expiration policy, so its size will be always increasing
-unless packages are removed or the cache is removed from time to time.
+does not implement any automatic expiration policy, so its size will always increase
+unless packages are removed or the cache is cleared from time to time.
 
 #### How It Works
 
-The use of the LRU feature is through the ``--lru`` argument of the ``conan remove`` and
-``conan list`` commands. You can use it to remove just old package binaries or to remove
-recipes and also the associated binaries. For that the LRU time follows the rules of the
-``remove`` command. If we are removing recipes with a "*" pattern, only the LRU times for
-recipes will be checked. If a recipe has been recently used, it will keep all the
-binaries, and if the recipe has not been recently used, it will remove itself and all its
-binaries.
+The use of the LRU feature is through the ``--lru`` argument of the `conan remove` and
+`conan list` commands. You can use it to remove old package binaries or to remove recipes
+along with their associated binaries. The LRU time follows the rules of the `remove`
+command. If we are removing recipes with a "*" pattern, only the LRU times for recipes
+will be checked. If a recipe has been recently used, it will keep all the binaries, and if
+the recipe has not been recently used, it will remove itself and all its binaries.
 
-For example, if we want to remove remove all binaries (but not recipes) not used in the
-last 2 months, we would do:
+For example, if we want to remove all binaries (but not recipes) not used in the last 2
+months, we would do:
 
 ```bash
 $ conan remove "*:*" --lru=2m -c
@@ -107,10 +107,10 @@ To also remove all recipes (and their associated binaries):
 $ conan remove "*" --lru=2m -c
 ```
 
-You could also use the `conan list` command to generate a list of least recently used
-packages with the LRU argument and the passing the generated package-list to the ``conan
-remove`` command. An equivalent of the removal of all recipes and packages not used in the
-last two months would be:
+You could also use the `conan list` command to generate a list of the least recently used
+packages with the LRU argument, and then pass the generated package-list to the `conan
+remove` command. An equivalent approach for the removal of all recipes and packages not
+used in the last two months would be:
 
 ```bash
 # List all unused (last 4 weeks) recipe revisions
@@ -121,13 +121,14 @@ $ conan remove --list=old.json -c
 
 ## Conclusion
 
-The addition of the cache save/restore and LRU cleanup features in Conan enhances
-the efficiency, especially in CI environments and will help you maintain optimal
-performance in production.
+The addition of the cache save/restore and LRU cleanup features in Conan significantly
+enhances efficiency, particularly in CI environments, and will assist in maintaining
+optimal performance in production.
 
-For more detailed information and examples, visit our [Devops
-Guide](https://docs.conan.io/2/devops.html) and [Other Features
+For more detailed information and examples, visit our [DevOps
+Guide](https://docs.conan.io/2/devops.html) and the [Other Features
 Tutorial](https://docs.conan.io/2/tutorial/other_features.html).
 
-We look forward to your feedback and suggestions on these new features. Feel free to share
-your experiences and ideas on [Github issues](https://github.com/conan-io/conan/issues).
+We are keen to hear your thoughts and suggestions about these new features. Please don't
+hesitate to share your experiences and ideas on [GitHub
+issues](https://github.com/conan-io/conan/issues).
