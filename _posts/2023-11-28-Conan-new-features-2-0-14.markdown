@@ -17,12 +17,18 @@ Used) Cleanup.
 This feature is designed for temporary package movement, offering an efficient way to
 transfer packages between different Conan caches. It is ideal for scenarios like:
 
-- CI pipelines, where it facilitates the sharing of intermediate build stages or
-  dependencies across different jobs. This is especially useful when using parallel jobs,
-  as the Conan cache is not concurrent.
+- **CI Pipelines**: It facilitates the sharing of intermediate build stages or
+  dependencies across different jobs. Particularly beneficial for parallel jobs, as the
+  Conan cache is not concurrent.
 
-- Air-gapped environments, where direct internet access is restricted, and packages can
-  only be transferred via the client side.
+- **Air-Gapped Environments**: Useful where direct internet access is restricted, and
+  packages must be transferred via the client side.
+
+It's crucial to note that saving and restoring packages is a short-term mechanism and not
+intended for long-term storage or as a backup strategy. The storage format and
+serialization, although effective within the same Conan version, may not be stable or
+compatible with future Conan versions. For long-term backup of Conan packages, server-side
+backup strategies are recommended.
 
 #### How It Works
 
