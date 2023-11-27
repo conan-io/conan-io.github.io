@@ -1,8 +1,8 @@
 ---
 layout: post
 comments: false
-title: "New Features in Conan Useful in CI and Production Environments"
-meta_title: "New Features in Conan Useful in CI and Production Environments"
+title: "New Conan Features for CI and Production Environments"
+meta_title: "New Conan Features for CI and Production Environments"
 description: "Discover the latest features in Conan designed to enhance CI and production workflows: Cache Save/Restore and LRU Cleanup."
 ---
 
