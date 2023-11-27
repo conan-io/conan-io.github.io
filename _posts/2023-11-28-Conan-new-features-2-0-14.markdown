@@ -50,7 +50,7 @@ Let's save the latest revision of all packages in the Conan cache:
 
 ```bash
 # save the last revision of all packages in the cache
-$ conan cache save "*/*:*"
+$ conan cache save "*/*:*" --file=conan_cache_save_linux.tgz
 Saving app/2.71: p/autoc5f0e65aa481c3
 Saving app/2.71:da39a3ee5e6b4b0d3255bfef95601890afd80709: p/autocf3e6879dde7f6/p
 Saving bzip2/1.0.8: p/bzip2b261b4dea28b4
