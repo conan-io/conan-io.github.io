@@ -12,7 +12,7 @@ features aimed at enhancing productivity and efficiency in production environmen
 this post, we'll focus on two recent additions: Cache Save/Restore and LRU (Least Recently
 Used) Cleanup.
 
-### Save and Restore Packages from/to the Cache
+## Save and Restore Packages from/to the Cache
 
 This feature is designed for temporary package movement, offering an efficient way to
 transfer packages between different Conan caches. It is ideal for scenarios like:
@@ -77,7 +77,7 @@ Restore: eigen/3.4.0 in p/eigenecaf3dc594b0c
 For more details on how to use this feature, please refer to the [Conan
 documentation](https://docs.conan.io/2/devops/save_restore.html).
 
-### LRU: Removing Unused Packages from the Cache
+## LRU: Removing Unused Packages from the Cache
 
 Conan now supports an LRU (Least Recently Used) policy to efficiently manage cache size.
 This feature is important for maintaining an optimized package cache as the Conan cache
