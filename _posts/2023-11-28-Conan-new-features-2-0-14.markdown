@@ -103,13 +103,13 @@ For example, if we want to remove all binaries (but not recipes) not used in the
 months, we would do:
 
 ```bash
-$ conan remove "*:*" --lru=8w -c
+$ conan remove "*:*" --lru=2M -c
 ```
 
 To also remove all recipes (and their associated binaries):
 
 ```bash
-$ conan remove "*" --lru=8w -c
+$ conan remove "*" --lru=2M -c
 ```
 
 You could also use the `conan list` command to generate a list of the least recently used
@@ -118,8 +118,8 @@ remove` command. An equivalent approach for the removal of all recipes and packa
 used in the last two months would be:
 
 ```bash
-# List all unused (last 8 weeks) recipe revisions
-$ conan list "*#*" --lru=8w --format=json > old.json
+# List all unused (last 2 months) recipe revisions
+$ conan list "*#*" --lru=2M --format=json > old.json
 # Remove those recipe revisions (and their binaries)
 $ conan remove --list=old.json -c
 ```
