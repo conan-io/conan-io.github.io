@@ -10,7 +10,7 @@ author: Diego Rodriguez-Losada
 It is with a lot of sadness that we are writing these lines to tell you that Luis Martínez de Bartolomé, also known as "Laso", (github @lasote), Conan co-founder, colleague, friend, and the best partner I could ever imagine, has passed away after almost 3 years being diagnosed with cancer. 
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2023-12-05/LuisMartinezdeBartolome1.jpeg" style="display: block; margin-left: auto; margin-right: auto;" alt="Luis Martinez de Bartolome (Laso)"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2023-12-05/LuisMartinezdeBartolome1.jpg" style="display: block; margin-left: auto; margin-right: auto;" alt="Luis Martinez de Bartolome (Laso)"/>
 </p>
 
 
@@ -23,8 +23,8 @@ The first one, his incredible, amazing, almost unnatural technical talent. I hav
 But two human traits were consistently highlighted, that are the real important ones. The ones that will stay with us forever, beyond the technical professional aspects, and we will remember when we remember Laso. The first one was his smile. A real, authentic one. This didn’t mean that he was a hundred percent of the time smiling, we also called him sometimes an "old grumpy caveman", when he would be ranting about something. But that is also what made his smile authentic, something from the heart, something contagious. I still remember his smile when showing the ecographies of his future daughter and son. You might think I remember this now, but the truth is that I have always cherished that memory, even before he was sick, because it was something truly remarkable. It was easy to be optimistic when seeing that smile, even in the bad moments, even during his illness, that smile made a difference. A true declaration of a good way to see and live a life, hopefully his memory would help the world to smile more.
 
 <p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2023-12-05/LuisMartinezdeBartolome2.jpeg" style="display: block; margin-left: auto; margin-right: auto;" alt="Luis Martinez de Bartolome (Laso)"/>
-    <img src="{{ site.baseurl }}/assets/post_images/2023-12-05/LuisMartinezdeBartolome3.jpeg" style="display: block; margin-left: auto; margin-right: auto;" alt="Luis Martinez de Bartolome (Laso)"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2023-12-05/LuisMartinezdeBartolome2.jpg" style="display: block; margin-left: auto; margin-right: auto;" alt="Luis Martinez de Bartolome (Laso)"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2023-12-05/LuisMartinezdeBartolome3.jpg" style="display: block; margin-left: auto; margin-right: auto;" alt="Luis Martinez de Bartolome (Laso)"/>
 </p>
 
 
