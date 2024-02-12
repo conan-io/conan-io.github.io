@@ -83,7 +83,11 @@ int main(int argc, char *argv[])
 }
 ```
 
-This is the minimum you need to just open a window. ![screenshot of a basic windows opened by SDL using WSL2 on Windows for the GUI](https://lh5.googleusercontent.com/j8dGvVzUyGzsniCbhgZ5pPiIuupsbBPlMEuuS2bAnQwZeV12vmMBv1kYKFabNNS2cKlr9Un4VU3d23HF1OviIZGVQ_nsHwK5lHP6zffts3hiQK25MVNANbhJyJQXXHWsPkFiEepoVHq4hEPGBLS1Tnc)
+This is the minimum you need to just open a window. 
+
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-07-20/basic_windows.png" style="display: block; margin-left: auto; margin-right: auto;" alt="screenshot of a basic windows opened by SDL using WSL2 on Windows for the GUI"/>
+</p>
 
 > **Note**: On mac, applications and windows exist differently so you will notice it on your dock but most likely not pop-up.
 
@@ -157,7 +161,9 @@ Make sure to add the header include for this library `#include SDL2/SDL_image.h>
 
 Looking into the code, there are a few things to remark. Images are loaded from disk and then converted into a texture. Everything we will display needs to be a texture. With the texture, we can query what has been filled and work backwards to center the image on the window.
 
-![basic game window with a Conan 2.0 logo cube center](https://lh6.googleusercontent.com/IBeQZbK_cDHPTsGJ55Mj2TGHP9biAtxMO8hMIUAS7VfxcCLFMazXBTdeMevX1Pyq6wbPUr7ph25EbnPo6g4Z5Fs5dvmKJlQlXQFUyFb2pwMzaT1F91FBcS--JqF958Nco24wB-NxQKD3GD3zYW5bDSo)
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-07-20/logo_cube.png" style="display: block; margin-left: auto; margin-right: auto;" alt="basic game window with a Conan 2.0 logo cube center"/>
+</p>
 
 Success! We have our Conan 2.0 logo rendered in our window.
 
@@ -266,9 +272,6 @@ Now, we will need to replace some of the temporary code that pops the windows an
 
 We should have the basis for our game!
 
-<!--![](https://lh6.googleusercontent.com/A4c4pbYZ9Ni860zBFj5x8uRD3O3ODrUwy6m1Bm67y_KYjuKJhkPsKqrjFEVbgkOlnkbThTMnulv0V_OkF04Ql9n6LhbLZYOpUihrAtwxJRkpdnhp0zQ84dv4DCc_3v6QSgyA3PuDUDJxueUjoJ39SzY)
--->
-
 Try moving the cube around and watch it step around!
 
 <iframe src="/assets/post_images/2023-07-20/conan-blog-sdl-intro-conan-2-cube-logo-moving-around.webm" width="775" height="480" allow="autoplay"></iframe>
@@ -351,7 +354,9 @@ Now to call it during our game loop
 
 Just a note here, the helper function we wrote recreates the same texture on each iteration of the loop. This won't affect our example but if your game got complicated this could be quite inefficient.
 
-![simple game windows from SDL with a cube that moves and text render from a texture using SDL_ttf and TTF](https://lh6.googleusercontent.com/nVXX3IaNu8kWxS4BF376QvikVQEjAAim6JJkCCFgXeaKL3mVBALylrBiyxCoUZ1opppG9AS2GDHWFXMO9-Xakbqnp3UBYu5DkjYmjm-b2HdN5s6S4fnHoaej3EoBnjzocS5U5X82pG8P2cTIpBxQIa8)
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2023-07-20/final_image.png" style="display: block; margin-left: auto; margin-right: auto;" alt="simple game windows from SDL with a cube that moves and text render from a texture using SDL_ttf and TTF"/>
+</p>
 
 ### 5: Cleaning up and freeing resources
 
