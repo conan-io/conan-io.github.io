@@ -54,7 +54,9 @@ The only “surprise” is the import you will need to add. This is because some
 
 Just with changing the imports alone, you can see the difference between old versus new
 
-![diff updating imports](https://lh5.googleusercontent.com/5X14uDbu3jQP0235dESPzXLhFmMP3vRXTbEPC0aJBjE5p0tLnUayC7xN_vCSSH0Lh8khJRxIVhhiqKb4qXSg9z69T0u0yiZ123R9jv39R_EtipSl76Vt55c_QzHZfOSsgoYmnDpAggsr9zEQ0npHm0B-588P8fag5yVyJRSgxF7maUmtxvxBoq6jPA)
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2022-10-26/0.png" style="display: block; margin-left: auto; margin-right: auto;" alt="diff updating imports"/>
+</p>
 
 You might notice the only import being dropped was ``functools`` this is because the new Generators and build helpers… we’ll get to those soon.
 
@@ -64,16 +66,22 @@ One of the key features in 2.0 that enables a lot of the improvements is [Layout
 
 Importing this and adding it in we can finally replace some clutter, those old “subfolder properties” which were a convention in ConanCenterIndex.
 
-![diff adding layout](https://lh4.googleusercontent.com/cHkSjdEeh6DVKXORS7CQdotn5hWGbGKB4MnL3MxhTcPcvsyzbOlAGSBdbSI4m3XmcvnwUENhq1Snxhe-A9Z0iUG1aX_KXz2DOXFm8XUrQPG6l4MlrUO6HIuaPO8c1TfMxjXu_gpinDI3EIkqSeeniUC3yFKiUQ3n4Zn3fc0k6Q2e6g-aPfkmrahA7w)
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2022-10-26/1.png" style="display: block; margin-left: auto; margin-right: auto;" alt="diff adding layout"/>
+</p>
 
 - ``\_source_subfolder`` becomes ``source_folder``
 - ``\_build_subfolder`` can be replaced by ``self.build_folder``
 
-![diff removing subfolder properties](https://lh3.googleusercontent.com/fYSzRonQUk5FccNB5ROil14743lhjdoljr8e2IE-0eUZ_oK9jYMOZSwSkhQW4zgGB5vaRxUEGpJ0iWJ37UTddxOonwZDnd3zAEcbTzDzQXu9BJHM3NX-42ioYY_W0NGKsLoDw366Y31Se1VqgHwMMXLGYcvm2VUzT1CofmL8588Ou5TaxQW5hAzY2w)
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2022-10-26/2.png" style="display: block; margin-left: auto; margin-right: auto;" alt="diff removing subfolder properties"/>
+</p>
 
 We get to do even more clean up. Since this is header-only, there is no “build folder” but we do configure CMake. This is now taken care of by the new ``conan.tools.cmake.CMake`` build helper. Since the ``basic_layout`` setups the property ``self.build_folder`` the CMake help takes full advantage of this.
 
-![adding basic layout](https://lh4.googleusercontent.com/6LrL2joBMkdRL_fenTr-_r6U5_GL9vPunsgoOplrSzRv-0vmG0GRnWUeSz2ekz9XwrbxLX1Ovl8q6hNX_wlK34S711h-ouc1xfQCsLTg2uqhtBVGQg-Pi477Fgn7PWNUKTh45qiMr-6vThh6BxCadqefpg4cqj-coGTnyP_KMmWme5eo4L1iYBYEcw)
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2022-10-26/3.png" style="display: block; margin-left: auto; margin-right: auto;" alt="adding basic layout"/>
+</p>
 
 ## Switch to the new Generators
 
@@ -81,7 +89,9 @@ This recipe previously used the old ``cmake`` generator as an attribute… It sh
 
 This change creates a lot of difference.
 
-![diff new generator vs old helper](https://lh4.googleusercontent.com/xdHPxK5OieGYAg1Nf9VbP0nYnUidEIR-a_lsFVBBgmaCWiME0KhtnWDc4InqIow0oZqutmchgZhXiLDP3cWkxR6tmqfeIUkw7Q6pteQoRWghunzqPT4FuLngiyEGPBNSbye8D3aW_7vM_lw2EewQpg3qVuNFoR01CN3dGWk7xvQAS5oMg3owH72M-w)
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2022-10-26/4.png" style="display: block; margin-left: auto; margin-right: auto;" alt="diff new generator vs old helper"/>
+</p>
 
 - We no longer pass CMake configuration options to the build helper.
 
@@ -92,13 +102,17 @@ This change creates a lot of difference.
 
 The best part is cleanup! We can also remove the old generators attribute along with the old “cmake wrapper” that we used to use to call the old ``cmake`` generators ``include(conanbuildinfo.cmake)`` and ``conan_basic_setup()``
 
-![diff build method](https://lh6.googleusercontent.com/EnqlmgX_WvCe9uSg6ekDqIkxGD8hUbkzKtO3N2goc8VmivB_pGFGbzqqLyJ8OMG2N8MQ_3w364w0KwprdChmDQr5ux--NTJq8M-NqOCxcG01tYhq1UA-gfRcCqx2c9J12lAK1tpwN492teFp2ahhPW_mQpUeU2a4zIEQ7zn-YpIG8OObUha7INSBsw)
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2022-10-26/5.png" style="display: block; margin-left: auto; margin-right: auto;" alt="diff build method"/>
+</p>
 
 This is sadly where we uncover our first caveat… this “cmake wrapper” we used in ConanCenterIdex sometimes hides functionality. In this particular example, it directed the build help to the correct subfolder of RESTinio with its ``CMakeLists.txt``. With ``add_subdirectory(source_subfolder/dev/restinio)`` so we will need to move this into the recipe.
 
 Thankful this is a pretty common case and the new build helper can be configured correctly.
 
-![diff build methods pt2](https://lh6.googleusercontent.com/lfTqL25PkFCD8Iw-l_zK3peA19bTkhg_lpaMCl0ZZ5uPzK6IFJumv2AnXWJTtreVtJ98wnwOfm0WAUr99Gk7DIL0KQ6u_fCi1srLumQS1GlzViPxEuBqQTr90eWwRxxAOi5rnBiAcBDxVyls6w0eH1tXuXeNuwijvdG6ug7doBxrOODZ5y2y6CSfVg)
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2022-10-26/6.png" style="display: block; margin-left: auto; margin-right: auto;" alt="diff build methods pt2"/>
+</p>
 
 We can simply pass the ``build_script_folder`` argument to let it know the “source folder” which will be used when it configures CMake.
 
@@ -108,7 +122,9 @@ This is the most complicated part. In Conan 2.0 we will drop the ``Visual Studio
 
 Thankfully we don’t need to think about this too much as the Community has already figured out the best way of going about this. Check the [CMake Template Package](https://github.com/conan-io/conan-center-index/blob/master/docs/package_templates/cmake_package/all/conanfile.py#L90) from ConanCenterIndex we can see there’s a new helper ``check_min_vs`` that handles the new compiler.
 
-![diff validate mthod](https://lh4.googleusercontent.com/M-8F-pfrnSKSDGuz2FqUMq_I7eZDI4RanbKXbrKdNZrijyF__su5OrKtihbeh0Q0ZBV6zm9h7HR_Y3uzR_0SrtqmgKG_uCnvhobcGrFQb3ymWJwwU_FutQr6JDLeYriV4TsxcSsvvmrwdqE7rVS525F_TL3V1w_Gnq7lQ1GqtA_ZZsQMMdCYnUPjRQ)
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2022-10-26/7.png" style="display: block; margin-left: auto; margin-right: auto;" alt="diff validate mthod"/>
+</p>
 
 There’s a few noteworthy Conan 2.0 changes:
 
@@ -122,7 +138,9 @@ Also we no longer print warnings, this is because the convention in ConanCenter 
 
 This is a pretty easy one, and generally the last step. The old ``header_only`` has been replaced with a ``clear`` to make it more obvious what it’s doing.
 
-![diff package id](https://lh6.googleusercontent.com/xdo5uBZlKIUdpGi3eEkLNOSzjjE6QnRTYAMnMI1_72zuT4nDROmNxExYn452ACSzOvlECvMEO_vD17P9Y_EO_fWIXGjAAmPh2tNzQmQr5YiYE0Ul7nnux6tClKyoOxV5fRc5YJBvZcgk187ZNVg8cugV8YH9V4VUoCTKerg6MT86cIrmzHO6pni59w)
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2022-10-26/8.png" style="display: block; margin-left: auto; margin-right: auto;" alt="diff package id"/>
+</p>
 
 ## Package info and cpp folders
 
@@ -138,7 +156,11 @@ This is an important part of the recipe since we still want to support 1.x all t
 - Move the ``test_package/conanfile.py`` to ``test_v1_package``
 - Copy the ``test_package/CMakeLists.txt`` to ``test_v1_package``
 - In the original ``test_package/CMakeLists.txt`` remove the lines to the old generator
-  ![diff old test package cmake list](https://lh3.googleusercontent.com/VxqOvH7ZX37BPlC5EFCpNM1efSIRP1IYPor8i9b1iw8vaR9ppAUXrPoGIXRhSU3yPU13lwNgYccICkMMhKdSVb0zMvPvP_BTNAvfQyY_PwrMP43djvC7p50ER8KaIkb-GWhxHzCqz_2YAG3dkgSW3V0fwXSLaYYbncR9jBMS8gtLawvHjNm2h4doZA)
+
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2022-10-26/9.png" style="display: block; margin-left: auto; margin-right: auto;" alt="diff old test package cmake list"/>
+</p>
+
 - Change the copied file ``test_v1_package/CMakeLists.txt`` to pull the source files form the original location ``../test_package/test_package.cpp`` to not duplicate files
 - Download the new ``test_package/conanfile.py`` from the [ConanCenterIndex template](https://github.com/conan-io/conan-center-index/blob/master/docs/package_templates/header_only/all/test_package/conanfile.py)
 
