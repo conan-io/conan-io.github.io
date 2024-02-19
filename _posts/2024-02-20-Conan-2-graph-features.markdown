@@ -83,21 +83,22 @@ In this case, the replacement will happen if the original range ``zlib/[>=3.0]``
 
 This feature has also some other interesting use cases: For example, it can be used to **temporarily** resolve conflicts without having to modify any ``conanfile`` at all. Please note that this is not intended as a permanent conflict resolution strategy, but it can be useful while developing and testing things.
 
-Finally, for the case explained in the section above, about scenarios like some embedded cross-building with some packages, like ``openssl`` that must be used from the system (probably it is in the sysroot), but for some reason there is information missing about them in order to easily be consumed by other packages. In cases like this, users can:
+Finally, for the above case where ``openssl`` must be used from the system (probably it is in a sysroot), but it needs some extra information in order to easily be consumed by other packages. In cases like this, users can:
 
-First write an alternative ``openssl/<version>@system``, that does not build anything, but mostly define in its ``package_info()`` the information to locate and use it for other packages.
+- First write an alternative ``openssl/<version>@system``, that does not build anything, but mostly define in its ``package_info()`` the information to locate and use it for other packages.
 
-Then define a profile containing:
+- Then define a profile containing:
 
-```ini
-[replace_requires]
-openssl/*: openssl/*@system
-```
+  ```ini
+  [replace_requires]
+  openssl/*: openssl/*@system
+  ```
 
 Using that profile, the occurrences of ``requires = "openssl/version"`` will be replaced by ``requires = "openssl/version@system"`` that will use the wrapper recipe provided before with details about that dependency in that sysroot.
 
 
 The ``[replace_requires]`` is valid for regular ``requires``. There is also a ``[replace_tool_requires]`` intended for the same purpose, but for ``tool_requires``, with the same rules and behavior.
+
 
 ## Usage of [platform_requires] and [replace_requires] in the build and host profiles
 
