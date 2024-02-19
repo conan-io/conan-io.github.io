@@ -110,7 +110,7 @@ On the other hand, the above CMake example with ``[platform_tool_requires]`` wou
 
 ## Bonus graph feature: Understand why some binaries are missing with "conan graph explain"
 
-One of the common struggles in Conan 1.X is when installing Conan packages that were supposed to exist as pre-compiled binaries and then hitting a "Missing binary" error that looked like this:
+One of the common struggles in Conan 1.X is installing Conan packages that were supposed to exist as pre-compiled binaries and then hitting a "Missing binary" error. That error looked like this:
 
 ```bash
 $ conan install --requires=zlib/1.3 -s build_type=Debug
