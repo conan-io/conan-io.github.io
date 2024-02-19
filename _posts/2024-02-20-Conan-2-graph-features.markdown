@@ -131,7 +131,7 @@ $ conan graph explain --requires=zlib/1.3 -s build_type=Debug
 </p>
 
 
-That clearly explains and highlights in colors the reason why this binary is missing. In this case, it is because ConanCenter is not building Debug binaries for this compiler version, so only the Release binaries are available.
+That clearly explains and highlights in colors the reason why this binary is missing. In this case, it is because ConanCenter is not building Debug binaries for this compiler version, and the Release binaries are the only ones available.
 
 The ``conan graph explain`` command is designed to explain all possible differences that cause binaries to be missing, from differences in settings, options, dependencies’ versions, configuration, etc.
 
