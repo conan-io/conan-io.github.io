@@ -13,7 +13,7 @@ We are happy to announce that one of the latest releases of Conan 2.0 has implem
 - The possibility to replace any recipe ``requires`` dependency in the dependency graph by any other dependency (as long as it is API compatible) with the ``[replace_requires]`` feature. This feature can be used to replace regular ``requires`` for system wrapper equivalents or to do a replacement of api compatible packages like swapping ``zlib`` for ``zlib-ng`` or ``libjpeg`` for ``libjpeg-turbo``, without having to modify any recipe.
 - The capability of explaining in detail when a binary is missing, comparing the settings, options and dependencies of the missing binary against existing ones in cache and in remote repos, showing a diff-like result, with the new ``conan graph explain`` command.
 
-Furthermore the first 2 features have the capability of applying to both for regular ``requires`` and ``tool_requires``. Let's have a look at these new features in detail.
+Furthermore the first 2 features have the capability of applying to both regular ``requires`` and ``tool_requires``. Let's have a look at these new features in detail.
 
 ## Replace Conan dependencies with system ones
 
