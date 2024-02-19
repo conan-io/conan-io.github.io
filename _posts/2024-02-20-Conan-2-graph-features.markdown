@@ -120,7 +120,7 @@ $ conan install --requires=zlib/1.3 -s build_type=Debug
     <img src="{{ site.baseurl }}/assets/post_images/2024-02-20/conan_missing_binary.png" alt="conan missing binary"/>
 </p>
 
-Even if this error message provides some information about the missing binary, it is not evident why the binary was missing. Now, as the error message suggests, we have the ``conan graph explain``. Basically typing the same ``conan install`` command, but now using ``graph explain`` to obtain something like:
+Even if this error message provides some information about the missing binary, it is not evident why the binary is missing. Now, as the error message suggests, we have the ``conan graph explain``. Basically typing the same ``conan install`` command, but now using ``graph explain`` to obtain something like:
 
 ```bash
 $ conan graph explain --requires=zlib/1.3 -s build_type=Debug
