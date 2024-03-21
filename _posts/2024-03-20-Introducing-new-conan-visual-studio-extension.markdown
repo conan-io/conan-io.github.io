@@ -7,18 +7,18 @@ description: "Explore the capabilities of the new Conan Visual Studio Extension,
 ---
 
 We're excited to announce the release of the new Conan Extension for Visual Studio, now
-fully compatible with Conan 2.X versions. This extension is designed to simplify the
+fully compatible with Conan 2. This extension is designed to simplify the
 workflow for developers using Visual Studio (2022 and later) and Conan for their C++
-projects. This post will guide you through the extension's use with a practical example:
+projects. This post will guide you through using the extension with a practical example:
 downloading an image from the internet, loading it, and displaying it as ASCII art in the
-console. For that, we will use these libraries, available in [Conan
+console. For this purpose, we will use the following libraries, available in [Conan
 Center](https://conan.io/center):
 
-- [libcurl](https://conan.io/center/recipes/libcurl): to download the images from the
+- [libcurl](https://conan.io/center/recipes/libcurl) for downloading images from the
   Internet.
-- [stb](https://conan.io/center/recipes/stb): to load the downloaded images.
-- [fmt](https://conan.io/center/recipes/fmt): to print the colored ASCII art output to the
-  console. 
+- [stb](https://conan.io/center/recipes/stb) for loading the downloaded images.
+- [fmt](https://conan.io/center/recipes/fmt) for printing the colored ASCII art output to
+  the console.
 
 
 <p class="centered">
@@ -28,9 +28,9 @@ Center](https://conan.io/center):
 
 ## Overview of the Extension
 
-The Conan Extension for Visual Studio offers a seamless integration for managing C++
+The Conan Extension for Visual Studio offers seamless integration for managing C++
 packages within your IDE, eliminating the need for external configuration or terminal
-commands. Here’s how to get started:
+commands. Here's how to get started:
 
 ### Installation
 
@@ -45,39 +45,39 @@ Install the Conan Extension directly within Visual Studio:
 - Click on the Download button and follow the installation prompts.
 - Restart Visual Studio to activate the extension.
 
-### Creating a new C++ Project
+### Creating a New C++ Project
 
 With the Conan Extension installed, start by creating a new C++ project in Visual Studio.
-Let's create a new *C++ Console App* project called Image2ASCII.
+Let's create a new *C++ Console App* project called **Image2ASCII**.
 
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2024-03-22/configure-new-project.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Configure new project"/>
 </p>
 
-### Configuring the extension
+### Configuring the Extension
 
-First, start the extension going to **View > Other Windows > Conan C/C++ Package Manager**
-and dock it in a place where you can easily access it, besides the *Solution Explorer
-*could be a good place.
+First, start the extension by going to **View > Other Windows > Conan C/C++ Package
+Manager** and dock it in a place where you can easily access it, next to the *Solution
+Explorer* could be a good place.
 
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2024-03-22/view-other-windows-conan.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Start the Conan extension"/>
 </p>
 
 Upon first use, configure the Conan executable path in the Conan tool window by clicking
-the ⚙️ (wheel) symbol. You can specify a custom path (for a virtual environment for
-example) or use the system-wide installation.
+the ⚙️ (wheel) symbol. You can specify a custom path (for example, for a virtual
+environment) or use the system-wide installation.
 
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2024-03-22/configure-extension.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Configure the Conan extension"/>
 </p>
 
-After setting a valid path for the Conan executable, the search box will be enabled and we
-are ready to search for Conan packages to add them to our project.
+After setting a valid path for the Conan executable, the search box will be enabled, and
+we are ready to search for Conan packages to add them to our project.
 
-### Adding the required dependencies
+### Adding the Required Dependencies
 
-Now we are ready to start adding the dependencies to the project and coding our ASCII Art
+Now let's start adding the dependencies to the project and coding our ASCII Art
 generator.
 
 Please, first add the [libcurl](https://conan.io/center/recipes/libcurl) dependency for
@@ -86,9 +86,9 @@ downloading images:
 1. Open the Conan tool window and search for `libcurl`.
 2. Select the desired version and click `Add requirement` to include it in your project.
 3. The extension automatically creates a `conanfile.py` and `conandata.yml`, to store the
-   dependencies and invoke the
+   dependencies and to later invoke the
    [MSBuildDeps](https://docs.conan.io/2/reference/tools/microsoft/msbuilddeps.html)
-   generator.
+   generator before the build.
 4. A prebuild event is added to your project settings, ensuring that the dependencies are
    installed prior to compilation.
 
@@ -96,20 +96,19 @@ downloading images:
     <img  src="{{ site.baseurl }}/assets/post_images/2024-03-22/select-libraries.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Add libcurl requirement"/>
 </p>
 
-Repeat the same step for the [stb](https://conan.io/center/recipes/stb) and
+Repeat the same steps for the [stb](https://conan.io/center/recipes/stb) and
 [fmt](https://conan.io/center/recipes/fmt) libraries.
 
-### Adding the code
+### Adding the Code
 
 Now we are ready to add the code for our ASCII art generator. We will not delve into the
 specific details of the code, as it is beyond the scope of this tutorial. However, all the
 source code for this example is available in the [Conan 2.0 examples
 repo](https://github.com/conan-io/examples2/tree/main/examples/libraries/libcurl/ascii_art_color):
 
-Open the *main.cpp* file that CLion generated and replace the example code with the code
-below (you can also copy it from the
+Open the *Image2ASCII.cpp* file that Visual Studio generated and replace the example code with
+the code below (you can also copy it from the
 [repository](https://github.com/conan-io/examples2/tree/main/examples/libraries/libcurl/ascii_art_color/asciiartgen.cpp)):
-
 
 ```cpp
 #include <iostream>
@@ -223,26 +222,26 @@ int main(int argc, char** argv) {
 ```
 
 Essentially, this application accepts an image URL as an argument (or defaults to a
-specific one if not provided), and downloads it using *libcurl* with the
-``download_image()`` function. Subsequently, it reads the RGB values with *stb* and
-converts the luminance values to ASCII characters using the ``image_to_ascii()`` function
-printing in the console the colored characters using *fmt*.
+specific one if not provided) and downloads it using *libcurl* with the `download_image()`
+function. Subsequently, it reads the RGB values with *stb* and converts the luminance
+values to ASCII characters using the `image_to_ascii()` function, printing the colored
+characters in the console using *fmt*.
 
 ### Compilation and Execution
 
 Build your project as usual in Visual Studio. The first build triggers the Conan
-installation for your dependencies, seamlessly integrating them into your project. Every
-time you change add a requirement or that a requirement is not already installed for the
-selected configuration the prebuild event will launch Conan to install the dependencies
-before building. After the first Build of the project Conan will have installed all the
-requirements, you will have to relaunch the build again so that all the properties with the package's locations are
-injected properly to the project.
+installation for your dependencies. Every time you add a requirement or a requirement is
+not already installed for the selected configuration, the prebuild event will launch Conan
+to install the dependencies before building. After the first build of the project, once
+Conan has installed all the requirements, you will have to relaunch the build again so
+that all the properties with the packages' locations are injected properly into the
+project.
 
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2024-03-22/conan-installation-success.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Conan installation success"/>
 </p>
 
-Now click of the run button to launch the program:
+Now click on the run button to launch the program:
 
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2024-03-22/bird.png" style="display: block; margin-left: auto; margin-right: auto;" alt="ASCII art bird"/>
@@ -250,8 +249,9 @@ Now click of the run button to launch the program:
 
 ## Conclusion
 
-The new Conan Visual Studio extension, compatible with Conan 2.X versions, is designed to
-provide seamless integration between the Conan package manager and the Visual Studio IDE.
-By providing an integrated, intuitive interface, it eliminates the complexity of package
-management, allowing you to focus on developing your application. We look forward to
-seeing the innovative projects you'll create with the help of this extension.
+The new Conan Visual Studio extension, compatible with Conan 2, is designed to provide
+seamless integration between the Conan package manager and the Visual Studio IDE. By
+providing an integrated, intuitive interface, it eliminates the complexity of package
+management, allowing you to focus on developing your application. We hope this tool
+enhances your development experience, and we eagerly await to see what you will build with
+it!
