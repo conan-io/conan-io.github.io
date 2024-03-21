@@ -22,7 +22,7 @@ Center](https://conan.io/center):
 
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2024-03-22/transformation.png" style="display: block; margin-left: auto; margin-right: auto;" alt="From picture to ASCII art"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2024-03-21/transformation.png" style="display: block; margin-left: auto; margin-right: auto;" alt="From picture to ASCII art"/>
 </p>
 
 
@@ -35,7 +35,7 @@ commands. Here's how to get started:
 ### Installation
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2024-03-22/manage-extensions-conan.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Install Conan Visual Studio extension"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2024-03-21/manage-extensions-conan.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Install Conan Visual Studio extension"/>
 </p>
 
 Install the Conan Extension directly within Visual Studio:
@@ -51,7 +51,7 @@ With the Conan Extension installed, start by creating a new C++ project in Visua
 Let's create a new *C++ Console App* project called **Image2ASCII**.
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2024-03-22/configure-new-project.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Configure new project"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2024-03-21/configure-new-project.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Configure new project"/>
 </p>
 
 ### Configuring the Extension
@@ -61,7 +61,7 @@ Manager** and dock it in a place where you can easily access it, next to the *So
 Explorer* could be a good place.
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2024-03-22/view-other-windows-conan.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Start the Conan extension"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2024-03-21/view-other-windows-conan.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Start the Conan extension"/>
 </p>
 
 Upon first use, configure the Conan executable path in the Conan tool window by clicking
@@ -69,7 +69,7 @@ the ⚙️ (wheel) symbol. You can specify a custom path (for example, for a vir
 environment) or use the system-wide installation.
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2024-03-22/configure-extension.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Configure the Conan extension"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2024-03-21/configure-extension.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Configure the Conan extension"/>
 </p>
 
 After setting a valid path for the Conan executable, the search box will be enabled, and
@@ -93,7 +93,7 @@ downloading images:
    installed prior to compilation.
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2024-03-22/select-libraries.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Add libcurl requirement"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2024-03-21/select-libraries.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Add libcurl requirement"/>
 </p>
 
 Repeat the same steps for the [stb](https://conan.io/center/recipes/stb) and
@@ -238,13 +238,13 @@ that all the properties with the packages' locations are injected properly into 
 project.
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2024-03-22/conan-installation-success.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Conan installation success"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2024-03-21/conan-installation-success.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Conan installation success"/>
 </p>
 
 Now click on the run button to launch the program:
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2024-03-22/bird.png" style="display: block; margin-left: auto; margin-right: auto;" alt="ASCII art bird"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2024-03-21/bird.png" style="display: block; margin-left: auto; margin-right: auto;" alt="ASCII art bird"/>
 </p>
 
 ## Conclusion
