@@ -229,8 +229,8 @@ characters in the console using *fmt*.
 
 ### Compilation and Execution
 
-Build your project as usual in Visual Studio. The first build triggers the Conan
-installation for your dependencies. Every time you add a requirement or a requirement is
+Build your project as usual in Visual Studio. **The first build triggers the Conan
+installation for your dependencies**. Every time you add a requirement or a requirement is
 not already installed for the selected configuration, the prebuild event will launch Conan
 to install the dependencies before building. After the first build of the project, once
 Conan has installed all the requirements, you will have to **relaunch the build again** so
