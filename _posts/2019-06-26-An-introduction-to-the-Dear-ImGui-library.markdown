@@ -15,7 +15,7 @@ create [loggers](https://github.com/ocornut/imgui/issues/2529),
 [debuggers](https://github.com/ocornut/imgui/issues/2265) or even an [entire
 game making editor](https://github.com/ocornut/imgui/issues/1607) quickly and
 easily. The entire
-[example](https://github.com/conan-io/examples2/tree/new_imgui_example/examples/libraries/imgui/introduction)
+[example](https://github.com/conan-io/examples2/tree/main/examples/libraries/imgui/introduction)
 presented here is available on Github.
 
 ### Update 2023-05-18: Update post for Conan 2.0
@@ -176,10 +176,9 @@ different examples.
 ### Setting up a project with Conan
 
 Setting up a project that uses ImGui is a matter of minutes with Conan. [A Conan
-package for ImGui](https://conan.io/center/imgui?version=1.89.4) has been created and added to
+package for ImGui](https://conan.io/center/recipes/imgui) has been created and added to
 Conan-Center already. The example shown here is using Windows and Visual Studio
-2022 but it is very similar in [MacOS or
-Linux](https://github.com/conan-io/examples/blob/master/libraries/dear-imgui/basic/README.md).
+2022 but it is very similar in MacOS or Linux.
 
 If you want to give a try tou can download all the files from the Conan examples
 repo:
