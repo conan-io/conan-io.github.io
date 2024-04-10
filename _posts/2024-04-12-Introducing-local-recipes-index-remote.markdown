@@ -271,10 +271,9 @@ Several important points should be considered when using this new feature:
   highly beneficial for testing.
 
 - This approach operates at the source level and does not generate package binaries. For
-  production use, a package server remains essential:
-
-It's crucial to note that this feature is not intended to replace Conan package remote
-servers. These servers are essential for hosting packages for regular consumption.
+  deployment in production environments, the use of a package server such as Artifactory
+  is crucial. It's important to note that this feature is not a replacement for Conan's
+  remote package servers, which play a vital role in hosting packages for regular use.
 
 Furthermore, this feature does not support placing server URLs directly in recipes; remote
 repositories must be explicitly added with `conan remote add`. Decoupling abstract package
