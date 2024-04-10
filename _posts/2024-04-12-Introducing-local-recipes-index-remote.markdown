@@ -252,17 +252,53 @@ modified recipe in our Conan home.
 
 ### Using local-recipes-index repositories in production
 
-When implementing this feature, consider the following:
+There are several very important points to take into consideration to use this new
+feature:
 
-- It's intended for third-party packages, meaning recipes should manage packages whose
-  sources are elsewhere.
+- This feature is intended for third-party packages, where recipes in one repository  are
+creating packages whose sources are in other places. For creating packages for your own
+code, the standard flow of adding ``conanfile.py`` recipes together with the source code
+and standard ``conan create`` flow  is recommended
 
-- `local-recipes-index` repositories are intended as local directories, not git remote
-  repositories, ensuring reproducibility by building packages from specific repository
-  states.
+- The ``local-recipes-index`` repositories are local folder, not git remote repos. While it
+seems that providing a git url and having Conan clone it automatically, a large part of
+the value of the feature is that it allows to build packages from the specific
+branch/commit/tag of the repository. This allows full reproducibility and control over
+third party dependencies at the source level. Creating a bunch of custom arguments and
+wrappers around ``git`` to checkout a specific state is an unnecessary layer, when users
+can directly use ``git`` easily. Furthermore, one of the largest benefits of this feature
+is that the local recipes can be directly modified locally in the folder, and Conan will
+take the changes automatically, which is very convenient for testing.
 
-- While it enables source-level management, a package server is necessary for production
-  to host the binaries.
+- This is a source-level approach, but it doesn’t provide package binaries. For production
+usage, a package server is still necessary:
+
+**<IMAGE>**
+
+It is important to highlight that this feature is not aimed to replace the Conan package
+remote servers. These servers are still necessary to host the packages for regular
+consumption. 
+
+Likewise, this feature doesn’t allow to put server URL directly in recipes, but the remote
+repositories must be explicitly added with ``conan remote add``. Decoupling the abstract
+package requirements like “zlib/1.3” from the specific origins is a very necessary
+property to be able to correctly resolve dependencies and implement many of the Conan
+graph capabilities: version conflict detection and resolution with overrides,
+version-ranges resolution, opt-in to pre-releases, platform_requires, replace_requires,
+etc.
+
+## Conclusions
+
+The new ``local-recipes-index`` repository type introduces a new tool that allows some
+flows that weren’t possible with Conan 1.X:
+
+Allow to easily create packages from forks of ``conan-center-index`` github repo, which is
+mandated by policies in many enterprises and is necessary to maintain private
+customizations in recipes that are not suitable to be merged in the upstream repository
+Implements a solution for closed source and other libraries and tools in the C/C++
+ecosystem, like the CUDA compilers and toolkits, to share their recipes to automate their
+usage in a convenient way with the Conan community
+
 
 
 
