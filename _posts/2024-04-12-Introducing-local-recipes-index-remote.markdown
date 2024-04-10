@@ -1,9 +1,9 @@
 ---
 layout: post
 comments: false
-title: "Conan launches new local-recipes-index repository type"
-meta_title: "Introducing Local-Recipes-Index in Conan - Conan Blog"
-description: "Dive into the local-recipes-index feature by Conan."
+title: "Introducing the Local-Recipes-Index: A New Repository Type in Conan"
+meta_title: "Understanding Conan's Local-Recipes-Index to improve package management for C/C++ - Conan Blog"
+description: "Explore the capabilities of Conan's local-recipes-index feature and how it enhances dependency management for C and C++ libraries."
 ---
 
 ConanCenter, the central open-source repository for C and C++ libraries, is a success
