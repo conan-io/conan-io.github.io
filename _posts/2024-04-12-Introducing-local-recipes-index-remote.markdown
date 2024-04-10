@@ -8,8 +8,8 @@ description: "Dive into the local-recipes-index feature by Conan."
 
 ConanCenter, the central open-source repository for C and C++ libraries, is a success
 story, containing a vast majority of C and C++ open-source packages. It processes hundreds
-of thousands of download requests daily, building its packages from a central GitHub
-repository (https://github.com/conan-io/conan-center-index), which is organized in a
+of thousands of download requests daily, building its packages [from a central GitHub
+repository](https://github.com/conan-io/conan-center-index), which is organized in a
 specific folder layout and has received nearly 6,000 pull requests from contributors in
 2023 alone.
 
@@ -20,8 +20,9 @@ binaries downloaded from the internet. Instead, they build their own binaries in
 using the `conan-center-index` recipes. These organizations often need to customize these
 recipes to meet unique requirements that are not applicable to the broader community,
 making such contributions unsuitable for the upstream repository. The Conan documentation
-(https://docs.conan.io/2/devops/conancenter/hosting_binaries.html) acknowledges this
-practice, recommending working from a fork of `conan-center-index` for such needs.
+[acknowledges this
+practice](https://docs.conan.io/2/devops/conancenter/hosting_binaries.html), recommending
+working from a fork of `conan-center-index` for such needs.
 
 For all those reasons in version 2.2.0, Conan introduced a new repository type called
 `local-recipes-index`, designed to offer more flexibility by allowing a Conan remote to
@@ -35,7 +36,6 @@ as the `conan-center-index` GitHub repository, using it as a source for package 
 This method requires building package binaries from source, which must then be stored on a
 remote Conan server for production use. 
 
-<b>THIS IMAGE IS A PLACEHOLDER TO CHANGE FOR A BETTER ONE</b>
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2024-04-12/general-flow-diagram.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Diagram of the general workflow"/>
 </p>
@@ -50,10 +50,10 @@ In this post, we will explore how this feature facilitates the following:
   recipes enable users to use the official installers provided by the library owners
   within the Conan ecosystem.
 
-- It simplifies the adoption of best practices outlined in
-  https://docs.conan.io/2/devops/conancenter/hosting_binaries.html for organizations
-  requiring custom-built binaries or modified ConanCenter recipes to meet unique
-  requirements. This approach grants users complete control over their third-party
+- It simplifies the adoption of best practices outlined [in the Conan
+  documentation](https://docs.conan.io/2/devops/conancenter/hosting_binaries.html) for
+  organizations requiring custom-built binaries or modified ConanCenter recipes to meet
+  unique requirements. This approach grants users complete control over their third-party
   dependencies, ensuring they are both robust and fully customizable.
 
 Next, we'll delve into practical examples to demonstrate these two use cases of the
@@ -272,8 +272,6 @@ Several important points should be considered when using this new feature:
 
 - This approach operates at the source level and does not generate package binaries. For
   production use, a package server remains essential:
-
-**<IMAGE>**
 
 It's crucial to note that this feature is not intended to replace Conan package remote
 servers. These servers are essential for hosting packages for regular consumption.
