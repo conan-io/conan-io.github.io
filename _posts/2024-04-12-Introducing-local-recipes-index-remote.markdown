@@ -118,10 +118,12 @@ many advantages, including absolute control and possibility to customize recipes
 to use lockfiles, be completely robust against possible continuous changes and new
 releases in upstream ConanCenter, etc.
 
-The `local-recipes-index` repository allows you to easily building binaries
-from a fork of the `conan-center-index`. It is important not to mix binaries from
-ConanCenter with locally built ones but instead to build all dependencies directly from
-the fork.
+The `local-recipes-index` repository allows you to easily building binaries from a fork of
+the `conan-center-index`, and then hosting them on a Conan remote repository like
+Artifactory. This is important to avoid mixing binaries from ConanCenter with those built
+locally. It ensures all dependencies are consistently built from the fork, establishing a
+more managed and secure process for binary creation that meets necessary compliance
+standards.
 
 To begin, remove the upstream ConanCenter as it will not be used, everything will come from our own fork:
 
