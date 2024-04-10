@@ -32,8 +32,8 @@ The `local-recipes-index` allows users to maintain a local folder with the same 
 as the `conan-center-index` GitHub repository, using it as a source for package recipes.
 This new type of repository is recipes-only, necessitating the construction of package
 binaries from source on each machine where the package is used. For sharing binaries
-across teams or deployments, we continue to recommend using a Conan remote server like
-Artifactory for production purposes.
+across teams, we continue to recommend using a Conan remote server like Artifactory for
+production purposes.
 
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2024-04-12/general-flow-diagram.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Diagram of the general workflow"/>
