@@ -43,7 +43,7 @@ remote Conan server for production use.
 In this post, we will explore how this feature facilitates the following:
 
 - This feature makes it possible for contributors to share package recipes with the
-  community for libraries like CUDA or other propietary libraries, which are distributed
+  community for libraries like CUDA or other proprietary libraries, which are distributed
   as precompiled closed-source binaries. This includes libraries that may not be suitable
   for ConanCenter due to various reasons such as licensing constraints or binary
   distribution policies. While direct repackaging of the binaries is not permitted, these
