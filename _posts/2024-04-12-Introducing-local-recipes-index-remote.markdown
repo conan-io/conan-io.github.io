@@ -93,11 +93,11 @@ it, but for this demo, it works as-is. It will create a folder layout equal to t
 
 After setting up the repository, we add it as a local remote to Conan:
 
-    $ conan remote add mylocalrepo ./repo --allowed-packages="hello/0.*"
+    $ conan remote add mylocalrepo ./repo --allowed-packages="hello/*"
 
 Please pay special attention to the `--allowed-packages` argument. This argument ensures
-that all versions other than the `0.*` versions of the hello package are discarded by
-Conan. This can be used to minimize the surface area for a potential supply chain attack.
+that all packages other than `hello` are discarded by Conan. This can be used to minimize
+the surface area for a potential supply chain attack.
 
 Now you can list and install packages from this new repository:
 
@@ -115,9 +115,9 @@ Guide](https://docs.conan.io/2/devops/using_conancenter.html), there are many ca
 organizations need to operate independently of ConanCenter by building their own binaries.
 Being decoupled from the public upstream ConanCenter server and building your own binaries
 from a fork of ``conan-center-index`` as suggested in that documentation page can have
-many advantages, including absolute control and possibility to customize recipes, no need
-to use lockfiles, be completely robust against possible continuous changes and new
-releases in upstream ConanCenter, etc.
+many advantages, including absolute control and possibility to customize recipes, giving
+us the ability for the repository to act as a snapshot of versions, be completely robust
+against possible continuous changes and new releases in upstream ConanCenter, etc.
 
 The `local-recipes-index` repository allows you to easily build binaries from a fork of
 `conan-center-index`, and then hosting them on a Conan remote repository like Artifactory.
@@ -289,7 +289,8 @@ conflict detection and resolution, version-ranges resolution, [opting into
 pre-releases](https://docs.conan.io/2/devops/versioning/resolve_prereleases.html),
 [platform_requires](https://docs.conan.io/2/reference/config_files/profiles.html#platform-requires),
 [replace_requires](https://docs.conan.io/2/reference/config_files/profiles.html#replace-requires),
-etc.
+etc. This separation also facilitates the implementation of modern DevOps practices, such
+as package immutability and full relocatability and package promotions.
 
 ## Conclusions
 
