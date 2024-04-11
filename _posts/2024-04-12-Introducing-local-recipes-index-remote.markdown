@@ -41,13 +41,11 @@ production purposes.
 
 In this post, we will explore how this feature facilitates the following:
 
-- This feature makes it possible for contributors to share package recipes with the
-  community for libraries like CUDA or other proprietary libraries, which are distributed
-  as precompiled closed-source binaries. This includes libraries that may not be suitable
-  for ConanCenter due to various reasons such as licensing constraints or binary
-  distribution policies. While direct repackaging of the binaries is not permitted, these
-  recipes enable users to use the official installers provided by the library owners
-  within the Conan ecosystem.
+- This feature enables contributors to share package recipes with the community for
+  libraries that might not be suitable for ConanCenter due to various reasons, such as
+  licensing constraints or binary distribution policies. An example of this could be CUDA
+  or other proprietary libraries, which are distributed as precompiled closed-source
+  binaries.
 
 - It simplifies the adoption of best practices outlined [in the Conan
   documentation](https://docs.conan.io/2/devops/conancenter/hosting_binaries.html) for
@@ -95,7 +93,11 @@ it, but for this demo, it works as-is. It will create a folder layout equal to t
 
 After setting up the repository, we add it as a local remote to Conan:
 
-    $ conan remote add mylocalrepo ./repo
+    $ conan remote add mylocalrepo ./repo --allowed-packages="hello/0.*"
+
+Please pay special attention to the `--allowed-packages` argument. This argument ensures
+that all versions other than the `0.*` versions of the hello package are discarded by
+Conan. This can be used to minimize the surface area for a potential supply chain attack.
 
 Now you can list and install packages from this new repository:
 
@@ -117,14 +119,17 @@ many advantages, including absolute control and possibility to customize recipes
 to use lockfiles, be completely robust against possible continuous changes and new
 releases in upstream ConanCenter, etc.
 
-The `local-recipes-index` repository allows you to easily building binaries from a fork of
-the `conan-center-index`, and then hosting them on a Conan remote repository like
-Artifactory. This is important to avoid mixing binaries from ConanCenter with those built
-locally. It ensures all dependencies are consistently built from the fork, establishing a
-more managed and secure process for binary creation that meets necessary compliance
-standards.
+The `local-recipes-index` repository allows you to easily build binaries from a fork of
+`conan-center-index`, and then hosting them on a Conan remote repository like Artifactory.
+The main difference with the process explained [in the Conan DevOps
+guide](https://docs.conan.io/2/devops/conancenter/hosting_binaries.html) is the ability
+to immediately test multiple local changes without the need to export each time a recipe
+is modified.
 
-To begin, remove the upstream ConanCenter as it will not be used, everything will come from our own fork:
+Note that in this case, mixing binaries from ConanCenter with locally built binaries is
+not recommended. Instead, build all your direct and transitive dependencies from the fork.
+To begin, remove the upstream ConanCenter as it will not be used, everything will come
+from our own fork:
 
     $ conan remote remove conancenter
 
@@ -229,8 +234,8 @@ package consumers enjoy pre-compiled binaries and consistency across dependencie
 
 ### Modifying the local-recipes-index repository files
 
-One of the advantages of this approach is that all the changes that we do in the folder
-are automatically available for the Conan client. For example, changes to the
+One of the advantages of this approach is that all the changes that we do in every single
+recipe are automatically available for the Conan client. For example, changes to the
 `recipes/zlib/config.yml` file, are immediately recognized by the Conan client. If you
 edit that file and remove all versions but the latest and then we `list` the recipes:
 
@@ -260,19 +265,21 @@ Several important points should be considered when using this new feature:
   of adding `conanfile.py` recipes along with the source code and using the standard
   `conan create` flow is recommended.
 
-- The `local-recipes-index` repositories are intended as **local folders, not git remote
-  repos**. Although it may seem convenient to provide a git URL for Conan to clone
-  automatically, a significant advantage of this feature is the ability to build packages
-  from specific branches, commits, or tags of the repository. This ensures **full
-  reproducibility and control over third-party dependencies at the source level**.
-  Additionally, a key benefit of this feature is that local recipes can be directly
-  modified in the folder, and Conan will automatically recognize the changes, which is
-  highly beneficial for testing.
+- The `local-recipes-index` repositories point to **local folders in the filesystem**.
+  While users may choose to sync that folder with a git repository or other version
+  control mechanisms, Conan is agnostic to this, as it is only aware of the folder in the
+  filesystem that points to the (current) state of the repository. Users may choose to run
+  git commands directly to switch branches/commit/tags and Conan will automatically
+  recognise the changes
 
 - This approach operates at the source level and does not generate package binaries. For
   deployment in production environments, the use of a package server such as Artifactory
   is crucial. It's important to note that this feature is not a replacement for Conan's
   remote package servers, which play a vital role in hosting packages for regular use.
+
+- Also, note that a server remote can retain a history of changes storing multiple recipe
+  revisions. In contrast, a `local-recipes-index` remote can only represent a single
+  snapshot at any given time. 
 
 Furthermore, this feature does not support placing server URLs directly in recipes; remote
 repositories must be explicitly added with `conan remote add`. Decoupling abstract package
