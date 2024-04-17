@@ -32,8 +32,9 @@ The `local-recipes-index` allows users to maintain a local folder with the same 
 as the `conan-center-index` GitHub repository, using it as a source for package recipes.
 This new type of repository is recipes-only, necessitating the construction of package
 binaries from source on each machine where the package is used. For sharing binaries
-across teams, we continue to recommend using a Conan remote server like Artifactory for
-production purposes.
+across teams, we continue to recommend [using a Conan remote server like
+Artifactory](https://www.google.com/url?q=https://docs.conan.io/2/tutorial/conan_repositories/setting_up_conan_remotes/artifactory/artifactory_ce_cpp.html%23artifactory-ce-cpp&sa=D&source=docs&ust=1713353795928390&usg=AOvVaw1tq4PVvg6umcEqZUqMY4Lo)
+for production purposes.
 
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2024-04-12/general-flow-diagram.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Diagram of the general workflow"/>
@@ -215,10 +216,11 @@ We can see now the binary package in our local cache:
                     fPIC: True
                     shared: False
 
-Finally, upload the binary package to our server to make it available for our
-organization, users and CI jobs:
+Finally, upload the binary package to our Artifactory repository to make it available for
+our organization, users and CI jobs:
 
-    $ conan upload zlib* -r=myprivateserver -c
+    $ conan remote add myartifactoryrepo <artifactory_url>
+    $ conan upload zlib* -r=myartifactoryrepo -c
 
 This way, consumers of the packages will not only enjoy the pre-compiled binaries and
 avoid having to always re-build from source all dependencies, but that will also provide
@@ -273,9 +275,10 @@ Several important points should be considered when using this new feature:
   recognise the changes
 
 - This approach operates at the source level and does not generate package binaries. For
-  deployment in production environments, the use of a package server such as Artifactory
-  is crucial. It's important to note that this feature is not a replacement for Conan's
-  remote package servers, which play a vital role in hosting packages for regular use.
+  deployment for development and production environments, the use of a remote package
+  server such as Artifactory is crucial. It's important to note that this feature is not a
+  replacement for Conan's remote package servers, which play a vital role in hosting
+  packages for regular use.
 
 - Also, note that a server remote can retain a history of changes storing multiple recipe
   revisions. In contrast, a `local-recipes-index` remote can only represent a single
