@@ -307,7 +307,7 @@ pre-releases](https://docs.conan.io/2/devops/versioning/resolve_prereleases.html
 [platform_requires](https://docs.conan.io/2/reference/config_files/profiles.html#platform-requires),
 [replace_requires](https://docs.conan.io/2/reference/config_files/profiles.html#replace-requires),
 etc. This separation also facilitates the implementation of modern DevOps practices, such
-as package immutability and full relocatability and package promotions.
+as package immutability, full relocatability and package promotions.
 
 ## Conclusions
 
