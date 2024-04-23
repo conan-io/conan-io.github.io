@@ -134,8 +134,7 @@ to immediately test multiple local changes without the need to export each time 
 is modified.
 
 Note that in this case, mixing binaries from ConanCenter with locally built binaries is
-not recommended mixing binaries from ConanCenter with locally built binaries is not
-recommended for several reasons:
+not recommended for several reasons:
 
 - Binary compatibility: There may be small differences in setup between the ConanCenter CI
 and user CI. Maintaining a consistent setup for all binaries can mitigate some issues.
