@@ -142,7 +142,7 @@ and user CI. Maintaining a consistent setup for all binaries can mitigate some i
 - Full control over builds: Building all binaries yourself ensures you have complete control
 over the compilation environment and dependency versions.
 
-Instead, build all your direct and transitive dependencies from the fork.
+Instead, it's recommended to build all your direct and transitive dependencies from the fork.
 To begin, remove the upstream ConanCenter as it will not be used, everything will come
 from our own fork:
 
