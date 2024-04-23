@@ -33,7 +33,7 @@ as the `conan-center-index` GitHub repository, using it as a source for package 
 This new type of repository is recipes-only, necessitating the construction of package
 binaries from source on each machine where the package is used. For sharing binaries
 across teams, we continue to recommend [using a Conan remote server like
-Artifactory](https://www.google.com/url?q=https://docs.conan.io/2/tutorial/conan_repositories/setting_up_conan_remotes/artifactory/artifactory_ce_cpp.html%23artifactory-ce-cpp&sa=D&source=docs&ust=1713353795928390&usg=AOvVaw1tq4PVvg6umcEqZUqMY4Lo)
+Artifactory](https://docs.conan.io/2/tutorial/conan_repositories/setting_up_conan_remotes/artifactory/artifactory_ce_cpp.html)
 for production purposes.
 
 <p class="centered">
