@@ -10,7 +10,7 @@ ConanCenter, the central open-source repository for C and C++ libraries, is a su
 story, containing a vast majority of C and C++ open-source packages. It processes hundreds
 of thousands of download requests daily, building its packages [from a central GitHub
 repository](https://github.com/conan-io/conan-center-index), which is organized in a
-specific folder layout and has received nearly 6,000 pull requests from contributors in
+specific folder layout and received nearly 6,000 pull requests from contributors in
 2023 alone.
 
 However, ConanCenter does not fit all use cases. For instance, it cannot include
