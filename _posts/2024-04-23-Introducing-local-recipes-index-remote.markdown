@@ -252,7 +252,7 @@ package consumers enjoy pre-compiled binaries and consistency across dependencie
 
 One of the advantages of this approach is that all the changes that we do in every single
 recipe are automatically available for the Conan client. For example, changes to the
-`recipes/zlib/config.yml` file, are immediately recognized by the Conan client. If you
+`recipes/zlib/config.yml` file are immediately recognized by the Conan client. If you
 edit that file and remove all versions but the latest and then we `list` the recipes:
 
     $ conan list "zlib/*" -r=mycenter
