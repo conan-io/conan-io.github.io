@@ -7,7 +7,7 @@ description: "Explore the capabilities of Conan's local-recipes-index feature an
 ---
 
 ConanCenter, the central open-source repository for C and C++ libraries, is a success
-story, containing a vast majority of C and C++ open-source packages. It processes hundreds
+story, containing a vast collection of C and C++ open-source packages. It processes hundreds
 of thousands of download requests daily, building its packages [from a central GitHub
 repository](https://github.com/conan-io/conan-center-index), which is organized in a
 specific folder layout and received nearly 6,000 pull requests from contributors in
