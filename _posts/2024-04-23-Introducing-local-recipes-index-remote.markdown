@@ -137,7 +137,7 @@ Note that in this case, mixing binaries from ConanCenter with locally built bina
 not recommended for several reasons:
 
 - Binary compatibility: There may be small differences in setup between the ConanCenter CI
-and user CI. Maintaining a consistent setup for all binaries can mitigate some issues.
+and the user's CI. Maintaining a consistent setup for all binaries can mitigate some issues.
 
 - Full control over builds: Building all binaries yourself ensures you have complete control
 over the compilation environment and dependency versions.
