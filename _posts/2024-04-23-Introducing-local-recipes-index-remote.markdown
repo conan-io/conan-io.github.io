@@ -63,7 +63,7 @@ In this section, we will illustrate how to use the `local-recipes-index` feature
 scenarios where certain libraries or tools, due to licensing restrictions or proprietary
 nature, are not suitable for ConanCenter.
 
-For demonstration, let's create a `local-recipes-index` repository for a hypothetical
+For demonstration purposes, let's create a `local-recipes-index` repository for a hypothetical
 `hello` closed-source library using the `local_recipes_index` template for the `conan new`
 command:
 
