@@ -121,7 +121,7 @@ As outlined in [the Conan DevOps
 Guide](https://docs.conan.io/2/devops/using_conancenter.html), there are many cases where
 organizations need to operate independently of ConanCenter by building their own binaries.
 Being decoupled from the public upstream ConanCenter server and building your own binaries
-from a fork of ``conan-center-index`` as suggested in that documentation page can have
+from a fork of ``conan-center-index`` as suggested in the linked documentation page can have
 many advantages, including absolute control and possibility to customize recipes, giving
 us the ability for the repository to act as a snapshot of versions, be completely robust
 against possible continuous changes and new releases in upstream ConanCenter, etc.
