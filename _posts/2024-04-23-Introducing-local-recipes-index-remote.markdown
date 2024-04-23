@@ -37,7 +37,7 @@ Artifactory](https://www.google.com/url?q=https://docs.conan.io/2/tutorial/conan
 for production purposes.
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2024-04-12/general-flow-diagram.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Diagram of the general workflow"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2024-04-23/general-flow-diagram.png" style="display: block; margin-left: auto; margin-right: auto;" alt="Diagram of the general workflow"/>
 </p>
 
 In this post, we will explore how this feature facilitates the following:
@@ -106,8 +106,14 @@ Now you can list and install packages from this new repository:
     $ conan install --requires=hello/0.1 -r=mylocalrepo --build=missing
 
 At this point, you could push this repository to your GitHub account and share it with the
-community. The only thing they would have to do is clone the GitHub repository and add the
-cloned folder as a local repository themselves.
+community. Please be aware that, as we commented earlier, this feature is specifically
+tailored for scenarios where certain libraries are not suitable for ConanCenter. Remember,
+a "local-recipes-index" repository has limitations: it is not fully reproducible as it
+models only versions and not revisions, and it does not provide binaries. Therefore,
+outside of these cases, it is advised to use a remote package server such as Artifactory.
+
+Now, users simply need to clone the GitHub repository and add the cloned folder as a local
+repository themselves.
 
 ## Building Binaries from a private `conan-center-index` fork
 
@@ -128,7 +134,16 @@ to immediately test multiple local changes without the need to export each time 
 is modified.
 
 Note that in this case, mixing binaries from ConanCenter with locally built binaries is
-not recommended. Instead, build all your direct and transitive dependencies from the fork.
+not recommended mixing binaries from ConanCenter with locally built binaries is not
+recommended for several reasons:
+
+- Binary compatibility: There may be small differences in setup between the ConanCenter CI
+and user CI. Maintaining a consistent setup for all binaries can mitigate some issues.
+
+- Full control over builds: Building all binaries yourself ensures you have complete control
+over the compilation environment and dependency versions.
+
+Instead, build all your direct and transitive dependencies from the fork.
 To begin, remove the upstream ConanCenter as it will not be used, everything will come
 from our own fork:
 
