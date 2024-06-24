@@ -3,15 +3,15 @@ layout: post
 comments: false
 title: "Introducing vendoring packages: Create and share packages decoupled from their dependencies"
 meta_title: "(optional) A longer more descriptive title for search engines to index"
-description: "A short summary of the post that will be displayed in the search engine results"
-keywords: "repackage,repackaging,conan repackage,package_id"
+description: "Explore the capabilities of Conan's vendor feature and how can be used in a enterprise environment."
+keywords: "vendoring,package,repackaging,conan vendor,package_id,private"
 ---
 
 
 We’re excited to roll out a highly anticipated feature that will significantly
 enhance how Conan users, including software vendors, manage and distribute
 their packages: the "vendor" feature. This new addition aims to streamline the
-deployment and sharing process of Conan packages, offering greater control over
+deployment and sharing processes of Conan packages, offering greater control over
 internal recipes and binaries **without exposing proprietary details**, or simply
 isolating implementation details across organization teams. Let’s dive into
 what "vendor" packages bring to the table and how they can benefit your
@@ -39,7 +39,7 @@ repositories.
 
 2. **Streamlined Distribution**
 
-    - The vendor feature simplifies the distribution process. Whether you’re using
+    - The vendor feature simplifies the distribution process. Whether you are using
     Conan Center Index or a private artifact repository, pre-built binaries for
     various configurations can be included, ensuring that end-users receive a
     ready-to-use package without the need for additional downloads
@@ -65,7 +65,7 @@ For this example, make sure to at least have Conan v2.4.1 installed available.
     $ conan create .
     ```
 
-2. Create a package depending on the previous library, which will be the one we’ll use to vendor its dependencies
+2. Create a package depending on the previous library, which will be the one we will use to vendor its dependencies
 
     ```sh
     $ cd .. && mkdir sdk && cd sdk
@@ -356,9 +356,9 @@ But what happens if we want to compile the internal vendored dependencies?
     </div>
     <br/>
 
-    **Note**: Red dashed border means the package is a vendor and yellow background means the package has been forced to be built
+    **Note**: Red dashed borders means the package is a vendor and yellow background means the package has been forced to be built
 
-4. To verify a vendored package does not need to have their transitive
+4. To verify that a vendored package does not need to have their transitive
    dependencies accessible unless forced to build, we can try to remove our ``lib_a`` package from our local cache and install again:
 
     ```sh
@@ -381,7 +381,9 @@ But what happens if we want to compile the internal vendored dependencies?
     ERROR: Package 'lib_a/1.0' not resolved: Unable to find 'lib_a/1.0' in remotes.
     ```
 
-    As expected, an error package not resolved is thrown when forcing building the vendored package if we do not have access to its dependencies.
+    As expected, an "Error: Package 'lib_a/1.0' not resolved" is raised when
+    forcing the build of the vendored package if we do not have access to its
+    dependencies.
 
 
 ### Proxy vendor for Extra Privacy
@@ -405,10 +407,10 @@ dependencies (updating, adding or removing) will not alter the ``package_id``,
 saving time and effort in environments where consistent package IDs are
 crucial.
 
-It goes without saying that the provider in charge of packaging the package
+It goes without saying that the provider of packaging the package
 should be in charge of updating the version of the package when any of its
-internal dependencies change version in order to update the ``package_id`` and let
-consumers know that the package has changed in some way.
+internal dependencies change version in order let consumers know that the
+package has changed in some way.
 
 ## Conclusion
 
