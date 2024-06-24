@@ -16,6 +16,14 @@ until the publication date:
 jekyll serve _config.yml --watch --future
 ```
 
+- Preview in local: Docker
+
+```sh
+docker run --rm -v $(pwd):/srv/jekyll -p 4000:4000 jekyll/jekyll:latest sh -c "gem install webrick && jekyll serve --host 0.0.0.0"
+```
+
+See blog at localhost:4000
+
 - Create new post: Just create the file with the format YEAR-MONTH-DAY-title.md
 
 ## Post Front Matter
