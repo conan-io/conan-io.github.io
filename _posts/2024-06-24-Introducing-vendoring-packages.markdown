@@ -56,197 +56,193 @@ repositories.
 
 For this example, make sure to at least have Conan v2.4.1 installed available.
 
-1. Create a basic library from the CMake template
+&nbsp;1. Create a basic library from the CMake template
 
-    ```sh
-    $ mkdir vendor-example && cd vendor-example
-    $ mkdir lib_a && cd lib_a
-    $ conan new cmake_lib -d name=lib_a -d version=1.0
-    $ conan create .
-    ```
+```sh
+$ mkdir vendor-example && cd vendor-example
+$ mkdir lib_a && cd lib_a
+$ conan new cmake_lib -d name=lib_a -d version=1.0
+$ conan create .
+```
 
-2. Create a package depending on the previous library, which will be the one we will use to vendor its dependencies
+&nbsp;2. Create a package depending on the previous library, which will be the one we will use to vendor its dependencies
 
-    ```sh
-    $ cd .. && mkdir sdk && cd sdk
-    $ conan new cmake_lib -d name=sdk -d version=1.0 -d requires="lib_a/1.0"
-    $ conan create .
-    ```
+```sh
+$ cd .. && mkdir sdk && cd sdk
+$ conan new cmake_lib -d name=sdk -d version=1.0 -d requires="lib_a/1.0"
+$ conan create .
+```
 
-3. Create a consumer application depending on the sdk library:
+&nbsp;3. Create a consumer application depending on the sdk library:
 
-    ```sh
-    $ cd .. && mkdir app && cd app
-    $ conan new cmake_exe -d name=app -d version=1.0 -d requires="sdk/1.0" 
-    ```
+```sh
+$ cd .. && mkdir app && cd app
+$ conan new cmake_exe -d name=app -d version=1.0 -d requires="sdk/1.0" 
+```
 
-4. Install the created application 
+&nbsp;4. Install the created application 
 
-    ```sh
-    $ conan install . --build=missing
+```sh
+$ conan install . --build=missing
 
-    ======== Computing dependency graph ========
-    ...
-    Requirements
-        lib_a/1.0#ab64452c42599a3dc0ee6a0dc90bbd90 - Cache
-        sdk/1.0#1cb781c232f63845b7943764d8a084ed - Cache
+======== Computing dependency graph ========
+...
+Requirements
+    lib_a/1.0#ab64452c42599a3dc0ee6a0dc90bbd90 - Cache
+    sdk/1.0#1cb781c232f63845b7943764d8a084ed - Cache
 
-    ======== Computing necessary packages ========
-    Requirements
-        lib_a/1.0#ab64452c42599a3dc0ee6a0dc90bbd90:39f48664f195e0847f59889d8a4cdfc6bca84bf1#e34a89988cafb2bf67f6adf40b06f442 - Cache
-        sdk/1.0#1cb781c232f63845b7943764d8a084ed:12ffb661ea06cee312194b5f6acd48e8236b8ed8#9127cf762dfd1a1f505ecd1d3ac056b9 - Cache
-    ```
+======== Computing necessary packages ========
+Requirements
+    lib_a/1.0#ab64452c42599a3dc0ee6a0dc90bbd90:39f48664f195e0847f59889d8a4cdfc6bca84bf1#e34a89988cafb2bf67f6adf40b06f442 - Cache
+    sdk/1.0#1cb781c232f63845b7943764d8a084ed:12ffb661ea06cee312194b5f6acd48e8236b8ed8#9127cf762dfd1a1f505ecd1d3ac056b9 - Cache
+```
 
-    Transitive dependencies are required as expected.
-
-
-5. Generate the graph to see a later comparison
-
-    ```sh
-    $ conan graph info . --format=html > graph.html
-    ```
-
-6. Now let's dive into the vendoring feature. Some changes need to be made in the SDK ``conanfile.py``:
-    - As this example aims to make a vendored **static library**, we should first change the ``package_type`` accordingly
-    - Set the class attribute ``vendor`` to ``True``. This will enable the vendoring feature
-    - Remove the unnecessary shared option from options and default_options, and remove configure method because it not needed anymore
-    - Actually repackage the lib_a library inside the SDK. As we are generating a static library, we can achieve this by copying the ``liblib_a.a`` static library inside the SDK library
-    - Finally, update the ``cpp_info.libs`` adding the ``lib_a`` dependency for consumers
-
-    ```py
-    from conan import ConanFile
-    from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
-    from conan.tools.files import copy
-    import os
+Transitive dependencies are required as expected.
 
 
-    class sdkRecipe(ConanFile):
-        name = "sdk"
-        version = "1.0"
-        package_type = "static-library"
-        vendor = True
+&nbsp;5. Generate the graph to see a later comparison
 
-        # <span class="hll">vendor = True</span>
+```sh
+$ conan graph info . --format=html > graph.html
+```
 
-        # Optional metadata
-        license = "<Put the package license here>"
-        author = "<Put your name here> <And your email here>"
-        url = "<Package recipe repository url here, for issues about the package>"
-        description = "<Description of sdk package here>"
-        topics = ("<Put some tag here>", "<here>", "<and here>")
+&nbsp;6. Now let's dive into the vendoring feature. Some changes need to be made in the SDK ``conanfile.py``:
+- As this example aims to make a vendored **static library**, we should first change the ``package_type`` accordingly
+- Set the class attribute ``vendor`` to ``True``. This will enable the vendoring feature
+- Remove the unnecessary shared option from options and default_options, and remove configure method because it not needed anymore
+- Actually repackage the lib_a library inside the SDK. As we are generating a static library, we can achieve this by copying the ``liblib_a.a`` static library inside the SDK library
+- Finally, update the ``cpp_info.libs`` adding the ``lib_a`` dependency for consumers
 
-        # Binary configuration
-        settings = "os", "compiler", "build_type", "arch"
-        options = {"fPIC": [True, False]}
-        default_options = {"fPIC": True}
+```py{8 9 21 22 50 55}
+from conan import ConanFile
+from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
+from conan.tools.files import copy
+import os
 
-        # Sources are located in the same place as this recipe, copy them to the recipe
-        exports_sources = "CMakeLists.txt", "src/*", "include/*"
+class sdkRecipe(ConanFile):
+    name = "sdk"
+    version = "1.0"
+    package_type = "static-library"
+    vendor = True
 
-        def config_options(self):
-            if self.settings.os == "Windows":
-                self.options.rm_safe("fPIC")
+    # Optional metadata
+    license = "<Put the package license here>"
+    author = "<Put your name here> <And your email here>"
+    url = "<Package recipe repository url here, for issues about the package>"
+    description = "<Description of sdk package here>"
+    topics = ("<Put some tag here>", "<here>", "<and here>")
 
-        def layout(self):
-            cmake_layout(self)
+    # Binary configuration
+    settings = "os", "compiler", "build_type", "arch"
+    options = {"fPIC": [True, False]}
+    default_options = {"fPIC": True}
 
-        def requirements(self):
-            self.requires("lib_a/1.0")
+    # Sources are located in the same place as this recipe, copy them to the recipe
+    exports_sources = "CMakeLists.txt", "src/*", "include/*"
 
-        def generate(self):
-            deps = CMakeDeps(self)
-            deps.generate()
-            tc = CMakeToolchain(self)
-            tc.generate()
+    def config_options(self):
+        if self.settings.os == "Windows":
+            self.options.rm_safe("fPIC")
 
-        def build(self):
-            cmake = CMake(self)
-            cmake.configure()
-            cmake.build()
+    def layout(self):
+        cmake_layout(self)
 
-        def package(self):
-            # Repackage static dependencies inside the package
-            copy(self, "*.a", src=self.dependencies["lib_a"].cpp_info.libdir, dst=os.path.join(self.package_folder, self.cpp_info.libdir))
-            cmake = CMake(self)
-            cmake.install()
+    def requirements(self):
+        self.requires("lib_a/1.0")
 
-        def package_info(self):
-            self.cpp_info.libs = ["sdk", "lib_a"]
+    def generate(self):
+        deps = CMakeDeps(self)
+        deps.generate()
+        tc = CMakeToolchain(self)
+        tc.generate()
 
-    ```
+    def build(self):
+        cmake = CMake(self)
+        cmake.configure()
+        cmake.build()
 
-7. Apply the changes and create the SDK package:
+    def package(self):
+        # Repackage static dependencies inside the package
+        copy(self, "*.a", src=self.dependencies["lib_a"].cpp_info.libdir, dst=os.path.join(self.package_folder, self.cpp_info.libdir))
+        cmake = CMake(self)
+        cmake.install()
 
-    ```sh
-    $ cd ../sdk
-    $ conan create .
-    ```
+    def package_info(self):
+        self.cpp_info.libs = ["sdk", "lib_a"]
+```
 
-8. Finally, let’s reinstall the application again.
+&nbsp;7. Apply the changes and create the SDK package:
 
-    ```sh
-    $ cd ../app 
-    $ conan install . --build=missing
+```sh
+$ cd ../sdk
+$ conan create .
+```
 
-    ======== Computing dependency graph ========
-    Graph root
-    ...
-    Requirements
-        sdk/1.0#f2fd2a793849725303073d37b15042b2 - Cache
+&nbsp;8. Finally, let’s reinstall the application again.
 
-    ======== Computing necessary packages ========
-    Requirements
-        sdk/1.0#f2fd2a793849725303073d37b15042b2:5d605f63db975c8c6004cc0a0b5c99c99dce6cc3#92c538ec767c2ff02a2fddf6b4106d02 - Cache
-    ```
+```sh
+$ cd ../app 
+$ conan install . --build=missing
 
-    As it can be seen, while computing the dependency graph, conan does not
-    retrieve either the recipe of ``lib_a/1.0`` nor the binaries. 
+======== Computing dependency graph ========
+Graph root
+...
+Requirements
+    sdk/1.0#f2fd2a793849725303073d37b15042b2 - Cache
 
-9. We could try to even remove ``lib_a`` from our local cache and install again the application:
+======== Computing necessary packages ========
+Requirements
+    sdk/1.0#f2fd2a793849725303073d37b15042b2:5d605f63db975c8c6004cc0a0b5c99c99dce6cc3#92c538ec767c2ff02a2fddf6b4106d02 - Cache
+```
 
-    ```sh
-    $ conan remove "lib_a*" -c
-    Found 1 pkg/version recipes matching lib_a* in local cache
-    Remove summary:
-    Local Cache
-      lib_a/1.0#ab64452c42599a3dc0ee6a0dc90bbd90: Removed recipe and all binaries
-    ```
+As it can be seen, while computing the dependency graph, conan does not
+retrieve either the recipe of ``lib_a/1.0`` nor the binaries. 
 
-    ```sh
-    $ conan install .
-    ...
-    Requirements
-        sdk/1.0#f2fd2a793849725303073d37b15042b2 - Cache
-    ...
-    Install finished successfully
-    ```
+&nbsp;9. We could try to even remove ``lib_a`` from our local cache and install again the application:
 
-    It works!!! Here is where vendoring feature shines. Package creators can
-    distribute their packages without needing to distribute their private
-    dependencies.
+```sh
+$ conan remove "lib_a*" -c
+Found 1 pkg/version recipes matching lib_a* in local cache
+Remove summary:
+Local Cache
+  lib_a/1.0#ab64452c42599a3dc0ee6a0dc90bbd90: Removed recipe and all binaries
+```
+
+```sh
+$ conan install .
+...
+Requirements
+    sdk/1.0#f2fd2a793849725303073d37b15042b2 - Cache
+...
+Install finished successfully
+```
+
+It works!!! Here is where vendoring feature shines. Package creators can
+distribute their packages without needing to distribute their private
+dependencies.
 
 
-10. Generate graph info of the application using vendored SDK
+&nbsp;10. Generate graph info of the application using vendored SDK
 
-    ```sh
-    $ conan graph info . --format=html > vendored-graph.html 
-    ```
+```sh
+$ conan graph info . --format=html > vendored-graph.html 
+```
 
-    Comparison between graphs:
+Comparison between graphs:
 
-    <div class="centered" style="display: flex; justify-content: center; margin-bottom: 1rem;">
-        <div style="display: flex; flex-direction: column; align-items: center; margin: 0 10px;">
-            <img src="{{ site.baseurl }}/assets/post_images/2024-06-24/standard-sdk-graph.png" alt="Standard sdk graph" style="width: 50%;" />
-            <span>Standard sdk graph</span>
-        </div>
-        <div style="display: flex; flex-direction: column; align-items: center; margin: 0 10px;">
-            <img src="{{ site.baseurl }}/assets/post_images/2024-06-24/vendored-sdk-graph.png" alt="Vendored sdk graph" style="width: 50%;" />
-            <span>Vendored sdk graph</span>
-        </div>
+<div class="centered" style="display: flex; justify-content: center; margin-bottom: 1rem;">
+    <div style="display: flex; flex-direction: column; align-items: center; margin: 0 10px;">
+        <img src="{{ site.baseurl }}/assets/post_images/2024-06-24/standard-sdk-graph.png" alt="Standard sdk graph" style="width: 50%;" />
+        <span>Standard sdk graph</span>
     </div>
-    <br/>
+    <div style="display: flex; flex-direction: column; align-items: center; margin: 0 10px;">
+        <img src="{{ site.baseurl }}/assets/post_images/2024-06-24/vendored-sdk-graph.png" alt="Vendored sdk graph" style="width: 50%;" />
+        <span>Vendored sdk graph</span>
+    </div>
+</div>
+<br/>
 
-    **Note**: Red dashed borders mean the package is vendoring its dependencies
+**Note**: Red dashed borders mean the package is vendoring its dependencies
 
 ## How should the “vendor” feature be used?
 
@@ -303,87 +299,87 @@ binaries without needing to download any dependency data.
 
 But what happens if we want to compile the internal vendored dependencies?
 
-1. As we have previously deleted ``lib_a`` package, we should re create it:
+&nbsp;1. As we have previously deleted ``lib_a`` package, we should re create it:
 
-    ```sh 
-    $ cd ../lib_a && conan create .
-    ```
-    Now, let’s force the build of our previous SDK example:
+```sh 
+$ cd ../lib_a && conan create .
+```
+Now, let’s force the build of our previous SDK example:
 
-    ```sh
-    $ cd ../app
-    $ conan install . --build="sdk/1.0"
-    ...
-    ======== Computing necessary packages ========
-    sdk/1.0: Forced build from source
-    Requirements
-        sdk/1.0#f2fd2a793849725303073d37b15042b2:5d605f63db975c8c6004cc0a0b5c99c99dce6cc3 - Invalid
-    ERROR: There are invalid packages:
-    sdk/1.0: Invalid: The package 'sdk/1.0' is a vendoring one, needs to be built from source, but it didn't enable 'tools.graph:vendor=build' to compute its dependencies
-    ```
+```sh
+$ cd ../app
+$ conan install . --build="sdk/1.0"
+...
+======== Computing necessary packages ========
+sdk/1.0: Forced build from source
+Requirements
+    sdk/1.0#f2fd2a793849725303073d37b15042b2:5d605f63db975c8c6004cc0a0b5c99c99dce6cc3 - Invalid
+ERROR: There are invalid packages:
+sdk/1.0: Invalid: The package 'sdk/1.0' is a vendoring one, needs to be built from source, but it didn't enable 'tools.graph:vendor=build' to compute its dependencies
+```
 
-    Trying to build a vendor package will fail by default unless setting the ``tools.graph:vendor`` configuration to “build”.
+Trying to build a vendor package will fail by default unless setting the ``tools.graph:vendor`` configuration to “build”.
 
-2. Once the ``vendor`` configuration is enabled, the user must have access to packaged dependencies as if it were a normal package.
+&nbsp;2. Once the ``vendor`` configuration is enabled, the user must have access to packaged dependencies as if it were a normal package.
 
-    ```sh
-    $ conan install . --build="sdk/1.0" -c tools.graph:vendor=build
-    ...
-    ======== Computing necessary packages ========
-    sdk/1.0: Forced build from source
-    Requirements
-        lib_a/1.0#ab64452c42599a3dc0ee6a0dc90bbd90:39f48664f195e0847f59889d8a4cdfc6bca84bf1#5a8bfa1c980c2008e7e24996a4b48477 - Cache
-        sdk/1.0#f2fd2a793849725303073d37b15042b2:5d605f63db975c8c6004cc0a0b5c99c99dce6cc3 - Build
+```sh
+$ conan install . --build="sdk/1.0" -c tools.graph:vendor=build
+...
+======== Computing necessary packages ========
+sdk/1.0: Forced build from source
+Requirements
+    lib_a/1.0#ab64452c42599a3dc0ee6a0dc90bbd90:39f48664f195e0847f59889d8a4cdfc6bca84bf1#5a8bfa1c980c2008e7e24996a4b48477 - Cache
+    sdk/1.0#f2fd2a793849725303073d37b15042b2:5d605f63db975c8c6004cc0a0b5c99c99dce6cc3 - Build
 
-    ======== Installing packages ========
-    lib_a/1.0: Already installed! (1 of 2)
-    ...
-    Install finished successfully
-    ```
+======== Installing packages ========
+lib_a/1.0: Already installed! (1 of 2)
+...
+Install finished successfully
+```
 
-    When forcing the compilation of a vendored dependency, the graph expands again,
-    revealing the encapsulated dependencies necessary for the build.
+When forcing the compilation of a vendored dependency, the graph expands again,
+revealing the encapsulated dependencies necessary for the build.
 
-3. Let's generate the graph again to see how the expansion works:
+&nbsp;3. Let's generate the graph again to see how the expansion works:
 
-    ```sh
-    $ conan graph info . --build="sdk/1.0" -c tools.graph:vendor=build --format=html > vendored-expanded-graph.html
-    ```
+```sh
+$ conan graph info . --build="sdk/1.0" -c tools.graph:vendor=build --format=html > vendored-expanded-graph.html
+```
 
-    <div style="display: flex; flex-direction: column; align-items: center; margin: 0 10px;">
-        <img src="{{ site.baseurl }}/assets/post_images/2024-06-24/vendored-expanded-graph.png" alt="Vendored expanded graph" style="width: 25%;" />
-        <span>Vendored expanded graph</span>
-    </div>
-    <br/>
+<div style="display: flex; flex-direction: column; align-items: center; margin: 0 10px;">
+    <img src="{{ site.baseurl }}/assets/post_images/2024-06-24/vendored-expanded-graph.png" alt="Vendored expanded graph" style="width: 25%;" />
+    <span>Vendored expanded graph</span>
+</div>
+<br/>
 
-    **Note**: Red dashed borders means the package is a vendor and yellow background means the package has been forced to be built
+**Note**: Red dashed borders means the package is a vendor and yellow background means the package has been forced to be built
 
-4. To verify that a vendored package does not need to have their transitive
+&nbsp;4. To verify that a vendored package does not need to have their transitive
    dependencies accessible unless forced to build, we can try to remove our ``lib_a`` package from our local cache and install again:
 
-    ```sh
-    $ conan remove "lib_a*" -c
-    Found 1 pkg/version recipes matching lib_a* in local cache
-    Remove summary:
-    Local Cache
-      lib_a/1.0#ab64452c42599a3dc0ee6a0dc90bbd90: Removed recipe and all binaries
-    ```
+```sh
+$ conan remove "lib_a*" -c
+Found 1 pkg/version recipes matching lib_a* in local cache
+Remove summary:
+Local Cache
+  lib_a/1.0#ab64452c42599a3dc0ee6a0dc90bbd90: Removed recipe and all binaries
+```
 
-    ```sh
-    $ conan install . --build="sdk/1.0" -c tools.graph:vendor=build
-    ...
-    ======== Computing dependency graph ========
-    lib_a/1.0: Not found in local cache, looking in remotes...
-    lib_a/1.0: Checking remote: conancenter
-    ...
-    Requirements
-        sdk/1.0#f2fd2a793849725303073d37b15042b2 - Cache
-    ERROR: Package 'lib_a/1.0' not resolved: Unable to find 'lib_a/1.0' in remotes.
-    ```
+```sh
+$ conan install . --build="sdk/1.0" -c tools.graph:vendor=build
+...
+======== Computing dependency graph ========
+lib_a/1.0: Not found in local cache, looking in remotes...
+lib_a/1.0: Checking remote: conancenter
+...
+Requirements
+    sdk/1.0#f2fd2a793849725303073d37b15042b2 - Cache
+ERROR: Package 'lib_a/1.0' not resolved: Unable to find 'lib_a/1.0' in remotes.
+```
 
-    As expected, an "Error: Package 'lib_a/1.0' not resolved" is raised when
-    forcing the build of the vendored package if we do not have access to its
-    dependencies.
+As expected, an "Error: Package 'lib_a/1.0' not resolved" is raised when
+forcing the build of the vendored package if we do not have access to its
+dependencies.
 
 
 ### Proxy vendor for Extra Privacy

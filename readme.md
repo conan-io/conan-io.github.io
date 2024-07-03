@@ -45,3 +45,18 @@ keywords: "(optional) comma, separated, values, for seo optimization"
 > **Note**: SEO Structured Data - This is was attempted but is currently undefined. It was previously done with
 [TechArticle](https://schema.org/TechArticle) however that probably is not list by
 [Google's supported list](https://developers.google.com/search/docs/appearance/structured-data/article)
+
+## Miscellany
+
+### Highlight specific lines on a code block
+
+As Jekyll 4.4 has not been released yet, some custom plugins have been added to provide that functionality:
+
+- line_highlighting.rb: will provide a liquid API to highlight lines on code block emulating native [not yet released functionality](https://jekyllrb.com/docs/liquid/tags/#marking-specific-lines)
+- md_hl_syntax_to_liquid.rb: provide a kramdown API to previous liquid syntax
+- inline_highlight.rb: plugin to allow highlight code in-line
+
+Also, when dealing with line highlighting on a enumerate list, kramdown will break the auto enumeration.
+The only solution found by the team is to declare each list item as `&nbsp;<number>`
+
+The `&nbsp;` basically blocks auto-numbering for numbered items.

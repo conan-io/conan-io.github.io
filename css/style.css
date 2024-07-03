@@ -877,3 +877,8 @@ body .month-content h2 {
 	 text-decoration: underline;
 }
  
+/*
+* Style to be used for highlighting specific lines on a code block
+* We are using a custom plugin because until 4.4 release, native support for highlighting specific lines is not available
+*/
+.hll { background-color: #ffffcc }
