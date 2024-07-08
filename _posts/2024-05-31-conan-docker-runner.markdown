@@ -56,6 +56,7 @@ compiler.cppstd=gnu17
 compiler.libcxx=libstdc++11
 compiler.version=11
 os=Linux
+
 [runner]
 type=docker
 dockerfile=/Users/conan/dockerfiles/Dockerfile.gnu17
@@ -68,46 +69,35 @@ remove=true
 
 ## Lets try it!
 
-In this example we are going to see how to create the zlib/1.3.1 Conan packge inside Docker using a runner. Let’s create two profiles and a Dockerfile inside our project folder.
+First of all you need to have docker installed and running, plus conan and the docker python package. In this example we are going to use a virtualenv with both packages.
+
+```sh
+$ python3.8 -m venv conan2-runners && source conan2-runners/bin/activate
+$ pip install conan docker
+$ docker ps
+$ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```
+
+Once the environment is ready, we are going to create create simple `cmake_lib` Conan template inside Docker using a runner. Let’s create the lib and a Dockerfile inside our project folder.
 
 ```bash
 $ cd </my/runner/folder>
+$ mkdir mylib
+$ cd mylib
+$ conan new cmake_lib -d name=mylib -d version=0.1
 $ tree
 .
-├── Dockerfile
-├── docker_example_build
-└── docker_example_host
-```
-
-`docker_example_host` profile
-
-```
-[settings]
-arch=x86_64
-build_type=Release
-compiler=gcc
-compiler.cppstd=gnu17
-compiler.libcxx=libstdc++11
-compiler.version=11
-os=Linux
-[runner]
-type=docker
-dockerfile=</my/runner/folder>
-cache=copy
-remove=true
-```
-
-`docker_example_build` profile
-
-```
-[settings]
-arch=x86_64
-build_type=Release
-compiler=gcc
-compiler.cppstd=gnu17
-compiler.libcxx=libstdc++11
-compiler.version=11
-os=Linux
+├── CMakeLists.txt
+├── conanfile.py
+├── include
+│   └── mylib.h
+├── src
+│   └── mylib.cpp
+└── test_package
+    ├── CMakeLists.txt
+    ├── conanfile.py
+    └── src
+        └── example.cpp
 ```
 
 `Dockerfile`
@@ -123,6 +113,50 @@ RUN apt-get update \
         python3-venv \
     && rm -rf /var/lib/apt/lists/*
 RUN pip install conan
+```
+
+```bash
+$ cd </my/runner/folder>/mylib
+$ tree
+.
+...
+├── Dockerfile
+...
+```
+
+Now, we need to define two new profiles inside the conan `profiles` folder. Replace `</my/runner/folder>` with your real project folder path.
+
+
+`docker_example_host` profile
+
+```
+[settings]
+arch=x86_64
+build_type=Release
+compiler=gcc
+compiler.cppstd=gnu17
+compiler.libcxx=libstdc++11
+compiler.version=11
+os=Linux
+
+[runner]
+type=docker
+dockerfile=</my/runner/folder>/mylib
+cache=copy
+remove=true
+```
+
+`docker_example_build` profile
+
+```
+[settings]
+arch=x86_64
+build_type=Release
+compiler=gcc
+compiler.cppstd=gnu17
+compiler.libcxx=libstdc++11
+compiler.version=11
+os=Linux
 ```
 
 We are going to start from a totally clean environment, without any containers, images or conan package.
@@ -142,11 +176,10 @@ $ docker images
 REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
 ```
 
-Now, we are going to clone and build zlib from conan-center-index and create it using our new runner definition.
+Now, it's time to create our library `mylib` using our new runner definition.
 
 ```bash
-$ git clone https://github.com/conan-io/conan-center-index.git --depth=1
-$ conan create ./conan-center-index/recipes/zlib/all --version 1.3.1 -pr:h </my/runner/folder>/docker_example_host -pr:b </my/runner/folder>/docker_example_build
+$ conan create . --version 0.1 -pr:h docker_example_host -pr:b docker_example_build
 ```
 
 If we split and analyze the command output, we can see what is happening and where the commands are being executed.
@@ -155,14 +188,13 @@ If we split and analyze the command output, we can see what is happening and whe
 
 ```bash
 ======== Exporting recipe to the cache ========
-zlib/1.3.1: Exporting package recipe: </my/runner/folder>/conan-center-index/recipes/zlib/all/conanfile.py
-zlib/1.3.1: exports: File 'conandata.yml' found. Exporting it...
-zlib/1.3.1: Calling export_sources()
-zlib/1.3.1: Copied 1 '.py' file: conanfile.py
-zlib/1.3.1: Copied 1 '.yml' file: conandata.yml
-zlib/1.3.1: Copied 1 '.patch' file: 0001-fix-cmake.patch
-zlib/1.3.1: Exported to cache folder: /Users/conan/.conan2/p/zlib95420566fc0dd/e
-zlib/1.3.1: Exported: zlib/1.3.1#e20364c96c45455608a72543f3a53133 (2024-04-29 17:03:44 UTC)
+mylib/0.1: Exporting package recipe: </my/runner/folder>/mylib/conanfile.py
+mylib/0.1: Copied 1 '.py' file: conanfile.py
+mylib/0.1: Copied 1 '.txt' file: CMakeLists.txt
+mylib/0.1: Copied 1 '.h' file: mylib.h
+mylib/0.1: Copied 1 '.cpp' file: mylib.cpp
+mylib/0.1: Exported to cache folder: /Users/davidsanfal/.conan2/p/mylib4abd06a04bdaa/e
+mylib/0.1: Exported: mylib/0.1#8760bf5a311f01cc26f3b95428203210 (2024-07-08 12:22:01 UTC)
 
 ======== Input profiles ========
 Profile host:
@@ -193,27 +225,27 @@ os=Linux
 * Building the Docker image: my-conan-runner *
 **********************************************
 
-Dockerfile path: '</my/runner/folder>/Dockerfile'
-Docker build context: '</my/runner/folder>'
+Dockerfile path: '</my/runner/folder>/mylib/Dockerfile'
+Docker build context: '</my/runner/folder>/mylib'
 
 Step 1/4 : FROM ubuntu:22.04
 
 ...
 
----> dba927bb0517
-Successfully built dba927bb0517
-Successfully tagged my-conan-runner:latest
+---> 2bcf70201cce
+Successfully built 2bcf70201cce
+Successfully tagged conan-runner-default:latest
 ```
 
 **3.** Save the local cache running `conan cache save`.
 
 ```bash
-******************************************************************************************************************
-* Save host cache in: </my/runner/folder>/conan-center-index/recipes/zlib/all/.conanrunner/local_cache_save.tgz *
-******************************************************************************************************************
+***********************************************************************************
+* Save host cache in: </my/runner/folder>/mylib/.conanrunner/local_cache_save.tgz *
+***********************************************************************************
 
 Found 1 pkg/version recipes matching * in local cache
-Saving zlib/1.3.1: p/zlib95420566fc0dd
+Saving mylib/0.1: mylib4abd06a04bdaa
 ```
 
 **4.** Create and initialize the docker container.
@@ -235,43 +267,42 @@ Saving zlib/1.3.1: p/zlib95420566fc0dd
 * Running in container: "conan --version" *
 *******************************************
 
-Conan version 2.3.0
+Conan version 2.5.0
 ```
 
 **6.** Initialize the container conan cache using the host copy running `conan cache restore`.
 
 ```bash
-*********************************************************************************************************
-* Running in container: "conan cache restore "/root/conanrunner/all/.conanrunner/local_cache_save.tgz"" *
-*********************************************************************************************************
+***********************************************************************************************************
+* Running in container: "conan cache restore "/root/conanrunner/mylib/.conanrunner/local_cache_save.tgz"" *
+***********************************************************************************************************
 
-Restore: zlib/1.3.1 in p/zlib95420566fc0dd
+Restore: mylib/0.1 in mylib4abd06a04bdaa
 Local Cache
-zlib
-    zlib/1.3.1
-    revisions
-        e20364c96c45455608a72543f3a53133 (2024-04-29 17:19:32 UTC)
-        packages
-        recipe_folder: p/zlib95420566fc0dd
+  mylib
+    mylib/0.1
+      revisions
+        8760bf5a311f01cc26f3b95428203210 (2024-07-08 12:22:19 UTC)
+          packages
+          recipe_folder: mylib4abd06a04bdaa
 ```
 
-**7.** Run the conan create inside the container and build zlib.
+**7.** Run the conan create inside the container and build "mylib".
 
 ```bash
-*****************************************************************************************************************************************************************************************************************************************************
-* Running in container: "conan create /root/conanrunner/all --version 1.3.1 -pr:h /root/conanrunner/all/.conanrunner/profiles/docker_example_host_1 -pr:b /root/conanrunner/all/.conanrunner/profiles/docker_example_build_0 -f json > create.json" *
-*****************************************************************************************************************************************************************************************************************************************************
+*********************************************************************************************************************************************************
+* Running in container: "conan create /root/conanrunner/mylib --version 0.1 -pr:h docker_example_host -pr:b docker_example_build -f json > create.json" *
+*********************************************************************************************************************************************************
 
 
 ======== Exporting recipe to the cache ========
-zlib/1.3.1: Exporting package recipe: /root/conanrunner/all/conanfile.py
-zlib/1.3.1: exports: File 'conandata.yml' found. Exporting it...
-zlib/1.3.1: Calling export_sources()
-zlib/1.3.1: Copied 1 '.yml' file: conandata.yml
-zlib/1.3.1: Copied 1 '.py' file: conanfile.py
-zlib/1.3.1: Copied 1 '.patch' file: 0001-fix-cmake.patch
-zlib/1.3.1: Exported to cache folder: /root/.conan2/p/zlib95420566fc0dd/e
-zlib/1.3.1: Exported: zlib/1.3.1#e20364c96c45455608a72543f3a53133 (2024-04-29 17:19:32 UTC)
+mylib/0.1: Exporting package recipe: /root/conanrunner/mylib/conanfile.py
+mylib/0.1: Copied 1 '.py' file: conanfile.py
+mylib/0.1: Copied 1 '.txt' file: CMakeLists.txt
+mylib/0.1: Copied 1 '.cpp' file: mylib.cpp
+mylib/0.1: Copied 1 '.h' file: mylib.h
+mylib/0.1: Exported to cache folder: /root/.conan2/p/mylib4abd06a04bdaa/e
+mylib/0.1: Exported: mylib/0.1#8760bf5a311f01cc26f3b95428203210 (2024-07-08 12:22:20 UTC)
 
 ======== Input profiles ========
 Profile host:
@@ -299,73 +330,80 @@ os=Linux
 Graph root
     cli
 Requirements
-    zlib/1.3.1#e20364c96c45455608a72543f3a53133 - Cache
+    mylib/0.1#8760bf5a311f01cc26f3b95428203210 - Cache
 
 ======== Computing necessary packages ========
-zlib/1.3.1: Forced build from source
+mylib/0.1: Forced build from source
 Requirements
-    zlib/1.3.1#e20364c96c45455608a72543f3a53133:b647c43bfefae3f830561ca202b6cfd935b56205 - Build
+    mylib/0.1#8760bf5a311f01cc26f3b95428203210:8631cf963dbbb4d7a378a64a6fd1dc57558bc2fe - Build
 
 ======== Installing packages ========
-zlib/1.3.1: Calling source() in /root/.conan2/p/zlib95420566fc0dd/s/src
+
+-------- Installing package mylib/0.1 (1 of 1) --------
+
 
 ...
 
-[ 50%] Building C object CMakeFiles/test_package.dir/test_package.c.o
-[100%] Linking C executable test_package
-[100%] Built target test_package
+[ 50%] Building CXX object CMakeFiles/example.dir/src/example.cpp.o
+[100%] Linking CXX executable example
+[100%] Built target example
+
 
 ======== Testing the package: Executing test ========
-zlib/1.3.1 (test package): Running test()
-zlib/1.3.1 (test package): RUN: ./test_package
-Compressed size is: 21
-Compressed string is: Conan Package Manager
-Compressed size is: 22
-Compressed string is: xsKHLNLOUMRE
-ZLIB VERSION: 1.3.1
+mylib/0.1 (test package): Running test()
+mylib/0.1 (test package): RUN: ./example
+mylib/0.1: Hello World Release!
+  mylib/0.1: __x86_64__ defined
+  mylib/0.1: _GLIBCXX_USE_CXX11_ABI 1
+  mylib/0.1: __cplusplus201703
+  mylib/0.1: __GNUC__11
+  mylib/0.1: __GNUC_MINOR__4
+mylib/0.1 test_package
 ```
 
 **8.** Copy just the package created inside the container using the `pkglist.json` info from the previous `conan create`, restore this new package inside the host cache running a `conan cache save` and remove the container.
 
 ```bash
-**********************************************************************************************************************************
-* Running in container: "conan cache save --list=pkglist.json --file "/root/conanrunner/all"/.conanrunner/docker_cache_save.tgz" *
-**********************************************************************************************************************************
+************************************************************************************************************************************
+* Running in container: "conan cache save --list=pkglist.json --file "/root/conanrunner/mylib"/.conanrunner/docker_cache_save.tgz" *
+************************************************************************************************************************************
 
-Saving zlib/1.3.1: p/zlib95420566fc0dd
-Saving zlib/1.3.1:b647c43bfefae3f830561ca202b6cfd935b56205: p/b/zlib8dd8e27348e8c/p
-Saving zlib/1.3.1:b647c43bfefae3f830561ca202b6cfd935b56205 metadata: p/b/zlib8dd8e27348e8c/d/metadata
+Saving mylib/0.1: mylib4abd06a04bdaa
+Saving mylib/0.1:8631cf963dbbb4d7a378a64a6fd1dc57558bc2fe: b/mylib503035e4ee8ae/p
+Saving mylib/0.1:8631cf963dbbb4d7a378a64a6fd1dc57558bc2fe metadata: b/mylib503035e4ee8ae/d/metadata
 Local Cache
-zlib
-    zlib/1.3.1
-    revisions
-        e20364c96c45455608a72543f3a53133 (2024-04-29 17:19:32 UTC)
-        packages
-            b647c43bfefae3f830561ca202b6cfd935b56205
-            revisions
-                fd85b1346d5377ae2465645768e62bf2
-                package_folder: p/b/zlib8dd8e27348e8c/p
-                metadata_folder: p/b/zlib8dd8e27348e8c/d/metadata
-            info
+  mylib
+    mylib/0.1
+      revisions
+        8760bf5a311f01cc26f3b95428203210 (2024-07-08 12:22:20 UTC)
+          packages
+            8631cf963dbbb4d7a378a64a6fd1dc57558bc2fe
+              revisions
+                ded6547554ff2306db5250451340fa43
+                  package_folder: b/mylib503035e4ee8ae/p
+                  metadata_folder: b/mylib503035e4ee8ae/d/metadata
+              info
                 settings
-                os: Linux
-                arch: x86_64
-                compiler: gcc
-                compiler.version: 11
-                build_type: Release
+                  os: Linux
+                  arch: x86_64
+                  compiler: gcc
+                  compiler.cppstd: gnu17
+                  compiler.libcxx: libstdc++11
+                  compiler.version: 11
+                  build_type: Release
                 options
-                fPIC: True
-                shared: False
-        recipe_folder: p/zlib95420566fc0dd
+                  fPIC: True
+                  shared: False
+          recipe_folder: mylib4abd06a04bdaa
 
 
-************************************************************************************************************************
-* Restore host cache from: </my/runner/folder>/conan-center-index/recipes/zlib/all/.conanrunner/docker_cache_save.tgz *
-************************************************************************************************************************
+******************************************************************************************
+* Restore host cache from: </my/runner/folder>/mylib/.conanrunner/docker_cache_save.tgz  *
+******************************************************************************************
 
-Restore: zlib/1.3.1 in p/zlib95420566fc0dd
-Restore: zlib/1.3.1:b647c43bfefae3f830561ca202b6cfd935b56205 in p/b/zlib8dd8e27348e8c/p
-Restore: zlib/1.3.1:b647c43bfefae3f830561ca202b6cfd935b56205 metadata in p/b/zlib8dd8e27348e8c/d/metadata
+Restore: mylib/0.1 in mylib4abd06a04bdaa
+Restore: mylib/0.1:8631cf963dbbb4d7a378a64a6fd1dc57558bc2fe in b/mylib503035e4ee8ae/p
+Restore: mylib/0.1:8631cf963dbbb4d7a378a64a6fd1dc57558bc2fe metadata in b/mylib503035e4ee8ae/d/metadata
 
 **********************
 * Stopping container *
@@ -377,28 +415,30 @@ Restore: zlib/1.3.1:b647c43bfefae3f830561ca202b6cfd935b56205 metadata in p/b/zli
 **********************
 ```
 
-If we now check the status of our conan and docker cache, we will see the new zlib package compile for Linux and the new docker image. We don’t have any container because we define `remove=true`
+If we now check the status of our conan and docker cache, we will see the new mylib package compile for Linux and the new docker image but we don’t have any container because we define `remove=true`
 
 ```bash
 $ conan list "*:*"
 Found 1 pkg/version recipes matching * in local cache
 Local Cache
-zlib
-    zlib/1.3.1
-    revisions
-        e20364c96c45455608a72543f3a53133 (2024-04-29 17:18:07 UTC)
-        packages
-            b647c43bfefae3f830561ca202b6cfd935b56205
-            info
+  mylib
+    mylib/0.1
+      revisions
+        8760bf5a311f01cc26f3b95428203210 (2024-07-08 12:33:28 UTC)
+          packages
+            8631cf963dbbb4d7a378a64a6fd1dc57558bc2fe
+              info
                 settings
-                arch: x86_64
-                build_type: Release
-                compiler: gcc
-                compiler.version: 11
-                os: Linux
+                  arch: x86_64
+                  build_type: Release
+                  compiler: gcc
+                  compiler.cppstd: gnu17
+                  compiler.libcxx: libstdc++11
+                  compiler.version: 11
+                  os: Linux
                 options
-                fPIC: True
-                shared: False
+                  fPIC: True
+                  shared: False
 ```
 
 ```bash
@@ -409,9 +449,15 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```bash
 $ docker images
 REPOSITORY        TAG       IMAGE ID       CREATED          SIZE
-my-conan-runner   latest    383b905f352e   22 minutes ago   531MB
-ubuntu            22.04     437ec753bef3   12 days ago      77.9MB
+my-conan-runner   latest    2bcf70201cce   11 minutes ago   531MB
 ```
+
+## what just happened?
+
+What we have just done is to compile a library from scratch inside a Docker container without running any Docker command and retrieve the generated packages in a totally transparent and easily debuggable way thanks to our terminal output.
+
+
+In this way, we can work as we have always done regardless of whether it is on our machine or in a container, without several open terminals and having the result of each operation in the same cache, being able to reuse the compiled packages from a previous compilation in another container automatically and transparently.
 
 ### Bonus track: Do you need more control when running or building your containers? The configfile runner is the answer.
 
@@ -461,47 +507,27 @@ remove=false
 
 **How to use**
 
-Let’s create two profiles and a Dockerfile inside your project folder.
+Let’s create a Dockerfile inside your project folder, a cmake_lib `myparamlib` like the previous example and two profiles. 
 
 ```bash
 $ cd </my/runner/folder>
+$ mkdir myparamlib
+$ cd myparamlib
+$ conan new cmake_lib -d name=myparamlib -d version=0.1
+$ cd </my/runner/folder>
 $ tree
 .
-├── Dockerfile
-├── configfile
-├── docker_example_build
-└── docker_example_host
-```
-
-``docker_example_host`` profile
-
-```
-[settings]
-arch=x86_64
-build_type=Release
-compiler=gcc
-compiler.cppstd=gnu17
-compiler.libcxx=libstdc++11
-compiler.version=11
-os=Linux
-[runner]
-type=docker
-configfile=</my/runner/folder>/configfile
-cache=copy
-remove=false
-```
-
-``docker_example_build`` profile
-
-```
-[settings]
-arch=x86_64
-build_type=Release
-compiler=gcc
-compiler.cppstd=gnu17
-compiler.libcxx=libstdc++11
-compiler.version=11
-os=Linux
+├── CMakeLists.txt
+├── conanfile.py
+├── include
+│   └── myparamlib.h
+├── src
+│   └── myparamlib.cpp
+└── test_package
+    ├── CMakeLists.txt
+    ├── conanfile.py
+    └── src
+        └── example.cpp
 ```
 
 ```dockerfile
@@ -518,12 +544,9 @@ RUN apt-get update \
 RUN pip install conan
 ```
 
-Now, we need to write the `configfile` to defile the `BASE_IMAGE` variable defined inside the Dockerfile.
-
 ``configfile``
 
 ```yaml
-
     image: my-conan-runner-image
     build:
         dockerfile: </my/runner/folder>
@@ -534,20 +557,62 @@ Now, we need to write the `configfile` to defile the `BASE_IMAGE` variable defin
         name: my-conan-runner-container
 ```
 
-Now, lets clone and build zlib from conan-center-index like the previous example.
+```bash
+$ cd </my/runner/folder>/myparamlib
+$ tree
+.
+...
+├── Dockerfile
+...
+├── configfile
+...
+```
 
-```bash    
-$ git clone https://github.com/conan-io/conan-center-index.git --depth 1
-$ conan create ./conan-center-index/recipes/zlib/all --version 1.3.1 -pr:h </my/runner/folder>/docker_example_host -pr:b </my/runner/folder>/docker_example_build
+``docker_param_example_host`` profile
+
+```
+[settings]
+arch=x86_64
+build_type=Release
+compiler=gcc
+compiler.cppstd=gnu17
+compiler.libcxx=libstdc++11
+compiler.version=11
+os=Linux
+
+[runner]
+type=docker
+configfile=</my/runner/folder>/myparamlib/configfile
+cache=copy
+remove=false
+```
+
+``docker_param_example_build`` profile
+
+```
+[settings]
+arch=x86_64
+build_type=Release
+compiler=gcc
+compiler.cppstd=gnu17
+compiler.libcxx=libstdc++11
+compiler.version=11
+os=Linux
+```
+
+Now it's time to create our new library.
+
+```bash
+$ conan create . --version 0.1 -pr:h docker_param_example_host -pr:b docker_param_example_build
 
 ...
 
-┌──────────────────────────────────────────────────┐
-| Building the Docker image: my-conan-runner-image |
-└──────────────────────────────────────────────────┘
+****************************************************
+* Building the Docker image: my-conan-runner-image *
+****************************************************
 
-Dockerfile path: '</my/runner/folder>/Dockerfile'
-Docker build context: '</my/runner/folder>'
+Dockerfile path: '</my/runner/folder>/myparamlib/Dockerfile'
+Docker build context: '</my/runner/folder>/myparamlib'
 
 Step 1/5 : ARG BASE_IMAGE
 
@@ -555,40 +620,82 @@ Step 2/5 : FROM $BASE_IMAGE
 
 ...
 
-Successfully built 286df085400f
+Successfully built caa8071cdff7
 Successfully tagged my-conan-runner-image:latest
 
 ...
 
-┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-| Running in container: "conan create /root/conanrunner/all --version 1.3.1 -pr:h /root/conanrunner/all/.conanrunner/profiles/docker_example_host_1 -pr:b /root/conanrunner/all/.conanrunner/profiles/docker_example_build_0 -f json > create.json" |
-└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+**************************************************************************************************************************************************************************
+* Running in container: "conan create /root/conanrunner/myparamlib --version 0.1 -pr:h docker_param_example_host -pr:b docker_param_example_build -f json > create.json" *
+**************************************************************************************************************************************************************************
 
 ...
 
-[ 50%] Building C object CMakeFiles/test_package.dir/test_package.c.o
-[100%] Linking C executable test_package
-[100%] Built target test_package
+[ 50%] Building CXX object CMakeFiles/example.dir/src/example.cpp.o
+[100%] Linking CXX executable example
+[100%] Built target example
 
 ======== Testing the package: Executing test ========
-zlib/1.3.1 (test package): Running test()
-zlib/1.3.1 (test package): RUN: ./test_package
-Compressed size is: 21
-Compressed string is: Conan Package Manager
-Compressed size is: 22
-Compressed string is: xsKHLNLOUMRE
-ZLIB VERSION: 1.3.1
+myparamlib/0.1 (test package): Running test()
+myparamlib/0.1 (test package): RUN: ./example
+myparamlib/0.1: Hello World Release!
+  myparamlib/0.1: __x86_64__ defined
+  myparamlib/0.1: _GLIBCXX_USE_CXX11_ABI 1
+  myparamlib/0.1: __cplusplus201703
+  myparamlib/0.1: __GNUC__11
+  myparamlib/0.1: __GNUC_MINOR__4
+myparamlib/0.1 test_package
 
 
-┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-| Restore host cache from: </my/runner/folder>/conan-center-index/recipes/zlib/all/.conanrunner/docker_cache_save.tgz |
-└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+**********************************************************************************************
+* Restore host cache from: </my/runner/folder>/myparamlib/.conanrunner/docker_cache_save.tgz *
+**********************************************************************************************
 
-Restore: zlib/1.3.1 in p/zlib95420566fc0dd
-Restore: zlib/1.3.1:b647c43bfefae3f830561ca202b6cfd935b56205 in p/zlibd59462fc4358e/p
-Restore: zlib/1.3.1:b647c43bfefae3f830561ca202b6cfd935b56205 metadata in p/zlibd59462fc4358e/d/metadata
+Saving myparamlib/0.1: mypar36e44205a36b9
+Saving myparamlib/0.1:8631cf963dbbb4d7a378a64a6fd1dc57558bc2fe: b/mypare0dc449d4125d/p
+Saving myparamlib/0.1:8631cf963dbbb4d7a378a64a6fd1dc57558bc2fe metadata: b/mypare0dc449d4125d/d/metadata
+```
 
-┌────────────────────┐
-| Stopping container |
-└────────────────────┘
+If we now check the status of our conan cache, we will see the `mylib` package and the new `myparamlib` pacakge.
+
+```sh
+    $ conan list "*:*"
+    Found 2 pkg/version recipes matching * in local cache
+    Local Cache
+    mylib
+        mylib/0.1
+        revisions
+            8760bf5a311f01cc26f3b95428203210 (2024-07-08 12:33:28 UTC)
+            packages
+                8631cf963dbbb4d7a378a64a6fd1dc57558bc2fe
+                info
+                    settings
+                    arch: x86_64
+                    build_type: Release
+                    compiler: gcc
+                    compiler.cppstd: gnu17
+                    compiler.libcxx: libstdc++11
+                    compiler.version: 11
+                    os: Linux
+                    options
+                    fPIC: True
+                    shared: False
+    myparamlib
+        myparamlib/0.1
+        revisions
+            11cb359a0526fe9ce3cfefb59c5d1953 (2024-07-08 12:47:21 UTC)
+            packages
+                8631cf963dbbb4d7a378a64a6fd1dc57558bc2fe
+                info
+                    settings
+                    arch: x86_64
+                    build_type: Release
+                    compiler: gcc
+                    compiler.cppstd: gnu17
+                    compiler.libcxx: libstdc++11
+                    compiler.version: 11
+                    os: Linux
+                    options
+                    fPIC: True
+                    shared: False
 ```
