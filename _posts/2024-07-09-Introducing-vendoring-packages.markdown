@@ -232,11 +232,11 @@ Comparison between graphs:
 
 <div class="centered" style="display: flex; justify-content: center; margin-bottom: 1rem;">
     <div style="display: flex; flex-direction: column; align-items: center; margin: 0 10px;">
-        <img src="{{ site.baseurl }}/assets/post_images/2024-06-24/standard-sdk-graph.png" alt="Standard sdk graph" style="width: 50%;" />
+        <img src="{{ site.baseurl }}/assets/post_images/2024-07-09/standard-sdk-graph.png" alt="Standard sdk graph" style="width: 50%;" />
         <span>Standard sdk graph</span>
     </div>
     <div style="display: flex; flex-direction: column; align-items: center; margin: 0 10px;">
-        <img src="{{ site.baseurl }}/assets/post_images/2024-06-24/vendored-sdk-graph.png" alt="Vendored sdk graph" style="width: 50%;" />
+        <img src="{{ site.baseurl }}/assets/post_images/2024-07-09/vendored-sdk-graph.png" alt="Vendored sdk graph" style="width: 50%;" />
         <span>Vendored sdk graph</span>
     </div>
 </div>
@@ -347,7 +347,7 @@ $ conan graph info . --build="sdk/1.0" -c tools.graph:vendor=build --format=html
 ```
 
 <div style="display: flex; flex-direction: column; align-items: center; margin: 0 10px;">
-    <img src="{{ site.baseurl }}/assets/post_images/2024-06-24/vendored-expanded-graph.png" alt="Vendored expanded graph" style="width: 25%;" />
+    <img src="{{ site.baseurl }}/assets/post_images/2024-07-09/vendored-expanded-graph.png" alt="Vendored expanded graph" style="width: 25%;" />
     <span>Vendored expanded graph</span>
 </div>
 <br/>
