@@ -2,8 +2,8 @@
 layout: post
 comments: false
 title: "Introducing vendoring packages: Create and share packages decoupled from their dependencies"
-meta_title: "(optional) A longer more descriptive title for search engines to index"
-description: "Explore the capabilities of Conan's vendor feature and how can be used in a enterprise environment."
+meta_title: "Introducing vendoring packages: Create and share packages decoupled from their dependencies"
+description: "Explore the capabilities of Conan's vendoring feature and how can be used to decouple and vendor dependencies."
 keywords: "vendoring,package,repackaging,conan vendor,package_id,private"
 ---
 
@@ -17,15 +17,16 @@ isolating implementation details across organization teams. Let’s dive into
 what "vendor" packages bring to the table and how they can benefit your
 workflow.
 
-## What is a "vendored package"?
+## What is a "vendoring package"?
 
 The "vendor" feature allows developers to distribute their software through
 Conan while keeping internal dependencies and recipes private. By enabling the
 vendor attribute in your Conan recipe, you can prevent Conan from downloading
 the recipes and binaries of your package's dependencies. This means you can
-encapsulate all necessary binaries and libraries within your package, ensuring
-that end-users have no access to your internal build details or private
-repositories.
+encapsulate all necessary binaries, libraries and other artifacts within your
+package, ensuring that end-users have no access to your internal package
+recipes, build details or private repositories.
+
 
 ## Key Benefits
 
@@ -43,7 +44,9 @@ repositories.
     Conan Center Index or a private artifact repository, pre-built binaries for
     various configurations can be included, ensuring that end-users receive a
     ready-to-use package without the need for additional downloads
-    - Vendoring can also be useful inside organizations by allowing sharing
+    - Vendoring can also be useful inside organizations by allowing sharing of
+    pre-compiled binaries that completely hide their dependencies, for
+    security, simplicity or convenience reasons.
     - SDKs between different work groups without sharing internals
     
 3. **Reduced Build Times**
@@ -52,9 +55,9 @@ repositories.
     dependency binaries or recipes from the server, potentially saving significant
     time and storage space, especially in production environments.
 
-## Usage example
+## Usage Example
 
-For this example, make sure to at least have Conan v2.4.1 installed available.
+For this example, ensure that you have at least Conan v2.4.1 installed.
 
 &nbsp;1. Create a basic library from the CMake template
 
@@ -107,13 +110,13 @@ $ conan graph info . --format=html > graph.html
 ```
 
 &nbsp;6. Now let's dive into the vendoring feature. Some changes need to be made in the SDK ``conanfile.py``:
-- As this example aims to make a vendored **static library**, we should first change the ``package_type`` accordingly
+- As this example aims to make a vendoring **static library**, we should first change the ``package_type`` accordingly
 - Set the class attribute ``vendor`` to ``True``. This will enable the vendoring feature
 - Remove the unnecessary shared option from options and default_options, and remove configure method because it not needed anymore
 - Actually repackage the lib_a library inside the SDK. As we are generating a static library, we can achieve this by copying the ``liblib_a.a`` static library inside the SDK library
 - Finally, update the ``cpp_info.libs`` adding the ``lib_a`` dependency for consumers
 
-```py{8 9 21 22 50 55}
+```py{8 9 14 15 43 48}
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 from conan.tools.files import copy
@@ -124,13 +127,6 @@ class sdkRecipe(ConanFile):
     version = "1.0"
     package_type = "static-library"
     vendor = True
-
-    # Optional metadata
-    license = "<Put the package license here>"
-    author = "<Put your name here> <And your email here>"
-    url = "<Package recipe repository url here, for issues about the package>"
-    description = "<Description of sdk package here>"
-    topics = ("<Put some tag here>", "<here>", "<and here>")
 
     # Binary configuration
     settings = "os", "compiler", "build_type", "arch"
@@ -266,8 +262,6 @@ For releasing a vendored package, the creator should follow these steps:
 
 
 ## Advanced details
-
-### Dependency graph and its importance
 
 To understand the inner workings of the "vendor" feature, it is essential to
 grasp the concept of a dependency graph in Conan. When Conan builds the
