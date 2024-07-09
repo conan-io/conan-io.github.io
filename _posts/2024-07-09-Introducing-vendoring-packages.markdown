@@ -116,7 +116,7 @@ $ conan graph info . --format=html > graph.html
 - Actually repackage the lib_a library inside the SDK. As we are generating a static library, we can achieve this by copying the ``liblib_a.a`` static library inside the SDK library
 - Finally, update the ``cpp_info.libs`` adding the ``lib_a`` dependency for consumers
 
-```py{8 9 14 15 43 48}
+```py{8 9 14 15 43 44 49}
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 from conan.tools.files import copy
