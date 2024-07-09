@@ -158,8 +158,9 @@ class sdkRecipe(ConanFile):
         cmake.build()
 
     def package(self):
-        # Repackage static dependencies inside the package
+        # Repackage static dependencies inside the package supporting different OS
         copy(self, "*.a", src=self.dependencies["lib_a"].cpp_info.libdir, dst=os.path.join(self.package_folder, self.cpp_info.libdir))
+        copy(self, "*.lib", src=self.dependencies["lib_a"].cpp_info.libdir, dst=os.path.join(self.package_folder, self.cpp_info.libdir))
         cmake = CMake(self)
         cmake.install()
 
