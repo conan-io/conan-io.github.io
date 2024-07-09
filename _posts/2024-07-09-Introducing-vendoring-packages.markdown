@@ -116,7 +116,7 @@ $ conan graph info . --format=html > graph.html
 - Actually repackage the lib_a library inside the SDK. As we are generating a static library, we can achieve this by copying the ``liblib_a.a`` static library inside the SDK library
 - Finally, update the ``cpp_info.libs`` adding the ``lib_a`` dependency for consumers
 
-```py{8 9 14 15 43 48}
+```py
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 from conan.tools.files import copy
@@ -125,13 +125,13 @@ import os
 class sdkRecipe(ConanFile):
     name = "sdk"
     version = "1.0"
-    package_type = "static-library"
-    vendor = True
+    package_type = "static-library" # LINE CHANGE
+    vendor = True                   # LINE CHANGE
 
     # Binary configuration
     settings = "os", "compiler", "build_type", "arch"
-    options = {"fPIC": [True, False]}
-    default_options = {"fPIC": True}
+    options = {"fPIC": [True, False]} # LINE CHANGE
+    default_options = {"fPIC": True}  # LINE CHANGE
 
     # Sources are located in the same place as this recipe, copy them to the recipe
     exports_sources = "CMakeLists.txt", "src/*", "include/*"
@@ -159,13 +159,14 @@ class sdkRecipe(ConanFile):
 
     def package(self):
         # Repackage static dependencies inside the package supporting different OS
+        # LINES CHANGE
         copy(self, "*.a", src=self.dependencies["lib_a"].cpp_info.libdir, dst=os.path.join(self.package_folder, self.cpp_info.libdir))
         copy(self, "*.lib", src=self.dependencies["lib_a"].cpp_info.libdir, dst=os.path.join(self.package_folder, self.cpp_info.libdir))
         cmake = CMake(self)
         cmake.install()
 
     def package_info(self):
-        self.cpp_info.libs = ["sdk", "lib_a"]
+        self.cpp_info.libs = ["sdk", "lib_a"]  # LINES CHANGE
 ```
 
 &nbsp;7. Apply the changes and create the SDK package:
