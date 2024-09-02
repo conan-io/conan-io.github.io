@@ -56,13 +56,16 @@ a new path which follows this structure in the cache
 integrity so any alteration on this path will be transparent for conan.
 
 This is why in the ``finalize()`` method we must ensure all the needed files
-installed in the ``immutable_package_folder`` are also **copied** or **linked**
+installed in the ``immutable_package_folder`` are also **copied** or **symlinked**
 to the new ``package_folder``.  
 And that is what the example is doing in the last line.
 
 > **Note**: finalize method will only run once per *package\_id*. This means that, if the package is used multiple times, the ``finalize()`` method will only run the first time, so different consumers will use the same *final folder*.
 
 > **Warning**: packages can’t change its "binary" compatibility or footprint in any way. Otherwise, other packages consuming this one will not work when uploaded and reused, because they will depend on a binary that is not uploaded. This feature is intended for customizations of runtime or build utilities to correctly consume the package, build against it and use it at run time.
+
+> **Warning**: symlinking in Conan recipes is a non recommended practice due to its bad portability, specially to Windows ecosystem.
+Even though, in special and controlled cases, symlinking could be useful to avoid great sized libraries duplication. Users under their own risk!
 
 ### Examples
 
@@ -121,6 +124,9 @@ def finalize(self):
 ```
 
 As explained above, in the context of the ``finalize()`` method until the consumer, ``self.package_folder`` will now aim to the *final folder*.
+
+This way, making use of this new method, we can completely isolate *Meson*
+application, being sure now that the cache integrity will be kept intact.
 
 #### Custom configuration files within package scope
 
@@ -259,7 +265,7 @@ We can also appreciate that the content of the ``package_folder`` just contains 
 
 #### Why ``immutable_package_folder``?
 
-As the original ``package_folder`` get’s overridden by the *finalize_folder*, without any other property, there could be no way to access the original package folder for a dependency or even inside ``package_info``. 
+As the original ``package_folder`` get’s overridden by the *final folder*, without any other property, there could be no way to access the original package folder for a dependency or even inside ``package_info``. 
 
 This feature has been created with the idea of never needing to access the original ``package_folder``. Consumers should never need to know which folder (the ended with ``/p`` or the ended with ``/f``) a dependency is using. This will always be transparent for the consumers.
 
