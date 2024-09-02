@@ -113,7 +113,7 @@ def package(self):
     """))
 ```
 
-&nbsp;2. We need to create a `finalize` method which will copy all contents of the `immutable_package_folder` to the final and isolated `package_folder`
+&nbsp;2. We need to create a ``finalize()`` method which will copy all contents of the ``immutable_package_folder`` to the final and isolated ``package_folder``
 
 ```py
 def finalize(self):
