@@ -3,8 +3,8 @@ layout: post
 comments: false
 title: "Introducing finalize() method: Customizing packages locally"
 meta_title: "Introducing finalize() method: Customizing packages locally"
-description: "New conan finalize method which allow preserving immutability and local configurations of packages"
-keywords: "finalize,locall configuration,pycache,pyc,cache integrity"
+description: "New conan finalize() method which allows preserving immutability and local configurations of packages"
+keywords: "finalize,local configuration,pycache,pyc,cache integrity"
 ---
 
 
@@ -47,9 +47,7 @@ class Package(ConanFile):
 ```
 
 In this example we introduce a new class attribute, ``immutable_package_folder``.
-This attribute will always point to the original and well known
-``package_folder``, which will match this pattern in the cache
-“\<conan\_cache\>/p/b/\<build\_id\>/p”
+This attribute will always point to the ``self.package_folder`` that is used in the ``package()`` method.
 
 When a package which declares a ``finalize()`` method is consumed, the
 ``package_folder`` of that package will no longer point to the previous path, but
@@ -80,7 +78,7 @@ Let’s see in deep detail with a typical workflow:
 2. The package is tested locally in order to verify the changes are correct. During this step, some cache files could be generated. In the case of “Meson”, ``.pyc``  
 3. Upload the modified package to a remote. Conan will perform an integrity check on the local cache before uploading the package when called with the ``–check`` flag. This would historically fail because the cache is now “dirty”. Those .``pyc`` files have been created automatically in the ``package_folder`` and Conan caught the mismatch.
 
-This is a simplified version of the current *Meson* package method, where python bytecode generation has been disabled:
+This is a simplified version of the current *Meson* package method, where Python bytecode generation has been disabled:
 
 ```py
 def package(self):
@@ -100,7 +98,7 @@ tweak, performing a quick ``conan cache check-integrity "meson"`` will fail.
 
 But this still was not a perfect solution as it threw all python caching
 efficiency out of the window. This is one of the main reasons for implementing
-the ``finalize`` method. Let’s see how could we modify *Meson* package in order
+the ``finalize()`` method. Let’s see how could we modify *Meson* package in order
 to keep python’s cache efficiency and cache integrity intact:
 
 &nbsp;1. First we could get rid of the ``PYTHONDONTWRITEBYTECODE`` environment variable because we want python to generate ``.pyc`` files:
