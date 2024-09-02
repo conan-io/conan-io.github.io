@@ -74,9 +74,9 @@ prevent cache corruption. However, using ``finalize()``, you can keep Python’s
 caching efficiency intact while ensuring that cache integrity is preserved.
 Let’s see in deep detail with a typical workflow:
 
-1. A package is updated/modified  
-2. The package is tested locally in order to verify the changes are correct. During this step, some cache files could be generated. In the case of “Meson”, ``.pyc``  
-3. Upload the modified package to a remote. Conan will perform an integrity check on the local cache before uploading the package when called with the ``–check`` flag. This would historically fail because the cache is now “dirty”. Those .``pyc`` files have been created automatically in the ``package_folder`` and Conan caught the mismatch.
+1. A package is installed
+2. The package is tested locally in order to verify the changes are correct. During this step, files could be generated in the Conan local cache package folder. In the case of “Meson”, ``.pyc``  
+3. Upload the modified package to a remote. Conan will perform an integrity check on the local cache before uploading the package when called with the ``-–check`` argument. This would historically fail because the cache is now “dirty”. Those ``.pyc`` files have been created automatically in the ``package_folder`` and Conan caught the mismatch.
 
 This is a simplified version of the current *Meson* package method, where Python bytecode generation has been disabled:
 
