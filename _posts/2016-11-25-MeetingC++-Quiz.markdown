@@ -60,7 +60,7 @@ These are the teams that achieved glory, the MeetingC++2016 Quiz hall of fame:
 - Marco Foco, from Nvidia [blog](http://marcofoco.com/)
 - Matthew Chaplain, from TomTom
 - Paul M. Bendixen
-- Valentino Picotti [@paicoz](https://twitter.com/paicoz).
+- Valentino Picotti [@paicoz](https://x.com/paicoz).
 - Paul Dreik, [Dreik Ingenjörskonst AB](https://www.dreik.se/)
 - Lukas Bergdoll [homepage](https://www.lukas-bergdoll.net)
 
