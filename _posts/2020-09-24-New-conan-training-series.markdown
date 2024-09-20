@@ -163,7 +163,7 @@ Essentials and Advanced courses, and so it's also the best place to report
 any sort of feedback relating to existing courses, or even suggesting new ones.
 
 As you complete the courses, if you enjoyed them and want to help spread the
-word, there are links to promote them on Twitter and LinkedIn.
+word, there are links to promote them on X and LinkedIn.
 
 Stay tuned for more updates about new courses and updates to existing courses
 in the coming months!

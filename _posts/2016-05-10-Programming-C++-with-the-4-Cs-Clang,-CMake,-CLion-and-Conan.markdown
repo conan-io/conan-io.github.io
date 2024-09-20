@@ -7,7 +7,7 @@ comments: false
 This post explains how to setup a development environment for C and C++ projects
 using Clang as compiler, CMake as build system, CLion as IDE and Conan
 as package manager. The name 4 Cs is cool, but not my idea, it has been
-coined by well known C++ blogger [Arne Metz](https://twitter.com/arne_mertz), author
+coined by well known C++ blogger [Arne Metz](https://x.com/arne_mertz), author
 of the great [Simplify C++ blog](http://arne-mertz.de/)
 
 Though Clang has some support in Windows, its usage there is still low compared with MSVC,

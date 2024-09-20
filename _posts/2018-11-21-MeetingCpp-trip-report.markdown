@@ -22,8 +22,8 @@ Docker in Jenkins, using cross-compiled (from Windows) packages, and uploaded to
 Artifactory, all of that done in the live demo.
 
 <div align="center">
-    <blockquote class="twitter-tweet" data-lang="es"><p lang="en" dir="ltr">.<a href="https://twitter.com/conan_io?ref_src=twsrc%5Etfw">@conan_io</a> on embedded with <a href="https://twitter.com/diegorlosada?ref_src=twsrc%5Etfw">@diegorlosada</a> at <a href="https://twitter.com/meetingembedded?ref_src=twsrc%5Etfw">@meetingembedded</a> <br><br>I love it! <a href="https://t.co/4YmO7iH7Oa">pic.twitter.com/4YmO7iH7Oa</a></p>&mdash; Odin Holmes (@odinthenerd) <a href="https://twitter.com/odinthenerd/status/1062646088375693312?ref_src=twsrc%5Etfw">14 de noviembre de 2018</a></blockquote>
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <blockquote class="x-tweet" data-lang="es"><p lang="en" dir="ltr">.<a href="https://x.com/conan_io?ref_src=twsrc%5Etfw">@conan_io</a> on embedded with <a href="https://x.com/diegorlosada?ref_src=twsrc%5Etfw">@diegorlosada</a> at <a href="https://x.com/meetingembedded?ref_src=twsrc%5Etfw">@meetingembedded</a> <br><br>I love it! <a href="https://t.co/4YmO7iH7Oa">pic.x.com/4YmO7iH7Oa</a></p>&mdash; Odin Holmes (@odinthenerd) <a href="https://x.com/odinthenerd/status/1062646088375693312?ref_src=twsrc%5Etfw">14 de noviembre de 2018</a></blockquote>
+    <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
 </div>
 
 Overall, the conference was interesting and relevant, highly recommended if you are 
@@ -228,13 +228,13 @@ with colleagues and have some fun together. You can only get that if you attend
 the event in person, sorry :)
 
 <div align="center">
-    <blockquote class="twitter-tweet" data-lang="es"><p lang="en" dir="ltr">Having a blast doing the <a href="https://twitter.com/conan_io?ref_src=twsrc%5Etfw">@conan_io</a> C++ Quiz <a href="https://twitter.com/meetingcpp?ref_src=twsrc%5Etfw">@meetingcpp</a> 🤓<a href="https://twitter.com/diegorlosada?ref_src=twsrc%5Etfw">@diegorlosada</a> is an evil man 😜 <a href="https://twitter.com/hashtag/extremecpp?src=hash&amp;ref_src=twsrc%5Etfw">#extremecpp</a> <a href="https://twitter.com/hashtag/meetingcpp?src=hash&amp;ref_src=twsrc%5Etfw">#meetingcpp</a> <a href="https://t.co/F7jWX7IudY">pic.twitter.com/F7jWX7IudY</a></p>&mdash; Victor Ciura (@ciura_victor) <a href="https://twitter.com/ciura_victor/status/1063163330960023553?ref_src=twsrc%5Etfw">15 de noviembre de 2018</a></blockquote>
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <blockquote class="x-tweet" data-lang="es"><p lang="en" dir="ltr">Having a blast doing the <a href="https://x.com/conan_io?ref_src=twsrc%5Etfw">@conan_io</a> C++ Quiz <a href="https://x.com/meetingcpp?ref_src=twsrc%5Etfw">@meetingcpp</a> 🤓<a href="https://x.com/diegorlosada?ref_src=twsrc%5Etfw">@diegorlosada</a> is an evil man 😜 <a href="https://x.com/hashtag/extremecpp?src=hash&amp;ref_src=twsrc%5Etfw">#extremecpp</a> <a href="https://x.com/hashtag/meetingcpp?src=hash&amp;ref_src=twsrc%5Etfw">#meetingcpp</a> <a href="https://t.co/F7jWX7IudY">pic.x.com/F7jWX7IudY</a></p>&mdash; Victor Ciura (@ciura_victor) <a href="https://x.com/ciura_victor/status/1063163330960023553?ref_src=twsrc%5Etfw">15 de noviembre de 2018</a></blockquote>
+    <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
 </div>
 
 <div align="center">
-    <blockquote class="twitter-tweet" data-lang="es"><p lang="en" dir="ltr">Woot, my team, the &quot;Uninformed Initialization&quot; won the <a href="https://twitter.com/conan_io?ref_src=twsrc%5Etfw">@conan_io</a> <a href="https://twitter.com/hashtag/cplusplus?src=hash&amp;ref_src=twsrc%5Etfw">#cplusplus</a> Quiz on <a href="https://twitter.com/hashtag/meetingcpp?src=hash&amp;ref_src=twsrc%5Etfw">#meetingcpp</a>!<a href="https://twitter.com/meetingcpp?ref_src=twsrc%5Etfw">@meetingcpp</a> <a href="https://t.co/Pf9NLU0K0s">pic.twitter.com/Pf9NLU0K0s</a></p>&mdash; ℍannеs ℍauswеdеll (@__h2__) <a href="https://twitter.com/__h2__/status/1063172855872004097?ref_src=twsrc%5Etfw">15 de noviembre de 2018</a></blockquote>
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <blockquote class="x-tweet" data-lang="es"><p lang="en" dir="ltr">Woot, my team, the &quot;Uninformed Initialization&quot; won the <a href="https://x.com/conan_io?ref_src=twsrc%5Etfw">@conan_io</a> <a href="https://x.com/hashtag/cplusplus?src=hash&amp;ref_src=twsrc%5Etfw">#cplusplus</a> Quiz on <a href="https://x.com/hashtag/meetingcpp?src=hash&amp;ref_src=twsrc%5Etfw">#meetingcpp</a>!<a href="https://x.com/meetingcpp?ref_src=twsrc%5Etfw">@meetingcpp</a> <a href="https://t.co/Pf9NLU0K0s">pic.x.com/Pf9NLU0K0s</a></p>&mdash; ℍannеs ℍauswеdеll (@__h2__) <a href="https://x.com/__h2__/status/1063172855872004097?ref_src=twsrc%5Etfw">15 de noviembre de 2018</a></blockquote>
+    <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
 </div>
 
 ## Conclusion

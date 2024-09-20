@@ -218,4 +218,4 @@ First, a note. Currently, ``visual_studio`` is a single-configuration generator 
 
 Microsoft Windows and Visual Studio have always been first class citizens in Conan. There are many OSS tools created mainly for "nix" like environments, and support for Windows comes later as an afterthought which sometimes requires inconvenient workarounds. While the Conan documentation and examples largely use CMake for convenience, it is not a requirement. This blog post shows that Conan can be used as a package manager for both pure Visual Studio and hybrid stacks that use other build systems. And not only building from sources, but also for managing and sharing binaries for as many configurations as needed in Conan remote servers (Artifactory or conan_server). 
 
-Any feedback? Please tell us in [@conan_io](https://twitter.com/conan_io) or email: info@conan.io
+Any feedback? Please tell us in [@conan_io](https://x.com/conan_io) or email: info@conan.io

@@ -13,7 +13,7 @@ email: info@conan.io
 description: Blog for the team behind the Fully Open Source, MIT licensed, C/C++ Package Manager.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://blog.conan.io" # the base hostname & protocol for your site
-twitter_username: conan_io
+x_username: conan_io
 github_username:  conan-io
 paginate: 6
 paginate_path: /page:num/

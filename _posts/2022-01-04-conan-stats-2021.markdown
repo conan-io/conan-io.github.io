@@ -213,4 +213,4 @@ milestone, not affecting only the client: we are also writing a completely updat
 working on updating all the Conan Center recipes to be compatible with the new version, as well as
 the whole Conan Center infrastructure (building bots, CI pipelines, validation hooks, etc.).
 
-So [stay tuned](https://twitter.com/conan_io) to get the last news about Conan and Conan Center!
+So [stay tuned](https://x.com/conan_io) to get the last news about Conan and Conan Center!
