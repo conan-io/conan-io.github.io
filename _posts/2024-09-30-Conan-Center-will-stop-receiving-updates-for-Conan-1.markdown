@@ -68,7 +68,7 @@ experience delays in reviews if the changesets/diffs make it less obvious what i
   - As usual, opening a large number of PRs in a short time is hugely discouraged and against our guidelines.
 - The Conan Center CI service will undergo upgrades to rely on Conan 2 features - further changes will be announced in the near future
 
-For questions or feedback, please follow the discussion in Github.
+For questions or feedback, please follow the discussion in [Github](https://github.com/conan-io/conan-center-index/discussions/25461).
 
 
 
