@@ -24,7 +24,7 @@ in Conan Center are compatible with Conan 2.
 
 As time has progressed, today the majority of requests to the Conan Center remote originate from Conan 2 users.
 
-**Today we are announcing that before the end of the year, new recipe updates in Conan Center will only be compatible 
+**Today we are announcing that from 4 November 2024, new recipe updates in Conan Center will only be compatible 
 with Conan 2. Please read below to see how this might affect you.**
 
 ## For Conan 1.x users
