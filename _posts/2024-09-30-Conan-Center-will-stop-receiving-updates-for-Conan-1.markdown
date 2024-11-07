@@ -47,11 +47,20 @@ will be frozen at its current state and will not receive any further updates, as
 
 ## For Conan 2.x users
 
-From the date of the switch, new recipe updates will be uploaded internally to a new repository. New details will be 
-announced soon, the team is working in two possible solutions to facilitate this transition:
-- Requests coming from Conan 2 clients will be able to see the up-to-date revisions, without impacting legacy Conan 1, 
-and without requiring any configuration changes for Conan 1 users.
-- A new remote endpoint will be made public
+### New Conan Center remote for Conan 2 recipes and packages
+All updates to recipes and packages from 4-November-2024 are uploaded to a new Conan remote at 
+``https://center2.conan.io``.
+
+To update your configuration, simply run:
+
+```
+conan remote update conancenter --url https://center2.conan.io
+```
+
+Note that this is the default configuration on new installations starting with Conan 2.9.2.
+
+All previously available recipes, revisions and packages known to be compatible with Conan 2
+are also available in this remote.
 
 ## Contributions in the conan-center-index repository
 
