@@ -7,7 +7,7 @@ description: "Conan has intorduced a new integration for ROS (Robot Operating Sy
 keywords: "conan, ros, ros2, robots, robotics, c++, packages, libraries"
 ---
 
-When we think about developments in C or C++, we immediately associate them with programming for industrial systems and embedded devices.
+When we think about development in C or C++, we immediately associate it with programming for industrial systems and embedded devices.
 Indeed, it is in this area where the language is extensively used, and this inevitably includes its application in robotics.
 
 In this context, there is no doubt that ROS (Robot Operating System) is the most well-known framework and probably one of the most widely used. It enables the integration of different hardware components into a single system, allowing them to function seamlessly together. This makes development in robotics more efficient, as it allows for the reuse of each component's software across projects for various robotic applications.
