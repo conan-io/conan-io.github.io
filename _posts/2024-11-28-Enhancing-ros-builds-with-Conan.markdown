@@ -96,7 +96,7 @@ hello world navigation_package package
 ## An example of using ROS with Conan
 
 Let's say we want to include an external library using Conan. In this case, we would create a navigation node that sends locations goals from a
-yaml file to our mobile robot.
+`yaml` file to our mobile robot.
 
 The code for this example can be found at <https://github.com/conan-io/examples2/tree/main/examples/tools/ros/rosenv/navigation_ws>
 
