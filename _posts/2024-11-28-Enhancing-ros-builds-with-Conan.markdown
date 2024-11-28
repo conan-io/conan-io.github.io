@@ -173,7 +173,7 @@ ament_package()
 \
 We can use the ament helper `ament_export_dependencies()` to export the Conan targets as we would do with a normal ROS package. You can read more about it in our documentation: <https://docs.conan.io/2/integrations/ros.html>
 
-Now we would install the ``yaml-cpp`` Conan package like so:
+Now we install the ``yaml-cpp`` Conan package like so:
 
 ```sh
 $ conan install navigation_package/conanfile.txt --build missing --output-folder install/conan
