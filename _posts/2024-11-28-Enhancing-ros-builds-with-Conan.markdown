@@ -202,13 +202,7 @@ Requirements
 
 ======== Computing necessary packages ========
 yaml-cpp/0.8.0: Main binary package '8631cf963dbbb4d7a378a64a6fd1dc57558bc2fe' missing
-yaml-cpp/0.8.0: Checking 9 compatible configurations
-yaml-cpp/0.8.0: Compatible configurations not found in cache, checking servers
-yaml-cpp/0.8.0: '51ede47d8b958f4d476f9e327b0cf6c475a9d34b': compiler.cppstd=11
-yaml-cpp/0.8.0: '9c2f25d016393b8d4be76305d23f60f457cc5612': compiler.cppstd=gnu11
-yaml-cpp/0.8.0: 'c01616259c2d166eadec282346c9fb6dce0e3530': compiler.cppstd=14
-yaml-cpp/0.8.0: '99c9bcacb68e3379fad0ffaab3c0268baafd0cd2': compiler.cppstd=gnu14
-yaml-cpp/0.8.0: '13be611585c95453f1cbbd053cea04b3e64470ca': compiler.cppstd=17
+...
 yaml-cpp/0.8.0: Found compatible package '13be611585c95453f1cbbd053cea04b3e64470ca': compiler.cppstd=17
 Requirements
     yaml-cpp/0.8.0#720ad361689101a838b2c703a49e9c26:13be611585c95453f1cbbd053cea04b3e64470ca#971e8e22b118a337b31131ab432a3d5b - Download (conancenter)
