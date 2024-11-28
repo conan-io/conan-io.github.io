@@ -259,11 +259,6 @@ public:
             return;
         }
 
-        if (locations_.empty()) {
-            RCLCPP_ERROR(this->get_logger(), "No locations found in the YAML file.");
-            return;
-        }
-
         sendAllGoals();
     }
 
@@ -297,33 +292,26 @@ private:
     void sendAllGoals() {
         for (const auto &location : locations_) {
             RCLCPP_INFO(this->get_logger(), "Sending goal to %s: (%.2f, %.2f)", location.name.c_str(), location.x, location.y);
-
             auto goal_msg = NavigateToPose::Goal();
             goal_msg.pose.header.frame_id = "map";
             goal_msg.pose.header.stamp = this->now();
             goal_msg.pose.pose.position.x = location.x;
             goal_msg.pose.pose.position.y = location.y;
             goal_msg.pose.pose.orientation.w = 1.0;
-
             action_client_->async_send_goal(goal_msg);
         }
-
         RCLCPP_INFO(this->get_logger(), "All goals have been sent.");
     }
 };
 
-
 int main(int argc, char **argv) {
     rclcpp::init(argc, argv);
-
     if (argc < 2) {
         RCLCPP_ERROR(rclcpp::get_logger("yaml_navigation_node"), "Usage: yaml_navigation_node <yaml_file_path>");
         return 1;
     }
-
     std::string yaml_file_path = argv[1];
     std::make_shared<YamlNavigationNode>(yaml_file_path);
-
     rclcpp::shutdown();
     return 0;
 }
