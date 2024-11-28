@@ -12,7 +12,7 @@ Indeed, it is in this area where the language is extensively used, and this inev
 
 In this context, there is no doubt that ROS (Robot Operating System) is the most well-known framework and probably one of the most widely used. It enables the integration of different hardware components into a single system, allowing them to function seamlessly together. This makes development in robotics more efficient, as it allows for the reuse of each component's software across projects for various robotic applications.
 
-This is why the Conan team is thrilled to present this integration of Conan with ROS. Many members of our team come from industrial engineering are passionate about this area, so being able to contribute to robotics through Conan makes us very happy.
+This is why the Conan team is thrilled to present this integration of Conan with ROS. Many members of our team come from industrial engineering and we are passionate about this area, so being able to contribute to robotics through Conan makes us very happy.
 In this post, we will discuss the different components that make up ROS development, how they work, and how Conan integrates into these projects to manage third-party libraries.
 
 
