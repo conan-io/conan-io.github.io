@@ -58,8 +58,8 @@ CMD ["bash"]
 First, we create a workspace `navigation_ws` folder, set the environment of your ROS installation, and create a package:
 
 ```sh
-$ mkdir navigation_ws && cd navigation_ws
-$ source /opt/ros/humble/source.bash
+$ mkdir /home/navigation_ws && cd /home/navigation_ws
+$ source /opt/ros/humble/setup.bash
 $ ros2 pkg create --build-type ament_cmake --node-name navigator navigation_package
 ```
 
@@ -67,19 +67,21 @@ These are the files that should be in your workspace. As indicated in this post,
 
 ```txt
 navigation_ws/
-  src/
-    navigation_package/
-      CMakeLists.txt
-      package.xml
-      src/
-        main.cpp
+  navigation_package/
+    CMakeLists.txt
+    package.xml
+    src/
+      navigator.cpp
 ```
 
 Now we can invoke ``colcon`` to perform the build
 
 ```sh
 $ colcon build --packages-select navigation_package
-...
+Starting >>> navigation_package
+Finished <<< navigation_package [1.21s]
+
+Summary: 1 package finished [1.60s]
 ```
 
 Finally, before executing the binary, we have to set the environment for the executable (so it is able to locate any shared library that it may
@@ -88,7 +90,7 @@ have) and then we execute it:
 ```sh
 $ source install/setup.bash
 $ ros2 run navigation_package navigator
-hello world navigation_package navigator
+hello world navigation_package package
 ```
 
 ## An example of using ROS with Conan
@@ -96,7 +98,7 @@ hello world navigation_package navigator
 Let's say we want to include an external library using Conan. In this case, we would create a navigation node that sends locations goals from a
 yaml file to our mobile robot.
 
-The code for this example can be found at https://github.com/conan-io/examples2/tree/main/examples/tools#toolsros
+The code for this example can be found at <https://github.com/conan-io/examples2/tree/main/examples/tools/ros/rosenv/navigation_ws>
 
 _`navigation_ws/navigation_package/locations.yaml`_
 
@@ -115,11 +117,11 @@ locations:
 
 And we will use the [``yaml-cpp`` library from Conan Center](https://conan.io/center/recipes/yaml-cpp). For that, we need to include a _conanfile.txt_ file next to the _CMakeLists.txt_ of our project:
 
-_`navigation_ws/my_package/conanfile.txt`_
+_`navigation_ws/navigation_package/conanfile.txt`_
 
 ```txt
 [requires]
-yaml-cpp/11.0.2
+yaml-cpp/0.8.0
 
 [generators]
 CMakeDeps
@@ -153,32 +155,100 @@ find_package(nav2_msgs REQUIRED)
 # Conan dependencies
 find_package(yaml-cpp REQUIRED)
 
-add_executable(navigator src/main.cpp)
+add_executable(navigator src/navigator.cpp)
 
 target_compile_features(navigator PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 ament_target_dependencies(navigator rclcpp rclcpp_action nav2_msgs yaml-cpp)
 
-install(
-  TARGETS navigator
-  DESTINATION lib/${PROJECT_NAME}
-)
+install(TARGETS navigator
+  DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
 ```
 
 > **Note**:\
-  In the case that we have to propagate the Conan packages as transitive dependencies for other ROS packages thatdepend on this one (in the case that navigation_package was a library):\
+  In the case that we have to propagate the Conan packages as transitive dependencies for other ROS packages that depend on this one (in the case that ``navigation_package`` was a library):\
 \
     ``Other ROS Package`` → ``navigation_package`` → ``yaml-cpp Conan Package``\
 \
-We can use the ament helper `ament_export_dependencies()` to export the Conan targets as we would do with a normal ROS package. You can read more about it in our documentation: https://docs.conan.io/2/integrations/ros.html
+We can use the ament helper `ament_export_dependencies()` to export the Conan targets as we would do with a normal ROS package. You can read more about it in our documentation: <https://docs.conan.io/2/integrations/ros.html>
 
 Now we would install the ``yaml-cpp`` Conan package like so:
 
 ```sh
-$ cd navigation_ws
 $ conan install navigation_package/conanfile.txt --build missing --output-folder install/conan
-...
+======== Input profiles ========
+Profile host:
+[settings]
+arch=x86_64
+build_type=Release
+compiler=gcc
+compiler.cppstd=gnu17
+compiler.libcxx=libstdc++11
+compiler.version=11
+os=Linux
+
+Profile build:
+[settings]
+arch=x86_64
+build_type=Release
+compiler=gcc
+compiler.cppstd=gnu17
+compiler.libcxx=libstdc++11
+compiler.version=11
+os=Linux
+
+
+======== Computing dependency graph ========
+yaml-cpp/0.8.0: Not found in local cache, looking in remotes...
+yaml-cpp/0.8.0: Checking remote: conancenter
+yaml-cpp/0.8.0: Downloaded recipe revision 720ad361689101a838b2c703a49e9c26
+Graph root
+    conanfile.txt: /navigation_ws/navigation_package/conanfile.txt
+Requirements
+    yaml-cpp/0.8.0#720ad361689101a838b2c703a49e9c26 - Downloaded (conancenter)
+
+======== Computing necessary packages ========
+yaml-cpp/0.8.0: Main binary package '8631cf963dbbb4d7a378a64a6fd1dc57558bc2fe' missing
+yaml-cpp/0.8.0: Checking 9 compatible configurations
+yaml-cpp/0.8.0: Compatible configurations not found in cache, checking servers
+yaml-cpp/0.8.0: '51ede47d8b958f4d476f9e327b0cf6c475a9d34b': compiler.cppstd=11
+yaml-cpp/0.8.0: '9c2f25d016393b8d4be76305d23f60f457cc5612': compiler.cppstd=gnu11
+yaml-cpp/0.8.0: 'c01616259c2d166eadec282346c9fb6dce0e3530': compiler.cppstd=14
+yaml-cpp/0.8.0: '99c9bcacb68e3379fad0ffaab3c0268baafd0cd2': compiler.cppstd=gnu14
+yaml-cpp/0.8.0: '13be611585c95453f1cbbd053cea04b3e64470ca': compiler.cppstd=17
+yaml-cpp/0.8.0: Found compatible package '13be611585c95453f1cbbd053cea04b3e64470ca': compiler.cppstd=17
+Requirements
+    yaml-cpp/0.8.0#720ad361689101a838b2c703a49e9c26:13be611585c95453f1cbbd053cea04b3e64470ca#971e8e22b118a337b31131ab432a3d5b - Download (conancenter)
+
+======== Installing packages ========
+
+-------- Downloading 1 package --------
+yaml-cpp/0.8.0: Retrieving package 13be611585c95453f1cbbd053cea04b3e64470ca from remote 'conancenter'
+yaml-cpp/0.8.0: Package installed 13be611585c95453f1cbbd053cea04b3e64470ca
+yaml-cpp/0.8.0: Downloaded package revision 971e8e22b118a337b31131ab432a3d5b
+WARN: deprecated: Usage of deprecated Conan 1.X features that will be removed in Conan 2.X:
+WARN: deprecated:     'cpp_info.build_modules' used in: yaml-cpp/0.8.0
+
+======== Finalizing install (deploy, generators) ========
+conanfile.txt: Writing generators to /navigation_ws/install/conan
+conanfile.txt: Generator 'CMakeDeps' calling 'generate()'
+conanfile.txt: CMakeDeps necessary find_package() and targets for your CMakeLists.txt
+    find_package(yaml-cpp)
+    target_link_libraries(... yaml-cpp::yaml-cpp)
+conanfile.txt: Generator 'CMakeToolchain' calling 'generate()'
+conanfile.txt: CMakeToolchain generated: conan_toolchain.cmake
+conanfile.txt: CMakeToolchain: Preset 'conan-release' added to CMakePresets.json.
+    (cmake>=3.23) cmake --preset conan-release
+    (cmake<3.23) cmake <path> -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake  -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Release
+conanfile.txt: CMakeToolchain generated: /navigation_ws/install/conan/CMakePresets.json
+conanfile.txt: CMakeToolchain generated: /navigation_ws/navigation_package/CMakeUserPresets.json
+conanfile.txt: Generator 'ROSEnv' calling 'generate()'
+conanfile.txt: Generated ROSEnv Conan file: conanrosenv.sh
+Use 'source /navigation_ws/install/conan/conanrosenv.sh' to set the ROSEnv Conan before 'colcon build'
+conanfile.txt: Generating aggregated env files
+conanfile.txt: Generated aggregated env files: ['conanbuild.sh', 'conanrun.sh']
+Install finished successfully
 ```
 
 With this install command, Conan has performed some actions:
@@ -253,7 +323,7 @@ private:
 
     void sendAllGoals() {
         for (const auto &location : locations_) {
-            RCLCPP_INFO(this->get_logger(), "Sending %s goal (%.2f, %.2f) to robot", location.name.c_str(), location.x, location.y);
+            RCLCPP_INFO(this->get_logger(), "Sending goal to %s: (%.2f, %.2f)", location.name.c_str(), location.x, location.y);
 
             auto goal_msg = NavigateToPose::Goal();
             goal_msg.pose.header.frame_id = "map";
@@ -291,20 +361,19 @@ The node will read the locations from the YAML file and send them as navigation 
 We can build our ROS package as usual, just source the conanrosenv.sh file before. This will set the environment so CMake can find the files generated by Conan.
 
 ```sh
-$ source /opt/ros/humble/setup.bash
 $ source install/conan/conanrosenv.sh
 $ colcon build --packages-select navigation_package
 Starting >>> navigation_package
-Finished <<< navigation_package[25.1s]
+Finished <<< navigation_package [16.3s]
 
-Summary: 1 package finished [25.1s]
+Summary: 1 package finished [16.7s]
 ```
 
 Now it is finally time to run our executable:
 
 ```sh
 $ source install/setup.bash
-$ ros2 run navigation_package navigator navigation_package/locations.yml
+$ ros2 run navigation_package navigator navigation_package/locations.yaml
 [INFO] [1732633293.207085200] [yaml_navigation_node]: Reading locations from YAML...
 [INFO] [1732633293.208468700] [yaml_navigation_node]: Sending Kitchen goal (3.50, 2.00) to robot
 [INFO] [1732633293.208949200] [yaml_navigation_node]: Sending Living Room goal (1.00, -1.00) to robot
@@ -320,5 +389,7 @@ install the required libraries from Conan Center.
 Also, a package manager like Conan offers key advantages over system-package managers during the development of the ROS packages. With Conan,
 you can **install different versions or flavors** of the packages **without interfering with the dependencies** across other projects. You can even **bring your own Conan packages as dependencies without disrupting the development workflow**.
 
-With this integration, we hope to improve ROS package development even further. If you have feedback, please submit an issue in the Conan
-repository to help us improve the development experience. Thank you!
+With this integration, we hope to improve ROS package development even further. You can find more information about this integration in our documentation: <https://docs.conan.io/2/integrations/ros.html>.
+
+If you have feedback, please submit an issue in the [Conan
+repository](https://github.com/conan-io/conan) to help us improve the development experience. Thank you!
