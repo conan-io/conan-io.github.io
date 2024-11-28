@@ -95,7 +95,7 @@ $ ros2 run navigation_package navigator
 hello world navigation_package package
 ```
 
-## An example of using ROS with Conan
+## Integrating Conan Dependencies into the ROS Example
 
 Let's say we want to include an external library using Conan. In this case, we would create a navigation node that sends locations goals from a
 `yaml` file to our mobile robot.
