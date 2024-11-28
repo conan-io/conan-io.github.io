@@ -357,7 +357,7 @@ $ ros2 run navigation_package navigator navigation_package/locations.yaml
 ## Conclusion
 
 The new ROS integration for Conan offers a neat way of incorporating Conan packages to ROS packages. By simply including a conanfile, you can
-install the required libraries from Conan Center.
+install the required libraries from Conan Center or from your own private server.
 
 Also, a package manager like Conan offers key advantages over system-package managers during the development of the ROS packages. With Conan,
 you can **install different versions or flavors** of the packages **without interfering with the dependencies** across other projects. You can even **bring your own Conan packages as dependencies without disrupting the development workflow**.
