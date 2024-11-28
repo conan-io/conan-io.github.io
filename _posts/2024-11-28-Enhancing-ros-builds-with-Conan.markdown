@@ -258,7 +258,7 @@ With this install command, Conan has performed some actions:
 
 Finally, let's add the code for our node to the _main.cpp_ file:
 
-**`navigation_ws/my_package/src/main.cpp`**
+**`navigation_ws/my_package/src/navigator.cpp`**
 
 ```cpp
 #include <string>
