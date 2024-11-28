@@ -27,7 +27,7 @@ ROS organizes code into packages, each containing a package.xml with some metada
 - **Ament build tools**: The Ament build tools is a framework of CMake macros and functions that standardize and simplify package-level tasks
   such as linking dependencies, installation and export of artifacts or integration with ROS-specific tools like `rosidl`.
 
-- **Colcon**: It’s the main build tool that orchestrates the build of multiple
+- **Colcon**: It's the main build tool that orchestrates the build of multiple
   packages inside a workspace. It is able to inspect the packages
   and its dependencies and launch the builds in the correct order. It can also overlay
   additional packages on top of their existing workspace
