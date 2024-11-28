@@ -179,7 +179,7 @@ We can use the ament helper `ament_export_dependencies()` to export the Conan ta
 Now we install the ``yaml-cpp`` Conan package like so:
 
 ```sh
-$ conan install navigation_package/conanfile.txt --build missing --output-folder install/conan
+$ conan install navigation_package/conanfile.txt --build=missing --output-folder=install/conan
 ======== Input profiles ========
 Profile host:
 [settings]
