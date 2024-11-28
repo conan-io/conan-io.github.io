@@ -14,7 +14,7 @@ In this context, there is no doubt that [ROS (Robot Operating System)](https://r
 
 This is why the Conan team is thrilled to present this integration of Conan with ROS. Many members of our team come from industrial engineering and we are passionate about this area, so being able to contribute to robotics through Conan makes us very happy.
 
-We know that `rosdep` is a well-known tool in the ROS ecosystem that helps with the task of installing dependencies into the system, and this somehow overlaps with the purpose of Conan as package manager. However, we also believe that Conan offers some advantages and could be introduced as an alternative for the developers that would like to benefit from the features of Conan an its collection of open-source packages.
+We know that `rosdep` is a well-known tool in the ROS ecosystem that helps with the task of installing dependencies into the system. However, managing some C and C++ dependencies at the system level is not always the best approach, and we believe that Conan offers some advantages and could be introduced as an alternative for the developers that would like to benefit from the features of Conan an its collection of open-source packages.
 
 In this post, we will discuss the different components that make up ROS development, how they work, and how Conan integrates into these projects to manage third-party libraries.
 
