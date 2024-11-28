@@ -24,7 +24,7 @@ ROS organizes code into packages, each containing a package.xml with some metada
 
 - **CMake for builds**: ROS2 heavily relies on CMake as its build system for C/C++ packages, using CMakeLists.txt files to define the build logic.
 
-- **Ament build tools**: The Ament build tools are a framework of CMake macros and functions that standardize and simplify package-level tasks
+- **Ament build tools**: The Ament build tools is a framework of CMake macros and functions that standardize and simplify package-level tasks
   such as linking dependencies, installation and export of artifacts or integration with ROS-specific tools like `rosidl`.
 
 - **Colcon**: It’s the main build tool that orchestrates the build of multiple
