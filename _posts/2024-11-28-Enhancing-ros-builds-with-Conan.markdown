@@ -20,7 +20,7 @@ In this post, we will discuss the different components that make up ROS developm
 
 Let's start with a brief overview for those less familiar with the ROS2 ecosystem.
 
-ROS organizes code into packages, each containing a package.xml with some metadata, executables, libraries, or other resources like launch files. These packages are typically managed within a **workspace**, allowing developers to build and run their robot applications. The key components of the workflow are:
+ROS organizes code into packages, each containing a `package.xml` with some metadata, executables, libraries, or other resources like launch files. These packages are typically managed within a **workspace**, allowing developers to build and run their robot applications. The key components of the workflow are:
 
 - **CMake for builds**: ROS2 heavily relies on CMake as its build system for C/C++ packages, using CMakeLists.txt files to define the build logic.
 
