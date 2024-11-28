@@ -3,7 +3,7 @@ layout: post
 comments: false
 title: "Enhancing ROS development with Conan packages"
 meta_title: "Conan receives new integration for ROS to enhance robotics development."
-description: "Conan has intorduced a new integration for ROS (Robot Operating System) to incorporate packages from Conan Center to any robotics development in C++."
+description: "Conan has introduced a new integration for ROS (Robot Operating System) to incorporate packages from Conan Center to any robotics development in C++."
 keywords: "conan, ros, ros2, robots, robotics, c++, packages, libraries"
 ---
 
