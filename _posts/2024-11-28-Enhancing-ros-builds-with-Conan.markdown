@@ -137,7 +137,8 @@ As you can see, we are listing our dependencies under the ``[requires]`` section
 
 - The **ROSEnv generator** will create a shell script with the environment variables needed to perform the build.
 
-In the _CMakeLists.txt_, we will need to include the **ROS client libraries**, the [ROS nav2_msgs](https://index.ros.org/p/nav2_msgs/) and also the [``yaml-cpp`` library from Conan](https://conan.io/center/recipes/yaml-cpp):
+In the _CMakeLists.txt_, we will need to include the **ROS client libraries** (`find_package(rclcpp REQUIRED)`, and
+`find_package(rclcpp_action REQUIRED)`), the [ROS nav2_msgs](https://index.ros.org/p/nav2_msgs/) (`find_package(nav2_msgs REQUIRED)`) and also the [``yaml-cpp`` library from Conan](https://conan.io/center/recipes/yaml-cpp) (`find_package(yaml-cpp REQUIRED)`):
 
 _`navigation_ws/navigation_package/CMakeLists.txt`_
 ```txt
@@ -189,18 +190,7 @@ compiler.cppstd=gnu17
 compiler.libcxx=libstdc++11
 compiler.version=11
 os=Linux
-
-Profile build:
-[settings]
-arch=x86_64
-build_type=Release
-compiler=gcc
-compiler.cppstd=gnu17
-compiler.libcxx=libstdc++11
-compiler.version=11
-os=Linux
-
-
+...
 ======== Computing dependency graph ========
 yaml-cpp/0.8.0: Not found in local cache, looking in remotes...
 yaml-cpp/0.8.0: Checking remote: conancenter
@@ -229,23 +219,10 @@ Requirements
 yaml-cpp/0.8.0: Retrieving package 13be611585c95453f1cbbd053cea04b3e64470ca from remote 'conancenter'
 yaml-cpp/0.8.0: Package installed 13be611585c95453f1cbbd053cea04b3e64470ca
 yaml-cpp/0.8.0: Downloaded package revision 971e8e22b118a337b31131ab432a3d5b
-WARN: deprecated: Usage of deprecated Conan 1.X features that will be removed in Conan 2.X:
-WARN: deprecated:     'cpp_info.build_modules' used in: yaml-cpp/0.8.0
 
 ======== Finalizing install (deploy, generators) ========
 conanfile.txt: Writing generators to /navigation_ws/install/conan
-conanfile.txt: Generator 'CMakeDeps' calling 'generate()'
-conanfile.txt: CMakeDeps necessary find_package() and targets for your CMakeLists.txt
-    find_package(yaml-cpp)
-    target_link_libraries(... yaml-cpp::yaml-cpp)
-conanfile.txt: Generator 'CMakeToolchain' calling 'generate()'
-conanfile.txt: CMakeToolchain generated: conan_toolchain.cmake
-conanfile.txt: CMakeToolchain: Preset 'conan-release' added to CMakePresets.json.
-    (cmake>=3.23) cmake --preset conan-release
-    (cmake<3.23) cmake <path> -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake  -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Release
-conanfile.txt: CMakeToolchain generated: /navigation_ws/install/conan/CMakePresets.json
-conanfile.txt: CMakeToolchain generated: /navigation_ws/navigation_package/CMakeUserPresets.json
-conanfile.txt: Generator 'ROSEnv' calling 'generate()'
+...
 conanfile.txt: Generated ROSEnv Conan file: conanrosenv.sh
 Use 'source /navigation_ws/install/conan/conanrosenv.sh' to set the ROSEnv Conan before 'colcon build'
 conanfile.txt: Generating aggregated env files
