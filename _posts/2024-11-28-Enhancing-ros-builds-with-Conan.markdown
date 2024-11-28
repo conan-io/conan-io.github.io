@@ -137,8 +137,7 @@ As you can see, we are listing our dependencies under the ``[requires]`` section
 
 - The **ROSEnv generator** will create a shell script with the environment variables needed to perform the build.
 
-In the _CMakeLists.txt_, we will need to include the **ROS client libraries** (`find_package(rclcpp REQUIRED)`, and
-`find_package(rclcpp_action REQUIRED)`), the [ROS nav2_msgs](https://index.ros.org/p/nav2_msgs/) (`find_package(nav2_msgs REQUIRED)`) and also the [``yaml-cpp`` library from Conan](https://conan.io/center/recipes/yaml-cpp) (`find_package(yaml-cpp REQUIRED)`):
+In the _CMakeLists.txt_, we will need to include the **ROS client libraries** (`rclcpp` and `rclcpp_action`), the [ROS nav2_msgs](https://index.ros.org/p/nav2_msgs/), and the [``yaml-cpp`` library from Conan](https://conan.io/center/recipes/yaml-cpp). This is done using the `find_package` command for each dependency, as shown below:
 
 _`navigation_ws/navigation_package/CMakeLists.txt`_
 ```txt
