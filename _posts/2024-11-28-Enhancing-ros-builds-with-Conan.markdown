@@ -12,9 +12,11 @@ Indeed, it is in this area where the language is extensively used, and this inev
 
 In this context, there is no doubt that [ROS (Robot Operating System)](https://ros.org/) is the most well-known framework and probably one of the most widely used. It enables the integration of different hardware components into a single system, allowing them to function seamlessly together. This makes development in robotics more efficient, as it allows for the reuse of each component's software across projects for various robotic applications.
 
-This is why the Conan team is thrilled to present this integration of Conan with ROS. Many members of our team come from industrial engineering and we are passionate about this area, so being able to contribute to robotics through Conan makes us very happy.
-In this post, we will discuss the different components that make up ROS development, how they work, and how Conan integrates into these projects to manage third-party libraries.
+This is why the Conan team is thrilled to present this integration of Conan with ROS.Many members of our team come from industrial engineering and we are passionate about this area, so being able to contribute to robotics through Conan makes us very happy.
 
+We know that `rosdep` is a well-known tool in the ROS ecosystem that helps with the task of installing dependencies into the system, and this somehow overlaps with the purpose of Conan as package manager. However, we also believe that Conan offers some advantages and could be introduced as an alternative for the developers that would like to benefit from the features of Conan an its collection of open-source packages.
+
+In this post, we will discuss the different components that make up ROS development, how they work, and how Conan integrates into these projects to manage third-party libraries.
 
 ## A Quick Primer on ROS2 Packages and Workspaces
 
