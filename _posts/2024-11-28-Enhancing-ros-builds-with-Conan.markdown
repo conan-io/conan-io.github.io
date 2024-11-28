@@ -39,7 +39,7 @@ For readers unfamiliar with ROS, we would like to show how a ROS package can be 
 
 We will need a **Linux environment with the ROS2 Humble version installed**. If you are running in another system or just for convenience, you can also build and run the commands using this dockerfile:
 
-#### **`Dockerfile`**
+#### _`Dockerfile`_
 ```dockerfile
 FROM osrf/ros:humble-desktop
 RUN apt-get update && apt-get install -y \
@@ -53,11 +53,7 @@ RUN conan profile detect
 CMD ["bash"]
 ```
 
----
-
-You can build and run the docker image using ``docker build -t conanio/ros-humble .``, and run it with ``docker run -it conanio/ros-humble``
-
----
+> You can build and run the docker image using ``docker build -t conanio/ros-humble .``, and run it with ``docker run -it conanio/ros-humble``
 
 First, we create a workspace `navigation_ws` folder, set the environment of your ROS installation, and create a package:
 
@@ -117,7 +113,7 @@ locations:
     y: 1.5
 ```
 
-And we will use the YAML-CPP library(LINK) from Conan Center. For that, we need to include a _conanfile.txt_ file next to the _CMakeLists.txt_ of our project:
+And we will use the [``yaml-cpp`` library from Conan Center](https://conan.io/center/recipes/yaml-cpp). For that, we need to include a _conanfile.txt_ file next to the _CMakeLists.txt_ of our project:
 
 _`navigation_ws/my_package/conanfile.txt`_
 
@@ -137,7 +133,7 @@ As you can see, we are listing our dependencies under the ``[requires]`` section
 
 - The **ROSEnv generator** will create a shell script with the environment variables needed to perform the build.
 
-In the _CMakeLists.txt_, we will need to include the ROS navigation libraries (LINK) and also the ``yaml-cpp`` library from Conan:
+In the _CMakeLists.txt_, we will need to include the **ROS client libraries**, the [ROS nav2_msgs](https://index.ros.org/p/nav2_msgs/) and also the [``yaml-cpp`` library from Conan](https://conan.io/center/recipes/yaml-cpp):
 
 _`navigation_ws/navigation_package/CMakeLists.txt`_
 ```txt
@@ -170,17 +166,12 @@ install(
 ament_package()
 ```
 
----
-**Note**
-
-In the case that we have to propagate the Conan packages as transitive dependencies for other ROS packages that depend on this one (in the case that navigation_package was a library):
-
-  Other ROS Package → navigation_package → yaml-cpp Conan Package
-
-We can use the ament helper `ament_export_dependencies()` to export the Conan targets as we would do with a normal ROS package. You can read more about it in our documentation: https://docs.conan.io/2/integration (LINK)
-
----
-
+> **Note**:\
+  In the case that we have to propagate the Conan packages as transitive dependencies for other ROS packages thatdepend on this one (in the case that navigation_package was a library):\
+\
+    ``Other ROS Package`` → ``navigation_package`` → ``yaml-cpp Conan Package``\
+\
+We can use the ament helper `ament_export_dependencies()` to export the Conan targets as we would do with a normal ROS package. You can read more about it in our documentation: https://docs.conan.io/2/integrations/ros.html
 
 Now we would install the ``yaml-cpp`` Conan package like so:
 
@@ -191,9 +182,9 @@ $ conan install navigation_package/conanfile.txt --build missing --output-folder
 ```
 
 With this install command, Conan has performed some actions:
-1. Search for packages in Conan Center, the central repository where OSS packages are contributed, that are suitable for your configuration.
-2. Download the packages into the Conan cache locally in your machine.
-3. Generate the environment and CMake files needed for your ROS project in the install/conan folder.
+1. **Search** for packages in [Conan Center](https://conan.io/center), the central repository where OSS packages are contributed, that are suitable for your configuration.
+2. **Download** the packages into the Conan cache locally in your machine.
+3. **Generate** the environment and CMake files needed for your ROS project in the _install/conan_ folder.
 
 Finally, let’s add the code for our node to the _main.cpp_ file:
 
