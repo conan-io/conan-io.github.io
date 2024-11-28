@@ -256,7 +256,7 @@ With this install command, Conan has performed some actions:
 2. **Download** the packages into the Conan cache locally in your machine.
 3. **Generate** the environment and CMake files needed for your ROS project in the _install/conan_ folder.
 
-Finally, let’s add the code for our node to the _main.cpp_ file:
+Finally, let's add the code for our node to the _main.cpp_ file:
 
 **`navigation_ws/my_package/src/main.cpp`**
 
