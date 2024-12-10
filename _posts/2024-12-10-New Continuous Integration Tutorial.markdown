@@ -67,7 +67,7 @@ And when the different configurations are built correctly, they can be "promoted
 </p>
 
 
-One important aspect of the pipeline is consistency and traceability. If the different configurations are built in different computers, like different Windows and Linux build agents, the builds can happen at different times. If there are other concurrent processes in CI, and for example some other job uploads a new ``mathlib/1.1`` new version, it could be possible that the ``ai/1.1`` binary for the Windows configuration is built with ``mathlib/1.0`` and the ``ai/1.1`` binary for the Linux configurations is built with the newer ``mathlib/1.1``. To avoid this, Conan lockfiles can be used to guarantee the same set of dependencies everywhere and in different time steps, even if new versions of dependencies are later uploaded. Lockfiles provide reproducibility of dependencies.
+One important aspect of the pipeline is consistency and traceability. If the different configurations are built in different computers, like different Windows and Linux build agents, the builds can happen at different times. If there are other concurrent processes in CI, and for example some other job uploads a new ``mathlib/1.1`` version, it could be possible that the ``ai/1.1`` binary for the Windows configuration is built with ``mathlib/1.0`` and the ``ai/1.1`` binary for the Linux configurations is built with the newer ``mathlib/1.1``. To avoid this, Conan lockfiles can be used to guarantee the same set of dependencies everywhere and in different time steps, even if new versions of dependencies are later uploaded. Lockfiles provide reproducibility of dependencies.
 
 
 ## The products pipeline
