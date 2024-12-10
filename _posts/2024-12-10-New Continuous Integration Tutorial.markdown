@@ -7,7 +7,7 @@ description: "Conan2 new CI tutorial: a full hands-on tutorial with exercises an
 keywords: "conan, Continuous Integration, CI, C/C++"
 ---
 
-We are very excited to present a completely new Conan tutorial, focused on Continuous Integration for large C++ projects. Documentation, examples and best practices have been demanded for a long time, and even if there was some previous material, it is the first time that Conan introduces a tutorial like this specific for CI.
+We are very excited to present [a completely new Conan tutorial](https://docs.conan.io/2/ci_tutorial/tutorial.html), focused on Continuous Integration for large C++ projects. Documentation, examples and best practices have been demanded for a long time, and even if there was some previous material, it is the first time that Conan introduces a tutorial like this specific for CI.
 
 The new CI tutorial builds on top of lots of experience and feedback from users gathered over the last years. This feedback was already incorporated in the design of Conan 2 in the form of new tools and best practices, but a dedicated documentation entry point was missing.
 
