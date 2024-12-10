@@ -105,7 +105,7 @@ It is also important to note that ``game`` didn't change its version. This is st
 
 ## Conclusions and future work
 
-This blog post isn’t a full explanation of the CI, it is just a peek preview of its contents. The full CI tutorial with all the detailed explanations, exercises, and code is already live at <URL>, go and try it! As always, feedback is very welcome, if there are any questions or issues with the tutorial, please let us know opening a ticket in [the Conan Github repository](https://github.com/conan-io/conan/issues)
+This blog post isn’t a full explanation of the CI, it is just a peek preview of its contents. The full CI tutorial with all the detailed explanations, exercises, and code is already live at [CI Tutorial section in the Conan docs](https://docs.conan.io/2/ci_tutorial/tutorial.html), go and try it! As always, feedback is very welcome, if there are any questions or issues with the tutorial, please let us know opening a ticket in [the Conan Github repository](https://github.com/conan-io/conan/issues)
 
 Recall that the tutorial doesn’t aim to be a silver bullet or the only possible way to implement CI, but mostly an overview of principles, best practices and tools that Conan provides to implement CI at scale for C++ projects.
 
