@@ -25,7 +25,7 @@ These tools are introduced with a specific example: given an organization with s
 Consequently, the tutorial doesn’t aim to be a silver bullet, or to be adopted as-is for all possible different flows, release processes, branching and merging strategies of an organization. This will be the subject of future work, when the tutorial will be extended with more examples and use cases.
 
 
-## Tutorial overview
+## Practical Example
 
 The tutorial uses the following project, that includes 2 main "products" that an organization is developing: a "game" application and a "mapviewer" tool. These main products depend on different packages that contain libraries implementing different functionalities:
 
