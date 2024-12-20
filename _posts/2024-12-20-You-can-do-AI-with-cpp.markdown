@@ -30,10 +30,9 @@ most representative AI libraries available in Conan Center Index.
 
 ### An Overview of Some AI and ML Libraries Available in Conan Center
 
-Below are some notable libraries you can easily integrate with your C++ projects through
-Conan Center. These libraries range from running large language models locally to
-optimizing model inference on edge devices or using specialized toolkits for tasks like
-computer vision and numerical optimization.
+Below are some notable libraries available in Conan Center Index. These libraries range
+from running large language models locally to optimizing model inference on edge devices
+or using specialized toolkits for tasks like computer vision and numerical optimization.
 
 #### LLaMA.cpp
 
@@ -45,12 +44,13 @@ models like [LLaMA 3](https://huggingface.co/models?search=llama),
 as well as multimodal models like [LLaVA](https://github.com/haotian-liu/LLaVA).
 
 One of the most interesting aspects of this library is that it includes a collection of
-CLI tools as examples, making it easy to run your own LLMs straight out of the box. To
-install the library with Conan, ensure that you enable building the examples and activate
-the network options (which require `libcurl`). Then, use a [Conan
-deployer](https://docs.conan.io/2/reference/extensions/deployers.html) to move the
-installed files from the Conan cache to the user space. To accomplish this, simply run the
-following command:
+CLI tools as examples, making it easy to run your own LLMs straight out of the box. 
+
+Let's try one of those tools. First, install the library with Conan and ensure that you
+enable building the examples and activate the network options (which require `libcurl`).
+Then, use a [Conan deployer](https://docs.conan.io/2/reference/extensions/deployers.html)
+to move the installed files from the Conan cache to the user space. To accomplish this,
+simply run the following command:
 
 ```shell
 # Install llama-cpp using Conan and deploy to the local folder
