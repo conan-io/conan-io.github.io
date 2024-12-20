@@ -16,16 +16,17 @@ relevant ones available, helping you get started with AI development in C++ easi
 
 ### Why Use C++ for AI and Machine Learning?
 
-C++ offers some advantages for AI and ML development:
+C++ offers several advantages for AI and ML development:
 
 - **Performance**: C++ provides high execution speed and efficient resource management,
   making it ideal for computationally intensive tasks.
-- **Fine-Grained Control through Compilation**: C++ allows developers to utilize multiple
-  compilation options and optimize libraries directly from the source code to tailor
-  performance for specific hardware, offering a level of fine-grained control.
+- **Low-Level Optimizations**: C++ enables developers to utilize multiple compilation
+  options and optimize libraries directly from the source code. This provides precise
+  control over memory usage, inference processes, and hardware features like SIMD and
+  CUDA, allowing custom optimizations for specific hardware capabilities.
 
 In summary, C++ can be an excellent choice for working with AI. Let's explore some of the
-most representative libraries on this topic available in the Conan Center Index.
+most representative AI libraries available in Conan Center Index.
 
 ### An Overview of Some AI and ML Libraries Available in Conan Center
 
