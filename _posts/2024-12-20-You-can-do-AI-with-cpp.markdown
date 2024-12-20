@@ -44,12 +44,12 @@ and others, enabling local inference with minimal dependencies and high performa
 works on CPUs and GPUs, supports diverse architectures, and accommodates a variety of text
 models like LLaMA 3, Mistral, or Phi, as well as multimodal models like LLaVA 1.6.
 
-One of the most interesting aspects of this library is that it includes some CLI tools
-that will make it easy to run your own LLMs straight out of the box. To install the
-library with Conan, ensure you enable building the examples and activate the network
-options (which will require `libcurl`). Then, use a [Conan
+One of the most interesting aspects of this library is that it includes a collection of
+CLI tools as examples, making it easy to run your own LLMs straight out of the box. To
+install the library with Conan, ensure that you enable building the examples and activate
+the network options (which require `libcurl`). Then, use a [Conan
 deployer](https://docs.conan.io/2/reference/extensions/deployers.html) to move the
-installed files from the Conan cache to the user space. To do all that, just run the
+installed files from the Conan cache to the user space. To accomplish this, simply run the
 following command:
 
 ```shell
