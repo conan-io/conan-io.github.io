@@ -40,7 +40,9 @@ computer vision and numerical optimization.
 **LLaMA.cpp** is a C/C++ implementation of [Meta’s LLaMA models](https://www.llama.com/)
 and others, enabling local inference with minimal dependencies and high performance. It
 works on CPUs and GPUs, supports diverse architectures, and accommodates a variety of text
-models like LLaMA 3, Mistral, or Phi, as well as multimodal models like LLaVA 1.6.
+models like [LLaMA 3](https://huggingface.co/models?search=llama),
+[Mistral](https://mistral.ai/), or [Phi](https://azure.microsoft.com/en-us/products/phi),
+as well as multimodal models like [LLaVA](https://github.com/haotian-liu/LLaVA).
 
 One of the most interesting aspects of this library is that it includes a collection of
 CLI tools as examples, making it easy to run your own LLMs straight out of the box. To
@@ -58,10 +60,12 @@ $ conan install --requires=llama-cpp/b4079 --build=missing \
                 --deployer=full_deploy
 ```
 
-You can run your chatbot locally by simply by invoking the packaged `llama-cli`
-application with a model from a Hugging Face repository (in this case we will be using a
-Llama 3.2 model with 1 billion parameters and 6 bit quantization from the [unsloth
-repo](https://huggingface.co/unsloth))  and starting to ask questions:
+You can run your chatbot locally by invoking the packaged `llama-cli` application with a
+model from a Hugging Face repository. In this example, we will use a Llama 3.2 model with
+1 billion parameters and 6-bit quantization from the [unsloth
+repository](https://huggingface.co/unsloth). 
+
+Now, simply run the following command to start asking questions:
 
 ```shell
 # Run llama-cli downloading a Hugging Face model
@@ -71,7 +75,7 @@ $ ./direct_deploy/llama-cpp/bin/llama-cli \
    -p "What is the meaning to life and the universe?\n"
 ```
 
-Now, let’s check out our LLM’s perspective:
+Let’s check out our LLM’s perspective:
 
 ```text
 What is the meaning to life and the universe?
@@ -108,13 +112,16 @@ performance while minimizing power consumption.
     <img src="{{ site.baseurl }}/assets/post_images/2023-05-11/pose-detection-tensorflow.gif" 
          style="display: block; margin-left: auto; margin-right: auto;" 
          alt="Pose estimation with TensorFlow Lite"/>
+    <figcaption style="text-align: center; font-size: 0.9em;">
+        TensorFlow Lite in action
+    </figcaption>
 </figure>
 
-If you'd like to see TensorFlow Lite in action, we previously published a [blog
+If you'd like to learn how to use TensorFlow Lite with a neural network model in C++, we
+previously published a [blog
 post](https://blog.conan.io/2023/05/11/tensorflow-lite-cpp-mobile-ml-guide.html)
 showcasing how to build a real-time human pose detection application using TensorFlow Lite
-and OpenCV. If you haven't read it yet, we recommend checking it out for a detailed
-walkthrough of an exciting use case.
+and OpenCV. Check it out if you haven't read it yet.
 
 One of the interesting aspects of using the library is the availability of numerous models
 on platforms like [Kaggle Models](https://www.kaggle.com/models) for various tasks, which
