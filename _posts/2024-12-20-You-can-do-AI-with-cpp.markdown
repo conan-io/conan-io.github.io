@@ -57,7 +57,7 @@ simply run the following command:
 $ conan install --requires=llama-cpp/b4079 --build=missing \
                 -o="llama-cpp/*:with_examples=True" \
                 -o="llama-cpp/*:with_curl=True" \
-                --deployer=full_deploy
+                --deployer=direct_deploy
 ```
 
 You can run your chatbot locally by invoking the packaged `llama-cli` application with a
