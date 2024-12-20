@@ -20,9 +20,6 @@ C++ offers some advantages for AI and ML development:
 
 - **Performance**: C++ provides high execution speed and efficient resource management,
   making it ideal for computationally intensive tasks.
-- **Low-Level Optimizations**: It allows precise control over memory usage, inference
-  processes, and hardware features like SIMD and CUDA, enabling developers to implement
-  custom optimizations and leverage hardware capabilities.
 - **Fine-Grained Control through Compilation**: C++ allows developers to utilize multiple
   compilation options and optimize libraries directly from the source code to tailor
   performance for specific hardware, offering a level of fine-grained control.
