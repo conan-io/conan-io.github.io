@@ -44,11 +44,13 @@ and others, enabling local inference with minimal dependencies and high performa
 works on CPUs and GPUs, supports diverse architectures, and accommodates a variety of text
 models like LLaMA 3, Mistral, or Phi, as well as multimodal models like LLaVA 1.6.
 
-One of the most interesting aspects of this library is that it includes CLI tools that
-allow you to run your own LLMs out of the box. To install the library with Conan, enabling
-the examples and network options, and using a [Conan
-deployer](https://docs.conan.io/2/reference/extensions/deployers.html) to move the files
-to the user space, you can run the following command:
+One of the most interesting aspects of this library is that it includes some CLI tools
+that will make it easy to run your own LLMs straight out of the box. To install the
+library with Conan, ensure you enable building the examples and activate the network
+options (which will require `libcurl`). Then, use a [Conan
+deployer](https://docs.conan.io/2/reference/extensions/deployers.html) to move the
+installed files from the Conan cache to the user space. To do all that, just run the
+following command:
 
 ```shell
 # Install llama-cpp using Conan and deploy to the local folder
@@ -58,7 +60,7 @@ $ conan install --requires=llama-cpp/b4079 --build=missing \
                 --deployer=full_deploy
 ```
 
-Running your own chatbot locally is as simple as invoking the packaged `llama-cli`
+You can run your chatbot locally by simply by invoking the packaged `llama-cli`
 application with a model from a Hugging Face repository (in this case we will be using a
 Llama 3.2 model with 1 billion parameters and 6 bit quantization from the [unsloth
 repo](https://huggingface.co/unsloth))  and starting to ask questions:
@@ -110,7 +112,7 @@ performance while minimizing power consumption.
          alt="Pose estimation with TensorFlow Lite"/>
 </figure>
 
-To explore TensorFlow Lite in action, we previously published a [blog
+If you'd like to see TensorFlow Lite in action, we previously published a [blog
 post](https://blog.conan.io/2023/05/11/tensorflow-lite-cpp-mobile-ml-guide.html)
 showcasing how to build a real-time human pose detection application using TensorFlow Lite
 and OpenCV. If you haven't read it yet, we recommend checking it out for a detailed
