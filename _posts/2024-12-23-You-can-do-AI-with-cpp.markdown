@@ -34,7 +34,7 @@ Below are some notable libraries available in Conan Center Index. These librarie
 from running large language models locally to optimizing model inference on edge devices
 or using specialized toolkits for tasks like computer vision and numerical optimization.
 
-#### LLaMA.cpp
+#### [LLaMA.cpp](https://conan.io/center/recipes/llama-cpp)
 
 **LLaMA.cpp** is a C/C++ implementation of [Meta’s LLaMA models](https://www.llama.com/)
 and others, enabling local inference with minimal dependencies and high performance. It
@@ -100,7 +100,7 @@ integrate LLMs into your own applications. For example, here is the code for the
 we just executed. For more information on the LLaMA.cpp project, please [check their
 repository on GitHub](https://github.com/ggerganov/llama.cpp).
 
-#### TensorFlow Lite
+#### [TensorFlow Lite](https://conan.io/center/recipes/tensorflow-lite)
 
 **TensorFlow Lite** is a specialized version of [TensorFlow](https://www.tensorflow.org/)
 designed for deploying machine learning models on mobile, embedded systems, and other
@@ -128,7 +128,7 @@ on platforms like [Kaggle Models](https://www.kaggle.com/models) for various tas
 can be easily integrated into your code. For more information on Tensorflow Lite, please
 [check their documentation](https://www.tensorflow.org/lite/guide).
 
-#### ONNX Runtime
+#### [ONNX Runtime](https://conan.io/center/recipes/onnxruntime)
 
 **ONNX Runtime** is a high-performance inference engine designed to run models in the
 [ONNX](https://onnx.ai/) format, an open standard for representing network models across
@@ -150,7 +150,13 @@ runtime configurations or hardware accelerators. Explore [the Performance sectio
 documentation](https://onnxruntime.ai/docs/performance/) for more details. For more
 information, visit the [ONNX Runtime documentation](https://onnxruntime.ai/docs/).
 
-#### OpenVINO
+Check all available versions in the Conan Center Index by running:
+
+```shell
+conan search onnxruntime
+```
+
+#### [OpenVINO](https://conan.io/center/recipes/openvino)
 
 **OpenVINO** (Open Visual Inference and Neural Network Optimization) is an
 [Intel-developed toolkit](https://docs.openvino.ai/) that accelerates deep learning
@@ -165,7 +171,13 @@ examples to see how you can integrate OpenVINO into your projects.
 
 For more details, visit the [OpenVINO documentation](https://docs.openvino.ai/2024/).
 
-#### mlpack
+Check all available versions in the Conan Center Index by running:
+
+```shell
+conan search openvino
+```
+
+#### [mlpack](https://conan.io/center/recipes/mlpack)
 
 **mlpack** is a fast, flexible, and lightweight header-only C++ library for machine
 learning. It is ideal for lightweight deployments and prototyping. It offers a broad range
@@ -180,7 +192,13 @@ healthcare data.
 
 For further details, visit the [mlpack documentation](https://www.mlpack.org/).
 
-#### Dlib
+Check all available versions in the Conan Center Index by running:
+
+```shell
+conan search mlpack
+```
+
+#### [Dlib](https://conan.io/center/recipes/dlib)
 
 **Dlib** is a modern C++ library widely used in research and industry for advanced machine
 learning algorithms and computer vision tasks. Its comprehensive documentation and
@@ -191,6 +209,12 @@ object classification, and tracking. Examples of these functionalities can be fo
 [their GitHub repository](https://github.com/davisking/dlib/tree/master/examples). 
 
 For more information, visit the [Dlib official site](http://dlib.net/).
+
+Check all available versions in the Conan Center Index by running:
+
+```shell
+conan search dlib
+```
 
 ## Conclusion
 
