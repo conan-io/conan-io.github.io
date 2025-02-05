@@ -14,7 +14,7 @@ An **SBOM provides a detailed list of all the components and libraries that make
 organizations to identify vulnerabilities and manage risks more effectively. 
 
 As organizations prepare for the implementation of Cybersecurity Risk Assessment (CRA) frameworks, having an SBOM in 
-place becomes even more crucial. Recently, a European initiative has been launched to enhance the security and 
+place becomes even more crucial. Recently, a [European initiative](https://www.european-cyber-resilience-act.com/) has been launched to enhance the security and 
 transparency of software components across the continent. The CRA emphasizes the importance of understanding and 
 managing the security of software components, making SBOMs a key asset in this effort.
 
