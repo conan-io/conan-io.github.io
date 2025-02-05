@@ -64,7 +64,7 @@ The hook calculates the subgraph using `conanfile.subgraph` and gives it to our 
 the SBOM in JSON format. So, we just have to save this content in a new file. We will put it inside the package metadata folder,
 this is what you want if you want to upload it to your server for future analysis. 
 This hook launches on `post_package`, it is perfect for generating our SBOM after every `conan create`. Here you can see
-an example of a `openssl`  SBOM created with `Conan`:
+an example of an `openssl`  SBOM created with `Conan`:
 
 ```javascript
 {
