@@ -131,7 +131,7 @@ Yes, Conan can certainly help you create a custom SBOM for your software! With t
 attribute in conanfiles, Conan provides a straightforward way to programmatically retrieve the dependencies of every individual 
 package in a dependency graph.
 
-Using this `subgraph` , you can access the complete dependency subgraph of the current package, which is essential for 
+Using this `subgraph` property, you can access the complete dependency subgraph of the current package, which is essential for 
 generating an accurate SBOM. The `subgraph` property features a `serialize()`  method that allows you to directly output its 
 contents, making the process both efficient and easy.
 
