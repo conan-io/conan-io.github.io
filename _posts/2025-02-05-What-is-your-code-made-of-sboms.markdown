@@ -128,7 +128,7 @@ As you can see, this standard simplifies understanding our software's dependenci
 ## I need a custom SBOM for my software. Can Conan help me?
 
 Yes, Conan can certainly help you create a custom SBOM for your software! With the introduction of the new `subgraph` 
-interface, Conan provides a straightforward way to programmatically retrieve the dependencies of every individual 
+attribute in conanfiles, Conan provides a straightforward way to programmatically retrieve the dependencies of every individual 
 package in a dependency graph.
 
 Using this `subgraph` , you can access the complete dependency subgraph of the current package, which is essential for 
