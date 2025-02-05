@@ -38,7 +38,7 @@ vulnerability management.
 licenses and components. It enables organizations to effectively document the libraries and dependencies used in their 
 projects, serving as a valuable tool for risk management.
 
-## Can conan generate the SBOM with my dependencies?
+## Can Conan generate the SBOM with my dependencies?
 
 Yes, Conan can indeed generate a Software Bill of Materials (SBOM) and can do it using **CycloneDX 1.4 natively**. Conan 
 tools feature a `from conan.tools.sbom` set of tools that allows the creation of SBOMs easily. These tools can be used 
