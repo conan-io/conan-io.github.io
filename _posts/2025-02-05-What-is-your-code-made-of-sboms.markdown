@@ -131,7 +131,7 @@ attribute in conanfiles, Conan provides a straightforward way to programmaticall
 package in a dependency graph.
 
 Using this `subgraph` property, you can access the complete dependency subgraph of the current package, which is essential for 
-generating an accurate SBOM. The `subgraph` property features a `serialize()`  method that allows you to directly output its 
+generating an accurate SBOM. The `subgraph` property includes a `serialize()`  method that allows you to directly output its 
 contents, making the process both efficient and easy.
 
 Here you can see an easy example of a hook using the `serialize()` method. Also, we save the SBOM in the package metadata folder 
