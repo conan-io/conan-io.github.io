@@ -153,7 +153,7 @@ def post_package(conanfile, **kwargs):
 
 By leveraging this interface, you can customize your SBOM according to your specific requirements, ensuring that it 
 includes all relevant data related to your dependencies. This capability not only enhances the transparency of your 
-software supply chain but also aids in better vulnerability management and compliance.
+software supply chain, but also aids in better vulnerability management and compliance.
 
 ## Conclusion
 
