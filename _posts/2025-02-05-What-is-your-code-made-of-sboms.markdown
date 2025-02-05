@@ -43,7 +43,7 @@ projects, serving as a valuable tool for risk management.
 Yes, Conan can indeed generate a Software Bill of Materials (SBOM) and can do it using **CycloneDX 1.4 natively**. Conan 
 tools feature a `from conan.tools.sbom` set of tools that allows the creation of SBOMs easily. These tools can be used 
 in recipes, custom commands, deployers, or hooks. 
-Let’s make an example using a hook, here is the code:
+Let’s make an example using a [`post_package` hook](https://docs.conan.io/2/reference/extensions/hooks.html), here is the code:
 
 ```python
 import json
