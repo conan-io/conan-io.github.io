@@ -135,7 +135,7 @@ Using this `subgraph` , you can access the complete dependency subgraph of the c
 generating an accurate SBOM. The `subgraph` property features a `serialize()`  method that allows you to directly output its 
 contents, making the process both efficient and easy.
 
-Here you can see an easy example of a hook using the `serialize()` method. Also, we save the SBOM in the metadata folder 
+Here you can see an easy example of a hook using the `serialize()` method. Also, we save the SBOM in the package metadata folder 
 to upload it to the server and keep it safe for future analysis.
 
 ```python
