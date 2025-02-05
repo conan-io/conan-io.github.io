@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "What’s Your C/C++ Code Made Of? The Importance of Software Bill of Materials"
+title: "What’s Your C/C++ Code Made Of? The Importance of the Software Bill of Materials"
 meta_title: "Native use of CycloneDX SBOMs on you C/C++ projects"
 description: "Discover the importance of SBOMs for your software and learn how to easily generate them using Conan"
 keywords: "C++, C, CRA, SBOM, SBOMs, CycloneDX, SPDX, Cybersecurity"
