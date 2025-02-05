@@ -165,5 +165,5 @@ To prepare for this future, organizations must adopt SBOM practices proactively.
 generation and management into development workflows. By doing so, companies can swiftly identify and address security 
 risks associated with their software dependencies. 
 
-For C and C++ projects, Conan can help generate SBOMs such as CycloneDX 1.4. Based on user feedback, other built-in 
+For C and C++ projects, Conan can help generate SBOMs that follow standards such as CycloneDX 1.4. Based on user feedback, other built-in 
 formats will be prioritized. Please let us know about this or any other questions at our [GitHub webpage](https://github.com/conan-io/conan/issues).
