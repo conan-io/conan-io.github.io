@@ -156,7 +156,7 @@ software supply chain, but also aids in better vulnerability management and comp
 
 ## Conclusion
 
-SBOMs will become increasingly significant in the evolving landscape of software development. As vulnerabilities become 
+SBOMs are becoming increasingly significant in the evolving landscape of software development. As vulnerabilities become 
 more prevalent and regulatory requirements tighten, **SBOMs will be essential for enhancing transparency**, security, 
 and compliance across the software supply chain.
 
