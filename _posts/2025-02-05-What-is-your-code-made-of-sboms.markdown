@@ -18,7 +18,7 @@ place becomes even more crucial. Recently, a European initiative has been launch
 transparency of software components across the continent. The CRA emphasizes the importance of understanding and 
 managing the security of software components, making SBOMs a key asset in this effort.
 
-To align with this initiative, organizations are encouraged to **adopt standards such as CycloneDX 1.4 or SPDX 2.3 or 
+To align with this initiative, organizations are encouraged to **adopt standards such as CycloneDX 1.4, or SPDX 2.3 or 
 greater** for generating their SBOMs. These standards provide comprehensive guidelines for representing and sharing 
 software component information effectively. With an SBOM, not only does transparency improve, but security is also 
 strengthened by enabling quick responses to potential threats. Organizations that proactively embrace SBOMs will be 
