@@ -123,7 +123,7 @@ an example of an `openssl`  SBOM created with `Conan`:
 }
 ```
 
-As you can see, this standard simplifies understanding our software's dependencies.
+As you can see, this standard simplifies the understanding of our software dependencies.
 
 ## I need a custom SBOM for my software. Can Conan help me?
 
