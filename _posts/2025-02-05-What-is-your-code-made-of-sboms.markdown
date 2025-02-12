@@ -51,7 +51,7 @@ from conan.api.output import ConanOutput
 from conan.tools.sbom import cyclonedx_1_4
 
 def post_package(conanfile, **kwargs):
-    sbom_cyclonedx_1_4 = cyclonedx_1_4(conanfile.subgraph)
+    sbom_cyclonedx_1_4 = cyclonedx_1_4(conanfile)
     metadata_folder = conanfile.package_metadata_folder
     file_name = "sbom.cdx.json"
     with open(os.path.join(metadata_folder, file_name), 'w') as f:
@@ -59,7 +59,7 @@ def post_package(conanfile, **kwargs):
     ConanOutput().success(f"CYCLONEDX CREATED - {conanfile.package_metadata_folder}")
 ```
 
-The hook calculates the subgraph using `conanfile.subgraph` and gives it to our new `cyclonedx_1_4` function, which returns
+The hook takes the `conanfile` and gives it to our new `cyclonedx_1_4` function, which returns
 the SBOM in JSON format. So, we just have to save this content in a new file. We will put it inside the package metadata folder,
 this is what you want if you want to upload it to your server for future analysis, by using the metadata feature of Conan (See our previous [metadata blogpost here](https://blog.conan.io/2023/10/24/Conan-launches-metadata-files.html) to learn how to use the feature). 
 This hook launches on `post_package`, it is perfect for generating our SBOM after every `conan create`. Here you can see
