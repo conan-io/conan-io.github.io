@@ -43,6 +43,10 @@ will receive a token that must be validated via email.
 To register, go to [https://audit.conan.io/register](https://audit.conan.io/register) and
 fill in your details.
 
+> **Note:** The `conan audit` service is currently in an experimental phase, and to 
+> ensure fair usage, there is a limit of 100 queries per day. The rate limit resets 
+> every 24 hours.
+
 ![Registration screen]
 
 After registration, you will receive a token. Please make sure to store it securely as it
