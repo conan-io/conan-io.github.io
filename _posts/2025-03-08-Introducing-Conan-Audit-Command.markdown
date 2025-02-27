@@ -15,7 +15,7 @@ vulnerability had the potential to affect many systems, it was detected before w
 deployment, limiting its actual impact. This incident highlights the importance of
 proactive security tools to help identify and mitigate vulnerabilities in dependencies.
 
-At Conan, we have long considered build security a priority, continuously implementing
+At Conan, we have long considered security a priority, continuously implementing
 features to enhance it. Some examples include native support for [generating SBOMs with
 CycloneDX](https://blog.conan.io/2025/02/05/What-is-your-code-made-of-sboms.html) and
 [package signing](https://docs.conan.io/2/reference/extensions/package_signing.html).
@@ -28,16 +28,16 @@ graph.
 ## Scanning for Vulnerabilities with `conan audit`
 
 The `conan audit` command enables users to scan for potential vulnerabilities in any Conan
-package available in Conan Center. This command connects to a service powered by [JFrog
-Advanced Security](https://jfrog.com/devops-native-security), which provides detailed
-vulnerability analysis reports.
+package available in Conan Center. This command connects to a free service powered by
+[JFrog Advanced Security](https://jfrog.com/devops-native-security), which provides
+detailed vulnerability analysis reports.
 
 To use the command, users must register and obtain a token that grants access to a limited
 number of scans per day.
 
 ### Registering for the Service
 
-Before using `conan audit`, you need to sign up for the service. Upon registration, you
+Before using `conan audit`, you need to sign up for the free service. Upon registration, you
 will receive a token that must be validated via email.
 
 To register, go to [https://audit.conan.io/register](https://audit.conan.io/register) and
