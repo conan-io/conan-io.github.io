@@ -189,9 +189,9 @@ presented in a searchable table.
 If you run into any issues using `conan audit`, please don’t hesitate to reach out for
 support—we're here to help!  
 
-📧 **Service Support:** For issues related to the registration process or the usage
-of the `conan audit` command, contact the Conan team at
-[conan@jfrog.com](mailto:conan@jfrog.com).  
+🛠️ **Service Support:** For issues related to the usage of the `conan audit` command,
+please open an issue on our [GitHub issue
+tracker](https://github.com/conan-io/conan/issues).
 
 🔒 **CVE-related Issues:** If you encounter problems with the CVE data returned by the
 command, please report them to the JFrog Security team at
