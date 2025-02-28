@@ -120,62 +120,11 @@ dependencies into account. For instance, if a Conan recipe depends on `libpng/1.
 
 ```shell  
 $ conan audit scan .
-...
-======== Computing dependency graph ========
-libpng/1.5.30: Not found in local cache, looking in remotes...
-libpng/1.5.30: Checking remote: conancenter
-Connecting to remote 'conancenter' anonymously
-libpng/1.5.30: Downloaded recipe revision efa4bfdf973993197dbaa85b8c320723
-...
-Resolved version ranges
-    zlib/[>=1.2.11 <2]: zlib/1.3.1
-Requesting vulnerability info for: libpng/1.5.30
-Requesting vulnerability info for: openssl/1.1.1w
-Requesting vulnerability info for: zlib/1.3.1
-
-*****************
-* libpng/1.5.30 *
-*****************
-
-3 vulnerabilities found:
-
-- CVE-2017-12652 (Severity: Critical, CVSS: 9.8)
-
-  libpng before 1.6.32 does not properly check the length of chunks against the
-  user limit.
-  url: https://github.com/glennrp/libpng/blob/df7e9dae0c4aac63d55361e35709c864fa1b8363/ANNOUNCE
-
-...
-
-******************
-* openssl/1.1.1w *
-******************
-
-2 vulnerabilities found:
-
-...
-
-**************
-* zlib/1.3.1 *
-**************
-
-No vulnerabilities found.
-
-Total vulnerabilities found: 5
-
-
-Summary:
-
-- libpng/1.5.30 3 vulnerabilities found
-- openssl/1.1.1w 2 vulnerabilities found
-
-Vulnerability information provided by JFrog. 
-Please check https://jfrog.com/advanced-security/ for more information.
-
-You can send questions and report issues about the 
-returned vulnerabilities to conan-research@jfrog.com.
 ```  
-  
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2025-03-8/conan-audit-scan-cli.gif"  align="center"  alt="conan audit scan results"/>
+</p>
+
 The `conan audit scan` command supports different output formats, allowing you to generate
 results in JSON for programmatic analysis or in HTML for a more detailed visual report.
 
