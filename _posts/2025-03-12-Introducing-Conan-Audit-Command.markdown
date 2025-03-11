@@ -32,6 +32,10 @@ package available in Conan Center. This command connects to a free service power
 [JFrog Advanced Security](https://jfrog.com/devops-native-security), which provides
 detailed vulnerability analysis reports.
 
+> **Note:** If you are using packages from Conan Center, some vulnerabilities may have already
+> been mitigated through patches applied in the recipe. To verify if a patch has been
+> applied, check the recipe in Conan Center.
+
 To use the command, users must register and obtain a token that grants access to a limited
 number of scans per day.
 
@@ -43,11 +47,13 @@ will receive a token that must be validated via email.
 To register, go to [https://audit.conan.io/register](https://audit.conan.io/register) and
 fill in your details.
 
-> **Note:** The `conan audit` service is currently in an experimental phase, and to 
-> ensure fair usage, there is a limit of 100 queries per day. The rate limit resets 
-> every 24 hours.
-
 ![Registration screen]
+
+> **Notes:**  
+> - The `conan audit` service is currently in an experimental phase and may undergo
+>   breaking changes in its APIs, results, and functionality.  
+> - To ensure fair usage and prevent abuse, there is a limit of **100 queries per day**,
+>   which resets every 24 hours.  
 
 After registration, you will receive a token. Please make sure to store it securely as it
 will only be displayed once.
@@ -120,7 +126,10 @@ dependencies into account. For instance, if a Conan recipe depends on `libpng/1.
 
 ```shell  
 $ conan audit scan .
-```  
+```
+
+You will see something similar to this:
+
 <p class="centered">
     <img  src="{{ site.baseurl }}/assets/post_images/2025-03-8/conan-audit-scan-cli.gif"  align="center"  alt="conan audit scan results"/>
 </p>
@@ -135,7 +144,9 @@ $ conan audit scan . --format=html > report.html
 Now open `report.html` to view the detailed results of the vulnerabilities found,
 presented in a searchable table.
 
-![Animated GIF of audit output]
+<p class="centered">
+    <img  src="{{ site.baseurl }}/assets/post_images/2025-03-8/cona-audit-scan-html.gif"  align="center"  alt="conan audit scan html render"/>
+</p>
 
 ## Troubleshooting
 
