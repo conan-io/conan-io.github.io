@@ -73,7 +73,11 @@ this by running:
 ```shell  
 $ conan audit provider auth --name=conancenter --token=<your_token>
 Provider authentication added.
-```  
+```
+
+> **Note:** We use `--token` for simplicity, but this may expose your token in shell
+> history. To avoid this, set it as an environment variable matching the provider name in
+> uppercase, e.g., `CONAN_AUDIT_PROVIDER_TOKEN_CONANCENTER`.
 
 Once this is done, you're ready to scan for vulnerabilities in your Conan packages. The
 simplest way to check a specific package reference is by using `conan audit list` like
