@@ -47,7 +47,9 @@ will receive a token that must be validated via email.
 To register, go to [https://audit.conan.io/register](https://audit.conan.io/register) and
 fill in your details.
 
-![Registration screen]
+<p class="centered">
+    <img src="{{ site.baseurl }}/assets/post_images/2025-03-19/conan-audit-register.png" alt="Conan Audit Registration"/>
+</p>
 
 > **Notes:**  
 > - The `conan audit` service is currently in an experimental phase and may undergo
@@ -58,12 +60,16 @@ fill in your details.
 After registration, you will receive a token. Please make sure to store it securely as it
 will only be displayed once.
 
-![Token screen]
+<p class="centered">
+    <img src="{{ site.baseurl }}/assets/post_images/2025-03-19/conan-audit-token.png" alt="Conan Audit Token"/>
+</p>
 
 Next, you will receive an email to validate your token. Once validated, you can start
 using `conan audit`.
 
-![Validation email]
+<p class="centered">
+    <img src="{{ site.baseurl }}/assets/post_images/2025-03-19/conan-audit-validation.png" alt="Conan Validate Token"/>
+</p>
 
 ### Using the `conan audit` Command
 
@@ -71,7 +77,7 @@ The first thing you need to do is update the security provider token for Conan C
 this by running:
 
 ```shell  
-$ conan audit provider auth --name=conancenter --token=<your_token>
+$ conan audit provider auth conancenter --token=<your_token>
 Provider authentication added.
 ```
 
@@ -135,7 +141,7 @@ $ conan audit scan .
 You will see something similar to this:
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2025-03-8/conan-audit-scan-cli.gif"  align="center"  alt="conan audit scan results"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2025-03-19/conan-audit-scan-cli.gif"  align="center"  alt="conan audit scan results"/>
 </p>
 
 The `conan audit scan` command supports different output formats, allowing you to generate
@@ -149,7 +155,7 @@ Now open `report.html` to view the detailed results of the vulnerabilities found
 presented in a searchable table.
 
 <p class="centered">
-    <img  src="{{ site.baseurl }}/assets/post_images/2025-03-8/cona-audit-scan-html.gif"  align="center"  alt="conan audit scan html render"/>
+    <img  src="{{ site.baseurl }}/assets/post_images/2025-03-19/cona-audit-scan-html.gif"  align="center"  alt="conan audit scan html render"/>
 </p>
 
 ## Troubleshooting
