@@ -15,7 +15,7 @@ This article shows how to use the official [Conan GitHub Action](https://github.
 
 ## Why Use the Conan GitHub Action?
 
-The official Conan GitHub Action, maintained by the Conan team, setting up the Conan client. It’s available on the GitHub Marketplace and is designed for easy integration and efficient dependency management. Using the official action ensures you benefit from ongoing maintenance, security, and community support.
+The official Conan GitHub Action, maintained by the Conan team, takes care of setting up the Conan client for you. It’s available on the GitHub Marketplace and is designed for easy integration and efficient dependency management. Using the official action ensures you benefit from ongoing maintenance, security, and community support.
 
 ### Features of the Conan GitHub Action
 
