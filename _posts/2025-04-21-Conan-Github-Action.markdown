@@ -30,7 +30,7 @@ The Conan GitHub Action offers some features to customize your workflow executio
 - **Conan Audit token:** The action allows you to specify a Conan Audit token, which can be used to authenticate with the Conan server. This is useful when you want to authenticate with a Audit server and scan your packages for vulnerabilities. Always use GitHub secrets to store your tokens and avoid exposing them in your workflow.
 By default, the action will not use a Conan Audit token.
 
-- **Configuration installation:** The action allows you to specify a list of URLs to install configuration files from. This is useful when you want to install profiles, settings, or other configuration files from a remote server. The action will download the files and install them in the Conan home folder, so you don't have to worry about managing them yourself. By default, the action will not install any configuration files.
+- **Configuration installation:** The action allows you to specify a list of URLs to be consumed by the command [conan config install/install-pkg](https://docs.conan.io/2/reference/commands/config.html). This is useful when you want to install profiles, settings, or other configuration files from a remote server. The action will download the files and install them in the Conan home folder, so you don't have to worry about managing them yourself. By default, the action will not install any configuration files.
 
 - **Python version:** The action allows you to specify the Python version to use in your workflow. This is useful when you want share the same Python version between Conan and your workflow. By default, the action will use the Python version 3.10.
 
