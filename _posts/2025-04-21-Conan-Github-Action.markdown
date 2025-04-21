@@ -68,7 +68,7 @@ jobs:
 
     - name: Scan Conan packages
       run: |
-        conan audit scan . --format=json --out-file=output/conan-audit-report.json
+        conan audit scan . --format=json > output/conan-audit-report.json
 
     - name: Archive Conan Audit report
       uses: actions/upload-artifact@v4
