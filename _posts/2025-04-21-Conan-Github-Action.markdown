@@ -86,7 +86,7 @@ jobs:
 ```
 
 This workflow will run every night at 01:00 a.m. UTC and will install the latest version of Conan.
-It will also scan the Conan packages listed in the `conanfile.py` expected for vulnerabilities and upload the report as an artifact.
+It will also scan the Conan packages listed in the `conanfile.py` for expected vulnerabilities and upload the report as an artifact.
 The `conanfile.py` is expected to be present in the same repository.
 Finally, it will check if there are any **high** severity vulnerabilities in the json result and fail the workflow if any are found.
 
