@@ -46,7 +46,7 @@ First, add the Conan Action to your workflow yaml file:
   uses: conan-io/setup-conan@v1
 ```
 
-The the full workflow file will look like this:
+The full workflow file will look like this:
 
 ```yaml
 # .github/workflows/nightly-conan-audit-scan.yml
