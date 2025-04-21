@@ -89,7 +89,34 @@ jobs:
 
 This workflow will run every night at 01:00 a.m. UTC and will install the latest version of Conan.
 It will also scan the requirements and all the transitive dependencies listed in the `conanfile.py` for expected vulnerabilities and upload the report as an artifact.
-Finally, it will check if there are any **high** severity vulnerabilities in the json result and fail the workflow if any are found.
+Finally, the file `output/conan-audit-report.json` will be checked for any **high** severity vulnerabilities using the `jq` command. If any are found, the workflow will fail with an error message.
+
+For reference, the Conan package `openssl/3.4.1` should contain the [CVE-2019-0190](https://www.cve.org/CVERecord?id=CVE-2019-0190). In that case, the produced output by `conan audit scan` should contain the following JSON:
+
+```json
+{
+  "name": "CVE-2019-0190",
+  "description": "A bug exists in the way mod_ssl handled client renegotiations. A remote attacker could send a carefully crafted request that would cause mod_ssl to enter a loop leading to a denial of service. This bug can be only triggered with Apache HTTP Server version 2.4.37 when using OpenSSL version 1.1.1 or later, due to an interaction in changes to handling of renegotiation attempts.",
+  "severity": "High",
+  "cvss": {
+    "preferredBaseScore": 7.5
+  },
+  "aliases": [
+    "CVE-2019-0190",
+    "JFSA-2023-000317713"
+  ],
+  "advisories": [
+    {
+      "name": "CVE-2019-0190"
+    }
+  ],
+  "references": [
+    "https://httpd.apache.org/security/vulnerabilities_24.html"
+  ]
+}
+```
+
+Here, the `severity` field is set to **High**. The workflow will fail and print the error message.
 
 ## Conclusion
 
