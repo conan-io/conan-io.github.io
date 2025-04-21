@@ -93,7 +93,7 @@ Finally, the file `output/conan-audit-report.json` will be checked for any **hig
 
 For reference, the Conan package `openssl/3.4.1` should contain the [CVE-2019-0190](https://www.cve.org/CVERecord?id=CVE-2019-0190). In that case, the produced output by `conan audit scan` should contain the following JSON:
 
-```json
+```javascript
 {
   "name": "CVE-2019-0190",
   "description": "A bug exists in the way mod_ssl handled client renegotiations. A remote attacker could send a carefully crafted request that would cause mod_ssl to enter a loop leading to a denial of service. This bug can be only triggered with Apache HTTP Server version 2.4.37 when using OpenSSL version 1.1.1 or later, due to an interaction in changes to handling of renegotiation attempts.",
