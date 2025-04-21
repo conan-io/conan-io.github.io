@@ -8,46 +8,43 @@ keywords: "C++, C, GitHub, CI, CD, Workflow"
 permalink: /conan-github-action/
 ---
 
-In modern software development, continuous integration and delivery (CI/CD) pipelines are essential for maintaining fast, reliable, and efficient workflows. However, managing and configuring the CI script in these pipelines can often be a bottleneck.
+In modern software development, fast and reliable CI/CD pipelines are essential. However, configuring and maintaining CI scripts—especially for dependency management can slow down your workflow and increase maintenance costs.
 
-Github Actions is a platform that helps automate software workflows, including installing dependencies, running tests, and deploying applications. However, the time it takes to setup tools dependencies can significantly increase the maintenance cost of the CI script.
+[GitHub Actions](https://github.com/features/actions) automates tasks like installing dependencies, running tests, and deploying applications. But setting up tool dependencies can be time-consuming. Fortunately, GitHub Actions supports reusable extensions from the [GitHub Marketplace](https://github.com/marketplace?type=actions), making it easier to manage tools like Conan.
 
-To accelerate the setup of a GitHub Action, the platform supports extensions, which are reusable components that can be shared across different workflows and are exposed via GitHub Marketplace. These extensions can be used to speed up the setup of tools dependencies, such as Conan.
+This article shows how to use the official [Conan GitHub Action](https://github.com/marketplace/actions/setup-conan-client) to speed up your builds and streamline your CI/CD pipeline.
 
-In this article, we will explore how to use Conan to speed up your GitHub Action and improve the efficiency of your CI/CD pipeline.
+## Why Use the Conan GitHub Action?
 
-## Conan client in GitHub Actions
+The official Conan GitHub Action, maintained by the Conan team, simplifies Conan setup in your workflows. It’s available on the GitHub Marketplace and is designed for easy integration and efficient dependency management. Using the official action ensures you benefit from ongoing maintenance, security, and community support.
 
-The GitHub Marketplace can have multiple non-official extensions for the same tool, creating a situation where users have to choose between them, checking the documentation, maintenance, security, community interaction, license, and other factors. In order to avoid this situation, Conan has its own official GitHub Action, which is maintained by the Conan team and is available in the GitHub Marketplace. This action is designed to be used in GitHub Actions workflows and provides a simple way to install and configure Conan in your CI/CD pipeline.
+### Features of the Conan GitHub Action
 
-This new GitHub Action is designed to be used in GitHub Actions workflows and provides a simple way to install and configure Conan in your CI/CD pipeline. It is available in the GitHub Marketplace and can be easily integrated into your existing workflows. It also have some initial features to improve its usage and speed up the setup of Conan in the CI pipeline when building multiple times, including:
+The Conan GitHub Action offers somre features to customize your workflow execution, including:
 
-* Caching Conan packages: The action can cache Conan packages to speed up the installation process. This is particularly useful when building multiple times, as it reduces the time spent downloading and installing dependencies. The cache is restored automatically when the action is run, so you don't have to worry about managing it yourself. By default, the action will not cache the Conan packages.
+- **Caching Conan packages:** The action can cache Conan packages to speed up the installation process. This is particularly useful when building multiple times, as it reduces the time spent downloading and installing dependencies. The cache is restored automatically when the action is run, so you don't have to worry about managing it yourself. By default, the action will not cache the Conan packages.
 
-* Custom Conan home folder: The action allows you to specify a custom Conan home folder, which can be used to store the Conan cache and other configuration files. This is useful when you want to share the cache between different jobs or workflows, or when you want to use a specific location for the Conan home folder. By default, the action will use the default Conan home folder, which is located in the workstation home directory.
+- **Custom Conan home folder:** The action allows you to specify a custom Conan home folder, which can be used to store the Conan cache and other configuration files. This is useful when you want to share the cache between different jobs or workflows, or when you want to use a specific location for the Conan home folder. By default, the action will use the default Conan home folder, which is located in the workstation home directory.
 
-* Conan version: Define what Conan version you want to use in your workflow. This is useful when you want to use a specific version of Conan or when you want to test a new version before upgrading your workflow. Only Conan 2.x is supported by this action, so if you are using Conan 1.x, you will need to upgrade your workflow to use Conan 2.x. By default, the action will use the latest version of Conan available in the `pypi.org`.
+- **Conan version:** Define what Conan version you want to use in your workflow. This is useful when you want to use a specific version of Conan or when you want to test a new version before upgrading your workflow. Only Conan 2.x is supported by this action, so if you are using Conan 1.x, you will need to upgrade your workflow to use Conan 2.x. By default, the action will use the latest version of Conan available in the `pypi.org`.
 
-* Conan Audit token: The action allows you to specify a Conan Audit token, which can be used to authenticate with the Conan server. This is useful when you want to authenticate with a Audit server and scan your packages for vulnerabilities. Always use GitHub secrets to store your tokens and avoid exposing them in your workflow.
+- **Conan Audit token:** The action allows you to specify a Conan Audit token, which can be used to authenticate with the Conan server. This is useful when you want to authenticate with a Audit server and scan your packages for vulnerabilities. Always use GitHub secrets to store your tokens and avoid exposing them in your workflow.
 By default, the action will not use a Conan Audit token.
 
-* Configuration installation: The action allows you to specify a list of URLs to install configuration files from. This is useful when you want to install profiles, settings, or other configuration files from a remote server. The action will download the files and install them in the Conan home folder, so you don't have to worry about managing them yourself. By default, the action will not install any configuration files.
+- **Configuration installation:** The action allows you to specify a list of URLs to install configuration files from. This is useful when you want to install profiles, settings, or other configuration files from a remote server. The action will download the files and install them in the Conan home folder, so you don't have to worry about managing them yourself. By default, the action will not install any configuration files.
 
-* Python version: The action allows you to specify the Python version to use in your workflow. This is useful when you want share the same Python version between Conan and your workflow. By default, the action will use the Python version 3.10.
+- **Python version:** The action allows you to specify the Python version to use in your workflow. This is useful when you want share the same Python version between Conan and your workflow. By default, the action will use the Python version 3.10.
 
-## Using the Conan GitHub Action in a workflow
+## How to Use the Conan Action in a Workflow
 
-As real example, we will use the Conan GitHub Action in a nightly build workflow.
-This workflow will run every night and will build the latest version of the project using Conan.
+Let’s look at a practical example: a nightly workflow that builds your project and scans for vulnerabilities using Conan.
 
-First, to use the Conan GitHub Action in a workflow, it's just needed to add it to the workflow file using this simple syntax:
+First, add the Conan Action to your workflow yaml file:
 
 ```yaml
 - name: Setup Conan Client
   uses: conan-io/setup-conan@v1
 ```
-
-This section will install the latest version of Conan available in the `pypi.org` and configure it in your workflow.
 
 The the full workflow file will look like this:
 
@@ -89,11 +86,12 @@ jobs:
         fi
 ```
 
-This workflow will run every night at 01:00 a.m. UTC and will install the latest version of the project using Conan.
+This workflow will run every night at 01:00 a.m. UTC and will install the latest version of Conan.
 It will also scan the Conan packages listed in the `conanfile.py` expected for vulnerabilities and upload the report as an artifact.
 The `conanfile.py` is expected to be present in the same repository.
-Finally, it will check if there are any **high** severity vulnerabilities and fail the workflow if any are found.
+Finally, it will check if there are any **high** severity vulnerabilities in the json result and fail the workflow if any are found.
 
 ## Conclusion
 
-In this article, we have explored how to use the Conan GitHub Action to speed up your GitHub workflow and improve the efficiency of your CI/CD pipeline. The Conan GitHub Action is a powerful tool that can help you automate the installation and configuration of Conan in your workflows, making it easier to manage dependencies and build your projects. For further documentation reading, please check the [Conan GitHub Action documentation](https://docs.conan.io/2/integrations/github.html). In case of any questions, bugs and feature requests, please file a [issue](https://github.com/conan-io/setup-conan/issues).
+The Conan GitHub Action streamlines dependency management and security scanning in your CI/CD workflows. It helps you automate Conan installation and configuration, making your builds faster and more reliable.
+For further documentation reading, please check the [Conan GitHub Action documentation](https://docs.conan.io/2/integrations/github.html). In case of any questions, bugs and feature requests, please file a [issue](https://github.com/conan-io/setup-conan/issues) to its official repository.
