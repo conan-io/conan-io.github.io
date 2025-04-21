@@ -19,7 +19,7 @@ The official Conan GitHub Action, maintained by the Conan team, simplifies Conan
 
 ### Features of the Conan GitHub Action
 
-The Conan GitHub Action offers somre features to customize your workflow execution, including:
+The Conan GitHub Action offers some features to customize your workflow execution, including:
 
 - **Caching Conan packages:** The action can cache Conan packages to speed up the installation process. This is particularly useful when building multiple times, as it reduces the time spent downloading and installing dependencies. The cache is restored automatically when the action is run, so you don't have to worry about managing it yourself. By default, the action will not cache the Conan packages.
 
