@@ -37,6 +37,7 @@ By default, the action will not use a Conan Audit token.
 ## How to Use the Conan Action in a Workflow
 
 Let’s look at a practical example: a nightly workflow that builds your project and scans for vulnerabilities using Conan.
+Besides the GitHub workflow yaml file, a `conanfile.py` is expected to be present in the same repository.
 
 First, add the Conan Action to your workflow yaml file:
 
@@ -48,6 +49,7 @@ First, add the Conan Action to your workflow yaml file:
 The the full workflow file will look like this:
 
 ```yaml
+# .github/workflows/nightly-conan-audit-scan.yml
 name: Nightly Conan Audit Scan
 on:
   schedule:
@@ -87,7 +89,6 @@ jobs:
 
 This workflow will run every night at 01:00 a.m. UTC and will install the latest version of Conan.
 It will also scan the requirements and all the transitive dependencies listed in the `conanfile.py` for expected vulnerabilities and upload the report as an artifact.
-The `conanfile.py` is expected to be present in the same repository.
 Finally, it will check if there are any **high** severity vulnerabilities in the json result and fail the workflow if any are found.
 
 ## Conclusion
