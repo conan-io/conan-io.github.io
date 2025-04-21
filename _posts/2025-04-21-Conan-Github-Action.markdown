@@ -5,7 +5,6 @@ title: "Speeding Up Your GitHub Builds with the Official Conan Action"
 meta_title: "A GitHub Action for Conan - Conan Blog"
 description: "Integrate Conan into your GitHub Actions workflow with the new Conan Action."
 keywords: "C++, C, GitHub, CI, CD, Workflow"
-permalink: /conan-github-action/
 ---
 
 In modern software development, fast and reliable CI/CD pipelines are essential. However, configuring and maintaining CI scripts—especially for dependency management can slow down your workflow and increase maintenance costs.
