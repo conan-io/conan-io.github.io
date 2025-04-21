@@ -7,7 +7,7 @@ description: "Integrate Conan into your GitHub Actions workflow with the new Con
 keywords: "C++, C, GitHub, CI, CD, Workflow"
 ---
 
-In modern software development, fast and reliable CI/CD pipelines are essential. However, configuring and maintaining CI scripts—especially for dependency management can slow down your workflow and increase maintenance costs.
+In modern software development, fast and reliable CI/CD pipelines are essential. However, configuring and maintaining CI scripts (especially for dependency management) can slow down your workflow and increase maintenance costs.
 
 [GitHub Actions](https://github.com/features/actions) automates tasks like installing dependencies, running tests, and deploying applications. But setting up tool dependencies can be time-consuming. Fortunately, GitHub Actions supports reusable extensions from the [GitHub Marketplace](https://github.com/marketplace?type=actions), making it easier to manage tools like Conan.
 
