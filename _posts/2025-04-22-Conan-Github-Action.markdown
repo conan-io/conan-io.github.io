@@ -66,7 +66,7 @@ jobs:
     - name: Setup Conan Client
       uses: conan-io/setup-conan@v1
       with:
-        conan_audit_token: ${{ secrets.CONAN_AUDIT_TOKEN }}
+        conan_audit_token: ${ { secrets.CONAN_AUDIT_TOKEN } }
 
     - name: Scan Conan packages
       run: |
