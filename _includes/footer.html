@@ -51,6 +51,14 @@
               </li>
               <li>
               <a href="#" class="ot-sdk-show-settings" id="cookies_btn_footer">Cookies Settings</a>
+                <script>
+                if (window.airgap) {
+                    const cookieSettings = document.getElementById('cookies_btn_footer');
+                    cookieSettings.onclick = () => {
+                      transcend.showConsentManager({ viewState: 'CompleteOptions' });
+                    };
+                  }
+                </script>
               </li>
             </ul>
           </div>
