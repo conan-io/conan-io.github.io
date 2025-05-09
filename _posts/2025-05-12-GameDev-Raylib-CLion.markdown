@@ -285,10 +285,10 @@ started:
 ### Conclusion
 
 Whether you're a student taking your first steps into coding, a hobbyist with a
-cool game idea, or an open-source developer building tools, now is a fantastic
-time to explore what you can create. So, [download
-CLion](https://www.jetbrains.com/clion/), grab **raylib** through the [CLion
-Conan Plugin](https://blog.conan.io/introducing-new-conan-clion-plugin/), and
-start building your dream game today!
+cool game idea, or an open-source developer, now is a fantastic time to explore
+what you can create. So, [download CLion](https://www.jetbrains.com/clion/),
+grab **raylib** through the [CLion Conan
+Plugin](https://blog.conan.io/introducing-new-conan-clion-plugin/), and start
+building your dream game today!
 
 Happy coding!
