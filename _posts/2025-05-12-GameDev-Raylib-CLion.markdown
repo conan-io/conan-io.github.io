@@ -278,10 +278,9 @@ started:
   "flaps".
 * **Add Depth**: Introduce power-ups (like invincibility or higher jumps),
   diverse obstacle types (circles, polygons, sprites with varied behaviors), or
-  even a simple scoring system based on time or obstacles passed.
+  better scoring system.
 * **Polish**: Enhance the game with improved visuals like textures, scrolling
-  backgrounds, particle effects, and immerse the player with sound effects for
-  jumps, scoring, and game over events.
+  backgrounds, particle effects, and sound effects.
 
 ### Conclusion
 
