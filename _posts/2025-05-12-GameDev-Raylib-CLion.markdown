@@ -35,30 +35,6 @@ rendering. Key features include 2D/3D graphics, audio processing, a powerful
 math module, input handling, and [extensive
 examples](https://github.com/raysan5/raylib/tree/master/examples).
 
-### Setting Up with the Conan CLion Plugin
-
-Setting up **raylib** in CLion is straightforward using the Conan plugin. You
-can find the complete source code for this example in our examples repository.
-To clone it, run:
-
-{% highlight bash %}
-git clone https://github.com/conan-io/examples2
-{% endhighlight %}
-
-- First, install the plugin if you haven't already. Go to *CLion → Settings →
-  Plugins* and search for the Conan plugin in the Marketplace.
-- Then, go to *File → Open* and navigate to the
-  `examples2/examples/libraries/raylib/introduction` folder from the cloned
-  repository.
-- Click the Conan plugin icon and configure the path to the Conan executable.
-- Open the CMake configuration menu and click "Reload CMake Project". During the
-  project’s configuration step, Conan will automatically download **raylib** and
-  its dependencies.
-- At this point, you're ready to build the project.
-
-For more details, please refer to our [previous post about the
-plugin](https://blog.conan.io/introducing-new-conan-clion-plugin/).
-
 
 ### Our Project: A Simple Runner Game with raylib
 
@@ -67,6 +43,13 @@ a blue rectangle, must jump over red rectangular obstacles that approach from
 the right. The goal is to survive as long as possible, with the score increasing
 for each successfully avoided obstacle. To make it a bit more challenging, the
 width of the obstacles and the space between them will be randomized.
+
+You can find all the code for the project in the Conan 2 examples repository, to
+get the code just clone the repo and go to the folder for the example:
+
+{% highlight bash %}
+git clone https://github.com/conan-io/examples2
+{% endhighlight %}
 
 Before diving into the specifics of the code, it's helpful to understand
 raylib's 2D coordinate system. By default, the origin (0,0) is at the **top-left
@@ -79,7 +62,46 @@ increases downwards. This is a common convention in 2D graphics libraries.
 </div>
 <br>
 
-Now, let's dive into some key aspects of the code:
+Now, let's dive into the code:
+
+#### The Game Loop and Drawing
+
+The entire game logic and drawing are encapsulated in a `while` loop that runs
+as long as the window does not close (e.g., user presses ESC or clicks the close
+button):
+
+{% highlight cpp %}
+while (!WindowShouldClose()) {
+    float deltaTime = GetFrameTime(); // Time since last frame
+
+    // ... (game logic and physics updates for player and obstacles) ...
+
+    // Drawing operations must be between BeginDrawing() and EndDrawing()
+    BeginDrawing();
+    ClearBackground(RAYWHITE); // Clear the screen to white each frame
+
+    DrawRectangle(0, groundY, screenW, 20, DARKGRAY); // Draw ground
+    DrawRectangleRec(player, BLUE); // Draw player
+
+    for (auto &obs : obstacles) {
+        DrawRectangleRec(obs, RED); // Draw obstacles
+    }
+
+    DrawText(TextFormat("Score: %d", score), 10, 10, 20, BLACK); // Display score
+
+    if (gameOver) {
+        DrawText("GAME OVER! Press R to restart", 200, screenH/2 - 20, 20, MAROON);
+    }
+
+    EndDrawing();
+}
+{% endhighlight %}
+
+`BeginDrawing()` prepares a fresh canvas for the frame, and `ClearBackground` is
+essential to prevent visual artifacts from previous frames. **raylib** offers a
+rich set of `Draw...` functions for various shapes and text. `TextFormat()` is a
+utility for creating formatted strings. You can check those in the [raylib
+cheatsheet](https://www.raylib.com/cheatsheet/cheatsheet.html).
 
 #### Initializing the Game World
 
@@ -197,44 +219,6 @@ if (!obstacles.empty() && obstacles.front().x + obstacles.front().width < 0) {
 }
 {% endhighlight %}
 
-#### The Game Loop and Drawing
-
-The entire game logic and drawing are encapsulated in a `while` loop that runs
-as long as the window does not close (e.g., user presses ESC or clicks the close
-button):
-
-{% highlight cpp %}
-while (!WindowShouldClose()) {
-    float deltaTime = GetFrameTime(); // Time since last frame
-
-    // ... (game logic and physics updates for player and obstacles) ...
-
-    // Drawing operations must be between BeginDrawing() and EndDrawing()
-    BeginDrawing();
-    ClearBackground(RAYWHITE); // Clear the screen to white each frame
-
-    DrawRectangle(0, groundY, screenW, 20, DARKGRAY); // Draw ground
-    DrawRectangleRec(player, BLUE); // Draw player
-
-    for (auto &obs : obstacles) {
-        DrawRectangleRec(obs, RED); // Draw obstacles
-    }
-
-    DrawText(TextFormat("Score: %d", score), 10, 10, 20, BLACK); // Display score
-
-    if (gameOver) {
-        DrawText("GAME OVER! Press R to restart", 200, screenH/2 - 20, 20, MAROON);
-    }
-
-    EndDrawing();
-}
-{% endhighlight %}
-
-`BeginDrawing()` prepares a fresh canvas for the frame, and `ClearBackground` is
-essential to prevent visual artifacts from previous frames. **raylib** offers a
-rich set of `Draw...` functions for various shapes and text. `TextFormat()` is a
-utility for creating formatted strings. You can check those in the [raylib
-cheatsheet](https://www.raylib.com/cheatsheet/cheatsheet.html).
 
 #### Game Over and Restart
 
@@ -267,6 +251,31 @@ CloseWindow(); // Unload all loaded data and close window
 return 0;
 {% endhighlight %}
 
+### Setting Up with the Conan CLion Plugin
+
+Setting up **raylib** in CLion is straightforward using the Conan plugin. You
+can find the complete source code for this example in our examples repository.
+To clone it, run:
+
+{% highlight bash %}
+git clone https://github.com/conan-io/examples2
+{% endhighlight %}
+
+- First, install the plugin if you haven't already. Go to *CLion → Settings →
+  Plugins* and search for the Conan plugin in the Marketplace.
+- Then, go to *File → Open* and navigate to the
+  `examples2/examples/libraries/raylib/introduction` folder from the cloned
+  repository.
+- Click the Conan plugin icon and configure the path to the Conan executable.
+- Open the CMake configuration menu and click "Reload CMake Project". During the
+  project’s configuration step, Conan will automatically download **raylib** and
+  its dependencies.
+- At this point, you're ready to build the project.
+
+For more details, please refer to our [previous post about the
+plugin](https://blog.conan.io/introducing-new-conan-clion-plugin/).
+
+
 ### Next Steps: Your Turn to Create!
 
 Now that you have the basic runner game up and running, the fun really begins!
@@ -281,6 +290,7 @@ started:
   better scoring system.
 * **Polish**: Enhance the game with improved visuals like textures, scrolling
   backgrounds, particle effects, and sound effects.
+
 
 ### Conclusion
 
