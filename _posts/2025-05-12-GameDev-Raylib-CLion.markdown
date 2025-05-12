@@ -11,7 +11,7 @@ announced](https://blog.jetbrains.com/clion/2025/05/clion-is-now-free-for-non-co
 that **CLion**, their C++ IDE, is now **free for non-commercial use**!
 
 This is the perfect opportunity to dive into game development with C++ using
-Conan and CLion. In this post, we'll explore [raylib](https://www.raylib.com/),
+**Conan** and **CLion**. In this post, we'll explore [raylib](https://www.raylib.com/),
 a simple and fun C library for game programming. We'll show you how to set up a
 project for a small [runner game](https://en.wikipedia.org/wiki/Endless_runner)
 and manage its dependencies seamlessly using the [CMake
@@ -281,7 +281,7 @@ return 0;      // Indicate successful program termination
 
 ## Building and running our project
 
-We have previously discussed working with Conan in CLion [using the Conan CLion
+We have previously discussed working with Conan in **CLion** [using the Conan CLion
 Plugin](https://blog.conan.io/introducing-new-conan-clion-plugin/). This time,
 we'll demonstrate a different approach: manually invoking Conan to generate
 CMake presets using the `CMakeToolchain` generator, and then letting CLion
@@ -319,6 +319,11 @@ started:
   a better scoring system.
 * **Polish**: Enhance the game with improved visuals like textures, scrolling
   backgrounds, particle effects, and sound effects.
+
+<div style="text-align: center;">
+  <img src="{{ site.baseurl }}/assets/post_images/2025-05-12/flappy-loco.gif"
+       alt="Flappy Loco"/>
+</div>
 
 ## Conclusion
 
