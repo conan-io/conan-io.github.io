@@ -25,7 +25,7 @@ plugin** to manage dependencies seamlessly.
 
 <br>
 
-### Why raylib?
+## About raylib
 
 Created by Ramon Santamaria, **raylib** is an excellent choice for starting your
 game development journey, offering a straightforward, easy-to-use C library
@@ -36,7 +36,7 @@ math module, input handling, and [extensive
 examples](https://github.com/raysan5/raylib/tree/master/examples).
 
 
-### Our Project: A Simple Runner Game with raylib
+## Our Project: A Simple Runner Game with raylib
 
 To showcase **raylib** in action, we'll build a classic 2D runner game. The player,
 a blue rectangle, must jump over red rectangular obstacles that approach from
@@ -64,71 +64,77 @@ increases downwards. This is a common convention in 2D graphics libraries.
 
 Now, let's dive into the code:
 
-#### The Game Loop and Drawing
+### Code Structure and Game Loop Overview
 
-The entire game logic and drawing are encapsulated in a `while` loop that runs
-as long as the window does not close (e.g., user presses ESC or clicks the close
-button):
+Most games, including ours, follow a fundamental structure:
+
+1.  **Initialization**: Set up everything needed before the game starts.
+2.  **Game Loop**: The core of the game that runs repeatedly, this is where we
+    get the input from the user and update the world according to that to then
+    draw the new state of the world.
+3.  **Cleanup**: Release resources when the game ends.
+
+Here's a simplified overview of what happens in our `main()` function:
 
 {% highlight cpp %}
-while (!WindowShouldClose()) {
-    float deltaTime = GetFrameTime(); // Time since last frame
+initialize_everything();      // 1) SETUP – assets, variables, window…
+while (running)               // 2) GAME LOOP – repeats ~60 times per sec
+{
+    float dt = time_since_last_frame();
 
-    // ... (game logic and physics updates for player and obstacles) ...
-
-    // Drawing operations must be between BeginDrawing() and EndDrawing()
-    BeginDrawing();
-    ClearBackground(RAYWHITE); // Clear the screen to white each frame
-
-    DrawRectangle(0, groundY, screenW, 20, DARKGRAY); // Draw ground
-    DrawRectangleRec(player, BLUE); // Draw player
-
-    for (auto &obs : obstacles) {
-        DrawRectangleRec(obs, RED); // Draw obstacles
-    }
-
-    DrawText(TextFormat("Score: %d", score), 10, 10, 20, BLACK); // Display score
-
-    if (gameOver) {
-        DrawText("GAME OVER! Press R to restart", 200, screenH/2 - 20, 20, MAROON);
-    }
-
-    EndDrawing();
+    update_world(dt);         //    a) INPUT + LOGIC + PHYSICS
+    draw_world();             //    b) RENDER the current frame
 }
+release_resources();          // 3) CLEANUP – free memory, close app
 {% endhighlight %}
 
-`BeginDrawing()` prepares a fresh canvas for the frame, and `ClearBackground` is
-essential to prevent visual artifacts from previous frames. **raylib** offers a
-rich set of `Draw...` functions for various shapes and text. `TextFormat()` is a
-utility for creating formatted strings. You can check those in the [raylib
-cheatsheet](https://www.raylib.com/cheatsheet/cheatsheet.html).
-
-#### Initializing the Game World
+#### 1. Creating the world
 
 Every **raylib** game starts by setting up the main window. This is done with a
-single line that defines its dimensions and title. After that, we set a target
-frame rate for consistent game speed:
+single line that defines its dimensions and title:
 
 {% highlight cpp %}
+// --- Initialization ---
 const int screenW = 800;
 const int screenH = 450;
 InitWindow(screenW, screenH, "Jump to Survive!");
-
-SetTargetFPS(60); // Aim for 60 frames per second
 {% endhighlight %}
 
-#### The Player and Physics
-
-Our player is a simple rectangle. We define its initial position (`x`, `y` from the top-left) and size, along
-with variables for its physics:
+Our player is a simple rectangle. We define its initial position (`x`, `y` from
+the top-left) and size, along with variables for its physics. We also define the
+ground vertical coordinate and initialize the variables for dinamically adding
+obstabcles.
 
 {% highlight cpp %}
-Rectangle player = { 100, screenH - 80, 40, 60 }; // {x, y, width, height}
-float vy = 0; // Player's current vertical velocity
-const float gravity = 1000.0f; // Affects how quickly the player falls
-const float jumpImpulse = -450.0f; // Upward force for jump (negative as Y increases downwards)
-const int groundY = screenH - 20; // Y-coordinate for the top of the ground
+// --- Player Setup ---
+Rectangle player = { 100, screenH - 80, 40, 60 };
+float vy = 0;
+const float gravity      = 1000.0f;
+const float jumpImpulse  = -450.0f;
+
+// --- Ground Definition ---
+const int groundY = screenH - 20;
+
+// --- Obstacle Management ---
+std::vector<Rectangle> obstacles;
+float spawnTimer     = 0.0f;
+float spawnInterval  = 1.2f;
+const float obstacleSpeed    = 300.0f;
+
+const float minSpawnInterval = 0.8f;
+const float maxSpawnInterval = 1.6f;
+
+const int   minObsWidth      = 40;
+const int   maxObsWidth      = 120;
+
+// --- Game State Variables ---
+int  score    = 0;
+bool gameOver = false;
+
+SetTargetFPS(60);
 {% endhighlight %}
+
+#### 2. The Game Loop — update first, then draw
 
 The core of the player's movement happens within the game loop. We first check
 for input to make the player jump. Note that `player.y + player.height >=
@@ -155,8 +161,6 @@ if (player.y + player.height > groundY) {
     vy = 0; // Reset vertical speed
 }
 {% endhighlight %}
-
-#### Managing Obstacles
 
 Obstacles are also rectangles, managed in a `std::vector`. To add some
 unpredictability, we'll randomize their width and the interval at which they
@@ -219,8 +223,15 @@ if (!obstacles.empty() && obstacles.front().x + obstacles.front().width < 0) {
 }
 {% endhighlight %}
 
+**Drawing**
 
-#### Game Over and Restart
+`BeginDrawing()` prepares a fresh canvas for the frame, and `ClearBackground` is
+essential to prevent visual artifacts from previous frames. **raylib** offers a
+rich set of `Draw...` functions for various shapes and text. `TextFormat()` is a
+utility for creating formatted strings. You can check those in the [raylib
+cheatsheet](https://www.raylib.com/cheatsheet/cheatsheet.html).
+
+**Game Over and Restart**
 
 A simple `gameOver` boolean flag handles the game state. If `true`, the main
 game logic is skipped, and a "GAME OVER" message appears. Pressing 'R' resets
@@ -241,7 +252,7 @@ if (IsKeyPressed(KEY_R)) {
 }
 {% endhighlight %}
 
-#### Cleanup
+#### 3. Cleanup
 
 Finally, when the game loop exits, `CloseWindow()` is
 called to free resources and close the OpenGL context:
@@ -251,7 +262,7 @@ CloseWindow(); // Unload all loaded data and close window
 return 0;
 {% endhighlight %}
 
-### Setting Up with the Conan CLion Plugin
+## Building and running our project
 
 Setting up **raylib** in CLion is straightforward using the Conan plugin. You
 can find the complete source code for this example in our examples repository.
@@ -275,8 +286,7 @@ git clone https://github.com/conan-io/examples2
 For more details, please refer to our [previous post about the
 plugin](https://blog.conan.io/introducing-new-conan-clion-plugin/).
 
-
-### Next Steps: Your Turn to Create!
+## Next Steps: Your Turn to Create!
 
 Now that you have the basic runner game up and running, the fun really begins!
 This project serves as a great starting point. Consider these ideas to get you
@@ -291,8 +301,7 @@ started:
 * **Polish**: Enhance the game with improved visuals like textures, scrolling
   backgrounds, particle effects, and sound effects.
 
-
-### Conclusion
+## Conclusion
 
 Whether you're a student taking your first steps into coding, a hobbyist with a
 cool game idea, or an open-source developer, now is a fantastic time to explore
