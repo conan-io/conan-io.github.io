@@ -5,6 +5,7 @@ title: "Introducing the conan audit Command for Scanning C++ CVEs"
 meta_title: "Secure Your C++ Builds with the New conan audit Command - Conan Blog"
 description: "Learn how the new conan audit command helps you detect CVEs in your C++ dependencies, ensuring a more secure development workflow."
 permalink: /introducing-conan-audit-command/
+keywords: "C, C++, CVE, Security, Vulnerabilities, Scan, Cybersecurity"
 ---
 
 Maintaining a secure dependency graph and responding swiftly to security threats is
