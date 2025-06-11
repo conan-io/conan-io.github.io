@@ -42,8 +42,9 @@ number of scans per day.
 
 ### Registering for the Service
 
-Before using `conan audit`, you need to sign up for the free service. Upon registration, you
-will receive a token that must be validated via email.
+Before using `conan audit`, you need to sign up for the free service to obtain
+an access token. After registering, you will receive an email with a link to a
+page that displays your token.
 
 To register, go to [https://audit.conan.io/register](https://audit.conan.io/register) and
 fill in your details.
@@ -58,19 +59,22 @@ fill in your details.
 > - To ensure fair usage and prevent abuse, there is a limit of **100 queries per day**,
 >   which resets every 24 hours.  
 
-After registration, you will receive a token. Please make sure to store it securely as it
-will only be displayed once.
+After registering, you will receive an email with a validation link that takes
+you to a page where you can view your access token.
+
+<p class="centered">
+    <img src="{{ site.baseurl }}/assets/post_images/2025-03-19/conan-audit-validation.png" alt="Conan Validate Token"/>
+</p>
+
+Click the link to access the page where your token is displayed. **Make sure to
+store it securely, as the link will only work once and cannot be used again to
+view the token**.
 
 <p class="centered">
     <img src="{{ site.baseurl }}/assets/post_images/2025-03-19/conan-audit-token.png" alt="Conan Audit Token"/>
 </p>
 
-Next, you will receive an email to validate your token. Once validated, you can start
-using `conan audit`.
-
-<p class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2025-03-19/conan-audit-validation.png" alt="Conan Validate Token"/>
-</p>
+Now you can start using `conan audit`.
 
 ### Using the `conan audit` Command
 
