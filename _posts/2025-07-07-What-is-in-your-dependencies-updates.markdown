@@ -88,8 +88,6 @@ This can also be done for the old reference if you need to specify its location 
 
 The new command provides three formats for the output, which can be selected using the *--format* attribute.
 
-{% endhighlight %}
-
 The first one, **"html"** format, generates a self-contained **static website**. In this 
 web output, **functionality takes priority**: it includes a small index listing the changed files, 
 a search bar to look for files, and another to exclude files from view.
@@ -198,7 +196,7 @@ $ conan report diff --old-reference=zlib/1.3 --new-reference=zlib/1.3.1 --format
   ],
 ...
 }
-
+{% endhighlight %}
 
 ## What’s next
 
