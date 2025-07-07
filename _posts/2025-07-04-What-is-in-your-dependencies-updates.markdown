@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "What is in your dependencies updates? Advanced Recipe and Source Diffing in Conan"
+title: "What's new in your dependencies? Advanced Recipe and Source Diffing in Conan"
 description: "Meet the new conan report diff command. And learn how to easily compare your sources and more-"
 meta_title: "What is in your dependencies updates?"
 categories: [cpp, diff, report, conan]
@@ -88,7 +88,19 @@ This can also be done for the old reference if you need to specify its location 
 
 The new command provides three formats for the output, which can be selected using the *--format* attribute.
 
-The first one, **"text"** is the default format, and it displays the differences in the classic 
+{% endhighlight %}
+
+The first one, **"html"** format, generates a self-contained **static website**. In this 
+web output, **functionality takes priority**: it includes a small index listing the changed files, 
+a search bar to look for files, and another to exclude files from view.
+
+<div style="text-align: center;">
+  <img src="{{ site.baseurl }}/assets/post_images/2025-07-04/conan-report-diff-web.png"
+       alt="conan report diff web interface"/>
+</div>
+<br>
+
+Next, we have the **"text"** format, it is the default format, and it displays the differences in the classic 
 **git diff format**. You can use this to pipe its **output to any diff tool** of your liking. Here’s an example:
 
 {% highlight bash %}
@@ -136,7 +148,7 @@ index 1698be4430..98bd55b280 100644
 
 {% endhighlight %}
 
-Next, we have the **"json"** format, which returns the diff in a **simple structured representation**, 
+Finally, we have the **"json"** format, which returns the diff in a **simple structured representation**, 
 so that it can be consumed by other scripts. This is perfect if you want to extract the specific diff 
 of a file and feed it into some kind of pipeline.
 
@@ -187,17 +199,6 @@ $ conan report diff --old-reference=zlib/1.3 --new-reference=zlib/1.3.1 --format
 ...
 }
 
-{% endhighlight %}
-
-Finally, there’s the **"html"** format, which generates a self-contained **static website**. In this 
-web output, **functionality takes priority**: it includes a small index listing the changed files, 
-a search bar to look for files, and another to exclude files from view.
-
-<div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-07-04/conan-report-diff-web.png"
-       alt="raylib 2D Coordinate System"/>
-</div>
-<br>
 
 ## What’s next
 
