@@ -95,7 +95,7 @@ web output, **functionality takes priority**: it includes a small index listing 
 a search bar to look for files, and another to exclude files from view.
 
 <div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-07-04/conan-report-diff-web.png"
+  <img src="{{ site.baseurl }}/assets/post_images/2025-07-07/conan-report-diff-web.png"
        alt="conan report diff web interface"/>
 </div>
 <br>
