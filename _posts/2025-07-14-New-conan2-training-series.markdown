@@ -29,7 +29,7 @@ pace, with no schedules or deadlines.
 
 <p style="text-align: center;">
   <a href="https://academy.jfrog.com/conan-2-essentials">
-    <img src="{{ site.baseurl }}/assets/post_images/2025-07-14/course-icon.png" alt="Conan Series on JFrog Academy"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2025-07-14/course-icon.png" width="80%" alt="Conan Series on JFrog Academy"/>
   </a>
 </p>
 
@@ -37,7 +37,7 @@ pace, with no schedules or deadlines.
 
 The course consists of **16 video lessons**, totaling **over two hours
 of content**. It follows a logical progression, starting with the
-most common scenario: consuming packages to build a simple application with
+most common scenario: **consuming packages** to build a simple application with
 CMake. From there, you'll explore the basic anatomy of a **conanfile.py** and
 other fundamental topics like **settings,** **options,** **profiles,** Conan's
 **PackageID** system, and even **cross-compilation**. The journey then continues into
