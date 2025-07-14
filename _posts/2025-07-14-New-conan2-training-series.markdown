@@ -59,9 +59,9 @@ Academy**](https://academy.jfrog.com/conan-2-essentials)
 While our focus today is on the "Essentials" course launch, we want to let you
 know that we are already working on the next chapter: **Conan 2 Advanced**. This
 course will explore more complex scenarios and advanced features. You will
-learn to streamline local development workflows with editable packages, master
-advanced versioning and lockfiles, and unlock Conan's full potential through its
-extensibility and customization features. We will be releasing lessons
+learn to streamline local development workflows with **editable packages**, master
+**advanced versioning and lockfiles**, and unlock Conan's full potential through its
+**extensibility and customization features**. We will be releasing lessons
 incrementally over the coming months, aiming to have the full course ready by
 the **end of this year**.
 
