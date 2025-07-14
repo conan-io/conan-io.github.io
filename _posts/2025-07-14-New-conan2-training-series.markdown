@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "It's Here! New Free 'Conan 2 Essentials' Course on JFrog Academy"
+title: "New Free Hands-On Video Course: Conan 2 Essentials"
 meta_title: "Announcing the New Free Conan 2 Essentials Course on JFrog Academy"
 description: "Discover the new, complete, and hands-on Conan 2 Essentials course on JFrog Academy. Learn Conan 2 for free with over 16 lessons and practical examples to master C/C++ package management."
 keywords: "conan, C++, C, package manager, training, jfrog academy, conan 2, devops, essentials"
