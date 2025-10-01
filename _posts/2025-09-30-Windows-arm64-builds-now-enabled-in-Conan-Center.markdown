@@ -104,8 +104,7 @@ os=Windows
 
 {% endhighlight %}
 
-Ensure ``arch=armv8``. If you get ``x86_64``, you may be running a non-native installation of Python or Conan. This still 
-works, but please ensure you modify the profile to reflect the ``arm=armv8`` architecture.
+⚠️ Ensure the detected architecture is``arch=armv8``. If you get ``x86_64``, you may be running a non-native installation of Python or Conan. This will still work, but you will need to modify the generated profile to reflect the ``arm=armv8`` architecture.
 
 ## Build a sample project
 
