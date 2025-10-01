@@ -31,7 +31,7 @@ provides. We've dedicated significant effort to validating a subset of the most 
 they build and run natively on Windows ARM64. This includes over 350+ recipes in Conan Center (and counting!), including 
 the most popular ones such as Boost, OpenCV, Qt, ffmpeg, Protocol buffers, gRPC, and many more! 
 
-**Improved fallbacks for build tools that don’t yet support arm64:** Some recipes require build tools that currently only 
+**Improved fallbacks for build tools that don’t yet support ARM64:** Some recipes require build tools that currently only 
 run with x86_64 emulation, like Autotools on msys2 and strawberry perl. We have improved the recipes so that compatible
 binaries are transparently fetched from Conan Center without manual tweaks.
 
