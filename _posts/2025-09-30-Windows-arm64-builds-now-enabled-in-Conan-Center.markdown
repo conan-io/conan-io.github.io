@@ -52,7 +52,7 @@ a powerful resource for all developers.
 ## Getting started with Conan for native ARM64 Windows Development
 
 To get started with native Windows ARM64 development, you'll need the right tools. Here's a quick guide to the essential
-Visual Studio components:
+components:
 
 ### Conan
 
