@@ -16,7 +16,8 @@ Conan has been platform-agnostic since its inception, already enabling teams to 
 architectures using the same recipes and commands (e.g., macOS Apple Silicon, Android, iOS, FreeBSD, …). Windows ARM64 
 is no exception.
 
-That's why we're thrilled to announce improved support for Windows ARM64 in Conan Center recipes! We've been working 
+But up until now, the conancenter remote lacked binaries for this evergrowing platform, that's why we're thrilled to 
+announce improved support for Windows ARM64 in Conan Center recipes! We've been working 
 hard to streamline the development experience for this platform, and the latest improvements are now rolling out.
 
 ## What's New and Improved?
