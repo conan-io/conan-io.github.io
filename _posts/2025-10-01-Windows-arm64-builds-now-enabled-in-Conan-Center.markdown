@@ -3,7 +3,7 @@ layout: post
 comments: false
 title: "Windows ARM64 builds now enabled in Conan Center"
 description: "ARM-powered devices continue to gain significant traction across a number of platforms"
-meta_title: "What is in your dependencies updates?"
+meta_title: "Windows ARM64 builds now enabled in Conan Center"
 categories: [armv8, arm64, windows, conan]
 ---
 
@@ -91,7 +91,7 @@ In a terminal window, first run the following command:
 
 The result should be:
 
-{% highlight bash %}
+{% highlight batchfile %}
 Detected profile:
 [settings]
 arch=armv8
@@ -104,14 +104,14 @@ os=Windows
 
 {% endhighlight %}
 
-⚠️ Ensure the detected architecture is ``arch=armv8``. If you get ``x86_64``, you may be running a non-native installation of Python or Conan. This will still work, but you will need to modify the generated profile to reflect the ``arm=armv8`` architecture.
+⚠️ Ensure the detected architecture is``arch=armv8``. If you get ``x86_64``, you may be running a non-native installation of Python or Conan. This will still work, but you will need to modify the generated profile to reflect the ``arm=armv8`` architecture.
 
 ## Build a sample project
 
 We can now use Conan as we are already used to natively on any platform. For example one of the toy projects in the 
 examples repo:
 
-{% highlight bash %}
+{% highlight batchfile %}
 > git clone https://github.com/conan-io/examples2.git
 > cd examples2/examples/libraries/raylib/introduction
 > conan install . -s compiler.cppstd=17
