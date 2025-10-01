@@ -38,7 +38,7 @@ binaries are transparently fetched from Conan Center without manual tweaks.
 **Availability of Windows ARM64 binaries in Conan Center:** To further simplify your development workflow, Conan Center 
 CI will now actively build and publish Windows ARM64 binaries for already validated recipes. This means that for an ever 
 growing list of libraries, you won't need to build from source on your ARM64 machine if your profile matches the 
-available binaries, saving you time and resources. This is an ongoing process and we aim to publish Windows arm64 
+available binaries, saving you time and resources. This is an ongoing process and we aim to publish Windows ARM64 
 binaries for every recipe that supports it. You can check if binaries are available in the Conan Center package 
 explorer, example: https://conan.io/center/recipes/fmt?version=
 
