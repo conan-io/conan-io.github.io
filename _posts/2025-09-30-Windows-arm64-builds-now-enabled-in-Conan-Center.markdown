@@ -49,7 +49,7 @@ strongly encourage you to share your experiences, report any issues, and suggest
 natively supported. Your contributions help us prioritize and expand our ARM64 coverage, ensuring Conan Center remains 
 a powerful resource for all developers.
 
-## Getting started with Conan for native Arm64 Windows Development
+## Getting started with Conan for native ARM64 Windows Development
 
 To get started with native Windows ARM64 development, you'll need the right tools. Here's a quick guide to the essential
 Visual Studio components:
