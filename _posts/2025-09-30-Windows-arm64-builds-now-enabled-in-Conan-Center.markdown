@@ -23,10 +23,8 @@ hard to streamline the development experience for this platform, and the latest 
 
 **Native Installer and Self-Contained Executable:** While Conan is typically installed by developers locally using pip, 
 we also provide standalone installers that don’t require a Python distribution. Starting with the 
-**Conan 2.21.0 release**, we are now providing a native ARM64 Windows installer as well as a self-contained executable 
-for Conan. Link for
-[installer](https://github.com/conan-io/conan/releases/download/2.21.0/conan-2.21.0-windows-arm64-installer.exe) and 
-[self-contained folder](https://github.com/conan-io/conan/releases/download/2.21.0/conan-2.21.0-windows-arm64.zip).
+**Conan 2.21.0 release**, we are now providing a [native ARM64 Windows installer](https://github.com/conan-io/conan/releases/download/2.21.0/conan-2.21.0-windows-arm64-installer.exe) as well as [a self-contained executable](https://github.com/conan-io/conan/releases/download/2.21.0/conan-2.21.0-windows-arm64.zip) 
+for Conan.
 
 **Validated recipes for native development:** We understand that a package manager is only as good as the packages it 
 provides. We've dedicated significant effort to validating a subset of the most popular Conan Center recipes to ensure 
