@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Windows arm64 builds now enabled in Conan Center"
+title: "Windows ARM64 builds now enabled in Conan Center"
 description: "ARM-powered devices continue to gain significant traction across a number of platforms"
 meta_title: "What is in your dependencies updates?"
 categories: [armv8, arm64, windows, conan]
