@@ -41,7 +41,7 @@ CI will now actively build and publish Windows ARM64 binaries for already valida
 growing list of libraries, you won't need to build from source on your ARM64 machine if your profile matches the 
 available binaries, saving you time and resources. This is an ongoing process and we aim to publish Windows ARM64 
 binaries for every recipe that supports it. You can check if binaries are available in the Conan Center package 
-explorer, example: https://conan.io/center/recipes/fmt
+explorer, example: [https://conan.io/center/recipes/fmt](https://conan.io/center/recipes/fmt)
 
 ### Your Feedback Fuels Our Progress!
 
@@ -63,7 +63,7 @@ Download the latest
 
 ### CMake
 
-Now you will need CMake, which you can download from the official website(https://cmake.org/download/). Don’t forget to 
+Now you will need CMake, which you can download from the official [website](https://cmake.org/download/). Don’t forget to 
 add it to the system PATH.
 
 The current release at time of writing is 4.1.1 
@@ -77,7 +77,7 @@ Please ensure you are using the correct license.
 * Select the "Desktop development with C++" Workload: During the Visual Studio installation process, ensure you select this workload.
 
 <div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-09-30/visual-studio-desktop-development.png"
+  <img src="{{ site.baseurl }}/assets/post_images/2025-10-01/visual-studio-desktop-development.png"
        alt="conan report diff web interface"/>
 </div>
 <br>
@@ -121,7 +121,7 @@ examples repo:
 {% endhighlight %}
 
 <div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-09-30/raylib-image-example.png"
+  <img src="{{ site.baseurl }}/assets/post_images/2025-10-01/raylib-image-example.png"
        alt="conan report diff web interface"/>
 </div>
 <br>
