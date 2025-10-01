@@ -77,7 +77,7 @@ Please ensure you are using the correct license.
 * Select the "Desktop development with C++" Workload: During the Visual Studio installation process, ensure you select this workload.
 
 <div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-09-30/visual-studio-desktop-development.jpg"
+  <img src="{{ site.baseurl }}/assets/post_images/2025-09-30/visual-studio-desktop-development.png"
        alt="conan report diff web interface"/>
 </div>
 <br>
