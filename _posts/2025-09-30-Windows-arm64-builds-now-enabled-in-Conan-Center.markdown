@@ -86,7 +86,7 @@ That’s it! Now let’s get this to work.
 In a terminal window, first run the following command:
 
 {% highlight bash %}
-$ conan profile detect
+> conan profile detect
 {% endhighlight %}
 
 The result should be:
