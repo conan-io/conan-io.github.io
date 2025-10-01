@@ -113,11 +113,11 @@ We can now use Conan as we are already used to natively on any platform. For exa
 examples repo:
 
 {% highlight bash %}
-git clone https://github.com/conan-io/examples2.git
-cd examples2/examples/libraries/raylib/introduction
-conan install . -s compiler.cppstd=17
-cmake --preset conan-default
-cmake --build --preset conan-release
+> git clone https://github.com/conan-io/examples2.git
+> cd examples2/examples/libraries/raylib/introduction
+> conan install . -s compiler.cppstd=17
+> cmake --preset conan-default
+> cmake --build --preset conan-release
 .\build\Release\runner_game.exe
 {% endhighlight %}
 
