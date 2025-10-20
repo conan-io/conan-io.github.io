@@ -39,29 +39,31 @@ ROS organizes code into packages, each containing a `package.xml` with some meta
 
 For readers unfamiliar with ROS, we would like to show how a ROS package can be created and built to get to know the process. We will showcase the Conan integration later in the example.
 
-We will need a **Linux environment with the ROS2 Humble version installed**. If you are running in another system or just for convenience, you can also build and run the commands using this dockerfile:
+We will need a **Linux environment with the ROS2 Kilted version installed**. If you are running in another system or just for convenience, you can also build and run the commands using this dockerfile:
 
 #### _`Dockerfile`_
 ```dockerfile
-FROM osrf/ros:humble-desktop
+FROM osrf/ros:kilted-desktop
 RUN apt-get update && apt-get install -y \
 curl \
 python3-pip \
 git \
-ros-humble-nav2-msgs \
+ros-kilted-nav2-msgs \
 && rm -rf /var/lib/apt/lists/*
 RUN pip3 install --upgrade pip && pip3 install conan
 RUN conan profile detect
 CMD ["bash"]
 ```
 
-> You can build and run the docker image using ``docker build -t conanio/ros-humble .``, and run it with ``docker run -it conanio/ros-humble``
+> You can build and run the docker image using ``docker build -t conanio/ros-kilted .``, and run it with ``docker run -it conanio/ros-kilted``
+
+> If you are using Windows, you can either use WSL or follow the [installation instructions in the ROS 2 documentation](https://docs.ros.org/en/kilted/Installation/Windows-Install-Binary.html).
 
 First, we create a workspace `navigation_ws` folder, set the environment of your ROS installation, and create a package:
 
 ```sh
 $ mkdir /home/navigation_ws && cd /home/navigation_ws
-$ source /opt/ros/humble/setup.bash
+$ source /opt/ros/kilted/setup.bash
 $ ros2 pkg create --build-type ament_cmake --node-name navigator navigation_package
 ```
 
