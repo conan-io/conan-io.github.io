@@ -66,7 +66,7 @@ Which C++ standard version does my windows profile compiler version 193 have?
 </div>
 <br>
 It will list the profiles using a `conan profile list` command and then use `conan profile show` with the selected profile 
-to obtain the required information. For this type of functionality to work correctly, I recommend maintaining a proper 
+to obtain the required information. For this type of functionality to work correctly, we recommend maintaining a proper 
 order when naming your Conan profiles.
 
 ### Create new packages
