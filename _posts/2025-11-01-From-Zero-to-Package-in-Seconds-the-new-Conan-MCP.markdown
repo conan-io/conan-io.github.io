@@ -21,7 +21,7 @@ with C and C++ dependencies:
 ### Enhanced Automation and Efficiency
 * **Zero-Effort Packaging**: The MCP server allows AI agents to interact with the Conan client seamlessly. This means you 
 can simply describe the package you need, and the AI agent, using Conan via the MCP, can automatically handle the 
-entire process: checking the last version of your dependencies, creating the hole structure of the project, installing 
+entire process: checking the last version of your dependencies, creating the whole structure of the project, installing 
 your dependencies, checking your licenses and auditing your dependencies in order to find vulnerabilities. All from a 
 natural language prompt.
 * **Reduced Context Switching**: Developers no longer need to jump between their development environment, command line, 
