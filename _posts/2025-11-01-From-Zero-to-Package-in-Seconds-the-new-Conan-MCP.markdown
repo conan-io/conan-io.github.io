@@ -58,7 +58,7 @@ List versions of zlib with architecture armv8 and shared=False
 The MCP can also access the list of profiles and is able to query it, so that, for example, if you want to check which 
 C++ version my Windows profile with MSVC 193 is configured for, you can simply ask:
 {% highlight bash %}
-My Windows profile with compiler version 193 what cppstd was it using?
+Which C++ standard version does my windows profile compiler version 193 have?
 {% endhighlight %}
 <div style="text-align: center;">
   <img src="{{ site.baseurl }}/assets/post_images/2025-12-01/gif2-profile-x6.gif"
