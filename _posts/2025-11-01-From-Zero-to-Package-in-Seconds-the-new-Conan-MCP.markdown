@@ -4,7 +4,7 @@ comments: false
 title: "From Zero to Package in Seconds: the new Conan MCP"
 description: "The integration of Conan with the MCP server offers several compelling advantages, particularly for developers working with C and C++ dependencies"
 meta_title: "From Zero to Package in Seconds: the new Conan MCP"
-categories: [MCP, IA, GPT, conan, conan-mcp]
+categories: [MCP, AI, GPT, conan, conan-mcp]
 ---
 
 MCP (Model Context Protocol) is an [open-source standard](https://modelcontextprotocol.io/docs/getting-started/intro) that allows language models and AI applications like ChatGPT, 
