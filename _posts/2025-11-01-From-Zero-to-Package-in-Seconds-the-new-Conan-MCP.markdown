@@ -98,7 +98,7 @@ and have a license that allows my application to be commercial.
 <br>
 
 ## Installing Conan MCP
-To install it, the first thing you need is an tool that supports MCP client. You can use for example LibreChat or 
+To install it, the first thing you need is a tool that supports MCP client. You can use for example LibreChat or 
 Cursor. Then, simply add to your MCP configuration:
 {% highlight bash %}
 {
