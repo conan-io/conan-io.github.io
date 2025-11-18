@@ -88,8 +88,7 @@ The crown jewel of this Conan MCP is **library and license auditing**, just a si
 project as a base, let’s ask the language model to ensure that the resolved versions have no vulnerabilities and that 
 all the licenses used by our dependencies are suitable for commercial use.
 {% highlight bash %}
-Verify that the libraries I depend on do not have serious vulnerabilities 
-and have a license that allows my application to be commercial.
+Ensure my project’s third-party libraries are secure and licensed for commercial use.
 {% endhighlight %}
 <div style="text-align: center;">
   <img src="{{ site.baseurl }}/assets/post_images/2025-12-01/gif4-Verify-x10.gif"
