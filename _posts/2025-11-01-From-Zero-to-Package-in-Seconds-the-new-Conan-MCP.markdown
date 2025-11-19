@@ -43,7 +43,7 @@ feedback in natural language.
 ## Let’s dive into real examples
 ### Listing packages
 Let’s start with a simple one: we’re going to try to search for the compiled packages on ConanCenter for a library, 
-such as zlib, with some options, including the architecture being armv8 and the shared set to false, and have it tell 
+such as zlib, with some options, including the architecture being armv8 and the shared option set to false, and have it tell 
 us which versions we have packages for.
 {% highlight bash %}
 tell me which versions of zlib packages are available with architecture and statically linked
