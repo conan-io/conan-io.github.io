@@ -16,10 +16,10 @@ tasks in an **agentic way**.
 
 ## Why should I use it?
 The integration of Conan with the MCP server offers several compelling advantages, particularly for developers working 
-with C and C++ dependencies:
+with C and C++ dependencies and AI development tools:
 
 ### Enhanced Automation and Efficiency
-* **Zero-Effort Packaging**: The MCP server allows AI agents to interact with the Conan client seamlessly. This means you 
+* **Easier Packaging Workflow**: The MCP server allows AI agents to interact with the Conan client seamlessly. This means you 
 can simply describe the package you need, and the AI agent, using Conan via the MCP, can automatically handle the 
 entire process: checking the last version of your dependencies, creating the whole structure of the project, installing 
 your dependencies, checking your licenses and auditing your dependencies in order to find vulnerabilities. All from a 
@@ -33,8 +33,8 @@ in the background.
 remotes by specifying the operating system, architecture, compiled binary options, or even complex version range 
 filters, all without resorting to command line syntax.
 * **Simplified Dependency Definition**: Leveraging the power of natural language processing through MCP, developers can 
-define their required C/C++ dependencies without needing to memorize specific Conan syntax or complex 
-`conanfile.txt/.py` structures. For instance, a simple request like "I need the latest version of Boost for my project, 
+define their required C/C++ dependencies without needing to memorize specific Conan syntax for creating recipe files.
+For instance, a simple request like "I need the latest version of Boost for my project, 
 compiled with C++17 support" is translated by the AI agent into the necessary Conan commands and configuration.
 * **Proactive Auditing and Security**: The AI agent can proactively audit dependencies as they are installed, automatically
 checking for known vulnerabilities (CVEs) and verifying license compliance against project policies, giving immediate 
@@ -46,7 +46,7 @@ Let’s start with a simple one: we’re going to try to search for the compiled
 such as zlib, with some options, including the architecture being armv8 and the shared set to false, and have it tell 
 us which versions we have packages for.
 {% highlight bash %}
-List versions of zlib with architecture armv8 and shared=False
+tell me which versions of zlib packages are available with architecture and statically linked
 {% endhighlight %}
 <div style="text-align: center;">
   <img src="{{ site.baseurl }}/assets/post_images/2025-12-01/gif1-List-versions-x6.gif"
@@ -58,7 +58,7 @@ List versions of zlib with architecture armv8 and shared=False
 The MCP can also access the list of profiles and is able to query it, so that, for example, if you want to check which 
 C++ version my Windows profile with MSVC 193 is configured for, you can simply ask:
 {% highlight bash %}
-Which C++ standard version does my windows profile compiler version 193 have?
+Check my Conan profiles and tell me which cppstd is configured in the Windows profile that uses compiler version 193.
 {% endhighlight %}
 <div style="text-align: center;">
   <img src="{{ site.baseurl }}/assets/post_images/2025-12-01/gif2-profile-x6.gif"
@@ -84,7 +84,7 @@ latest versions of fmt and OpenSSL. Install the dependencies of the project.
 <br>
 
 ### Auditing project and checking licenses
-The crown jewel of this Conan MCP is **library and license auditing**, just a simple prompt away. Using the previous 
+The crown jewel of this Conan MCP is **library auditing and license listing**, just a simple prompt away. Using the previous 
 project as a base, let’s ask the language model to ensure that the resolved versions have no vulnerabilities and that 
 all the licenses used by our dependencies are suitable for commercial use.
 {% highlight bash %}
@@ -111,12 +111,13 @@ Cursor. Then, simply add to your MCP configuration:
 {% endhighlight %}
 
 ## What is next?
-Despite its capabilities, Conan MCP is currently in an early stage and does not yet support 100% of Conan's 
-functionalities. 
+Conan MCP is still in an early stage, with a strong focus on the most critical developer workflows, and we are gradually
+expanding support for more Conan features. We would love to hear your feedback about what you are missing or which 
+workflows you would like to see supported next.
 
 We have prioritized the features most critical for the developer workflow: powerful **package search** and filtering, 
-seamless **project creation** and dependency installation, profile checking, and the most essential: **vulnerability and 
-license scanning**. 
+seamless **project creation** and dependency installation, profile checking, and the most essential: **vulnerability 
+scanning and license listing**. 
 
 We would love to hear your ideas. Feel free to share your thoughts in our [repository](https://github.com/conan-io/conan-mcp)!
 If you have any suggestions for new features you would like to see addressed by the Conan MCP, or even if you wish to 
