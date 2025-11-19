@@ -97,7 +97,7 @@ Ensure my project’s third-party libraries are secure and licensed for commerci
 <br>
 
 ## Installing Conan MCP
-To install it, the first thing you need is a tool that supports MCP client. You can use for example LibreChat or 
+To install it, the first thing you need is an MCP client. You can use for example LibreChat or 
 Cursor. Then, simply add to your MCP configuration:
 {% highlight bash %}
 {
