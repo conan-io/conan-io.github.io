@@ -15,7 +15,7 @@ This standard allows all these resources to be grouped together and provides the
 tasks in an **agentic way**.
 
 ## Why should I use it?
-The integration of Conan with the MCP server offers several compelling advantages, particularly for developers working 
+The integration of Conan with MCP offers several compelling advantages, particularly for developers working 
 with C and C++ dependencies and AI development tools:
 
 ### Enhanced Automation and Efficiency
