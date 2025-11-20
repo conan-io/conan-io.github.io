@@ -373,7 +373,7 @@ Ready to add sanitizers to your project? Here's what to do next:
 3. **Start a new Conan project** with `conan new cmake_lib`
 4. **Build your project and run its tests** with `conan create . -pr=<your_sanitizer_profile>`
 
-You can find a complete working example with all the files from this blog post in our [GitHub Examples repository](https://github.com/conan-io/examples2/tree/main/examples/security/sanitizers).
+You can find a complete working example in our [GitHub Examples repository](https://github.com/conan-io/examples2/tree/main/examples/security/sanitizers).
 
 ### Related Resources
 
