@@ -238,6 +238,8 @@ Finally, run the application:
 build/Debug/example
 ```
 
+This example used `Unix Makefiles` generator with CMake, and the output binary is located in `build/Debug/example` according to the CMake presets layout. But may vary depending on your generator and configuration.
+
 The test application will run the `boost::json::parse_into()` function, which will reach a buffer overflow. When running the application, ASan should detect the error and report it:
 
 ```bash
