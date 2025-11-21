@@ -19,11 +19,11 @@ The integration of Conan with MCP offers several compelling advantages, particul
 with C and C++ dependencies and AI development tools:
 
 ### Enhanced Automation and Efficiency
-* **Easier Packaging Workflow**: The MCP server allows AI agents to interact with the Conan client seamlessly. This means you 
-can simply describe the package you need, and the AI agent, using Conan via the MCP, can automatically handle the 
-entire process: checking the last version of your dependencies, creating the whole structure of the project, installing 
-your dependencies, checking your licenses and auditing your dependencies in order to find vulnerabilities. All from a 
-natural language prompt.
+* **Easier Packaging Workflow**: The MCP server allows the language model to run Conan commands directly. This makes it 
+possible to generate the basic structure of a C++ project, add dependencies in natural language, and prepare the project by 
+installing the Conan dependencies it needs.
+It can also run security scans on your dependencies and list their declared licenses. All of this happens through simple natural 
+language prompts, using your preferred LLM.
 * **Reduced Context Switching**: Developers no longer need to jump between their development environment, command line, 
 and documentation to manage dependencies. The AI acts as an intelligent intermediary, handling complex Conan tasks 
 in the background.
