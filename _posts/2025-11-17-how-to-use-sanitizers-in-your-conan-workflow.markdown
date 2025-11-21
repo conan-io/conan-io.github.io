@@ -167,7 +167,7 @@ This profile not only sets `compiler.sanitizer=Address`, but also injects the ne
 
 ## Building and Using Sanitized Packages with Conan
 
-With the sanitizer profiles defined, building and using sanitized packages becomes a matter of selecting the appropriate profile during the Conan install step. In order to exercise the `gcc_asan` profile, let's visit a [known bug in Boost.JSON 1.86.0](https://github.com/boostorg/json/issues/1047) that ASan can catch. The same is fixed in later versions, but serves as a good example.
+With the sanitizer profiles defined, building and using sanitized packages becomes a matter of selecting the appropriate profile during the Conan install step. In order to exercise the `gcc_asan` profile, let's visit a [known bug in Boost.JSON 1.86.0](https://github.com/boostorg/json/issues/1047) that ASan can catch. The issue was fixed in later versions, but serves as a good example.
 
 First, create a simple application that uses Boost.JSON and has the buffer overflow bug:
 
