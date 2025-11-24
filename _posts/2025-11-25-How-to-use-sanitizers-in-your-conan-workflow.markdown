@@ -372,8 +372,6 @@ ASAN_OPTIONS="suppressions=MyASan.supp"
 
 **Use Debug Builds:** Sanitizers work best with debug builds, as they provide more information for error reporting. Ensure your Conan settings use build_type=Debug.
 
-**Monitor Performance:** Sanitizers can introduce performance overhead. Use them primarily during development and testing, and switch to non-instrumented builds for production releases.
-
 ---
 
 ## Conclusion: Sanitizers Without the Chaos
