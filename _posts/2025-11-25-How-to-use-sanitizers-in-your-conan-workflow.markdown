@@ -356,9 +356,9 @@ conan install -r conancenter --requires="boost/[*]"
 
 ---
 
-## Troubleshooting Common Issues
+## Common Pitfalls and Practical Tips
 
-Even with proper configuration, you may encounter some challenges when using sanitizers. Here are solutions to common problems:
+Even with proper configuration, you may encounter some challenges when using sanitizers. Here are solutions to common problems and best practices:
 
 ### Third-Party Libraries That Can't Be Rebuilt
 
@@ -366,7 +366,7 @@ Even with proper configuration, you may encounter some challenges when using san
 
 **Solution:**
 - For ASan/UBSan: This often works fine, though you won't get error detection in that library
-- For MSan: You **should** rebuild the library or you'll get false positives.
+- For MSan: You **should** rebuild the library or you'll get false positives
 - For TSan: Mixed instrumentation can lead to false positives; try to rebuild if possible
 
 ### Dealing with False Positives
@@ -395,33 +395,33 @@ Even with proper configuration, you may encounter some challenges when using san
 **Solution:**
 - Cache sanitizer-enabled packages in your Conan remote Artifactory repository
 - Use `conan install --build=missing` to only rebuild what's necessary
-- For a local development, consider using ASan only on your code and not all dependencies (except for MSan)
+- For local development, consider using ASan only on your code and not all dependencies (except for MSan)
 
----
+### Using Suppression Files
 
-## Hints When Using Sanitizers
+Some libraries may trigger false positives with sanitizers. You can create suppression files to ignore specific known issues. For example, for ASan, you can create a file named `MyASan.supp` with content like:
 
-When using sanitizers in your Conan projects, here are some additional tips to ensure a smooth experience:
+Suppress known false positive in some_library for NameOfCFunctionToSuppress method
 
-- **Suppressions:** Some libraries may trigger false positives with sanitizers. You can create suppression files to ignore specific known issues. For example, for ASan, you can create a file named `MyASan.supp` with content like:
+```text
+# Suppress known false positive in some_library for NameOfCFunctionToSuppress method
+interceptor_via_fun:NameOfCFunctionToSuppress
+```
 
- ```
- # Suppress known false positive in some_library for NameOfCFunctionToSuppress method
- interceptor_via_fun:NameOfCFunctionToSuppress
- ```
+Then, set the `ASAN_OPTIONS` environment variable to include the suppression file:
 
- Then, set the `ASAN_OPTIONS` environment variable to include the suppression file:
+```ini
+[runenv]
+ASAN_OPTIONS="suppressions=MyASan.supp"
+```
 
- ```ini
- [runenv]
- ASAN_OPTIONS="suppressions=MyASan.supp"
- ```
+### Additional Best Practices
 
-- **Build All Dependencies with Sanitizers when needed:** To avoid compatibility issues, ensure that all dependencies are built with the same sanitizer settings. This is most common when using MemorySanitizer, which requires all code to be instrumented. Use Conan's `-b=missing` option to build any missing packages from source with the correct configuration.
+**Build All Dependencies with Sanitizers When Needed:** To avoid compatibility issues, ensure that all dependencies are built with the same sanitizer settings. This is most critical when using MemorySanitizer, which requires all code to be instrumented. Use Conan's --build=missing option to build any missing packages from source with the correct configuration.
 
-- **Use Debug Builds:** Sanitizers work best with debug builds, as they provide more information for error reporting. Ensure your Conan settings use `build_type=Debug`.
+**Use Debug Builds:** Sanitizers work best with debug builds, as they provide more information for error reporting. Ensure your Conan settings use build_type=Debug.
 
-- **Monitor Performance:** Sanitizers can introduce performance overhead. Use them primarily during development and testing, and switch to non-instrumented builds for production releases.
+**Monitor Performance:** Sanitizers can introduce performance overhead. Use them primarily during development and testing, and switch to non-instrumented builds for production releases.
 
 ---
 
