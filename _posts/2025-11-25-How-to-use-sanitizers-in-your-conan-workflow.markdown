@@ -72,13 +72,50 @@ As a side note, MSVC also supports AddressSanitizer on x86, x64 and ARM64 with a
 
 Sanitizers add runtime overhead, so it's important to understand the performance implications:
 
-| Sanitizer | Typical Slowdown | Memory Overhead | Notes                                 |
-|-----------|------------------|-----------------|---------------------------------------|
-| **ASan**  | 2-3x             | 2-3x            | Best balance of speed and detection   |
-| **UBSan** | ~1.2x            | Minimal         | Very lightweight, combine with ASan   |
-| **TSan**  | 5-15x            | 5-10x           | Expensive but essential for threading |
-| **MSan**  | ~3x              | Minimal         | Requires full rebuild of dependencies |
-| **LSan**  | Minimal          | Minimal         | Usually runs at program exit          |
+<div class="table-responsive">
+  <table class="table table-bordered table-striped table-hover mb-3 align-middle border-top">
+    <thead class="table-light">
+      <tr>
+        <th scope="col" class="fw-semibold text-nowrap">Sanitizer</th>
+        <th scope="col" class="fw-semibold text-nowrap">Typical Slowdown</th>
+        <th scope="col" class="fw-semibold text-nowrap">Memory Overhead</th>
+        <th scope="col" class="fw-semibold">Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>ASan</strong></td>
+        <td>2–3x</td>
+        <td>2–3x</td>
+        <td>Best balance of speed and detection</td>
+      </tr>
+      <tr>
+        <td><strong>UBSan</strong></td>
+        <td>~1.2x</td>
+        <td>Minimal</td>
+        <td>Very lightweight, combine with ASan</td>
+      </tr>
+      <tr>
+        <td><strong>TSan</strong></td>
+        <td>5–15x</td>
+        <td>5–10x</td>
+        <td>Expensive but essential for threading</td>
+      </tr>
+      <tr>
+        <td><strong>MSan</strong></td>
+        <td>~3x</td>
+        <td>Minimal</td>
+        <td>Requires full rebuild of dependencies</td>
+      </tr>
+      <tr>
+        <td><strong>LSan</strong></td>
+        <td>Minimal</td>
+        <td>Minimal</td>
+        <td>Usually runs at program exit</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 These numbers are approximate and vary based on your code patterns. Memory-intensive applications may see higher overhead with ASan and TSan.
 
