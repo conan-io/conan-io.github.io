@@ -7,7 +7,7 @@ meta_title: "Raylib Android Development - Conan Blog"
 categories: [cpp, gamedev, android, conan, raylib]
 ---
 
-In our [previous post](link-to-previous-post), we built a fun 2D runner game using **raylib** and **CLion**. Now it's time to take one step ahead and run that game on mobile! In this post, we'll show you how to build the same "Jump to Survive" game for Android using **Android Studio**, the **Android NDK**, and **Conan** for dependency management.
+In our [previous post](/cpp/gamedev/clion/conan/raylib/2025/05/13/GameDev-Raylib-CLion.html), we built a fun 2D runner game using **raylib** and **CLion**. Now it's time to take one step ahead and run that game on mobile! In this post, we'll show you how to build the same "Jump to Survive" game for Android using **Android Studio**, the **Android NDK**, and **Conan** for dependency management.
 
 By the end of this guide, you'll have your raylib game running on Android devices with touch controls and proper mobile optimizations.
 
