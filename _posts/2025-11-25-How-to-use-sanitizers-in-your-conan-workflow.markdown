@@ -330,15 +330,6 @@ Even with proper configuration, you may encounter some challenges when using san
 - Verify the error isn't actually a real bug that happens to be "working" by accident
 - In last case, check if there are reports about the issue in the sanitizer's issue tracker
 
-### Sanitizer Conflicts
-
-**Problem:** You need to test with multiple incompatible sanitizers (e.g., ASan and TSan).
-
-**Solution:**
-- Create separate Conan profiles for each sanitizer configuration
-- Run different sanitizer builds in separate CI jobs
-- Use ASan for general testing, TSan specifically for threading tests
-
 ### Slow Build Times
 
 **Problem:** Building all dependencies with sanitizers takes too long.
