@@ -132,14 +132,49 @@ Also, some sanitizers can be combined (e.g. ASan + UBSan), while others cannot (
 
 Here's a compatibility matrix for common sanitizer combinations:
 
-| Combination  | Compatible? | Notes                                |
-|--------------|-------------|--------------------------------------|
-| ASan + UBSan | Yes         | Recommended baseline combination     |
-| ASan + LSan  | Yes         | LSan is typically included with ASan |
-| TSan + UBSan | Yes         | Good for multithreaded code          |
-| ASan + TSan  | No          | Conflicting memory instrumentation   |
-| ASan + MSan  | No          | Conflicting memory tracking          |
-| TSan + MSan  | No          | Incompatible runtime requirements    |
+<div class="table-responsive">
+  <table class="table table-bordered table-striped table-hover mb-3 align-middle border-top">
+    <thead class="table-light">
+      <tr>
+        <th scope="col" class="fw-semibold text-nowrap">Combination</th>
+        <th scope="col" class="fw-semibold text-nowrap">Compatible?</th>
+        <th scope="col" class="fw-semibold">Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ASan + UBSan</td>
+        <td>Yes</td>
+        <td>Recommended baseline combination</td>
+      </tr>
+      <tr>
+        <td>ASan + LSan</td>
+        <td>Yes</td>
+        <td>LSan is typically included with ASan</td>
+      </tr>
+      <tr>
+        <td>TSan + UBSan</td>
+        <td>Yes</td>
+        <td>Good for multithreaded code</td>
+      </tr>
+      <tr>
+        <td>ASan + TSan</td>
+        <td>No</td>
+        <td>Conflicting memory instrumentation</td>
+      </tr>
+      <tr>
+        <td>ASan + MSan</td>
+        <td>No</td>
+        <td>Conflicting memory tracking</td>
+      </tr>
+      <tr>
+        <td>TSan + MSan</td>
+        <td>No</td>
+        <td>Incompatible runtime requirements</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 As a result, the produced binaries have a different ABI and behavior depending on the sanitizer configuration used during compilation.
 

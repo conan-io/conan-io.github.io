@@ -876,9 +876,19 @@ body .month-content h2 {
  .footer-links a:hover {
 	 text-decoration: underline;
 }
- 
+
 /*
 * Style to be used for highlighting specific lines on a code block
 * We are using a custom plugin because until 4.4 release, native support for highlighting specific lines is not available
 */
 .hll { background-color: #ffffcc }
+
+.table.table-bordered {
+  border-top: 1px solid rgba(0, 0, 0, 0.15) !important;
+}
+
+.table.table-bordered thead th {
+  border-top: 1px solid rgba(0, 0, 0, 0.15) !important;
+  font-size: 1rem;
+  font-weight: 600;
+}
