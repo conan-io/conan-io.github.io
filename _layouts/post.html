@@ -13,9 +13,25 @@ comments: true
         	{% if page.subtitle %}
             <h2><small>{{ page.subtitle }}</small></h2>
           {% endif %}
+
+          {% if page.deprecated %}
+            <div class="deprecated-notice" style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin-bottom: 20px;">
+              <strong>⚠️ Deprecated:</strong>
+              {% if page.deprecated_reason %}
+                {{ page.deprecated_reason }}
+              {% else %}
+                This post contains outdated information.
+              {% endif %}
+              {% if page.deprecated_link %}
+                <a href="{{ page.deprecated_link }}">View updated content</a>
+              {% endif %}
+            </div>
+          {% endif %}
+
+
           <div class="spli-footer d-flex flex-wrap justify-content-between mt-2 mt-lg-3">
           <div class="post-meta pr-4 d-flex align-items-center">
-            <!-- 
+            <!--
               We want Google to show the most recent date so this post looks more relevant in search results
               https://developers.google.com/search/docs/appearance/publication-dates
             -->

@@ -2,6 +2,10 @@
 layout: post
 comments: false
 title: Cross building Boost C++ libraries to Android with Conan
+deprecated: true
+deprecated_reason: "This information is outdated. See the updated post."
+deprecated_link: /cpp/gamedev/android/conan/raylib/2025/11/24/GameDev-Raylib-Android.html
+
 # other options
 ---
 
