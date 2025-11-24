@@ -12,7 +12,7 @@ In our [previous post](link-to-previous-post), we built a fun 2D runner game usi
 By the end of this guide, you'll have your raylib game running on Android devices with touch controls and proper mobile optimizations.
 
 <div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-05-13/jump-to-survive.gif"
+  <img src="{{ site.baseurl }}/assets/post_images/2025-11-24/jump-to-survive.gif"
        alt="Jump to Survive on Android"/>
 </div>
 <br>
