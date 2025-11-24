@@ -68,56 +68,7 @@ g++ -fsanitize=address -g -o my_sanitized_program my_program.cpp
 
 As a side note, MSVC also supports AddressSanitizer on x86, x64 and ARM64 with a similar flag: `/fsanitize=address`.
 
-### Performance Impact
-
-Sanitizers add runtime overhead, so it's important to understand the performance implications:
-
-<div class="table-responsive">
-  <table class="table table-bordered table-striped table-hover mb-3 align-middle border-top">
-    <thead class="table-light">
-      <tr>
-        <th scope="col" class="fw-semibold text-nowrap">Sanitizer</th>
-        <th scope="col" class="fw-semibold text-nowrap">Typical Slowdown</th>
-        <th scope="col" class="fw-semibold text-nowrap">Memory Overhead</th>
-        <th scope="col" class="fw-semibold">Notes</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>ASan</strong></td>
-        <td>2–3x</td>
-        <td>2–3x</td>
-        <td>Best balance of speed and detection</td>
-      </tr>
-      <tr>
-        <td><strong>UBSan</strong></td>
-        <td>~1.2x</td>
-        <td>Minimal</td>
-        <td>Very lightweight, combine with ASan</td>
-      </tr>
-      <tr>
-        <td><strong>TSan</strong></td>
-        <td>5–15x</td>
-        <td>5–10x</td>
-        <td>Expensive but essential for threading</td>
-      </tr>
-      <tr>
-        <td><strong>MSan</strong></td>
-        <td>~3x</td>
-        <td>Minimal</td>
-        <td>Requires full rebuild of dependencies</td>
-      </tr>
-      <tr>
-        <td><strong>LSan</strong></td>
-        <td>Minimal</td>
-        <td>Minimal</td>
-        <td>Usually runs at program exit</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-These numbers are approximate and vary based on your code patterns. Memory-intensive applications may see higher overhead with ASan and TSan.
+Also, sanitizers introduce runtime overhead, with typical slowdowns ranging from minimal for LSan and UBSan (~1.2x) to significant for TSan (5-15x), while ASan offers a good balance at 2-3x slowdown and memory overhead. MSan also results about a 3x slowdown and minimal memory overhead but requires a full rebuild of dependencies. Note that all these performance figures are approximate, varying with code patterns.
 
 ---
 
