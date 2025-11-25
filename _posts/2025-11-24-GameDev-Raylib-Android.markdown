@@ -96,7 +96,9 @@ Now that we have the templace C++ file, we will re-use the previous example, but
 
 * **Disabled exit key** to prevent accidental app closure
 
-Here's the complete and updated `native-lib.cpp` file content:
+<details markdown="1">
+
+<summary markdown="span">Here's the complete and updated `native-lib.cpp` file content (click to show).</summary>
 
 ```cpp
 #include <jni.h>
@@ -250,6 +252,10 @@ int main() {
 
 } // extern "C"
 ```
+
+</details>
+<br>
+
 
 As you can see, most of the game logic remains unchanged. Let's highlight the important changes for Android:
 
