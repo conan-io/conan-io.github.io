@@ -181,7 +181,7 @@ tools.build:exelinkflags+=["-fsanitize=address"]
 tools.build:sharedlinkflags+=["-fsanitize=address"]
 
 [runenv]
-ASAN_OPTIONS="halt_on_error=1:detect_leaks=1"
+ASAN_OPTIONS=halt_on_error=1:detect_leaks=1
 ```
 
 This profile not only sets `compiler.sanitizer=Address`, but also injects the necessary flags to enable ASan instrumentation during compilation and linking. Additionally, it configures the `ASAN_OPTIONS` environment variable to stop on the first error and enable leak detection at runtime.
