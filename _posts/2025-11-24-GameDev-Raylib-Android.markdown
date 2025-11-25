@@ -7,9 +7,13 @@ meta_title: "Raylib Android Development - Conan Blog"
 categories: [cpp, gamedev, android, conan, raylib]
 ---
 
-In our [previous post](/cpp/gamedev/clion/conan/raylib/2025/05/13/GameDev-Raylib-CLion.html), we built a fun 2D runner game using **raylib** and **CLion**. Now it's time to take one step ahead and run that game on mobile! In this post, we'll show you how to build the same "Jump to Survive" game for Android using **Android Studio**, the **Android NDK**, and **Conan** for dependency management.
+In our [previous post](/cpp/gamedev/clion/conan/raylib/2025/05/13/GameDev-Raylib-CLion.html),
+we built a fun 2D runner game using **Raylib** and **CLion**.
+Now it's time to take one step ahead and run that game on mobile!
+In this post, we'll show you how to build the same "Jump to Survive" game for Android using **Android Studio**,
+the **Android NDK**, and **Conan** for dependency management.
 
-By the end of this guide, you'll have your raylib game running on Android devices with touch controls and proper mobile optimizations.
+By the end of this guide, you'll have your Raylib game running on Android devices with touch controls.
 
 <div style="text-align: center;">
   <img src="{{ site.baseurl }}/assets/post_images/2025-11-24/jump-to-survive.gif"
@@ -23,7 +27,7 @@ Before we begin, make sure you have [Android Studio](https://developer.android.c
 
 ## Creating the Android Project
 
-In order to run our raylib game on Android, we need to create a new Android project with native C++ support.
+In order to run our Raylib game on Android, we need to create a new Android project with native C++ support.
 
 ### Set Up a New Native C++ Project
 
@@ -57,7 +61,30 @@ In order to run our raylib game on Android, we need to create a new Android proj
 </div>
 <br>
 
-Android Studio will scafold a project with a `cpp` folder containing a `native-lib.cpp` file. This is where our game code will live.
+In the end, we will have a basic Android project set up with C++ support.
+The project structure should look like this:
+
+```text
+├── app
+│   ├── build.gradle
+│   ├── libs
+│   └── src
+│       ├── main
+│       │   ├── AndroidManifest.xml
+│       │   ├── cpp
+│       │   │   ├── CMakeLists.txt
+│       │   │   ├── conanfile.txt
+│       │   │   └── native-lib.cpp
+│       │   ├── java
+│       │   └── res
+│       └── test
+├── build.gradle
+├── gradle.properties
+├── local.properties
+└── settings.gradle
+```
+
+The `cpp` folder contains a `native-lib.cpp` file. This is where our game code will live.
 
 ### Update the Raylib Example Code
 
@@ -247,17 +274,17 @@ if (IsKeyPressed(KEY_BACK)) {
 }
 ```
 
-Using this code, the game should be fully functional on Android devices. Next, we need to set up Conan to manage our raylib dependency.
+Using this code, the game should be fully functional on Android devices. Next, we need to set up Conan to manage our Raylib dependency.
 
 ---
 
 ## Configuring Conan for Android
 
-As we did in the previous post, we will use Conan to handle the raylib dependency. However, since we are targeting Android, we will consider this example as a cross-compilation scenario. Now we need to set up a Conan profile for Android and adjust our build process accordingly.
+As we did in the previous post, we will use Conan to handle the Raylib dependency. However, since we are targeting Android, we will consider this example as a cross-compilation scenario. Now we need to set up a Conan profile for Android and adjust our build process accordingly.
 
 ### Prepare a Conan File with Raylib as a Dependency
 
-Create a `conanfile.txt` in the `cpp` folder with the raylib dependency. It did not change from the previous example:
+Create a `conanfile.txt` in the `cpp` folder with the Raylib dependency. It did not change from the previous example:
 
 ```ini
 [requires]
@@ -276,6 +303,7 @@ cmake_layout
 To be able to build for Android, we will be using a [Conan profile](https://docs.conan.io/2/reference/config_files/profiles.html) to define the cross-compilation settings. Create a file called `android` with the following content:
 
 ```ini
+# <conan_home>/profiles/android
 [settings]
 arch=armv8
 build_type=Release
@@ -354,7 +382,9 @@ android {
 }
 ```
 
-This task will automatically run `conan install` for all listed build configurations before building your app. The current example only includes `armv8`, but you can add more architectures like `armv7`, `x86`, and `x86_64` as needed.
+This task will automatically run `conan install` for all listed build configurations before building your app.
+The current example only includes `armv8`, but you can add more architectures like `armv7`, `x86`, and `x86_64` as needed.
+In case your Conan client is not in your system PATH, make sure to provide the full path to the `conan` executable in the `conanExecutable` variable.
 
 ---
 
@@ -362,7 +392,8 @@ This task will automatically run `conan install` for all listed build configurat
 
 Now that Conan is set up to install Raylib for Android, we need to configure CMake to use the Conan generated toolchain and dependency files.
 
-In order to use the correct Conan-generated toolchain file for each architecture, we will create a small CMake wrapper that selects the appropriate one based on the Android ABI being built. Create a file called `conan_android_toolchain.cmake` in the `cpp` folder:
+In order to use the correct architecture, we will create a small CMake wrapper that selects the appropriate one based on the Android ABI being built.
+Create a file called `conan_android_toolchain.cmake` in the `cpp` folder:
 
 ```cmake
 if ( NOT ANDROID_ABI OR NOT CMAKE_BUILD_TYPE )
@@ -382,11 +413,14 @@ else()
 endif()
 ```
 
+The expected file path structure is based on the Conan CMake layout.
 This wrapper will be later referenced in our Gradle configuration to ensure the correct toolchain is used during the build.
 
 ### Update CMakeLists.txt
 
-The folder `cpp` contains a default `CMakeLists.txt` file generated by Android Studio. We need to modify it to link against raylib and use the Conan toolchain. To do this, replace the contents of `CMakeLists.txt` in the `cpp` folder:
+The folder `cpp` contains a default `CMakeLists.txt` file generated by Android Studio.
+We need to modify it to link against Raylib and use the Conan toolchain.
+To do this, replace the contents of `CMakeLists.txt` in the `cpp` folder:
 
 ```cmake
 cmake_minimum_required(VERSION 3.22.1)
@@ -396,7 +430,9 @@ set(NATIVE_APP_GLUE_DIR ${ANDROID_NDK}/sources/android/native_app_glue)
 
 find_package(raylib CONFIG REQUIRED)
 
-add_library(${CMAKE_PROJECT_NAME} SHARED
+add_library(${CMAKE_PROJECT_NAME} SHARED)
+
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     ${NATIVE_APP_GLUE_DIR}/android_native_app_glue.c
     native-lib.cpp)
 
@@ -410,21 +446,21 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
     GLESv2
     OpenSLES
     m
-    raylib
-)
+    raylib)
 ```
 
 This CMake file has been updated in order to work for our scenario, and may have some differences compared to a regular desktop CMakeLists.txt:
 
 * We include [native_app_glue](https://developer.android.com/reference/games/game-activity/group/android-native-app-glue) from the NDK to handle Android app lifecycle events. Without this, our app would not respond correctly to system events.
 
-* We link against Android-specific libraries like `android`, `log`, `EGL`, `GLESv2`, and `OpenSLES` which are required for graphics and audio on Android. These libraries are provided by the NDK itself, so we don't need to install them via Conan for instance.
+* We link against Android specific libraries like `android`, `log`, `EGL`, `GLESv2`, and `OpenSLES` which are required for graphics and audio on Android. These libraries are provided by the NDK itself.
 
-* The Raylib Conan package is found using `find_package(raylib CONFIG REQUIRED)`, which relies on the Conan CMakeDeps generator to provide the necessary configuration files. The Raylib project project the CMake target `raylib` that we link against.
+* The Raylib Conan package is found using `find_package(raylib CONFIG REQUIRED)`, which relies on the [Conan CMakeDeps generator](https://docs.conan.io/2/reference/tools/cmake/cmakedeps.html) to provide the necessary configuration files. The Raylib project project the CMake target `raylib` that we link against.
 
 ### Configure the Toolchain in Gradle
 
-Now it's time to tell Gradle to use our `conan_android_toolchain.cmake` file during the CMake build process. In your `build.gradle`, add the CMake toolchain argument in the `android.defaultConfig.externalNativeBuild.cmake` section:
+Now it's time to tell Gradle to use our `conan_android_toolchain.cmake` file during the CMake build process.
+In your `build.gradle`, add the CMake toolchain file path in the `android.defaultConfig.externalNativeBuild.cmake:arguments` section:
 
 ```gradle
 android {
@@ -444,9 +480,7 @@ android {
 
 ## Building and Running
 
-Now that everything is set up, it's time to build and run our raylib game on Android! We will use Android Studio to build and deploy the app to a connected device or emulator.
-
-### Build the Project
+Now that everything is set up, it's time to build and run our Raylib game on Android!
 
 * Click **Build -> Assemble 'app' Run Configuration** in Android Studio
 
@@ -454,7 +488,7 @@ Now that everything is set up, it's time to build and run our raylib game on And
 
 * Once complete, CMake will build your native shared library
 
-### Run on Device or Emulator
+Now, you can run the app on an Android device or emulator:
 
 1. Connect an Android device or start an emulator
 
