@@ -354,7 +354,7 @@ Then, set the `ASAN_OPTIONS` environment variable to include the suppression fil
 
 ```ini
 [runenv]
-ASAN_OPTIONS="suppressions=MyASan.supp"
+ASAN_OPTIONS=suppressions=MyASan.supp
 ```
 
 ### Additional Best Practices
