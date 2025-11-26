@@ -176,7 +176,7 @@ We want to perform pose detection on a video with dimensions of 640x360 pixels, 
 to crop and resize the video frames to 192x192 pixels before inputting them into the model
 (we have omitted the frame capture code for simplicity, but you can find the code in the
 repository). To do so, we use the
-[resize()](https://docs.opencv.org/4.5.5/da/d54/group__imgproc__transform.html#ga47a974309e9102f5f08231edc7e7529d)
+[resize()](https://docs.opencv.org/4.12.0/da/d54/group__imgproc__transform.html#ga47a974309e9102f5f08231edc7e7529d)
 function from the OpenCV library.
 
 {% highlight cpp %}
@@ -348,8 +348,8 @@ class PoseEstimationRecipe(ConanFile):
     generators = "CMakeDeps", "CMakeToolchain"
 
     def requirements(self):
-        self.requires("tensorflow-lite/2.10.0")
-        self.requires("opencv/4.5.5")
+        self.requires("tensorflow-lite/2.12.0")
+        self.requires("opencv/4.12.0")
 
     def layout(self):
         cmake_layout(self)
@@ -362,7 +362,7 @@ section](https://docs.conan.io/2/tutorial/consuming_packages) of the Conan docum
 for more information.
 
 Now we can use Conan to install the libraries. It will not only install
-*tensorflow-lite/2.10.0* and *opencv/4.5.5*, but also all the necessary transitive
+*tensorflow-lite/2.12.0* and *opencv/4.12.0*, but also all the necessary transitive
 dependencies. For example, for a machine running macOS Ventura the whole dependency graph
 would look similar to this:
 
