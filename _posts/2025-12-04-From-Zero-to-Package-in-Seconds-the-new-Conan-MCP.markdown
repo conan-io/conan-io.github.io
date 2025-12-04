@@ -50,7 +50,7 @@ Create a project for a CMake library using Conan, with dependencies on the
 latest versions of fmt and OpenSSL. Install the dependencies of the project.
 {% endhighlight %}
 <div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-12-01/gif3-Create-project-x6.gif"
+  <img src="{{ site.baseurl }}/assets/post_images/2025-12-04/gif3-Create-project-x6.gif"
        alt="Create project gif example"/>
 </div>
 <br>
@@ -63,7 +63,7 @@ all the licenses used by our dependencies are suitable for commercial use.
 Ensure my project’s third-party libraries are secure and licensed for commercial use.
 {% endhighlight %}
 <div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-12-01/gif4-Verify-x10.gif"
+  <img src="{{ site.baseurl }}/assets/post_images/2025-12-04/gif4-Verify-x10.gif"
        alt="Verify project gif example"/>
 </div>
 <br>
@@ -76,7 +76,7 @@ us which versions we have packages for.
 Tell me which versions of zlib packages are available with armv8 architecture and statically linked
 {% endhighlight %}
 <div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-12-01/gif1-List-versions-x6.gif"
+  <img src="{{ site.baseurl }}/assets/post_images/2025-12-04/gif1-List-versions-x6.gif"
        alt="List versions gif example"/>
 </div>
 <br>
@@ -88,7 +88,7 @@ C++ version my Windows profile with MSVC 193 is configured for, you can simply a
 Check my Conan profiles and tell me which cppstd is configured in the Windows profile that uses compiler version 193.
 {% endhighlight %}
 <div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-12-01/gif2-profile-x6.gif"
+  <img src="{{ site.baseurl }}/assets/post_images/2025-12-04/gif2-profile-x6.gif"
        alt="Search profile gif example"/>
 </div>
 <br>
@@ -99,7 +99,7 @@ order when naming your Conan profiles.
 ## Installing Conan MCP
 To install it, the first thing you need is an MCP client. You can use for example LibreChat or 
 Cursor. Then, simply add to your MCP configuration.
-This assumes you have ``uv`` installed in your machine. ``uv`` has become the standard for MCPs; if you want to install ``uv``, run ``pip install uv``.
+This assumes you have ``uv`` installed in your machine. ``uv`` has become the standard for MCPs. If you want to install ``uv`` you can find [how to install uv here](https://docs.astral.sh/uv/getting-started/installation/).
 {% highlight bash %}
 {
   "mcpServers": {
