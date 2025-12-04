@@ -11,8 +11,6 @@ MCP (Model Context Protocol) is an [open-source standard](https://modelcontextpr
 Claude, or Grok to connect with other systems, enabling them to access data sources such as local files or databases, 
 workflows like specific prompts, and tools, such as, in our case, the Conan client.
 
-This standard allows all these resources to be grouped together and provides the AI with a way to use them to complete 
-tasks in an **agentic way**.
 
 ## Why should I use it?
 The integration of Conan with MCP offers several compelling advantages, particularly for developers working 
