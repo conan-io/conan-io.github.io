@@ -73,7 +73,7 @@ Let’s see a simpler one: we’re going to try to search for the compiled packa
 such as zlib, with some options, including the architecture being arm and the shared option set to false, and have it tell 
 us which versions we have packages for.
 {% highlight bash %}
-tell me which versions of zlib packages are available with armv8 architecture and statically linked
+Tell me which versions of zlib packages are available with armv8 architecture and statically linked
 {% endhighlight %}
 <div style="text-align: center;">
   <img src="{{ site.baseurl }}/assets/post_images/2025-12-01/gif1-List-versions-x6.gif"
@@ -98,7 +98,8 @@ order when naming your Conan profiles.
 
 ## Installing Conan MCP
 To install it, the first thing you need is an MCP client. You can use for example LibreChat or 
-Cursor. Then, simply add to your MCP configuration:
+Cursor. Then, simply add to your MCP configuration.
+This assumes you have ``uv`` installed in your machine. ``uv`` has become the standard for MCPs; if you want to install ``uv``, run ``pip install uv``.
 {% highlight bash %}
 {
   "mcpServers": {
