@@ -110,7 +110,7 @@ This assumes you have `uv` installed on your machine. `uv` has become a common w
 {% endhighlight %}
 
 ## What is next?
-Conan MCP is still in an early stage, with a strong focus on the most critical developer workflows, and we are gradually
+The Conan MCP Server is still in an early stage, with a strong focus on the most critical developer workflows, and we are gradually
 expanding support for more Conan features. We would love to hear your feedback about what you are missing or which 
 workflows you would like to see supported next.
 
