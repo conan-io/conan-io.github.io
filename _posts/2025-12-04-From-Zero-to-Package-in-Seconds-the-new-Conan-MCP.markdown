@@ -27,7 +27,7 @@ and documentation to manage dependencies. The AI acts as an intelligent intermed
 in the background.
 
 ### Easy Dependency Management and Auditing
-* **Advanced Package Search**: Thanks to the Conan MCP Server, you can search for the exact package you need from your 
+* **Natural Language Package Search**: Thanks to the Conan MCP Server, you can search for the exact package you need from your 
 remotes by specifying the operating system, architecture, compiled binary options, or even complex version range 
 filters, all without resorting to command line syntax.
 * **Simplified Dependency Definition**: Leveraging the power of natural language processing through MCP, developers can 
