@@ -518,54 +518,6 @@ Besides the usual Android development issues, here are some common pitfalls spec
 
 **Touch Not Working**: Make sure you're testing on a device or emulator with touch support. The emulator's mouse clicks should register as touches.
 
----
-
-## Next Steps
-
-As suggested in the previous post, you can further enhance your game with additional features.
-Said that, here we will introduce a feature for **high scores** to show the best score achieved during the session.
-
-```diff
---- a/app/src/main/cpp/main.cpp
-+++ b/app/src/main/cpp/main.cpp
-@@ -35,6 +35,7 @@ int main() {
-
-     // --- Game State Variables ---
-     int score = 0;
-+    int highScore = 0;
-     bool gameOver = false;
-
-     // --- Back button double press logic ---
-@@ -129,9 +130,13 @@ int main() {
-         for (auto &obs : obstacles) DrawRectangleRec(obs, RED);
-
-         DrawText(TextFormat("Score: %d", score), 10, 10, 20, BLACK);
-+        DrawText(TextFormat("High Score: %d", highScore), 10, 30, 20, BLACK);
-
-         if (gameOver) {
-             DrawText("GAME OVER! Tap to restart", 200, screenH/2 - 20, 20, MAROON);
-+            if (score > highScore) {
-+                highScore = score;
-+            }
-         }
-
-         if (backPressedOnce) {
-```
-
-As you can see, we added a `highScore` variable to keep track of the best score achieved during the session.
-When the game is over, we check if the current score is higher than the recorded high score and update it accordingly.
-
-The result is displayed on the screen below the current score:
-
-<div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-11-24/game_running.gif"
-       alt="Jump to Survive High Score on Android"/>
-</div>
-<br>
-
-This simple addition serves to illustrate how you can expand the game further.
-You can also explore adding sound effects using `PlaySound()` from Raylib for instance!
-
 ## Conclusion
 
 Congratulations! You've successfully ported a Raylib game to Android using Android Studio and Conan.
