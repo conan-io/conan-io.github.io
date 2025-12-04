@@ -80,7 +80,7 @@ Tell me which versions of zlib packages are available with armv8 architecture an
 <br>
 
 ### Manage existing profiles
-The MCP can also access the list of profiles and is able to query it, so that, for example, if you want to check which 
+The Conan MCP Server can also access the list of profiles and is able to query it, so that, for example, if you want to check which 
 C++ version my Windows profile with MSVC 193 is configured for, you can simply ask:
 {% highlight bash %}
 Check my Conan profiles and tell me which cppstd is configured in the Windows profile that uses compiler version 193.
