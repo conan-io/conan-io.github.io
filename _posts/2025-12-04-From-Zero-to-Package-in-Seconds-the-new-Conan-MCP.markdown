@@ -3,7 +3,7 @@ layout: post
 comments: false
 title: "From Zero to Package in Seconds: the new Conan MCP Server"
 description: "The integration of Conan with the MCP server offers several compelling advantages, particularly for developers working with C and C++ dependencies"
-meta_title: "From Zero to Package in Seconds: the new Conan MCP"
+meta_title: "From Zero to Package in Seconds: the new Conan MCP Server"
 categories: [MCP, AI, GPT, conan, conan-mcp]
 ---
 
@@ -13,7 +13,7 @@ workflows like specific prompts, and tools, such as, in our case, the Conan clie
 
 
 ## Why should I use it?
-The integration of Conan with MCP offers several compelling advantages, particularly for developers working 
+The Conan MCP Server offers several compelling advantages, particularly for developers working 
 with C and C++ dependencies and AI development tools:
 
 ### Enhanced Automation and Efficiency
@@ -40,7 +40,7 @@ feedback in natural language.
 
 ## Let’s dive into real examples
 ### Bootstrapping new Conan projects
-Let’s move on to one of the highlights of the MCP: initial project setup using prompts. Suppose we want to start a project of a library 
+Let’s move on to one of the highlights of the MCP server: initial project setup using prompts. Suppose we want to start a project of a library 
 that uses CMake, with dependencies on fmt and OpenSSL. We can let Conan MCP create the entire project scaffolding and 
 install the dependencies.
 {% highlight bash %}
@@ -94,8 +94,8 @@ It will list the profiles using a `conan profile list` command and then use `con
 to obtain the required information. For this type of functionality to work correctly, we recommend maintaining a proper 
 order when naming your Conan profiles.
 
-## Installing Conan MCP
-To install it, the first thing you need is an MCP client. You can use for example LibreChat or 
+## Installing the Conan MCP Server
+To install the Conan MCP Server, the first thing you need is an MCP client. You can use for example LibreChat or 
 Cursor. Then, simply add to your MCP configuration.
 This assumes you have `uv` installed on your machine. `uv` has become a common way to run MCP servers. You can find installation instructions here: [uv installation guide](https://docs.astral.sh/uv/getting-started/installation/).
 {% highlight bash %}
@@ -119,9 +119,9 @@ seamless **project creation** and dependency installation, profile checking, and
 scanning and license listing**. 
 
 We would love to hear your ideas. Feel free to share your thoughts in our [repository](https://github.com/conan-io/conan-mcp)!
-If you have any suggestions for new features you would like to see addressed by the Conan MCP, or even if you wish to 
+If you have any suggestions for new features you would like to see addressed by the Conan MCP Server, or even if you wish to 
 contribute code to the project, don't hesitate to do so! 
 Your feedback and contributions are invaluable in shaping the future of this tool.
 
-Happy prompting with Conan MCP!
+Happy prompting with the Conan MCP Server!
 
