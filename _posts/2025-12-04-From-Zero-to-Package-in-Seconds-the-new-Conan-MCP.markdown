@@ -97,7 +97,7 @@ order when naming your Conan profiles.
 ## Installing Conan MCP
 To install it, the first thing you need is an MCP client. You can use for example LibreChat or 
 Cursor. Then, simply add to your MCP configuration.
-This assumes you have ``uv`` installed in your machine. ``uv`` has become the standard for MCPs. If you want to install ``uv`` you can find [how to install uv here](https://docs.astral.sh/uv/getting-started/installation/).
+This assumes you have `uv` installed on your machine. `uv` has become a common way to run MCP servers. You can find installation instructions here: [uv installation guide](https://docs.astral.sh/uv/getting-started/installation/).
 {% highlight bash %}
 {
   "mcpServers": {
