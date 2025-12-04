@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "From Zero to Package in Seconds: the new Conan MCP"
+title: "From Zero to Package in Seconds: the new Conan MCP Server"
 description: "The integration of Conan with the MCP server offers several compelling advantages, particularly for developers working with C and C++ dependencies"
 meta_title: "From Zero to Package in Seconds: the new Conan MCP"
 categories: [MCP, AI, GPT, conan, conan-mcp]
