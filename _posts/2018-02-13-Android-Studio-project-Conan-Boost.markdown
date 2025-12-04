@@ -2,7 +2,9 @@
 layout: post
 comments: false
 title: Android Studio project using Conan and C++ Boost libraries
-# other options
+deprecated: true
+deprecated_reason: "This information is outdated. See the updated post."
+deprecated_link: /cpp/gamedev/android/conan/raylib/2025/11/24/GameDev-Raylib-Android.html
 ---
 
 In the previous blog post [Cross building Boost C++ libraries to Android with Conan](https://blog.conan.io/2018/01/30/Cross-building-Boost-Android.html)
