@@ -41,34 +41,6 @@ checking for known vulnerabilities (CVEs) and verifying license compliance again
 feedback in natural language.
 
 ## Let’s dive into real examples
-### Listing packages
-Let’s start with a simple one: we’re going to try to search for the compiled packages on ConanCenter for a library, 
-such as zlib, with some options, including the architecture being arm and the shared option set to false, and have it tell 
-us which versions we have packages for.
-{% highlight bash %}
-tell me which versions of zlib packages are available with armv8 architecture and statically linked
-{% endhighlight %}
-<div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-12-01/gif1-List-versions-x6.gif"
-       alt="List versions gif example"/>
-</div>
-<br>
-
-### Manage existing profiles
-The MCP can also access the list of profiles and is able to query it, so that, for example, if you want to check which 
-C++ version my Windows profile with MSVC 193 is configured for, you can simply ask:
-{% highlight bash %}
-Check my Conan profiles and tell me which cppstd is configured in the Windows profile that uses compiler version 193.
-{% endhighlight %}
-<div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-12-01/gif2-profile-x6.gif"
-       alt="Search profile gif example"/>
-</div>
-<br>
-It will list the profiles using a `conan profile list` command and then use `conan profile show` with the selected profile 
-to obtain the required information. For this type of functionality to work correctly, we recommend maintaining a proper 
-order when naming your Conan profiles.
-
 ### Create new packages
 Let’s move on to one of the highlights of the MCP: **package creation**. Suppose we want to start a project of a library 
 that uses CMake, with dependencies on fmt and OpenSSL. We can let Conan MCP create the entire project scaffolding and 
@@ -95,6 +67,34 @@ Ensure my project’s third-party libraries are secure and licensed for commerci
        alt="Verify project gif example"/>
 </div>
 <br>
+
+### Listing packages
+Let’s see a simpler one: we’re going to try to search for the compiled packages on ConanCenter for a library, 
+such as zlib, with some options, including the architecture being arm and the shared option set to false, and have it tell 
+us which versions we have packages for.
+{% highlight bash %}
+tell me which versions of zlib packages are available with armv8 architecture and statically linked
+{% endhighlight %}
+<div style="text-align: center;">
+  <img src="{{ site.baseurl }}/assets/post_images/2025-12-01/gif1-List-versions-x6.gif"
+       alt="List versions gif example"/>
+</div>
+<br>
+
+### Manage existing profiles
+The MCP can also access the list of profiles and is able to query it, so that, for example, if you want to check which 
+C++ version my Windows profile with MSVC 193 is configured for, you can simply ask:
+{% highlight bash %}
+Check my Conan profiles and tell me which cppstd is configured in the Windows profile that uses compiler version 193.
+{% endhighlight %}
+<div style="text-align: center;">
+  <img src="{{ site.baseurl }}/assets/post_images/2025-12-01/gif2-profile-x6.gif"
+       alt="Search profile gif example"/>
+</div>
+<br>
+It will list the profiles using a `conan profile list` command and then use `conan profile show` with the selected profile 
+to obtain the required information. For this type of functionality to work correctly, we recommend maintaining a proper 
+order when naming your Conan profiles.
 
 ## Installing Conan MCP
 To install it, the first thing you need is an MCP client. You can use for example LibreChat or 
