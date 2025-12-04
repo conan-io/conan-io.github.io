@@ -54,7 +54,7 @@ latest versions of fmt and OpenSSL. Install the dependencies of the project.
 <br>
 
 ### Auditing project and checking licenses
-The crown jewel of this Conan MCP is **library auditing and license listing**, just a simple prompt away. Using the previous 
+One of the most powerful features is how easily the Conan MCP server helps you check vulnerabilities and list dependency licenses. Using the previous 
 project as a base, let’s ask the language model to ensure that the resolved versions have no vulnerabilities and that 
 all the licenses used by our dependencies are suitable for commercial use.
 {% highlight bash %}
