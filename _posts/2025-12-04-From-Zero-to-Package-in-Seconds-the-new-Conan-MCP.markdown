@@ -39,8 +39,8 @@ checking for known vulnerabilities (CVEs) and verifying license compliance again
 feedback in natural language.
 
 ## Let’s dive into real examples
-### Create new packages
-Let’s move on to one of the highlights of the MCP: **package creation**. Suppose we want to start a project of a library 
+### Bootstrapping new Conan projects
+Let’s move on to one of the highlights of the MCP: initial project setup using prompts. Suppose we want to start a project of a library 
 that uses CMake, with dependencies on fmt and OpenSSL. We can let Conan MCP create the entire project scaffolding and 
 install the dependencies.
 {% highlight bash %}
