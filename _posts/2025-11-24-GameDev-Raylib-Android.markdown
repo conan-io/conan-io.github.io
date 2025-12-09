@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: false
-title: "Taking Your Raylib Game to Android: Building with Android Studio, C, C++ and Conan"
+title: "Taking Your Raylib C/C++ Game to Android with Conan and Android Studio"
 description: "Learn how to port your Raylib C++ game to Android using Android Studio, the NDK, and Conan for dependency management."
 meta_title: "Raylib Android Development - Conan Blog"
 categories: [cpp, gamedev, android, conan, raylib]
