@@ -331,19 +331,10 @@ It's important to match the listed settings with the configuration you selected 
 * `compiler.cppstd`: Match the C++ standard you selected (17 in our case)
 * `tools.android:ndk_path`: Point to your Android NDK installation (usually in `<sdk_path>/ndk/`)
 
-Alternatively, you can use the Conan NDK package from Conan Center to manage the NDK installation. In that case, your profile would look like this:
+Alternatively, you can use the Conan NDK package from Conan Center to manage the NDK installation instead of manually setting the path.
+In that case, your profile would look like this:
 
 ```ini
-[settings]
-arch=armv8
-build_type=Release
-os=Android
-os.api_level=27
-compiler=clang
-compiler.version=18
-compiler.libcxx=c++_static
-compiler.cppstd=17
-
 [tool_requires]
 *: android-ndk/r27
 ```
