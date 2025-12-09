@@ -88,7 +88,7 @@ The `cpp` folder contains a `native-lib.cpp` file. This is where our game code w
 
 ### Update the Raylib Example Code
 
-Now that we have the templace C++ file, we will re-use the previous example, but adapted for Android. The key differences from the desktop version are:
+Now that we have the template C++ file, we will re-use the previous example, but adapted for Android. The key differences from the desktop version are:
 
 * **Touch input** instead of keyboard (using `GetTouchPointCount()`)
 
