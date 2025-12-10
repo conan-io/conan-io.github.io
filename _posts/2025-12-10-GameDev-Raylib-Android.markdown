@@ -16,7 +16,7 @@ the **Android NDK**, and **Conan** for dependency management.
 By the end of this guide, you'll have your Raylib game running on Android devices with touch controls.
 
 <div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-12-10/jump-to-survive.gif"
+  <img src="{{ site.baseurl }}/assets/post_images/2025-12-10/game_running.gif"
        alt="Jump to Survive on Android"/>
 </div>
 <br>
