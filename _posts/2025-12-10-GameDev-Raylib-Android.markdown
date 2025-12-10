@@ -23,6 +23,8 @@ By the end of this guide, you'll have your Raylib game running on Android device
 
 Before we begin, make sure you have [Android Studio](https://developer.android.com/studio) installed on your machine.
 
+Also, the example code for this post is available on [GitHub](https://github.com/conan-io/examples2/tree/main/examples/cross_build/android/raylib/).
+
 ---
 
 ## Creating the Android Project
