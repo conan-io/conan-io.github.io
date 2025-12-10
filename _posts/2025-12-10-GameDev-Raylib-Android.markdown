@@ -16,7 +16,7 @@ the **Android NDK**, and **Conan** for dependency management.
 By the end of this guide, you'll have your Raylib game running on Android devices with touch controls.
 
 <div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-11-24/jump-to-survive.gif"
+  <img src="{{ site.baseurl }}/assets/post_images/2025-12-10/game_running.gif"
        alt="Jump to Survive on Android"/>
 </div>
 <br>
@@ -38,7 +38,7 @@ In order to run our Raylib game on Android, we need to create a new Android proj
 * Select **Native C++** from the templates
 
 <div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-11-24/new_project.png"
+  <img src="{{ site.baseurl }}/assets/post_images/2025-12-10/new_project.png"
     alt="New Native C++ Project in Android Studio"/>
 </div>
 <br>
@@ -50,7 +50,7 @@ In order to run our Raylib game on Android, we need to create a new Android proj
 * Choose **Groovy DSL** for the build configuration language
 
 <div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-11-24/project_name.png"
+  <img src="{{ site.baseurl }}/assets/post_images/2025-12-10/project_name.png"
     alt="New Native C++ Project in Android Studio"/>
 </div>
 <br>
@@ -58,7 +58,7 @@ In order to run our Raylib game on Android, we need to create a new Android proj
 * Next, select **C++17** as the C++ Standard (we'll match this in our Conan profile)
 
 <div style="text-align: center;">
-  <img src="{{ site.baseurl }}/assets/post_images/2025-11-24/project_cppstd.png"
+  <img src="{{ site.baseurl }}/assets/post_images/2025-12-10/project_cppstd.png"
     alt="New Native C++ Project in Android Studio"/>
 </div>
 <br>
