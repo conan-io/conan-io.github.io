@@ -342,7 +342,7 @@ In that case, your profile would look like this:
 ### Automate Conan Installation
 
 Instead of manually running `conan install` every time we build the project, we can automate this process by adding a custom Gradle task.
-As a result, every time we build the project using the IDE, Conan will install the dependencies for all architectures.
+As a result, every time we build the project using the IDE, Conan will ensure that the dependencies are installed for all architectures.
 
 Open the `build.gradle` file in your app module and add the `conanInstall` task after the `plugins` block:
 
