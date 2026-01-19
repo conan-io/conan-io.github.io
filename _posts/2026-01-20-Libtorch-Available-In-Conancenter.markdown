@@ -17,7 +17,7 @@ as easily as any other Conan recipe, without manual downloads or custom integrat
 ---
 
 ## What is libtorch
-Libtorch is the core C++ component behind the popular pytorch library.
+Libtorch is the core C++ component behind the popular PyTorch library.
 It provides multidimensional tensors, automatic differentiation, neural network layers, optimizers,
 and model serialization, all implemented in C++.
 
