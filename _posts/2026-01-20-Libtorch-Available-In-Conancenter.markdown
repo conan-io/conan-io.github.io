@@ -1,13 +1,13 @@
 ---
 layout: post
 comments: false
-title: "The libtorch package is now available in Conan Center Index"
+title: "ML in C++: The libtorch package is now available in Conan Center Index"
 description: "The libtorch package is now available in Conan Center Index"
-meta_title: "Libtorch now available in ConanCenter - Conan Blog"
+meta_title: "ML in C++: Libtorch now available in ConanCenter - Conan Blog"
 categories: [cpp, ml, ai, conan, gpu, tensor, neural-network]
 ---
 
-Over the years, one of the most requested libraries that users wanted to see available
+Over the years, one of the most requested ML libraries that users wanted to see available
 in Conan Center has been **libtorch**, and we’re now happy to announce that we have added experimental support for the recipe.
 
 Having this recipe packaged in Conan Center will allow developers to execute their PyTorch workflows
@@ -57,6 +57,8 @@ Then running Conan to ensure the package is available locally:
 ```bash
 conan install -b=missing
 ```
+
+> Note that for Windows, the following preset names should be replaced by `conan-default`.
 
 ```bash
 cmake --preset conan-release
