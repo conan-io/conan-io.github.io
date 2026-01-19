@@ -4,7 +4,7 @@ comments: false
 title: "The libtorch package is now available in Conan Center Index"
 description: "The libtorch package is now available in Conan Center Index"
 meta_title: "Libtorch now available in ConanCenter - Conan Blog"
-categories: [cpp, gamedev, android, conan, raylib]
+categories: [cpp, ml, ai, conan, gpu, tensor, neural-network]
 ---
 
 Over the years, one of the most requested libraries that users wanted to see available
