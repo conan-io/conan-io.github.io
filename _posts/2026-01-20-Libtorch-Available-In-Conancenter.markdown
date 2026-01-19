@@ -75,7 +75,7 @@ and as the default error is set to quite a small value in the code, the plotted 
 
 <div style="text-align: center;">
   <img src="{{ site.baseurl }}/assets/post_images/2026-01-20/function_comparison.png"
-       alt="Jump to Survive on Android"/>
+       alt="Libtorch regression example output"/>
 </div>
 
 Even though we have seen a simple usage of the library,
