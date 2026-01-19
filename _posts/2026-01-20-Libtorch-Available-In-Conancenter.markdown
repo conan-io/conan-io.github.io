@@ -8,7 +8,7 @@ categories: [cpp, gamedev, android, conan, raylib]
 ---
 
 Over the years, one of the most requested libraries that users wanted to see available
-in Conan Center has been libtorch, and we’re now happy to announce that we have added experimental support for the recipe.
+in Conan Center has been **libtorch**, and we’re now happy to announce that we have added experimental support for the recipe.
 
 Having this recipe packaged in Conan Center will allow developers to execute their PyTorch workflows
 as easily as any other Conan recipe, without manual downloads or custom integration steps.
