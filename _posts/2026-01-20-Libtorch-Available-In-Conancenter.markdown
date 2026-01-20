@@ -34,7 +34,7 @@ such as performance-critical applications, real-time inference pipelines, embedd
 To show how easy the new recipe makes integrating libtorch in your project,
 let’s use the upstream regression example from pytorch.
 You can follow along by cloning the contents of the regression folder in
-https://github.com/pytorch/examples/tree/main/cpp/regression.
+<https://github.com/pytorch/examples/tree/main/cpp/regression>.
 
 Once we have this, with modern Conan integrations, using libtorch is as easy as adding a ``conanfile.txt`` to your project,
 with contents that look something like:
@@ -88,7 +88,7 @@ this same approach will work for your local project using libtorch, so feel free
 ## We’d love to hear your feedback
 
 As always, we would love to hear your feedback with the recipe,
-so do feel free to contact us in https://github.com/conan-io/conan-center-index/issues,
+so do feel free to contact us in <https://github.com/conan-io/conan-center-index/issues>,
 either for general feedback on the usage of the recipe, 
 or if you would like to see the recipe support new features for the library.
 Happy coding!
