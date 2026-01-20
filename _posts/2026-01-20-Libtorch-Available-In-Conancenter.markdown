@@ -72,6 +72,11 @@ cmake --build --preset=conan-release
 ./build/Release/regression
 ```
 
+<div style="text-align: center;">
+  <img src="{{ site.baseurl }}/assets/post_images/2026-01-20/blogpost-run.gif"
+       alt="Regression example output"/>
+</div>
+
 We can now see that the example correctly compiled, and it successfully found our target polynomial,
 and as the default error is set to quite a small value in the code, the plotted polynomials have quite the overlap.
 
