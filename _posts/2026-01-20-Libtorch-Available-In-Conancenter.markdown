@@ -61,7 +61,7 @@ $ conan install -b=missing
 And now, we can build the example using CMake as we would normally do.
 
 
-> Note that for Windows, the following preset names should be replaced by `conan-default`.
+> Note that for Windows, the following configure preset name should be replaced by `conan-default` (using the same ``conan-release`` for the build preset.
 
 ```bash
 $ cmake --preset conan-release
