@@ -36,7 +36,7 @@ let’s use the upstream regression example from pytorch.
 You can follow along by cloning the contents of the regression folder in
 https://github.com/pytorch/examples/tree/main/cpp/regression.
 
-Once we have this, with modern Conan integrations, using libtorch is as easy as adding a conanfile to your project,
+Once we have this, with modern Conan integrations, using libtorch is as easy as adding a ``conanfile.txt`` to your project,
 with contents that look something like:
 
 
@@ -55,21 +55,18 @@ CMakeToolchain
 Then running Conan to ensure the package is available locally:
 
 ```bash
-conan install -b=missing
+$ conan install -b=missing
 ```
+
+And now, we can build the example using CMake as we would normally do.
+
 
 > Note that for Windows, the following preset names should be replaced by `conan-default`.
 
 ```bash
-cmake --preset conan-release
-```
-
-```bash
-cmake --build --preset=conan-release
-```
-
-```bash
-./build/Release/regression
+$ cmake --preset conan-release
+$ cmake --build --preset=conan-release
+$ ./build/Release/regression
 ```
 
 <div style="text-align: center;">
@@ -86,7 +83,7 @@ and as the default error is set to quite a small value in the code, the plotted 
 </div>
 
 Even though we have seen a simple usage of the library,
-this same approach will work for your local project using libtorch, so feel free to explore using libtorch in your projects!
+this same approach will work for your local project using libtorch, so feel free to explore using it in your projects!
 
 ## We’d love to hear your feedback
 
