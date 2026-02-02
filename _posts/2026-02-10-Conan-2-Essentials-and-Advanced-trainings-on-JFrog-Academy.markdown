@@ -15,7 +15,9 @@ progress step by step:
 - ➡️ [**Conan 2 Essentials**](https://academy.jfrog.com/path/conan-cc-package-manager)
 - ➡️ [**Conan 2 Advanced**](https://academy.jfrog.com/path/conan-2-advanced)
 
-The training is made up of **29 video lessons** in total, split across **7 modules**: **Essentials** has 16 lessons in 3 modules, and **Advanced** has 13 lessons in 4 modules. Both paths are modular, **self-paced**, and **free**.
+The training is made up of **29 video lessons** in total, split across **7
+modules**: **Essentials** has 16 lessons in 3 modules, and **Advanced** has 13
+lessons in 4 modules. Both paths are **self-paced**, and **free**.
 
 <p style="text-align: center;">
   <a href="https://academy.jfrog.com/path/conan-cc-package-manager">
