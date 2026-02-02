@@ -49,8 +49,8 @@ users who already know Conan 2 basics.
 
 Both paths are **free**, **self-paced**, and available on JFrog Academy.
 
-➡️ [**Register for the Conan 2 Essentials**](https://academy.jfrog.com/path/conan-cc-package-manager)  
-➡️ [**Register for the Conan 2 Advanced**](https://academy.jfrog.com/path/conan-2-advanced)
+➡️ [**Register for Conan 2 Essentials**](https://academy.jfrog.com/path/conan-cc-package-manager)  
+➡️ [**Register for Conan 2 Advanced**](https://academy.jfrog.com/path/conan-2-advanced)
 
 The examples in the training use the [Conan Training 2 GitHub
 repository](https://github.com/conan-io/conan-training2). If you have questions
