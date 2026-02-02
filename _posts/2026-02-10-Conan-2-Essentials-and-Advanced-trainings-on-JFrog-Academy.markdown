@@ -19,7 +19,7 @@ The training is made up of **29 video lessons** in total, split across **7 modul
 
 <p style="text-align: center;">
   <a href="https://academy.jfrog.com/path/conan-cc-package-manager">
-    <img src="{{ site.baseurl }}/assets/post_images/2025-07-14/course-icon.png" width="80%" alt="Conan 2 Essentials and Advanced courses on JFrog Academy"/>
+    <img src="{{ site.baseurl }}/assets/post_images/2026-02-10/conan-training-full.png" width="80%" alt="Conan 2 Essentials and Advanced courses on JFrog Academy"/>
   </a>
 </p>
 
