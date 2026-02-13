@@ -11,7 +11,7 @@ The Conan C and C++ package manager has many powerful customization and extensib
 
 Conan has provided for some time the ``conan config install`` command, that could use a git repository or a zip file in an http server to install all of the above configuration files. This has proven a **simple and convenient way to distribute and share the Conan configuration**, so all the CI machines and developer machines could use the same configuration. But this approach still had some challenges, things like being able to reproduce the same configuration that was used to build something in the past was complicated.
 
-With the recent introduction of ``conan config install-pkg``, configuration management has effectively turned into a first-class citizen. You can now package all your custom configuration, remotes,  profiles, hooks, custom settings, etc. as standard Conan packages and manage them with the same rigor you apply to your C++ libraries, enjoying all the versioning capabilities like version ranges and lockfiles to get a new level of  extensibility, reproducibility and traceability.
+With the recent introduction of ``conan config install-pkg``, configuration management has effectively turned into a first-class citizen. You can now **package all your custom configuration, remotes,  profiles, hooks, custom settings, etc. as standard Conan packages and manage them with the same rigor you apply to your C++ libraries**, enjoying all the versioning capabilities like version ranges and lockfiles to get a new level of extensibility, reproducibility, and traceability.
 
 Using the new Conan configuration packages and the ``conan config install-pkg`` has several advantages:
 
