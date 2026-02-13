@@ -158,9 +158,9 @@ And we install the following configuration package:
 $ conan config install-pkg my_conf/1.2.0
 ```
 
-Then, all packages binaries ``package_id`` will contain and depend on ``my_conf/1.2.Z``. That means that creating, uploading and ``conan config install-pkg my_conf/1.2.1`` will not require to build new binaries. But if we created and configured ``my_conf/1.3.0`` instead, that will automatically require building new binaries for all packages.
+Consequently, all package binaries will include ``my_conf/1.2.Z`` in their ``package_id`` calculation. This ensures that minor updates, such as installing ``my_conf/1.2.1``, will not trigger new builds. However, moving to a version like ``my_conf/1.3.0`` will require rebuilding all packages.
 
-This is a feature to be used cautiously, as in general, the Conan binary model with settings, options and dependencies is good and efficient to avoid unnecessary re-builds. But if there are aspects in the environment that haven’t been possible to model in the settings and options model, using this ``core.package_id:config_mode`` could be a valid approach that provides safer guarantees and better traceability of the configuration that was used to build each individual package binary.
+However, **this feature should be used with caution**.  The Conan's binary model of settings, options and dependencies has proved to be the most efficient way to avoid unnecessary rebuilds. However, if the model is still not sufficient, as a last resort, using 'core.package_id:config_mode` could be a valid approach to provide safer guarantees and better traceability for the specific configuration used to build each package binary.
 
 
 ## Easier to manage multiple configurations
