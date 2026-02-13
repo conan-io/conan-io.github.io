@@ -160,7 +160,7 @@ $ conan config install-pkg my_conf/1.2.0
 
 Consequently, all package binaries will include ``my_conf/1.2.Z`` in their ``package_id`` calculation. This ensures that minor updates, such as installing ``my_conf/1.2.1``, will not trigger new builds. However, moving to a version like ``my_conf/1.3.0`` will require rebuilding all packages.
 
-However, **this feature should be used with caution**.  The Conan's binary model of settings, options and dependencies has proved to be the most efficient way to avoid unnecessary rebuilds. However, if the model is still not sufficient, as a last resort, using 'core.package_id:config_mode` could be a valid approach to provide safer guarantees and better traceability for the specific configuration used to build each package binary.
+However, **this feature should be used with caution**.  The Conan's binary model of settings, options and dependencies has proved to be the most efficient way to avoid unnecessary rebuilds. However, if the model is still not sufficient, as a last resort, using ``core.package_id:config_mode`` could be a valid approach to provide safer guarantees and better traceability for the specific configuration used to build each package binary.
 
 
 ## Easier to manage multiple configurations
