@@ -145,7 +145,7 @@ Lockfiles work well with ``conanconfig.yml`` files too. The files can contain a 
 
 ## Effect on package_id
 
-By using the core.package_id:config_mode setting, you can actually make your configuration packages part of the package_id calculation for every package that is built or used with that configuration. For example if in ``global.conf``  we define:
+The ``core.package_id:config_mode`` configuration entry allows you to include configuration packages in the package ID calculation for every package built or consumed under that configuration. For example, you can define this in global.conf as follows:
 
 ```ini
 # in your global.conf
