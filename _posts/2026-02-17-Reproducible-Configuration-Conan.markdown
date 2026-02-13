@@ -101,7 +101,7 @@ And then, when ``conan config install-pkg myconf/1.2`` is done, it will automati
 
 ## Same infrastructure and processes
 
-Another advantage of Conan configuration packages is that it is possible to use the same server side repositories that store regular Conan packages to store them. Then, it is not necessary to establish or configure new repositories, credentials, to access the configuration, as it will be the same one of the regular packages.
+Another advantage of Conan configuration packages is that it is possible to use the same server-side repositories that store regular Conan packages to store them. Then, it is not necessary to establish or configure new repositories or credentials to access the configuration, as it will be the same one of the regular packages.
 
 Likewise, it is possible to use the same development and release conventions than other packages, like running promotions between different server repositories to control maturity of the configuration itself, similar to the promotions used in the CI tutorial in https://docs.conan.io/2/ci_tutorial/tutorial.html
 
