@@ -27,9 +27,20 @@ description: "This article will explain the different flavors of Clang C and C++
  }
 </script>
 
-This article will explain the different flavors of Clang C and C++ compiler you might encounter in Windows, and give you some suggestions about which ones might be right for you, together with detailed instructions on how to use them with CMake and Conan.
+## Warning: Legacy Conan 1.X
+
+This article is outdated, it was written for Conan 1.X and is using Conan 1.X syntax.
+It still has relevant content regarding the different Clang flavors in Windows, but for example the command line examples will not work.
+
+For latest documentation about LLVM/Clang for Windows see:
+
+- [Conan documentation for CMake-LLVM/Clang integration](https://docs.conan.io/2/examples/tools/cmake/cmake_toolchain/llvm_clang.html)
+- [Conan documentation for Autotools-LLVM/Clang integration](https://docs.conan.io/2/examples/tools/autotools/llvm_clang.html)
+
 
 ## Introduction
+
+This article will explain the different flavors of Clang C and C++ compiler you might encounter in Windows, and give you some suggestions about which ones might be right for you, together with detailed instructions on how to use them with CMake and Conan.
 
 The Microsoft C and C++ compiler (msvc or cl.exe) has been predominant for the last decades on Windows, and while the MinGW tools have been providing a working GNU ecosystem (with gcc/g++ compilers) for Windows for many years, it never gained widespread traction.
 
