@@ -42,7 +42,7 @@ However, there are a few different variants of the Clang compiler in Windows, an
 There are several different ways to install the Clang compiler on Windows, let’s enumerate and name them:
 
 - **LLVM/Clang**: The Clang compiler provided by the LLVM project, with official releases in [LLVM Github](https://github.com/llvm/llvm-project/releases)
-- **Visual Studio CangCL**: the ClangCL toolset from the Visual Studio 16 2019 (v142) or Visual Studio 17 2022 (v143) [installers](https://learn.microsoft.com/en-us/cpp/build/clang-support-msbuild?view=msvc-170)
+- **Visual Studio ClangCL**: the ClangCL toolset from the Visual Studio 16 2019 (v142) or Visual Studio 17 2022 (v143) [installers](https://learn.microsoft.com/en-us/cpp/build/clang-support-msbuild?view=msvc-170)
 - **Msys2 Clang**: Clang compiler provided by the [Msys2 Windows subsystem](https://www.msys2.org/), that is the [clang64 environment](https://www.msys2.org/docs/environments/) 
 - **Msys2 MinGW Clang**: Clang compiler provided by the [Msys2 MinGW64 environment](https://www.msys2.org/docs/environments/). Note this is different from the above **Msys2 Clang** compiler
 - **Cygwin Clang**: Clang installed with the graphical user interface of [Cygwin](https://www.cygwin.com/)
