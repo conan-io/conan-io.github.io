@@ -41,10 +41,13 @@ standard Python packaging commands such as `pip wheel .`, `pip install .`, or
 
 When a build runs, `conan-py-build`:
 
-1. Resolves the native dependency graph through Conan, downloading precompiled binaries where available and building the rest from source
-2. Prepares the CMake toolchain via the standard `CMakeToolchain` and `CMakeDeps` generators
+1. Resolves the native dependency graph through Conan, downloading precompiled
+   binaries where available and building the rest from source
+2. Prepares the CMake toolchain via the standard `CMakeToolchain` and
+   `CMakeDeps` generators
 3. Builds the native extension with CMake
-4. Copies runtime shared libraries from Conan dependencies next to the extension module and patches RPATH on Linux and macOS where applicable
+4. Copies runtime shared libraries from Conan dependencies next to the extension
+   module and patches RPATH on Linux and macOS where applicable
 5. Packages the result into a standard Python wheel
 
 Because it is a PEP 517 backend, it plugs into `pip`, `build`, and `uv` directly, and fits into `cibuildwheel`-based CI workflows for multi-platform builds.
@@ -55,7 +58,7 @@ The CMake-driving part of a wheel build is largely a mechanical step. Where `con
 
 **Native dependencies resolved inside the PEP 517 build.** The common workflow today is to run a separate native-dependency step (for example `conan install`, or `vcpkg install`, or a custom CMake `FetchContent` chain) before invoking the Python build frontend. `conan-py-build` collapses that into a single entry point: `pip wheel .` resolves the C/C++ graph, configures the toolchain, builds the extension, and produces the wheel. One command, one configuration source.
 
-**A recipe ecosystem for C/C++ libraries.** Conan Center Index ships hundreds of recipes for widely-used libraries — OpenSSL, Boost, ICU, Qt, FFmpeg, HDF5, GDAL, and many more — with canonical patches, options, and cross-platform support. Your `conanfile.py` consumes those with `self.requires("openssl/3.x.y")` instead of reimplementing each library's build in FetchContent wrappers or vendoring its source tree into your repo.
+**A recipe ecosystem for C/C++ libraries.** Conan Center Index ships hundreds of recipes for widely-used libraries — OpenSSL, Boost, ICU, Qt, FFmpeg, HDF5, GDAL, and many more — with canonical patches, options, and cross-platform support. Your `conanfile.py` consumes those with `self.requires("openssl/3.x.y")` instead of reimplementing each library's build in FetchContent wrappers or vendoring its source tree into your repo. Those recipes are continuously tested across a wide matrix of compilers, operating systems, and architectures, so their builds are validated in configurations close to what your wheel matrix targets.
 
 **Binary caching that survives across projects and CI runs.** Conan caches compiled dependencies keyed by settings, options, and compiler. The same `openssl/3.x.y` binary is reused across wheel builds, Python versions, and CI matrices — rebuilt only when those settings actually change. For non-trivial graphs, this is the difference between seconds and hours on each build, and it works the same way whether you use Conan Center, a self-hosted Artifactory, or any other Conan remote.
 
