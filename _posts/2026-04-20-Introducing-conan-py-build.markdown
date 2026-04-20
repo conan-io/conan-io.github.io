@@ -24,11 +24,8 @@ step to manage before the Python build, often duplicated across CI
 configurations and developer setups.
 
 Today, we are happy to introduce **conan-py-build**, a PEP 517 build backend
-that integrates Conan's C/C++ dependency management directly into the wheel
-build. The CMake-driving side is deliberately standard. What `conan-py-build`
-focuses on is what happens *around* CMake: resolving the native dependency
-graph, configuring the toolchain, reusing cached binaries, and bundling runtime
-libraries into the final wheel.
+that brings Conan's C/C++ dependency management directly into the Python wheel
+build.
 
 The project is still in active development, and we are releasing it now to
 gather early feedback. We would love for you to try it and tell us what you
@@ -36,7 +33,11 @@ think.
 
 ## What is conan-py-build?
 
-`conan-py-build` is a build backend for Python packages that contain native C/C++ extensions. You declare it in `pyproject.toml`, provide a `conanfile.py` that describes the native build and its dependencies, and build wheels through standard Python packaging commands such as `pip wheel .`, `pip install .`, or `python -m build`.
+`conan-py-build` is a build backend for Python packages that contain native
+C/C++ extensions. You declare it in `pyproject.toml`, provide a `conanfile.py`
+that describes the native build and its dependencies, and build wheels through
+standard Python packaging commands such as `pip wheel .`, `pip install .`, or
+`python -m build`.
 
 When a build runs, `conan-py-build`:
 
