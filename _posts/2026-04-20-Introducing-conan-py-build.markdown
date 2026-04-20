@@ -58,6 +58,8 @@ The CMake-driving part of a wheel build is largely a mechanical step. Where `con
 
 **Native dependencies resolved inside the PEP 517 build.** The common workflow today is to run a separate native-dependency step (for example `conan install`, or `vcpkg install`, or a custom CMake `FetchContent` chain) before invoking the Python build frontend. `conan-py-build` collapses that into a single entry point: `pip wheel .` resolves the C/C++ graph, configures the toolchain, builds the extension, and produces the wheel. One command, one configuration source.
 
+**Not tied to a single build system.** `conan-py-build` drives your `conanfile.py` the same way Conan always does — whether your project uses CMake, Meson, Autotools, MSBuild, or a custom build. The backend does not assume CMake. Use whatever build system your project already has, and let Conan handle the integration through the corresponding toolchain and dependency generators.
+
 **A recipe ecosystem for C/C++ libraries.** Conan Center Index ships hundreds of recipes for widely-used libraries — OpenSSL, Boost, ICU, Qt, FFmpeg, HDF5, GDAL, and many more — with canonical patches, options, and cross-platform support. Your `conanfile.py` consumes those with `self.requires("openssl/3.x.y")` instead of reimplementing each library's build in FetchContent wrappers or vendoring its source tree into your repo. Those recipes are continuously tested across a wide matrix of compilers, operating systems, and architectures, so their builds are validated in configurations close to what your wheel matrix targets.
 
 **Binary caching that survives across projects and CI runs.** Conan caches compiled dependencies keyed by settings, options, and compiler. The same `openssl/3.x.y` binary is reused across wheel builds, Python versions, and CI matrices — rebuilt only when those settings actually change. For non-trivial graphs, this is the difference between seconds and hours on each build, and it works the same way whether you use Conan Center, a self-hosted Artifactory, or any other Conan remote.
@@ -135,6 +137,7 @@ The [examples/](https://github.com/conan-io/conan-py-build/tree/main/examples) d
 
 - **[basic](https://github.com/conan-io/conan-py-build/tree/main/examples/basic)** — Minimal C extension using the `fmt` library
 - **[basic-pybind11](https://github.com/conan-io/conan-py-build/tree/main/examples/basic-pybind11)** — pybind11 bindings with dynamic versioning and PEP 639 license files
+- **[basic-meson-pybind11](https://github.com/conan-io/conan-py-build/tree/main/examples/basic-meson-pybind11)** — the same pybind11 example, but using Meson instead of CMake as the build system
 - **[basic-nanobind](https://github.com/conan-io/conan-py-build/tree/main/examples/basic-nanobind)** — nanobind bindings with a custom Conan profile for C++17
 - **[external-sources](https://github.com/conan-io/conan-py-build/tree/main/examples/external-sources)** — C++ sources fetched by the `source()` method, not bundled
 - **[cibw-example](https://github.com/conan-io/conan-py-build/tree/main/examples/cibw-example)** — Full multi-platform CI with cibuildwheel on Linux, macOS, and Windows
