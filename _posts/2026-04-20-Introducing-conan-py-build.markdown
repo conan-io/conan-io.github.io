@@ -35,7 +35,7 @@ think.
 
 `conan-py-build` is a build backend for Python packages that contain native
 C/C++ extensions. You declare it in `pyproject.toml`, provide a `conanfile.py`
-that describes the native build and its dependencies, and build wheels through
+that describes the C/C++ build and its dependencies, and build wheels through
 standard Python packaging commands such as `pip wheel .`, `pip install .`, or
 `python -m build`.
 
