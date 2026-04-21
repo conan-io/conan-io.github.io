@@ -195,9 +195,9 @@ Some of the advantages of bringing Conan into the wheel build:
   broad compiler and OS matrix.
 - **Binary caching.** Compiled dependencies are reused across builds, Python
   versions, and CI runs, rebuilt only when settings change.
-- **Profiles and lockfiles.** The same Conan profiles your team uses for C/C++
-  work apply to the wheel build, and lockfiles pin revisions of every transitive
-  dependency so developer and CI builds resolve the same graph.
+- **Profiles and lockfiles.** Profiles pick the wheel's build flavor (compiler,
+  C++ standard, dependency options), and lockfiles pin the graph for
+  reproducible builds.
 - **Shared library handling.** Runtime dependencies from Conan are deployed next
   to the extension module and RPATH patched on Linux and macOS.s
 
