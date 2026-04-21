@@ -153,7 +153,8 @@ from mypackage._core import greet
 __all__ = ["greet"]
 ```
 
-With that in place, building the wheel is one command:
+With that in place, building the wheel is the standard Python packaging
+command:
 
 ```bash
 $ pip install conan-py-build
@@ -162,7 +163,8 @@ $ pip wheel . -w dist/
 
 Conan resolves `pybind11` and `fmt` from Conan Center Index, CMake compiles the
 extension against them, and you get a platform-specific wheel in `dist/` ready
-for distribution.
+for distribution. No separate dependency install, no extra scripting to glue
+the C/C++ and Python sides together.
 
 ## What conan-py-build is really for
 
