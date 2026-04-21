@@ -128,7 +128,7 @@ project(mypackage LANGUAGES CXX)
 
 set(PYBIND11_FINDPYTHON ON)
 find_package(pybind11 CONFIG REQUIRED)
-find_package(fmt REQUIRED)
+find_package(fmt CONFIG REQUIRED)
 
 pybind11_add_module(_core src/mypackage.cpp)
 target_link_libraries(_core PRIVATE fmt::fmt)
@@ -140,6 +140,7 @@ The C++ source defines `greet(name)` using fmt's color support and exposes it
 as a compiled `_core` module:
 
 ```cpp
+#include <string>
 #include <pybind11/pybind11.h>
 #include <fmt/color.h>
 
@@ -164,7 +165,6 @@ With that in place, building the wheel is the standard Python packaging
 command:
 
 ```bash
-$ pip install conan-py-build
 $ pip wheel . -w dist/
 ```
 
@@ -193,15 +193,17 @@ Some of the advantages of bringing Conan into the wheel build:
 
 - **One build entry point.** The usual `pip wheel .` command can drive both the
   Python packaging step and the native C/C++ dependency/build step.
-- **Conan Center Index.** Almost two thousand recipes for widely used C and C++
-  libraries, tested across a broad compiler and OS matrix.
-- **Binary caching.** Compiled dependencies are reused across builds, Python
-  versions, and CI runs, rebuilt only when settings change.
-- **Profiles and lockfiles.** Profiles pick the wheel's build flavor (compiler,
-  C++ standard, dependency options), and lockfiles pin the graph for
-  reproducible builds.
-- **Shared library handling.** Runtime dependencies from Conan are deployed next
-  to the extension module and RPATH patched on Linux and macOS.
+- **Conan Center.** A large catalog of C/C++ libraries with recipes tested
+  across a broad compiler and OS matrix.
+- **Binary caching.** Compiled dependencies are reused across builds and CI
+  runs via the Conan cache or a shared remote, rebuilt only when settings
+  change.
+- **Profiles and lockfiles.** Profiles define the native build configuration of
+  each wheel (compiler, architecture, C++ standard, dependency options), and
+  lockfiles pin the graph for reproducible builds.
+- **Shared library handling.** Conan-managed runtime libraries are deployed
+  next to the extension module, and RPATH is adjusted on Linux and macOS where
+  applicable.
 
 ## Conclusions
 
