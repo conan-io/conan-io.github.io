@@ -174,7 +174,7 @@ $ python -c "import mypackage; mypackage.greet('world')"
 Hello, world!
 ```
 
-You should see `Hello, world!` printed in green.
+You should see <code style="color: #008000;">Hello, world!</code> printed in green.
 
 <div style="border-left: 3px solid #e0e0e0; padding: 0.4em 1em; color: #555; font-size: 0.95em; margin: 1.5em 0;">
 <strong>More examples:</strong> the <a href="https://github.com/conan-io/conan-py-build/tree/main/examples">repo</a> has nanobind bindings, shared library dependencies, C++ sources fetched at build time, and a full multi-platform <a href="https://github.com/conan-io/conan-py-build/tree/main/examples/cibw-example">cibuildwheel</a> setup for Linux, macOS, and Windows.
@@ -213,4 +213,4 @@ there is a workflow you want supported, please open an issue on
 [GitHub](https://github.com/conan-io/conan-py-build/issues) and let us know
 where it fits, or where it does not yet.
 
-Happy coding!
+Looking forward to your feedback.
