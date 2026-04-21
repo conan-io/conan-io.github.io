@@ -22,9 +22,10 @@ packages, vendored source trees, `FetchContent` or a separate native package
 manager install step. That means a separate step to manage before the Python
 build, often duplicated across CI configurations and developer setups.
 
-Today, we are happy to introduce **conan-py-build**, a PEP 517 build backend
-that brings Conan's C/C++ dependency management directly into the Python wheel
-build.
+Today, we are happy to introduce
+**[conan-py-build](https://github.com/conan-io/conan-py-build)**, a PEP 517
+build backend that brings Conan's C/C++ dependency management directly into the
+Python wheel build.
 
 The project is currently in beta and under active development. We are releasing
 it now to gather early feedback, and we would love for you to try it and tell
@@ -52,18 +53,13 @@ Because it is a PEP 517 backend, it plugs into `pip`, `build`, and `uv`
 directly, and fits into `cibuildwheel`-based CI workflows for multi-platform
 builds.
 
-## Getting Started
-
-> The example below uses CMake. `conan-py-build` delegates the native build to
-> your `conanfile.py`, so other build systems can be integrated through the same
-> Conan-based flow. See the [Meson
-> example](https://github.com/conan-io/conan-py-build/tree/main/examples/basic-meson-pybind11)
-> in the repo.
+## A minimal example
 
 Let's build a tiny Python package that exposes a single function, `greet(name)`,
-which prints a colored greeting to the terminal. The formatting and the ANSI
-color output come from [{fmt}](https://fmt.dev), a C++ library we pull in
-through Conan, and the Python bindings are built with pybind11.
+which prints a colored greeting to the terminal. We'll use CMake for the native
+build, [pybind11](https://github.com/pybind/pybind11) for the Python bindings,
+and [{fmt}](https://fmt.dev) as a dependency pulled in through Conan. The same
+setup extends to other build systems like Meson or Autotools.
 
 The project layout:
 
@@ -180,12 +176,9 @@ Hello, world!
 
 You should see `Hello, world!` printed in green.
 
-> More examples in the
-> [repo](https://github.com/conan-io/conan-py-build/tree/main/examples): Meson
-> as the build system, nanobind bindings, shared library dependencies, C++
-> sources fetched via `source()`, and a full multi-platform
-> [cibuildwheel](https://github.com/conan-io/conan-py-build/tree/main/examples/cibw-example)
-> setup for Linux, macOS, and Windows.
+<div style="border-left: 3px solid #e0e0e0; padding: 0.4em 1em; color: #555; font-size: 0.95em; margin: 1.5em 0;">
+<strong>More examples:</strong> the <a href="https://github.com/conan-io/conan-py-build/tree/main/examples">repo</a> has nanobind bindings, shared library dependencies, C++ sources fetched at build time, and a full multi-platform <a href="https://github.com/conan-io/conan-py-build/tree/main/examples/cibw-example">cibuildwheel</a> setup for Linux, macOS, and Windows.
+</div>
 
 ## What conan-py-build brings
 
