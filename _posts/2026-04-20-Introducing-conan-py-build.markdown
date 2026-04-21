@@ -53,74 +53,25 @@ Because it is a PEP 517 backend, it plugs into `pip`, `build`, and `uv`
 directly, and fits into `cibuildwheel`-based CI workflows for multi-platform
 builds.
 
-## What conan-py-build is really for
-
-Driving the underlying build system is largely a mechanical step. Where
-`conan-py-build` focuses its design attention is on the layer around it: the
-parts that typically leak out of the wheel build and into shell scripts, CI
-configuration, or manual steps. These are the responsibilities it takes into the
-backend:
-
-**Native dependencies resolved inside the PEP 517 build.** The common workflow
-today is to run a separate native-dependency step (for example `conan install`,
-or `vcpkg install`, or a custom CMake `FetchContent` chain) before invoking the
-Python build frontend. `conan-py-build` collapses that into a single entry
-point: `pip wheel .` resolves the C/C++ graph, configures the toolchain, builds
-the extension, and produces the wheel. One command, one configuration source.
-
-**Not tied to a single build system.** `conan-py-build` drives your
-`conanfile.py` the same way Conan always does, whether your project uses CMake,
-Meson, Autotools, MSBuild, or a custom build. The backend does not assume CMake.
-Use whatever build system your project already has, and let Conan handle the
-integration through the corresponding toolchain and dependency generators.
-
-**A recipe ecosystem for C/C++ libraries.** Conan Center Index ships hundreds of
-recipes for widely-used libraries (OpenSSL, Boost, ICU, Qt, FFmpeg, HDF5, GDAL,
-and many more) with canonical patches, options, and cross-platform support. Your
-`conanfile.py` consumes those with `self.requires("openssl/3.x.y")` instead of
-reimplementing each library's build in FetchContent wrappers or vendoring its
-source tree into your repo. Those recipes are continuously tested across a wide
-matrix of compilers, operating systems, and architectures, so their builds are
-validated in configurations close to what your wheel matrix targets.
-
-**Binary caching that survives across projects and CI runs.** Conan caches
-compiled dependencies keyed by settings, options, and compiler. The same
-`openssl/3.x.y` binary is reused across wheel builds, Python versions, and CI
-matrices, rebuilt only when those settings actually change. For non-trivial
-graphs, this is the difference between seconds and hours on each build, and it
-works the same way whether you use Conan Center, a self-hosted Artifactory, or
-any other Conan remote.
-
-**Conan profiles as build configuration.** Host and build profiles describe
-compiler, runtime, architecture, OS version, and the resolved settings of every
-transitive dependency in the graph. The same profiles your team uses for regular
-C/C++ work apply to the wheel build. That means the ABI of your dependencies
-stays consistent between a standalone Conan build of your library and a Python
-wheel build of the same code, with no drift between what your C/C++ CI produces
-and what your Python CI produces.
-
-**Reproducibility of the native graph.** Conan lockfiles pin exact versions,
-options, and revisions of every transitive C/C++ dependency. A wheel built from
-a locked graph on a developer laptop and on CI uses the same native libraries,
-not just the same Python source.
-
-**Runtime shared library handling inside the backend.** Shared libraries from
-Conan dependencies are deployed next to the extension module during the build
-and RPATH-patched on Linux and macOS, so the wheel carries what it needs to load
-at runtime. This is not a replacement for `auditwheel`/`delocate`/`delvewheel`
-when you need full manylinux compliance and system-library auditing, but it
-removes the most common "imports locally, crashes on another machine" failure
-mode without needing an extra repair step.
-
-If any of this was already part of your workflow through external scripts and
-glue, `conan-py-build` pulls that responsibility into the backend itself. If
-none of it was, you get it by default.
-
 ## Getting Started
 
-Getting started requires just three files alongside your existing C++ code.
+> The example below uses CMake for illustration. `conan-py-build` is agnostic of
+> the build system, so Meson, Autotools, and others work the same way.
 
-**pyproject.toml**
+A minimal project has this structure:
+
+```
+mypackage/
+├── pyproject.toml
+├── conanfile.py
+├── CMakeLists.txt
+└── src/
+    ├── mypackage/
+    │   └── __init__.py
+    └── mypackage.cpp
+```
+
+`pyproject.toml` declares the build backend and the basic project metadata:
 
 ```toml
 [build-system]
@@ -132,7 +83,8 @@ name = "mypackage"
 version = "0.1.0"
 ```
 
-**conanfile.py**
+`conanfile.py` describes the C/C++ side of the build: its dependencies
+(`pybind11` and `fmt` in this case) and how they are compiled and packaged.
 
 ```python
 from conan import ConanFile
@@ -146,7 +98,8 @@ class MyPackageConan(ConanFile):
         cmake_layout(self)
 
     def requirements(self):
-        self.requires("pybind11/2.13.6")
+        self.requires("pybind11/3.0.1")
+        self.requires("fmt/12.1.0")
 
     def build(self):
         cmake = CMake(self)
@@ -158,50 +111,116 @@ class MyPackageConan(ConanFile):
         cmake.install()
 ```
 
-**CMakeLists.txt (excerpt)**
-
-The extension module must be installed into the Python package directory so that `conan-py-build` can include it in the wheel:
+From here, `CMakeLists.txt` is standard pybind11: it finds Python and the
+Conan-provided packages, builds the extension module, and installs it into the
+Python package directory so the backend picks it up when assembling the wheel.
 
 ```cmake
+cmake_minimum_required(VERSION 3.15)
+project(mypackage LANGUAGES CXX)
+
+find_package(Python3 REQUIRED COMPONENTS Interpreter Development.Module)
+set(PYBIND11_FINDPYTHON ON)
+find_package(pybind11 CONFIG REQUIRED)
+find_package(fmt REQUIRED)
+
+pybind11_add_module(_core src/mypackage.cpp)
+target_link_libraries(_core PRIVATE pybind11::module fmt::fmt)
+
 install(TARGETS _core DESTINATION mypackage)
 ```
 
-**Building the wheel**
+The C++ source binds a single function that formats a greeting with `fmt`:
+
+```cpp
+#include <pybind11/pybind11.h>
+#include <fmt/core.h>
+
+std::string greet(const std::string& name) {
+    return fmt::format("Hello, {}!", name);
+}
+
+PYBIND11_MODULE(_core, m) {
+    m.def("greet", &greet, "Return a greeting formatted with fmt.");
+}
+```
+
+And the Python package re-exports it from the compiled `_core` module:
+
+```python
+from mypackage._core import greet
+
+__all__ = ["greet"]
+```
+
+With that in place, building the wheel is one command:
 
 ```bash
 $ pip install conan-py-build
 $ pip wheel . -w dist/
 ```
 
-Conan resolves `pybind11` from Conan Center Index, CMake compiles your extension, and you get a platform-specific wheel in `dist/` ready for distribution.
+Conan resolves `pybind11` and `fmt` from Conan Center Index, CMake compiles the
+extension against them, and you get a platform-specific wheel in `dist/` ready
+for distribution.
 
-## Real-World Examples
+## What conan-py-build is really for
 
-The [examples/](https://github.com/conan-io/conan-py-build/tree/main/examples) directory contains complete, working projects for the most common scenarios:
+Driving the build system is the mechanical part. The goal of `conan-py-build` is
+to pull the surrounding responsibilities into the backend so they do not leak
+into shell scripts and CI configuration:
 
-- **[basic](https://github.com/conan-io/conan-py-build/tree/main/examples/basic)** — Minimal C extension using the `fmt` library
-- **[basic-pybind11](https://github.com/conan-io/conan-py-build/tree/main/examples/basic-pybind11)** — pybind11 bindings with dynamic versioning and PEP 639 license files
-- **[basic-meson-pybind11](https://github.com/conan-io/conan-py-build/tree/main/examples/basic-meson-pybind11)** — the same pybind11 example, but using Meson instead of CMake as the build system
-- **[basic-nanobind](https://github.com/conan-io/conan-py-build/tree/main/examples/basic-nanobind)** — nanobind bindings with a custom Conan profile for C++17
-- **[external-sources](https://github.com/conan-io/conan-py-build/tree/main/examples/external-sources)** — C++ sources fetched by the `source()` method, not bundled
-- **[cibw-example](https://github.com/conan-io/conan-py-build/tree/main/examples/cibw-example)** — Full multi-platform CI with cibuildwheel on Linux, macOS, and Windows
+- **Dependency resolution inside the build.** `pip wheel .` resolves the C/C++
+  graph, configures the toolchain, builds the extension, and produces the wheel.
+  No separate install step before the Python frontend.
+- **Build-system agnostic.** The backend drives your `conanfile.py` regardless
+  of whether your project uses CMake, Meson, Autotools, or anything else.
+- **Conan Center Index.** Hundreds of recipes for widely-used libraries (OpenSSL,
+  Boost, Qt, FFmpeg, and many more), tested across a broad compiler and OS
+  matrix, available with a `self.requires()` line.
+- **Binary caching.** Compiled dependencies are reused across builds, Python
+  versions, and CI runs — rebuilt only when settings actually change.
+- **Profiles and lockfiles.** The same Conan profiles your team uses for C/C++
+  work apply to the wheel build. Lockfiles pin exact versions and revisions of
+  every transitive dependency so developer and CI builds use the same graph.
+- **Shared library handling.** Runtime dependencies from Conan are deployed next
+  to the extension module and RPATH-patched on Linux and macOS. Not a
+  replacement for `auditwheel`/`delocate` when you need full manylinux auditing,
+  but it covers the common "imports locally, crashes elsewhere" case without an
+  extra repair step.
 
-The `cibw-example` is particularly worth reading if you are targeting multiple platforms, since it shows how Conan profiles map onto a cibuildwheel matrix with much less platform-specific build glue.
+## More Examples
+
+The [examples/](https://github.com/conan-io/conan-py-build/tree/main/examples)
+directory has complete, working projects covering a range of scenarios: Meson as
+the build system, nanobind bindings, shared library dependencies, C++ sources
+fetched at build time via `source()`, and a full multi-platform
+[cibuildwheel](https://github.com/conan-io/conan-py-build/tree/main/examples/cibw-example)
+setup for Linux, macOS, and Windows. If you are targeting multiple platforms,
+that last one is particularly worth reading.
 
 ## Project Status and Call for Feedback
 
-`conan-py-build` is currently in **beta**. The core build workflow is tested on Linux, macOS, and Windows across the Python versions currently supported by the project, and the package is available today on [PyPI](https://pypi.org/project/conan-py-build/). That said, this is still early-stage software with rough edges. Some workflows we care about (editable installs, more complete manylinux repair scenarios, complex multi-extension layouts) are still being smoothed out, and there are almost certainly cases we have not seen yet.
+`conan-py-build` is currently in **beta**, available on
+[PyPI](https://pypi.org/project/conan-py-build/) and tested on Linux, macOS,
+and Windows. Some workflows (editable installs, complex multi-extension layouts,
+fuller manylinux repair) are still being worked on, and there are almost
+certainly cases we have not seen yet.
 
-We are releasing now precisely because real-world usage is the fastest path to a well-rounded tool. We are especially interested in feedback from projects with unusual package layouts, complex C/C++ dependency trees, cross-compilation requirements, or existing CI constraints that make native wheel builds painful today.
-
-Did something not work as expected? Is there a workflow you wish were supported? Please open an issue on [GitHub](https://github.com/conan-io/conan-py-build/issues). Every report, question, and suggestion helps us reach a stable release faster.
+We are releasing now because real-world usage is the fastest path to a
+well-rounded tool. If something does not work as expected, or there is a workflow
+you wish were supported, please open an issue on
+[GitHub](https://github.com/conan-io/conan-py-build/issues).
 
 ## Conclusions
 
-PEP 517 has made the Python-packaging side of building wheels with C/C++ extensions a well-supported workflow. `conan-py-build` builds on that foundation and pulls the native C/C++ dependency layer *inside* the PEP 517 build, backed by Conan's recipe ecosystem, binary cache, profiles, and lockfiles, so the Python build and the C/C++ build stop being two separate problems held together by glue.
+`conan-py-build` pulls the C/C++ dependency layer inside the PEP 517 build so
+the Python build and the C/C++ build are one problem, not two. If you have been
+maintaining a separate dependency step alongside your Python packaging, it is
+worth a look.
 
-If your extension has non-trivial native dependencies, or if you have been maintaining a separate native-dependency step alongside your Python build, we think it is worth a look.
-
-Check out the [documentation](https://conan-py-build.conan.io), browse the [examples](https://github.com/conan-io/conan-py-build/tree/main/examples), try it on a real project, and let us know where it fits, or where it does not yet.
+Check out the [documentation](https://conan-py-build.conan.io), browse the
+[examples](https://github.com/conan-io/conan-py-build/tree/main/examples), and
+let us know where it fits — or where it does not yet.
 
 Happy coding!
