@@ -18,10 +18,9 @@ connect a `CMakeLists.txt` to a `pyproject.toml`, declare a backend, and let
 The C/C++ dependency layer is a different story. Somewhere between
 `pyproject.toml` and `CMakeLists.txt`, a `find_package(OpenSSL)` has to resolve.
 In practice, most projects solve that outside the wheel build: through system
-packages, vendored source trees, `FetchContent`, a separate native package
-manager install step, or platform-specific scripts in CI. That means a separate
-step to manage before the Python build, often duplicated across CI
-configurations and developer setups.
+packages, vendored source trees, `FetchContent` or a separate native package
+manager install step. That means a separate step to manage before the Python
+build, often duplicated across CI configurations and developer setups.
 
 Today, we are happy to introduce **conan-py-build**, a PEP 517 build backend
 that brings Conan's C/C++ dependency management directly into the Python wheel
@@ -58,7 +57,12 @@ builds.
 > The example below uses CMake for illustration. `conan-py-build` is agnostic of
 > the build system, so Meson, Autotools, and others work the same way.
 
-A minimal project has this structure:
+Let's build a tiny Python package that exposes a single function, `greet(name)`,
+which prints a colored greeting to the terminal. The formatting and the ANSI
+color output come from [{fmt}](https://fmt.dev), a C++ library we pull in
+through Conan, and the Python bindings are built with pybind11.
+
+The project layout:
 
 ```
 mypackage/
@@ -71,7 +75,7 @@ mypackage/
     └── mypackage.cpp
 ```
 
-`pyproject.toml` declares the build backend and the basic project metadata:
+`pyproject.toml` declares the build backend and the project metadata:
 
 ```toml
 [build-system]
@@ -83,8 +87,8 @@ name = "mypackage"
 version = "0.1.0"
 ```
 
-`conanfile.py` describes the C/C++ side of the build: its dependencies
-(`pybind11` and `fmt` in this case) and how they are compiled and packaged.
+`conanfile.py` describes the C/C++ side: its dependencies (`pybind11` and `fmt`)
+and how they are built and packaged.
 
 ```python
 from conan import ConanFile
@@ -111,41 +115,41 @@ class MyPackageConan(ConanFile):
         cmake.install()
 ```
 
-From here, `CMakeLists.txt` is standard pybind11: it finds Python and the
-Conan-provided packages, builds the extension module, and installs it into the
-Python package directory so the backend picks it up when assembling the wheel.
+`CMakeLists.txt` builds the extension against pybind11 and fmt and installs
+the resulting module into the Python package directory so the backend picks it
+up when assembling the wheel:
 
 ```cmake
 cmake_minimum_required(VERSION 3.15)
 project(mypackage LANGUAGES CXX)
 
-find_package(Python3 REQUIRED COMPONENTS Interpreter Development.Module)
 set(PYBIND11_FINDPYTHON ON)
 find_package(pybind11 CONFIG REQUIRED)
 find_package(fmt REQUIRED)
 
 pybind11_add_module(_core src/mypackage.cpp)
-target_link_libraries(_core PRIVATE pybind11::module fmt::fmt)
+target_link_libraries(_core PRIVATE fmt::fmt)
 
 install(TARGETS _core DESTINATION mypackage)
 ```
 
-The C++ source binds a single function that formats a greeting with `fmt`:
+The C++ source defines `greet(name)` using fmt's color support and exposes it
+as a compiled `_core` module:
 
 ```cpp
 #include <pybind11/pybind11.h>
-#include <fmt/core.h>
+#include <fmt/color.h>
 
-std::string greet(const std::string& name) {
-    return fmt::format("Hello, {}!", name);
+void greet(const std::string& name) {
+    fmt::print(fmt::fg(fmt::color::green), "Hello, {}!\n", name);
 }
 
 PYBIND11_MODULE(_core, m) {
-    m.def("greet", &greet, "Return a greeting formatted with fmt.");
+    m.def("greet", &greet);
 }
 ```
 
-And the Python package re-exports it from the compiled `_core` module:
+And `src/mypackage/__init__.py` re-exports it so callers see `mypackage.greet`:
 
 ```python
 from mypackage._core import greet
@@ -162,9 +166,17 @@ $ pip wheel . -w dist/
 ```
 
 Conan resolves `pybind11` and `fmt` from Conan Center Index, CMake compiles the
-extension against them, and you get a platform-specific wheel in `dist/` ready
-for distribution. No separate dependency install, no extra scripting to glue
-the C/C++ and Python sides together.
+extension against them, and you get a platform-specific wheel in `dist/`. No
+separate dependency install, no extra scripting to glue the C/C++ and Python
+sides together. Install it and try it:
+
+```bash
+$ pip install dist/mypackage-*.whl
+$ python -c "import mypackage; mypackage.greet('world')"
+Hello, world!
+```
+
+That last line comes out in green.
 
 ## What conan-py-build is really for
 
