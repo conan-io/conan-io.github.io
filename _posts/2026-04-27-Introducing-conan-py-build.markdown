@@ -54,10 +54,10 @@ builds.
 
 ## Getting Started
 
-> The example below uses CMake. `conan-py-build` itself delegates the native
-> build to your `conanfile.py`, so other build systems reach the wheel through
-> the same path. See the
-> [Meson example](https://github.com/conan-io/conan-py-build/tree/main/examples/basic-meson-pybind11)
+> The example below uses CMake. `conan-py-build` delegates the native build to
+> your `conanfile.py`, so other build systems can be integrated through the same
+> Conan-based flow. See the [Meson
+> example](https://github.com/conan-io/conan-py-build/tree/main/examples/basic-meson-pybind11)
 > in the repo.
 
 Let's build a tiny Python package that exposes a single function, `greet(name)`,
@@ -178,7 +178,7 @@ $ python -c "import mypackage; mypackage.greet('world')"
 Hello, world!
 ```
 
-You'll then see how last line comes out in green.
+You should see `Hello, world!` printed in green.
 
 > More examples in the
 > [repo](https://github.com/conan-io/conan-py-build/tree/main/examples): Meson
@@ -191,15 +191,17 @@ You'll then see how last line comes out in green.
 
 Some of the advantages of bringing Conan into the wheel build:
 
-- **Conan Center Index.** Almost two thousand different package, tested across a
-  broad compiler and OS matrix.
+- **One build entry point.** The usual `pip wheel .` command can drive both the
+  Python packaging step and the native C/C++ dependency/build step.
+- **Conan Center Index.** Almost two thousand recipes for widely used C and C++
+  libraries, tested across a broad compiler and OS matrix.
 - **Binary caching.** Compiled dependencies are reused across builds, Python
   versions, and CI runs, rebuilt only when settings change.
 - **Profiles and lockfiles.** Profiles pick the wheel's build flavor (compiler,
   C++ standard, dependency options), and lockfiles pin the graph for
   reproducible builds.
 - **Shared library handling.** Runtime dependencies from Conan are deployed next
-  to the extension module and RPATH patched on Linux and macOS.s
+  to the extension module and RPATH patched on Linux and macOS.
 
 ## Conclusions
 
