@@ -9,8 +9,8 @@ categories: [cpp, conan, python]
 ---
 
 Packaging Python extensions that contain native C or C++ code has come a long
-way. [PEP 517](https://peps.python.org/pep-0517/) defined a clean contract
-between Python build frontends (`pip`, `build`, `uv`) and the build backend
+way. [PEP 517](https://peps.python.org/pep-0517/) defined a contract between
+Python build frontends (`pip`, `build`, `uv`) and the build backend
 that produces the wheel. That standard is what makes it possible today to
 connect a `CMakeLists.txt` to a `pyproject.toml`, declare a backend, and let
 `pip wheel .` drive the build.
@@ -166,9 +166,8 @@ $ pip wheel . -w dist/
 ```
 
 Conan resolves `pybind11` and `fmt` from Conan Center Index, CMake compiles the
-extension against them, and you get a platform-specific wheel in `dist/`. No
-separate dependency install, no extra scripting to glue the C/C++ and Python
-sides together. Install it and try it:
+extension against them, and you get a platform-specific wheel in `dist/`.
+Install it and try it:
 
 ```bash
 $ pip install dist/mypackage-*.whl
@@ -221,9 +220,9 @@ and Windows. Some workflows (editable installs, complex multi-extension layouts,
 fuller manylinux repair) are still being worked on, and there are almost
 certainly cases we have not seen yet.
 
-We are releasing now because real-world usage is the fastest path to a
-well-rounded tool. If something does not work as expected, or there is a workflow
-you wish were supported, please open an issue on
+We are releasing now to get feedback from real projects. If something does not
+work as expected, or there is a workflow you wish were supported, please open
+an issue on
 [GitHub](https://github.com/conan-io/conan-py-build/issues).
 
 ## Conclusions
