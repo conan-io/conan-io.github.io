@@ -201,19 +201,6 @@ Some of the advantages of bringing Conan into the wheel build:
 - **Shared library handling.** Runtime dependencies from Conan are deployed next
   to the extension module and RPATH patched on Linux and macOS.s
 
-## Project Status and Call for Feedback
-
-`conan-py-build` is currently in **beta**, available on
-[PyPI](https://pypi.org/project/conan-py-build/) and tested on Linux, macOS,
-and Windows. Some workflows (editable installs, complex multi-extension layouts,
-fuller manylinux repair) are still being worked on, and there are almost
-certainly cases we have not seen yet.
-
-We are releasing now to get feedback from real projects. If something does not
-work as expected, or there is a workflow you wish were supported, please open
-an issue on
-[GitHub](https://github.com/conan-io/conan-py-build/issues).
-
 ## Conclusions
 
 `conan-py-build` pulls the C/C++ dependency layer inside the PEP 517 build so
@@ -221,8 +208,12 @@ the Python build and the C/C++ build are one problem, not two. If you have been
 maintaining a separate dependency step alongside your Python packaging, it is
 worth a look.
 
-Check out the [documentation](https://conan-py-build.conan.io), browse the
-[examples](https://github.com/conan-io/conan-py-build/tree/main/examples), and
-let us know where it fits, or where it does not yet.
+Check out the [documentation](https://conan-py-build.conan.io) and browse the
+[examples](https://github.com/conan-io/conan-py-build/tree/main/examples).
+`conan-py-build` is still in **beta** and available on
+[PyPI](https://pypi.org/project/conan-py-build/). If something does not work, or
+there is a workflow you want supported, please open an issue on
+[GitHub](https://github.com/conan-io/conan-py-build/issues) and let us know
+where it fits, or where it does not yet.
 
 Happy coding!
