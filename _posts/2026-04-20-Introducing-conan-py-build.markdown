@@ -1,9 +1,9 @@
 ---
 layout: post
 comments: false
-title: "Introducing conan-py-build: Build Python Wheels with C/C++ Extensions Using Conan"
-description: "conan-py-build is a new PEP 517 build backend that brings Conan's native C/C++ dependency management into the Python wheel build. Try it and share your feedback!"
-meta_title: "Introducing conan-py-build: Build Python Wheels with C/C++ Extensions Using Conan - Conan Blog"
+title: "Introducing conan-py-build: Build Python Wheels with Conan"
+description: "conan-py-build is a new PEP 517 build backend that brings Conan-powered C/C++ dependency management into Python wheel builds. Try it and share your feedback!"
+meta_title: "Introducing conan-py-build: Build Python Wheels with Conan - Conan Blog"
 keywords: "conan, C++, python, wheel, pep 517, build backend, extension, pybind11, nanobind, cibuildwheel"
 categories: [cpp, conan, python]
 ---
@@ -26,9 +26,9 @@ Today, we are happy to introduce **conan-py-build**, a PEP 517 build backend
 that brings Conan's C/C++ dependency management directly into the Python wheel
 build.
 
-The project is still in active development, and we are releasing it now to
-gather early feedback. We would love for you to try it and tell us what you
-think.
+The project is currently in beta and under active development. We are releasing
+it now to gather early feedback, and we would love for you to try it and tell
+us what you think.
 
 ## What is conan-py-build?
 
@@ -54,8 +54,11 @@ builds.
 
 ## Getting Started
 
-> The example below uses CMake for illustration. `conan-py-build` is agnostic of
-> the build system, so Meson, Autotools, and others work the same way.
+> The example below uses CMake. `conan-py-build` itself delegates the native
+> build to your `conanfile.py`, so other build systems reach the wheel through
+> the same path. See the
+> [Meson example](https://github.com/conan-io/conan-py-build/tree/main/examples/basic-meson-pybind11)
+> in the repo.
 
 Let's build a tiny Python package that exposes a single function, `greet(name)`,
 which prints a colored greeting to the terminal. The formatting and the ANSI
@@ -179,9 +182,9 @@ That last line comes out in green.
 
 ## What conan-py-build is really for
 
-Driving the build system is the mechanical part. The goal of `conan-py-build` is
-to pull the surrounding responsibilities into the backend so they do not leak
-into shell scripts and CI configuration:
+With `conan-py-build`, the native part of your Python package is no longer an external pre-build concern. Conan resolves the C/C++ dependency graph, prepares the toolchain, builds the native code, and stages the resulting artifacts while the wheel is being built.
+
+Concretely, that means:
 
 - **Dependency resolution inside the build.** `pip wheel .` resolves the C/C++
   graph, configures the toolchain, builds the extension, and produces the wheel.
@@ -192,7 +195,7 @@ into shell scripts and CI configuration:
   Boost, Qt, FFmpeg, and many more), tested across a broad compiler and OS
   matrix, available with a `self.requires()` line.
 - **Binary caching.** Compiled dependencies are reused across builds, Python
-  versions, and CI runs — rebuilt only when settings actually change.
+  versions, and CI runs, rebuilt only when settings actually change.
 - **Profiles and lockfiles.** The same Conan profiles your team uses for C/C++
   work apply to the wheel build. Lockfiles pin exact versions and revisions of
   every transitive dependency so developer and CI builds use the same graph.
@@ -201,6 +204,19 @@ into shell scripts and CI configuration:
   replacement for `auditwheel`/`delocate` when you need full manylinux auditing,
   but it covers the common "imports locally, crashes elsewhere" case without an
   extra repair step.
+
+## When should you try it?
+
+`conan-py-build` is a good fit if your Python package:
+
+- builds one or more native C/C++ extensions,
+- depends on third-party C/C++ libraries,
+- would benefit from Conan profiles, lockfiles, or binary caching,
+- needs reproducible wheel builds across developer machines and CI.
+
+It may not be the right tool yet if your project relies on advanced
+editable-install behavior, or if your wheel policy depends on a fully audited
+manylinux repair pipeline.
 
 ## More Examples
 
@@ -234,6 +250,6 @@ worth a look.
 
 Check out the [documentation](https://conan-py-build.conan.io), browse the
 [examples](https://github.com/conan-io/conan-py-build/tree/main/examples), and
-let us know where it fits — or where it does not yet.
+let us know where it fits, or where it does not yet.
 
 Happy coding!
