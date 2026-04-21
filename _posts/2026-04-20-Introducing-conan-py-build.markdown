@@ -178,55 +178,28 @@ $ python -c "import mypackage; mypackage.greet('world')"
 Hello, world!
 ```
 
-That last line comes out in green.
+You'll then see how last line comes out in green.
 
-## What conan-py-build is really for
+> More examples in the
+> [repo](https://github.com/conan-io/conan-py-build/tree/main/examples): Meson
+> as the build system, nanobind bindings, shared library dependencies, C++
+> sources fetched via `source()`, and a full multi-platform
+> [cibuildwheel](https://github.com/conan-io/conan-py-build/tree/main/examples/cibw-example)
+> setup for Linux, macOS, and Windows.
 
-With `conan-py-build`, the native part of your Python package is no longer an external pre-build concern. Conan resolves the C/C++ dependency graph, prepares the toolchain, builds the native code, and stages the resulting artifacts while the wheel is being built.
+## What conan-py-build brings
 
-Concretely, that means:
+Some of the advantages of bringing Conan into the wheel build:
 
-- **Dependency resolution inside the build.** `pip wheel .` resolves the C/C++
-  graph, configures the toolchain, builds the extension, and produces the wheel.
-  No separate install step before the Python frontend.
-- **Build-system agnostic.** The backend drives your `conanfile.py` regardless
-  of whether your project uses CMake, Meson, Autotools, or anything else.
-- **Conan Center Index.** Hundreds of recipes for widely-used libraries (OpenSSL,
-  Boost, Qt, FFmpeg, and many more), tested across a broad compiler and OS
-  matrix, available with a `self.requires()` line.
+- **Conan Center Index.** Almost two thousand different package, tested across a
+  broad compiler and OS matrix.
 - **Binary caching.** Compiled dependencies are reused across builds, Python
-  versions, and CI runs, rebuilt only when settings actually change.
+  versions, and CI runs, rebuilt only when settings change.
 - **Profiles and lockfiles.** The same Conan profiles your team uses for C/C++
-  work apply to the wheel build. Lockfiles pin exact versions and revisions of
-  every transitive dependency so developer and CI builds use the same graph.
+  work apply to the wheel build, and lockfiles pin revisions of every transitive
+  dependency so developer and CI builds resolve the same graph.
 - **Shared library handling.** Runtime dependencies from Conan are deployed next
-  to the extension module and RPATH-patched on Linux and macOS. Not a
-  replacement for `auditwheel`/`delocate` when you need full manylinux auditing,
-  but it covers the common "imports locally, crashes elsewhere" case without an
-  extra repair step.
-
-## When should you try it?
-
-`conan-py-build` is a good fit if your Python package:
-
-- builds one or more native C/C++ extensions,
-- depends on third-party C/C++ libraries,
-- would benefit from Conan profiles, lockfiles, or binary caching,
-- needs reproducible wheel builds across developer machines and CI.
-
-It may not be the right tool yet if your project relies on advanced
-editable-install behavior, or if your wheel policy depends on a fully audited
-manylinux repair pipeline.
-
-## More Examples
-
-The [examples/](https://github.com/conan-io/conan-py-build/tree/main/examples)
-directory has complete, working projects covering a range of scenarios: Meson as
-the build system, nanobind bindings, shared library dependencies, C++ sources
-fetched at build time via `source()`, and a full multi-platform
-[cibuildwheel](https://github.com/conan-io/conan-py-build/tree/main/examples/cibw-example)
-setup for Linux, macOS, and Windows. If you are targeting multiple platforms,
-that last one is particularly worth reading.
+  to the extension module and RPATH patched on Linux and macOS.s
 
 ## Project Status and Call for Feedback
 
