@@ -43,34 +43,78 @@ When a build runs, `conan-py-build`:
 1. Resolves the C/C++ dependency graph through Conan, downloading precompiled
    binaries where available and building the rest from source
 2. Prepares the build toolchain through the corresponding Conan generators
-   (for example `CMakeToolchain` and `CMakeDeps` for CMake, or `MesonToolchain`
-   and `PkgConfigDeps` for Meson)
 3. Builds the extension using your project's build system
-4. Copies runtime shared libraries from Conan dependencies next to the extension
-   module and patches RPATH on Linux and macOS where applicable
+4. When the extension links against shared libraries, copies those runtime
+   dependencies next to the extension module and patches RPATH on Linux and
+   macOS where applicable
 5. Packages the result into a standard Python wheel
 
-Because it is a PEP 517 backend, it plugs into `pip`, `build`, and `uv` directly, and fits into `cibuildwheel`-based CI workflows for multi-platform builds.
+Because it is a PEP 517 backend, it plugs into `pip`, `build`, and `uv`
+directly, and fits into `cibuildwheel`-based CI workflows for multi-platform
+builds.
 
 ## What conan-py-build is really for
 
-Driving the underlying build system is largely a mechanical step. Where `conan-py-build` focuses its design attention is on the layer around it: the parts that typically leak out of the wheel build and into shell scripts, CI configuration, or manual steps. These are the responsibilities it takes into the backend:
+Driving the underlying build system is largely a mechanical step. Where
+`conan-py-build` focuses its design attention is on the layer around it: the
+parts that typically leak out of the wheel build and into shell scripts, CI
+configuration, or manual steps. These are the responsibilities it takes into the
+backend:
 
-**Native dependencies resolved inside the PEP 517 build.** The common workflow today is to run a separate native-dependency step (for example `conan install`, or `vcpkg install`, or a custom CMake `FetchContent` chain) before invoking the Python build frontend. `conan-py-build` collapses that into a single entry point: `pip wheel .` resolves the C/C++ graph, configures the toolchain, builds the extension, and produces the wheel. One command, one configuration source.
+**Native dependencies resolved inside the PEP 517 build.** The common workflow
+today is to run a separate native-dependency step (for example `conan install`,
+or `vcpkg install`, or a custom CMake `FetchContent` chain) before invoking the
+Python build frontend. `conan-py-build` collapses that into a single entry
+point: `pip wheel .` resolves the C/C++ graph, configures the toolchain, builds
+the extension, and produces the wheel. One command, one configuration source.
 
-**Not tied to a single build system.** `conan-py-build` drives your `conanfile.py` the same way Conan always does, whether your project uses CMake, Meson, Autotools, MSBuild, or a custom build. The backend does not assume CMake. Use whatever build system your project already has, and let Conan handle the integration through the corresponding toolchain and dependency generators.
+**Not tied to a single build system.** `conan-py-build` drives your
+`conanfile.py` the same way Conan always does, whether your project uses CMake,
+Meson, Autotools, MSBuild, or a custom build. The backend does not assume CMake.
+Use whatever build system your project already has, and let Conan handle the
+integration through the corresponding toolchain and dependency generators.
 
-**A recipe ecosystem for C/C++ libraries.** Conan Center Index ships hundreds of recipes for widely-used libraries (OpenSSL, Boost, ICU, Qt, FFmpeg, HDF5, GDAL, and many more) with canonical patches, options, and cross-platform support. Your `conanfile.py` consumes those with `self.requires("openssl/3.x.y")` instead of reimplementing each library's build in FetchContent wrappers or vendoring its source tree into your repo. Those recipes are continuously tested across a wide matrix of compilers, operating systems, and architectures, so their builds are validated in configurations close to what your wheel matrix targets.
+**A recipe ecosystem for C/C++ libraries.** Conan Center Index ships hundreds of
+recipes for widely-used libraries (OpenSSL, Boost, ICU, Qt, FFmpeg, HDF5, GDAL,
+and many more) with canonical patches, options, and cross-platform support. Your
+`conanfile.py` consumes those with `self.requires("openssl/3.x.y")` instead of
+reimplementing each library's build in FetchContent wrappers or vendoring its
+source tree into your repo. Those recipes are continuously tested across a wide
+matrix of compilers, operating systems, and architectures, so their builds are
+validated in configurations close to what your wheel matrix targets.
 
-**Binary caching that survives across projects and CI runs.** Conan caches compiled dependencies keyed by settings, options, and compiler. The same `openssl/3.x.y` binary is reused across wheel builds, Python versions, and CI matrices, rebuilt only when those settings actually change. For non-trivial graphs, this is the difference between seconds and hours on each build, and it works the same way whether you use Conan Center, a self-hosted Artifactory, or any other Conan remote.
+**Binary caching that survives across projects and CI runs.** Conan caches
+compiled dependencies keyed by settings, options, and compiler. The same
+`openssl/3.x.y` binary is reused across wheel builds, Python versions, and CI
+matrices, rebuilt only when those settings actually change. For non-trivial
+graphs, this is the difference between seconds and hours on each build, and it
+works the same way whether you use Conan Center, a self-hosted Artifactory, or
+any other Conan remote.
 
-**Conan profiles as build configuration.** Host and build profiles describe compiler, runtime, architecture, OS version, and the resolved settings of every transitive dependency in the graph. The same profiles your team uses for regular C/C++ work apply to the wheel build. That means the ABI of your dependencies stays consistent between a standalone Conan build of your library and a Python wheel build of the same code, with no drift between what your C/C++ CI produces and what your Python CI produces.
+**Conan profiles as build configuration.** Host and build profiles describe
+compiler, runtime, architecture, OS version, and the resolved settings of every
+transitive dependency in the graph. The same profiles your team uses for regular
+C/C++ work apply to the wheel build. That means the ABI of your dependencies
+stays consistent between a standalone Conan build of your library and a Python
+wheel build of the same code, with no drift between what your C/C++ CI produces
+and what your Python CI produces.
 
-**Reproducibility of the native graph.** Conan lockfiles pin exact versions, options, and revisions of every transitive C/C++ dependency. A wheel built from a locked graph on a developer laptop and on CI uses the same native libraries, not just the same Python source.
+**Reproducibility of the native graph.** Conan lockfiles pin exact versions,
+options, and revisions of every transitive C/C++ dependency. A wheel built from
+a locked graph on a developer laptop and on CI uses the same native libraries,
+not just the same Python source.
 
-**Runtime shared library handling inside the backend.** Shared libraries from Conan dependencies are deployed next to the extension module during the build and RPATH-patched on Linux and macOS, so the wheel carries what it needs to load at runtime. This is not a replacement for `auditwheel`/`delocate`/`delvewheel` when you need full manylinux compliance and system-library auditing, but it removes the most common "imports locally, crashes on another machine" failure mode without needing an extra repair step.
+**Runtime shared library handling inside the backend.** Shared libraries from
+Conan dependencies are deployed next to the extension module during the build
+and RPATH-patched on Linux and macOS, so the wheel carries what it needs to load
+at runtime. This is not a replacement for `auditwheel`/`delocate`/`delvewheel`
+when you need full manylinux compliance and system-library auditing, but it
+removes the most common "imports locally, crashes on another machine" failure
+mode without needing an extra repair step.
 
-If any of this was already part of your workflow through external scripts and glue, `conan-py-build` pulls that responsibility into the backend itself. If none of it was, you get it by default.
+If any of this was already part of your workflow through external scripts and
+glue, `conan-py-build` pulls that responsibility into the backend itself. If
+none of it was, you get it by default.
 
 ## Getting Started
 
