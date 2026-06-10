@@ -44,9 +44,9 @@ When a build runs, `conan-py-build`:
    binaries where available and building the rest from source
 2. Prepares the build toolchain through the corresponding Conan generators
 3. Builds the extension using your project's build system
-4. When the extension links against shared libraries, copies those runtime
-   dependencies next to the extension module and patches RPATH on Linux and
-   macOS where applicable
+4. When the extension links against shared libraries, prepares the build so
+   that standard repair tools (`auditwheel`, `delocate-wheel`, `delvewheel`)
+   can produce a self-contained wheel
 5. Packages the result into a standard Python wheel
 
 Because it is a PEP 517 backend, it plugs into `pip`, `build`, and `uv`
@@ -194,9 +194,9 @@ Some of the advantages of bringing Conan into the wheel build:
 - **Profiles and lockfiles.** Profiles define the native build configuration of
   each wheel (compiler, architecture, C++ standard, dependency options), and
   lockfiles pin the graph for reproducible builds.
-- **Shared library handling.** Conan-managed runtime libraries are deployed
-  next to the extension module, and RPATH is adjusted on Linux and macOS where
-  applicable.
+- **Shared library handling.** Works with standard repair tools (`auditwheel`,
+  `delocate-wheel`, `delvewheel`) to produce self-contained wheels when
+  Conan-managed shared libraries are involved.
 
 ## Conclusions
 
