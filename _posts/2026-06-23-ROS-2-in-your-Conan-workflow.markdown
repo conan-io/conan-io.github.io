@@ -89,6 +89,9 @@ ros-kilted/0.1.0
 
 [options]
 ros-kilted/*:variant=desktop
+
+[layout]
+cmake_layout
 ```
 
 Install it (heavy first time, cached for every subsequent project):
@@ -100,17 +103,19 @@ conan install --profile=../ros-conan/profiles/ros --build=missing
 Activate the Conan run environment and launch turtlesim, exactly as the
 official tutorials do:
 
-```bash
-# Linux / macOS
-source conanrun.sh
-ros2 run turtlesim turtlesim_node
-```
+- On Linux / macOS:
 
-```bat
-REM Windows
-conanrun.bat
-ros2 run turtlesim turtlesim_node
-```
+  ```bash
+  source build/generators/conanrun.sh
+  ros2 run turtlesim turtlesim_node
+  ```
+
+- On Windows:
+
+  ```bat
+  .\build\generators\conanrun.bat
+  ros2 run turtlesim turtlesim_node
+  ```
 
 In a second shell, drive the turtle around with the keyboard. Instead of
 re-sourcing the `conanrun.sh/bat` script, you can use
@@ -118,7 +123,7 @@ re-sourcing the `conanrun.sh/bat` script, you can use
 
 ```bash
 cd ros-demo
-conan run "ros2 run turtlesim turtle_teleop_key"
+conan run "ros2 run turtlesim turtle_teleop_key" --profile=../ros-conan/profiles/ros
 ```
 
 <figure class="centered">
@@ -227,15 +232,19 @@ cmake --build --preset conan-release
 The `cmake_layout` generator drops the binary under `build/Release` (or the
 equivalent multi-config path on Windows). Run it directly:
 
-```bash
-# Linux / macOS
-./build/Release/my_ros2_node
-```
+- On Linux / MacOS:
 
-```bat
-REM Windows
-build\Release\my_ros2_node.exe
-```
+  ```bash
+  ./build/generators/conanrun.sh
+  ./build/Release/my_ros2_node
+  ```
+
+- On Windows:
+
+  ```bat
+  .\build\generators\conanrun.bat
+  build\Release\my_ros2_node.exe
+  ```
 
 You should see the familiar ROS log line:
 
