@@ -61,7 +61,7 @@ that interpreter. Then install Conan 2 in a virtual environment and add the
 ```bash
 python -m venv .venv
 source .venv/bin/activate    # Windows: .venv\Scripts\activate
-pip install conan
+pip install conan "numpy<2"
 conan profile detect --force
 
 git clone https://github.com/conan-io/ros-conan.git
@@ -72,9 +72,24 @@ conan remote add ros-conan ./ros-conan --type=local-recipes-index
 everything else (compilers' tool-requires, `cmake`, transitive C++ libs) comes
 from [ConanCenter](conan.io/center) as usual.
 
+With the remote in place, kick off the ROS build from source. We pick the
+`desktop` variant so we get `turtlesim`, `rviz2` and the rest of the demo
+nodes out of the box:
+
+```bash
+conan install --requires=ros-kilted/0.1.0 \
+    --profile=ros-conan/profiles/ros \
+    -o ros-kilted/*:variant=desktop \
+    --build=missing
+```
+
+This compiles ROS Kilted and its dependencies from source, so expect it to
+take a while. However, it is a one-time cost: the binaries land in your Conan
+cache and are reused by every project that follows.
+
 ### Let's run `turtlesim` from the ros-kilted package
 
-To run the classic [`turtlesim`](https://docs.ros.org/en/kilted/Tutorials/Beginner-CLI-Tools/Introducing-Turtlesim/Introducing-Turtlesim.html) demo, let's create a folder and create a tiny `conanfile.txt` in it:
+To run the classic [`turtlesim`](https://docs.ros.org/en/kilted/Tutorials/Beginner-CLI-Tools/Introducing-Turtlesim/Introducing-Turtlesim.html) demo, let's create a folder and drop a tiny `conanfile.txt` in it:
 
 ```
 mkdir ros-demo && cd ros-demo
@@ -94,7 +109,8 @@ ros-kilted/*:variant=desktop
 cmake_layout
 ```
 
-Install it (heavy first time, cached for every subsequent project):
+Install it. The heavy build already happened during setup, so this just
+materializes the activation scripts and is essentially instant:
 
 ```bash
 conan install --profile=../ros-conan/profiles/ros --build=missing
@@ -106,14 +122,14 @@ official tutorials do:
 - On Linux / macOS:
 
   ```bash
-  source build/generators/conanrun.sh
+  source build/generators/conanrun.sh  # Activates the environment
   ros2 run turtlesim turtlesim_node
   ```
 
 - On Windows:
 
   ```bat
-  .\build\generators\conanrun.bat
+  .\build\generators\conanrun.bat  # Activates the environment
   ros2 run turtlesim turtlesim_node
   ```
 
