@@ -61,7 +61,7 @@ that interpreter. Then install Conan 2 in a virtual environment and add the
 ```bash
 python -m venv .venv
 source .venv/bin/activate    # Windows: .venv\Scripts\activate
-pip install conan "numpy<2"
+pip install conan
 conan profile detect --force
 
 git clone https://github.com/conan-io/ros-conan.git
@@ -77,7 +77,7 @@ With the remote in place, kick off the ROS build from source. We pick the
 nodes out of the box:
 
 ```bash
-conan install --requires=ros-kilted/0.1.0 \
+conan install --requires=ros-kilted/2026.06.17 \
     --profile=ros-conan/profiles/ros \
     -o ros-kilted/*:variant=desktop \
     --build=missing
@@ -100,7 +100,7 @@ mkdir ros-demo && cd ros-demo
 
 ```ini
 [requires]
-ros-kilted/0.1.0
+ros-kilted/2026.06.17
 
 [options]
 ros-kilted/*:variant=desktop
@@ -177,7 +177,7 @@ standard CMake generators with as CMake layout:
 
 ```ini
 [requires]
-ros-kilted/0.1.0
+ros-kilted/2026.06.17
 
 [options]
 ros-kilted/*:variant=desktop
@@ -286,7 +286,7 @@ single dependency graph to publish a skeleton overlay from a webcam feed.
 
 ```ini
 [requires]
-ros-kilted/0.1.0
+ros-kilted/2026.06.17
 tensorflow-lite/2.12.0
 opencv/4.9.0
 
