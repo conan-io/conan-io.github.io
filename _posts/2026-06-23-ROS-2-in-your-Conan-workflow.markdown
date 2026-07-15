@@ -251,7 +251,7 @@ equivalent multi-config path on Windows). Run it directly:
 - On Linux / MacOS:
 
   ```bash
-  ./build/generators/conanrun.sh
+  source ./build/Release/generators/conanrun.sh
   ./build/Release/my_ros2_node
   ```
 
