@@ -122,7 +122,7 @@ official tutorials do:
 - On Linux / macOS:
 
   ```bash
-  source build/generators/conanrun.sh  # Activates the environment
+  source ./build/Release/generators/conanrun.sh  # Activates the environment
   ros2 run turtlesim turtlesim_node
   ```
 
