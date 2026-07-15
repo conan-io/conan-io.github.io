@@ -241,9 +241,13 @@ conan install --profile=../ros-conan/profiles/ros --build=missing
 And build the project with CMake as usual:
 
 ```bash
+#macOS, Linux
+cmake --preset conan-release
+cmake --build --preset conan-release
+
+#Windows
 cmake --preset conan-default
 cmake --build --preset conan-release
-```
 
 The `cmake_layout` generator drops the binary under `build/Release` (or the
 equivalent multi-config path on Windows). Run it directly:
