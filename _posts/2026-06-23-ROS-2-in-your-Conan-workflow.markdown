@@ -62,7 +62,8 @@ that interpreter. Then install Conan 2 in a virtual environment and add the
 python -m venv .venv
 source .venv/bin/activate    # Windows: .venv\Scripts\activate.bat
 pip install conan
-conan profile detect --force
+# only if it is the first time you use conan
+conan profile detect 
 
 git clone https://github.com/conan-io/ros-conan.git
 conan remote add ros-conan ./ros-conan --type=local-recipes-index
