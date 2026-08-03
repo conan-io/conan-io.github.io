@@ -66,7 +66,7 @@ pip install conan
 conan profile detect 
 
 git clone https://github.com/conan-io/ros-conan.git
-conan remote add ros-conan ./ros-conan --type=local-recipes-index
+conan remote add ros-conan ./ros-conan
 ```
 
 `ros-kilted` and its bundled dependencies will resolve from this index;
