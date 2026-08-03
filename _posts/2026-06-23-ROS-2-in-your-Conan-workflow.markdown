@@ -60,7 +60,7 @@ that interpreter. Then install Conan 2 in a virtual environment and add the
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate    # Windows: .venv\Scripts\activate
+source .venv/bin/activate    # Windows: .venv\Scripts\activate.bat
 pip install conan
 conan profile detect --force
 
