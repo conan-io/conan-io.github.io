@@ -58,7 +58,7 @@ def requirements(self):
 ```
 
 That's it — the same two lines work for every platform CUDA supports, whether you're building natively or
-cross-compiling. Your `CMakeLists.txt` needs no CUDA-specific changes either, and can follow standard CMake
+cross-compiling. Your `CMakeLists.txt` needs no Conan-specific changes either, and can follow standard CMake
 practice:
 
 ```cmake
@@ -85,10 +85,10 @@ for the full story.
 
 One of the best parts of this setup is that you don't need an ARM64 machine to get started in order to start porting your applications. Cross-compiling for
 Windows ARM64 works directly from your existing x86_64 workstations or CI runners. If your Conan profile is already
-set up for `msvc`, cross-building is as simple as adding `-s arch=armv8`:
+set up for `msvc`, cross-building is as simple as adding `--settings arch=armv8` to your Conan command (e.g. `create` or `install`):
 
 ```
-conan create . -s arch=armv8
+conan create . --settings arch=armv8
 ```
 
 Under the hood, Conan makes sure `nvcc` runs on your x86_64 build machine while linking ARM64 CUDA libraries into
@@ -117,10 +117,10 @@ conan remote add cuda-conan ./cuda-conan
 
 ```
 cd cuda-conan/samples/cuda-samples
-conan build . -s arch=armv8 -c tools.cmake.cmaketoolchain:generator=Ninja -cc core.version_ranges:resolve_prereleases=True
+conan build . --settings arch=armv8 -c tools.cmake.cmaketoolchain:generator=Ninja --build=missing -cc core.version_ranges:resolve_prereleases=True
 ```
 
-Drop `-s arch=armv8` and it builds natively for x86_64 instead — same command, same recipe, either target. Once
+Drop `--settings arch=armv8` and it builds natively for x86_64 instead — same command, same recipe, either target. Once
 it's built, load the run environment and try it out:
 
 ```
@@ -142,7 +142,7 @@ the kind of workload RTX Spark exists for: local, GPU-accelerated AI inference o
 
 ```
 cd samples/llama-cpp
-conan create all --version=b6565 -pr clang-cl-arm64 -cc core.version_ranges:resolve_prereleases=True
+conan create all --version=b6565 -pr clang-cl-arm64 --build=missing -cc core.version_ranges:resolve_prereleases=True
 ```
 
 This same command runs on both x86_64 and ARM64 Windows. Want a different GPU architecture target? Just edit the
