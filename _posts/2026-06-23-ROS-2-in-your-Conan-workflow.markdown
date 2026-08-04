@@ -73,21 +73,6 @@ conan remote add ros-conan ./ros-conan
 everything else (compilers' tool-requires, `cmake`, transitive C++ libs) comes
 from [ConanCenter](conan.io/center) as usual.
 
-With the remote in place, kick off the ROS build from source. We pick the
-`desktop` variant so we get `turtlesim`, `rviz2` and the rest of the demo
-nodes out of the box:
-
-```bash
-conan install --requires=ros-kilted/2026.06.17 \
-    --profile=ros-conan/profiles/ros \
-    -o ros-kilted/*:variant=desktop \
-    --build=missing
-```
-
-This compiles ROS Kilted and its dependencies from source, so expect it to
-take a while. However, it is a one-time cost: the binaries land in your Conan
-cache and are reused by every project that follows.
-
 ### Let's run `turtlesim` from the ros-kilted package
 
 To run the classic [`turtlesim`](https://docs.ros.org/en/kilted/Tutorials/Beginner-CLI-Tools/Introducing-Turtlesim/Introducing-Turtlesim.html) demo, let's create a folder and drop a tiny `conanfile.txt` in it:
@@ -110,15 +95,16 @@ ros-kilted/*:variant=desktop
 cmake_layout
 ```
 
-Install it. The heavy build already happened during setup, so this just
-materializes the activation scripts and is essentially instant:
+Now is time to install the ROS Kilted package. The `--build=missing` argument will
+compile ROS Kilted and its dependencies from source (as there are no binary packages created yet),
+so expect it to take a while. However, it is a one-time cost: the binaries land in your Conan
+cache and are reused by every project that follows.
 
 ```bash
 conan install --profile=../ros-conan/profiles/ros --build=missing
 ```
-
-Activate the Conan run environment and launch turtlesim, exactly as the
-official tutorials do:
+After the compilation and creation of the binary packages, we can activat
+the Conan run environment and launch turtlesim, exactly as the official tutorials do:
 
 - On Linux / macOS:
 
@@ -249,6 +235,7 @@ cmake --build --preset conan-release
 #Windows
 cmake --preset conan-default
 cmake --build --preset conan-release
+```
 
 The `cmake_layout` generator drops the binary under `build/Release` (or the
 equivalent multi-config path on Windows). Run it directly:
