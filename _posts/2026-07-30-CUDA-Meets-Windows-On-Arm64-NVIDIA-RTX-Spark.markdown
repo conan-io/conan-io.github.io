@@ -186,3 +186,7 @@ Clone [`cuda-conan`](https://github.com/conan-io/cuda-conan), try the samples, a
 - [Roadmap discussion — see what's coming next](https://github.com/conan-io/cuda-conan/discussions/2)
 
 Happy coding!
+
+*This post was written with AI assistance and reviewed by humans.*
+
+
