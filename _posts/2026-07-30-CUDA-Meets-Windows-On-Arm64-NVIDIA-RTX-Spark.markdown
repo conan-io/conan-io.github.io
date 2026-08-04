@@ -70,7 +70,8 @@ Conan resolves and provides the toolkit, and `find_package(CUDAToolkit)` finds i
 environment variables pointing at a specific CUDA installation, nothing extra to configure in CI beyond having
 Conan available.
 
-In your profile, set the GPU architecture(s) you're targeting, for example:
+In your profile, set the GPU architecture(s) you're targeting. Please refer to the CUDA reference
+documentation to work out the GPU architecture for the device you are targetting. As an example:
 
 ```
 tools.cmake.cmaketoolchain:extra_variables*={'CMAKE_CUDA_ARCHITECTURES':'87-real'}
