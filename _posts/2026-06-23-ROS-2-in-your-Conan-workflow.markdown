@@ -178,7 +178,6 @@ ros-kilted/*:variant=desktop
 [generators]
 CMakeToolchain
 CMakeDeps
-VCVars
 
 [layout]
 cmake_layout
