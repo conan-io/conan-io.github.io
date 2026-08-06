@@ -56,7 +56,8 @@ you want to pull in:
 
 ROS Kilted targets Python 3.12, so make sure you are using
 that interpreter. Then install Conan 2 in a virtual environment and add the
-`ros-conan` repository as a local recipes index:
+`ros-conan` repository as a local recipes index.
+
 
 ```bash
 python -m venv .venv
@@ -99,6 +100,11 @@ Now is time to install the ROS Kilted package. The `--build=missing` argument wi
 compile ROS Kilted and its dependencies from source (as there are no binary packages created yet),
 so expect it to take a while. However, it is a one-time cost: the binaries land in your Conan
 cache and are reused by every project that follows.
+
+> **Note**: On Windows, building ROS produces deep directory trees that exceed the
+> default 260-character path limit. Enable
+> [long paths](https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=registry#enable-long-paths-in-windows-10-version-1607-and-later)
+> before running `conan install`.
 
 ```bash
 conan install --profile=../ros-conan/profiles/ros --build=missing
