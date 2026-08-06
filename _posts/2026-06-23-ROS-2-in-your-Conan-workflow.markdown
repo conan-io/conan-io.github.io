@@ -227,7 +227,7 @@ int main(int argc, char ** argv)
 From the `ros-demo` directory, install the dependencies:
 
 ```bash
-conan install --profile=../ros-conan/profiles/ros --build=missing
+conan install --profile=../ros-conan/profiles/ros
 ```
 
 And build the project with CMake as usual:
