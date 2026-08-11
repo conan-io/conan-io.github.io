@@ -71,9 +71,6 @@ most of the boundaries that matter in a real project:
 - The resulting executable links the native library and writes real output
   files.
 
-The result is deliberately visual: the same illustrated landscape, rendered
-twice under two different color palettes.
-
 ## Build and Run It
 
 The example currently targets macOS and requires the Xcode command-line tools,
@@ -99,8 +96,7 @@ cmake --build --preset conan-release
 active Conan profile. If a suitable binary is unavailable, `--build=missing`
 builds it from source. The generated CMake preset then carries that
 configuration into the native build. Running the binary writes `summer.png` and
-`winter.png` to the working directory and exits — there is no window or event
-loop, so the same command also runs unattended in CI.
+`winter.png` to the working directory.
 
 ## What Swift's C++ Interoperability Does — and What It Does Not Do
 
@@ -255,15 +251,27 @@ get_filename_component(
 
 target_compile_options(demo PRIVATE
   "$<$<COMPILE_LANGUAGE:Swift>:-cxx-interoperability-mode=default>"
-  "$<$<COMPILE_LANGUAGE:Swift>:SHELL:-Xcc -std=c++17>"
+  "$<$<COMPILE_LANGUAGE:Swift>:SHELL:-Xcc -std=c++${CMAKE_CXX_STANDARD}>"
   "$<$<COMPILE_LANGUAGE:Swift>:SHELL:-Xcc -fmodule-map-file=${_conan_generators_dir}/shim/lunasvg.modulemap>"
 )
 ```
 
 `-cxx-interoperability-mode=default` switches on C++ importing. `-Xcc` forwards
-the following argument to embedded Clang, in this case selecting C++17 and
-loading the module map. CMake generator expressions keep these flags attached
-only to Swift compilation.
+the following argument to embedded Clang. `CMAKE_CXX_STANDARD` is not
+hardcoded here — `CMakeToolchain` already sets it from the active profile's
+`compiler.cppstd` when it generates `conan_toolchain.cmake`, the same setting
+that determined which C++ dialect lunasvg itself was built with. Reading it
+back is a one-line habit, not a fix for an active bug in this particular
+library: LunaSVG's header has no code conditioned on the active C++ standard,
+so a hardcoded `c++17` would behave identically here. But some libraries do
+gate declarations behind `#if __cplusplus` — GCC's libstdc++ famously did this
+for years with its ["dual
+ABI"](https://gcc.gnu.org/onlinedocs/libstdc++/manual/using_dual_abi.html) for
+`std::string`, and modern libraries such as Abseil still gate parts of their
+public API on the active standard. For those, letting this value silently
+drift from what Conan resolved is how you get a linker error, or worse, a
+mismatched layout that never surfaces as one. CMake generator expressions keep
+the resulting flags attached only to Swift compilation.
 
 With those pieces in place, the module name from the generated map becomes an
 ordinary Swift import, alongside `CxxStdlib`, the overlay module Swift provides
@@ -322,11 +330,6 @@ markup, the CSS, the output filename — goes through an explicit
 `std.string(...)` initializer from the `CxxStdlib` overlay module. That
 conversion allocates and copies; it is not free, and it is not automatic, only
 explicit and predictable.
-
-Direct does not mean that every operation is zero-copy in general, either. The
-useful property here is that the integration does not require a hand-written C
-facade; the normal costs implied by two type systems meeting at a boundary still
-apply.
 
 ## Direct Calls Make ABI Compatibility More Important, Not Less
 
@@ -420,9 +423,6 @@ requiring each upstream project to publish a separate Swift wrapper. A
 purpose-built wrapper can still be valuable when an API is unsafe,
 exception-heavy, or awkward to import, but it is now an architectural choice
 rather than an automatic prerequisite.
-
-In short: Swift can speak to the C++ API, and Conan can make sure the right
-native implementation is there to answer.
 
 Try the [complete
 example](https://github.com/conan-io/examples2/tree/main/examples/languages/swift/cxx_interop),
