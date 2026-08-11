@@ -1,137 +1,133 @@
 ---
 layout: post
 comments: false
-title: "Calling a Conan-Managed C++ Library Directly from Swift"
-description: "A Swift app calls an unmodified C++ ConanCenter package, LunaSVG, directly through Swift's native C++ interoperability, with no hand-written wrapper."
-meta_title: "Swift C++ Interop with a Conan-Managed Dependency - Conan Blog"
+title: "Calling a C++ Library Directly from Swift"
+description: "Swift can call supported C++ APIs without a hand-written wrapper. We use Conan to supply an ordinary LunaSVG package and connect its headers, binary, and build settings to Swift."
+meta_title: "Calling a C++ Library Directly from Swift with Conan - Conan Blog"
 categories: [cpp, conan, swift, macos, cmake]
 ---
 
-Swift's C++ interoperability makes an appealing promise: import a C++ library
-through a Clang module and call its APIs directly from Swift, without first
-building a C wrapper. But a real C++ library is more than a header. It also
-brings compiled binaries, transitive dependencies, build options, a C++ standard
-library, and ABI constraints.
+Swift has been able to import C and Objective-C APIs since its early releases.
+C++ was a harder boundary: namespaces, overloaded functions, templates,
+constructors, destructors, and the C++ standard library all have to retain their
+meaning across languages. Calling a C++ library from Swift therefore usually
+meant putting a C facade or an Objective-C++ wrapper in front of it.
 
-That is where Conan fits.
+[Swift 5.9](https://www.swift.org/blog/swift-5.9-released/) changed that by
+introducing direct C++ interoperability. Support has continued to expand: Swift
+6 added move-only C++ types and more standard-library types, `std::unique_ptr`
+support arrived in 2025, and Swift 6.2 introduced safer ways to work with
+annotated pointer and view APIs.
 
-## From C Interoperability to C++ Interoperability
+Most interop samples control both sides of the boundary. We wanted to try the
+less tidy case: could Swift call an ordinary, pre-existing C++ package without
+modifying its source or writing a wrapper library?
 
-Swift's native interoperability story started with C and Objective-C. Those APIs
-are imported through Clang by default: functions, structures, enumerations, and
-pointers declared in headers become declarations that Swift can call, while the
-implementation remains in the original native library. That made C the usual
-common denominator for exposing an existing native library to Swift.
+For this example, we use [LunaSVG](https://conan.io/center/recipes/lunasvg), a
+C++ SVG renderer from ConanCenter. The Swift application creates an SVG scene,
+asks LunaSVG to render it with two stylesheets, and writes `summer.png` and
+`winter.png`. LunaSVG has no Swift-specific code and does not ship a Swift
+module map.
 
-C++ was a harder boundary. Namespaces, overloaded functions, templates,
-constructors and destructors, value semantics, the C++ standard library, and
-platform-specific ABI rules all have to be represented correctly. Before
-supported C++ interoperability arrived in [Swift
-5.9](https://www.swift.org/blog/swift-5.9-released/), the usual approach was to
-put a C facade or an Objective-C++ wrapper in front of a C++ library. That
-works, but it also creates another API surface to design, build, and maintain.
+The result is a useful division of responsibilities:
 
-Swift 5.9 introduced bidirectional C++ interoperability for a useful subset of
-the language. [Swift 6](https://www.swift.org/blog/announcing-swift-6/) expanded
-it with move-only C++ types, virtual methods, default arguments, and more
-standard-library types. [Swift
-6.2](https://www.swift.org/blog/swift-6.2-released/) then added opt-in safety
-facilities for pointers and view types. The feature continues to evolve, but a
-large class of libraries can now be consumed without first reducing their API to
-C.
+- Swift interoperability teaches the compiler how to call the C++ API.
+- Conan supplies the compatible headers, binary, dependencies, and build
+  configuration behind that API.
 
-This example exercises that C++ path end to end: LunaSVG exposes C++ classes,
-returns a `std::unique_ptr`, and is called from Swift without ever reducing its
-API to C.
-
-In this post, we will build a small Swift application around one unmodified
-package from ConanCenter:
-
-- [LunaSVG](https://conan.io/center/recipes/lunasvg), a C++ SVG renderer.
-
-The application builds an SVG scene as a Swift string, hands it to LunaSVG to
-parse and rasterize under two different CSS stylesheets, and writes each result
-to a PNG file. LunaSVG knows nothing about Swift, ships no Swift module map, and
-there is no wrapper library between Swift and the library.
-
-The complete example is available in the [Conan examples
+The complete project is available in the [Conan examples
 repository](https://github.com/conan-io/examples2/tree/main/examples/languages/swift/cxx_interop).
 
-## Why This Example Is Interesting
+## The C++ API as Seen from Swift
 
-A trivial interop sample can stop at a header-only function. This one crosses
-most of the boundaries that matter in a real project:
+This is the core of the example:
 
-- Conan resolves and, when necessary, builds an ordinary ConanCenter package.
-- CMake receives package configuration and an imported target from Conan.
-- A small generated Clang module map makes the library importable by Swift.
-- Swift calls a C++ namespace, a static method, and instance methods directly.
-- A C++ static method returns a `std::unique_ptr`, and a C++ method returns a
-  value type by value.
-- The resulting executable links the native library and writes real output
-  files.
+```swift
+import CxxStdlib
+import LunaSVGMod
 
-## Build and Run It
+let seasons = [
+    (
+        name: "summer",
+        css: ".sky{fill:#8ECBEB} .hills{fill:#8FA89B} " +
+             ".ground{fill:#8FC77E} .cloud{fill:#FFFFFF} .title{fill:#3B4A40}"
+    ),
+    (
+        name: "winter",
+        css: ".sky{fill:#C9D6E3} .hills{fill:#9FAFAF} " +
+             ".ground{fill:#F2F5F7} .cloud{fill:#E7EEF3} .title{fill:#4A5A66}"
+    ),
+]
 
-The example currently targets macOS and requires the Xcode command-line tools,
-CMake 3.28 or newer, and Ninja. We select Ninja explicitly because CMake's Swift
-support does not work with the Unix Makefiles generator that some CMake versions
-choose by default on macOS. C++ interoperability was introduced in Swift 5.9 and
-has continued to evolve; use a recent Swift toolchain for the full set of
-features exercised here, including importing the `std::unique_ptr` returned by
-LunaSVG.
+for season in seasons {
+    let document = lunasvg.Document.loadFromData(std.string(svg))
+    document.pointee.applyStyleSheet(std.string(season.css))
 
-```bash
-git clone https://github.com/conan-io/examples2.git
-cd examples2/examples/languages/swift/cxx_interop
-
-conan install . --build=missing \
-  -c tools.cmake.cmaketoolchain:generator=Ninja
-cmake --preset conan-release
-cmake --build --preset conan-release
-./build/Release/demo
+    let bitmap = document.pointee.renderToBitmap()
+    _ = bitmap.writeToPng(std.string("\(season.name).png"))
+}
 ```
 
-`conan install` resolves the dependency graph and obtains binaries matching the
-active Conan profile. If a suitable binary is unavailable, `--build=missing`
-builds it from source. The generated CMake preset then carries that
-configuration into the native build. Running the binary writes `summer.png` and
-`winter.png` to the working directory.
+These calls go directly to LunaSVG's C++ API:
 
-## What Swift's C++ Interoperability Does — and What It Does Not Do
+- The C++ namespace `lunasvg` remains visible in Swift.
+- `Document::loadFromData` becomes a static method.
+- Its `std::unique_ptr<Document>` result keeps ownership of the C++ object;
+  Swift accesses that object through `pointee`.
+- `renderToBitmap` returns a C++ `Bitmap` by value.
+- `writeToPng` calls a `const` C++ member function.
 
-Swift does not translate a C++ library's implementation into Swift. It imports
-the declarations in the public C++ headers and emits calls that follow the
-target C++ ABI. At link time, those calls are resolved against the already
-compiled library supplied by Conan.
+The underlying `svg` string also includes a `<text class="title">` element
+naming the stack behind the demo. LunaSVG renders it with its own built-in
+fallback font — no font file needs to be registered for this — and each season's
+stylesheet colors it along with everything else. It is real output from the C++
+renderer, not something added afterward.
 
-As the [Swift documentation](https://www.swift.org/documentation/cxx-interop/)
-puts it: "The Swift compiler embeds the Clang compiler. This allows Swift to
-import C++ header files using Clang modules." Public C++ classes normally appear
-as Swift value types; constructors become initializers, member functions become
-methods, and namespaces remain available. The compiler then lowers those
-operations to calls that follow the target C++ ABI, and the linker resolves
-their symbols in the Conan package binary. Compiler-generated adapters may still
-be needed for particular language features, but there is no separately
-maintained or compiled C wrapper library in this example.
+The `std.string(...)` conversions are explicit for a reason. Swift does not
+automatically bridge a dynamic Swift `String` to C++ `std::string`. Importing
+`CxxStdlib` exposes the supported standard-library types and their conversions.
+Creating the C++ strings still allocates and copies data; direct interop does
+not mean that every value crosses the boundary at zero cost.
 
-This division of responsibilities is useful:
+## What "Direct" Interoperability Means
 
-- Swift interoperability handles the language boundary.
-- Conan handles the dependency and binary boundary.
+Swift does not translate LunaSVG into Swift, and this project does not compile a
+hand-written C wrapper. Instead, the path looks like this:
 
-A [Clang module map](https://clang.llvm.org/docs/Modules.html) only tells the
-importer which headers form a module. It does not contain bindings, compile the
-library, or make an arbitrary binary ABI-compatible. Conan still has to provide
-the matching headers, library, transitive requirements, and build configuration.
+```text
+C++ headers -> Clang module -> declarations visible to Swift
+Swift calls  -> platform C++ ABI -> compiled LunaSVG library
+```
 
-## Describing the Native Dependency with Conan
+The Swift compiler embeds Clang. With C++ interoperability enabled, Clang parses
+the public headers and Swift represents supported declarations in its own type
+system. The compiler then emits native calls that follow the target's C++ ABI,
+and the linker resolves those calls against the library provided by Conan.
 
-The recipe starts like a conventional CMake-based Conan consumer:
+This is why the header is only half of the dependency. Swift also needs a binary
+built for a compatible target, C++ standard library, ABI, and set of options. A
+module map makes headers importable; it does not make an arbitrary binary
+compatible.
+
+Pure C libraries follow the same broad dependency pattern: Conan can provide
+their headers and binaries, and a Clang module map can expose the headers to
+Swift. The difference is that Swift imports C by default, so a C library does
+not need C++ interoperability mode or the additional C++ ABI constraints
+discussed here. That is also why C facades were historically the common route
+from Swift to C++.
+
+## Giving Swift a Clang Module
+
+Swift imports C and C++ headers through Clang modules. To describe one, it needs
+a `module.modulemap` file. LunaSVG is an ordinary C++ package and does not ship
+a module map for Swift, so the consumer recipe generates a small one:
 
 ```python
+import os
+
 from conan import ConanFile
 from conan.tools.cmake import CMakeDeps, CMakeToolchain, cmake_layout
+from conan.tools.files import save
 
 
 class SwiftCppDemo(ConanFile):
@@ -146,81 +142,47 @@ class SwiftCppDemo(ConanFile):
     def generate(self):
         CMakeDeps(self).generate()
         CMakeToolchain(self).generate()
+
+        include_dir = self.dependencies["lunasvg"].cpp_info.includedirs[0]
+        header = f"{include_dir}/lunasvg/lunasvg.h"
+        module_map = (
+            "module LunaSVGMod {\n"
+            f'    header "{header}"\n'
+            "    export *\n"
+            "}\n"
+        )
+        save(
+            self,
+            os.path.join(
+                self.generators_folder,
+                "shim",
+                "lunasvg.modulemap",
+            ),
+            module_map,
+        )
 ```
 
-[`CMakeDeps`](https://docs.conan.io/2/reference/tools/cmake/cmakedeps.html)
-generates the package configuration consumed by `find_package()`.
-[`CMakeToolchain`](https://docs.conan.io/2/reference/tools/cmake/cmaketoolchain.html)
-translates the Conan configuration into CMake toolchain data and presets. That
-part is independent of Swift: from Conan's perspective, this is a native
-executable consuming a single C++ dependency.
+The generated file is only a description of the module:
 
-## Generating the Missing Module Map
-
-Swift imports C and C++ headers as Clang modules. For that, it must be able to
-find a `module.modulemap`. LunaSVG is a regular C++ package and does not ship
-one for this use case, so the recipe generates a tiny shim module map:
-
-```python
-import os
-
-from conan.tools.files import save
-
-
-def _write_modulemap(self, filename, module_name, header_path):
-    content = (
-        f'module {module_name} {{\n'
-        f'    header "{header_path}"\n'
-        '    export *\n'
-        '}\n'
-    )
-    save(
-        self,
-        os.path.join(self.generators_folder, "shim", filename),
-        content,
-    )
-
-
-def generate(self):
-    CMakeDeps(self).generate()
-    CMakeToolchain(self).generate()
-
-    lunasvg_include = self.dependencies["lunasvg"].cpp_info.includedirs[0]
-    self._write_modulemap(
-        "lunasvg.modulemap",
-        "LunaSVGMod",
-        f"{lunasvg_include}/lunasvg/lunasvg.h",
-    )
-```
-
-The generated file is intentionally simple. Conceptually, it contains only this:
-
-```
+```text
 module LunaSVGMod {
     header "/path/to/conan/package/include/lunasvg/lunasvg.h"
     export *
 }
 ```
 
-There are two details worth calling out.
+The recipe gets the include directory from LunaSVG's `cpp_info` instead of
+guessing a path inside the Conan cache. This keeps the shim tied to the package
+Conan actually selected.
 
-First, the recipe takes the header location from LunaSVG's `cpp_info` instead of
-guessing a path in the Conan cache. This works with whatever package layout
-Conan selects, and the same call would work for a package that exposes its
-headers through Conan components instead of a single `includedirs` entry.
-
-Second, this is a **Clang module**, not the named modules introduced by C++20.
-As the same documentation states plainly: "Swift currently cannot import C++
-modules introduced in the C++20 language standard."
-
-In a library designed specifically for Swift consumption, a maintained module
-map can live beside the public headers. Generating one in the consumer is a
-pragmatic bridge for an existing, Swift-unaware package.
+Despite the similar terminology, this is a [Clang
+module](https://clang.llvm.org/docs/Modules.html), not a named C++20 module.
+Swift does not currently import C++20 modules.
 
 ## Connecting Conan, CMake, and `swiftc`
 
-The CMake project enables both Swift and C++ and consumes the target generated
-by Conan:
+The CMake project links the Conan target as it would for a C++ executable, then
+adds three Swift-specific compiler options:
 
 ```cmake
 cmake_minimum_required(VERSION 3.28)
@@ -229,20 +191,8 @@ project(swift_cpp_demo LANGUAGES CXX Swift)
 find_package(lunasvg REQUIRED)
 
 add_executable(demo main.swift)
+target_link_libraries(demo PRIVATE lunasvg::lunasvg)
 
-target_link_libraries(demo PRIVATE
-  lunasvg::lunasvg
-)
-```
-
-That imported target is important. It carries much more than a library filename:
-include paths, transitive link requirements, and other usage information modeled
-by the package.
-
-The Swift-specific part enables C++ interoperability and forwards the module map
-to the Clang instance embedded in the Swift compiler:
-
-```cmake
 get_filename_component(
   _conan_generators_dir
   "${CMAKE_TOOLCHAIN_FILE}"
@@ -256,180 +206,141 @@ target_compile_options(demo PRIVATE
 )
 ```
 
-`-cxx-interoperability-mode=default` switches on C++ importing. `-Xcc` forwards
-the following argument to embedded Clang. `CMAKE_CXX_STANDARD` is not
-hardcoded here — `CMakeToolchain` already sets it from the active profile's
-`compiler.cppstd` when it generates `conan_toolchain.cmake`, the same setting
-that determined which C++ dialect lunasvg itself was built with. Reading it
-back is a one-line habit, not a fix for an active bug in this particular
-library: LunaSVG's header has no code conditioned on the active C++ standard,
-so a hardcoded `c++17` would behave identically here. But some libraries do
-gate declarations behind `#if __cplusplus` — GCC's libstdc++ famously did this
-for years with its ["dual
-ABI"](https://gcc.gnu.org/onlinedocs/libstdc++/manual/using_dual_abi.html) for
-`std::string`, and modern libraries such as Abseil still gate parts of their
-public API on the active standard. For those, letting this value silently
-drift from what Conan resolved is how you get a linker error, or worse, a
-mismatched layout that never surfaces as one. CMake generator expressions keep
-the resulting flags attached only to Swift compilation.
+Each piece has one job:
 
-With those pieces in place, the module name from the generated map becomes an
-ordinary Swift import, alongside `CxxStdlib`, the overlay module Swift provides
-for bridging C++ standard-library types such as `std::string`:
+- `lunasvg::lunasvg`, generated by `CMakeDeps`, carries the native link and
+  usage requirements modeled by the Conan package.
+- `-cxx-interoperability-mode=default` enables C++ imports in Swift.
+- `-Xcc` forwards the C++ language mode and module-map path to the embedded
+  Clang compiler.
 
-```swift
-import CxxStdlib
-import LunaSVGMod
+`CMakeToolchain` derives `CMAKE_CXX_STANDARD` from the consumer profile's
+`compiler.cppstd`. Forwarding it to Clang keeps the imported headers in the same
+requested language mode. That matters for libraries whose public declarations
+change according to `__cplusplus`.
+
+## Build and Run
+
+The example currently targets macOS. It requires the Xcode command-line tools,
+CMake 3.28 or newer, and Ninja. CMake supports Swift with its Ninja and Xcode
+generators; this example selects Ninja explicitly through the Conan toolchain.
+
+Use a recent Swift toolchain. C++ interoperability began in Swift 5.9, but that
+initial release is not sufficient for this exact example: support for the
+`std::unique_ptr` returned by LunaSVG was added later.
+
+```bash
+git clone https://github.com/conan-io/examples2.git
+cd examples2/examples/languages/swift/cxx_interop
+
+conan install . --build=missing \
+  -c tools.cmake.cmaketoolchain:generator=Ninja
+cmake --preset conan-release
+cmake --build --preset conan-release
+./build/Release/demo
 ```
 
-## Calling an Unmodified C++ API from Swift
+`conan install` resolves LunaSVG and selects a package matching the active
+profile. If no suitable binary is available, `--build=missing` builds one from
+source. Running the executable writes `summer.png` and `winter.png` to the
+working directory:
 
-Once the module is visible, the LunaSVG calls are close to a transcription of
-the C++ API. The example renders the same SVG scene twice, once per season, by
-loading a fresh `Document`, applying a different CSS stylesheet, and rendering
-the result to a bitmap:
+<div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+  <img src="/assets/post_images/2026-08-12/summer.png" alt="summer.png: LunaSVG rendering of the demo scene with the summer stylesheet applied" width="45%"/>
+  <img src="/assets/post_images/2026-08-12/winter.png" alt="winter.png: the same SVG document rendered again with the winter stylesheet applied" width="45%"/>
+</div>
 
-```swift
-let seasons = [
-    (name: "summer", css: ".sky{fill:#8ECBEB} .hills{fill:#8FA89B} .ground{fill:#8FC77E} .cloud{fill:#FFFFFF}"),
-    (name: "winter", css: ".sky{fill:#C9D6E3} .hills{fill:#9FAFAF} .ground{fill:#F2F5F7} .cloud{fill:#E7EEF3}"),
-]
+Both files come from the same SVG document loaded twice, styled by a different
+`applyStyleSheet` call each time, and rasterized by LunaSVG's C++
+`renderToBitmap`. Nothing here is a mockup: this is the literal output of
+`./build/Release/demo`.
 
-for season in seasons {
-    let document = lunasvg.Document.loadFromData(std.string(svg))
-    document.pointee.applyStyleSheet(std.string(season.css))
+The same integration model can be used on other Swift platforms, but the exact
+supported C++ surface still varies. For example, the current Swift status page
+lists `std::shared_ptr` and `std::unique_ptr` as unsupported on Windows.
 
-    let bitmap = document.pointee.renderToBitmap()
-    _ = bitmap.writeToPng(std.string("\(season.name).png"))
+## The Sharp Edges Are Still C++ Sharp Edges
 
-    print("Generated \(season.name).png")
-}
-```
+The Swift syntax is pleasantly ordinary, but direct interop is neither a stable
+C ABI nor an automatic safety boundary.
 
-A fresh `Document` is loaded for each season rather than reused, because
-`applyStyleSheet` mutates the document it is called on; there is no way to undo
-a stylesheet once applied.
+### Headers and binary must agree
 
-Several interoperability features appear in these few lines:
+The headers parsed by Swift and the linked library must agree on every choice
+that affects the C++ ABI, including:
 
-- The C++ `lunasvg` namespace is available directly in Swift.
-- `Document::loadFromData` is imported as a static method. LunaSVG returns a
-  `std::unique_ptr<Document>`, which Swift dereferences through `pointee` while
-  the smart pointer keeps ownership of the object.
-- `applyStyleSheet` and `renderToBitmap` are called as ordinary instance methods
-  on that dereferenced value.
-- `renderToBitmap` returns a `Bitmap` by value — a C++ object constructed on the
-  C++ side and handed back into Swift.
-- `writeToPng` is a `const` C++ member function that writes to disk.
+- Target platform, architecture, and deployment target.
+- Compiler ABI and C++ standard-library implementation.
+- Dependency versions and transitive libraries.
+- Defines or package options that change public declarations or object layout.
 
-The `std.string(...)` calls are not decoration. As the [Swift
-documentation](https://www.swift.org/documentation/cxx-interop/) states: "Swift
-does not convert C++ `std::string` type to Swift's `String` type automatically."
-Every Swift `String` crossing into an API that expects `std::string` — the SVG
-markup, the CSS, the output filename — goes through an explicit
-`std.string(...)` initializer from the `CxxStdlib` overlay module. That
-conversion allocates and copies; it is not free, and it is not automatic, only
-explicit and predictable.
+Conan profiles, package IDs, and dependency metadata make these choices explicit
+and let Conan select or build a compatible artifact. They cannot fix an
+ABI-changing option that a package recipe fails to model, so accurate package
+metadata still matters.
 
-## Direct Calls Make ABI Compatibility More Important, Not Less
+### Ownership does not disappear
 
-Avoiding a C wrapper removes boilerplate and an extra API surface, but it does
-not create an ABI firewall. The generated Swift code calls the C++ ABI expected
-by the imported declarations. The headers used during Swift compilation
-therefore need to agree with the linked binary on the details that affect that
-ABI.
+C++ classes are generally imported as Swift value types. Copying one can invoke
+its C++ copy constructor, and destroying it invokes its C++ destructor. A
+`std::unique_ptr` remains a unique owner, so it must stay alive while Swift uses
+`pointee`.
 
-That includes:
+Raw pointers, references, and view types require the same lifetime reasoning as
+they do in C++. Swift 6.2's safe-interoperability features can improve this for
+annotated APIs, but they do not make every third-party pointer API safe
+retroactively.
 
-- Target operating system, architecture, and deployment target.
-- Compiler ABI and C++ standard-library choice.
-- Debug/Release and other relevant build settings.
-- Dependency versions and transitive dependencies.
-- Preprocessor definitions or package options that change public declarations or
-  layouts.
+C++ exceptions are another important boundary: Swift cannot catch them. An
+exception that escapes C++ into Swift terminates the program, so a production
+API should catch and translate errors on the C++ side.
 
-The Swift and C++ sides must also use the same C++ standard library. On Apple
-platforms that normally means libc++. Conan profiles, package IDs, and
-dependency metadata help keep these decisions explicit. `CMakeToolchain` carries
-the selected build configuration into CMake, and `CMakeDeps` gives CMake targets
-that describe how the package is meant to be consumed.
+Finally, interoperability still covers a growing subset of C++, not every
+possible header. Some template patterns and standard-library types remain
+unsupported. Check the current [Swift C++ interoperability status
+page](https://www.swift.org/documentation/cxx-interop/status/) when evaluating a
+library.
 
-This is the deeper value of putting Conan underneath Swift/C++ interoperability:
-the language feature lets Swift express the call, while the package manager
-makes the native artifact behind that call reproducible.
+The sample also keeps error handling short to make the interop visible.
+Production code should verify that `loadFromData` did not return a null pointer
+before dereferencing it and should check the result of `writeToPng`.
 
-Conan cannot infer every compatibility rule automatically. If a library has an
-ABI-changing macro or option that its recipe does not model, the recipe still
-needs to expose it correctly. Direct C++ interoperability rewards accurate
-package metadata.
+## When a Wrapper Is Still the Better Boundary
 
-## Ownership and Safety Still Cross the Boundary
+Direct interoperability removes boilerplate, but it does not make wrappers
+obsolete. A small C or C++ adapter can still be the better design when the
+upstream API:
 
-The syntax can look very Swift-like, but the semantics still come from both
-languages. A few rules are especially important when moving beyond a demo:
+- exposes unsupported C++ constructs;
+- relies heavily on exceptions, raw pointers, or ambiguous lifetimes;
+- has a large template-heavy surface that should not leak into the Swift code;
+  or
+- needs to be isolated behind a narrower, more stable ABI.
 
-- **C++ classes are generally imported as Swift value types.** Copies can run
-  C++ copy constructors, and destruction runs C++ destructors. For large
-  containers, an innocent-looking Swift copy or iteration can therefore have a
-  real cost.
-- **Pointers and views still need explicit lifetime reasoning.** Even though
-  this example only crosses a `std::unique_ptr`, many C++ APIs hand back raw
-  pointers or views instead; Swift's `withUnsafeBytes` and
-  `withUnsafeMutableBytes` scope such access explicitly, but Swift cannot prove
-  that an arbitrary third-party function will not retain a pointer past that
-  scope. The C++ API contract still matters.
-- **Noncopyable ownership should remain visible.** A `std::unique_ptr` is not a
-  shared reference. Keeping the owner alive while using `pointee` is part of the
-  program's correctness.
-- **C++ exceptions are not Swift errors.** Swift cannot catch a C++ exception. A
-  production boundary should prevent exceptions from escaping C++ into Swift.
-- **Interop supports a growing subset of C++.** Rvalue-reference APIs, some
-  template patterns, and C++20 named modules still have limitations. Check the
-  current [Swift C++ interoperability
-  status](https://www.swift.org/documentation/cxx-interop/status/) when
-  evaluating a library.
+The difference is that a wrapper is now an architectural choice for shaping the
+boundary, rather than an automatic prerequisite for calling any C++ code.
 
-Swift 6.2 also added stricter memory-safety checking and new safe-interop
-facilities for annotated C++ APIs. Those features can improve bounds and
-lifetime checking when you control or can adapt the C++ interface, but they do
-not retroactively make every raw-pointer API safe.
+## A Reusable Pattern
 
-The sample keeps error handling short to make the interop mechanics visible.
-Production code should additionally check `loadFromData`'s result for a null
-pointer before dereferencing it through `pointee`, and check the boolean
-returned by `writeToPng`.
+The LunaSVG example reduces to five steps:
 
-## The Reusable Pattern
+1. Let Conan select or build the native dependency for the active profile.
+2. Describe the public headers with a Clang module map when upstream does not
+   provide one.
+3. Link the Conan-generated CMake target normally.
+4. Enable Swift C++ interoperability and give embedded Clang the same header
+   configuration.
+5. Treat ABI, ownership, lifetime, and errors as part of the API boundary.
 
-Although this demo renders a small illustrated landscape, the integration
-pattern is not graphics-specific:
-
-1. Declare the native library and relevant settings in Conan.
-2. Let Conan select or build a compatible binary.
-3. Generate a Clang module map when a package does not provide one.
-4. Link the Conan-generated CMake target normally.
-5. Enable Swift C++ interoperability and pass the module map to embedded Clang.
-6. Treat ownership, lifetimes, error models, and ABI options as part of the API
-   boundary.
-
-Pure C libraries follow the same general dependency pattern: Conan provides the
-headers and the binary, and a Clang module map makes the headers importable.
-They do not, however, require C++ interoperability mode or the C++ ABI
-guarantees described above — Swift has been able to import a plain C API through
-Clang since long before C++ interoperability existed.
-
-That opens a large body of existing C and C++ libraries to Swift without
-requiring each upstream project to publish a separate Swift wrapper. A
-purpose-built wrapper can still be valuable when an API is unsafe,
-exception-heavy, or awkward to import, but it is now an architectural choice
-rather than an automatic prerequisite.
+Swift now makes the direct C++ call possible. Conan handles the less visible but
+equally important part: making sure there is a suitable native artifact behind
+that call.
 
 Try the [complete
-example](https://github.com/conan-io/examples2/tree/main/examples/languages/swift/cxx_interop),
-then take a look at the official [Swift C++ interoperability
+example](https://github.com/conan-io/examples2/tree/main/examples/languages/swift/cxx_interop)
+and consult the official [Swift C++ interoperability
 guide](https://www.swift.org/documentation/cxx-interop/) for the complete
-mapping and safety rules. If you have questions or feedback, please open an
-issue on [GitHub](https://github.com/conan-io/conan/issues).
+mapping and safety rules.
 
 Happy coding!
 
