@@ -8,32 +8,28 @@ categories: [cpp, conan, swift, macos, cmake]
 ---
 
 Swift has been able to import C and Objective-C APIs since its early releases.
-C++ was a harder boundary: namespaces, overloaded functions, templates,
-constructors, destructors, and the C++ standard library all have to retain their
-meaning across languages. Calling a C++ library from Swift therefore usually
-meant putting a C facade or an Objective-C++ wrapper in front of it.
+C++ was more difficult to support: namespaces, overloaded functions, templates,
+constructors, destructors, and the C++ standard library all need to be
+represented correctly in Swift. Calling a C++ library from Swift therefore
+usually meant putting a C facade or an Objective-C++ wrapper in front of it.
 
 [Swift 5.9](https://www.swift.org/blog/swift-5.9-released/) changed that by
-introducing direct C++ interoperability. Support has continued to expand: Swift
-6 added move-only C++ types and more standard-library types, `std::unique_ptr`
-support arrived in 2025, and Swift 6.2 introduced safer ways to work with
-annotated pointer and view APIs.
+introducing direct C++ interoperability, allowing Swift to import C++ headers
+and call supported C++ APIs without first exposing them through a C facade or an
+Objective-C++ wrapper.
 
-Most interop samples control both sides of the boundary. We wanted to try the
-less tidy case: could Swift call an ordinary, pre-existing C++ package without
-modifying its source or writing a wrapper library?
+In this post, we use Swift’s direct C++ interoperability to call
+[LunaSVG](https://conan.io/center/recipes/lunasvg), an existing C++ SVG renderer
+from ConanCenter, without modifying the library or writing a wrapper. Conan
+provides LunaSVG, its transitive dependencies, and the information required to
+compile and link the application. A Clang module map then makes the library’s
+headers importable from Swift.
 
-For this example, we use [LunaSVG](https://conan.io/center/recipes/lunasvg), a
-C++ SVG renderer from ConanCenter. The Swift application creates an SVG scene,
-asks LunaSVG to render it with two stylesheets, and writes `summer.png` and
-`winter.png`. LunaSVG has no Swift-specific code and does not ship a Swift
-module map.
-
-The result is a useful division of responsibilities:
-
-- Swift interoperability teaches the compiler how to call the C++ API.
-- Conan supplies the compatible headers, binary, dependencies, and build
-  configuration behind that API.
+The application creates an SVG scene in Swift and asks LunaSVG to render it with
+two different styles, producing `summer.png` and `winter.png`. The example shows
+how the two pieces fit together: Swift understands how to call the C++ API,
+while Conan makes the library and everything it depends on available to the
+build.
 
 The complete project is available in the [Conan examples
 repository](https://github.com/conan-io/examples2/tree/main/examples/languages/swift/cxx_interop).
