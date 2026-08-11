@@ -8,54 +8,67 @@ categories: [cpp, conan, swift, macos, cmake]
 ---
 
 Swift has been able to import C and Objective-C APIs since its early releases.
-C++ was more difficult to support: namespaces, overloaded functions, templates,
-constructors, destructors, and the C++ standard library all need to be
-represented correctly in Swift. Calling a C++ library from Swift therefore
-usually meant putting a C facade or an Objective-C++ wrapper in front of it.
+C++ was more difficult to support because Swift's C importer could not represent
+features such as namespaces, overloaded functions, templates, constructors,
+destructors, and standard-library types. Calling a C++ library from Swift
+therefore usually meant putting a C facade or an Objective-C++ wrapper in front
+of it.
 
 [Swift 5.9](https://www.swift.org/blog/swift-5.9-released/) changed that by
 introducing direct C++ interoperability, allowing Swift to import C++ headers
 and call supported C++ APIs without first exposing them through a C facade or an
 Objective-C++ wrapper.
 
-In this post, we use Swift’s direct C++ interoperability to call
-[LunaSVG](https://conan.io/center/recipes/lunasvg), an existing C++ SVG renderer
-from ConanCenter, without modifying the library or writing a wrapper. Conan
-provides LunaSVG, its transitive dependencies, and the information required to
-compile and link the application. A Clang module map then makes the library’s
-headers importable from Swift.
+To try this with an existing package, we use
+[LunaSVG](https://conan.io/center/recipes/lunasvg), a C++ SVG renderer from
+ConanCenter. The application creates an SVG scene in Swift and asks LunaSVG to
+render it with two different styles, producing `summer.png` and `winter.png`.
+LunaSVG is used without modifying its source or writing a wrapper.
 
-The application creates an SVG scene in Swift and asks LunaSVG to render it with
-two different styles, producing `summer.png` and `winter.png`. The example shows
-how the two pieces fit together: Swift understands how to call the C++ API,
-while Conan makes the library and everything it depends on available to the
-build.
+Swift knows how to call supported C++ APIs, while Conan provides LunaSVG, its
+transitive dependencies, and the information needed to compile and link the
+application. A small Clang module map makes LunaSVG's headers importable from
+Swift.
 
 The complete project is available in the [Conan examples
-repository](https://github.com/conan-io/examples2/tree/main/examples/languages/swift/cxx_interop).
+repository](https://github.com/conan-io/examples2/tree/main/examples/languages/swift/cxx_interop):
 
-## The C++ API as Seen from Swift
+```text
+cxx_interop/
+├── conanfile.py          # requires lunasvg and generates the Clang module map
+├── CMakeLists.txt        # links lunasvg::lunasvg and sets the Swift compiler options
+├── main.swift            # the Swift application
+├── ci_test_example.py    # runs the example in CI
+└── README.md
+```
 
-This is the core of the example:
+## Starting with the C++ API
+
+Before looking at Swift, it helps to see how the LunaSVG API would normally be
+used from C++. Given `svg` and `css` as `std::string` values holding an SVG
+document and a stylesheet, and `output` as the destination PNG path, rendering
+and writing the file looks like this:
+
+```cpp
+auto document = lunasvg::Document::loadFromData(svg);
+document->applyStyleSheet(css);
+
+auto bitmap = document->renderToBitmap();
+bitmap.writeToPng(output);
+```
+
+Although short, this fragment already touches several C++ features: a
+namespace, a static method, a `std::unique_ptr<Document>`, member functions,
+and a `Bitmap` returned by value.
+
+## Calling the Same API from Swift
+
+After importing the C++ standard library and the LunaSVG module, `main.swift`
+calls the same API to render the demo scene once per season:
 
 ```swift
 import CxxStdlib
 import LunaSVGMod
-
-let seasons = [
-    (
-        name: "summer",
-        css: ".sky{fill:#8ECBEB} .hills{fill:#8FA89B} " +
-             ".ground{fill:#8FC77E} .cloud{fill:#FFFFFF} " +
-             ".title{fill:#3B4A40}"
-    ),
-    (
-        name: "winter",
-        css: ".sky{fill:#C9D6E3} .hills{fill:#9FAFAF} " +
-             ".ground{fill:#F2F5F7} .cloud{fill:#E7EEF3} " +
-             ".title{fill:#4A5A66}"
-    ),
-]
 
 for season in seasons {
     let document = lunasvg.Document.loadFromData(std.string(svg))
@@ -66,28 +79,34 @@ for season in seasons {
 }
 ```
 
-These calls go directly to LunaSVG's C++ API:
+`svg` holds the SVG markup and `seasons` pairs each season name with its
+stylesheet; both are ordinary Swift values defined earlier in `main.swift`. The
+loop body closely follows the C++ version above.
+
+The mapping is visible in the code:
 
 - The C++ namespace `lunasvg` remains visible in Swift.
 - `Document::loadFromData` becomes a static method.
-- Its `std::unique_ptr<Document>` result keeps ownership of the C++ object;
-  Swift accesses that object through `pointee`.
+- The returned `std::unique_ptr<Document>` owns the C++ object; Swift accesses
+  that object through `pointee`.
 - `renderToBitmap` returns a C++ `Bitmap` by value.
-- `writeToPng` calls a `const` C++ member function.
-
-The underlying `svg` string also includes a `<text class="title">` element
-naming the stack behind the demo. LunaSVG renders it with its own built-in
-fallback font — no font file needs to be registered for this — and each season's
-stylesheet colors it along with everything else. It is real output from the C++
-renderer, not something added afterward.
+- `writeToPng` remains an ordinary member-function call.
 
 The `std.string(...)` conversions are explicit for a reason. Swift does not
-automatically bridge a dynamic Swift `String` to C++ `std::string`. Importing
-`CxxStdlib` exposes the supported standard-library types and their conversions.
-Creating the C++ strings still allocates and copies data; direct interop does
-not mean that every value crosses the boundary at zero cost.
+automatically bridge a dynamic Swift `String` to C++ `std::string`. `CxxStdlib`
+exposes supported standard-library types, but creating these C++ strings still
+allocates and copies data. Direct interop removes the wrapper; it does not make
+every conversion free.
 
-## What "Direct" Interoperability Means
+Calling `render` with the summer and winter styles produces the actual LunaSVG
+output:
+
+<div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+  <img src="/assets/post_images/2026-08-12/summer.png" alt="summer.png: LunaSVG rendering of the demo scene with the summer stylesheet applied" width="45%"/>
+  <img src="/assets/post_images/2026-08-12/winter.png" alt="winter.png: the same SVG document rendered again with the winter stylesheet applied" width="45%"/>
+</div>
+
+## What "Direct" Means
 
 Swift does not translate LunaSVG into Swift, and this project does not compile a
 hand-written C wrapper. Instead, the path looks like this:
@@ -97,10 +116,10 @@ C++ headers -> Clang module -> declarations visible to Swift
 Swift calls  -> platform C++ ABI -> compiled LunaSVG library
 ```
 
-The Swift compiler embeds Clang. With C++ interoperability enabled, Clang parses
-the public headers and Swift represents supported declarations in its own type
-system. The compiler then emits native calls that follow the target's C++ ABI,
-and the linker resolves those calls against the library provided by Conan.
+The Swift compiler uses Clang to parse LunaSVG's public headers and imports the
+supported declarations into Swift. It then emits native calls that follow the
+target's C++ ABI, and the linker resolves those calls against the library
+provided by Conan.
 
 This is why the header is only half of the dependency. Swift also needs a binary
 built for a compatible target, C++ standard library, ABI, and set of options. A
@@ -114,11 +133,11 @@ not need C++ interoperability mode or the additional C++ ABI constraints
 discussed here. That is also why C facades were historically the common route
 from Swift to C++.
 
-## Giving Swift a Clang Module
+## Making the Headers Importable
 
-Swift imports C and C++ headers through Clang modules. To describe one, it needs
-a `module.modulemap` file. LunaSVG is an ordinary C++ package and does not ship
-a module map for Swift, so the consumer recipe generates a small one:
+Swift imports C and C++ headers through Clang modules. A `module.modulemap` file
+tells Clang which headers belong to a module. LunaSVG does not ship one, so the
+consumer recipe generates it:
 
 ```python
 import os
@@ -160,7 +179,7 @@ class SwiftCppDemo(ConanFile):
         )
 ```
 
-The generated file is only a description of the module:
+The generated file is deliberately small:
 
 ```text
 module LunaSVGMod {
@@ -241,23 +260,13 @@ cmake --build --preset conan-release
 `conan install` resolves LunaSVG and selects a package matching the active
 profile. If no suitable binary is available, `--build=missing` builds one from
 source. Running the executable writes `summer.png` and `winter.png` to the
-working directory:
-
-<div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-  <img src="/assets/post_images/2026-08-12/summer.png" alt="summer.png: LunaSVG rendering of the demo scene with the summer stylesheet applied" width="45%"/>
-  <img src="/assets/post_images/2026-08-12/winter.png" alt="winter.png: the same SVG document rendered again with the winter stylesheet applied" width="45%"/>
-</div>
-
-Both files come from the same SVG document loaded twice, styled by a different
-`applyStyleSheet` call each time, and rasterized by LunaSVG's C++
-`renderToBitmap`. Nothing here is a mockup: this is the literal output of
-`./build/Release/demo`.
+working directory.
 
 The same integration model can be used on other Swift platforms, but the exact
 supported C++ surface still varies. For example, the current Swift status page
 lists `std::shared_ptr` and `std::unique_ptr` as unsupported on Windows.
 
-## The Sharp Edges Are Still C++ Sharp Edges
+## What Direct Interoperability Does Not Solve
 
 The Swift syntax is pleasantly ordinary, but direct interop is neither a stable
 C ABI nor an automatic safety boundary.
@@ -285,9 +294,9 @@ its C++ copy constructor, and destroying it invokes its C++ destructor. A
 `pointee`.
 
 Raw pointers, references, and view types require the same lifetime reasoning as
-they do in C++. Swift 6.2's safe-interoperability features can improve this for
-annotated APIs, but they do not make every third-party pointer API safe
-retroactively.
+they do in C++. Swift 6.2 introduced experimental safe-interoperability features
+that can improve this for annotated APIs, but they do not make every existing
+pointer API safe automatically.
 
 C++ exceptions are another important boundary: Swift cannot catch them. An
 exception that escapes C++ into Swift terminates the program, so a production
