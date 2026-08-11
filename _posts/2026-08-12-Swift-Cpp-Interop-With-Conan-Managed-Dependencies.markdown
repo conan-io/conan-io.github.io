@@ -22,8 +22,7 @@ Objective-C++ wrapper.
 To try this with an existing package, we use
 [LunaSVG](https://conan.io/center/recipes/lunasvg), a C++ SVG renderer from
 ConanCenter. The application creates an SVG scene in Swift and asks LunaSVG to
-render it with two different styles, producing `summer.png` and `winter.png`.
-LunaSVG is used without modifying its source or writing a wrapper.
+render it with two different styles.
 
 Swift knows how to call supported C++ APIs, while Conan provides LunaSVG, its
 transitive dependencies, and the information needed to compile and link the
