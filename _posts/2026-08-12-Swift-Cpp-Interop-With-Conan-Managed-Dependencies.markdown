@@ -35,10 +35,10 @@ repository](https://github.com/conan-io/examples2/tree/main/examples/languages/s
 
 ```text
 cxx_interop/
-├── conanfile.py          # requires lunasvg and generates the Clang module map
-├── CMakeLists.txt        # links lunasvg::lunasvg and sets the Swift compiler options
-├── main.swift            # the Swift application
-├── ci_test_example.py    # runs the example in CI
+├── conanfile.py
+├── CMakeLists.txt
+├── main.swift
+├── ci_test_example.py
 └── README.md
 ```
 
@@ -61,10 +61,34 @@ Although short, this fragment already touches several C++ features: a
 namespace, a static method, a `std::unique_ptr<Document>`, member functions,
 and a `Bitmap` returned by value.
 
+## Making the C++ API Visible to Swift
+
+Before Swift can call this API, it needs to know which C++ header to import and
+the module name it should use. Swift gets this information through a Clang
+module map.
+
+LunaSVG does not provide one, so the project supplies a small module map file:
+
+```text
+module LunaSVGMod {
+    header "/path/to/conan/package/include/lunasvg/lunasvg.h"
+    export *
+}
+```
+
+This gives the LunaSVG header a module name, `LunaSVGMod`. The build must also
+enable C++ interoperability and pass the module map to the Clang importer used
+by the Swift compiler. Once that is configured, Swift can import the module and
+use the supported declarations from the header.
+
+Despite the similar terminology, this is a [Clang
+module](https://clang.llvm.org/docs/Modules.html), not a named C++20 module.
+Swift does not currently import C++20 modules.
+
 ## Calling the Same API from Swift
 
-After importing the C++ standard library and the LunaSVG module, `main.swift`
-calls the same API to render the demo scene once per season:
+With the C++ standard library and `LunaSVGMod` imported, `main.swift` calls the
+same API to render the demo scene once per season:
 
 ```swift
 import CxxStdlib
@@ -98,8 +122,8 @@ exposes supported standard-library types, but creating these C++ strings still
 allocates and copies data. Direct interop removes the wrapper; it does not make
 every conversion free.
 
-Calling `render` with the summer and winter styles produces the actual LunaSVG
-output:
+Running the loop with the summer and winter styles produces the following
+LunaSVG output:
 
 <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
   <img src="/assets/post_images/2026-08-12/summer.png" alt="summer.png: LunaSVG rendering of the demo scene with the summer stylesheet applied" width="45%"/>
@@ -133,11 +157,11 @@ not need C++ interoperability mode or the additional C++ ABI constraints
 discussed here. That is also why C facades were historically the common route
 from Swift to C++.
 
-## Making the Headers Importable
+## Generating the Module Map with Conan
 
-Swift imports C and C++ headers through Clang modules. A `module.modulemap` file
-tells Clang which headers belong to a module. LunaSVG does not ship one, so the
-consumer recipe generates it:
+The module map shown above contains a package-specific include path. Rather
+than hard-coding that path, the Conan consumer recipe obtains it from the
+selected LunaSVG package and generates the file during `conan install`:
 
 ```python
 import os
@@ -179,22 +203,9 @@ class SwiftCppDemo(ConanFile):
         )
 ```
 
-The generated file is deliberately small:
-
-```text
-module LunaSVGMod {
-    header "/path/to/conan/package/include/lunasvg/lunasvg.h"
-    export *
-}
-```
-
 The recipe gets the include directory from LunaSVG's `cpp_info` instead of
 guessing a path inside the Conan cache. This keeps the shim tied to the package
 Conan actually selected.
-
-Despite the similar terminology, this is a [Clang
-module](https://clang.llvm.org/docs/Modules.html), not a named C++20 module.
-Swift does not currently import C++20 modules.
 
 ## Connecting Conan, CMake, and `swiftc`
 
