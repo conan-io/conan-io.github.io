@@ -137,33 +137,6 @@ Running this produces the actual LunaSVG output, `summer.png`:
   <img src="/assets/post_images/2026-08-12/summer.png" alt="summer.png: LunaSVG rendering of the demo scene with the summer stylesheet applied" width="60%"/>
 </div>
 
-## What "Direct" Means
-
-Swift does not translate LunaSVG into Swift, and this project does not compile a
-hand-written C wrapper. Instead, the path looks like this:
-
-```text
-C++ headers -> Clang module -> declarations visible to Swift
-Swift calls  -> platform C++ ABI -> compiled LunaSVG library
-```
-
-The Swift compiler uses Clang to parse LunaSVG's public headers and imports the
-supported declarations into Swift. It then emits native calls that follow the
-target's C++ ABI, and the linker resolves those calls against the library
-provided by Conan.
-
-This is why the header is only half of the dependency. Swift also needs a binary
-built for a compatible target, C++ standard library, ABI, and set of options. A
-module map makes headers importable; it does not make an arbitrary binary
-compatible.
-
-Pure C libraries follow the same broad dependency pattern: Conan can provide
-their headers and binaries, and a Clang module map can expose the headers to
-Swift. The difference is that Swift imports C by default, so a C library does
-not need C++ interoperability mode or the additional C++ ABI constraints
-discussed here. That is also why C facades were historically the common route
-from Swift to C++.
-
 ## Generating the Module Map with Conan
 
 The module map shown above contains a package-specific include path. Rather
@@ -280,6 +253,33 @@ source. Running the executable writes `summer.png` to the working directory.
 The same integration model can be used on other Swift platforms, but the exact
 supported C++ surface still varies. For example, the current Swift status page
 lists `std::shared_ptr` and `std::unique_ptr` as unsupported on Windows.
+
+## What "Direct" Means
+
+Swift does not translate LunaSVG into Swift, and this project does not compile a
+hand-written C wrapper. Instead, the path looks like this:
+
+```text
+C++ headers -> Clang module -> declarations visible to Swift
+Swift calls  -> platform C++ ABI -> compiled LunaSVG library
+```
+
+The Swift compiler uses Clang to parse LunaSVG's public headers and imports the
+supported declarations into Swift. It then emits native calls that follow the
+target's C++ ABI, and the linker resolves those calls against the library
+provided by Conan.
+
+This is why the header is only half of the dependency. Swift also needs a binary
+built for a compatible target, C++ standard library, ABI, and set of options. A
+module map makes headers importable; it does not make an arbitrary binary
+compatible.
+
+Pure C libraries follow the same broad dependency pattern: Conan can provide
+their headers and binaries, and a Clang module map can expose the headers to
+Swift. The difference is that Swift imports C by default, so a C library does
+not need C++ interoperability mode or the additional C++ ABI constraints
+discussed here. That is also why C facades were historically the common route
+from Swift to C++.
 
 ## What Direct Interoperability Does Not Solve
 
