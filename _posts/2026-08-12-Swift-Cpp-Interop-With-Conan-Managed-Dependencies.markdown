@@ -66,11 +66,9 @@ Before Swift can call this API, it needs to know which C++ header to import and
 the module name it should use. Swift gets this information through a Clang
 module map.
 
-LunaSVG does not provide one, so the project supplies a small module map file:
-
 ```text
 module LunaSVGMod {
-    header "/path/to/conan/package/include/lunasvg/lunasvg.h"
+    header "/path/to/include/lunasvg/lunasvg.h"
     export *
 }
 ```
@@ -80,9 +78,11 @@ enable C++ interoperability and pass the module map to the Clang importer used
 by the Swift compiler. Once that is configured, Swift can import the module and
 use the supported declarations from the header.
 
-Despite the similar terminology, this is a [Clang
+<div markdown="1" style="border-left: 3px solid #e0e0e0; padding: 0.4em 1em; color: #555; font-size: 0.95em; margin: 1.5em 0;">
+<strong>Note:</strong> Despite the similar terminology, this is a [Clang
 module](https://clang.llvm.org/docs/Modules.html), not a named C++20 module.
 Swift does not currently import C++20 modules.
+</div>
 
 ## Calling the Same API from Swift
 
