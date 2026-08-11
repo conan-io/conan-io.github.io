@@ -50,12 +50,14 @@ let seasons = [
     (
         name: "summer",
         css: ".sky{fill:#8ECBEB} .hills{fill:#8FA89B} " +
-             ".ground{fill:#8FC77E} .cloud{fill:#FFFFFF} .title{fill:#3B4A40}"
+             ".ground{fill:#8FC77E} .cloud{fill:#FFFFFF} " +
+             ".title{fill:#3B4A40}"
     ),
     (
         name: "winter",
         css: ".sky{fill:#C9D6E3} .hills{fill:#9FAFAF} " +
-             ".ground{fill:#F2F5F7} .cloud{fill:#E7EEF3} .title{fill:#4A5A66}"
+             ".ground{fill:#F2F5F7} .cloud{fill:#E7EEF3} " +
+             ".title{fill:#4A5A66}"
     ),
 ]
 
