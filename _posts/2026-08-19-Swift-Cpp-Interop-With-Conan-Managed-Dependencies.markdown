@@ -164,7 +164,7 @@ def generate(self):
 Then `CMakeLists.txt` links lunasvg the normal way:
 
 ```cmake
-cmake_minimum_required(VERSION 3.28)
+cmake_minimum_required(VERSION 3.23)
 project(swift_cpp_demo LANGUAGES CXX Swift)
 
 find_package(lunasvg REQUIRED)
@@ -185,7 +185,7 @@ module-map option gives Clang the module map it needs to parse the header.
 `compiler.cppstd`. Passing that value to Swift's embedded Clang via `-Xcc`
 ensures that LunaSVG's headers are parsed using the requested C++ standard.
 
-On macOS, with a recent Swift toolchain, CMake 3.28 or newer, and Ninja, the
+On macOS, with a recent Swift toolchain, CMake 3.23 or newer, and Ninja, the
 complete example can be built and run with:
 
 ```bash
