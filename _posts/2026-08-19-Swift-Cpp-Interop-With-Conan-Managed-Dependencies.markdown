@@ -137,8 +137,9 @@ Running this produces the actual LunaSVG output, `summer.png`:
 ## Putting It Together with Conan and CMake
 
 The module map shown above needs the real location of the LunaSVG header. The
-consumer recipe obtains it from the package selected by Conan and generates the
-file during `conan install`. The important part of `generate()` is:
+consumer recipe obtains it from the package selected by Conan, generates the
+file during `conan install`, and passes its location to CMake as the
+`LUNASVG_MODULEMAP` variable. The important part of `generate()` is:
 
 {% raw %}
 ```python
