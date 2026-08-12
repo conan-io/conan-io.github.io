@@ -1,9 +1,9 @@
 ---
 layout: post
 comments: false
-title: "Calling a C++ Library Directly from Swift"
+title: "Using an Unmodified C++ Package Directly from Swift"
 description: "Swift can call supported C++ APIs without a hand-written wrapper. We use Conan to supply an ordinary LunaSVG package and connect its headers, binary, and build settings to Swift."
-meta_title: "Calling a C++ Library Directly from Swift with Conan - Conan Blog"
+meta_title: "Using an Unmodified C++ Package Directly from Swift with Conan - Conan Blog"
 categories: [cpp, conan, swift, macos, cmake]
 ---
 
