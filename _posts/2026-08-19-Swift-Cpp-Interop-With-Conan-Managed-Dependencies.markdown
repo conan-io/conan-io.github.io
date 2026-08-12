@@ -216,10 +216,11 @@ Direct interop also does not turn a C++ API into a Swift-safe API. The most
 important points to keep in mind are:
 
 - C++ ownership and lifetime rules still apply. The `std::unique_ptr` in this
-  example must remain alive while Swift accesses `pointee`, and raw pointers or
-  views require the same care they would in C++.
-- Swift cannot catch C++ exceptions. A C++ exception that crosses the boundary
-  terminates the program.
+  example must remain alive while Swift accesses `pointee`, and [raw pointers
+  or views](https://www.swift.org/documentation/cxx-interop/#working-with-c-references-and-view-types-in-swift)
+  require the same care they would in C++.
+- Swift cannot catch [C++ exceptions](https://www.swift.org/documentation/cxx-interop/status/#c-exceptions).
+  A C++ exception that crosses the boundary terminates the program.
 - Swift supports a growing subset of C++, not every template or standard-library
   type. The [status page](https://www.swift.org/documentation/cxx-interop/status/)
   documents the current limitations.
