@@ -239,6 +239,11 @@ lifetime rules, a small wrapper can still provide a cleaner boundary. The
 difference is that it is now a design choice rather than a requirement for every
 C++ library.
 
+> **Note:** SwiftPM is a natural choice when the C++ dependency is packaged for
+> SwiftPM. In this example, however, LunaSVG comes from ConanCenter, so Conan
+> obtains the library and its dependencies and provides the build information
+> Xcode needs to use them from Swift.
+
 Try the [complete
 example](https://github.com/conan-io/examples2/tree/main/examples/languages/swift/cxx_interop)
 and consult the official [Swift C++ interoperability
