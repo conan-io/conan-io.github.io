@@ -20,8 +20,8 @@ call supported C++ APIs with no wrapper layer in between.
 
 To try this with an existing package, we use
 [LunaSVG](https://conan.io/center/recipes/lunasvg), a C++ SVG rendering
-library with a package available in ConanCenter. The application creates an
-SVG scene in Swift and asks LunaSVG to render it to a PNG.
+library packaged in ConanCenter. The application creates an SVG scene in
+Swift and asks LunaSVG to render it to a PNG.
 
 Swift knows how to call supported C++ APIs, while Conan provides LunaSVG, its
 transitive dependencies, and the information needed to compile and link the
@@ -140,9 +140,9 @@ and
 which turn the dependency graph into a set of `.xcconfig` files an Xcode
 project can use as its build configuration.
 
-Neither generator knows anything about Swift, though: they only write settings
-for the C/C++/Objective-C compilers and the linker. The
-`-cxx-interoperability-mode` flag and the module map still have to reach
+The generators provide the dependency and C++ toolchain settings, but they do
+not add the Swift-specific interoperability options required by this target.
+The `-cxx-interoperability-mode` flag and the module map still have to reach
 `swiftc`, through `OTHER_SWIFT_FLAGS`, the build setting Xcode passes straight
 to the Swift compiler. `XcodeToolchain` exposes `extra_xcconfig`, a plain dict
 of build settings to add to the `.xcconfig` file it generates. The consumer
@@ -193,7 +193,7 @@ available to the target.
 Install the dependency, then open the project:
 
 ```bash
-conan install . --build=missing
+conan install . -s build_type=Release --build=missing
 open demo.xcodeproj
 ```
 
