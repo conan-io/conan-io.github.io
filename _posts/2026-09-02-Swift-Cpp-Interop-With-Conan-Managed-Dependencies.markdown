@@ -144,7 +144,7 @@ The generators provide the dependency and C++ toolchain settings, but they do
 not add the Swift-specific interoperability options required by this target.
 The `-cxx-interoperability-mode` flag and the module map still have to reach
 `swiftc`, through `OTHER_SWIFT_FLAGS`, the build setting Xcode passes straight
-to the Swift compiler. `XcodeToolchain` exposes `extra_xcconfig`, a plain dict
+to the Swift compiler. `XcodeToolchain` exposes `build_settings`, a plain dict
 of build settings to add to the `.xcconfig` file it generates. The consumer
 recipe's `generate()` sets it alongside the module map from earlier, while
 `layout()` collects everything the generators write into a `generators` folder:
@@ -172,7 +172,7 @@ def generate(self):
     cppstd = cppstd_flag(self)
 
     tc = XcodeToolchain(self)
-    tc.extra_xcconfig["OTHER_SWIFT_FLAGS"] = (
+    tc.build_settings["OTHER_SWIFT_FLAGS"] = (
         f'$(inherited) -cxx-interoperability-mode=default '
         f'-Xcc {cppstd} -Xcc -fmodule-map-file="{modulemap_path}"'
     )
@@ -183,7 +183,7 @@ def generate(self):
 `cppstd_flag` turns the profile's `compiler.cppstd` into the matching `-std=`
 flag, so the headers are parsed with the same standard as the rest of the
 build. `$(inherited)` keeps any Swift flags the project already defines.
-`extra_xcconfig` needs Conan 2.32 or newer.
+`build_settings` needs Conan 2.32 or newer.
 
 The Xcode project uses `generators/conan_config.xcconfig` as the Base
 Configuration for its Release configuration, which makes everything Conan
