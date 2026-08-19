@@ -1,9 +1,9 @@
 ---
 layout: post
 comments: false
-title: "Using an Unmodified C++ Package Directly from Swift"
+title: "Calling Unmodified ConanCenter Packages from Swift via C++ Interoperability"
 description: "Swift can call supported C++ APIs without a hand-written wrapper. We use Conan to supply an ordinary LunaSVG package and connect its headers, binary, and build settings to Swift."
-meta_title: "Using an Unmodified C++ Package Directly from Swift with Conan - Conan Blog"
+meta_title: "Calling Unmodified ConanCenter Packages from Swift via C++ Interoperability - Conan Blog"
 categories: [cpp, conan, swift, macos, xcode]
 ---
 
