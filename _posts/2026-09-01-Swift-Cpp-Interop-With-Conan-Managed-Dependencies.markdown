@@ -1,9 +1,9 @@
 ---
 layout: post
 comments: false
-title: "Calling Unmodified ConanCenter Packages from Swift via C++ Interoperability"
+title: "Bringing Package Management to Swift's C++ Interoperability"
 description: "Swift can call supported C++ APIs without a hand-written wrapper. We use Conan to supply an ordinary LunaSVG package and connect its headers, binary, and build settings to Swift."
-meta_title: "Calling Unmodified ConanCenter Packages from Swift via C++ Interoperability - Conan Blog"
+meta_title: "Bringing Package Management to Swift's C++ Interoperability - Conan Blog"
 categories: [cpp, conan, swift, macos, xcode]
 ---
 
@@ -128,7 +128,7 @@ the C++ string allocates and copies the string data.
 Running this produces the actual LunaSVG output, `summer.png`:
 
 <div style="display: flex; justify-content: center;">
-  <img src="/assets/post_images/2026-09-02/summer.png" alt="summer.png: LunaSVG rendering of the demo scene with the summer stylesheet applied" width="60%"/>
+  <img src="/assets/post_images/2026-09-01/summer.png" alt="summer.png: LunaSVG rendering of the demo scene with the summer stylesheet applied" width="60%"/>
 </div>
 
 ## Putting It All Together
