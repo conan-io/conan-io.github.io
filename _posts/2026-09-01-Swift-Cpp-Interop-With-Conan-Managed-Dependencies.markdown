@@ -190,7 +190,8 @@ Configuration for its Release configuration, which makes everything Conan
 generates — include paths, linker options, and the Swift flags above —
 available to the target.
 
-Install the dependency, then open the project:
+Install the dependency, then open the project. Please use Conan 2.32 or
+newer.
 
 ```bash
 conan install . -s build_type=Release --build=missing
@@ -249,7 +250,7 @@ C++ library.
 
 Try the [complete
 example](https://github.com/conan-io/examples2/tree/main/examples/languages/swift/cxx_interop)
-and consult the official [Swift C++ interoperability
+and check the official [Swift C++ interoperability
 guide](https://www.swift.org/documentation/cxx-interop/) for the complete
 mapping and safety rules.
 
