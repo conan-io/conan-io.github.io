@@ -420,6 +420,7 @@ body .month-content h2 {
 	 background: #eef7ff;
 	 padding: 22px;
 	 margin-bottom: 2em;
+	 overflow-x: auto;
 }
  .container.single-post-page-container .spli-footer {
 	 padding-top: 20px;
