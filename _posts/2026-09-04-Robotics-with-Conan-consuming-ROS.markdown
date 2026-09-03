@@ -176,10 +176,9 @@ A few questions we have in mind:
 - Which other libraries would you like to combine with ROS in the same graph?
 
 Clone [conan-io/ros-conan](https://github.com/conan-io/ros-conan), try the examples, and tell us how
-it went by opening an issue on [GitHub](https://github.com/conan-io/ros-conan/issues). Bugs and
-contributions are welcome too.
+it went by [opening an issue on GitHub](https://github.com/conan-io/ros-conan/issues).
 
-We will also be at ROSCon Global 2026 in Toronto. If you are attending, we would
+**We will also be at ROSCon Global 2026 in Toronto**. If you are attending, we would
 be happy to talk about this in person.
 
 Looking forward to your feedback.
