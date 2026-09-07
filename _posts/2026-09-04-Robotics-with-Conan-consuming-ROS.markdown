@@ -136,7 +136,7 @@ whether it holds up in a real project.
   three platforms.
 - **Composable with Conan Center.** Robotics applications often need
   [opencv](https://conan.io/center/recipes/opencv), [eigen](https://conan.io/center/recipes/eigen)
-  or [tensorflow-lite](https://conan.io/center/recipes/tensorflow-lite), and those come from the
+  or [tensorflow-lite](https://conan.io/center/recipes/tensorflow-lite) among others, and those come from the
   same graph, with no glue in between.
 
 ## The ROS tools still work as usual
