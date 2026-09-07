@@ -117,7 +117,7 @@ CMake project that happens to require ROS.** For a codebase where ROS is one lay
 larger C++ product, we think that is a reasonable place to be, but we would like to hear
 whether it holds up in a real project.
 
-## What we think this brings
+## What this brings
 
 - **One dependency graph.** ROS is resolved together with the rest of your requirements, so
   Conan can detect version conflicts between the robotics libraries and everything else.
