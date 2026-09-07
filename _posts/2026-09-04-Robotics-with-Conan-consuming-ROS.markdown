@@ -15,8 +15,9 @@ code is written in C++ and managed with Conan, while ROS is a layer
 on top of it that has to be dealt with separately, installed system-wide with `apt`, `rosdep`,
 `brew` or `choco` on every developer machine and every CI agent.
 
-In case you have not worked with it, ROS (Robot Operating System) is a large set of C++ and
-Python libraries and tools that provide the API and the conventions around that code. Your
+In case you have not worked with it, ROS (Robot Operating System) is a framework for building
+robotics applications: a large set of C++ and Python libraries and tools, together with the
+conventions that let components written by different teams work with each other. Your
 components run as processes that exchange data through a publish/subscribe layer built on top
 of DDS, using standard message types for sensor data, geometry and coordinate transforms. **That
 universality is where its power comes from**: once your code speaks those interfaces, it can be
