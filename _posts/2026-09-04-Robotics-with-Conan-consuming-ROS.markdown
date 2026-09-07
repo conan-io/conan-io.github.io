@@ -25,9 +25,8 @@ combined with the drivers, algorithms, robot models and tools that the rest of t
 already publishes, or with those of the partners you work with.
 
 For some months now we have been working on [conan-io/ros-conan](https://github.com/conan-io/ros-conan),
-a set of recipes that build the current ROS distribution,
-[Kilted](https://docs.ros.org/en/kilted/Releases/Release-Kilted-Kaiju.html), from source and expose
-it as a regular Conan package for Linux, macOS and Windows. What we are after is that **adding ROS
+a set of recipes that build the [Kilted ROS distribution](https://docs.ros.org/en/kilted/Releases/Release-Kilted-Kaiju.html),
+from source and expose it as a regular Conan package for Linux, macOS and Windows. What we are after is that **adding ROS
 support to a C++ project already using Conan is one more `requires`**, and not a separate
 installation with its own workflow. A `conan install` puts the ROS installation in your cache, and from
 there you require and consume it like any other package.
@@ -93,6 +92,17 @@ target_link_libraries(pose-estimation PRIVATE rclcpp::rclcpp
 depending on the variant you pick, coordinate transforms with `tf2` or the visualization tools.
 The `variant` option ranges from `core` to `desktop` and decides how much of ROS gets built.
 
+The recipes are not in Conan Center, so `ros-kilted` is resolved by cloning the repository next
+to your project and adding it as a
+[local-recipes-index](https://docs.conan.io/2/devops/devops_local_recipes_index.html) remote. That
+clone is also where the `profiles/ros` profile comes from. The two commands for that are in the
+[README](https://github.com/conan-io/ros-conan#quick-start):
+
+```bash
+git clone https://github.com/conan-io/ros-conan.git
+conan remote add ros-conan ./ros-conan --type=local-recipes-index
+```
+
 Then the usual install and build sequence of any Conan project:
 
 ```bash
@@ -105,11 +115,6 @@ cmake --build --preset conan-release
 > 260-character path limit. Enable
 > [long paths](https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=registry#enable-long-paths-in-windows-10-version-1607-and-later)
 > before running `conan install`.
-
-The recipes are not in Conan Center yet, so `ros-kilted` is resolved by cloning the repository next
-to your project and adding it as a
-[local-recipes-index](https://docs.conan.io/2/devops/devops_local_recipes_index.html) remote. That
-clone is also where the `profiles/ros` profile comes from. The two commands for that are in the README.
 
 One good thing about this approach is that there is no need to bring all the usual ROS
 tooling and workspace conventions into your C++ project. **The application stays a plain
