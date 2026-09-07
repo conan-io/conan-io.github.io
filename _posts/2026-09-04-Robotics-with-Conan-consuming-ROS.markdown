@@ -93,7 +93,7 @@ target_link_libraries(pose-estimation PRIVATE rclcpp::rclcpp
 **`ros-kilted` is more than the C++ client library.** The recipe packages the distribution, so besides
 `rclcpp` you get the standard message packages such as `geometry_msgs` or `sensor_msgs` and,
 depending on the variant you pick, coordinate transforms with `tf2` or the visualization tools.
-The `variant` option ranges from `core` to `desktop` and decides how much of ROS gets built.
+The `variant` recipe option ranges from `core` to `desktop` and decides how much of ROS gets built.
 
 The recipes are not in Conan Center, so `ros-kilted` is resolved by cloning the repository next
 to your project and adding it as a
