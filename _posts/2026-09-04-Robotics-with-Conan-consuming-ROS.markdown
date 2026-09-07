@@ -2,20 +2,20 @@
 layout: post
 comments: false
 title: "Robotics with Conan: consuming ROS as a regular package"
-description: "We have been experimenting with recipes that build ROS, the framework most robotics applications are built on, from source and expose it as a regular Conan package. Here is how consuming it looks, and the questions we would like to ask you about it."
+description: "We have been experimenting with recipes that build ROS, the framework most robotics applications are built on, from source and expose it as a regular Conan package. Here is how consuming it looks, and a few questions we have for you."
 meta_title: "Robotics with Conan: consuming ROS as a regular package - Conan Blog"
 keywords: "conan, C++, ROS, ROS 2, ROS Kilted, robotics, ros-kilted, rclcpp, CMake, dependency management"
 categories: [cpp, conan, ros, ros2, robotics]
 ---
 
-We know that many of you use Conan for your C++ developments in robotics, and that some of
+We know that many of you use Conan for C++ development in robotics, and that some of
 you have probably considered adding [ROS](https://docs.ros.org/) support to those projects at some point.
-**That is usually where the two worlds stop fitting together.** Your control, perception or planning
+**That is usually where Conan and ROS stop fitting together.** Your control, perception or planning
 code is written in C++ and managed with Conan, while ROS is a layer
 on top of it that has to be dealt with separately, installed system-wide with `apt`, `rosdep`,
 `brew` or `choco` on every developer machine and every CI agent.
 
-In case you have not worked with it, ROS (Robot Operating System) is a framework for building
+If you have not worked with it, ROS (Robot Operating System) is a framework for building
 robotics applications: a large set of C++ and Python libraries and tools, together with the
 conventions that let components written by different teams work with each other. Your
 components run as processes that exchange data through a publish/subscribe layer built on top
@@ -25,11 +25,14 @@ combined with the drivers, algorithms, robot models and tools that the rest of t
 already publishes, or with those of the partners you work with.
 
 For some months now we have been working on [conan-io/ros-conan](https://github.com/conan-io/ros-conan),
-a set of recipes that build the [Kilted ROS distribution](https://docs.ros.org/en/kilted/Releases/Release-Kilted-Kaiju.html),
-from source and expose it as a regular Conan package for Linux, macOS and Windows. What we are after is that **adding ROS
-support to a C++ project already using Conan is one more `requires`**, and not a separate
+a set of recipes that build the [Kilted ROS distribution](https://docs.ros.org/en/kilted/Releases/Release-Kilted-Kaiju.html)
+from source and expose it as a regular Conan package for Linux, macOS and Windows. The goal is that **adding ROS
+support to a C++ project already using Conan is one more `requires`**, not a separate
 installation with its own workflow. A `conan install` puts the ROS installation in your cache, and from
-there you require and consume it like any other package.
+there you require and consume it like any other package. It is the other direction from the
+[colcon integration we described in 2024](https://blog.conan.io/2024/11/28/Enhancing-ros-builds-with-Conan.html),
+where Conan packages are consumed transparently inside a ROS workspace: here ROS itself
+enters the usual C++ and Conan flow.
 
 <figure class="centered">
     <video controls playsinline preload="metadata" width="100%"
