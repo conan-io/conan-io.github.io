@@ -420,6 +420,7 @@ body .month-content h2 {
 	 background: #eef7ff;
 	 padding: 22px;
 	 margin-bottom: 2em;
+	 overflow-x: auto;
 }
  .container.single-post-page-container .spli-footer {
 	 padding-top: 20px;
@@ -891,4 +892,8 @@ body .month-content h2 {
   border-top: 1px solid rgba(0, 0, 0, 0.15) !important;
   font-size: 1rem;
   font-weight: 600;
+}
+
+b, strong {
+  font-weight: 500;
 }
