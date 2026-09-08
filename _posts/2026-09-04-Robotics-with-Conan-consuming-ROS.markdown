@@ -2,7 +2,7 @@
 layout: post
 comments: false
 title: "Robotics with Conan: consuming ROS as a regular package"
-description: "We have been experimenting with recipes that build ROS, the framework most robotics applications are built on, from source and expose it as a regular Conan package. Here is how consuming it looks, and a few questions we have for you."
+description: "We have been experimenting with recipes that build ROS, the framework most robotics applications are built on, from source and expose it as a regular Conan package. Here is how consuming it looks, and we would like to know your feedback."
 meta_title: "Robotics with Conan: consuming ROS as a regular package - Conan Blog"
 keywords: "conan, C++, ROS, ROS 2, ROS Kilted, robotics, ros-kilted, rclcpp, CMake, dependency management"
 categories: [cpp, conan, ros, ros2, robotics]
@@ -50,7 +50,26 @@ enters the usual C++ and Conan flow.
 
 ## What consuming it looks like
 
-ROS shows up as one more `requires`. This is the whole dependency declaration of the example in the video above:
+By exploring the folder of the example shown above:
+
+```bash
+cd ros-conan/examples/pose_estimation
+tree
+.
+├── assets
+│   ├── dancing.mp4
+│   ├── dancing.png
+│   ├── lite-model_movenet_singlepose_lightning_tflite_float16_4.tflite
+│   └── output.gif
+├── ci_test_example.py
+├── CMakeLists.txt
+├── conanfile.txt
+├── readme.md
+└── src
+    └── pose-estimation.cpp
+```
+
+You can check that ROS shows up as one more `requires`:
 
 **`conanfile.txt`**
 
@@ -93,7 +112,7 @@ target_link_libraries(pose-estimation PRIVATE rclcpp::rclcpp
 **`ros-kilted` is more than the C++ client library.** The recipe packages the distribution, so besides
 `rclcpp` you get the standard message packages such as `geometry_msgs` or `sensor_msgs` and,
 depending on the variant you pick, coordinate transforms with `tf2` or the visualization tools.
-The `variant` recipe option ranges from `core` to `desktop` and decides how much of ROS gets built.
+The `variant` recipe option ranges from `core` (default) to `desktop` and decides how much of ROS gets built.
 
 The recipes are not in Conan Center, so `ros-kilted` is resolved by cloning the repository next
 to your project and adding it as a
@@ -109,7 +128,7 @@ conan remote add ros-conan ./ros-conan --type=local-recipes-index
 Then the usual install and build sequence of any Conan project:
 
 ```bash
-conan install . --build=missing --profile=ros-conan/profiles/ros
+conan install --profile=ros-conan/profiles/ros --build=missing
 cmake --preset conan-release
 cmake --build --preset conan-release
 ```
@@ -149,12 +168,15 @@ the small simulator used to introduce ROS, launched straight from the installati
 It is part of the `desktop` variant, so that is the one to select:
 
 ```ini
+[requires]
+ros-kilted/2026.06.17
+
 [options]
 ros-kilted/*:variant=desktop
 ```
 
 ```bash
-conan run "ros2 run turtlesim turtlesim_node" --profile=ros-conan/profiles/ros
+conan run "ros2 run turtlesim turtlesim_node" --profile=ros-conan/profiles/ros --build=missing
 ```
 
 <figure class="centered">
@@ -168,26 +190,11 @@ conan run "ros2 run turtlesim turtlesim_node" --profile=ros-conan/profiles/ros
 
 ## We would like to know what you think
 
-**This is an early experiment rather than a finished feature.** Kilted is the only
-distribution covered so far, and CI builds the `core`, `base` and `desktop` variants
-from source for Linux (gcc 13, x86_64 and ARM64), macOS (clang 17, x86_64 and ARM64)
-and Windows (MSVC 19.40). There are no prebuilt binaries yet, so the first
-`conan install --build=missing` compiles ROS from source. That takes a while, but the
-result stays in the cache for the projects that come after.
-
-A few questions we have in mind:
-
-- Does this approach make sense to you? Is consuming ROS as a Conan package something you would use?
-- Would it help to put a ROS layer on top of an existing C++ codebase, or to try ROS
-  out without installing it system-wide?
-- Is a single `ros-kilted` package the right granularity, or would you rather have
-  smaller packages so that a project only pulls in what it uses?
-- Which other libraries would you like to combine with ROS in the same graph?
-
-Clone [conan-io/ros-conan](https://github.com/conan-io/ros-conan), try the examples, and tell us how
-it went by [opening an issue on GitHub](https://github.com/conan-io/ros-conan/issues).
+Now that we have introduced how to install ROS with Conan, we would like to know if this approach makes sense to you.
+We encourage you to try the examples in the [conan-io/ros-conan](https://github.com/conan-io/ros-conan) repository (if you have not already) and tell us know what you think by [opening an issue on GitHub](https://github.com/conan-io/ros-conan/issues).
+Any feedback is greatly appreciated!
 
 **We will also be at ROSCon Global 2026 in Toronto**. If you are attending, we would
 be happy to talk about this in person.
 
-Looking forward to your feedback.
+Hope to see you there!
