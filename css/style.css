@@ -185,13 +185,13 @@ body .month-content h2 {
 }
  body {
 	 font-family: 'Open Sans', sans-serif !important;
-	 font-weight: 300;
+	 font-weight: 400;
 	 color: #2f2e2e;
 }
  html {
 	 font-size: 19px;
 	 font-family: 'Open Sans', sans-serif;
-	 font-weight: 300;
+	 font-weight: 400;
 }
  @media screen and (max-width: '1199.98px') {
 	 html {
@@ -202,13 +202,17 @@ body .month-content h2 {
 	 border-bottom: 2px solid #eaebee;
 }
  p {
-	 font-weight: 300;
+	 font-weight: inherit;
 }
  ul {
 	 list-style: none;
 }
  .post-content ul {
 	 list-style: disc;
+}
+ .post-content p {
+	 text-align: justify;
+	 hyphens: auto;
 }
  img {
 	 max-width: 100%;
@@ -895,5 +899,5 @@ body .month-content h2 {
 }
 
 b, strong {
-  font-weight: 500;
+  font-weight: bold;
 }
