@@ -41,9 +41,9 @@ enters the usual C++ and Conan flow.
 
 <figure class="centered">
     <video controls playsinline preload="metadata" width="100%"
-           poster="{{ site.baseurl }}/assets/post_images/2026-09-04/pose-estimation-ros-kilted-rviz2.jpg">
-        <source src="{{ site.baseurl }}/assets/post_images/2026-09-04/ros-conan-screencast.mp4" type="video/mp4">
-        <a href="{{ site.baseurl }}/assets/post_images/2026-09-04/ros-conan-screencast.mp4">Download the video</a>
+           poster="{{ site.baseurl }}/assets/post_images/2026-09-08/pose-estimation-ros-kilted-rviz2.jpg">
+        <source src="{{ site.baseurl }}/assets/post_images/2026-09-08/ros-conan-screencast.mp4" type="video/mp4">
+        <a href="{{ site.baseurl }}/assets/post_images/2026-09-08/ros-conan-screencast.mp4">Download the video</a>
     </video>
     <figcaption style="text-align: center; font-size: 0.9em;">
         The <a href="https://github.com/conan-io/ros-conan/tree/main/examples/pose_estimation">pose_estimation</a>
@@ -192,7 +192,7 @@ conan run "ros2 run turtlesim turtlesim_node" --profile=ros-conan/profiles/ros -
 ```
 
 <figure class="centered">
-    <img src="{{ site.baseurl }}/assets/post_images/2026-09-04/ros-kilted-turtlesim.jpg"
+    <img src="{{ site.baseurl }}/assets/post_images/2026-09-08/ros-kilted-turtlesim.jpg"
          style="display: block; margin-left: auto; margin-right: auto;"
          alt="turtlesim window launched from a Conan-provided ROS installation"/>
     <figcaption style="text-align: center; font-size: 0.9em;">
