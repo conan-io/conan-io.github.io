@@ -2,7 +2,7 @@
 layout: post
 comments: false
 title: "Robotics with Conan: consuming ROS as a regular package"
-description: "We have been experimenting with recipes that build ROS, the framework most robotics applications are built on, from source and expose it as a regular Conan package. Here is how consuming it looks, and we would like to know your feedback."
+description: "We have been experimenting with recipes that build ROS, the framework most robotics applications are built on, from source and expose it as a regular Conan package. These are experimental recipes, not ready for production or Conan Center. We would like to show you how it works and get your feedback about it."
 meta_title: "Robotics with Conan: consuming ROS as a regular package - Conan Blog"
 keywords: "conan, C++, ROS, ROS 2, ROS Kilted, robotics, ros-kilted, rclcpp, CMake, dependency management"
 categories: [cpp, conan, ros, ros2, robotics]
@@ -24,15 +24,20 @@ universality is where its power comes from**: once your code speaks those interf
 combined with the drivers, algorithms, robot models and tools that the rest of the ecosystem
 already publishes, or with those of the partners you work with.
 
-For some months now we have been working on [conan-io/ros-conan](https://github.com/conan-io/ros-conan),
+For some months now we have been **experimenting** with [conan-io/ros-conan](https://github.com/conan-io/ros-conan),
 a set of recipes that build the [Kilted ROS distribution](https://docs.ros.org/en/kilted/Releases/Release-Kilted-Kaiju.html)
-from source and expose it as a regular Conan package for Linux, macOS and Windows. The goal is that **adding ROS
-support to a C++ project already using Conan is one more `requires`**, not a separate
+from source and expose it as a regular Conan package for Linux, macOS and Windows. The idea we wanted to explore is whether
+**adding ROS support to a C++ project already using Conan could be one more `requires`**, instead of a separate
 installation with its own workflow. A `conan install` puts the ROS installation in your cache, and from
 there you require and consume it like any other package. It is the other direction from the
 [colcon integration we described in 2024](https://blog.conan.io/2024/11/28/Enhancing-ros-builds-with-Conan.html),
 where Conan packages are consumed transparently inside a ROS workspace: here ROS itself
 enters the usual C++ and Conan flow.
+
+> We would like to emphasize that this is **an experiment rather than a finished feature**.
+> The recipes are not finished, there are no prebuilt binaries for them and they are not
+> even included in Conan Center. This is exploratory work to propose a new approach to developing
+> robotic applications with ROS.
 
 <figure class="centered">
     <video controls playsinline preload="metadata" width="100%"
@@ -146,6 +151,9 @@ whether it holds up in a real project.
 
 ## What this brings
 
+These are the advantages we see in the approach, and the reason we consider this work worth
+sharing:
+
 - **One dependency graph.** ROS is resolved together with the rest of your requirements, so
   Conan can detect version conflicts between the robotics libraries and everything else.
 - **No system-wide install.** ROS lives in the Conan cache, so different versions can coexist on
@@ -194,8 +202,8 @@ conan run "ros2 run turtlesim turtlesim_node" --profile=ros-conan/profiles/ros -
 
 ## We would like to know what you think
 
-Now that we have introduced how to install ROS with Conan, we would like to know if this approach makes sense to you.
-We encourage you to try the examples in the [conan-io/ros-conan](https://github.com/conan-io/ros-conan) repository (if you have not already) and tell us know what you think by [opening an issue on GitHub](https://github.com/conan-io/ros-conan/issues).
+Now that we have introduced this way of installing ROS with Conan, we would like to know if this approach makes sense to you.
+We encourage you to try the examples in the [conan-io/ros-conan](https://github.com/conan-io/ros-conan) repository (if you have not already) and tell us what you think by [opening an issue on GitHub](https://github.com/conan-io/ros-conan/issues).
 Any feedback is greatly appreciated!
 
 **We will also be at ROSCon Global 2026 in Toronto**. If you are attending, we would
