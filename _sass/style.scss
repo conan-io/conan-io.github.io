@@ -263,14 +263,14 @@ body {
 
 body {
   font-family: $main-font !important;
-  font-weight: 400;
+  font-weight: 300;
   color: $almost_black;
 }
 
 html {
   font-size: 19px;
   font-family: $main-font;
-  font-weight: 400;
+  font-weight: 300;
   @media screen and (max-width: $lg) {
     font-size: 17px;
   }
