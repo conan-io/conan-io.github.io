@@ -165,7 +165,9 @@ the whole installation arrives with a single `conan install`, and the `ros2` com
 without sourcing anything by hand. Everything else behaves as the
 [official tutorials](https://docs.ros.org/en/kilted/Tutorials.html) describe. Here is `turtlesim`,
 the small simulator used to introduce ROS, launched straight from the installation Conan provides.
-It is part of the `desktop` variant, so that is the one to select:
+It is part of the `desktop` variant, so that is the one to select.
+
+Using a **`conanfile.txt`**, you can declare the `desktop` variant:
 
 ```ini
 [requires]
@@ -174,6 +176,8 @@ ros-kilted/2026.06.17
 [options]
 ros-kilted/*:variant=desktop
 ```
+
+And then execute `ros2` directly from the `conan run`:
 
 ```bash
 conan run "ros2 run turtlesim turtlesim_node" --profile=ros-conan/profiles/ros --build=missing
