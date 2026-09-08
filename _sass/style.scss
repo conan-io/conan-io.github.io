@@ -263,14 +263,14 @@ body {
 
 body {
   font-family: $main-font !important;
-  font-weight: 300;
+  font-weight: 400;
   color: $almost_black;
 }
 
 html {
   font-size: 19px;
   font-family: $main-font;
-  font-weight: 300;
+  font-weight: 400;
   @media screen and (max-width: $lg) {
     font-size: 17px;
   }
@@ -281,7 +281,12 @@ header#masthead {
 }
 
 p {
-  font-weight: 300;
+  font-weight: inherit;
+}
+
+b,
+strong {
+  font-weight: bold;
 }
 
 ul {
@@ -290,6 +295,11 @@ ul {
 
 .post-content ul {
   list-style: disc;
+}
+
+.post-content p {
+  text-align: justify;
+  hyphens: auto;
 }
 
 img {
