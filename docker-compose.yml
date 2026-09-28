@@ -12,6 +12,4 @@ services:
 
 secrets:
     ca:
-        # Root CA of a TLS-inspecting proxy, only needed to install the gems
-        # behind one: CA_CERT=/path/to/root-ca.crt docker compose up --build
         file: ${CA_CERT:-/dev/null}
