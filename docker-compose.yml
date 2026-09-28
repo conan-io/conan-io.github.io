@@ -1,10 +1,17 @@
 services:
     jekyll:
-        image: jekyll/jekyll:3.8
-        command: /bin/sh -c /srv/jekyll/serve.sh
+        build:
+            context: .
+            secrets:
+                - ca
+        image: conan-blog
         ports:
             - 4000:4000
         volumes:
             - .:/srv/jekyll
-        environment:
-            - JEKYLL_ENV=virtual
+
+secrets:
+    ca:
+        # Root CA of a TLS-inspecting proxy, only needed to install the gems
+        # behind one: CA_CERT=/path/to/root-ca.crt docker compose up --build
+        file: ${CA_CERT:-/dev/null}

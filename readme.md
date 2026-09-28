@@ -18,9 +18,24 @@ jekyll serve _config.yml --watch --future
 
 - Preview in local: Docker
 
+The `Dockerfile` builds a native image for your machine's architecture (amd64
+or arm64) with all the gems already installed. It serves the blog with
+`--future`, so posts with a future date are also generated, and it regenerates
+the site when files change:
+
 ```sh
-docker run --rm -v $(pwd):/srv/jekyll -p 4000:4000 jekyll/jekyll:latest sh -c "gem install webrick && jekyll serve --host 0.0.0.0"
+docker compose up --build
 ```
+
+Behind a TLS-inspecting proxy (such as Zscaler), pass its root CA so the gems
+can be installed when building the image:
+
+```sh
+CA_CERT=/path/to/root-ca.crt docker compose up --build
+```
+
+The image only needs to be rebuilt when the `Dockerfile` changes. After that,
+`docker compose up` starts the server right away.
 
 See blog at localhost:4000
 
