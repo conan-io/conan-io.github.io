@@ -1,10 +1,15 @@
 services:
     jekyll:
-        image: jekyll/jekyll:3.8
-        command: /bin/sh -c /srv/jekyll/serve.sh
+        build:
+            context: .
+            secrets:
+                - ca
+        image: conan-blog
         ports:
             - 4000:4000
         volumes:
             - .:/srv/jekyll
-        environment:
-            - JEKYLL_ENV=virtual
+
+secrets:
+    ca:
+        file: ${CA_CERT:-/dev/null}
