@@ -415,6 +415,13 @@ needs. This is also a big advantage when you distribute the extension:
 building it for every platform you ship to only takes changing the settings
 of the build.
 
+> **Note for Linux:** By default, the extension links `libstdc++` dynamically,
+> so the target system must provide a version at least as new as the one used
+> to build it. For broad compatibility, build the extension and its
+> dependencies against a toolchain and system libraries compatible with the
+> oldest distribution you intend to support. Alternatively, link `libstdc++`
+> statically and hide its symbols with a linker version script.
+
 Try the [complete
 example](https://github.com/conan-io/examples2/tree/main/examples/libraries/godot-cpp/gdextension)
 and check the [godot-cpp documentation](https://docs.godotengine.org/en/stable/tutorials/scripting/cpp/about_godot_cpp.html)
