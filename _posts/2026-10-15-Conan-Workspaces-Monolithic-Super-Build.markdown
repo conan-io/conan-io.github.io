@@ -17,7 +17,7 @@ This post is about not having to choose. **Conan workspaces** let you keep your 
 
 ## The problem: changing a library deep in the graph
 
-Let's use a small but realistic graph. `game` is an application that depends on `engine`, which depends on `ai` and `graphics`, which both depend on `mathlib`. All of them are static libraries, each one lives in its own git repository, and each is a Conan package in our server.
+Let's use a small example graph. `game` is an application that depends on `engine`, which depends on `ai` and `graphics`, which both depend on `mathlib`. All of them are static libraries, each one lives in its own git repository, and each is a Conan package in our server.
 
 The repositories are [conanci_mathlib](https://github.com/conan-io/conanci_mathlib), [conanci_ai](https://github.com/conan-io/conanci_ai), [conanci_graphics](https://github.com/conan-io/conanci_graphics), [conanci_engine](https://github.com/conan-io/conanci_engine) and [conanci_game](https://github.com/conan-io/conanci_game). The workspace itself is in [conanci_workspace](https://github.com/conan-io/conanci_workspace).
 
@@ -63,26 +63,9 @@ Packages created: mathlib/1.0, ai/1.0, graphics/1.0, engine/1.0, game/1.0
 
 In a real organization, the packages would already be in your server, built by CI. `bootstrap.py` plays that role. It clones each component repository into a temporary folder and runs `conan create` on them in dependency order. Any extra arguments are forwarded to `conan create`, for example `python bootstrap.py -s build_type=Debug`.
 
-The script uses `git clone` rather than archive downloads because every recipe captures its git coordinates when exported:
-
-```python
-    def export(self):
-        git = Git(self, self.recipe_folder)
-        git.coordinates_to_conandata()
-```
-
-That's what allows a package to point back to the exact source code it was built from:
-
-```bash
-$ cat $(conan cache path engine/1.0)/conandata.yml
-scm:
-  commit: 98aee101ef132b2f7a63fbe99686991955da8817
-  url: https://github.com/conan-io/conanci_engine.git
-```
-
 ## Adding packages to a workspace
 
-Because packages know where their sources are, a workspace can be built from package references instead of repository URLs. I want to work on `ai` and check the result in `game`:
+Packages know where their sources are, so a workspace can be built from package references instead of repository URLs. I want to work on `ai` and check the result in `game`. `engine` sits between them and has to be part of the workspace too, because its binary in the Conan cache was compiled against the old `ai`:
 
 ```bash
 $ conan workspace add --ref ai/1.0
@@ -90,51 +73,32 @@ Cloning git repo
 Checkout: 8595303a211ba4556f257017e789e45a515adf50
 Reference 'ai/1.0' added to workspace
 
+$ conan workspace add --ref engine/1.0
+Cloning git repo
+Checkout: 98aee101ef132b2f7a63fbe99686991955da8817
+Reference 'engine/1.0' added to workspace
+
 $ conan workspace add --ref game/1.0
 Cloning git repo
 Checkout: 88df8ca649eda1e2f30fa599fdcefc8f7bea4e4c
 Reference 'game/1.0' added to workspace
 ```
 
-Conan cloned each repository at the exact commit that produced the package, not some branch head that may have moved on, and registered both in `conanws.yml`.
+Conan could clone each repository at the exact commit that produced the package, not some branch head that may have moved on, because the packages capture their git origin url and commit when they are created. 
+
 
 ### The super-build definition
 
-Besides `conanws.yml`, the workspace repository contains two files that define the super-build. The first is `conanws.py`, which has two parts. One is a special `ConanFile` that defines the layout and generators of the super-project. It has no requirements of its own, because they're computed by aggregating the requirements of all the workspace packages. The other is the `Workspace` class, which points to it and receives the build order of the workspace packages:
+Besides `conanws.yml`, the workspace repository contains two files that define the super-build. The first is `conanws.py`, which defines a minimal `ConanFile` with the `CMakeDeps` and `CMakeToolchain` generators for the super-project, and a `Workspace` class. The interesting part of the latter is `build_order()`:
 
 ```python
-from conan import ConanFile, Workspace
-from conan.tools.files import save
-from conan.tools.cmake import CMakeDeps, CMakeToolchain, cmake_layout
-
-
-class SuperBuild(ConanFile):
-    settings = "os", "compiler", "build_type", "arch"
-
-    def layout(self):
-        cmake_layout(self)
-
-    def generate(self):
-        CMakeDeps(self).generate()
-        tc = CMakeToolchain(self)
-        # Each package defines PKG_VERSION in its own generate(), but a
-        # super-build has a single toolchain, so define it once here
-        tc.preprocessor_definitions["PKG_VERSION"] = '"ws"'
-        tc.generate()
-
-
 class MyWorkspace(Workspace):
-    def root_conanfile(self):
-        return SuperBuild
-
     def build_order(self, order):
         pkgs = " ".join(f'{it["ref"].name}:{it["folder"]}' for level in order for it in level)
         save(self, "build/conanws_build_order.cmake", f"set(CONAN_WS_BUILD_ORDER {pkgs})")
 ```
 
-The `PKG_VERSION` line shows an important property of super-builds. Every package in this example defines a `PKG_VERSION` preprocessor definition in its own `generate()` method. In a super-build, the packages' `generate()` methods don't run, because there's a single toolchain for the whole project. Anything the packages inject into their toolchains has to be provided by the super-build instead. Here we use the value `"ws"`, which will make it easy to see which code was compiled in the workspace.
-
-`build_order()` receives the topologically sorted list of workspace packages. Translating it into something the build system understands is up to the workspace. Here we write a small CMake file, and the super-project `CMakeLists.txt` at the workspace root consumes it:
+`build_order()` receives the topologically sorted list of workspace packages. Translating it into something the build system understands is up to the workspace. Here we write a small CMake ``conanws_build_order.cmake`` file, and the second file, the super-project `CMakeLists.txt` at the workspace root, consumes it:
 
 ```cmake
 cmake_minimum_required(VERSION 3.25)
@@ -154,6 +118,8 @@ foreach(pair ${CONAN_WS_BUILD_ORDER})
     FetchContent_MakeAvailable(${pkg})
     get_target_property(type ${pkg} TYPE)
     if(NOT type STREQUAL "EXECUTABLE")
+        # Just because the original packages didn't properly do it
+        # but can be fixed here
         add_library(${pkg}::${pkg} ALIAS ${pkg})
     endif()
 endforeach()
@@ -164,28 +130,9 @@ The key is `OVERRIDE_FIND_PACKAGE`. When `engine/CMakeLists.txt` calls `find_pac
 Neither of these two files is specific to this workspace. They work for any set of CMake-based packages, so they can live in a shared repository, like this one, or be generated by your own `conan new` template.
 
 
-### Completing the workspace
+### Installing and building the super-build
 
-Let's try installing:
-
-```bash
-$ conan workspace super-install
-ERROR: Workspace definition error. Package engine/1.0 in the Conan cache has dependencies to packages in the workspace: [ai/1.0]
-Try the 'conan workspace complete' to open/add intermediate packages
-```
-
-This is a safety check. `game` depends on `engine`, which is a binary in the Conan cache, and that `engine` depends on `ai`, which is now source code that I'm about to modify. Using that `engine` binary means linking code compiled against the old `ai` headers with the new `ai` library. We'll see shortly exactly how that would fail. Conan refuses, and suggests the fix:
-
-```bash
-$ conan workspace complete
-...
-Adding to workspace engine/1.0
-Conanfile in engine not found, trying to open it first
-Cloning git repo
-Checkout: 98aee101ef132b2f7a63fbe99686991955da8817
-```
-
-`complete` found every package that sits in the graph between two workspace packages, cloned it at its exact commit and added it. With a 5-package graph this saves a few commands. With a few hundred packages, figuring out the intermediate packages by hand is not realistic.
+Now we install the workspace:
 
 ```bash
 $ conan workspace super-install
@@ -207,7 +154,7 @@ Requirements
     mathlib/1.0#03ead0629a968a8daa7c5ed84418a895 - Cache
 ```
 
-This is what monolithic means in practice. `ai`, `engine` and `game` are now a single project, and `graphics` and `mathlib`, the parts of the graph I'm not touching, remain pre-built binaries in the Conan cache. I get the monorepo experience for 3 packages without building the other 2, or the other 300 in a real organization.
+This is what monolithic means in practice. `ai`, `engine` and `game` are now a single project, and `graphics` and `mathlib`, the parts of the graph that are not in the workspace, remain pre-built binaries in the Conan cache. I get the monorepo experience for 3 packages without building the other 2, or the other 300 in a real organization.
 
 The `build_order()` method of our `conanws.py` has written the build order of the workspace packages to a CMake file, which the super-project `CMakeLists.txt` includes:
 
@@ -235,7 +182,7 @@ engine/ws: Computing some game things (Release)!
 game/ws:fun game (Release)!
 ```
 
-The output tells the two worlds apart: `mathlib/1.0` and `graphics/1.0` are binaries from the cache, while `ai`, `engine` and `game` were compiled from the workspace sources. On Windows and other multi-config generators, the executable is at `build/_deps/game-build/Release/game.exe`.
+The output tells the two worlds apart: `mathlib/1.0` and `graphics/1.0` are binaries from the cache, while `ai`, `engine` and `game` were compiled from the workspace sources, which the example marks by printing `ws` instead of a version. On Windows and other multi-config generators, the executable is at `build/_deps/game-build/Release/game.exe`.
 
 ## Making the change
 
@@ -252,8 +199,8 @@ Now the actual work. `ai` gets a new feature, a configurable number of aliens, a
 -void ai(int intelligence){
 +void ai(int intelligence, int aliens){
      ...
--    std::cout << "ai/" << PKG_VERSION << ": Intelligence level=" << intelligence << "\n";
-+    std::cout << "ai/" << PKG_VERSION << ": Intelligence level=" << intelligence << ", aliens=" << aliens << "\n";
+-    std::cout << ... << ": Intelligence level=" << intelligence << "\n";
++    std::cout << ... << ": Intelligence level=" << intelligence << ", aliens=" << aliens << "\n";
 ```
 
 One build command, from the workspace root:
@@ -275,62 +222,16 @@ ai/ws: Intelligence level=0, aliens=3
 
 Look at the third line of the build: `engine.cpp` was recompiled, although nobody touched it, and `git status` in the `engine` repository is clean. It's recompiled because it includes `ai.h`, and the build system tracks that dependency across what are, in reality, different repositories. This is exactly the monorepo experience: the build system decides what has to be rebuilt, not the developer.
 
-That recompilation is also necessary for correctness. In C++, default arguments are filled in at the call site, so `engine.cpp`'s call to `ai()` compiles into a call to `ai(int, int)`. The `engine/1.0` binary in the cache was compiled before the change:
-
-```bash
-$ nm -C <cache-engine-package>/lib/libengine.a | grep " U ai"
-                 U ai(int)
-$ nm -C build/Release/_deps/ai-build/libai.a | grep " T ai"
-0000000000000000 T ai(int, int)
-```
-
-On Windows, `dumpbin /symbols` from a Visual Studio developer prompt shows the same thing, `ai(int)` undefined in `engine.lib` and `ai(int,int)` defined in `ai.lib`. The old `engine` binary needs a symbol that no longer exists, so linking it with the new `ai` fails. That's the situation `conan workspace complete` protected us from: the change is API-compatible, but not binary-compatible, and anything compiled against the old headers has to be rebuilt.
+That recompilation is also necessary for correctness. `engine` was compiled against the old `ai.h`, so as the header changed it has to be rebuilt, even if the change is API-compatible.
 
 In an IDE, the workspace is a single project. "Go to definition" on `ai()` in `engine.cpp` jumps into `ai`'s source rather than into a header in the Conan cache, and the debugger steps across all three components.
-
-## Sharing and dynamic workspaces
-
-Because the workspace is defined by files, it can be shared. If a team regularly works on the same set of packages, they can commit a `conanws.yml` that already lists them with their references. A bare `conan workspace open` then clones every listed package whose folder doesn't exist yet, each at its recorded commit:
-
-```bash
-$ conan workspace open
-Cloning git repo
-Checkout: 8595303a211ba4556f257017e789e45a515adf50
-Cloning git repo
-Checkout: 98aee101ef132b2f7a63fbe99686991955da8817
-Cloning git repo
-Checkout: 88df8ca649eda1e2f30fa599fdcefc8f7bea4e4c
-```
-
-The list of packages can also be computed by `conanws.py` instead of read from `conanws.yml`. For a monorepo-like layout where every subfolder is a package, there's no need to maintain a list at all:
-
-```python
-import os
-from conan import Workspace
-
-class MyWorkspace(Workspace):
-    def packages(self):
-        result = []
-        for f in os.listdir(self.folder):
-            if os.path.isdir(os.path.join(self.folder, f)):
-                conanfile = self.load_conanfile(f)
-                result.append({"path": f, "ref": f"{conanfile.name}/{conanfile.version}"})
-        return result
-```
-
-Clone or remove a repository in the folder, run `conan workspace super-install` again, and the super-build follows. Combined with the generated build order, the super-project `CMakeLists.txt` never needs editing. You can also build only part of a large workspace with `conan workspace super-install --pkg=engine --pkg=game`, which installs just those packages and their dependencies.
-
-If your packages customize their toolchains in more complex ways than our `PKG_VERSION`, the super-build `ConanFile` can reuse that logic through `self.workspace_packages`, as long as the packages expose it as a pure, side-effect-free method. The [workspace reference](https://docs.conan.io/2/reference/workspace.html) has an example.
-
-To start from scratch instead, `conan new workspace` generates a complete template with three packages, a `conanws.py` and a super-project `CMakeLists.txt`, ready for `conan workspace super-install`.
-
 
 ## What to keep in mind for monolithic super-builds
 
 A monolithic build is one build, and that has implications:
 
-- **One toolchain for everything.** When using monolithic super-builds, all workspace packages share a single `conan_toolchain.cmake` and a single set of dependency files. As we saw with `PKG_VERSION`, what packages do in their own `generate()` doesn't apply automatically. The same goes for options like `shared`: the super-build `ConanFile` must define its own options or aggregate the packages' ones explicitly.
-- **Subprojects need to be well-behaved.** The FetchContent approach works best when each package's `CMakeLists.txt` is at the root of its repository and defines the same targets its `find_package()` would provide. The `ALIAS` trick covers the most common gap.
+- **One toolchain for everything.** When using monolithic super-builds, all workspace packages share a single `conan_toolchain.cmake` and a single set of dependency files. What packages do in their own `generate()` doesn't apply automatically. The same goes for options like `shared`: the super-build `ConanFile` must define its own options or aggregate the packages' ones explicitly.
+- **Subprojects need to be well-behaved.** The ``FetchContent`` approach works best when each package's `CMakeLists.txt` is at the root of its repository and defines the same targets its `find_package()` would provide. The `ALIAS` trick covers the most common gap.
 - **One node per dependency.** A dependency can't appear twice, for example once as a `tool_requires` in the build context and once in the host context. Since Conan 2.33, Conan resolves this kind of ambiguity in favor of the host context and visible requirements, and prints a warning when it does.
 - **CMake is the paved road, not the only one.** `conan new workspace` generates a CMake super-project, but nothing in the model is CMake-specific. An MSBuild solution aggregating `.vcxproj` subprojects follows the same principle. Longer term, consuming dependencies from a source or build tree through the [Common Package Specification (CPS)](https://cps-org.github.io/cps/) would make this kind of integration possible without build-system-specific glue. If you're interested in other build systems or IDEs, please let us know.
 
@@ -347,7 +248,14 @@ The super-build is the most visible part of workspaces, but not the only one. Th
 - `conan workspace create` builds proper packages from the workspace sources in the Conan cache, in dependency order, which is how a change goes back to being packages.
 - `conan workspace info` and `remove` inspect and edit the workspace.
 
-The [`conan workspace` command reference](https://docs.conan.io/2/reference/commands/workspace.html) has the details.
+Workspaces can also be shared and dynamic:
+
+- Because a workspace is defined by files, a team can commit a `conanws.yml` listing the packages they usually work on, and a bare `conan workspace open` will clone every package that is missing, each at its recorded commit.
+- The list of packages doesn't have to be static. `conanws.py` can compute it, for example from the subfolders of the workspace, so cloning or removing a repository is all it takes to change what is in the super-build.
+- For large workspaces, `conan workspace super-install --pkg=engine --pkg=game` installs just those packages and their dependencies.
+- `conan new workspace` generates a complete template, ready to start from.
+
+The [workspace reference](https://docs.conan.io/2/reference/workspace.html) and the [`conan workspace` command reference](https://docs.conan.io/2/reference/commands/workspace.html) have the details.
 
 
 ## Conclusion
