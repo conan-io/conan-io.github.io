@@ -226,6 +226,7 @@ $ cmake --build --preset conan-release
 [100%] Built target game
 
 $ ./build/Release/_deps/game-build/game
+# PATH is different in Win:  build\_deps\game-build\Release\game.exe
 mathlib/1.0: mathlib maths (Release)!
 ai/ws: Some Artificial Intelligence for aliens (Release)!
 ai/ws: Intelligence level=0
@@ -266,6 +267,7 @@ $ cmake --build --preset conan-release
 [ 71%] Linking CXX executable game
 
 $ ./build/Release/_deps/game-build/game
+# PATH is different in Win:  build\_deps\game-build\Release\game.exe
 ...
 ai/ws: Intelligence level=0, aliens=3
 ...
