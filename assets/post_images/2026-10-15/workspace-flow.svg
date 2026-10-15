@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 824 754" width="824" height="754" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" role="img" aria-labelledby="t">
+<title id="t">Conan workspace flow in five steps</title>
+<defs><marker id="arr" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#777"/></marker><marker id="arrhot" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#cc4125"/></marker><marker id="arrws" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e69138"/></marker></defs>
+<rect width="824" height="754" fill="#ffffff"/>
+<rect x="4" y="20" width="18" height="120" rx="4" fill="#80868b"/><text x="13" y="80.0" transform="rotate(-90 13 80.0)" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" letter-spacing="1" fill="#ffffff">CI / SERVER</text>
+<rect x="4" y="148" width="18" height="376" rx="4" fill="#e69138"/><text x="13" y="336.0" transform="rotate(-90 13 336.0)" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" letter-spacing="1" fill="#ffffff">DEVELOPER MACHINE</text>
+<rect x="4" y="532" width="18" height="120" rx="4" fill="#80868b"/><text x="13" y="592.0" transform="rotate(-90 13 592.0)" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" letter-spacing="1" fill="#ffffff">CI / SERVER</text>
+<g transform="translate(24,0)">
+<line x1="32" y1="42" x2="32" y2="170" stroke="#c4c7c5" stroke-width="2"/>
+<circle cx="32" cy="42" r="14" fill="#1f2329"/><text x="32" y="47" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">1</text>
+<text x="64" y="47" font-size="16.5" font-weight="700" fill="#202124">Packages in the Conan cache</text>
+<rect x="64" y="58" width="165.75" height="24" rx="5" fill="#1f2329"/><text x="73" y="74" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#e6edf3" xml:space="preserve"><tspan fill="#7ee787">$ </tspan>python bootstrap.py</text>
+<text x="64" y="102" font-size="13" fill="#5f6368">Built by CI from five git repositories,</text>
+<text x="64" y="120" font-size="13" fill="#5f6368">consumed as pre-built binaries</text>
+<line x1="463.0" y1="82" x2="488.0" y2="82" stroke="#777" stroke-width="1.2" marker-end="url(#arr)"/>
+<line x1="567.0" y1="82" x2="592.0" y2="56" stroke="#777" stroke-width="1.2" marker-end="url(#arr)"/>
+<line x1="567.0" y1="82" x2="592.0" y2="108" stroke="#777" stroke-width="1.2" marker-end="url(#arr)"/>
+<line x1="671.0" y1="56" x2="696.0" y2="82" stroke="#777" stroke-width="1.2" marker-end="url(#arr)"/>
+<line x1="671.0" y1="108" x2="696.0" y2="82" stroke="#777" stroke-width="1.2" marker-end="url(#arr)"/>
+<rect x="385.0" y="64.0" width="78" height="36" rx="7" fill="#d9ead3" stroke="#6d8c66" stroke-width="1.2"/><text x="424" y="80" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">game</text><text x="424" y="94" text-anchor="middle" font-size="11" fill="#5f6368">1.0</text>
+<rect x="489.0" y="64.0" width="78" height="36" rx="7" fill="#c9daf8" stroke="#6d7a8c" stroke-width="1.2"/><text x="528" y="80" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">engine</text><text x="528" y="94" text-anchor="middle" font-size="11" fill="#5f6368">1.0</text>
+<rect x="593.0" y="38.0" width="78" height="36" rx="7" fill="#c9daf8" stroke="#6d7a8c" stroke-width="1.2"/><text x="632" y="54" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">ai</text><text x="632" y="68" text-anchor="middle" font-size="11" fill="#5f6368">1.0</text>
+<rect x="593.0" y="90.0" width="78" height="36" rx="7" fill="#c9daf8" stroke="#6d7a8c" stroke-width="1.2"/><text x="632" y="106" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">graphics</text><text x="632" y="120" text-anchor="middle" font-size="11" fill="#5f6368">1.0</text>
+<rect x="697.0" y="64.0" width="78" height="36" rx="7" fill="#c9daf8" stroke="#6d7a8c" stroke-width="1.2"/><text x="736" y="80" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">mathlib</text><text x="736" y="94" text-anchor="middle" font-size="11" fill="#5f6368">1.0</text>
+<line x1="64" y1="144" x2="784" y2="144" stroke="#e8eaed"/>
+<line x1="32" y1="170" x2="32" y2="298" stroke="#c4c7c5" stroke-width="2"/>
+<circle cx="32" cy="170" r="14" fill="#1f2329"/><text x="32" y="175" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">2</text>
+<text x="64" y="175" font-size="16.5" font-weight="700" fill="#202124">Add the packages to change</text>
+<rect x="64" y="186" width="260.0" height="24" rx="5" fill="#1f2329"/><text x="73" y="202" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#e6edf3" xml:space="preserve"><tspan fill="#7ee787">$ </tspan>conan workspace add --ref ai/1.0</text>
+<text x="64" y="230" font-size="13" fill="#5f6368">Same for engine and game. Each one is cloned</text>
+<text x="64" y="248" font-size="13" fill="#5f6368">at the commit that produced the package</text>
+<line x1="463.0" y1="210" x2="488.0" y2="210" stroke="#777" stroke-width="1.2" marker-end="url(#arr)"/>
+<line x1="567.0" y1="210" x2="592.0" y2="184" stroke="#777" stroke-width="1.2" marker-end="url(#arr)"/>
+<line x1="567.0" y1="210" x2="592.0" y2="236" stroke="#777" stroke-width="1.2" marker-end="url(#arr)"/>
+<line x1="671.0" y1="184" x2="696.0" y2="210" stroke="#777" stroke-width="1.2" marker-end="url(#arr)"/>
+<line x1="671.0" y1="236" x2="696.0" y2="210" stroke="#777" stroke-width="1.2" marker-end="url(#arr)"/>
+<rect x="385.0" y="192.0" width="78" height="36" rx="7" fill="#fce5cd" stroke="#e69138" stroke-width="1.5"/><text x="424" y="208" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">game</text><text x="424" y="222" text-anchor="middle" font-size="11" fill="#5f6368">ws</text>
+<rect x="489.0" y="192.0" width="78" height="36" rx="7" fill="#fce5cd" stroke="#e69138" stroke-width="1.5"/><text x="528" y="208" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">engine</text><text x="528" y="222" text-anchor="middle" font-size="11" fill="#5f6368">ws</text>
+<rect x="593.0" y="166.0" width="78" height="36" rx="7" fill="#fce5cd" stroke="#e69138" stroke-width="1.5"/><text x="632" y="182" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">ai</text><text x="632" y="196" text-anchor="middle" font-size="11" fill="#5f6368">ws</text>
+<rect x="593.0" y="218.0" width="78" height="36" rx="7" fill="#c9daf8" stroke="#6d7a8c" stroke-width="1.2"/><text x="632" y="234" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">graphics</text><text x="632" y="248" text-anchor="middle" font-size="11" fill="#5f6368">1.0</text>
+<rect x="697.0" y="192.0" width="78" height="36" rx="7" fill="#c9daf8" stroke="#6d7a8c" stroke-width="1.2"/><text x="736" y="208" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">mathlib</text><text x="736" y="222" text-anchor="middle" font-size="11" fill="#5f6368">1.0</text>
+<line x1="64" y1="272" x2="784" y2="272" stroke="#e8eaed"/>
+<line x1="32" y1="298" x2="32" y2="426" stroke="#c4c7c5" stroke-width="2"/>
+<circle cx="32" cy="298" r="14" fill="#1f2329"/><text x="32" y="303" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">3</text>
+<text x="64" y="303" font-size="16.5" font-weight="700" fill="#202124">Collapse them into a super-build</text>
+<rect x="64" y="314" width="238.25" height="24" rx="5" fill="#1f2329"/><text x="73" y="330" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#e6edf3" xml:space="preserve"><tspan fill="#7ee787">$ </tspan>conan workspace super-install</text>
+<text x="64" y="358" font-size="13" fill="#5f6368">One CMake project and one toolchain.</text>
+<text x="64" y="376" font-size="13" fill="#5f6368">graphics and mathlib stay as binaries</text>
+<path d="M378.0,287.0 H678.0 V337.0 H574.0 V363.0 H378.0 Z" fill="#fce5cd" fill-opacity="0.35" stroke="#e69138" stroke-width="1.6" stroke-dasharray="6 4" stroke-linejoin="round"/><text x="476.0" y="300.0" text-anchor="middle" font-size="11.5" font-weight="700" fill="#b45f06">one super-build</text>
+<line x1="463.0" y1="338" x2="488.0" y2="338" stroke="#e69138" stroke-width="1.8" marker-end="url(#arrws)"/>
+<line x1="567.0" y1="338" x2="592.0" y2="312" stroke="#e69138" stroke-width="1.8" marker-end="url(#arrws)"/>
+<line x1="567.0" y1="338" x2="592.0" y2="364" stroke="#777" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+<line x1="671.0" y1="312" x2="696.0" y2="338" stroke="#777" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+<line x1="671.0" y1="364" x2="696.0" y2="338" stroke="#777" stroke-width="1.2" marker-end="url(#arr)"/>
+<rect x="385.0" y="320.0" width="78" height="36" rx="7" fill="#fce5cd" stroke="#e69138" stroke-width="1.5"/><text x="424" y="336" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">game</text><text x="424" y="350" text-anchor="middle" font-size="11" fill="#5f6368">ws</text>
+<rect x="489.0" y="320.0" width="78" height="36" rx="7" fill="#fce5cd" stroke="#e69138" stroke-width="1.5"/><text x="528" y="336" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">engine</text><text x="528" y="350" text-anchor="middle" font-size="11" fill="#5f6368">ws</text>
+<rect x="593.0" y="294.0" width="78" height="36" rx="7" fill="#fce5cd" stroke="#e69138" stroke-width="1.5"/><text x="632" y="310" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">ai</text><text x="632" y="324" text-anchor="middle" font-size="11" fill="#5f6368">ws</text>
+<rect x="593.0" y="346.0" width="78" height="36" rx="7" fill="#c9daf8" stroke="#6d7a8c" stroke-width="1.2"/><text x="632" y="362" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">graphics</text><text x="632" y="376" text-anchor="middle" font-size="11" fill="#5f6368">1.0</text>
+<rect x="697.0" y="320.0" width="78" height="36" rx="7" fill="#c9daf8" stroke="#6d7a8c" stroke-width="1.2"/><text x="736" y="336" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">mathlib</text><text x="736" y="350" text-anchor="middle" font-size="11" fill="#5f6368">1.0</text>
+<line x1="64" y1="400" x2="784" y2="400" stroke="#e8eaed"/>
+<line x1="32" y1="426" x2="32" y2="554" stroke="#c4c7c5" stroke-width="2"/>
+<circle cx="32" cy="426" r="14" fill="#1f2329"/><text x="32" y="431" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">4</text>
+<text x="64" y="431" font-size="16.5" font-weight="700" fill="#202124">Edit ai.h and build once</text>
+<rect x="64" y="442" width="289.0" height="24" rx="5" fill="#1f2329"/><text x="73" y="458" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#e6edf3" xml:space="preserve"><tspan fill="#7ee787">$ </tspan>cmake --build --preset conan-release</text>
+<text x="64" y="486" font-size="13" fill="#5f6368">CMake recompiles engine, although its</text>
+<text x="64" y="504" font-size="13" fill="#5f6368">sources didn't change, and relinks game</text>
+<path d="M378.0,415.0 H678.0 V465.0 H574.0 V491.0 H378.0 Z" fill="#fce5cd" fill-opacity="0.35" stroke="#e69138" stroke-width="1.6" stroke-dasharray="6 4" stroke-linejoin="round"/><text x="476.0" y="428.0" text-anchor="middle" font-size="11.5" font-weight="700" fill="#b45f06">one super-build</text>
+<line x1="463.0" y1="466" x2="488.0" y2="466" stroke="#cc4125" stroke-width="2.4" marker-end="url(#arrhot)"/>
+<line x1="567.0" y1="466" x2="592.0" y2="440" stroke="#cc4125" stroke-width="2.4" marker-end="url(#arrhot)"/>
+<line x1="567.0" y1="466" x2="592.0" y2="492" stroke="#777" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+<line x1="671.0" y1="440" x2="696.0" y2="466" stroke="#777" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+<line x1="671.0" y1="492" x2="696.0" y2="466" stroke="#777" stroke-width="1.2" marker-end="url(#arr)"/>
+<rect x="385.0" y="448.0" width="78" height="36" rx="7" fill="#fce5cd" stroke="#cc4125" stroke-width="3"/><text x="424" y="464" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">game</text><text x="424" y="478" text-anchor="middle" font-size="11" fill="#cc4125">relinked</text>
+<rect x="489.0" y="448.0" width="78" height="36" rx="7" fill="#fce5cd" stroke="#cc4125" stroke-width="3"/><text x="528" y="464" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">engine</text><text x="528" y="478" text-anchor="middle" font-size="11" fill="#cc4125">recompiled</text>
+<rect x="593.0" y="422.0" width="78" height="36" rx="7" fill="#f4cccc" stroke="#cc4125" stroke-width="3"/><text x="632" y="438" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">ai</text><text x="632" y="452" text-anchor="middle" font-size="11" fill="#cc4125">ai.h edited</text>
+<rect x="593.0" y="474.0" width="78" height="36" rx="7" fill="#c9daf8" stroke="#6d7a8c" stroke-width="1.2"/><text x="632" y="490" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">graphics</text><text x="632" y="504" text-anchor="middle" font-size="11" fill="#5f6368">1.0</text>
+<rect x="697.0" y="448.0" width="78" height="36" rx="7" fill="#c9daf8" stroke="#6d7a8c" stroke-width="1.2"/><text x="736" y="464" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">mathlib</text><text x="736" y="478" text-anchor="middle" font-size="11" fill="#5f6368">1.0</text>
+<line x1="64" y1="528" x2="784" y2="528" stroke="#e8eaed"/>
+<circle cx="32" cy="554" r="14" fill="#1f2329"/><text x="32" y="559" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">5</text>
+<text x="64" y="559" font-size="16.5" font-weight="700" fill="#202124">Ship it as packages</text>
+<rect x="64" y="570" width="238.25" height="24" rx="5" fill="#1f2329"/><text x="73" y="586" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#e6edf3" xml:space="preserve"><tspan fill="#7ee787">$ </tspan>git push  <tspan fill="#8b949e"># ai, bumped to 1.1</tspan></text>
+<text x="64" y="614" font-size="13" fill="#5f6368">CI creates ai/1.1, accepted by the range,</text>
+<text x="64" y="632" font-size="13" fill="#5f6368">so engine and game only get new binaries</text>
+<line x1="463.0" y1="594" x2="488.0" y2="594" stroke="#777" stroke-width="1.2" marker-end="url(#arr)"/>
+<line x1="567.0" y1="594" x2="592.0" y2="568" stroke="#777" stroke-width="1.2" marker-end="url(#arr)"/>
+<line x1="567.0" y1="594" x2="592.0" y2="620" stroke="#777" stroke-width="1.2" marker-end="url(#arr)"/>
+<line x1="671.0" y1="568" x2="696.0" y2="594" stroke="#777" stroke-width="1.2" marker-end="url(#arr)"/>
+<line x1="671.0" y1="620" x2="696.0" y2="594" stroke="#777" stroke-width="1.2" marker-end="url(#arr)"/>
+<rect x="385.0" y="576.0" width="78" height="36" rx="7" fill="#d9ead3" stroke="#38761d" stroke-width="3"/><text x="424" y="592" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">game</text><text x="424" y="606" text-anchor="middle" font-size="11" fill="#38761d">1.0</text>
+<rect x="489.0" y="576.0" width="78" height="36" rx="7" fill="#c9daf8" stroke="#38761d" stroke-width="3"/><text x="528" y="592" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">engine</text><text x="528" y="606" text-anchor="middle" font-size="11" fill="#38761d">1.0</text>
+<rect x="593.0" y="550.0" width="78" height="36" rx="7" fill="#c9daf8" stroke="#38761d" stroke-width="3"/><text x="632" y="566" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">ai</text><text x="632" y="580" text-anchor="middle" font-size="11" fill="#38761d">1.1</text>
+<rect x="593.0" y="602.0" width="78" height="36" rx="7" fill="#c9daf8" stroke="#6d7a8c" stroke-width="1.2"/><text x="632" y="618" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">graphics</text><text x="632" y="632" text-anchor="middle" font-size="11" fill="#5f6368">1.0</text>
+<rect x="697.0" y="576.0" width="78" height="36" rx="7" fill="#c9daf8" stroke="#6d7a8c" stroke-width="1.2"/><text x="736" y="592" text-anchor="middle" font-size="13.5" font-weight="600" fill="#202124">mathlib</text><text x="736" y="606" text-anchor="middle" font-size="11" fill="#5f6368">1.0</text>
+<text x="528" y="568" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="#38761d">ai/[&gt;=1.0 &lt;2]</text>
+<line x1="16" y1="656" x2="784" y2="656" stroke="#e8eaed"/>
+<rect x="64" y="674" width="14" height="14" rx="3" fill="#c9daf8" stroke="#6d7a8c" stroke-width="1.2"/>
+<rect x="82" y="674" width="14" height="14" rx="3" fill="#d9ead3" stroke="#6d8c66" stroke-width="1.2"/>
+<text x="102" y="686" font-size="12.5" fill="#5f6368">binary from the Conan cache</text>
+<rect x="364" y="674" width="14" height="14" rx="3" fill="#fce5cd" stroke="#e69138" stroke-width="1.5"/>
+<text x="384" y="686" font-size="12.5" fill="#5f6368">editable sources in the workspace</text>
+<rect x="64" y="698" width="14" height="14" rx="3" fill="#ffffff" stroke="#cc4125" stroke-width="2.5"/>
+<text x="84" y="710" font-size="12.5" fill="#5f6368">rebuilt after the change</text>
+<rect x="364" y="698" width="14" height="14" rx="3" fill="#ffffff" stroke="#38761d" stroke-width="2.5"/>
+<text x="384" y="710" font-size="12.5" fill="#5f6368">new package or binary from CI</text>
+<line x1="64" y1="729" x2="89" y2="729" stroke="#e69138" stroke-width="1.8" marker-end="url(#arrws)"/>
+<text x="96" y="734" font-size="12.5" fill="#5f6368">dependency in the same build tree</text>
+<line x1="364" y1="729" x2="389" y2="729" stroke="#777" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+<text x="396" y="734" font-size="12.5" fill="#5f6368">find_package() from the Conan cache</text>
+</g>
+</svg>

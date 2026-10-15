@@ -47,7 +47,11 @@ A workspace can be used in two ways:
 - **Orchestrated**: Conan builds each package of the workspace separately, in the correct order (`conan workspace build`). This is basically editables with less typing.
 - **Monolithic (super-build)**: all the workspace packages are collapsed into a single node of the dependency graph. Conan installs only the external dependencies and generates one toolchain and one set of `find_package()` files. You then build everything as one project.
 
-The monolithic mode is where the paradigm changes, and it's what the rest of this post is about.
+The monolithic mode is where the paradigm changes, and it's what the rest of this post is about. This is the flow we are going to follow:
+
+<p>
+    <a href="{{ site.baseurl }}/assets/post_images/2026-10-15/workspace-flow.svg" target="_blank"><img style="display: block; margin-left: auto; margin-right: auto;" src="{{ site.baseurl }}/assets/post_images/2026-10-15/workspace-flow.svg" alt="Workspace flow in five steps: all packages start as binaries in the Conan cache, ai, engine and game are added to a workspace, super-install collapses them into one CMake super-build while graphics and mathlib stay as binaries, editing ai.h rebuilds ai, engine and game, and finally CI creates ai/1.1 and new binaries for engine and game" width="100%"/></a>
+</p>
 
 ## Creating the packages
 
@@ -84,7 +88,22 @@ Checkout: 88df8ca649eda1e2f30fa599fdcefc8f7bea4e4c
 Reference 'game/1.0' added to workspace
 ```
 
-Conan could clone each repository at the exact commit that produced the package, not some branch head that may have moved on, because the packages capture their git origin url and commit when they are created. 
+Conan could clone each repository at the exact commit that produced the package, not some branch head that may have moved on, because the packages capture their git origin url and commit when they are created.
+
+After these commands, the workspace folder looks like this. Each package folder is still its own git repository:
+
+```
+game-dev/
+├── conanws.yml       # now lists ai, engine and game
+├── conanws.py        # super-build definition, see below
+├── CMakeLists.txt    # super-project, see below
+├── bootstrap.py
+├── ai/               # clone of conanci_ai at 8595303
+├── engine/           # clone of conanci_engine at 98aee10
+└── game/             # clone of conanci_game at 88df8ca
+```
+
+> **Note:** Adding `engine` by hand is not strictly necessary. After adding `ai` and `game`, `conan workspace complete` finds the packages in the Conan cache that depend on workspace packages and adds them too, cloning them at their recorded commit. If one is missing, `conan workspace super-install` fails and suggests running it.
 
 
 ### The super-build definition
@@ -224,7 +243,7 @@ Look at the third line of the build: `engine.cpp` was recompiled, although nobod
 
 That recompilation is also necessary for correctness. `engine` was compiled against the old `ai.h`, so as the header changed it has to be rebuilt, even if the change is API-compatible.
 
-In an IDE, the workspace is a single project. "Go to definition" on `ai()` in `engine.cpp` jumps into `ai`'s source rather than into a header in the Conan cache, and the debugger steps across all three components.
+In an IDE, you open the workspace root and get a single project. "Go to definition" on `ai()` in `engine.cpp` jumps into `ai`'s source rather than into a header in the Conan cache, and the debugger steps across all three components.
 
 ## What to keep in mind for monolithic super-builds
 
@@ -256,6 +275,15 @@ Workspaces can also be shared and dynamic:
 - `conan new workspace` generates a complete template, ready to start from.
 
 The [workspace reference](https://docs.conan.io/2/reference/workspace.html) and the [`conan workspace` command reference](https://docs.conan.io/2/reference/commands/workspace.html) have the details.
+
+
+## The same flow, at scale
+
+Our example has five packages, but real organizations have hundreds. Imagine a game studio that needs to verify a change in `nav-mesh`, deep in its graph, in `game-client`. Adding both to the workspace and running `conan workspace complete` brings in only the packages in between, and everything else stays a pre-built binary:
+
+<p>
+    <a href="{{ site.baseurl }}/assets/post_images/2026-10-15/workspace-real-graph.svg" target="_blank"><img style="display: block; margin-left: auto; margin-right: auto;" src="{{ site.baseurl }}/assets/post_images/2026-10-15/workspace-real-graph.svg" alt="Illustrative dependency graph of a game studio with 104 packages: a change in nav-mesh verified in game-client puts only 5 packages in the super-build, while 85 dependencies of game-client stay as pre-built binaries and 2 other consumers get new binaries later in CI" width="100%"/></a>
+</p>
 
 
 ## Conclusion
