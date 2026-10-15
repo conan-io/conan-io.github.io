@@ -160,6 +160,12 @@ Requirements
 
 This is what monolithic means in practice. `ai`, `engine` and `game` are now a single project, and `graphics` and `mathlib`, the parts of the graph that are not in the workspace, remain pre-built binaries in the Conan cache. I get the monorepo experience for 3 packages without building the other 2, or the other 300 in a real organization.
 
+To picture what this means at scale, imagine a game studio with a graph of around a hundred packages, some of them its own and many third-party ones. A change in `nav-mesh`, deep in that graph, has to be verified in `game-client`. Adding both to the workspace and running `conan workspace complete` brings in just the packages in between, and the rest of the graph is consumed as pre-built binaries:
+
+<p>
+    <a href="{{ site.baseurl }}/assets/post_images/2026-10-15/workspace-real-graph.svg" target="_blank"><img style="display: block; margin-left: auto; margin-right: auto;" src="{{ site.baseurl }}/assets/post_images/2026-10-15/workspace-real-graph.svg" alt="Illustrative dependency graph of a game studio with 104 packages: a change in nav-mesh verified in game-client puts only 5 packages in the super-build, while 85 dependencies of game-client stay as pre-built binaries and 2 other consumers get new binaries later in CI" width="100%"/></a>
+</p>
+
 The `build_order()` method of our `conanws.py` has written the build order of the workspace packages to a CMake file, which the super-project `CMakeLists.txt` includes:
 
 ```bash
