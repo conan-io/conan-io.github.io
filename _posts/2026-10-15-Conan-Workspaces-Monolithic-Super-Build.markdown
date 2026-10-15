@@ -50,7 +50,7 @@ A workspace can be used in two ways:
 The monolithic mode is where the paradigm changes, and it's what the rest of this post is about. This is the flow we are going to follow:
 
 <p>
-    <img style="display: block; margin-left: auto; margin-right: auto;" src="{{ site.baseurl }}/assets/post_images/2026-10-15/workspace-flow.svg" alt="Workspace flow in five steps: all packages start as binaries in the Conan cache, ai, engine and game are added to a workspace, super-install collapses them into one CMake super-build while graphics and mathlib stay as binaries, editing ai.h rebuilds ai, engine and game, and finally CI creates ai/1.1 and new binaries for engine and game" width="100%"/>
+    <a href="{{ site.baseurl }}/assets/post_images/2026-10-15/workspace-flow.svg" target="_blank"><img style="display: block; margin-left: auto; margin-right: auto;" src="{{ site.baseurl }}/assets/post_images/2026-10-15/workspace-flow.svg" alt="Workspace flow in five steps: all packages start as binaries in the Conan cache, ai, engine and game are added to a workspace, super-install collapses them into one CMake super-build while graphics and mathlib stay as binaries, editing ai.h rebuilds ai, engine and game, and finally CI creates ai/1.1 and new binaries for engine and game" width="100%"/></a>
 </p>
 
 ## Creating the packages
