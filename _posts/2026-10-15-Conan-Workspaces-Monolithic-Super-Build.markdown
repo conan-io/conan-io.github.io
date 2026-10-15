@@ -44,7 +44,7 @@ A workspace is a set of locally editable packages, defined by a `conanws.yml` an
 
 A workspace can be used in two ways:
 
-- **Orchestrated**: Conan builds each package of the workspace separately, in the correct order (`conan workspace build`). This is basically editables with less typing.
+- **Orchestrated**: Conan builds each package of the workspace separately, in the correct order (`conan workspace build`). This works even when the packages have different build systems, and it can also work when there are multiple final "consumer" packages in the workspace, like different final executable applications belonging to a system.
 - **Monolithic (super-build)**: all the workspace packages are collapsed into a single node of the dependency graph. Conan installs only the external dependencies and generates one toolchain and one set of `find_package()` files. You then build everything as one project.
 
 The monolithic mode is where the paradigm changes, and it's what the rest of this post is about. This is the flow we are going to follow:
