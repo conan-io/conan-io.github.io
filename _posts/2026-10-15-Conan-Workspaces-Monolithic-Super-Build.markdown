@@ -47,7 +47,11 @@ A workspace can be used in two ways:
 - **Orchestrated**: Conan builds each package of the workspace separately, in the correct order (`conan workspace build`). This is basically editables with less typing.
 - **Monolithic (super-build)**: all the workspace packages are collapsed into a single node of the dependency graph. Conan installs only the external dependencies and generates one toolchain and one set of `find_package()` files. You then build everything as one project.
 
-The monolithic mode is where the paradigm changes, and it's what the rest of this post is about.
+The monolithic mode is where the paradigm changes, and it's what the rest of this post is about. This is the flow we are going to follow:
+
+<p>
+    <img style="display: block; margin-left: auto; margin-right: auto;" src="{{ site.baseurl }}/assets/post_images/2026-10-15/workspace-flow.svg" alt="Workspace flow in five steps: all packages start as binaries in the Conan cache, ai, engine and game are added to a workspace, super-install collapses them into one CMake super-build while graphics and mathlib stay as binaries, editing ai.h rebuilds ai, engine and game, and finally CI creates ai/1.1 and new binaries for engine and game" width="100%"/>
+</p>
 
 ## Creating the packages
 
