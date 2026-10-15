@@ -113,8 +113,12 @@ Besides `conanws.yml`, the workspace repository contains two files that define t
 ```python
 class MyWorkspace(Workspace):
     def build_order(self, order):
-        pkgs = " ".join(f'{it["ref"].name}:{it["folder"]}' for level in order for it in level)
-        save(self, "build/conanws_build_order.cmake", f"set(CONAN_WS_BUILD_ORDER {pkgs})")
+        pkgs = []
+        for level in order:
+            for pkg in level:
+                pkgs.append(f'{pkg["ref"].name}:{pkg["folder"]}')
+        content = "set(CONAN_WS_BUILD_ORDER {})".format(" ".join(pkgs))
+        save(self, "build/conanws_build_order.cmake", content)
 ```
 
 `build_order()` receives the topologically sorted list of workspace packages. Translating it into something the build system understands is up to the workspace. Here we write a small CMake ``conanws_build_order.cmake`` file, and the second file, the super-project `CMakeLists.txt` at the workspace root, consumes it:
