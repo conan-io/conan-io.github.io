@@ -1,0 +1,331 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 762" width="1240" height="762" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" role="img" aria-labelledby="t">
+<title id="t">A change in nav-mesh verified in game-client, in a 104-package dependency graph</title>
+<defs><marker id="arrship" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#38761d"/></marker></defs>
+<rect width="1240" height="762" fill="#ffffff"/>
+<text x="30" y="40" font-size="22" font-weight="700" fill="#202124">Changing nav-mesh, deep in a real dependency graph</text>
+<text x="30" y="64" font-size="14.5" fill="#5f6368">Verifying it in game-client only needs the packages in between. Its other dependencies stay pre-built binaries.</text>
+<rect x="30.0" y="82" width="284.5" height="64" rx="8" fill="#f1f3f4"/><text x="46.0" y="126" font-size="34" font-weight="800" fill="#202124">104</text><text x="119.0" y="109" font-size="13" fill="#202124">packages in the graph,</text><text x="119.0" y="127" font-size="13" fill="#202124">46 of them from the studio</text>
+<rect x="328.5" y="82" width="284.5" height="64" rx="8" fill="#fce5cd"/><text x="344.5" y="126" font-size="34" font-weight="800" fill="#b45f06">5</text><text x="375.5" y="109" font-size="13" fill="#202124">packages in the super-build,</text><text x="375.5" y="127" font-size="13" fill="#202124">one CMake build tree</text>
+<rect x="627.0" y="82" width="284.5" height="64" rx="8" fill="#c9daf8"/><text x="643.0" y="126" font-size="34" font-weight="800" fill="#1c4587">85</text><text x="695.0" y="109" font-size="13" fill="#202124">pre-built binaries, the rest</text><text x="695.0" y="127" font-size="13" fill="#202124">of game-client's dependencies</text>
+<rect x="925.5" y="82" width="284.5" height="64" rx="8" fill="#d9ead3"/><text x="941.5" y="126" font-size="34" font-weight="800" fill="#38761d">2</text><text x="972.5" y="109" font-size="13" fill="#202124">other consumers get new</text><text x="972.5" y="127" font-size="13" fill="#202124">binaries later, in CI</text>
+<rect x="30" y="160" width="1180" height="52" rx="6" fill="#1f2329"/>
+<text x="44" y="180" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="#e6edf3" xml:space="preserve"><tspan fill="#7ee787">$ </tspan>conan workspace add --ref nav-mesh/3.2  &amp;&amp;  conan workspace add --ref game-client/7.0</text>
+<text x="44" y="201" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="#e6edf3" xml:space="preserve"><tspan fill="#7ee787">$ </tspan>conan workspace complete  &amp;&amp;  conan workspace super-install</text>
+<path d="M131.8,374.7 C210.4,374.7 210.4,342.5 289.0,342.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M131.8,374.7 C210.4,374.7 210.4,480.5 289.0,480.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M131.8,374.7 C161.8,374.7 160.0,457.5 190.0,457.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M131.8,374.7 C161.8,374.7 160.0,480.5 190.0,480.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M131.8,374.7 C161.8,374.7 160.0,503.5 190.0,503.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M107.8,448.3 C148.9,448.3 148.9,526.5 190.0,526.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M107.8,448.3 C198.4,448.3 198.4,503.5 289.0,503.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M107.8,448.3 C198.4,448.3 198.4,549.5 289.0,549.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M107.8,494.3 C198.4,494.3 198.4,549.5 289.0,549.5" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M107.8,494.3 C148.9,494.3 148.9,503.5 190.0,503.5" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M107.8,494.3 C148.9,494.3 148.9,457.5 190.0,457.5" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M83.9,471.3 C186.4,471.3 186.4,480.5 289.0,480.5" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M83.9,471.3 C235.9,471.3 235.9,515.0 388.0,515.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M83.9,471.3 C136.9,471.3 136.9,503.5 190.0,503.5" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M83.9,471.3 C433.9,471.3 433.9,446.0 784.0,446.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M83.9,471.3 C186.4,471.3 186.4,572.5 289.0,572.5" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M119.8,517.3 C154.9,517.3 154.9,480.5 190.0,480.5" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M119.8,517.3 C253.9,517.3 253.9,676.0 388.0,676.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M119.8,517.3 C303.4,517.3 303.4,538.0 487.0,538.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M451.0,354.0 C481.0,354.0 457.0,377.0 487.0,377.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M451.0,354.0 C568.0,354.0 568.0,434.5 685.0,434.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M433.9,538.0 C509.9,538.0 509.9,469.0 586.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M433.9,538.0 C609.0,538.0 609.0,469.0 784.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M433.9,538.0 C463.9,538.0 457.0,469.0 487.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M538.6,469.0 C611.8,469.0 611.8,434.5 685.0,434.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M538.6,469.0 C568.6,469.0 556.0,492.0 586.0,492.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M340.6,503.5 C463.3,503.5 463.3,469.0 586.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M340.6,503.5 C413.8,503.5 413.8,561.0 487.0,561.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M340.6,503.5 C370.6,503.5 358.0,446.0 388.0,446.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M340.6,503.5 C370.6,503.5 358.0,561.0 388.0,561.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M340.6,503.5 C370.6,503.5 358.0,538.0 388.0,538.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M654.7,469.0 C684.7,469.0 655.0,457.5 685.0,457.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M654.7,469.0 C684.7,469.0 655.0,503.5 685.0,503.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M654.7,469.0 C719.4,469.0 719.4,469.0 784.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M654.7,469.0 C684.7,469.0 655.0,434.5 685.0,434.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M654.7,469.0 C684.7,469.0 655.0,480.5 685.0,480.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M748.0,457.5 C778.0,457.5 754.0,423.0 784.0,423.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M748.0,457.5 C778.0,457.5 754.0,446.0 784.0,446.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M730.9,503.5 C760.9,503.5 754.0,515.0 784.0,515.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M730.9,503.5 C760.9,503.5 754.0,538.0 784.0,538.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M730.9,503.5 C760.9,503.5 754.0,469.0 784.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M544.3,561.0 C574.3,561.0 556.0,469.0 586.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M544.3,561.0 C614.6,561.0 614.6,503.5 685.0,503.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M445.3,446.0 C515.6,446.0 515.6,469.0 586.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M445.3,446.0 C515.6,446.0 515.6,377.0 586.0,377.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M433.9,561.0 C509.9,561.0 509.9,469.0 586.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M433.9,561.0 C463.9,561.0 457.0,561.0 487.0,561.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M346.3,411.5 C515.6,411.5 515.6,434.5 685.0,434.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M346.3,411.5 C565.1,411.5 565.1,469.0 784.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M346.3,411.5 C466.1,411.5 466.1,377.0 586.0,377.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M532.9,377.0 C562.9,377.0 556.0,331.0 586.0,331.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M532.9,377.0 C609.0,377.0 609.0,434.5 685.0,434.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M532.9,377.0 C562.9,377.0 556.0,377.0 586.0,377.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M363.4,365.5 C393.4,365.5 358.0,285.0 388.0,285.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M363.4,365.5 C393.4,365.5 358.0,262.0 388.0,262.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M363.4,365.5 C393.4,365.5 358.0,331.0 388.0,331.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M363.4,365.5 C573.7,365.5 573.7,469.0 784.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M363.4,572.5 C393.4,572.5 358.0,676.0 388.0,676.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M363.4,572.5 C393.4,572.5 358.0,630.0 388.0,630.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M363.4,572.5 C474.7,572.5 474.7,469.0 586.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M363.4,572.5 C393.4,572.5 358.0,607.0 388.0,607.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M462.4,607.0 C492.4,607.0 457.0,607.0 487.0,607.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M462.4,607.0 C623.2,607.0 623.2,469.0 784.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M445.3,377.0 C475.3,377.0 457.0,423.0 487.0,423.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M445.3,377.0 C713.7,377.0 713.6,423.0 982.0,423.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M323.5,434.5 C603.2,434.5 603.2,446.0 883.0,446.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M323.5,434.5 C553.8,434.5 553.8,446.0 784.0,446.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M835.6,446.0 C865.6,446.0 853.0,446.0 883.0,446.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M835.6,446.0 C908.8,446.0 908.8,423.0 982.0,423.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M380.5,342.5 C410.5,342.5 358.0,308.0 388.0,308.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M380.5,342.5 C631.8,342.5 631.8,423.0 883.0,423.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M380.5,342.5 C532.8,342.5 532.8,434.5 685.0,434.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M468.1,308.0 C498.1,308.0 457.0,308.0 487.0,308.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M468.1,308.0 C527.0,308.0 527.0,400.0 586.0,400.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M468.1,308.0 C725.0,308.0 725.0,423.0 982.0,423.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M963.1,423.0 C993.1,423.0 952.0,400.0 982.0,400.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M963.1,423.0 C993.1,423.0 952.0,423.0 982.0,423.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M380.5,480.5 C410.5,480.5 358.0,492.0 388.0,492.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M380.5,480.5 C433.8,480.5 433.8,538.0 487.0,538.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M380.5,480.5 C410.5,480.5 358.0,469.0 388.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M380.5,480.5 C410.5,480.5 358.0,515.0 388.0,515.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M416.8,515.0 C501.4,515.0 501.4,400.0 586.0,400.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M416.8,515.0 C451.9,515.0 451.9,538.0 487.0,538.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M416.8,515.0 C451.9,515.0 451.9,446.0 487.0,446.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M258.7,434.5 C288.7,434.5 259.0,480.5 289.0,480.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M258.7,434.5 C323.4,434.5 323.4,308.0 388.0,308.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M247.3,457.5 C367.1,457.5 367.1,538.0 487.0,538.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M247.3,457.5 C317.6,457.5 317.6,469.0 388.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M247.3,457.5 C565.2,457.5 565.1,469.0 883.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M247.3,457.5 C614.7,457.5 614.6,423.0 982.0,423.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M270.1,480.5 C300.1,480.5 259.0,526.5 289.0,526.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M270.1,480.5 C527.0,480.5 527.0,446.0 784.0,446.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M835.6,469.0 C865.6,469.0 853.0,469.0 883.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M835.6,469.0 C865.6,469.0 853.0,515.0 883.0,515.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M835.6,469.0 C958.3,469.0 958.3,469.0 1081.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M835.6,469.0 C865.6,469.0 853.0,423.0 883.0,423.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M835.6,469.0 C865.6,469.0 853.0,492.0 883.0,492.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M835.6,469.0 C908.8,469.0 908.8,423.0 982.0,423.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M957.4,492.0 C987.4,492.0 952.0,492.0 982.0,492.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M957.4,492.0 C987.4,492.0 952.0,446.0 982.0,446.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M957.4,492.0 C987.4,492.0 952.0,469.0 982.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M957.4,492.0 C987.4,492.0 952.0,538.0 982.0,538.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M649.0,377.0 C679.0,377.0 655.0,411.5 685.0,411.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M649.0,377.0 C815.5,377.0 815.5,423.0 982.0,423.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M742.3,480.5 C772.3,480.5 754.0,492.0 784.0,492.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M742.3,480.5 C862.1,480.5 862.1,423.0 982.0,423.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M742.3,434.5 C772.3,434.5 754.0,400.0 784.0,400.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M742.3,434.5 C862.1,434.5 862.1,423.0 982.0,423.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M1045.0,423.0 C1075.0,423.0 1051.0,423.0 1081.0,423.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M1045.0,423.0 C1075.0,423.0 1051.0,446.0 1081.0,446.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M1045.0,423.0 C1075.0,423.0 1051.0,469.0 1081.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M287.2,526.5 C317.2,526.5 259.0,572.5 289.0,572.5" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M287.2,526.5 C317.2,526.5 259.0,503.5 289.0,503.5" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M287.2,526.5 C337.6,526.5 337.6,377.0 388.0,377.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M287.2,526.5 C317.2,526.5 259.0,549.5 289.0,549.5" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M374.8,549.5 C430.9,549.5 430.9,630.0 487.0,630.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M374.8,549.5 C628.9,549.5 628.9,492.0 883.0,492.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M374.8,549.5 C404.8,549.5 358.0,584.0 388.0,584.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M374.8,549.5 C529.9,549.5 529.9,503.5 685.0,503.5" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M374.8,549.5 C404.8,549.5 358.0,653.0 388.0,653.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M374.8,549.5 C579.4,549.5 579.4,469.0 784.0,469.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M451.0,584.0 C518.5,584.0 518.5,492.0 586.0,492.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M451.0,584.0 C481.0,584.0 457.0,469.0 487.0,469.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M451.0,584.0 C481.0,584.0 457.0,630.0 487.0,630.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M230.2,503.5 C260.2,503.5 259.0,595.5 289.0,595.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M230.2,503.5 C606.1,503.5 606.1,423.0 982.0,423.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M416.8,492.0 C451.9,492.0 451.9,492.0 487.0,492.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M416.8,492.0 C501.4,492.0 501.4,354.0 586.0,354.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M416.8,492.0 C451.9,492.0 451.9,515.0 487.0,515.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M416.8,492.0 C501.4,492.0 501.4,400.0 586.0,400.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M416.8,492.0 C451.9,492.0 451.9,354.0 487.0,354.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M416.8,492.0 C748.9,492.0 748.9,492.0 1081.0,492.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M538.6,492.0 C568.6,492.0 556.0,354.0 586.0,354.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M538.6,492.0 C809.8,492.0 809.8,492.0 1081.0,492.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M510.1,354.0 C548.0,354.0 548.0,354.0 586.0,354.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M532.9,538.0 C562.9,538.0 556.0,400.0 586.0,400.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M532.9,538.0 C807.0,538.0 807.0,492.0 1081.0,492.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M1121.2,423.0 C1151.2,423.0 1150.0,469.0 1180.0,469.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M515.8,423.0 C550.9,423.0 550.9,423.0 586.0,423.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M439.6,630.0 C469.6,630.0 457.0,584.0 487.0,584.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M538.6,584.0 C760.3,584.0 760.3,492.0 982.0,492.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M538.6,584.0 C809.8,584.0 809.8,492.0 1081.0,492.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M538.6,584.0 C611.8,584.0 611.8,526.5 685.0,526.5" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M538.6,584.0 C568.6,584.0 556.0,515.0 586.0,515.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M1022.2,492.0 C1052.2,492.0 1051.0,492.0 1081.0,492.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M527.2,630.0 C557.2,630.0 556.0,561.0 586.0,561.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M527.2,630.0 C557.2,630.0 556.0,538.0 586.0,538.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M527.2,630.0 C557.2,630.0 556.0,584.0 586.0,584.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M527.2,630.0 C754.6,630.0 754.6,538.0 982.0,538.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M527.2,630.0 C557.2,630.0 556.0,607.0 586.0,607.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M527.2,630.0 C804.1,630.0 804.1,492.0 1081.0,492.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M631.9,561.0 C856.5,561.0 856.5,492.0 1081.0,492.0" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M631.9,561.0 C661.9,561.0 655.0,526.5 685.0,526.5" fill="none" stroke="#eceef0" stroke-width="0.8"/>
+<path d="M428.2,262.0 C458.2,262.0 457.0,331.0 487.0,331.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M864.1,423.0 C894.1,423.0 853.0,400.0 883.0,400.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M829.9,515.0 C859.9,515.0 853.0,538.0 883.0,538.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M829.9,515.0 C906.0,515.0 906.0,515.0 982.0,515.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M928.9,538.0 C958.9,538.0 952.0,515.0 982.0,515.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M1050.7,515.0 C1080.7,515.0 1051.0,515.0 1081.0,515.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M532.9,446.0 C562.9,446.0 556.0,400.0 586.0,400.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M532.9,446.0 C562.9,446.0 556.0,446.0 586.0,446.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M369.1,526.5 C428.1,526.5 428.1,538.0 487.0,538.0" fill="none" stroke="#dadce0" stroke-width="0.9"/>
+<path d="M111.0,411.5 C200.0,411.5 200.0,503.5 289.0,503.5" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M111.0,411.5 C200.0,411.5 200.0,572.5 289.0,572.5" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M111.0,411.5 C200.0,411.5 200.0,365.5 289.0,365.5" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M111.0,411.5 C200.0,411.5 200.0,480.5 289.0,480.5" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M111.0,411.5 C150.5,411.5 150.5,457.5 190.0,457.5" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M111.0,411.5 C150.5,411.5 150.5,480.5 190.0,480.5" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M111.0,411.5 C200.0,411.5 200.0,434.5 289.0,434.5" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M111.0,411.5 C150.5,411.5 150.5,503.5 190.0,503.5" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M111.0,411.5 C150.5,411.5 150.5,434.5 190.0,434.5" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M252.2,411.5 C369.6,411.5 369.6,377.0 487.0,377.0" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M252.2,411.5 C282.2,411.5 259.0,411.5 289.0,411.5" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M252.2,411.5 C282.2,411.5 259.0,365.5 289.0,365.5" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M252.2,411.5 C320.1,411.5 320.1,377.0 388.0,377.0" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M252.2,411.5 C282.2,411.5 259.0,342.5 289.0,342.5" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M252.2,411.5 C282.2,411.5 259.0,434.5 289.0,434.5" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M252.2,411.5 C617.1,411.5 617.1,423.0 982.0,423.0" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M370.0,388.5 C400.0,388.5 358.0,354.0 388.0,354.0" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M370.0,388.5 C400.0,388.5 358.0,377.0 388.0,377.0" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M370.0,388.5 C527.5,388.5 527.5,434.5 685.0,434.5" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M370.0,388.5 C400.0,388.5 358.0,400.0 388.0,400.0" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M395.1,457.5 C589.5,457.5 589.5,469.0 784.0,469.0" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M395.1,457.5 C425.1,457.5 358.0,538.0 388.0,538.0" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M395.1,457.5 C490.5,457.5 490.5,377.0 586.0,377.0" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M450.2,423.0 C480.2,423.0 457.0,400.0 487.0,400.0" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M450.2,423.0 C480.2,423.0 457.0,469.0 487.0,469.0" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M450.2,423.0 C518.1,423.0 518.1,377.0 586.0,377.0" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M450.2,423.0 C716.1,423.0 716.1,423.0 982.0,423.0" fill="none" stroke="#8a9096" stroke-width="1.1" stroke-dasharray="4 3"/>
+<path d="M111.0,411.5 C150.5,411.5 150.5,411.5 190.0,411.5" fill="none" stroke="#e69138" stroke-width="2.6"/>
+<path d="M252.2,411.5 C282.2,411.5 259.0,388.5 289.0,388.5" fill="none" stroke="#e69138" stroke-width="2.6"/>
+<path d="M252.2,411.5 C282.2,411.5 259.0,457.5 289.0,457.5" fill="none" stroke="#e69138" stroke-width="2.6"/>
+<path d="M370.0,388.5 C400.0,388.5 358.0,423.0 388.0,423.0" fill="none" stroke="#e69138" stroke-width="2.6"/>
+<path d="M395.1,457.5 C425.1,457.5 358.0,423.0 388.0,423.0" fill="none" stroke="#e69138" stroke-width="2.6"/>
+<path d="M131.8,374.7 C161.8,374.7 160.0,411.5 190.0,411.5" fill="none" stroke="#38761d" stroke-width="1.8" marker-end="url(#arrship)"/>
+<path d="M107.8,448.3 C148.9,448.3 148.9,411.5 190.0,411.5" fill="none" stroke="#38761d" stroke-width="1.8" marker-end="url(#arrship)"/>
+<path d="M107.8,448.3 C198.4,448.3 198.4,457.5 289.0,457.5" fill="none" stroke="#38761d" stroke-width="1.8" marker-end="url(#arrship)"/>
+<rect x="28" y="365.7" width="111.8" height="18" rx="9" fill="#ffffff" stroke="#38761d" stroke-width="1.6" stroke-dasharray="4 2"/><text x="33" y="378.2" font-size="10.5" font-weight="600" fill="#38761d">dedicated-server</text>
+<rect x="30" y="401.5" width="81.0" height="20" rx="10" fill="#fce5cd" stroke="#e69138" stroke-width="2"/><text x="70.5" y="415.5" text-anchor="middle" font-size="11" font-weight="700" fill="#202124">game-client</text>
+<rect x="28" y="439.3" width="87.8" height="18" rx="9" fill="#ffffff" stroke="#38761d" stroke-width="1.6" stroke-dasharray="4 2"/><text x="33" y="451.8" font-size="10.5" font-weight="600" fill="#38761d">level-editor</text>
+<text x="32" y="474.8" font-size="10.5" font-weight="600" fill="#274e13" stroke="#ffffff" stroke-width="3" paint-order="stroke" opacity="0.45">launcher</text>
+<text x="32" y="497.8" font-size="10.5" font-weight="600" fill="#274e13" stroke="#ffffff" stroke-width="3" paint-order="stroke" opacity="0.45">asset-cooker</text>
+<text x="32" y="520.8" font-size="10.5" font-weight="600" fill="#274e13" stroke="#ffffff" stroke-width="3" paint-order="stroke" opacity="0.45">crash-reporter</text>
+<rect x="190.0" y="401.5" width="62.2" height="20" rx="10" fill="#fce5cd" stroke="#e69138" stroke-width="2"/><text x="221.1" y="415.5" text-anchor="middle" font-size="11" font-weight="700" fill="#202124">gameplay</text>
+<text x="192.0" y="438.0" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">matchmaking</text>
+<text x="192.0" y="461.0" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">telemetry</text>
+<text x="192.0" y="484.0" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">crash-handler</text>
+<text x="192.0" y="507.0" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">config</text>
+<text x="192.0" y="530.0" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke" opacity="0.45">editor-framework</text>
+<text x="291.0" y="346.0" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">net-replication</text>
+<text x="291.0" y="369.0" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">audio-engine</text>
+<rect x="289.0" y="378.5" width="81.0" height="20" rx="10" fill="#fce5cd" stroke="#e69138" stroke-width="2"/><text x="329.5" y="392.5" text-anchor="middle" font-size="11" font-weight="700" fill="#202124">ai-behavior</text>
+<text x="291.0" y="415.0" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">animation</text>
+<text x="291.0" y="438.0" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">input</text>
+<rect x="289.0" y="447.5" width="106.0" height="20" rx="10" fill="#fce5cd" stroke="#e69138" stroke-width="2"/><text x="342.0" y="461.5" text-anchor="middle" font-size="11" font-weight="700" fill="#202124">world-streaming</text>
+<text x="291.0" y="484.0" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">online-services</text>
+<text x="291.0" y="507.0" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">renderer</text>
+<text x="291.0" y="530.0" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">sentry-native</text>
+<text x="291.0" y="553.0" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke" opacity="0.45">asset-pipeline</text>
+<text x="291.0" y="576.0" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">ui-framework</text>
+<text x="291.0" y="599.0" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">yaml-cpp</text>
+<text x="390.0" y="265.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">vorbis</text>
+<text x="390.0" y="288.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">openal-soft</text>
+<text x="390.0" y="311.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">net-transport</text>
+<text x="390.0" y="334.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">opus</text>
+<text x="390.0" y="357.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">perception</text>
+<text x="390.0" y="380.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">scripting</text>
+<text x="390.0" y="403.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">entt</text>
+<rect x="388.0" y="413.0" width="62.2" height="20" rx="10" fill="#f4cccc" stroke="#cc4125" stroke-width="2"/><text x="419.1" y="427.0" text-anchor="middle" font-size="11" font-weight="700" fill="#202124">nav-mesh</text>
+<text x="390.0" y="449.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">particles</text>
+<text x="390.0" y="472.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">nlohmann_json</text>
+<text x="390.0" y="495.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">grpc</text>
+<text x="390.0" y="518.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">auth</text>
+<text x="390.0" y="541.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">terrain</text>
+<text x="390.0" y="564.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">post-fx</text>
+<text x="390.0" y="587.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke" opacity="0.45">mesh-tools</text>
+<text x="390.0" y="610.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">localization</text>
+<text x="390.0" y="633.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">harfbuzz</text>
+<text x="390.0" y="656.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke" opacity="0.45">sqlite3</text>
+<text x="390.0" y="679.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">imgui</text>
+<text x="489.0" y="311.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">asio</text>
+<text x="489.0" y="334.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">ogg</text>
+<text x="489.0" y="357.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">re2</text>
+<text x="489.0" y="380.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">physics</text>
+<text x="489.0" y="403.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">recastnavigation</text>
+<text x="489.0" y="426.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">sol2</text>
+<text x="489.0" y="449.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">jwt-cpp</text>
+<text x="489.0" y="472.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">geometry</text>
+<text x="489.0" y="495.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">protobuf</text>
+<text x="489.0" y="518.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">c-ares</text>
+<text x="489.0" y="541.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">libcurl</text>
+<text x="489.0" y="564.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">materials</text>
+<text x="489.0" y="587.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">freetype</text>
+<text x="489.0" y="610.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">icu</text>
+<text x="489.0" y="633.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke" opacity="0.45">assimp</text>
+<text x="588.0" y="334.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">bullet3</text>
+<text x="588.0" y="357.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">abseil</text>
+<text x="588.0" y="380.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">job-system</text>
+<text x="588.0" y="403.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">openssl</text>
+<text x="588.0" y="426.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">lua</text>
+<text x="588.0" y="449.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">picojson</text>
+<text x="588.0" y="472.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">render-core</text>
+<text x="588.0" y="495.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">meshoptimizer</text>
+<text x="588.0" y="518.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">brotli</text>
+<text x="588.0" y="541.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke" opacity="0.45">pugixml</text>
+<text x="588.0" y="564.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke" opacity="0.45">minizip</text>
+<text x="588.0" y="587.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke" opacity="0.45">rapidjson</text>
+<text x="588.0" y="610.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke" opacity="0.45">draco</text>
+<text x="687.0" y="415.0" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">onetbb</text>
+<text x="687.0" y="438.0" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">math-core</text>
+<text x="687.0" y="461.0" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">rhi-vulkan</text>
+<text x="687.0" y="484.0" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">profiling</text>
+<text x="687.0" y="507.0" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">shaders</text>
+<text x="687.0" y="530.0" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">bzip2</text>
+<text x="786.0" y="403.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">glm</text>
+<text x="786.0" y="426.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">vulkan-loader</text>
+<text x="786.0" y="449.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">platform</text>
+<text x="786.0" y="472.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">asset-io</text>
+<text x="786.0" y="495.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">tracy</text>
+<text x="786.0" y="518.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">shaderc</text>
+<text x="786.0" y="541.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">spirv-cross</text>
+<text x="885.0" y="403.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">vulkan-headers</text>
+<text x="885.0" y="426.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">serialization</text>
+<text x="885.0" y="449.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">sdl</text>
+<text x="885.0" y="472.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">zstd</text>
+<text x="885.0" y="495.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">image-codecs</text>
+<text x="885.0" y="518.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">lz4</text>
+<text x="885.0" y="541.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">glslang</text>
+<text x="984.0" y="403.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">flatbuffers</text>
+<text x="984.0" y="426.5" font-size="10" font-weight="500" fill="#1c4587" stroke="#ffffff" stroke-width="3" paint-order="stroke">core-utils</text>
+<text x="984.0" y="449.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">libjpeg-turbo</text>
+<text x="984.0" y="472.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">libwebp</text>
+<text x="984.0" y="495.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">libpng</text>
+<text x="984.0" y="518.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">spirv-tools</text>
+<text x="984.0" y="541.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">stb</text>
+<text x="1083.0" y="426.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">spdlog</text>
+<text x="1083.0" y="449.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">mimalloc</text>
+<text x="1083.0" y="472.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">xxhash</text>
+<text x="1083.0" y="495.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">zlib</text>
+<text x="1083.0" y="518.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">spirv-headers</text>
+<text x="1182.0" y="472.5" font-size="10" font-weight="400" fill="#80868b" stroke="#ffffff" stroke-width="3" paint-order="stroke">fmt</text>
+<text x="30" y="240" font-size="11" font-weight="700" letter-spacing="1" fill="#5f6368">APPLICATIONS</text><text x="1210" y="240" text-anchor="end" font-size="11" font-weight="700" letter-spacing="1" fill="#5f6368">DEPENDENCIES  →</text>
+<line x1="30" y1="690" x2="1210" y2="690" stroke="#e8eaed"/>
+<rect x="30" y="702" width="26" height="16" rx="8" fill="#f4cccc" stroke="#cc4125" stroke-width="2"/>
+<text x="64" y="714" font-size="12.5" fill="#5f6368">the package you change</text>
+<rect x="228.6" y="702" width="26" height="16" rx="8" fill="#fce5cd" stroke="#e69138" stroke-width="2"/>
+<text x="262.6" y="714" font-size="12.5" fill="#5f6368">in the workspace super-build</text>
+<rect x="465.0" y="702" width="26" height="16" rx="8" fill="#ffffff" stroke="#38761d" stroke-width="1.6" stroke-dasharray="4 2"/>
+<text x="499.0" y="714" font-size="12.5" fill="#5f6368">other consumers, new binaries from CI</text>
+<text x="30" y="740" font-size="12" font-weight="600" fill="#1c4587">abc</text>
+<text x="58" y="740" font-size="12.5" fill="#5f6368">studio packages</text>
+<text x="178.5" y="740" font-size="12" font-weight="600" fill="#80868b">abc</text>
+<text x="206.5" y="740" font-size="12.5" fill="#5f6368">third-party packages</text>
+<text x="358.5" y="740" font-size="12" font-weight="600" fill="#80868b" opacity="0.45">abc</text>
+<text x="386.5" y="740" font-size="12.5" fill="#5f6368">not used by game-client</text>
+<line x1="557.4" y1="736" x2="583.4" y2="736" stroke="#8a9096" stroke-width="1.3" stroke-dasharray="4 3"/>
+<text x="591.4" y="740" font-size="12.5" fill="#5f6368">find_package() from the Conan cache</text>
+</svg>
