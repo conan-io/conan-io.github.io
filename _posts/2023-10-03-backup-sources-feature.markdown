@@ -67,8 +67,8 @@ or
 in a recipe. To designate the original source, we use the reserved word `origin`. Thus,
 this configuration will first attempt to find the sources on the original server, and if
 that fails, it will fall back to our server (you can list them in the configuration by
-order of preference). For instance, in Conan Center, we use this server:
-[https://c3i.jfrog.io/artifactory/conan-center-backup-sources/](https://c3i.jfrog.io/artifactory/conan-center-backup-sources/).
+order of preference). For instance, in ConanCenter, we use a generic repository in the same Artifactory
+instance that contains the ConanCenter packages.
 Upon accessing it, we can view the information regarding the copies of the different
 source origins:
 
