@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: Conan C/C++ Package Manager Hits 1.0
 # other options
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Since first being released over two years ago, Conan has evolved rapidly and introduced many improvements. Our great community of users, who quickly adopted Conan, have contributed much to the project, and thanks to valuable feedback, many big and important features were developed in all the releases leading to version 0.30.

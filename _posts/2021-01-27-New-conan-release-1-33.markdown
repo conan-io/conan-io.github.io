@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Conan 1.33: New configuration mechanism in profiles, new Qbs toolchain and
 MSVC compiler settings, and better support for Apple platforms such as Catalyst."
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Conan 1.33.0 is a big release! We're introducing a new section in profiles named

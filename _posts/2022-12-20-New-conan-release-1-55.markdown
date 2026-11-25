@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Conan 1.55: CMakeDeps can now customize its dependencies target names, files and types, new tools.build:compiler_executables conf, new NMakeDeps and NMakeToolchain integration, env-vars and conf enabled for editables"
 description: "The new version features includes CMakeDeps can now customize its dependencies target names, files and types, new tools.build:compiler_executables conf and much more..."
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 We are pleased to announce that [Conan 1.55 is

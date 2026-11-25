@@ -5,6 +5,9 @@ title: "Conan 1.37 : new default URL for ConanCenter, new layout() method, new
 Bazel integrations, new build_policy=never, new --build-require flag" 
 description: "Conan 1.37 : new URL for ConanCenter, new layout method, new
 integration for Bazel, new build_policy never, new build-require flag."
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Conan 1.37 brings several significant new features. At the top of the list, is a

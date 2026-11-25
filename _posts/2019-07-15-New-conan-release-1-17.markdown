@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Conan 1.17: The Conan user survey, lockfiles, new graph commands, package ID modes for revisions, apple-clang 11.0 support and
 usability improvements"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Great news in this 1.17 release! The new lockfile feature has arrived together with a new ``conan graph`` commands and package ID modes for

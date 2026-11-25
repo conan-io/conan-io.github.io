@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Conan 1.20: Reuse CMake macros, system libraries support, Compatible packages and new recipe methods!"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 New 1.20 release with useful features and improvements. Here you have the main highlights of this one!

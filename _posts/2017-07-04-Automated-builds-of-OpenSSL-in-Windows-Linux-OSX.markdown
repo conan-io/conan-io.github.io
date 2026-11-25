@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: Automated builds of OpenSSL in Windows, Linux and OSX
 # other options
+deprecated: true
+deprecated_reason: "Bintray has been shut down, and the examples in this post use Conan 1.x."
+deprecated_link: https://conan.io/center/recipes/openssl
 ---
 
 

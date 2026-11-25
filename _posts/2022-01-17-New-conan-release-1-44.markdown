@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Conan 1.44: Introduced tool_requires attribute to replace generic build_requires, new tools to explicitly handle symlinks, CMakeToolchain can now apply several user toolchains, added vars to CMakeDeps for better upstream match."
 description: "The new version features include Introduced tool_requires attribute to replace generic build_requires, new tools to explicitly handle symlinks and much more..."
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 <script type="application/ld+json">

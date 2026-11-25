@@ -2,6 +2,9 @@
 layout: post
 comments: false
 # other options
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: https://docs.conan.io/2/reference/config_files/settings.html
 ---
 
 This is the short story of the 0.7.X conan releases, in which we had to launch several minor versions to fix unexpected problems related to CMake and the libstdc++ ABI incompatibility, though the lessons learnt might be useful for any C and C++ developer, so let's try to summarize them in this post.

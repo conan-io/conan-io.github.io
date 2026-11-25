@@ -6,6 +6,9 @@ description: "The New Docker images which should become the official to build al
 package on Conan Center Index and distribute under Conan Center. They should be adopted by
 default for all users. Fixed glibc and libstdc++ compatibility problems and unified all Docker
 recipes using multistage-build on Jenkins"
+deprecated: true
+deprecated_reason: "The conan-docker-tools images are archived and no longer maintained."
+deprecated_link: https://docs.conan.io/2/ci_tutorial/tutorial.html
 ---
 
 

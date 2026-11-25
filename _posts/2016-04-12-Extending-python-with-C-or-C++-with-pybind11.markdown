@@ -2,6 +2,9 @@
 layout: post
 comments: false
 # other options
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: /cpp/conan/python/2026/05/05/Introducing-conan-py-build.html
 ---
 
 C, C++ and Python are my favourites languages. You get from C and C++ the performance (with great difference of course between them), and from Python the simplicity and speed of development. Mixing them can get the best of both worlds into our development environment.

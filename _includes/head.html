@@ -88,4 +88,10 @@
   {% if page.url contains "month-archive" %}
      <meta name="robots" content="noindex" />
   {% endif %}
+
+   <!-- Outdated posts stay in search results, but Bing must not use them in Copilot answers.
+        Google AI features are kept out with data-nosnippet on the post body (see post.html) -->
+  {% if page.deprecated %}
+     <meta name="robots" content="noarchive" />
+  {% endif %}
 </head>

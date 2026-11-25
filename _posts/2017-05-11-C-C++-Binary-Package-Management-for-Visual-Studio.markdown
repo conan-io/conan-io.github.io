@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "C/C++ Binary Package Management for Visual Studio"
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: https://docs.conan.io/2/integrations/visual_studio.html
 ---
 
 Conan C/C++ package manager works with any build system to manage and share binaries, and to target any OS, compiler and architecture. This blog post provides a short tutorial that shows how you can use Conan to create, share and consume binary packages directly with a pure Visual Studio approach.

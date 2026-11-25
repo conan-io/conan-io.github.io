@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Conan 1.19: Better integration for CMake and Pkg-Config, OSX frameworks support, enabling and disabling remotes, Clang 9 and
 GCC 9.2 versions and command line suggestions"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Another release full of new features, many bugfixes and contributions coming from the community! In this release, we focused our efforts on

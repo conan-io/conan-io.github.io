@@ -4,6 +4,9 @@ comments: false
 title: "New ConanCenter Remote URL - Online for BETA Testing" 
 description: "ConanCenter has now received a new URL which is now available
 for beta testing from ConanCenter users."
+deprecated: true
+deprecated_reason: "The ConanCenter remote URL has changed since this post was published."
+deprecated_link: https://docs.conan.io/2/tutorial/conan_repositories/conan_center.html
 ---
 
 ConanCenter has received a new URL for use by the Conan client as a remote from

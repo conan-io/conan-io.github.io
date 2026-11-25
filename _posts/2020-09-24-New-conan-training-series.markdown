@@ -4,6 +4,9 @@ comments: false
 title: "Free Conan Training Series on JFrog Academy"
 description: "Happy to announce the launch of online training courses, free to anyone who is interested in learning Conan - the C/C++ Package Manager."
 last_modified_at: "2021-02-24"
+deprecated: true
+deprecated_reason: "This training covered Conan 1.x. The current courses cover Conan 2."
+deprecated_link: /2026/02/03/Conan-2-Essentials-and-Advanced-trainings-on-JFrog-Academy.html
 ---
 
 Today we are very excited to announce a new milestone in the Conan project. We

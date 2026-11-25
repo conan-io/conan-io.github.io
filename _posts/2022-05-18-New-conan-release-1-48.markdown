@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Conan 1.48: Improvements in CMakePresets integration, new Autotools templates, CMakeToolchain configuration support for bitcode, arc and visibility flags on Apple platforms, support to generate env ps1 instead of bat in Windows."
 description: "The new version features include Improvements in CMakePresets integration, new Autotools templates and much more..."
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 <script type="application/ld+json">

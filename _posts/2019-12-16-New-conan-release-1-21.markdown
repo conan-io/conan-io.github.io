@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Conan 1.21: Faster parallel uploads, Intel compiler support, improved Python requires and
 matching names in generators for the upstream package!"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 We are saying goodbye to 2019 with 1.21 release that comes with lots of cool features, bugfixes, and

@@ -4,6 +4,9 @@ comments: false
 title: "Bintray Sunset - Timeline for Conan Users"
 description: "A summary of dates and times for key milestones of the Sunset
 of JFrog Bintray which are relevant to users of Conan Package Manager"
+deprecated: true
+deprecated_reason: "Bintray was shut down in 2021, so the remotes and URLs in this post no longer work."
+deprecated_link: https://docs.conan.io/2/tutorial/conan_repositories/conan_center.html
 ---
 
 ### Updates

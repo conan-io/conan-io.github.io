@@ -2,6 +2,9 @@
 layout: post
 comments: false
 # other options
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: /2023/10/17/modules-the-packaging-story.html
 ---
 
 This post makes a brief introduction to the C++ modules (we wished C++17, but we will have to

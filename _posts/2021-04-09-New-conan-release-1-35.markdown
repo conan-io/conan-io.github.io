@@ -9,6 +9,9 @@ being created and tested in as part of the Conan 2.0 roadmap. This includes new
 configurable items, major remodeling of dependency traversal and environment
 variable abstractions, and the addition and refactor of generators based on
 these new models. There are also over a dozen bugfixes."
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Conan 1.35 adds a lot of new features. Before we start discussing them, we must

@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Getting started with the Conan CLion Plugin"
+deprecated: true
+deprecated_reason: "This plugin has been replaced by a new Conan plugin for CLion that works with Conan 2."
+deprecated_link: /introducing-new-conan-clion-plugin/
 ---
 
 Great news for all CLion coders!

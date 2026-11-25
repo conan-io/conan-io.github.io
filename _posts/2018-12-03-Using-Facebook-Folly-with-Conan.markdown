@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: Using Facebook Folly with Conan
 description: How to install Folly library and its dependencies without pain using Conan
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: https://conan.io/center/recipes/folly
 ---
 
 This blog post goals to present the Facebook Folly project and its complex dependency chain as well as its usage. It will also present Conan as a solution for its installation and for its dependencies.

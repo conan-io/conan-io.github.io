@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Conan 1.6: New parameters to execute processes in recipes, improved tooling and small additions to commands"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 New release and some new features! Conan 1.6 comes with many small improvements around tooling and process execution inside recipes as well

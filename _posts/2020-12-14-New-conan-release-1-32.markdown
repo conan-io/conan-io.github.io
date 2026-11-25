@@ -4,6 +4,9 @@ comments: false
 title: "Conan 1.32: New validate() Method, First configurable Generator (MSBuildDeps),
 Renamed Multiple Toolchains & Generators, 2 New Meson Classes, Improve Lockfile
 Support for Private Requirements, Support for build_requires to Affect package_id (Workaround)"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Conan 1.32.0 features a new strategy for defining, detecting, and handling

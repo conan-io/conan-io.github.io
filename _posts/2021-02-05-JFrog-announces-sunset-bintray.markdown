@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "JFrog announces sunset of the Bintray service"
+deprecated: true
+deprecated_reason: "Bintray was shut down in 2021, so the remotes and URLs in this post no longer work."
+deprecated_link: https://docs.conan.io/2/tutorial/conan_repositories/conan_center.html
 ---
 
 Bintray is a free service that JFrog has provided for community and open source

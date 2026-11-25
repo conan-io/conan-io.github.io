@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Extending Conan functionality with Hooks"
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: https://docs.conan.io/2/reference/extensions/hooks.html
 ---
 
 Back in [Conan 1.8 blog post](https://blog.conan.io/2018/10/11/New-conan-release-1-8.html) release, we introduced a so-called

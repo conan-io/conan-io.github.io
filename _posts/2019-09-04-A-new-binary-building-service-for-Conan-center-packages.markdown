@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "A New Binary Building Service for Conan-center Packages"
 subtitle: "Early Access Program EAP"
+deprecated: true
+deprecated_reason: "This post describes how ConanCenter worked with Conan 1.x and Bintray."
+deprecated_link: https://docs.conan.io/2/tutorial/conan_repositories/conan_center.html
 ---
 
 

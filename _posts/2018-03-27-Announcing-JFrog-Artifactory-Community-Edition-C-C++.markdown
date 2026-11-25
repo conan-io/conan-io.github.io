@@ -4,6 +4,9 @@ comments: false
 title: Announcing JFrog Artifactory Community Edition for C/C++
 description: JFrog announces a great new release for the Conan ecosystem, Artifactory CE! An improved server for Conan repositories, providing all the power and flexibility of the Artifactory repository for Conan and generic binaries to the entirety of the Conan community for any team’s needs.
 # other options
+deprecated: true
+deprecated_reason: "Bintray has been shut down, and the commands in this post use Conan 1.x."
+deprecated_link: https://docs.conan.io/2/tutorial/conan_repositories/setting_up_conan_remotes/artifactory/artifactory_ce_cpp.html
 ---
 
 <link rel="stylesheet"

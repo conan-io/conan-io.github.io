@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Conan 1.14: Revision mode and Artifactory support, new CMake generator, config install improvements & more!"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Lots of fixes and minor improvements landed in the last 1.14 Conan release. Here you have an overview of them!

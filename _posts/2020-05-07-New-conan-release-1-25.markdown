@@ -2,6 +2,9 @@
 layout: post 
 comments: false 
 title: "Conan 1.25: New Cross-Build Variables, Additional Package Component Modeling, Automatic Config Install, Resumable Downloads, New Search Table"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Conan 1.25 follows up the previous release with another wave of progress related

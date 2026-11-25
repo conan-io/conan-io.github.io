@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Conan 1.34 : New lockfile feature \"bundles\", Resource shift to Conan v2.0, Merged Tribe Proposals"
 description: "Conan 1.34 brings a few feature additions and a handful of bug fixes. New lockfile feature \"bundles\", Resource shift to Conan V2.0, Merged Tribe Proposals"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Conan 1.34 brings a few feature additions and a handful of bug fixes. The short

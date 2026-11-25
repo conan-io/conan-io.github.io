@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Supporting Different C/C++ Package Paradigms with conan"
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: https://docs.conan.io/2/tutorial/creating_packages.html
 ---
 
 Some developers think that a package manager for C/C++ should, by default, bundle both debug and release artifacts in the same package, so that they can easily be used by developers changing configuration while working. 

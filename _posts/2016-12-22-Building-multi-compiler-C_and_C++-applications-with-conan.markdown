@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Building multi-compiler C/C++ applications with conan"
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: https://docs.conan.io/2/tutorial/consuming_packages/different_configurations.html
 ---
 
 Conan 0.16 introduced a feature that allows to override any setting for a specific conan package in your dependencies graph. Also allows to specify environment variables to be set during the `conan install` command.

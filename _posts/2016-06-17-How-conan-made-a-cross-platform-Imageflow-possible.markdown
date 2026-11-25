@@ -2,6 +2,8 @@
 layout: post
 comments: false
 # other options
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
 ---
 
 <h2 class="section-heading">Imageflow: modern, faster and safer image handling for web servers</h2>

@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Getting up to speed with the latest Conan features"
 description: "Learn about the most significant changes to your recipes upgrading from 1.30s to 1.50s. Getting Ready for Conan 2.0 starts with using the new Conan 1.x generators"
+deprecated: true
+deprecated_reason: "This post describes the transition of ConanCenter from Conan 1.x to Conan 2."
+deprecated_link: https://docs.conan.io/2/tutorial/conan_repositories/conan_center.html
 ---
 
 <script type="application/ld+json">

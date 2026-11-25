@@ -4,6 +4,9 @@ comments: false
 title: "Conan Docker Tools - Official docker images for creating C++ packages for ConanCenter"
 description: This post reviews the Conan Docker Tools project, its successes, failures and future.
 tags: docker infrastructure devops
+deprecated: true
+deprecated_reason: "The conan-docker-tools images are archived and no longer maintained."
+deprecated_link: https://docs.conan.io/2/ci_tutorial/tutorial.html
 ---
 
 For a uniform distribution of packages to be possible, Conan needs an infrastructure that allows a homogeneous environment for the construction of packages. This solution has always been thought of since the beginning of the project and has taken on a large proportion throughout its development. In this post we will cover the history, problems and solutions covered in the [Conan Docker Tools](https://github.com/conan-io/conan-docker-tools) project, the Conan appendix focused on Docker images.

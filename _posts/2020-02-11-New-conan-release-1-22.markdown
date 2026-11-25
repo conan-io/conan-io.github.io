@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Conan 1.22: New downloads cache, store scm data in conandata.yml, Python 2 deprecation,
 Python 3.8 support and more."
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 

@@ -6,6 +6,9 @@ Support build_requires testing in test_package, New --build exclude syntax"
 description: "Conan 1.36 brings several enhancements, better CMake
 integration, new property system for cpp_info, the ability to test
 build_requirements, and the ability to exclude packages from build policy."
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Conan 1.36 brings several significant enhancements, including several different

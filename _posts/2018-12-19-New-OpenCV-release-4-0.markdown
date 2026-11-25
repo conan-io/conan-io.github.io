@@ -31,9 +31,9 @@ To summarize, OpenCV library is very large, and has tons of features for the com
 
 ### What's new in OpenCV 4.0.0 release?
 
-OpenCV has released final version [4.0.0](https://opencv.org/opencv-4-0-0.html) on November 2018.
+OpenCV has released final version [4.0.0](https://github.com/opencv/opencv/releases/tag/4.0.0) on November 2018.
 
-There are a lot of new features (see the complete [changelog](https://opencv.org/opencv-4-0-0.html)), for instance:
+There are a lot of new features (see the complete [changelog](https://github.com/opencv/opencv/wiki/ChangeLog)), for instance:
 
 * [QR-Code detector](https://docs.opencv.org/4.0.0/de/dc3/classcv_1_1QRCodeDetector.html)
 * [G-API framework](https://docs.opencv.org/4.0.0/d7/d0d/group__gapi.html)

@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Using Vcpkg ports as Conan packages"
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: https://docs.conan.io/2/tutorial/creating_packages.html
 ---
 
 A few days ago, during the CppCon C++ conference, Microsoft presented [**Vcpkg**](https://github.com/Microsoft/vcpkg). It helps you get and build from sources C and C++  open source libraries on Windows for Microsoft Visual Studio. It is a good initiative, it has been well received by the community, and several users have already collaborated making pull requests with new “ports” (the way vcpkg calls the recipes, or formulas).

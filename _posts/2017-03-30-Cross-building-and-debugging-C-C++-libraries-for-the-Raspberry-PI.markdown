@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Cross building and debugging C/C++ libraries for the Raspberry PI"
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: https://docs.conan.io/2/tutorial/consuming_packages/cross_building_with_conan.html
 ---
 
 The **Raspberry PI** is an amazing mini computer, powerful and cheap, the dream of hobbyists and developers around the world. With its potential to implement embedded systems, it is common to use C/C++ for developing its code, specially when efficiency and performance is relevant. However, even if it is a powerful system for the money, it can be slow while building relatively large C/C++ libraries, so cross-building can be very convenient for developers.

@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Conan 1.4: SCM integration, new CMake generators, better Visual Studio environment management & much more!"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Conan 1.4 release is out with some outstanding features. Just after very productive talks at [SwampUp 2018](https://swampup.jfrog.com/) and

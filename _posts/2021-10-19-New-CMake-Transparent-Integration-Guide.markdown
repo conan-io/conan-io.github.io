@@ -3,6 +3,9 @@ layout: post
 comments: false 
 title: "Conan's New CMake integration offers a transparent experience"
 description: "In the roadmap to Conan 2.0 Conan introduced a new approach to create a Conan package based on CMake"
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: https://docs.conan.io/2/integrations/cmake.html
 ---
 
 The CMake ecosystem and Conan have continually evolved since their conception. Building on this evolution we are pleased to present a new unified way to create Conan packages with CMake. In the near future these new generators will be introduced in the [conan-center-index](https://github.com/conan-io/conan-center-index).

@@ -2,6 +2,9 @@
 layout: post 
 comments: false 
 title: "Free online Conan hands-on training: Essentials, Advanced and CI/CD"
+deprecated: true
+deprecated_reason: "This training covered Conan 1.x. The current courses cover Conan 2."
+deprecated_link: /2026/02/03/Conan-2-Essentials-and-Advanced-trainings-on-JFrog-Academy.html
 ---
 
 **UPDATE 04-June-2020**: Due to the very high demand, we are opening new training sessions for June again. Go to [ConanDays](https://conandays.conan.io/) to reserve your seat.

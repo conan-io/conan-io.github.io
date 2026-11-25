@@ -2,6 +2,8 @@
 layout: post
 comments: false
 title: "Creating small Linux images with Buildroot"
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
 ---
 
 There are many embedded Linux distributions ready for use with good functionality, but at the cost of image size, some images can reach 4GB. Sometimes we want embedded systems that support Linux with only the minimum packages needed for our system, such as running a small FTP server with no graphical interface.

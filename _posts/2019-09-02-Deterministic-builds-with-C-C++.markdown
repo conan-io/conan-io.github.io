@@ -58,7 +58,7 @@ on the operating system.
 
  - **Mac OS**. Files with `.o`, `.a`,`.dylib` and `none` (for executable binaries) extensions follow
    the Mach-O format specification. These files can be inspected with the
-   [otool](https://opensource.apple.com/source/cctools/cctools-921/otool/) application that is part
+   [otool](https://github.com/apple-oss-distributions/cctools/tree/cctools-921/otool) application that is part
    of the XCode toolchain in MacOs.
 
 ## Sources of variation
@@ -515,7 +515,7 @@ endforeach()
 
 ## Some tips using Conan
 
-Conan [hooks](https://docs.conan.io/en/latest/extending/hooks.html) can help us in the process of
+Conan [hooks](https://docs.conan.io/2/reference/extensions/hooks.html) can help us in the process of
 making our builds reproducible. This feature makes it possible to customize the client behavior at
 determined points.
 
