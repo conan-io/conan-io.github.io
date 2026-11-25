@@ -63,8 +63,7 @@ deprecated_link: (optional) URL of the post or docs page that replaces this one
 A post with `deprecated: true` shows a warning banner and stays in search results, but its content
 is kept out of AI answers: a `noarchive` meta tag excludes it from Bing Copilot, and `data-nosnippet`
 on the post body excludes it from Google AI Overviews. It is also left out of `sitemap.xml` and
-`llms.txt`, and `robots.txt` blocks it for AI training crawlers.
-All of these files are generated from the front matter, so there is no list to keep up to date.
+`llms.txt`. Both files are generated from the front matter, so there is no list to keep up to date.
 When an outdated post is rewritten, remove the `deprecated*` fields and set `last_modified_at`.
 
 > **Note**: SEO Structured Data - This is was attempted but is currently undefined. It was previously done with

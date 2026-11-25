@@ -1,16 +1,6 @@
 ---
 layout: null
 ---
-# Keep AI training crawlers away from posts marked as deprecated (Conan 1.x and other outdated content).
-# Search engines can still crawl and index them.
-User-agent: GPTBot
-User-agent: ClaudeBot
-User-agent: CCBot
-User-agent: Google-Extended
-User-agent: Applebot-Extended
-User-agent: meta-externalagent
-{% for post in site.posts %}{% if post.deprecated %}Disallow: {{ post.url }}
-{% endif %}{% endfor %}
 User-agent: *
 Allow: /
 
