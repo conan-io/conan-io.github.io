@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Conan 1.54: New conanfile.win_bash_run and tools.microsoft.bash:active config, new upload_policy='skip' to avoid uploading binaries, new Git().included_files() tool to get files not in .gitignore, added distro package to global.conf Jinja rendering."
 description: "Conan 1.54: New conanfile.win_bash_run and tools.microsoft.bash:active config, new upload_policy='skip' to avoid uploading binaries and much more"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 <script type="application/ld+json">

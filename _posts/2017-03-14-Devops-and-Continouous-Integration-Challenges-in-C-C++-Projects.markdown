@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "DevOps and Continuous Integration challenges in C/C++ projects"
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: https://docs.conan.io/2/ci_tutorial/tutorial.html
 ---
 
 Modern SW development and engineering has evolved in the last decade. Agile SW development, Continuous Integration (CI), Continuous Deployment or Delivery (CD) have become mainstream practices. Specialized roles decay while full stack engineers are on the rise. Coding, building & testing, releasing, deploying and monitoring have become more tightly connected than ever due to the need to produce more releases, faster, under a common discipline: DevOps.

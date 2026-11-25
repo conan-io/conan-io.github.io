@@ -74,7 +74,7 @@ comments: true
         </div>
         </header>
 
-        <div class="post-content pt-4 pt-lg-5" itemprop="articleBody">
+        <div class="post-content pt-4 pt-lg-5" itemprop="articleBody"{% if page.deprecated %} data-nosnippet{% endif %}>
           {{ content }}
         </div>
         {% if page.comments %}

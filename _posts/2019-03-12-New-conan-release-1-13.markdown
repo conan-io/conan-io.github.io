@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Conan 1.13: Recipe and package revisions, package ID versioning mode, update on editable packages and workspaces"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 We are bringing Conan 1.13 release and here you have a new edition of the highlighted features you may find handy in this new version. Let's

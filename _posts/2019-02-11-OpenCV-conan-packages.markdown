@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "OpenCV Conan package making off and future challenges"
 description: "Hands-on packaging OpenCV (the proper way)"
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: https://conan.io/center/recipes/opencv
 ---
 
 ### What is OpenCV?

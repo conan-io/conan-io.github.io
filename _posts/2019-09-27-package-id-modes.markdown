@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Package ID modes: control the ABI and the traceability of your dependencies"
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: https://docs.conan.io/2/reference/binary_model/dependencies.html
 ---
 
 As we explained in our previous blog post about

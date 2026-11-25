@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "ConanCenter is rolling out Conan 2.0 recipes - Are you ready?"
 description: "Learn how to safely consume public recipes using your very own ArtifactoryCE"
+deprecated: true
+deprecated_reason: "This post describes the transition of ConanCenter from Conan 1.x to Conan 2."
+deprecated_link: https://docs.conan.io/2/tutorial/conan_repositories/conan_center.html
 ---
 
 <script type="application/ld+json">

@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: JFrog Bintray Adds Support for Conan C/C++ Repositories and Introduces conan-center Managed Central Repository
 # other options
+deprecated: true
+deprecated_reason: "Bintray was shut down in 2021, so the remotes and URLs in this post no longer work."
+deprecated_link: https://docs.conan.io/2/tutorial/conan_repositories/conan_center.html
 ---
 
 

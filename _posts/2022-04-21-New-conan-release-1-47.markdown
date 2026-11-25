@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Conan 1.47: New [conf] to inject arbitrary C++ flags to packages, preliminary support for CMakePresets.json, new templates for MSBuild and Bazel, improvements in Meson support."
 description: "The new version includes new [conf] to inject arbitrary C++ flags to packages, preliminary support for CMakePresets.json, new templates for MSBuild and Bazel and much more."
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 <script type="application/ld+json">

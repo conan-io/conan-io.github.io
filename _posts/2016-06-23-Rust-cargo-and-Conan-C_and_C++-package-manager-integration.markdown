@@ -2,6 +2,8 @@
 layout: post
 comments: false
 title: "Rust Cargo And Conan C/C++ Package Manager Integration"
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
 ---
 
 <img src="{{ site.url }}/assets/conan_cargo.png" />

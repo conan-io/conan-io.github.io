@@ -3,6 +3,9 @@ layout: post
 comments: false 
 title: "Upload Performance Improvements, New IOS and Android Toolchains, New
 MsBuildCmd helper, Filter Search Results by Profile"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Conan 1.31.0 features a few more significant steps toward our new toolchain

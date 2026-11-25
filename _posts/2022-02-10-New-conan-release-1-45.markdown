@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Conan 1.45: New system.package_manager tools, markdown generator content updated, modern meson_lib and meson_exe templates for conan new and improvements in several build system tools."
 description: "The new version includes new system.package_manager tools, markdown generator content updated, modern meson_lib and meson_exe templates for conan new and much more."
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 <script type="application/ld+json">

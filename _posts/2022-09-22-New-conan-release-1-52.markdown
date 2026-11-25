@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Conan 1.52: Build system improvements: MSBuild, CMakeToolchain, continue working in easing migration to 2.0, new export_conandata_patches tool, new build folder argument for cmake_layout."
 description: "Conan 1.52: Build system improvements: MSBuild, CMakeToolchain, continue working in easing migration to 2.0, new export_conandata_patches tool and much more"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 <script type="application/ld+json">

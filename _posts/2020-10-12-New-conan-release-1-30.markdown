@@ -4,6 +4,9 @@ comments: false
 title: "Conan 1.30: improved libcxx detection for gcc, experimental tools for
 intel compiler support, experimental MSBuildToolchain, self.cpp_info.requires
 attribute, macOS 11 support"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Conan 1.30 has been released. This release moves forward on several integrations

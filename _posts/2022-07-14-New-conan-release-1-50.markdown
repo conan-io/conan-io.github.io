@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Conan 1.50: New CMakeToolchain.cache_variables, improving XCodeDeps support for components, fixes in CMake, MSBuild, XCode, many backports, minor changes, new tools, towards providing a 2.0 compatible recipe syntax and new Conan 2.0 beta docs"
 description: "The new version features include new CMakeToolchain.cache_variables, improving XCodeDeps support for components, several fixes and much more"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 <script type="application/ld+json">

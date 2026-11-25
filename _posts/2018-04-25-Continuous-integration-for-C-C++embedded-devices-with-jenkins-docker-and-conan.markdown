@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: Continuous integration for C/C++ embedded devices with Jenkins, Docker and Conan
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: https://docs.conan.io/2/ci_tutorial/tutorial.html
 ---
 
 We all know the importance of Continuous Integration while developing software: running unit or integration tests, supporting different

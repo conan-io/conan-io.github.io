@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Conan 1.5: Binaries from different remotes, build requirements in dependency graph & SCM improvements"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Conan 1.5 was [released last week](https://docs.conan.io/en/latest/changelog.html#id2) with some progress in features announced for 1.4.

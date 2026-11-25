@@ -3,6 +3,9 @@ layout: post
 comments: false 
 title: "Safer C/C++ builds using Conan's Xray integration in Artifactory"
 description: "Using Conan's Xray integration in Artifactory you can make your C and C++ builds more secure"
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: /introducing-conan-audit-command/
 ---
 
 [Xray](https://www.jfrog.com/confluence/display/JFROG/JFrog+Xray) is a DevSecOps tool that works

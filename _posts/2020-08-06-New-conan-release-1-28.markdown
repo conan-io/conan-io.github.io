@@ -4,6 +4,9 @@ comments: false
 title: "Conan 1.28: Lockfile improvements, Four new
 conanfile.py attributes, Improved Clang support on Windows, Support components
 in pkg_config generator, Define generator filenames"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Conan 1.28 has been released. With a long list of new features, it definitely

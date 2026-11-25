@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Conan 1.15: C++ standard as a subsetting, deploy generator, python requires source reuse and ongoing development"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Another month and another Conan release. This time we bring the 1.15 release with some interesting changes and hints about what is coming up

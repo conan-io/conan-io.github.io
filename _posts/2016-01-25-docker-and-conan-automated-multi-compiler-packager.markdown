@@ -2,6 +2,9 @@
 layout: post
 comments: false
 # other options
+deprecated: true
+deprecated_reason: "conan-package-tools and the Conan Docker images used in this post are archived, and its examples use Conan 1.x."
+deprecated_link: https://docs.conan.io/2/ci_tutorial/tutorial.html
 ---
 
 Conan can automate the package creation with any compiler that you have installed.

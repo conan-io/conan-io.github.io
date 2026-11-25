@@ -3,6 +3,9 @@ layout: post
 comments: false 
 title: "Conan 1.29: Updates to multiple generators, new 
 tools.rename function, experimental toolchain for gnu make, lockfile bug fixes"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Conan 1.29 has been released. This release doesn't contain any major new

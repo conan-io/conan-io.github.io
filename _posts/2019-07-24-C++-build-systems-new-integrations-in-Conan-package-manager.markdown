@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "C++ build systems new integrations in Conan package manager"
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: https://docs.conan.io/2/integrations.html
 ---
 
 As you will probably know, Conan has official support for integration with several build systems such as

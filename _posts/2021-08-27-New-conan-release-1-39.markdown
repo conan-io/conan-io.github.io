@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Conan 1.39 : backporting alias 2.0 syntax to 1.39, new --require-override CLI argument, new win_bash attribute in conanfiles to better manage Windows subsystems, new VCVars generator, several improvements in the new Environment model."
 description: "The new version features include backporting alias 2.0 syntax to 1.39, new --require-override CLI argument, new win_bash attribute in conanfiles and more..."
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 <script type="application/ld+json">

@@ -1,0 +1,12 @@
+---
+layout: null
+---
+# {{ site.title }}
+
+> {{ site.description }} Posts about Conan 1.x or retired services are not listed.
+
+The reference documentation for Conan 2 is at https://docs.conan.io/2/ and its index for LLMs is at https://docs.conan.io/2/llms.txt
+
+## Posts
+{% for post in site.posts %}{% unless post.deprecated %}
+- [{{ post.title | strip_newlines }}]({{ post.url | prepend: site.url }}){% if post.description %}: {{ post.description | strip_newlines }}{% endif %}{% endunless %}{% endfor %}

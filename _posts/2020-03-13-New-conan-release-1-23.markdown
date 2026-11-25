@@ -3,6 +3,9 @@ layout: post
 comments: false 
 title: "Conan 1.23: Parallel installation of binaries, CONAN_V2_MODE environment variable to enable
 Conan v2 behavior and more"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 March brings us a new Conan release but sadly it also brought us the notice of having to postpone

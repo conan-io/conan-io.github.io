@@ -2,6 +2,9 @@
 layout: post
 comments: false
 # other options
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Welcome to conan 0.9 release! Here is a short summary of some relevant changes, though the release include

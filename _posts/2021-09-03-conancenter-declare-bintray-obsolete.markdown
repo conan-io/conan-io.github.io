@@ -4,6 +4,9 @@ comments: false
 title: "ConanCenter: Old Bintray remote is over. Check you are using the right one!"
 description: "Old Bintray remote for ConanCenter will be deprecated on November, make sure
 you are only using the new remote https://center.conan.io"
+deprecated: true
+deprecated_reason: "Bintray was shut down in 2021, so the remotes and URLs in this post no longer work."
+deprecated_link: https://docs.conan.io/2/tutorial/conan_repositories/conan_center.html
 ---
 
 It's been some months (May 1st) since we released a new remote for ConanCenter with a more

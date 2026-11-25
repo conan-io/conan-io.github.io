@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Conan 1.8: Plugins system, SVN support for SCM, recipe conventions & much more!"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 After a long and awaited period, here we have the new Conan 1.8 release. It comes packed of new features and fixes and some great

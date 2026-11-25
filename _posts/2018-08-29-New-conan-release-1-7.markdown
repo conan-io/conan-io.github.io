@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Conan 1.7: Python requires, support for Python 3.7, SCM feedback and usability enhancements"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Summer holidays came to an end and we are back with a new Conan release. We have performed huge internal refactoring clearing the path to

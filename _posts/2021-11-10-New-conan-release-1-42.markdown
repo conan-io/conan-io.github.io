@@ -5,6 +5,9 @@ title: "Conan 1.42 : New Conan XcodeDeps multi-config generator for Xcode, added
 (Monterey), easier aggregated environment deactivation." 
 description: "The new version features include New Conan XcodeDeps multi-config generator for
 Xcode, added new OSX Monterey version, easier aggregated environment deactivation and much more..."
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 <script type="application/ld+json">

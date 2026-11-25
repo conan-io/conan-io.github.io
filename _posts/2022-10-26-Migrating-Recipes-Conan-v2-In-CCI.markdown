@@ -4,6 +4,9 @@ comments: false
 title: "Conan 2.0 Recipe Migrations in ConanCenterIndex"
 meta_title: "Here's a taste of all the pretty easy changes we are making in ConanCenterIndex getting ready for the Conan 2.0 launch"
 description: "This article will break down all the changes we are making in ConanCenterIndex for you slightly more complicated header-only recipe which uses CMake to install files instead of a simply copy. This makes it a great reference for more CMake based projects."
+deprecated: true
+deprecated_reason: "This post describes the transition of ConanCenter from Conan 1.x to Conan 2."
+deprecated_link: https://docs.conan.io/2/tutorial/conan_repositories/conan_center.html
 ---
 
 <script type="application/ld+json">

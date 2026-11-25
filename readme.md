@@ -54,8 +54,17 @@ meta_title: "(optional) A longer more descriptive title for search engines to in
 description: "A short summary of the post that will be displayed in the search engine results"
 last_modified_at: "(optional) the date the post was last updated to improve search results and relevance"
 keywords: "(optional) comma, separated, values, for seo optimization"
+deprecated: (optional) true when the post is outdated, for example because it uses Conan 1.x
+deprecated_reason: "(optional) why the post is outdated, shown in the warning banner"
+deprecated_link: (optional) URL of the post or docs page that replaces this one
 ---
 ```
+
+A post with `deprecated: true` shows a warning banner and stays in search results, but its content
+is kept out of AI answers: a `noarchive` meta tag excludes it from Bing Copilot, and `data-nosnippet`
+on the post body excludes it from Google AI Overviews. It is also left out of `sitemap.xml` and
+`llms.txt`. Both files are generated from the front matter, so there is no list to keep up to date.
+When an outdated post is rewritten, remove the `deprecated*` fields and set `last_modified_at`.
 
 > **Note**: SEO Structured Data - This is was attempted but is currently undefined. It was previously done with
 [TechArticle](https://schema.org/TechArticle) however that probably is not list by

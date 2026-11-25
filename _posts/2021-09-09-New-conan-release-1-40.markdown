@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Conan 1.40 : lots of improvements in CMakeDeps and CMakeToolchain, new Conan Center remote as the only predefined remote, added Clang 13 and Visual Studio 2022 integration and new [conf] default_build_profile item."
 description: "The new version features include lots of improvements in CMakeDeps and CMakeToolchain, new Conan Center remote as the only predefined remote, added Clang 13 and Visual Studio 2022 integration, new [conf] default_build_profile item and much more..."
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 <script type="application/ld+json">

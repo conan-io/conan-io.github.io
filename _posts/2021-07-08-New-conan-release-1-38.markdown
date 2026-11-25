@@ -6,6 +6,9 @@ syntax in conan profiles, new cmake_layout(), new [conf] cli support, new PkgCon
 description: "Conan 1.38 : new self.dependencies model for access to dependencies data, support
 for jinja2 syntax in conan profiles, new cmake_layout(), new [conf] cli support, new PkgConfigDeps
 generator."
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 Conan 1.38 is already here and comes with lots of new features and some bug fixes. As we have

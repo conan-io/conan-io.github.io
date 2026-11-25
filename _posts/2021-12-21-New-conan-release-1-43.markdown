@@ -3,6 +3,9 @@ layout: post
 comments: false
 title: "Conan 1.43: Start preparing your recipes for Conan 2.0, modern tools.gnu.PkgConfig to supersede legacy tools.PkgConfig, baremetal os setting to represent bare metal platforms without operating system."
 description: "The new version features to help preparing your recipes for Conan 2.0, modern tools.gnu.PkgConfig to supersede legacy tools.PkgConfig, baremetal os setting to represent bare metal platforms without operating system and much more..."
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 <script type="application/ld+json">

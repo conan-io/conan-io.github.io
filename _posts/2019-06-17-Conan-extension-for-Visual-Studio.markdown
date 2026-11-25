@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Conan Extension for Visual Studio"
+deprecated: true
+deprecated_reason: "This extension has been replaced by a new Conan extension for Visual Studio that works with Conan 2."
+deprecated_link: /2024/03/21/Introducing-new-conan-visual-studio-extension.html
 ---
 
 Thanks to our amazing community we can release a first version of the

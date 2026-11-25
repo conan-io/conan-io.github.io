@@ -4,6 +4,9 @@ comments: false
 title: "ConanCenter: Old Bintray remote EOL set for November 30th"
 description: "Old Bintray remote for ConanCenter will be shutdown on November 30th, make sure
 you are only using the new remote https://center.conan.io"
+deprecated: true
+deprecated_reason: "Bintray was shut down in 2021, so the remotes and URLs in this post no longer work."
+deprecated_link: https://docs.conan.io/2/tutorial/conan_repositories/conan_center.html
 ---
 
 Back on September 3rd, we announced the [deprecation of the old Bintray remote](https://blog.conan.io/2021/09/03/conancenter-declare-bintray-obsolete.html)

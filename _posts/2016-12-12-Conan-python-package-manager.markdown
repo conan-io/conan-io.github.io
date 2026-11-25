@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Conan, a C, C++ and Python package manager"
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: https://docs.conan.io/2/reference/extensions/python_requires.html
 ---
 
 

@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Conan virtual environments: Manage your C and C++ tools"
+deprecated: true
+deprecated_reason: "This post was written for Conan 1.x, and its examples do not work with Conan 2."
+deprecated_link: https://docs.conan.io/2/tutorial/consuming_packages/use_tools_as_conan_packages.html
 ---
 
 The benefit of using a package manager like conan is, in addition to many other advantages, manage your project dependencies. You can build your project even in different computers and with different operating systems just running ``conan install`` command again.

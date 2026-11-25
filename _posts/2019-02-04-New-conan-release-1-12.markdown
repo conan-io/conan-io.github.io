@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Conan 1.12: Editable packages, Composable profiles, Command improvements & New architectures"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 This time we have 1.12 out to start the 2019 year and there are some interesting features and improvements we would like to highlight. Let's

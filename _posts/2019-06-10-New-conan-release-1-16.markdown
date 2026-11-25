@@ -2,6 +2,9 @@
 layout: post
 comments: false
 title: "Conan 1.16: Support for GCC 8.3 and 9.1, Cascade build mode & custom templates for conan new command"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 We got Conan 1.16 release out this time with some features and many fixes. We are also sharing the ongoing the development of the upcoming

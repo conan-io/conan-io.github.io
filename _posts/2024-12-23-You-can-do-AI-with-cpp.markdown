@@ -141,9 +141,8 @@ different frameworks with a single unified runtime. Here’s the general workflo
    to the ONNX format. There are [tutorials](https://onnxruntime.ai/docs/tutorials/)
    available for popular frameworks and libraries.
 
-2. **Load and run the model with ONNX Runtime**: Check out these [C++ inference
-   examples](https://github.com/microsoft/onnxruntime-inference-examples/tree/main/c_cxx)
-   to get started quickly.
+2. **Load and run the model with ONNX Runtime**: Check out the [ONNX Runtime C++
+   guide](https://onnxruntime.ai/docs/get-started/with-cpp.html) to get started quickly.
 
 Additionally, ONNX Runtime offers multiple options for tuning performance using various
 runtime configurations or hardware accelerators. Explore [the Performance section in the

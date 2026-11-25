@@ -2,6 +2,9 @@
 layout: post 
 comments: false 
 title: "Conan 1.27 release: custom templates, configuration improvements and more CMake transparent integration"
+deprecated: true
+deprecated_reason: "These are release notes for an old Conan version. Conan 2 is the current major version."
+deprecated_link: https://docs.conan.io/2/changelog.html
 ---
 
 
