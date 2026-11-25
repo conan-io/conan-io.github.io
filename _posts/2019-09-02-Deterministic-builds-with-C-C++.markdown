@@ -515,7 +515,7 @@ endforeach()
 
 ## Some tips using Conan
 
-Conan [hooks](https://docs.conan.io/2/reference/extensions/hooks.html) can help us in the process of
+Conan [hooks](https://docs.conan.io/1/extending/hooks.html) can help us in the process of
 making our builds reproducible. This feature makes it possible to customize the client behavior at
 determined points.
 
